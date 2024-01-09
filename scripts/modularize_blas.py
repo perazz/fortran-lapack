@@ -30,6 +30,10 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     for file in source_files:
         fortran_functions.append(parse_fortran_source(source_folder,file,prefix))
 
+    # Rename all procedures
+    for function in fortran_functions:
+        function.body = rename_source_body(function.body,fortran_functions)
+
     # Create file
     fid = open(module_path,"w")
 
@@ -50,6 +54,11 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     fid.write(INDENT + "public :: sp,dp,lk,int32,int64\n")
     for function in fortran_functions:
         fid.write(INDENT + "public :: " + function.new_name + "\n")
+
+        if function.new_name=="NONAME":
+            print("\n".join(function.body[1:]))
+            exit(1)
+
 
     # Actual implementation
     fid.write("\n\n" + INDENT + "contains\n")
@@ -185,6 +194,32 @@ def filter_declaration_line(line):
 
     return filtered
 
+# Given the list of all sources, rename all matching names in the current source body
+def rename_source_body(lines,Sources):
+
+    prefixes = [" ","(","."]
+
+    body = []
+
+    # Assemble list of old and new names
+    old_names = []
+    new_names = []
+    for Source in Sources:
+        old_names.append(Source.old_name)
+        new_names.append(Source.new_name)
+
+    for i in range(len(lines)):
+        line = lines[i]
+        for j in range(len(old_names)):
+            for k in range(len(prefixes)):
+               line = line.replace(prefixes[k] + old_names[j]        ,prefixes[k] + new_names[j])
+               line = line.replace(prefixes[k] + old_names[j].upper(),prefixes[k] + new_names[j].upper())
+               line = line.replace(prefixes[k] + old_names[j].lower(),prefixes[k] + new_names[j].lower())
+
+        body.append(line);
+
+    return body
+
 def parse_fortran_source(source_folder,file_name,prefix):
 
     from platform import os
@@ -199,10 +234,10 @@ def parse_fortran_source(source_folder,file_name,prefix):
     if file_name.endswith(".f") or file_name.endswith(".F") or file_name.endswith(".for") or file_name.endswith(".f77"):
        Source.is_free_form = False
 
-    # Load whole file; split by lines
+    # FiLoad whole file; split by lines; join concatenation lines
     with open(os.path.join(source_folder,file_name), 'r') as file:
         # Create an empty list to store the lines
-        Source.body = []
+        file_body = []
 
         # Iterate over the lines of the file
         for line in file:
@@ -211,12 +246,24 @@ def parse_fortran_source(source_folder,file_name,prefix):
 
             # Append the line to the list
             if is_continuation:
-               Source.body[-1] = Source.body[-1] + line
-            elif is_comment:
+               file_body[-1] = file_body[-1] + line
+            else:
+               file_body.append(line)
+
+        # Iterate over the joined lines of the file
+        Source.body = []
+
+        for line in file_body:
+            # Remove the newline character at the end of the line
+            line,is_continuation,is_comment = line_read_and_preprocess(line,Source.is_free_form)
+
+            # Append the line to the list
+            if is_comment:
                # Just append this line, but ensure F90+ style comment
                line = re.sub(r'^\S', '!', line)
 
                Source.body.append(INDENT + line)
+               #print("comment: "+ line.strip().lower())
             else:
 
                # Check what section we're in
@@ -231,7 +278,7 @@ def parse_fortran_source(source_folder,file_name,prefix):
                            Source.is_subroutine = True
 
                            # Find subroutine name
-                           name = bool(re.match(r'^.*subroutine\s*\S+\s*\(.*\).*$',line.strip().lower()))
+                           name = bool(re.match(r'^.*subroutine\s*\S+\s*\(.*$',line.strip().lower()))
                            if name:
                                strip_left = re.sub(r'^.*subroutine\s*','',line.strip().lower())
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
@@ -244,7 +291,7 @@ def parse_fortran_source(source_folder,file_name,prefix):
                            Source.is_subroutine = False
 
                            # Find function name
-                           name = bool(re.match(r'^.*function\s*\S+\s*\(.*\).*$',line.strip().lower()))
+                           name = bool(re.match(r'^.*function\s*\S+\s*\(.*$',line.strip().lower()))
                            if name:
                                strip_left = re.sub(r'^.*function\s*','',line.strip().lower())
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
@@ -252,7 +299,11 @@ def parse_fortran_source(source_folder,file_name,prefix):
                                Source.new_name = prefix + Source.old_name
 
                            whereAt = Section.DECLARATION
+
                    case Section.DECLARATION:
+
+                       if Source.new_name=="NONAME":
+                           exit(1)
 
                        # Check if this line still begins with a declaration
                        if is_declaration_line(line):
@@ -286,6 +337,7 @@ def parse_fortran_source(source_folder,file_name,prefix):
 
 
 # Run script
-create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
+# create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
+create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
