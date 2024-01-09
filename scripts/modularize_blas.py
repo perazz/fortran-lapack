@@ -13,7 +13,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     # Parameters
     today  = date.today()
     INDENT = "     "
-    remove_headers = False
+    remove_headers = True
 
     # Get names
     module_file = module_name + ".f90"
@@ -22,8 +22,9 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     # Get list of source files
     source_files = []
     for file in os.listdir(source_folder):
-        #if file.endswith(".f90") or file.endswith(".f") or file.endswith(".F90"):
-        if file.endswith(".f"):
+        if (file.endswith(".f90") or file.endswith(".f") or file.endswith(".F90")) \
+           and not file.startswith("la_constants") \
+           and not file.startswith("la_xisnan"):
             source_files.append(file)
     source_files.sort()
 
@@ -58,7 +59,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
         fid.write(INDENT + "public :: " + function.new_name + "\n")
 
         if function.new_name=="NONAME":
-            print("\n".join(function.body[1:]))
+            print("\n".join(function.body))
             exit(1)
 
     # Actual implementation
@@ -99,7 +100,10 @@ def print_function_tree(functions,fid):
         print(functions[i].ideps)
 
     attempt = 0
-    while attempt<len(functions):
+    MAXIT   = 50*len(functions)
+    while attempt<MAXIT:
+
+        attempt+=1
 
         for i in range(len(functions)):
 
@@ -113,17 +117,18 @@ def print_function_tree(functions,fid):
                     elif functions[functions[i].ideps[j]].printed:
                         nprinted+=1
 
-                if nprinted==len(functions[i].deps):
+                if nprinted==len(functions[i].deps) or attempt>=MAXIT:
                    print(str(nprinted) + "deps printed already for " + functions[i].old_name)
-                   fid.write("\n".join(functions[i].body[1:]))
+                   fid.write("\n".join(functions[i].body))
                    functions[i].printed = True
 
-        attempt+=1
 
     # Final check
     not_printed = 0
     for i in range(len(functions)):
-        if not functions[i].printed: not_printed+=1
+        if not functions[i].printed:
+            not_printed+=1
+            print(" - Function " + functions[i].old_name + "was not printed ")
 
     if not_printed>0:
         print("***ERROR*** there are non printed functions")
@@ -306,6 +311,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     import re
 
     INDENT = "     "
+    DEBUG  = file_name.lower().startswith("cheswapr")
 
     # Init empty source
     Source  = Fortran_Source()
@@ -340,28 +346,28 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             # Append the line to the list
             if is_comment:
 
-               print("Section.COMMENT " + line + " " + str(whereAt))
+               if DEBUG: print("Section.COMMENT " + line + " " + str(whereAt))
 
                # Inside an externals section: remove altogether
                if whereAt==Section.EXTERNALS:
-                  print("go back to declaration")
+                  if DEBUG: print("go back to declaration")
                   whereAt = Section.DECLARATION
                # Is an Externals section starting
                elif whereAt==Section.DECLARATION and is_externals_header(line):
-                  print("is externals header")
+                  if DEBUG: print("is externals header")
                   whereAt = Section.EXTERNALS
                   line = ""
                else:
                   # Just append this line, but ensure F90+ style comment
                   line = re.sub(r'^\S', '!', line)
-                  print("not a n externals header")
+                  if DEBUG: print("not a n externals header")
 
                   if whereAt!=Section.HEADER or not remove_headers:
                      Source.body.append(INDENT + line)
 
             else:
 
-               print("NEW LINE: " + str(whereAt) + " " + line)
+               if DEBUG: print("NEW LINE: " + str(whereAt) + " " + line)
 
                # Check what section we're in
                match whereAt:
@@ -369,6 +375,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                        # Check if a declaration is starting
                        sub_found = bool('subroutine' in line.strip().lower())
                        fun_found = bool('function' in line.strip().lower())
+                       name = False
 
                        if sub_found:
                            Source.is_function = False
@@ -381,6 +388,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
+
+                           if DEBUG: print("Subroutine name found: " + str(name))
 
                            whereAt = Section.DECLARATION
                        elif fun_found:
@@ -395,24 +404,34 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
 
+                           if DEBUG: print("Function name found: " + str(name))
+
                            whereAt = Section.DECLARATION
+
+                       # Procedure name found: add/modify header
+                       if name:
+                             line = line.strip()
+                             if remove_headers:
+                                 Source.body.append(INDENT)
+                                 Source.body.append(INDENT)
 
                    case Section.DECLARATION:
 
                        # A procedure name must have been read
                        if Source.new_name=="NONAME":
+                           print("INVALID PROCEDURE NAME")
                            exit(1)
 
                        # Check if this line still begins with a declaration
                        if is_declaration_line(line):
-                           print("is declaration line " + line)
+                           if DEBUG: print("is declaration line " + line)
                            # Filter declaration line
                            if (filter_declaration_line(line)):
-                               print("filter declaration line")
+                               if DEBUG: print("filter declaration line")
                                line = "";
                        else:
                            # Start body section
-                           print("start body: " + line)
+                           if DEBUG: print("start body: " + line)
                            whereAt = Section.BODY
 
                    case Section.EXTERNALS:
@@ -428,8 +447,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                    case Section.BODY:
 
                        # End of the function/subroutine: inside a module, it must contain its name
-                       if line.strip().upper()=="END" or line.strip().upper()=="END SUBROUTINE" \
-                          or line.strip().upper()=="END FUNCTION":
+                       if     line.strip().upper()=="END" \
+                           or bool(re.match(r'^\s*END\s*SUBROUTINE.*$',line.upper())) \
+                           or bool(re.match(r'^\s*END\s*FUNCTION.*$',line.upper())):
                            whereAt = Section.END
                            if Source.is_function:
                                line = "END FUNCTION " + Source.old_name.upper() + "\n"
@@ -442,13 +462,13 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                if whereAt!=Section.HEADER or not remove_headers:
                   Source.body.append(INDENT + line)
                else:
-                  print("NOT printed: " + line + " " + whereAt)
+                  if DEBUG: print("NOT printed: " + line + " " + whereAt)
 
     if whereAt!=Section.END:
-        print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper())
+        print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper() + " file " + file_name)
         exit(1)
 
-#    if Source.old_name.lower()=='xerbla_array':
+#    if DEBUG:
 #       for i in range(len(Source.body)):
 #          print(Source.body[i])
 #       exit(1)
@@ -458,7 +478,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
 
 # Run script
-create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
+#create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
+create_fortran_module("stdlib_linalg_lapack","../assets/reference_lapack/SRC","../src","stdlib_")
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
