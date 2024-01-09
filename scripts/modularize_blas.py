@@ -13,6 +13,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     # Parameters
     today  = date.today()
     INDENT = "     "
+    remove_headers = False
 
     # Get names
     module_file = module_name + ".f90"
@@ -21,14 +22,15 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     # Get list of source files
     source_files = []
     for file in os.listdir(source_folder):
-        if file.endswith(".f"): #if file.endswith(".f90") or file.endswith(".f") or file.endswith(".F90"):
+        #if file.endswith(".f90") or file.endswith(".f") or file.endswith(".F90"):
+        if file.endswith(".f"):
             source_files.append(file)
     source_files.sort()
 
     # Parse all source files
     fortran_functions = []
     for file in source_files:
-        fortran_functions.append(parse_fortran_source(source_folder,file,prefix))
+        fortran_functions.append(parse_fortran_source(source_folder,file,prefix,remove_headers))
 
     # Rename all procedures
     for function in fortran_functions:
@@ -59,7 +61,6 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
             print("\n".join(function.body[1:]))
             exit(1)
 
-
     # Actual implementation
     fid.write("\n\n" + INDENT + "contains\n")
 
@@ -76,8 +77,8 @@ class Section(Enum):
     HEADER = 1
     DECLARATION = 2
     EXTERNALS = 3
-    BODY = 3
-    END = 4
+    BODY = 4
+    END = 5
 
 # Print function tree in a dependency-suitable way
 def print_function_tree(functions,fid):
@@ -203,11 +204,11 @@ def is_externals_header(line):
 
     import re
 
-    check_line = line.strip()
+    check_line = line.strip().lower()
 
     # Begins with a data type
-    ext =    bool(re.match(r'\S*\s*.. External Functions ..',check_line)) \
-          or bool(re.match(r'\S*\s*.. External Subroutines ..',check_line))
+    ext =    bool(re.match(r'\S*\s*.. external functions ..',check_line)) \
+          or bool(re.match(r'\S*\s*.. external subroutines ..',check_line))
 
     return ext
 
@@ -234,6 +235,7 @@ def is_declaration_line(line):
               or check_line.startswith("complex::") \
               or check_line.startswith("character ") \
               or check_line.startswith("character(") \
+              or check_line.startswith("character*") \
               or check_line.startswith("character*(") \
               or check_line.startswith("character::") \
               or check_line.startswith("logical ") \
@@ -298,7 +300,7 @@ def rename_source_body(lines,Sources):
 
     return body,dependency_list
 
-def parse_fortran_source(source_folder,file_name,prefix):
+def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
     from platform import os
     import re
@@ -338,19 +340,28 @@ def parse_fortran_source(source_folder,file_name,prefix):
             # Append the line to the list
             if is_comment:
 
+               print("Section.COMMENT " + line + " " + str(whereAt))
+
                # Inside an externals section: remove altogether
                if whereAt==Section.EXTERNALS:
+                  print("go back to declaration")
                   whereAt = Section.DECLARATION
                # Is an Externals section starting
                elif whereAt==Section.DECLARATION and is_externals_header(line):
+                  print("is externals header")
                   whereAt = Section.EXTERNALS
                   line = ""
                else:
                   # Just append this line, but ensure F90+ style comment
                   line = re.sub(r'^\S', '!', line)
-                  Source.body.append(INDENT + line)
+                  print("not a n externals header")
+
+                  if whereAt!=Section.HEADER or not remove_headers:
+                     Source.body.append(INDENT + line)
 
             else:
+
+               print("NEW LINE: " + str(whereAt) + " " + line)
 
                # Check what section we're in
                match whereAt:
@@ -394,11 +405,14 @@ def parse_fortran_source(source_folder,file_name,prefix):
 
                        # Check if this line still begins with a declaration
                        if is_declaration_line(line):
+                           print("is declaration line " + line)
                            # Filter declaration line
                            if (filter_declaration_line(line)):
+                               print("filter declaration line")
                                line = "";
                        else:
                            # Start body section
+                           print("start body: " + line)
                            whereAt = Section.BODY
 
                    case Section.EXTERNALS:
@@ -418,17 +432,23 @@ def parse_fortran_source(source_folder,file_name,prefix):
                           or line.strip().upper()=="END FUNCTION":
                            whereAt = Section.END
                            if Source.is_function:
-                               line = "END FUNCTION " + Source.old_name.upper()
+                               line = "END FUNCTION " + Source.old_name.upper() + "\n"
                            elif Source.is_subroutine:
-                               line = "END SUBROUTINE " + Source.old_name.upper()
+                               line = "END SUBROUTINE " + Source.old_name.upper() + "\n"
 
                    #case Section.END:
 
                # Append this line
-               Source.body.append(INDENT + line)
+               if whereAt!=Section.HEADER or not remove_headers:
+                  Source.body.append(INDENT + line)
+               else:
+                  print("NOT printed: " + line + " " + whereAt)
 
+    if whereAt!=Section.END:
+        print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper())
+        exit(1)
 
-#    if Source.old_name.lower()=='xerbla':
+#    if Source.old_name.lower()=='xerbla_array':
 #       for i in range(len(Source.body)):
 #          print(Source.body[i])
 #       exit(1)
