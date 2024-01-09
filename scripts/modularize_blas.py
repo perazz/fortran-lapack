@@ -234,6 +234,7 @@ def is_declaration_line(line):
               or check_line.startswith("complex::") \
               or check_line.startswith("character ") \
               or check_line.startswith("character(") \
+              or check_line.startswith("character*(") \
               or check_line.startswith("character::") \
               or check_line.startswith("logical ") \
               or check_line.startswith("logical(") \
@@ -349,7 +350,6 @@ def parse_fortran_source(source_folder,file_name,prefix):
                   line = re.sub(r'^\S', '!', line)
                   Source.body.append(INDENT + line)
 
-               #print("comment: "+ line.strip().lower())
             else:
 
                # Check what section we're in
@@ -427,8 +427,11 @@ def parse_fortran_source(source_folder,file_name,prefix):
                # Append this line
                Source.body.append(INDENT + line)
 
-#    for i in range(len(Source.body)):
-#       print(Source.body[i])
+
+#    if Source.old_name.lower()=='xerbla':
+#       for i in range(len(Source.body)):
+#          print(Source.body[i])
+#       exit(1)
 
     return Source
 
