@@ -21,7 +21,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     # Get list of source files
     source_files = []
     for file in os.listdir(source_folder):
-        if file.endswith(".f90") or file.endswith(".f") or file.endswith(".F90"):
+        if file.endswith(".f"): #if file.endswith(".f90") or file.endswith(".f") or file.endswith(".F90"):
             source_files.append(file)
     source_files.sort()
 
@@ -32,7 +32,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
 
     # Rename all procedures
     for function in fortran_functions:
-        function.body = rename_source_body(function.body,fortran_functions)
+        function.body,function.deps = rename_source_body(function.body,fortran_functions)
 
     # Create file
     fid = open(module_path,"w")
@@ -63,8 +63,8 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     # Actual implementation
     fid.write("\n\n" + INDENT + "contains\n")
 
-    for function in fortran_functions:
-        fid.write("\n".join(function.body[1:]))
+    # Write functions
+    print_function_tree(fortran_functions,fid)
 
     # Close module
     fid.write("\n\n\nend module {}\n".format(module_name))
@@ -75,8 +75,59 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
 class Section(Enum):
     HEADER = 1
     DECLARATION = 2
+    EXTERNALS = 3
     BODY = 3
     END = 4
+
+# Print function tree in a dependency-suitable way
+def print_function_tree(functions,fid):
+
+    # list of function names
+    fun_names = []
+
+    # Cleanup first
+    for i in range(len(functions)):
+        fun_names.append(functions[i].old_name.lower())
+        functions[i].printed = False
+        functions[i].ideps = []
+
+    # Get dependency indices
+    for i in range(len(functions)):
+        for j in range(len(functions[i].deps)):
+           functions[i].ideps.append(fun_names.index(functions[i].deps[j].lower()))
+        print(functions[i].ideps)
+
+    attempt = 0
+    while attempt<len(functions):
+
+        for i in range(len(functions)):
+
+            # Check deps
+            if (not functions[i].printed):
+                nprinted = 0
+                for j in range(len(functions[i].deps)):
+                    # Self function: do not consider
+                    if functions[i].ideps[j]==i:
+                        nprinted+=1
+                    elif functions[functions[i].ideps[j]].printed:
+                        nprinted+=1
+
+                if nprinted==len(functions[i].deps):
+                   print(str(nprinted) + "deps printed already for " + functions[i].old_name)
+                   fid.write("\n".join(functions[i].body[1:]))
+                   functions[i].printed = True
+
+        attempt+=1
+
+    # Final check
+    not_printed = 0
+    for i in range(len(functions)):
+        if not functions[i].printed: not_printed+=1
+
+    if not_printed>0:
+        print("***ERROR*** there are non printed functions")
+        exit(1)
+
 
 # This class represents the contents of a 1-function/1-subroutine Fortran source file parsed from BLAS/LAPACK
 class Fortran_Source:
@@ -88,6 +139,9 @@ class Fortran_Source:
         self.old_name      = "NONAME"
         self.new_name      = "NONAME"
         self.body          = ""
+        self.deps          = []
+        self.ideps         = []
+        self.printed       = False
 
 # Read and preprocess a Fortran line for parsing: remove comments, adjust left, and if this is a continuation
 # line, read all continuation lines into it
@@ -143,6 +197,19 @@ def is_datatype_line(line):
     check_line = line.strip().lower()
 
     is_data_line = check_line.starts
+
+# Check if a line is followed by external declaration
+def is_externals_header(line):
+
+    import re
+
+    check_line = line.strip()
+
+    # Begins with a data type
+    ext =    bool(re.match(r'\S*\s*.. External Functions ..',check_line)) \
+          or bool(re.match(r'\S*\s*.. External Subroutines ..',check_line))
+
+    return ext
 
 # Check if a line is a declaration line
 def is_declaration_line(line):
@@ -205,20 +272,30 @@ def rename_source_body(lines,Sources):
     old_names = []
     new_names = []
     for Source in Sources:
-        old_names.append(Source.old_name)
-        new_names.append(Source.new_name)
+        old_names.append(Source.old_name.lower())
+        new_names.append(Source.new_name.lower())
+
+    is_found = [False for i in range(len(new_names))]
 
     for i in range(len(lines)):
-        line = lines[i]
+        old_line = lines[i].lower()
         for j in range(len(old_names)):
+            line = old_line
             for k in range(len(prefixes)):
-               line = line.replace(prefixes[k] + old_names[j]        ,prefixes[k] + new_names[j])
-               line = line.replace(prefixes[k] + old_names[j].upper(),prefixes[k] + new_names[j].upper())
-               line = line.replace(prefixes[k] + old_names[j].lower(),prefixes[k] + new_names[j].lower())
+               line = line.replace(prefixes[k] + old_names[j],prefixes[k] + new_names[j])
+            if len(line)>len(old_line):
+                is_found[j] = True
+            old_line = line
 
         body.append(line);
 
-    return body
+    # Build dependency list
+    dependency_list = []
+    for j in range(len(old_names)):
+        if is_found[j]:
+            dependency_list.append(old_names[j])
+
+    return body,dependency_list
 
 def parse_fortran_source(source_folder,file_name,prefix):
 
@@ -259,10 +336,19 @@ def parse_fortran_source(source_folder,file_name,prefix):
 
             # Append the line to the list
             if is_comment:
-               # Just append this line, but ensure F90+ style comment
-               line = re.sub(r'^\S', '!', line)
 
-               Source.body.append(INDENT + line)
+               # Inside an externals section: remove altogether
+               if whereAt==Section.EXTERNALS:
+                  whereAt = Section.DECLARATION
+               # Is an Externals section starting
+               elif whereAt==Section.DECLARATION and is_externals_header(line):
+                  whereAt = Section.EXTERNALS
+                  line = ""
+               else:
+                  # Just append this line, but ensure F90+ style comment
+                  line = re.sub(r'^\S', '!', line)
+                  Source.body.append(INDENT + line)
+
                #print("comment: "+ line.strip().lower())
             else:
 
@@ -302,6 +388,7 @@ def parse_fortran_source(source_folder,file_name,prefix):
 
                    case Section.DECLARATION:
 
+                       # A procedure name must have been read
                        if Source.new_name=="NONAME":
                            exit(1)
 
@@ -314,10 +401,21 @@ def parse_fortran_source(source_folder,file_name,prefix):
                            # Start body section
                            whereAt = Section.BODY
 
+                   case Section.EXTERNALS:
+
+                       # Check if this line still begins with a declaration
+                       if is_declaration_line(line):
+                           # Delete altoghether
+                           line = "";
+                       else:
+                           # Go back to declaration section
+                           whereAt = Section.DECLARATION
+
                    case Section.BODY:
 
                        # End of the function/subroutine: inside a module, it must contain its name
-                       if line.strip().upper()=="END":
+                       if line.strip().upper()=="END" or line.strip().upper()=="END SUBROUTINE" \
+                          or line.strip().upper()=="END FUNCTION":
                            whereAt = Section.END
                            if Source.is_function:
                                line = "END FUNCTION " + Source.old_name.upper()
@@ -337,7 +435,7 @@ def parse_fortran_source(source_folder,file_name,prefix):
 
 
 # Run script
-# create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
-create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
+create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
+#create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
