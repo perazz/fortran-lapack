@@ -170,6 +170,7 @@ def print_lapack_constants(fid,INDENT):
        fid.write(INDENT + "complex("+rk+"), parameter :: "+cpr+"half  = (0.5_"+rk+",0.0_"+rk+")\n")
        fid.write(INDENT + "complex("+rk+"), parameter :: "+cpr+"one   = (1.0_"+rk+",0.0_"+rk+")\n")
 
+    fid.write("\n\n\n" + "contains" + "\n\n\n")
 
 # Print function tree in a dependency-suitable way
 def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH):
@@ -575,10 +576,6 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
 #        exit(1)
 
     body = whole.split('\n')
-
-    if la_const:
-        print(body)
-
 
     # Build dependency list
     dependency_list = []
