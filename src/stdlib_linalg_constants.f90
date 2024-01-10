@@ -1,5 +1,6 @@
 module stdlib_linalg_constants
      use iso_fortran_env, only: int32,int64
+     use, intrinsic :: ieee_arithmetic, only: ieee_is_nan 
      implicit none(type,external)
      public
 

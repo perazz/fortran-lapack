@@ -211,7 +211,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ccopy
      
      end subroutine stdlib_ccopy
-
      
      
      complex(sp) function stdlib_cdotc(n,cx,incx,cy,incy)
@@ -267,7 +266,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cdotc
      
      end function stdlib_cdotc
-
      
      
      complex(sp) function stdlib_cdotu(n,cx,incx,cy,incy)
@@ -320,7 +318,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cdotu
      
      end function stdlib_cdotu
-
      
      
      subroutine stdlib_crotg( a, b, c, s )
@@ -454,7 +451,6 @@ module stdlib_linalg_blas
         a = r
         return
      end subroutine stdlib_crotg
-
      
      
      subroutine stdlib_cscal(n,ca,cx,incx)
@@ -498,7 +494,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cscal
      
      end subroutine stdlib_cscal
-
      
      
      subroutine stdlib_csrot( n, cx, incx, cy, incy, c, s )
@@ -555,7 +550,6 @@ module stdlib_linalg_blas
            ! end of stdlib_csrot
      
      end subroutine stdlib_csrot
-
      
      
      subroutine stdlib_csscal(n,sa,cx,incx)
@@ -602,7 +596,6 @@ module stdlib_linalg_blas
            ! end of stdlib_csscal
      
      end subroutine stdlib_csscal
-
      
      
      subroutine stdlib_cswap(n,cx,incx,cy,incy)
@@ -655,7 +648,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cswap
      
      end subroutine stdlib_cswap
-
      
      
      real(dp) function stdlib_dasum(n,dx,incx)
@@ -719,7 +711,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dasum
      
      end function stdlib_dasum
-
      
      
      subroutine stdlib_daxpy(n,da,dx,incx,dy,incy)
@@ -787,7 +778,6 @@ module stdlib_linalg_blas
            ! end of stdlib_daxpy
      
      end subroutine stdlib_daxpy
-
      
      
      real(dp) function stdlib_dcabs1(z)
@@ -811,7 +801,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dcabs1
      
      end function stdlib_dcabs1
-
      
      
      subroutine stdlib_dcopy(n,dx,incx,dy,incy)
@@ -880,7 +869,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dcopy
      
      end subroutine stdlib_dcopy
-
      
      
      real(dp) function stdlib_ddot(n,dx,incx,dy,incy)
@@ -951,7 +939,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ddot
      
      end function stdlib_ddot
-
      
      
      function stdlib_dnrm2( n, x, incx )
@@ -1066,7 +1053,6 @@ module stdlib_linalg_blas
         stdlib_dnrm2 = scl*sqrt( sumsq )
         return
      end function stdlib_dnrm2
-
      
      
      subroutine stdlib_drot(n,dx,incx,dy,incy,c,s)
@@ -1121,7 +1107,6 @@ module stdlib_linalg_blas
            ! end of stdlib_drot
      
      end subroutine stdlib_drot
-
      
      
      subroutine stdlib_drotg( a, b, c, s )
@@ -1180,7 +1165,6 @@ module stdlib_linalg_blas
         end if
         return
      end subroutine stdlib_drotg
-
      
      
      subroutine stdlib_drotm(n,dx,incx,dy,incy,dparam)
@@ -1289,7 +1273,6 @@ module stdlib_linalg_blas
            ! end of stdlib_drotm
      
      end subroutine stdlib_drotm
-
      
      
      subroutine stdlib_drotmg(dd1,dd2,dx1,dy1,dparam)
@@ -1457,7 +1440,6 @@ module stdlib_linalg_blas
            ! end of stdlib_drotmg
      
      end subroutine stdlib_drotmg
-
      
      
      subroutine stdlib_dscal(n,da,dx,incx)
@@ -1519,7 +1501,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dscal
      
      end subroutine stdlib_dscal
-
      
      
      real(dp) function stdlib_dsdot(n,sx,incx,sy,incy)
@@ -1577,7 +1558,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dsdot
      
      end function stdlib_dsdot
-
      
      
      subroutine stdlib_dswap(n,dx,incx,dy,incy)
@@ -1653,7 +1633,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dswap
      
      end subroutine stdlib_dswap
-
      
      
      real(dp) function stdlib_dzasum(n,zx,incx)
@@ -1702,7 +1681,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dzasum
      
      end function stdlib_dzasum
-
      
      
      function stdlib_dznrm2( n, x, incx )
@@ -1826,7 +1804,6 @@ module stdlib_linalg_blas
         stdlib_dznrm2 = scl*sqrt( sumsq )
         return
      end function stdlib_dznrm2
-
      
      
      integer(int32) function stdlib_idamax(n,dx,incx)
@@ -1886,7 +1863,6 @@ module stdlib_linalg_blas
            ! end of stdlib_idamax
      
      end function stdlib_idamax
-
      
      
      integer(int32) function stdlib_isamax(n,sx,incx)
@@ -1946,7 +1922,6 @@ module stdlib_linalg_blas
            ! end of stdlib_isamax
      
      end function stdlib_isamax
-
      
      
      integer(int32) function stdlib_izamax(n,zx,incx)
@@ -2005,7 +1980,6 @@ module stdlib_linalg_blas
            ! end of stdlib_izamax
      
      end function stdlib_izamax
-
      
      
      logical(lk) function stdlib_lsame(ca,cb)
@@ -2077,7 +2051,6 @@ module stdlib_linalg_blas
            ! end of stdlib_lsame
      
      end function stdlib_lsame
-
      
      
      real(sp) function stdlib_sasum(n,sx,incx)
@@ -2141,7 +2114,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sasum
      
      end function stdlib_sasum
-
      
      
      subroutine stdlib_saxpy(n,sa,sx,incx,sy,incy)
@@ -2209,7 +2181,6 @@ module stdlib_linalg_blas
            ! end of stdlib_saxpy
      
      end subroutine stdlib_saxpy
-
      
      
      real(sp) function stdlib_scabs1(z)
@@ -2233,7 +2204,6 @@ module stdlib_linalg_blas
            ! end of stdlib_scabs1
      
      end function stdlib_scabs1
-
      
      
      real(sp) function stdlib_scasum(n,cx,incx)
@@ -2283,7 +2253,6 @@ module stdlib_linalg_blas
            ! end of stdlib_scasum
      
      end function stdlib_scasum
-
      
      
      function stdlib_scnrm2( n, x, incx )
@@ -2407,7 +2376,6 @@ module stdlib_linalg_blas
         stdlib_scnrm2 = scl*sqrt( sumsq )
         return
      end function stdlib_scnrm2
-
      
      
      subroutine stdlib_scopy(n,sx,incx,sy,incy)
@@ -2476,7 +2444,6 @@ module stdlib_linalg_blas
            ! end of stdlib_scopy
      
      end subroutine stdlib_scopy
-
      
      
      real(sp) function stdlib_sdot(n,sx,incx,sy,incy)
@@ -2547,7 +2514,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sdot
      
      end function stdlib_sdot
-
      
      
      real(sp) function stdlib_sdsdot(n,sb,sx,incx,sy,incy)
@@ -2602,7 +2568,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sdsdot
      
      end function stdlib_sdsdot
-
      
      
      function stdlib_snrm2( n, x, incx )
@@ -2717,7 +2682,6 @@ module stdlib_linalg_blas
         stdlib_snrm2 = scl*sqrt( sumsq )
         return
      end function stdlib_snrm2
-
      
      
      subroutine stdlib_srot(n,sx,incx,sy,incy,c,s)
@@ -2772,7 +2736,6 @@ module stdlib_linalg_blas
            ! end of stdlib_srot
      
      end subroutine stdlib_srot
-
      
      
      subroutine stdlib_srotg( a, b, c, s )
@@ -2831,7 +2794,6 @@ module stdlib_linalg_blas
         end if
         return
      end subroutine stdlib_srotg
-
      
      
      subroutine stdlib_srotm(n,sx,incx,sy,incy,sparam)
@@ -2940,7 +2902,6 @@ module stdlib_linalg_blas
            ! end of stdlib_srotm
      
      end subroutine stdlib_srotm
-
      
      
      subroutine stdlib_srotmg(sd1,sd2,sx1,sy1,sparam)
@@ -3108,7 +3069,6 @@ module stdlib_linalg_blas
            ! end of stdlib_srotmg
      
      end subroutine stdlib_srotmg
-
      
      
      subroutine stdlib_sscal(n,sa,sx,incx)
@@ -3170,7 +3130,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sscal
      
      end subroutine stdlib_sscal
-
      
      
      subroutine stdlib_sswap(n,sx,incx,sy,incy)
@@ -3246,7 +3205,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sswap
      
      end subroutine stdlib_sswap
-
      
      
      subroutine stdlib_xerbla( srname, info )
@@ -3277,7 +3235,6 @@ module stdlib_linalg_blas
            ! end of stdlib_xerbla
      
      end subroutine stdlib_xerbla
-
      
      
      subroutine stdlib_xerbla_array(srname_array, srname_len, info)
@@ -3317,7 +3274,6 @@ module stdlib_linalg_blas
            ! end of stdlib_xerbla_array
      
      end subroutine stdlib_xerbla_array
-
      
      
      subroutine stdlib_zaxpy(n,za,zx,incx,zy,incy)
@@ -3371,7 +3327,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zaxpy
      
      end subroutine stdlib_zaxpy
-
      
      
      subroutine stdlib_zcopy(n,zx,incx,zy,incy)
@@ -3420,7 +3375,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zcopy
      
      end subroutine stdlib_zcopy
-
      
      
      complex(dp) function stdlib_zdotc(n,zx,incx,zy,incy)
@@ -3476,7 +3430,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zdotc
      
      end function stdlib_zdotc
-
      
      
      complex(dp) function stdlib_zdotu(n,zx,incx,zy,incy)
@@ -3529,7 +3482,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zdotu
      
      end function stdlib_zdotu
-
      
      
      subroutine stdlib_zdrot( n, zx, incx, zy, incy, c, s )
@@ -3586,7 +3538,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zdrot
      
      end subroutine stdlib_zdrot
-
      
      
      subroutine stdlib_zdscal(n,da,zx,incx)
@@ -3633,7 +3584,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zdscal
      
      end subroutine stdlib_zdscal
-
      
      
      subroutine stdlib_zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
@@ -3693,7 +3643,7 @@ module stdlib_linalg_blas
                info = 13
            end if
            if (info/=0) then
-               call stdlib_xerbla('zgbmv ',info)
+               call stdlib_xerbla('stdlib_zgbmv ',info)
                return
            end if
      
@@ -3833,7 +3783,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zgbmv
      
      end subroutine stdlib_zgbmv
-
      
      
      subroutine stdlib_zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -3913,7 +3862,7 @@ module stdlib_linalg_blas
                info = 13
            end if
            if (info/=0) then
-               call stdlib_xerbla('zgemm ',info)
+               call stdlib_xerbla('stdlib_zgemm ',info)
                return
            end if
      
@@ -4123,7 +4072,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zgemm
      
      end subroutine stdlib_zgemm
-
      
      
      subroutine stdlib_zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
@@ -4179,7 +4127,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('zgemv ',info)
+               call stdlib_xerbla('stdlib_zgemv ',info)
                return
            end if
      
@@ -4312,7 +4260,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zgemv
      
      end subroutine stdlib_zgemv
-
      
      
      subroutine stdlib_zgerc(m,n,alpha,x,incx,y,incy,a,lda)
@@ -4359,7 +4306,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('zgerc ',info)
+               call stdlib_xerbla('stdlib_zgerc ',info)
                return
            end if
      
@@ -4409,7 +4356,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zgerc
      
      end subroutine stdlib_zgerc
-
      
      
      subroutine stdlib_zgeru(m,n,alpha,x,incx,y,incy,a,lda)
@@ -4456,7 +4402,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('zgeru ',info)
+               call stdlib_xerbla('stdlib_zgeru ',info)
                return
            end if
      
@@ -4506,7 +4452,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zgeru
      
      end subroutine stdlib_zgeru
-
      
      
      subroutine stdlib_zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
@@ -4560,7 +4505,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('zhbmv ',info)
+               call stdlib_xerbla('stdlib_zhbmv ',info)
                return
            end if
      
@@ -4697,7 +4642,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zhbmv
      
      end subroutine stdlib_zhbmv
-
      
      
      subroutine stdlib_zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -4763,7 +4707,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('zhemm ',info)
+               call stdlib_xerbla('stdlib_zhemm ',info)
                return
            end if
      
@@ -4872,7 +4816,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zhemm
      
      end subroutine stdlib_zhemm
-
      
      
      subroutine stdlib_zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
@@ -4924,7 +4867,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('zhemv ',info)
+               call stdlib_xerbla('stdlib_zhemv ',info)
                return
            end if
      
@@ -5053,7 +4996,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zhemv
      
      end subroutine stdlib_zhemv
-
      
      
      subroutine stdlib_zher(uplo,n,alpha,x,incx,a,lda)
@@ -5101,7 +5043,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('zher  ',info)
+               call stdlib_xerbla('stdlib_zher  ',info)
                return
            end if
      
@@ -5194,7 +5136,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zher
      
      end subroutine stdlib_zher
-
      
      
      subroutine stdlib_zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
@@ -5244,7 +5185,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('zher2 ',info)
+               call stdlib_xerbla('stdlib_zher2 ',info)
                return
            end if
      
@@ -5355,7 +5296,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zher2
      
      end subroutine stdlib_zher2
-
      
      
      subroutine stdlib_zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -5421,7 +5361,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('zher2k',info)
+               call stdlib_xerbla('stdlib_zher2k',info)
                return
            end if
      
@@ -5587,7 +5527,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zher2k
      
      end subroutine stdlib_zher2k
-
      
      
      subroutine stdlib_zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
@@ -5649,7 +5588,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('zherk ',info)
+               call stdlib_xerbla('stdlib_zherk ',info)
                return
            end if
      
@@ -5807,7 +5746,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zherk
      
      end subroutine stdlib_zherk
-
      
      
      subroutine stdlib_zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
@@ -5857,7 +5795,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('zhpmv ',info)
+               call stdlib_xerbla('stdlib_zhpmv ',info)
                return
            end if
      
@@ -5994,7 +5932,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zhpmv
      
      end subroutine stdlib_zhpmv
-
      
      
      subroutine stdlib_zhpr(uplo,n,alpha,x,incx,ap)
@@ -6040,7 +5977,7 @@ module stdlib_linalg_blas
                info = 5
            end if
            if (info/=0) then
-               call stdlib_xerbla('zhpr  ',info)
+               call stdlib_xerbla('stdlib_zhpr  ',info)
                return
            end if
      
@@ -6141,7 +6078,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zhpr
      
      end subroutine stdlib_zhpr
-
      
      
      subroutine stdlib_zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
@@ -6189,7 +6125,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('zhpr2 ',info)
+               call stdlib_xerbla('stdlib_zhpr2 ',info)
                return
            end if
      
@@ -6308,7 +6244,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zhpr2
      
      end subroutine stdlib_zhpr2
-
      
      
      subroutine stdlib_zrotg( a, b, c, s )
@@ -6442,7 +6377,6 @@ module stdlib_linalg_blas
         a = r
         return
      end subroutine stdlib_zrotg
-
      
      
      subroutine stdlib_zscal(n,za,zx,incx)
@@ -6486,7 +6420,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zscal
      
      end subroutine stdlib_zscal
-
      
      
      subroutine stdlib_zswap(n,zx,incx,zy,incy)
@@ -6539,7 +6472,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zswap
      
      end subroutine stdlib_zswap
-
      
      
      subroutine stdlib_zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -6605,7 +6537,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('zsymm ',info)
+               call stdlib_xerbla('stdlib_zsymm ',info)
                return
            end if
      
@@ -6714,7 +6646,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zsymm
      
      end subroutine stdlib_zsymm
-
      
      
      subroutine stdlib_zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -6779,7 +6710,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('zsyr2k',info)
+               call stdlib_xerbla('stdlib_zsyr2k',info)
                return
            end if
      
@@ -6915,7 +6846,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zsyr2k
      
      end subroutine stdlib_zsyr2k
-
      
      
      subroutine stdlib_zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
@@ -6978,7 +6908,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('zsyrk ',info)
+               call stdlib_xerbla('stdlib_zsyrk ',info)
                return
            end if
      
@@ -7108,7 +7038,6 @@ module stdlib_linalg_blas
            ! end of stdlib_zsyrk
      
      end subroutine stdlib_zsyrk
-
      
      
      subroutine stdlib_ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
@@ -7163,7 +7092,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('ztbmv ',info)
+               call stdlib_xerbla('stdlib_ztbmv ',info)
                return
            end if
      
@@ -7349,7 +7278,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ztbmv
      
      end subroutine stdlib_ztbmv
-
      
      
      subroutine stdlib_ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
@@ -7404,7 +7332,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('ztbsv ',info)
+               call stdlib_xerbla('stdlib_ztbsv ',info)
                return
            end if
      
@@ -7590,7 +7518,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ztbsv
      
      end subroutine stdlib_ztbsv
-
      
      
      subroutine stdlib_ztpmv(uplo,trans,diag,n,ap,x,incx)
@@ -7641,7 +7568,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('ztpmv ',info)
+               call stdlib_xerbla('stdlib_ztpmv ',info)
                return
            end if
      
@@ -7834,7 +7761,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ztpmv
      
      end subroutine stdlib_ztpmv
-
      
      
      subroutine stdlib_ztpsv(uplo,trans,diag,n,ap,x,incx)
@@ -7885,7 +7811,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('ztpsv ',info)
+               call stdlib_xerbla('stdlib_ztpsv ',info)
                return
            end if
      
@@ -8078,7 +8004,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ztpsv
      
      end subroutine stdlib_ztpsv
-
      
      
      subroutine stdlib_ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
@@ -8149,7 +8074,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('ztrmm ',info)
+               call stdlib_xerbla('stdlib_ztrmm ',info)
                return
            end if
      
@@ -8351,7 +8276,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ztrmm
      
      end subroutine stdlib_ztrmm
-
      
      
      subroutine stdlib_ztrmv(uplo,trans,diag,n,a,lda,x,incx)
@@ -8404,7 +8328,7 @@ module stdlib_linalg_blas
                info = 8
            end if
            if (info/=0) then
-               call stdlib_xerbla('ztrmv ',info)
+               call stdlib_xerbla('stdlib_ztrmv ',info)
                return
            end if
      
@@ -8575,7 +8499,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ztrmv
      
      end subroutine stdlib_ztrmv
-
      
      
      subroutine stdlib_ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
@@ -8646,7 +8569,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('ztrsm ',info)
+               call stdlib_xerbla('stdlib_ztrsm ',info)
                return
            end if
      
@@ -8870,7 +8793,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ztrsm
      
      end subroutine stdlib_ztrsm
-
      
      
      subroutine stdlib_ztrsv(uplo,trans,diag,n,a,lda,x,incx)
@@ -8923,7 +8845,7 @@ module stdlib_linalg_blas
                info = 8
            end if
            if (info/=0) then
-               call stdlib_xerbla('ztrsv ',info)
+               call stdlib_xerbla('stdlib_ztrsv ',info)
                return
            end if
      
@@ -9094,7 +9016,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ztrsv
      
      end subroutine stdlib_ztrsv
-
      
      
      subroutine stdlib_caxpy(n,ca,cx,incx,cy,incy)
@@ -9148,7 +9069,6 @@ module stdlib_linalg_blas
            ! end of stdlib_caxpy
      
      end subroutine stdlib_caxpy
-
      
      
      subroutine stdlib_cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
@@ -9208,7 +9128,7 @@ module stdlib_linalg_blas
                info = 13
            end if
            if (info/=0) then
-               call stdlib_xerbla('cgbmv ',info)
+               call stdlib_xerbla('stdlib_cgbmv ',info)
                return
            end if
      
@@ -9348,7 +9268,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cgbmv
      
      end subroutine stdlib_cgbmv
-
      
      
      subroutine stdlib_cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -9428,7 +9347,7 @@ module stdlib_linalg_blas
                info = 13
            end if
            if (info/=0) then
-               call stdlib_xerbla('cgemm ',info)
+               call stdlib_xerbla('stdlib_cgemm ',info)
                return
            end if
      
@@ -9638,7 +9557,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cgemm
      
      end subroutine stdlib_cgemm
-
      
      
      subroutine stdlib_cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
@@ -9694,7 +9612,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('cgemv ',info)
+               call stdlib_xerbla('stdlib_cgemv ',info)
                return
            end if
      
@@ -9827,7 +9745,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cgemv
      
      end subroutine stdlib_cgemv
-
      
      
      subroutine stdlib_cgerc(m,n,alpha,x,incx,y,incy,a,lda)
@@ -9874,7 +9791,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('cgerc ',info)
+               call stdlib_xerbla('stdlib_cgerc ',info)
                return
            end if
      
@@ -9924,7 +9841,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cgerc
      
      end subroutine stdlib_cgerc
-
      
      
      subroutine stdlib_cgeru(m,n,alpha,x,incx,y,incy,a,lda)
@@ -9971,7 +9887,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('cgeru ',info)
+               call stdlib_xerbla('stdlib_cgeru ',info)
                return
            end if
      
@@ -10021,7 +9937,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cgeru
      
      end subroutine stdlib_cgeru
-
      
      
      subroutine stdlib_chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
@@ -10075,7 +9990,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('chbmv ',info)
+               call stdlib_xerbla('stdlib_chbmv ',info)
                return
            end if
      
@@ -10212,7 +10127,6 @@ module stdlib_linalg_blas
            ! end of stdlib_chbmv
      
      end subroutine stdlib_chbmv
-
      
      
      subroutine stdlib_chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -10278,7 +10192,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('chemm ',info)
+               call stdlib_xerbla('stdlib_chemm ',info)
                return
            end if
      
@@ -10387,7 +10301,6 @@ module stdlib_linalg_blas
            ! end of stdlib_chemm
      
      end subroutine stdlib_chemm
-
      
      
      subroutine stdlib_chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
@@ -10439,7 +10352,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('chemv ',info)
+               call stdlib_xerbla('stdlib_chemv ',info)
                return
            end if
      
@@ -10568,7 +10481,6 @@ module stdlib_linalg_blas
            ! end of stdlib_chemv
      
      end subroutine stdlib_chemv
-
      
      
      subroutine stdlib_cher(uplo,n,alpha,x,incx,a,lda)
@@ -10616,7 +10528,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('cher  ',info)
+               call stdlib_xerbla('stdlib_cher  ',info)
                return
            end if
      
@@ -10709,7 +10621,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cher
      
      end subroutine stdlib_cher
-
      
      
      subroutine stdlib_cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
@@ -10759,7 +10670,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('cher2 ',info)
+               call stdlib_xerbla('stdlib_cher2 ',info)
                return
            end if
      
@@ -10870,7 +10781,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cher2
      
      end subroutine stdlib_cher2
-
      
      
      subroutine stdlib_cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -10936,7 +10846,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('cher2k',info)
+               call stdlib_xerbla('stdlib_cher2k',info)
                return
            end if
      
@@ -11102,7 +11012,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cher2k
      
      end subroutine stdlib_cher2k
-
      
      
      subroutine stdlib_cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
@@ -11164,7 +11073,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('cherk ',info)
+               call stdlib_xerbla('stdlib_cherk ',info)
                return
            end if
      
@@ -11322,7 +11231,6 @@ module stdlib_linalg_blas
            ! end of stdlib_cherk
      
      end subroutine stdlib_cherk
-
      
      
      subroutine stdlib_chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
@@ -11372,7 +11280,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('chpmv ',info)
+               call stdlib_xerbla('stdlib_chpmv ',info)
                return
            end if
      
@@ -11509,7 +11417,6 @@ module stdlib_linalg_blas
            ! end of stdlib_chpmv
      
      end subroutine stdlib_chpmv
-
      
      
      subroutine stdlib_chpr(uplo,n,alpha,x,incx,ap)
@@ -11555,7 +11462,7 @@ module stdlib_linalg_blas
                info = 5
            end if
            if (info/=0) then
-               call stdlib_xerbla('chpr  ',info)
+               call stdlib_xerbla('stdlib_chpr  ',info)
                return
            end if
      
@@ -11656,7 +11563,6 @@ module stdlib_linalg_blas
            ! end of stdlib_chpr
      
      end subroutine stdlib_chpr
-
      
      
      subroutine stdlib_chpr2(uplo,n,alpha,x,incx,y,incy,ap)
@@ -11704,7 +11610,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('chpr2 ',info)
+               call stdlib_xerbla('stdlib_chpr2 ',info)
                return
            end if
      
@@ -11823,7 +11729,6 @@ module stdlib_linalg_blas
            ! end of stdlib_chpr2
      
      end subroutine stdlib_chpr2
-
      
      
      subroutine stdlib_csymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -11889,7 +11794,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('csymm ',info)
+               call stdlib_xerbla('stdlib_csymm ',info)
                return
            end if
      
@@ -11998,7 +11903,6 @@ module stdlib_linalg_blas
            ! end of stdlib_csymm
      
      end subroutine stdlib_csymm
-
      
      
      subroutine stdlib_csyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -12063,7 +11967,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('csyr2k',info)
+               call stdlib_xerbla('stdlib_csyr2k',info)
                return
            end if
      
@@ -12199,7 +12103,6 @@ module stdlib_linalg_blas
            ! end of stdlib_csyr2k
      
      end subroutine stdlib_csyr2k
-
      
      
      subroutine stdlib_csyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
@@ -12262,7 +12165,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('csyrk ',info)
+               call stdlib_xerbla('stdlib_csyrk ',info)
                return
            end if
      
@@ -12392,7 +12295,6 @@ module stdlib_linalg_blas
            ! end of stdlib_csyrk
      
      end subroutine stdlib_csyrk
-
      
      
      subroutine stdlib_ctbmv(uplo,trans,diag,n,k,a,lda,x,incx)
@@ -12447,7 +12349,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('ctbmv ',info)
+               call stdlib_xerbla('stdlib_ctbmv ',info)
                return
            end if
      
@@ -12633,7 +12535,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ctbmv
      
      end subroutine stdlib_ctbmv
-
      
      
      subroutine stdlib_ctbsv(uplo,trans,diag,n,k,a,lda,x,incx)
@@ -12688,7 +12589,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('ctbsv ',info)
+               call stdlib_xerbla('stdlib_ctbsv ',info)
                return
            end if
      
@@ -12874,7 +12775,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ctbsv
      
      end subroutine stdlib_ctbsv
-
      
      
      subroutine stdlib_ctpmv(uplo,trans,diag,n,ap,x,incx)
@@ -12925,7 +12825,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('ctpmv ',info)
+               call stdlib_xerbla('stdlib_ctpmv ',info)
                return
            end if
      
@@ -13118,7 +13018,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ctpmv
      
      end subroutine stdlib_ctpmv
-
      
      
      subroutine stdlib_ctpsv(uplo,trans,diag,n,ap,x,incx)
@@ -13169,7 +13068,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('ctpsv ',info)
+               call stdlib_xerbla('stdlib_ctpsv ',info)
                return
            end if
      
@@ -13362,7 +13261,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ctpsv
      
      end subroutine stdlib_ctpsv
-
      
      
      subroutine stdlib_ctrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
@@ -13433,7 +13331,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('ctrmm ',info)
+               call stdlib_xerbla('stdlib_ctrmm ',info)
                return
            end if
      
@@ -13635,7 +13533,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ctrmm
      
      end subroutine stdlib_ctrmm
-
      
      
      subroutine stdlib_ctrmv(uplo,trans,diag,n,a,lda,x,incx)
@@ -13688,7 +13585,7 @@ module stdlib_linalg_blas
                info = 8
            end if
            if (info/=0) then
-               call stdlib_xerbla('ctrmv ',info)
+               call stdlib_xerbla('stdlib_ctrmv ',info)
                return
            end if
      
@@ -13859,7 +13756,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ctrmv
      
      end subroutine stdlib_ctrmv
-
      
      
      subroutine stdlib_ctrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
@@ -13930,7 +13826,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('ctrsm ',info)
+               call stdlib_xerbla('stdlib_ctrsm ',info)
                return
            end if
      
@@ -14154,7 +14050,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ctrsm
      
      end subroutine stdlib_ctrsm
-
      
      
      subroutine stdlib_ctrsv(uplo,trans,diag,n,a,lda,x,incx)
@@ -14207,7 +14102,7 @@ module stdlib_linalg_blas
                info = 8
            end if
            if (info/=0) then
-               call stdlib_xerbla('ctrsv ',info)
+               call stdlib_xerbla('stdlib_ctrsv ',info)
                return
            end if
      
@@ -14378,7 +14273,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ctrsv
      
      end subroutine stdlib_ctrsv
-
      
      
      subroutine stdlib_dgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
@@ -14435,7 +14329,7 @@ module stdlib_linalg_blas
                info = 13
            end if
            if (info/=0) then
-               call stdlib_xerbla('dgbmv ',info)
+               call stdlib_xerbla('stdlib_dgbmv ',info)
                return
            end if
      
@@ -14560,7 +14454,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dgbmv
      
      end subroutine stdlib_dgbmv
-
      
      
      subroutine stdlib_dgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -14636,7 +14529,7 @@ module stdlib_linalg_blas
                info = 13
            end if
            if (info/=0) then
-               call stdlib_xerbla('dgemm ',info)
+               call stdlib_xerbla('stdlib_dgemm ',info)
                return
            end if
      
@@ -14753,7 +14646,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dgemm
      
      end subroutine stdlib_dgemm
-
      
      
      subroutine stdlib_dgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
@@ -14806,7 +14698,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('dgemv ',info)
+               call stdlib_xerbla('stdlib_dgemv ',info)
                return
            end if
      
@@ -14924,7 +14816,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dgemv
      
      end subroutine stdlib_dgemv
-
      
      
      subroutine stdlib_dger(m,n,alpha,x,incx,y,incy,a,lda)
@@ -14971,7 +14862,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('dger  ',info)
+               call stdlib_xerbla('stdlib_dger  ',info)
                return
            end if
      
@@ -15021,7 +14912,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dger
      
      end subroutine stdlib_dger
-
      
      
      subroutine stdlib_dsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
@@ -15073,7 +14963,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('dsbmv ',info)
+               call stdlib_xerbla('stdlib_dsbmv ',info)
                return
            end if
      
@@ -15210,7 +15100,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dsbmv
      
      end subroutine stdlib_dsbmv
-
      
      
      subroutine stdlib_dspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
@@ -15255,7 +15144,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('dspmv ',info)
+               call stdlib_xerbla('stdlib_dspmv ',info)
                return
            end if
      
@@ -15392,7 +15281,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dspmv
      
      end subroutine stdlib_dspmv
-
      
      
      subroutine stdlib_dspr(uplo,n,alpha,x,incx,ap)
@@ -15435,7 +15323,7 @@ module stdlib_linalg_blas
                info = 5
            end if
            if (info/=0) then
-               call stdlib_xerbla('dspr  ',info)
+               call stdlib_xerbla('stdlib_dspr  ',info)
                return
            end if
      
@@ -15524,7 +15412,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dspr
      
      end subroutine stdlib_dspr
-
      
      
      subroutine stdlib_dspr2(uplo,n,alpha,x,incx,y,incy,ap)
@@ -15569,7 +15456,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('dspr2 ',info)
+               call stdlib_xerbla('stdlib_dspr2 ',info)
                return
            end if
      
@@ -15676,7 +15563,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dspr2
      
      end subroutine stdlib_dspr2
-
      
      
      subroutine stdlib_dsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -15740,7 +15626,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('dsymm ',info)
+               call stdlib_xerbla('stdlib_dsymm ',info)
                return
            end if
      
@@ -15849,7 +15735,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dsymm
      
      end subroutine stdlib_dsymm
-
      
      
      subroutine stdlib_dsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
@@ -15899,7 +15784,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('dsymv ',info)
+               call stdlib_xerbla('stdlib_dsymv ',info)
                return
            end if
      
@@ -16028,7 +15913,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dsymv
      
      end subroutine stdlib_dsymv
-
      
      
      subroutine stdlib_dsyr(uplo,n,alpha,x,incx,a,lda)
@@ -16076,7 +15960,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('dsyr  ',info)
+               call stdlib_xerbla('stdlib_dsyr  ',info)
                return
            end if
      
@@ -16157,7 +16041,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dsyr
      
      end subroutine stdlib_dsyr
-
      
      
      subroutine stdlib_dsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
@@ -16207,7 +16090,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('dsyr2 ',info)
+               call stdlib_xerbla('stdlib_dsyr2 ',info)
                return
            end if
      
@@ -16306,7 +16189,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dsyr2
      
      end subroutine stdlib_dsyr2
-
      
      
      subroutine stdlib_dsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -16369,7 +16251,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('dsyr2k',info)
+               call stdlib_xerbla('stdlib_dsyr2k',info)
                return
            end if
      
@@ -16505,7 +16387,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dsyr2k
      
      end subroutine stdlib_dsyr2k
-
      
      
      subroutine stdlib_dsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
@@ -16566,7 +16447,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('dsyrk ',info)
+               call stdlib_xerbla('stdlib_dsyrk ',info)
                return
            end if
      
@@ -16696,7 +16577,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dsyrk
      
      end subroutine stdlib_dsyrk
-
      
      
      subroutine stdlib_dtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
@@ -16751,7 +16631,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('dtbmv ',info)
+               call stdlib_xerbla('stdlib_dtbmv ',info)
                return
            end if
      
@@ -16906,7 +16786,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dtbmv
      
      end subroutine stdlib_dtbmv
-
      
      
      subroutine stdlib_dtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
@@ -16961,7 +16840,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('dtbsv ',info)
+               call stdlib_xerbla('stdlib_dtbsv ',info)
                return
            end if
      
@@ -17116,7 +16995,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dtbsv
      
      end subroutine stdlib_dtbsv
-
      
      
      subroutine stdlib_dtpmv(uplo,trans,diag,n,ap,x,incx)
@@ -17164,7 +17042,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('dtpmv ',info)
+               call stdlib_xerbla('stdlib_dtpmv ',info)
                return
            end if
      
@@ -17324,7 +17202,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dtpmv
      
      end subroutine stdlib_dtpmv
-
      
      
      subroutine stdlib_dtpsv(uplo,trans,diag,n,ap,x,incx)
@@ -17372,7 +17249,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('dtpsv ',info)
+               call stdlib_xerbla('stdlib_dtpsv ',info)
                return
            end if
      
@@ -17532,7 +17409,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dtpsv
      
      end subroutine stdlib_dtpsv
-
      
      
      subroutine stdlib_dtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
@@ -17600,7 +17476,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('dtrmm ',info)
+               call stdlib_xerbla('stdlib_dtrmm ',info)
                return
            end if
      
@@ -17768,7 +17644,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dtrmm
      
      end subroutine stdlib_dtrmm
-
      
      
      subroutine stdlib_dtrmv(uplo,trans,diag,n,a,lda,x,incx)
@@ -17821,7 +17696,7 @@ module stdlib_linalg_blas
                info = 8
            end if
            if (info/=0) then
-               call stdlib_xerbla('dtrmv ',info)
+               call stdlib_xerbla('stdlib_dtrmv ',info)
                return
            end if
      
@@ -17961,7 +17836,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dtrmv
      
      end subroutine stdlib_dtrmv
-
      
      
      subroutine stdlib_dtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
@@ -18029,7 +17903,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('dtrsm ',info)
+               call stdlib_xerbla('stdlib_dtrsm ',info)
                return
            end if
      
@@ -18221,7 +18095,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dtrsm
      
      end subroutine stdlib_dtrsm
-
      
      
      subroutine stdlib_dtrsv(uplo,trans,diag,n,a,lda,x,incx)
@@ -18274,7 +18147,7 @@ module stdlib_linalg_blas
                info = 8
            end if
            if (info/=0) then
-               call stdlib_xerbla('dtrsv ',info)
+               call stdlib_xerbla('stdlib_dtrsv ',info)
                return
            end if
      
@@ -18414,7 +18287,6 @@ module stdlib_linalg_blas
            ! end of stdlib_dtrsv
      
      end subroutine stdlib_dtrsv
-
      
      
      integer(int32) function stdlib_icamax(n,cx,incx)
@@ -18473,7 +18345,6 @@ module stdlib_linalg_blas
            ! end of stdlib_icamax
      
      end function stdlib_icamax
-
      
      
      subroutine stdlib_sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
@@ -18530,7 +18401,7 @@ module stdlib_linalg_blas
                info = 13
            end if
            if (info/=0) then
-               call stdlib_xerbla('sgbmv ',info)
+               call stdlib_xerbla('stdlib_sgbmv ',info)
                return
            end if
      
@@ -18655,7 +18526,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sgbmv
      
      end subroutine stdlib_sgbmv
-
      
      
      subroutine stdlib_sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -18731,7 +18601,7 @@ module stdlib_linalg_blas
                info = 13
            end if
            if (info/=0) then
-               call stdlib_xerbla('sgemm ',info)
+               call stdlib_xerbla('stdlib_sgemm ',info)
                return
            end if
      
@@ -18848,7 +18718,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sgemm
      
      end subroutine stdlib_sgemm
-
      
      
      subroutine stdlib_sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
@@ -18901,7 +18770,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('sgemv ',info)
+               call stdlib_xerbla('stdlib_sgemv ',info)
                return
            end if
      
@@ -19019,7 +18888,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sgemv
      
      end subroutine stdlib_sgemv
-
      
      
      subroutine stdlib_sger(m,n,alpha,x,incx,y,incy,a,lda)
@@ -19066,7 +18934,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('sger  ',info)
+               call stdlib_xerbla('stdlib_sger  ',info)
                return
            end if
      
@@ -19116,7 +18984,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sger
      
      end subroutine stdlib_sger
-
      
      
      subroutine stdlib_ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
@@ -19168,7 +19035,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('ssbmv ',info)
+               call stdlib_xerbla('stdlib_ssbmv ',info)
                return
            end if
      
@@ -19305,7 +19172,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ssbmv
      
      end subroutine stdlib_ssbmv
-
      
      
      subroutine stdlib_sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
@@ -19350,7 +19216,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('sspmv ',info)
+               call stdlib_xerbla('stdlib_sspmv ',info)
                return
            end if
      
@@ -19487,7 +19353,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sspmv
      
      end subroutine stdlib_sspmv
-
      
      
      subroutine stdlib_sspr(uplo,n,alpha,x,incx,ap)
@@ -19530,7 +19395,7 @@ module stdlib_linalg_blas
                info = 5
            end if
            if (info/=0) then
-               call stdlib_xerbla('sspr  ',info)
+               call stdlib_xerbla('stdlib_sspr  ',info)
                return
            end if
      
@@ -19619,7 +19484,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sspr
      
      end subroutine stdlib_sspr
-
      
      
      subroutine stdlib_sspr2(uplo,n,alpha,x,incx,y,incy,ap)
@@ -19664,7 +19528,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('sspr2 ',info)
+               call stdlib_xerbla('stdlib_sspr2 ',info)
                return
            end if
      
@@ -19771,7 +19635,6 @@ module stdlib_linalg_blas
            ! end of stdlib_sspr2
      
      end subroutine stdlib_sspr2
-
      
      
      subroutine stdlib_ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -19835,7 +19698,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('ssymm ',info)
+               call stdlib_xerbla('stdlib_ssymm ',info)
                return
            end if
      
@@ -19944,7 +19807,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ssymm
      
      end subroutine stdlib_ssymm
-
      
      
      subroutine stdlib_ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
@@ -19994,7 +19856,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('ssymv ',info)
+               call stdlib_xerbla('stdlib_ssymv ',info)
                return
            end if
      
@@ -20123,7 +19985,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ssymv
      
      end subroutine stdlib_ssymv
-
      
      
      subroutine stdlib_ssyr(uplo,n,alpha,x,incx,a,lda)
@@ -20171,7 +20032,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('ssyr  ',info)
+               call stdlib_xerbla('stdlib_ssyr  ',info)
                return
            end if
      
@@ -20252,7 +20113,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ssyr
      
      end subroutine stdlib_ssyr
-
      
      
      subroutine stdlib_ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
@@ -20302,7 +20162,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('ssyr2 ',info)
+               call stdlib_xerbla('stdlib_ssyr2 ',info)
                return
            end if
      
@@ -20401,7 +20261,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ssyr2
      
      end subroutine stdlib_ssyr2
-
      
      
      subroutine stdlib_ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
@@ -20464,7 +20323,7 @@ module stdlib_linalg_blas
                info = 12
            end if
            if (info/=0) then
-               call stdlib_xerbla('ssyr2k',info)
+               call stdlib_xerbla('stdlib_ssyr2k',info)
                return
            end if
      
@@ -20600,7 +20459,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ssyr2k
      
      end subroutine stdlib_ssyr2k
-
      
      
      subroutine stdlib_ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
@@ -20661,7 +20519,7 @@ module stdlib_linalg_blas
                info = 10
            end if
            if (info/=0) then
-               call stdlib_xerbla('ssyrk ',info)
+               call stdlib_xerbla('stdlib_ssyrk ',info)
                return
            end if
      
@@ -20791,7 +20649,6 @@ module stdlib_linalg_blas
            ! end of stdlib_ssyrk
      
      end subroutine stdlib_ssyrk
-
      
      
      subroutine stdlib_stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
@@ -20846,7 +20703,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('stbmv ',info)
+               call stdlib_xerbla('stdlib_stbmv ',info)
                return
            end if
      
@@ -21001,7 +20858,6 @@ module stdlib_linalg_blas
            ! end of stdlib_stbmv
      
      end subroutine stdlib_stbmv
-
      
      
      subroutine stdlib_stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
@@ -21056,7 +20912,7 @@ module stdlib_linalg_blas
                info = 9
            end if
            if (info/=0) then
-               call stdlib_xerbla('stbsv ',info)
+               call stdlib_xerbla('stdlib_stbsv ',info)
                return
            end if
      
@@ -21211,7 +21067,6 @@ module stdlib_linalg_blas
            ! end of stdlib_stbsv
      
      end subroutine stdlib_stbsv
-
      
      
      subroutine stdlib_stpmv(uplo,trans,diag,n,ap,x,incx)
@@ -21259,7 +21114,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('stpmv ',info)
+               call stdlib_xerbla('stdlib_stpmv ',info)
                return
            end if
      
@@ -21419,7 +21274,6 @@ module stdlib_linalg_blas
            ! end of stdlib_stpmv
      
      end subroutine stdlib_stpmv
-
      
      
      subroutine stdlib_stpsv(uplo,trans,diag,n,ap,x,incx)
@@ -21467,7 +21321,7 @@ module stdlib_linalg_blas
                info = 7
            end if
            if (info/=0) then
-               call stdlib_xerbla('stpsv ',info)
+               call stdlib_xerbla('stdlib_stpsv ',info)
                return
            end if
      
@@ -21627,7 +21481,6 @@ module stdlib_linalg_blas
            ! end of stdlib_stpsv
      
      end subroutine stdlib_stpsv
-
      
      
      subroutine stdlib_strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
@@ -21695,7 +21548,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('strmm ',info)
+               call stdlib_xerbla('stdlib_strmm ',info)
                return
            end if
      
@@ -21863,7 +21716,6 @@ module stdlib_linalg_blas
            ! end of stdlib_strmm
      
      end subroutine stdlib_strmm
-
      
      
      subroutine stdlib_strmv(uplo,trans,diag,n,a,lda,x,incx)
@@ -21916,7 +21768,7 @@ module stdlib_linalg_blas
                info = 8
            end if
            if (info/=0) then
-               call stdlib_xerbla('strmv ',info)
+               call stdlib_xerbla('stdlib_strmv ',info)
                return
            end if
      
@@ -22056,7 +21908,6 @@ module stdlib_linalg_blas
            ! end of stdlib_strmv
      
      end subroutine stdlib_strmv
-
      
      
      subroutine stdlib_strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
@@ -22124,7 +21975,7 @@ module stdlib_linalg_blas
                info = 11
            end if
            if (info/=0) then
-               call stdlib_xerbla('strsm ',info)
+               call stdlib_xerbla('stdlib_strsm ',info)
                return
            end if
      
@@ -22316,7 +22167,6 @@ module stdlib_linalg_blas
            ! end of stdlib_strsm
      
      end subroutine stdlib_strsm
-
      
      
      subroutine stdlib_strsv(uplo,trans,diag,n,a,lda,x,incx)
@@ -22369,7 +22219,7 @@ module stdlib_linalg_blas
                info = 8
            end if
            if (info/=0) then
-               call stdlib_xerbla('strsv ',info)
+               call stdlib_xerbla('stdlib_strsv ',info)
                return
            end if
      
@@ -22509,7 +22359,6 @@ module stdlib_linalg_blas
            ! end of stdlib_strsv
      
      end subroutine stdlib_strsv
-
 
 
 
