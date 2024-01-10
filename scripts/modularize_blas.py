@@ -259,19 +259,24 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH):
 
            while (len(line)>MAX_LINE_LENGTH - 2*len(INDENT)) and not is_comment_line:
               # Find last non-reserved character
-              m = re.search(r'[^a-zA-Z\d\s\.\_\'\"\*\=\<\>\/][a-zA-Z\d\s\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LINE_LENGTH-2])
+              m = re.search(r'[^a-zA-Z\d\.\_\'\"\*\=\<\>\/][a-zA-Z\d\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LINE_LENGTH-2])
+
+              if m is None:
+                  print(m)
+                  print(line)
+                  print("EEEEEEEE")
+                  exit(1)
+
               next = line[m.start()+1:]
               end_line = "&\n" if len(next.strip())>0 else "\n"
-              if continued:
-                  fid.write(INDENT + INDENT + line[:m.start()+1] + end_line)
-                  print("continued line:" + INDENT + INDENT + line[:m.start()+1])
-              else:
-                  fid.write(line[:m.start()+1] + end_line)
-                  print("non      line:" + line[:m.start()+1])
-              # Start with reminder
-              line = next
-              print("reminder line:" + line)
-              if line.strip()=='call stdlib_ssteqr.': exit(1)
+              comment  = "continued" if continued else "non      "
+              fid.write(line[:m.start()+1] + end_line)
+              print(comment+" line:" + line[:m.start()+1])
+
+              # Start with reminder (add same number of trailing spaces
+              nspaces = len(line)-len(line.lstrip(' '))
+              line = (" " * nspaces) + next
+              print("remainder line:" + line)
               continued = True
            if len(line)>0:
                if not continued:
@@ -353,6 +358,12 @@ def replace_f77_types(line,is_free_form):
     new_line = re.sub(r'^\s*LOGICAL ',INDENT+'LOGICAL(lk) ',new_line)
     new_line = re.sub(r'^\s*REAL ',INDENT+'REAL(sp) ',new_line)
     new_line = re.sub(r'^\s*DOUBLE PRECISION ',INDENT+'REAL(dp) ',new_line)
+    new_line = re.sub(r'^\s*COMPLEX\*16,',INDENT+'COMPLEX(dp),',new_line)
+    new_line = re.sub(r'^\s*COMPLEX,',INDENT+'COMPLEX(sp),',new_line)
+    new_line = re.sub(r'^\s*INTEGER,',INDENT+'INTEGER(int32),',new_line)
+    new_line = re.sub(r'^\s*LOGICAL,',INDENT+'LOGICAL(lk),',new_line)
+    new_line = re.sub(r'^\s*REAL,',INDENT+'REAL(sp),',new_line)
+    new_line = re.sub(r'^\s*DOUBLE PRECISION,',INDENT+'REAL(dp),',new_line)
     new_line = new_line.replace("D+000","_dp")
     new_line = new_line.replace("D+00","_dp")
     new_line = new_line.replace("D+0","_dp")
@@ -406,6 +417,7 @@ def is_externals_header(line):
     # Begins with a data type
     ext =    bool(re.match(r'\S\s*.. external functions ..',check_line)) \
           or bool(re.match(r'\S\s*.. external function ..',check_line)) \
+          or bool(re.match(r'\S\s* external functions ',check_line)) \
           or bool(re.match(r'\S\s*.. external subroutines ..',check_line))
 
     return ext
@@ -419,16 +431,20 @@ def is_declaration_line(line):
     is_decl =    check_line.startswith("type ") \
               or check_line.startswith("type(") \
               or check_line.startswith("real ") \
+              or check_line.startswith("real,") \
               or check_line.startswith("real(") \
               or check_line.startswith("real::") \
               or check_line.startswith("double precision ") \
+              or check_line.startswith("double precision,") \
               or check_line.startswith("double precision(") \
               or check_line.startswith("double precision::") \
               or check_line.startswith("doubleprecision") \
               or check_line.startswith("integer ") \
+              or check_line.startswith("integer,") \
               or check_line.startswith("integer(") \
               or check_line.startswith("integer::") \
               or check_line.startswith("complex ") \
+              or check_line.startswith("complex,") \
               or check_line.startswith("complex(") \
               or check_line.startswith("complex::") \
               or check_line.startswith("character ") \
@@ -438,6 +454,7 @@ def is_declaration_line(line):
               or check_line.startswith("character::") \
               or check_line.startswith("logical ") \
               or check_line.startswith("logical(") \
+              or check_line.startswith("logical,") \
               or check_line.startswith("logical::") \
               or check_line.startswith("use ") \
               or check_line.startswith("use,") \
@@ -449,7 +466,7 @@ def is_declaration_line(line):
               or check_line.startswith("parameter ") \
               or check_line.startswith("parameter(") \
               or check_line.startswith("parameter::") \
-              or check_line.startswith("implicit none")
+              or check_line.startswith("implicit ")
 
     return is_decl
 
@@ -460,7 +477,7 @@ def filter_declaration_line(line):
     # Remove all EXTERNAL declarations
     filtered =   check_line.startswith("external ") \
               or check_line.startswith("external::") \
-              or check_line.startswith("implicit none")
+              or check_line.startswith("implicit ")
 
     return filtered
 
@@ -520,7 +537,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     print("Parsing source file "+file_name+" ...")
 
     INDENT = "     "
-    DEBUG  = False#file_name.lower().startswith("dlasyf_rook")
+    DEBUG  = False #file_name.lower().startswith("claqz1")
 
     Procedures = []
 

@@ -337,13 +337,13 @@ module stdlib_linalg_blas
         ! ..
         ! .. scaling constants ..
      real(sp), parameter :: safmin = real(radix(0._sp),wp)**max(minexponent(0._sp)-1,1-&
-          maxexponent(0._sp)   )
+               maxexponent(0._sp)   )
      real(sp), parameter :: safmax = real(radix(0._sp),wp)**max(1-minexponent(0._sp),maxexponent(&
-          0._sp)-1   )
+               0._sp)-1   )
      real(sp), parameter :: rtmin = sqrt( real(radix(0._sp),wp)**max(minexponent(0._sp)-1,1-&
-          maxexponent(0._sp)   ) / epsilon(0._sp) )
+               maxexponent(0._sp)   ) / epsilon(0._sp) )
      real(sp), parameter :: rtmax = sqrt( real(radix(0._sp),wp)**max(1-minexponent(0._sp),&
-          maxexponent(0._sp)-1   ) * epsilon(0._sp) )
+               maxexponent(0._sp)-1   ) * epsilon(0._sp) )
         ! ..
         ! .. scalar arguments ..
         real(sp) :: c
@@ -702,7 +702,7 @@ module stdlib_linalg_blas
               mp1 = m + 1
               do i = mp1,n,6
                  dtemp = dtemp + dabs(dx(i)) + dabs(dx(i+1)) +dabs(dx(i+2)) + dabs(dx(i+3)) +dabs(&
-          dx(i+4)) + dabs(dx(i+5))
+                           dx(i+4)) + dabs(dx(i+5))
               end do
            else
      
@@ -927,8 +927,8 @@ module stdlib_linalg_blas
               end if
               mp1 = m + 1
               do i = mp1,n,5
-               dtemp = dtemp + dx(i)*dy(i) + dx(i+1)*dy(i+1) +dx(i+2)*dy(i+2) + dx(i+3)*dy(i+3) +&
-           dx(i+4)*dy(i+4)
+               dtemp = dtemp + dx(i)*dy(i) + dx(i+1)*dy(i+1) +dx(i+2)*dy(i+2) + dx(i+3)*dy(i+3) + &
+                         dx(i+4)*dy(i+4)
               end do
            else
      
@@ -970,13 +970,13 @@ module stdlib_linalg_blas
         ! ..
         ! .. blue's scaling constants ..
      real(dp), parameter :: tsml = real(radix(0._dp), wp)**ceiling(       (minexponent(0._dp) - 1)&
-           * 0.5_dp)
-     real(dp), parameter :: tbig = real(radix(0._dp), wp)**floor(       (maxexponent(0._dp) -&
-           digits(0._dp) + 1) * 0.5_dp)
-     real(dp), parameter :: ssml = real(radix(0._dp), wp)**( - floor(       (minexponent(0._dp) -&
-           digits(0._dp)) * 0.5_dp))
-     real(dp), parameter :: sbig = real(radix(0._dp), wp)**( - ceiling(       (maxexponent(0._dp)&
-           + digits(0._dp) - 1) * 0.5_dp))
+                * 0.5_dp)
+     real(dp), parameter :: tbig = real(radix(0._dp), wp)**floor(       (maxexponent(0._dp) - &
+               digits(0._dp) + 1) * 0.5_dp)
+     real(dp), parameter :: ssml = real(radix(0._dp), wp)**( - floor(       (minexponent(0._dp) - &
+               digits(0._dp)) * 0.5_dp))
+     real(dp), parameter :: sbig = real(radix(0._dp), wp)**( - ceiling(       (maxexponent(0._dp) &
+               + digits(0._dp) - 1) * 0.5_dp))
         ! ..
         ! .. scalar arguments ..
         integer :: incx, n
@@ -1137,9 +1137,9 @@ module stdlib_linalg_blas
         ! ..
         ! .. scaling constants ..
      real(dp), parameter :: safmin = real(radix(0._dp),wp)**max(minexponent(0._dp)-1,1-&
-          maxexponent(0._dp)   )
+               maxexponent(0._dp)   )
      real(dp), parameter :: safmax = real(radix(0._dp),wp)**max(1-minexponent(0._dp),maxexponent(&
-          0._dp)-1   )
+               0._dp)-1   )
         ! ..
         ! .. scalar arguments ..
         real(dp) :: a, b, c, s
@@ -1309,7 +1309,7 @@ module stdlib_linalg_blas
      
            ! .. local scalars ..
            real(dp) dflag,dh11,dh12,dh21,dh22,dp1,dp2,dq1,dq2,dtemp,du,gam,gamsq,one,rgamsq,two,&
-          zero
+                     zero
            ! ..
            ! .. intrinsic functions ..
            intrinsic dabs
@@ -1721,13 +1721,13 @@ module stdlib_linalg_blas
         ! ..
         ! .. blue's scaling constants ..
      real(dp), parameter :: tsml = real(radix(0._dp), wp)**ceiling(       (minexponent(0._dp) - 1)&
-           * 0.5_dp)
-     real(dp), parameter :: tbig = real(radix(0._dp), wp)**floor(       (maxexponent(0._dp) -&
-           digits(0._dp) + 1) * 0.5_dp)
-     real(dp), parameter :: ssml = real(radix(0._dp), wp)**( - floor(       (minexponent(0._dp) -&
-           digits(0._dp)) * 0.5_dp))
-     real(dp), parameter :: sbig = real(radix(0._dp), wp)**( - ceiling(       (maxexponent(0._dp)&
-           + digits(0._dp) - 1) * 0.5_dp))
+                * 0.5_dp)
+     real(dp), parameter :: tbig = real(radix(0._dp), wp)**floor(       (maxexponent(0._dp) - &
+               digits(0._dp) + 1) * 0.5_dp)
+     real(dp), parameter :: ssml = real(radix(0._dp), wp)**( - floor(       (minexponent(0._dp) - &
+               digits(0._dp)) * 0.5_dp))
+     real(dp), parameter :: sbig = real(radix(0._dp), wp)**( - ceiling(       (maxexponent(0._dp) &
+               + digits(0._dp) - 1) * 0.5_dp))
         ! ..
         ! .. scalar arguments ..
         integer :: incx, n
@@ -2057,12 +2057,10 @@ module stdlib_linalg_blas
               ! ebcdic is assumed - zcode is the ebcdic code of either lower or
               ! upper case 'z'.
      
-               if (&
-          inta>=129 .and. inta<=137 .or.inta>=145 .and. inta<=153 .or.inta>=162 .and. inta<=169)&
-           inta = inta + 64
-               if (&
-          intb>=129 .and. intb<=137 .or.intb>=145 .and. intb<=153 .or.intb>=162 .and. intb<=169)&
-           intb = intb + 64
+               if (inta>=129 .and. inta<=137 .or.inta>=145 .and. inta<=153 .or.inta>=162 .and. &
+                         inta<=169) inta = inta + 64
+               if (intb>=129 .and. intb<=137 .or.intb>=145 .and. intb<=153 .or.intb>=162 .and. &
+                         intb<=169) intb = intb + 64
      
            else if (zcode==218 .or. zcode==250) then
      
@@ -2126,7 +2124,7 @@ module stdlib_linalg_blas
               mp1 = m + 1
               do i = mp1,n,6
                  stemp = stemp + abs(sx(i)) + abs(sx(i+1)) +abs(sx(i+2)) + abs(sx(i+3)) +abs(sx(i+&
-          4)) + abs(sx(i+5))
+                           4)) + abs(sx(i+5))
               end do
            else
      
@@ -2304,13 +2302,13 @@ module stdlib_linalg_blas
         ! ..
         ! .. blue's scaling constants ..
      real(sp), parameter :: tsml = real(radix(0._sp), wp)**ceiling(       (minexponent(0._sp) - 1)&
-           * 0.5_sp)
-     real(sp), parameter :: tbig = real(radix(0._sp), wp)**floor(       (maxexponent(0._sp) -&
-           digits(0._sp) + 1) * 0.5_sp)
-     real(sp), parameter :: ssml = real(radix(0._sp), wp)**( - floor(       (minexponent(0._sp) -&
-           digits(0._sp)) * 0.5_sp))
-     real(sp), parameter :: sbig = real(radix(0._sp), wp)**( - ceiling(       (maxexponent(0._sp)&
-           + digits(0._sp) - 1) * 0.5_sp))
+                * 0.5_sp)
+     real(sp), parameter :: tbig = real(radix(0._sp), wp)**floor(       (maxexponent(0._sp) - &
+               digits(0._sp) + 1) * 0.5_sp)
+     real(sp), parameter :: ssml = real(radix(0._sp), wp)**( - floor(       (minexponent(0._sp) - &
+               digits(0._sp)) * 0.5_sp))
+     real(sp), parameter :: sbig = real(radix(0._sp), wp)**( - ceiling(       (maxexponent(0._sp) &
+               + digits(0._sp) - 1) * 0.5_sp))
         ! ..
         ! .. scalar arguments ..
         integer :: incx, n
@@ -2525,8 +2523,8 @@ module stdlib_linalg_blas
               end if
               mp1 = m + 1
               do i = mp1,n,5
-               stemp = stemp + sx(i)*sy(i) + sx(i+1)*sy(i+1) +sx(i+2)*sy(i+2) + sx(i+3)*sy(i+3) +&
-           sx(i+4)*sy(i+4)
+               stemp = stemp + sx(i)*sy(i) + sx(i+1)*sy(i+1) +sx(i+2)*sy(i+2) + sx(i+3)*sy(i+3) + &
+                         sx(i+4)*sy(i+4)
               end do
            else
      
@@ -2623,13 +2621,13 @@ module stdlib_linalg_blas
         ! ..
         ! .. blue's scaling constants ..
      real(sp), parameter :: tsml = real(radix(0._sp), wp)**ceiling(       (minexponent(0._sp) - 1)&
-           * 0.5_sp)
-     real(sp), parameter :: tbig = real(radix(0._sp), wp)**floor(       (maxexponent(0._sp) -&
-           digits(0._sp) + 1) * 0.5_sp)
-     real(sp), parameter :: ssml = real(radix(0._sp), wp)**( - floor(       (minexponent(0._sp) -&
-           digits(0._sp)) * 0.5_sp))
-     real(sp), parameter :: sbig = real(radix(0._sp), wp)**( - ceiling(       (maxexponent(0._sp)&
-           + digits(0._sp) - 1) * 0.5_sp))
+                * 0.5_sp)
+     real(sp), parameter :: tbig = real(radix(0._sp), wp)**floor(       (maxexponent(0._sp) - &
+               digits(0._sp) + 1) * 0.5_sp)
+     real(sp), parameter :: ssml = real(radix(0._sp), wp)**( - floor(       (minexponent(0._sp) - &
+               digits(0._sp)) * 0.5_sp))
+     real(sp), parameter :: sbig = real(radix(0._sp), wp)**( - ceiling(       (maxexponent(0._sp) &
+               + digits(0._sp) - 1) * 0.5_sp))
         ! ..
         ! .. scalar arguments ..
         integer :: incx, n
@@ -2790,9 +2788,9 @@ module stdlib_linalg_blas
         ! ..
         ! .. scaling constants ..
      real(sp), parameter :: safmin = real(radix(0._sp),wp)**max(minexponent(0._sp)-1,1-&
-          maxexponent(0._sp)   )
+               maxexponent(0._sp)   )
      real(sp), parameter :: safmax = real(radix(0._sp),wp)**max(1-minexponent(0._sp),maxexponent(&
-          0._sp)-1   )
+               0._sp)-1   )
         ! ..
         ! .. scalar arguments ..
         real(sp) :: a, b, c, s
@@ -2962,7 +2960,7 @@ module stdlib_linalg_blas
      
            ! .. local scalars ..
            real(sp) gam,gamsq,one,rgamsq,sflag,sh11,sh12,sh21,sh22,sp1,sp2,sq1,sq2,stemp,su,two,&
-          zero
+                     zero
            ! ..
            ! .. intrinsic functions ..
            intrinsic abs
@@ -3274,6 +3272,7 @@ module stdlib_linalg_blas
            stop
      
       9999 format( ' ** on entry to ', a, ' parameter number ', i2, ' had ','an illegal value' )
+                
      
            ! end of stdlib_xerbla
      
@@ -3675,8 +3674,8 @@ module stdlib_linalg_blas
            ! test the input parameters.
      
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 1
            else if (m<0) then
                info = 2
@@ -3897,8 +3896,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.nota) .and. (.not.conja) .and.(.not.stdlib_lsame(transa,'t'))) then
                info = 1
-           else if ((.not.notb) .and. (.not.conjb) .and.(.not.stdlib_lsame(transb,'t')))&
-           then
+           else if ((.not.notb) .and. (.not.conjb) .and.(.not.stdlib_lsame(transb,'t'))) &
+                     then
                info = 2
            else if (m<0) then
                info = 3
@@ -3920,8 +3919,8 @@ module stdlib_linalg_blas
      
            ! quick return if possible.
      
-           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one)))&
-           return
+           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one))) &
+                     return
      
            ! and when  alpha.eq.zero.
      
@@ -4165,8 +4164,8 @@ module stdlib_linalg_blas
            ! test the input parameters.
      
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 1
            else if (m<0) then
                info = 2
@@ -5407,8 +5406,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c')))&
-           then
+           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c'))) &
+                     then
                info = 2
            else if (n<0) then
                info = 3
@@ -5544,7 +5543,7 @@ module stdlib_linalg_blas
                                    c(j,j) = dble(alpha*temp1+dconjg(alpha)*temp2)
                                else
                                    c(j,j) = beta*dble(c(j,j)) +dble(alpha*temp1+dconjg(alpha)&
-          *temp2)
+                                             *temp2)
                                end if
                            else
                                if (beta==dble(zero)) then
@@ -5569,7 +5568,7 @@ module stdlib_linalg_blas
                                    c(j,j) = dble(alpha*temp1+dconjg(alpha)*temp2)
                                else
                                    c(j,j) = beta*dble(c(j,j)) +dble(alpha*temp1+dconjg(alpha)&
-          *temp2)
+                                             *temp2)
                                end if
                            else
                                if (beta==dble(zero)) then
@@ -5637,8 +5636,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c')))&
-           then
+           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c'))) &
+                     then
                info = 2
            else if (n<0) then
                info = 3
@@ -6326,13 +6325,13 @@ module stdlib_linalg_blas
         ! ..
         ! .. scaling constants ..
      real(dp), parameter :: safmin = real(radix(0._dp),wp)**max(minexponent(0._dp)-1,1-&
-          maxexponent(0._dp)   )
+               maxexponent(0._dp)   )
      real(dp), parameter :: safmax = real(radix(0._dp),wp)**max(1-minexponent(0._dp),maxexponent(&
-          0._dp)-1   )
+               0._dp)-1   )
      real(dp), parameter :: rtmin = sqrt( real(radix(0._dp),wp)**max(minexponent(0._dp)-1,1-&
-          maxexponent(0._dp)   ) / epsilon(0._dp) )
+               maxexponent(0._dp)   ) / epsilon(0._dp) )
      real(dp), parameter :: rtmax = sqrt( real(radix(0._dp),wp)**max(1-minexponent(0._dp),&
-          maxexponent(0._dp)-1   ) * epsilon(0._dp) )
+               maxexponent(0._dp)-1   ) * epsilon(0._dp) )
         ! ..
         ! .. scalar arguments ..
         real(dp) :: c
@@ -6765,8 +6764,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t')))&
-           then
+           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t'))) &
+                     then
                info = 2
            else if (n<0) then
                info = 3
@@ -6966,8 +6965,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t')))&
-           then
+           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t'))) &
+                     then
                info = 2
            else if (n<0) then
                info = 3
@@ -7149,8 +7148,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -7390,8 +7389,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -7631,8 +7630,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -7875,8 +7874,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -8135,10 +8134,10 @@ module stdlib_linalg_blas
            else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 2
            else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-          .not.stdlib_lsame(transa,'c'))) then
+                     .not.stdlib_lsame(transa,'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n')))&
-           then
+           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+                     then
                info = 4
            else if (m<0) then
                info = 5
@@ -8392,8 +8391,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -8632,10 +8631,10 @@ module stdlib_linalg_blas
            else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 2
            else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-          .not.stdlib_lsame(transa,'c'))) then
+                     .not.stdlib_lsame(transa,'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n')))&
-           then
+           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+                     then
                info = 4
            else if (m<0) then
                info = 5
@@ -8911,8 +8910,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -9190,8 +9189,8 @@ module stdlib_linalg_blas
            ! test the input parameters.
      
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 1
            else if (m<0) then
                info = 2
@@ -9412,8 +9411,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.nota) .and. (.not.conja) .and.(.not.stdlib_lsame(transa,'t'))) then
                info = 1
-           else if ((.not.notb) .and. (.not.conjb) .and.(.not.stdlib_lsame(transb,'t')))&
-           then
+           else if ((.not.notb) .and. (.not.conjb) .and.(.not.stdlib_lsame(transb,'t'))) &
+                     then
                info = 2
            else if (m<0) then
                info = 3
@@ -9435,8 +9434,8 @@ module stdlib_linalg_blas
      
            ! quick return if possible.
      
-           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one)))&
-           return
+           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one))) &
+                     return
      
            ! and when  alpha.eq.zero.
      
@@ -9680,8 +9679,8 @@ module stdlib_linalg_blas
            ! test the input parameters.
      
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 1
            else if (m<0) then
                info = 2
@@ -10922,8 +10921,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c')))&
-           then
+           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c'))) &
+                     then
                info = 2
            else if (n<0) then
                info = 3
@@ -11059,7 +11058,7 @@ module stdlib_linalg_blas
                                    c(j,j) = real(alpha*temp1+conjg(alpha)*temp2)
                                else
                                    c(j,j) = beta*real(c(j,j)) +real(alpha*temp1+conjg(alpha)&
-          *temp2)
+                                             *temp2)
                                end if
                            else
                                if (beta==real(zero)) then
@@ -11084,7 +11083,7 @@ module stdlib_linalg_blas
                                    c(j,j) = real(alpha*temp1+conjg(alpha)*temp2)
                                else
                                    c(j,j) = beta*real(c(j,j)) +real(alpha*temp1+conjg(alpha)&
-          *temp2)
+                                             *temp2)
                                end if
                            else
                                if (beta==real(zero)) then
@@ -11152,8 +11151,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c')))&
-           then
+           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c'))) &
+                     then
                info = 2
            else if (n<0) then
                info = 3
@@ -12049,8 +12048,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t')))&
-           then
+           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t'))) &
+                     then
                info = 2
            else if (n<0) then
                info = 3
@@ -12250,8 +12249,8 @@ module stdlib_linalg_blas
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t')))&
-           then
+           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t'))) &
+                     then
                info = 2
            else if (n<0) then
                info = 3
@@ -12433,8 +12432,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -12674,8 +12673,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -12915,8 +12914,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -13159,8 +13158,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -13419,10 +13418,10 @@ module stdlib_linalg_blas
            else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 2
            else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-          .not.stdlib_lsame(transa,'c'))) then
+                     .not.stdlib_lsame(transa,'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n')))&
-           then
+           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+                     then
                info = 4
            else if (m<0) then
                info = 5
@@ -13676,8 +13675,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -13916,10 +13915,10 @@ module stdlib_linalg_blas
            else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 2
            else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-          .not.stdlib_lsame(transa,'c'))) then
+                     .not.stdlib_lsame(transa,'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n')))&
-           then
+           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+                     then
                info = 4
            else if (m<0) then
                info = 5
@@ -14195,8 +14194,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -14417,8 +14416,8 @@ module stdlib_linalg_blas
            ! test the input parameters.
      
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 1
            else if (m<0) then
                info = 2
@@ -14618,10 +14617,10 @@ module stdlib_linalg_blas
      
            info = 0
            if ((.not.nota) .and. (.not.stdlib_lsame(transa,'c')) .and.(.not.stdlib_lsame(transa,&
-          't'))) then
+                     't'))) then
                info = 1
            else if ((.not.notb) .and. (.not.stdlib_lsame(transb,'c')) .and.(.not.stdlib_lsame(&
-          transb,'t'))) then
+                     transb,'t'))) then
                info = 2
            else if (m<0) then
                info = 3
@@ -14643,8 +14642,8 @@ module stdlib_linalg_blas
      
            ! quick return if possible.
      
-           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one)))&
-           return
+           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one))) &
+                     return
      
            ! and if  alpha.eq.zero.
      
@@ -14792,8 +14791,8 @@ module stdlib_linalg_blas
            ! test the input parameters.
      
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 1
            else if (m<0) then
                info = 2
@@ -16356,7 +16355,7 @@ module stdlib_linalg_blas
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
            else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t')) .and.(&
-          .not.stdlib_lsame(trans,'c'))) then
+                     .not.stdlib_lsame(trans,'c'))) then
                info = 2
            else if (n<0) then
                info = 3
@@ -16555,7 +16554,7 @@ module stdlib_linalg_blas
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
            else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t')) .and.(&
-          .not.stdlib_lsame(trans,'c'))) then
+                     .not.stdlib_lsame(trans,'c'))) then
                info = 2
            else if (n<0) then
                info = 3
@@ -16737,8 +16736,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -16947,8 +16946,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -17154,8 +17153,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -17362,8 +17361,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -17586,10 +17585,10 @@ module stdlib_linalg_blas
            else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 2
            else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-          .not.stdlib_lsame(transa,'c'))) then
+                     .not.stdlib_lsame(transa,'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n')))&
-           then
+           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+                     then
                info = 4
            else if (m<0) then
                info = 5
@@ -17809,8 +17808,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -18015,10 +18014,10 @@ module stdlib_linalg_blas
            else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 2
            else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-          .not.stdlib_lsame(transa,'c'))) then
+                     .not.stdlib_lsame(transa,'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n')))&
-           then
+           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+                     then
                info = 4
            else if (m<0) then
                info = 5
@@ -18262,8 +18261,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -18512,8 +18511,8 @@ module stdlib_linalg_blas
            ! test the input parameters.
      
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 1
            else if (m<0) then
                info = 2
@@ -18713,10 +18712,10 @@ module stdlib_linalg_blas
      
            info = 0
            if ((.not.nota) .and. (.not.stdlib_lsame(transa,'c')) .and.(.not.stdlib_lsame(transa,&
-          't'))) then
+                     't'))) then
                info = 1
            else if ((.not.notb) .and. (.not.stdlib_lsame(transb,'c')) .and.(.not.stdlib_lsame(&
-          transb,'t'))) then
+                     transb,'t'))) then
                info = 2
            else if (m<0) then
                info = 3
@@ -18738,8 +18737,8 @@ module stdlib_linalg_blas
      
            ! quick return if possible.
      
-           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one)))&
-           return
+           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one))) &
+                     return
      
            ! and if  alpha.eq.zero.
      
@@ -18887,8 +18886,8 @@ module stdlib_linalg_blas
            ! test the input parameters.
      
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 1
            else if (m<0) then
                info = 2
@@ -20451,7 +20450,7 @@ module stdlib_linalg_blas
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
            else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t')) .and.(&
-          .not.stdlib_lsame(trans,'c'))) then
+                     .not.stdlib_lsame(trans,'c'))) then
                info = 2
            else if (n<0) then
                info = 3
@@ -20650,7 +20649,7 @@ module stdlib_linalg_blas
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
            else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t')) .and.(&
-          .not.stdlib_lsame(trans,'c'))) then
+                     .not.stdlib_lsame(trans,'c'))) then
                info = 2
            else if (n<0) then
                info = 3
@@ -20832,8 +20831,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -21042,8 +21041,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -21249,8 +21248,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -21457,8 +21456,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -21681,10 +21680,10 @@ module stdlib_linalg_blas
            else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 2
            else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-          .not.stdlib_lsame(transa,'c'))) then
+                     .not.stdlib_lsame(transa,'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n')))&
-           then
+           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+                     then
                info = 4
            else if (m<0) then
                info = 5
@@ -21904,8 +21903,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
@@ -22110,10 +22109,10 @@ module stdlib_linalg_blas
            else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 2
            else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-          .not.stdlib_lsame(transa,'c'))) then
+                     .not.stdlib_lsame(transa,'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n')))&
-           then
+           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+                     then
                info = 4
            else if (m<0) then
                info = 5
@@ -22357,8 +22356,8 @@ module stdlib_linalg_blas
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
-           .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
+                     .and..not.stdlib_lsame(trans,'c')) then
                info = 2
            else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
                info = 3
