@@ -166,36 +166,36 @@ module stdlib_linalg_blas
      
      
      subroutine stdlib_ccopy(n,cx,incx,cy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) cx(*),cy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1,n
                  cy(i) = cx(i)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -207,50 +207,50 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_ccopy
-     !
+     
+           ! end of stdlib_ccopy
+     
      end subroutine stdlib_ccopy
 
      
      
      complex(sp) function stdlib_cdotc(n,cx,incx,cy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) cx(*),cy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            complex(sp) ctemp
            integer(int32) i,ix,iy
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic conjg
-     !     ..
+           ! ..
            ctemp = (0.0,0.0)
            stdlib_cdotc = (0.0,0.0)
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1,n
                  ctemp = ctemp + conjg(cx(i))*cy(i)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -263,47 +263,47 @@ module stdlib_linalg_blas
            end if
            stdlib_cdotc = ctemp
            return
-     !
-     !     end of stdlib_cdotc
-     !
+     
+           ! end of stdlib_cdotc
+     
      end function stdlib_cdotc
 
      
      
      complex(sp) function stdlib_cdotu(n,cx,incx,cy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) cx(*),cy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            complex(sp) ctemp
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
            ctemp = (0.0,0.0)
            stdlib_cdotu = (0.0,0.0)
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1,n
                  ctemp = ctemp + cx(i)*cy(i)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -316,26 +316,26 @@ module stdlib_linalg_blas
            end if
            stdlib_cdotu = ctemp
            return
-     !
-     !     end of stdlib_cdotu
-     !
+     
+           ! end of stdlib_cdotu
+     
      end function stdlib_cdotu
 
      
      
      subroutine stdlib_crotg( a, b, c, s )
         integer, parameter :: wp = kind(1.e0)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !  .. constants ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+        ! .. constants ..
         real(sp), parameter ::szero = 0.0_sp
         real(sp), parameter :: sone  = 1.0_sp
         complex(sp), parameter :: czero  = 0.0_sp
-     !  ..
-     !  .. scaling constants ..
+        ! ..
+        ! .. scaling constants ..
      real(sp), parameter :: safmin = real(radix(0._sp),wp)**max(minexponent(0._sp)-1,1-&
           maxexponent(0._sp)   )
      real(sp), parameter :: safmax = real(radix(0._sp),wp)**max(1-minexponent(0._sp),maxexponent(&
@@ -344,26 +344,26 @@ module stdlib_linalg_blas
           maxexponent(0._sp)   ) / epsilon(0._sp) )
      real(sp), parameter :: rtmax = sqrt( real(radix(0._sp),wp)**max(1-minexponent(0._sp),&
           maxexponent(0._sp)-1   ) * epsilon(0._sp) )
-     !  ..
-     !  .. scalar arguments ..
+        ! ..
+        ! .. scalar arguments ..
         real(sp) :: c
         complex(sp) :: a, b, s
-     !  ..
-     !  .. local scalars ..
+        ! ..
+        ! .. local scalars ..
         real(sp) :: d, f1, f2, g1, g2, h2, p, u, uu, v, vv, w
         complex(sp) :: f, fs, g, gs, r, t
-     !  ..
-     !  .. intrinsic functions ..
+        ! ..
+        ! .. intrinsic functions ..
         intrinsic :: abs, aimag, conjg, max, min, real, sqrt
-     !  ..
-     !  .. statement functions ..
+        ! ..
+        ! .. statement functions ..
         real(sp) :: abssq
-     !  ..
-     !  .. statement function definitions ..
+        ! ..
+        ! .. statement function definitions ..
         abssq( t ) = real( t )**2 + aimag( t )**2
-     !  ..
-     !  .. executable statements ..
-     !
+        ! ..
+        ! .. executable statements ..
+     
         f = a
         g = b
         if( g == czero ) then
@@ -374,17 +374,17 @@ module stdlib_linalg_blas
            c =szero
            g1 = max( abs(real(g)), abs(aimag(g)) )
            if( g1 > rtmin .and. g1 < rtmax ) then
-     !
-     !        use unscaled algorithm
-     !
+     
+              ! use unscaled algorithm
+     
               g2 = abssq( g )
               d = sqrt( g2 )
               s = conjg( g ) / d
               r = d
            else
-     !
-     !        use scaled algorithm
-     !
+     
+              ! use scaled algorithm
+     
               u = min( safmax, max( safmin, g1 ) )
               uu = sone / u
               gs = g*uu
@@ -397,9 +397,9 @@ module stdlib_linalg_blas
            f1 = max( abs(real(f)), abs(aimag(f)) )
            g1 = max( abs(real(g)), abs(aimag(g)) )
      if( f1 > rtmin .and. f1 < rtmax .and.          g1 > rtmin .and. g1 < rtmax ) then
-     !
-     !        use unscaled algorithm
-     !
+     
+              ! use unscaled algorithm
+     
               f2 = abssq( f )
               g2 = abssq( g )
               h2 = f2 + g2
@@ -413,18 +413,18 @@ module stdlib_linalg_blas
               s = conjg( g )*( f*p )
               r = f*( h2*p )
            else
-     !
-     !        use scaled algorithm
-     !
+     
+              ! use scaled algorithm
+     
               u = min( safmax, max( safmin, f1, g1 ) )
               uu = sone / u
               gs = g*uu
               g2 = abssq( gs )
               if( f1*uu < rtmin ) then
-     !
-     !           f is not well-scaled when scaled by g1.
-     !           use a different scaling for f.
-     !
+     
+                 ! f is not well-scaled when scaled by g1.
+                 ! use a different scaling for f.
+     
                  v = min( safmax, max( safmin, f1 ) )
                  vv = sone / v
                  w = v * uu
@@ -432,9 +432,9 @@ module stdlib_linalg_blas
                  f2 = abssq( fs )
                  h2 = f2*w**2 + g2
               else
-     !
-     !           otherwise use the same scaling for f and g.
-     !
+     
+                 ! otherwise use the same scaling for f and g.
+     
                  w = sone
                  fs = f*uu
                  f2 = abssq( fs )
@@ -458,86 +458,86 @@ module stdlib_linalg_blas
      
      
      subroutine stdlib_cscal(n,ca,cx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) ca
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) cx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,nincx
-     !     ..
+           ! ..
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               do i = 1,n
                  cx(i) = ca*cx(i)
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  cx(i) = ca*cx(i)
               end do
            end if
            return
-     !
-     !     end of stdlib_cscal
-     !
+     
+           ! end of stdlib_cscal
+     
      end subroutine stdlib_cscal
 
      
      
      subroutine stdlib_csrot( n, cx, incx, cy, incy, c, s )
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32)           incx, incy, n
            real(sp)              c, s
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp)           cx( * ), cy( * )
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32)           i, ix, iy
            complex(sp)           ctemp
-     !     ..
-     !     .. executable statements ..
-     !
+           ! ..
+           ! .. executable statements ..
+     
            if( n<=0 )return
            if( incx==1 .and. incy==1 ) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1, n
                  ctemp = c*cx( i ) + s*cy( i )
                  cy( i ) = c*cy( i ) - s*cx( i )
                  cx( i ) = ctemp
               end do
            else
-     !
-     !        code for unequal increments or equal increments not equal
-     !          to 1
-     !
+     
+              ! code for unequal increments or equal increments not equal
+                ! to 1
+     
               ix = 1
               iy = 1
               if( incx<0 )ix = ( -n+1 )*incx + 1
@@ -551,93 +551,93 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_csrot
-     !
+     
+           ! end of stdlib_csrot
+     
      end subroutine stdlib_csrot
 
      
      
      subroutine stdlib_csscal(n,sa,cx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) sa
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) cx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,nincx
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic aimag,cmplx,real
-     !     ..
+           ! ..
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               do i = 1,n
                  cx(i) = cmplx(sa*real(cx(i)),sa*aimag(cx(i)))
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  cx(i) = cmplx(sa*real(cx(i)),sa*aimag(cx(i)))
               end do
            end if
            return
-     !
-     !     end of stdlib_csscal
-     !
+     
+           ! end of stdlib_csscal
+     
      end subroutine stdlib_csscal
 
      
      
      subroutine stdlib_cswap(n,cx,incx,cy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) cx(*),cy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            complex(sp) ctemp
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !       code for both increments equal to 1
+     
+             ! code for both increments equal to 1
               do i = 1,n
                  ctemp = cx(i)
                  cx(i) = cy(i)
                  cy(i) = ctemp
               end do
            else
-     !
-     !       code for unequal increments or equal increments not equal
-     !         to 1
-     !
+     
+             ! code for unequal increments or equal increments not equal
+               ! to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -651,44 +651,44 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_cswap
-     !
+     
+           ! end of stdlib_cswap
+     
      end subroutine stdlib_cswap
 
      
      
      real(dp) function stdlib_dasum(n,dx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(dp) dtemp
            integer(int32) i,m,mp1,nincx
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic dabs,mod
-     !     ..
+           ! ..
            stdlib_dasum = 0.0d0
            dtemp = 0.0d0
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !        code for increment equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+              ! code for increment equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,6)
               if (m/=0) then
                  do i = 1,m
@@ -705,9 +705,9 @@ module stdlib_linalg_blas
           dx(i+4)) + dabs(dx(i+5))
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  dtemp = dtemp + dabs(dx(i))
@@ -715,44 +715,44 @@ module stdlib_linalg_blas
            end if
            stdlib_dasum = dtemp
            return
-     !
-     !     end of stdlib_dasum
-     !
+     
+           ! end of stdlib_dasum
+     
      end function stdlib_dasum
 
      
      
      subroutine stdlib_daxpy(n,da,dx,incx,dy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) da
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dx(*),dy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,ix,iy,m,mp1
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            if (n<=0) return
            if (da==0.0d0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+     
+              ! code for both increments equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,4)
               if (m/=0) then
                  do i = 1,m
@@ -768,10 +768,10 @@ module stdlib_linalg_blas
                  dy(i+3) = dy(i+3) + da*dx(i+3)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -783,66 +783,66 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_daxpy
-     !
+     
+           ! end of stdlib_daxpy
+     
      end subroutine stdlib_daxpy
 
      
      
      real(dp) function stdlib_dcabs1(z)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) z
-     !     ..
-     !     ..
-     !  =====================================================================
-     !
-     !     .. intrinsic functions ..
+           ! ..
+           ! ..
+        ! =====================================================================
+     
+           ! .. intrinsic functions ..
            intrinsic abs,dble,dimag
-     !
+     
            stdlib_dcabs1 = abs(dble(z)) + abs(dimag(z))
            return
-     !
-     !     end of stdlib_dcabs1
-     !
+     
+           ! end of stdlib_dcabs1
+     
      end function stdlib_dcabs1
 
      
      
      subroutine stdlib_dcopy(n,dx,incx,dy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dx(*),dy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,ix,iy,m,mp1
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+     
+              ! code for both increments equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,7)
               if (m/=0) then
                  do i = 1,m
@@ -861,10 +861,10 @@ module stdlib_linalg_blas
                  dy(i+6) = dx(i+6)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -876,45 +876,45 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_dcopy
-     !
+     
+           ! end of stdlib_dcopy
+     
      end subroutine stdlib_dcopy
 
      
      
      real(dp) function stdlib_ddot(n,dx,incx,dy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dx(*),dy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(dp) dtemp
            integer(int32) i,ix,iy,m,mp1
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            stdlib_ddot = 0.0d0
            dtemp = 0.0d0
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+     
+              ! code for both increments equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,5)
               if (m/=0) then
                  do i = 1,m
@@ -931,10 +931,10 @@ module stdlib_linalg_blas
            dx(i+4)*dy(i+4)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -947,9 +947,9 @@ module stdlib_linalg_blas
            end if
            stdlib_ddot = dtemp
            return
-     !
-     !     end of stdlib_ddot
-     !
+     
+           ! end of stdlib_ddot
+     
      end function stdlib_ddot
 
      
@@ -957,18 +957,18 @@ module stdlib_linalg_blas
      function stdlib_dnrm2( n, x, incx )
         integer, parameter :: wp = kind(1.d0)
         real(dp) :: stdlib_dnrm2
-     !
-     !  -- reference blas level1 routine (version 3.9.1) --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !     march 2021
-     !
-     !  .. constants ..
+     
+        ! -- reference blas level1 routine (version 3.9.1) --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! march 2021
+     
+        ! .. constants ..
         real(dp), parameter ::dzero = 0.0_dp
         real(dp), parameter :: done  = 1.0_dp
         real(dp), parameter :: maxn = huge(0.0_dp)
-     !  ..
-     !  .. blue's scaling constants ..
+        ! ..
+        ! .. blue's scaling constants ..
      real(dp), parameter :: tsml = real(radix(0._dp), wp)**ceiling(       (minexponent(0._dp) - 1)&
            * 0.5_dp)
      real(dp), parameter :: tbig = real(radix(0._dp), wp)**floor(       (maxexponent(0._dp) -&
@@ -977,34 +977,34 @@ module stdlib_linalg_blas
            digits(0._dp)) * 0.5_dp))
      real(dp), parameter :: sbig = real(radix(0._dp), wp)**( - ceiling(       (maxexponent(0._dp)&
            + digits(0._dp) - 1) * 0.5_dp))
-     !  ..
-     !  .. scalar arguments ..
+        ! ..
+        ! .. scalar arguments ..
         integer :: incx, n
-     !  ..
-     !  .. array arguments ..
+        ! ..
+        ! .. array arguments ..
         real(dp) :: x(*)
-     !  ..
-     !  .. local scalars ..
+        ! ..
+        ! .. local scalars ..
         integer :: i, ix
         logical :: notbig
         real(dp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
-     !
-     !  quick return if possible
-     !
+     
+        ! quick return if possible
+     
         stdlib_dnrm2 =dzero
         if( n <= 0 ) return
-     !
+     
         scl = done
         sumsq =dzero
-     !
-     !  compute the sum of squares in 3 accumulators:
-     !     abig -- sums of squares scaled down to avoid overflow
-     !     asml -- sums of squares scaled up to avoid underflow
-     !     amed -- sums of squares that do not require scaling
-     !  the thresholds and multipliers are
-     !     tbig -- values bigger than this are scaled down by sbig
-     !     tsml -- values smaller than this are scaled up by ssml
-     !
+     
+        ! compute the sum of squares in 3 accumulators:
+           ! abig -- sums of squares scaled down to avoid overflow
+           ! asml -- sums of squares scaled up to avoid underflow
+           ! amed -- sums of squares that do not require scaling
+        ! the thresholds and multipliers are
+           ! tbig -- values bigger than this are scaled down by sbig
+           ! tsml -- values smaller than this are scaled up by ssml
+     
         notbig = .true.
         asml =dzero
         amed =dzero
@@ -1023,23 +1023,23 @@ module stdlib_linalg_blas
            end if
            ix = ix + incx
         end do
-     !
-     !  combine abig and amed or amed and asml if more than done
-     !  accumulator was used.
-     !
+     
+        ! combine abig and amed or amed and asml if more than done
+        ! accumulator was used.
+     
         if (abig >dzero) then
-     !
-     !     combine abig and amed if abig > 0.
-     !
+     
+           ! combine abig and amed if abig > 0.
+     
            if ( (amed >dzero) .or. (amed > maxn) .or. (amed /= amed) ) then
               abig = abig + (amed*sbig)*sbig
            end if
            scl = done / sbig
            sumsq = abig
         else if (asml >dzero) then
-     !
-     !     combine amed and asml if asml > 0.
-     !
+     
+           ! combine amed and asml if asml > 0.
+     
            if ( (amed >dzero) .or. (amed > maxn) .or. (amed /= amed) ) then
               amed = sqrt(amed)
               asml = sqrt(asml) / ssml
@@ -1057,9 +1057,9 @@ module stdlib_linalg_blas
               sumsq = asml
            end if
         else
-     !
-     !     otherwise all values are mid-range
-     !
+     
+           ! otherwise all values are mid-range
+     
            scl = done
            sumsq = amed
         end if
@@ -1070,40 +1070,40 @@ module stdlib_linalg_blas
      
      
      subroutine stdlib_drot(n,dx,incx,dy,incy,c,s)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) c,s
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dx(*),dy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(dp) dtemp
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !       code for both increments equal to 1
-     !
+     
+             ! code for both increments equal to 1
+     
               do i = 1,n
                  dtemp = c*dx(i) + s*dy(i)
                  dy(i) = c*dy(i) - s*dx(i)
                  dx(i) = dtemp
               end do
            else
-     !
-     !       code for unequal increments or equal increments not equal
-     !         to 1
-     !
+     
+             ! code for unequal increments or equal increments not equal
+               ! to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -1117,36 +1117,36 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_drot
-     !
+     
+           ! end of stdlib_drot
+     
      end subroutine stdlib_drot
 
      
      
      subroutine stdlib_drotg( a, b, c, s )
         integer, parameter :: wp = kind(1.d0)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !  .. constants ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+        ! .. constants ..
         real(dp), parameter ::dzero = 0.0_dp
         real(dp), parameter :: done  = 1.0_dp
-     !  ..
-     !  .. scaling constants ..
+        ! ..
+        ! .. scaling constants ..
      real(dp), parameter :: safmin = real(radix(0._dp),wp)**max(minexponent(0._dp)-1,1-&
           maxexponent(0._dp)   )
      real(dp), parameter :: safmax = real(radix(0._dp),wp)**max(1-minexponent(0._dp),maxexponent(&
           0._dp)-1   )
-     !  ..
-     !  .. scalar arguments ..
+        ! ..
+        ! .. scalar arguments ..
         real(dp) :: a, b, c, s
-     !  ..
-     !  .. local scalars ..
+        ! ..
+        ! .. local scalars ..
         real(dp) :: anorm, bnorm, scl, sigma, r, z
-     !  ..
+        ! ..
         anorm = abs(a)
         bnorm = abs(b)
         if( bnorm ==dzero ) then
@@ -1184,32 +1184,32 @@ module stdlib_linalg_blas
      
      
      subroutine stdlib_drotm(n,dx,incx,dy,incy,dparam)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dparam(5),dx(*),dy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(dp) dflag,dh11,dh12,dh21,dh22,two,w,z,zero
            integer(int32) i,kx,ky,nsteps
-     !     ..
-     !     .. data statements ..
+           ! ..
+           ! .. data statements ..
            data zero,two/0.d0,2.d0/
-     !     ..
-     !
+           ! ..
+     
            dflag = dparam(1)
            if (n<=0 .or. (dflag+two==zero)) return
            if (incx==incy.and.incx>0) then
-     !
+     
               nsteps = n*incx
               if (dflag<zero) then
                  dh11 = dparam(2)
@@ -1246,7 +1246,7 @@ module stdlib_linalg_blas
               ky = 1
               if (incx<0) kx = 1 + (1-n)*incx
               if (incy<0) ky = 1 + (1-n)*incy
-     !
+     
               if (dflag<zero) then
                  dh11 = dparam(2)
                  dh12 = dparam(4)
@@ -1285,100 +1285,98 @@ module stdlib_linalg_blas
               end if
            end if
            return
-     !
-     !     end of stdlib_drotm
-     !
+     
+           ! end of stdlib_drotm
+     
      end subroutine stdlib_drotm
 
      
      
      subroutine stdlib_drotmg(dd1,dd2,dx1,dy1,dparam)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) dd1,dd2,dx1,dy1
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dparam(5)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(dp) dflag,dh11,dh12,dh21,dh22,dp1,dp2,dq1,dq2,dtemp,du,gam,gamsq,one,rgamsq,two,&
           zero
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic dabs
-     !     ..
-     !     .. data statements ..
-     !
+           ! ..
+           ! .. data statements ..
+     
            data zero,one,two/0.d0,1.d0,2.d0/
            data gam,gamsq,rgamsq/4096.d0,16777216.d0,5.9604645d-8/
-     !     ..
-     
+           ! ..
            if (dd1<zero) then
-     !        go zero-h-d-and-dx1..
+              ! go zero-h-d-and-dx1..
               dflag = -one
               dh11 = zero
               dh12 = zero
               dh21 = zero
               dh22 = zero
-     !
+     
               dd1 = zero
               dd2 = zero
               dx1 = zero
            else
-     !        case-dd1-nonnegative
+              ! case-dd1-nonnegative
               dp2 = dd2*dy1
               if (dp2==zero) then
                  dflag = -two
                  dparam(1) = dflag
                  return
               end if
-     !        regular-case..
+              ! regular-case..
               dp1 = dd1*dx1
               dq2 = dp2*dy1
               dq1 = dp1*dx1
-     !
+     
               if (dabs(dq1)>dabs(dq2)) then
                  dh21 = -dy1/dx1
                  dh12 = dp2/dp1
-     !
+     
                  du = one - dh12*dh21
-     !
+     
                 if (du>zero) then
                   dflag = zero
                   dd1 = dd1/du
                   dd2 = dd2/du
                   dx1 = dx1*du
                 else
-     !            this code path if here for safety. we do not expect this
-     !            condition to ever hold except in edge cases with rounding
-     !            errors. see doi: 10.1145/355841.355847
+                  ! this code path if here for safety. we do not expect this
+                  ! condition to ever hold except in edge cases with rounding
+                  ! errors. see doi: 10.1145/355841.355847
                   dflag = -one
                   dh11 = zero
                   dh12 = zero
                   dh21 = zero
                   dh22 = zero
-     !
+     
                   dd1 = zero
                   dd2 = zero
                   dx1 = zero
                 end if
               else
-     
                  if (dq2<zero) then
-     !              go zero-h-d-and-dx1..
+                    ! go zero-h-d-and-dx1..
                     dflag = -one
                     dh11 = zero
                     dh12 = zero
                     dh21 = zero
                     dh22 = zero
-     !
+     
                     dd1 = zero
                     dd2 = zero
                     dx1 = zero
@@ -1393,8 +1391,7 @@ module stdlib_linalg_blas
                     dx1 = dy1*du
                  end if
               end if
-     
-     !     procedure..scale-check
+           ! procedure..scale-check
               if (dd1/=zero) then
                  do while ((dd1<=rgamsq) .or. (dd1>=gamsq))
                     if (dflag==zero) then
@@ -1419,7 +1416,6 @@ module stdlib_linalg_blas
                     end if
                  enddo
               end if
-     
               if (dd2/=zero) then
                  do while ( (dabs(dd2)<=rgamsq) .or. (dabs(dd2)>=gamsq) )
                     if (dflag==zero) then
@@ -1442,9 +1438,7 @@ module stdlib_linalg_blas
                     end if
                  end do
               end if
-     
            end if
-     
            if (dflag<zero) then
               dparam(2) = dh11
               dparam(3) = dh21
@@ -1457,46 +1451,45 @@ module stdlib_linalg_blas
               dparam(2) = dh11
               dparam(5) = dh22
            end if
-     
            dparam(1) = dflag
            return
-     !
-     !     end of stdlib_drotmg
-     !
+     
+           ! end of stdlib_drotmg
+     
      end subroutine stdlib_drotmg
 
      
      
      subroutine stdlib_dscal(n,da,dx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) da
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,m,mp1,nincx
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+     
+              ! code for increment equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,5)
               if (m/=0) then
                  do i = 1,m
@@ -1513,62 +1506,62 @@ module stdlib_linalg_blas
                  dx(i+4) = da*dx(i+4)
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  dx(i) = da*dx(i)
               end do
            end if
            return
-     !
-     !     end of stdlib_dscal
-     !
+     
+           ! end of stdlib_dscal
+     
      end subroutine stdlib_dscal
 
      
      
      real(dp) function stdlib_dsdot(n,sx,incx,sy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*),sy(*)
-     !     ..
-     !
-     !  authors:
-     !  ========
-     !  lawson, c. l., (jpl), hanson, r. j., (snla),
-     !  kincaid, d. r., (u. of texas), krogh, f. t., (jpl)
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! authors:
+        ! ========
+        ! lawson, c. l., (jpl), hanson, r. j., (snla),
+        ! kincaid, d. r., (u. of texas), krogh, f. t., (jpl)
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,kx,ky,ns
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic dble
-     !     ..
+           ! ..
            stdlib_dsdot = 0.0d0
            if (n<=0) return
            if (incx==incy .and. incx>0) then
-     !
-     !     code for equal, positive, non-unit increments.
-     !
+     
+           ! code for equal, positive, non-unit increments.
+     
               ns = n*incx
               do i = 1,ns,incx
                  stdlib_dsdot = stdlib_dsdot + dble(sx(i))*dble(sy(i))
               end do
            else
-     !
-     !     code for unequal or nonpositive increments.
-     !
+     
+           ! code for unequal or nonpositive increments.
+     
               kx = 1
               ky = 1
               if (incx<0) kx = 1 + (1-n)*incx
@@ -1580,43 +1573,43 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_dsdot
-     !
+     
+           ! end of stdlib_dsdot
+     
      end function stdlib_dsdot
 
      
      
      subroutine stdlib_dswap(n,dx,incx,dy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dx(*),dy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(dp) dtemp
            integer(int32) i,ix,iy,m,mp1
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !       code for both increments equal to 1
-     !
-     !
-     !       clean-up loop
-     !
+     
+             ! code for both increments equal to 1
+     
+     
+             ! clean-up loop
+     
               m = mod(n,3)
               if (m/=0) then
                  do i = 1,m
@@ -1639,10 +1632,10 @@ module stdlib_linalg_blas
                  dy(i+2) = dtemp
               end do
            else
-     !
-     !       code for unequal increments or equal increments not equal
-     !         to 1
-     !
+     
+             ! code for unequal increments or equal increments not equal
+               ! to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -1656,48 +1649,48 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_dswap
-     !
+     
+           ! end of stdlib_dswap
+     
      end subroutine stdlib_dswap
 
      
      
      real(dp) function stdlib_dzasum(n,zx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) zx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(dp) stemp
            integer(int32) i,nincx
-     !     ..
+           ! ..
      
      
            stdlib_dzasum = 0.0d0
            stemp = 0.0d0
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               do i = 1,n
                  stemp = stemp + stdlib_dcabs1(zx(i))
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  stemp = stemp + stdlib_dcabs1(zx(i))
@@ -1705,9 +1698,9 @@ module stdlib_linalg_blas
            end if
            stdlib_dzasum = stemp
            return
-     !
-     !     end of stdlib_dzasum
-     !
+     
+           ! end of stdlib_dzasum
+     
      end function stdlib_dzasum
 
      
@@ -1715,18 +1708,18 @@ module stdlib_linalg_blas
      function stdlib_dznrm2( n, x, incx )
         integer, parameter :: wp = kind(1.d0)
         real(dp) :: stdlib_dznrm2
-     !
-     !  -- reference blas level1 routine (version 3.9.1) --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !     march 2021
-     !
-     !  .. constants ..
+     
+        ! -- reference blas level1 routine (version 3.9.1) --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! march 2021
+     
+        ! .. constants ..
         real(dp), parameter ::dzero = 0.0_dp
         real(dp), parameter :: done  = 1.0_dp
         real(dp), parameter :: maxn = huge(0.0_dp)
-     !  ..
-     !  .. blue's scaling constants ..
+        ! ..
+        ! .. blue's scaling constants ..
      real(dp), parameter :: tsml = real(radix(0._dp), wp)**ceiling(       (minexponent(0._dp) - 1)&
            * 0.5_dp)
      real(dp), parameter :: tbig = real(radix(0._dp), wp)**floor(       (maxexponent(0._dp) -&
@@ -1735,34 +1728,34 @@ module stdlib_linalg_blas
            digits(0._dp)) * 0.5_dp))
      real(dp), parameter :: sbig = real(radix(0._dp), wp)**( - ceiling(       (maxexponent(0._dp)&
            + digits(0._dp) - 1) * 0.5_dp))
-     !  ..
-     !  .. scalar arguments ..
+        ! ..
+        ! .. scalar arguments ..
         integer :: incx, n
-     !  ..
-     !  .. array arguments ..
+        ! ..
+        ! .. array arguments ..
         complex(dp) :: x(*)
-     !  ..
-     !  .. local scalars ..
+        ! ..
+        ! .. local scalars ..
         integer :: i, ix
         logical :: notbig
         real(dp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
-     !
-     !  quick return if possible
-     !
+     
+        ! quick return if possible
+     
         stdlib_dznrm2 =dzero
         if( n <= 0 ) return
-     !
+     
         scl = done
         sumsq =dzero
-     !
-     !  compute the sum of squares in 3 accumulators:
-     !     abig -- sums of squares scaled down to avoid overflow
-     !     asml -- sums of squares scaled up to avoid underflow
-     !     amed -- sums of squares that do not require scaling
-     !  the thresholds and multipliers are
-     !     tbig -- values bigger than this are scaled down by sbig
-     !     tsml -- values smaller than this are scaled up by ssml
-     !
+     
+        ! compute the sum of squares in 3 accumulators:
+           ! abig -- sums of squares scaled down to avoid overflow
+           ! asml -- sums of squares scaled up to avoid underflow
+           ! amed -- sums of squares that do not require scaling
+        ! the thresholds and multipliers are
+           ! tbig -- values bigger than this are scaled down by sbig
+           ! tsml -- values smaller than this are scaled up by ssml
+     
         notbig = .true.
         asml =dzero
         amed =dzero
@@ -1790,23 +1783,23 @@ module stdlib_linalg_blas
            end if
            ix = ix + incx
         end do
-     !
-     !  combine abig and amed or amed and asml if more than done
-     !  accumulator was used.
-     !
+     
+        ! combine abig and amed or amed and asml if more than done
+        ! accumulator was used.
+     
         if (abig >dzero) then
-     !
-     !     combine abig and amed if abig > 0.
-     !
+     
+           ! combine abig and amed if abig > 0.
+     
            if ( (amed >dzero) .or. (amed > maxn) .or. (amed /= amed) ) then
               abig = abig + (amed*sbig)*sbig
            end if
            scl = done / sbig
            sumsq = abig
         else if (asml >dzero) then
-     !
-     !     combine amed and asml if asml > 0.
-     !
+     
+           ! combine amed and asml if asml > 0.
+     
            if ( (amed >dzero) .or. (amed > maxn) .or. (amed /= amed) ) then
               amed = sqrt(amed)
               asml = sqrt(asml) / ssml
@@ -1824,9 +1817,9 @@ module stdlib_linalg_blas
               sumsq = asml
            end if
         else
-     !
-     !     otherwise all values are mid-range
-     !
+     
+           ! otherwise all values are mid-range
+     
            scl = done
            sumsq = amed
         end if
@@ -1837,35 +1830,35 @@ module stdlib_linalg_blas
      
      
      integer(int32) function stdlib_idamax(n,dx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) dx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(dp) dmax
            integer(int32) i,ix
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic dabs
-     !     ..
+           ! ..
            stdlib_idamax = 0
            if (n<1 .or. incx<=0) return
            stdlib_idamax = 1
            if (n==1) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               dmax = dabs(dx(1))
               do i = 2,n
                  if (dabs(dx(i))>dmax) then
@@ -1874,9 +1867,9 @@ module stdlib_linalg_blas
                  end if
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               ix = 1
               dmax = dabs(dx(1))
               ix = ix + incx
@@ -1889,43 +1882,43 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_idamax
-     !
+     
+           ! end of stdlib_idamax
+     
      end function stdlib_idamax
 
      
      
      integer(int32) function stdlib_isamax(n,sx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(sp) smax
            integer(int32) i,ix
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic abs
-     !     ..
+           ! ..
            stdlib_isamax = 0
            if (n<1 .or. incx<=0) return
            stdlib_isamax = 1
            if (n==1) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               smax = abs(sx(1))
               do i = 2,n
                  if (abs(sx(i))>smax) then
@@ -1934,9 +1927,9 @@ module stdlib_linalg_blas
                  end if
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               ix = 1
               smax = abs(sx(1))
               ix = ix + incx
@@ -1949,32 +1942,32 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_isamax
-     !
+     
+           ! end of stdlib_isamax
+     
      end function stdlib_isamax
 
      
      
      integer(int32) function stdlib_izamax(n,zx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) zx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(dp) dmax
            integer(int32) i,ix
-     !     ..
+           ! ..
      
      
            stdlib_izamax = 0
@@ -1982,9 +1975,9 @@ module stdlib_linalg_blas
            stdlib_izamax = 1
            if (n==1) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               dmax = stdlib_dcabs1(zx(1))
               do i = 2,n
                  if (stdlib_dcabs1(zx(i))>dmax) then
@@ -1993,9 +1986,9 @@ module stdlib_linalg_blas
                  end if
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               ix = 1
               dmax = stdlib_dcabs1(zx(1))
               ix = ix + incx
@@ -2008,118 +2001,118 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_izamax
-     !
+     
+           ! end of stdlib_izamax
+     
      end function stdlib_izamax
 
      
      
      logical(lk) function stdlib_lsame(ca,cb)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            character ca,cb
-     !     ..
-     !
-     ! =====================================================================
-     !
-     !     .. intrinsic functions ..
+           ! ..
+     
+       ! =====================================================================
+     
+           ! .. intrinsic functions ..
            intrinsic ichar
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            integer(int32) inta,intb,zcode
-     !     ..
-     !
-     !     test if the characters are equal
-     !
+           ! ..
+     
+           ! test if the characters are equal
+     
            stdlib_lsame = ca == cb
            if (stdlib_lsame) return
-     !
-     !     now test for equivalence if both characters are alphabetic.
-     !
+     
+           ! now test for equivalence if both characters are alphabetic.
+     
            zcode = ichar('z')
-     !
-     !     use 'z' rather than 'a' so that ascii can be detected on prime
-     !     machines, on which ichar returns a value with bit 8 set.
-     !     ichar('a') on prime machines returns 193 which is the same as
-     !     ichar('a') on an ebcdic machine.
-     !
+     
+           ! use 'z' rather than 'a' so that ascii can be detected on prime
+           ! machines, on which ichar returns a value with bit 8 set.
+           ! ichar('a') on prime machines returns 193 which is the same as
+           ! ichar('a') on an ebcdic machine.
+     
            inta = ichar(ca)
            intb = ichar(cb)
-     !
+     
            if (zcode==90 .or. zcode==122) then
-     !
-     !        ascii is assumed - zcode is the ascii code of either lower or
-     !        upper case 'z'.
-     !
+     
+              ! ascii is assumed - zcode is the ascii code of either lower or
+              ! upper case 'z'.
+     
                if (inta>=97 .and. inta<=122) inta = inta - 32
                if (intb>=97 .and. intb<=122) intb = intb - 32
-     !
+     
            else if (zcode==233 .or. zcode==169) then
-     !
-     !        ebcdic is assumed - zcode is the ebcdic code of either lower or
-     !        upper case 'z'.
-     !
+     
+              ! ebcdic is assumed - zcode is the ebcdic code of either lower or
+              ! upper case 'z'.
+     
                if (&
           inta>=129 .and. inta<=137 .or.inta>=145 .and. inta<=153 .or.inta>=162 .and. inta<=169)&
            inta = inta + 64
                if (&
           intb>=129 .and. intb<=137 .or.intb>=145 .and. intb<=153 .or.intb>=162 .and. intb<=169)&
            intb = intb + 64
-     !
+     
            else if (zcode==218 .or. zcode==250) then
-     !
-     !        ascii is assumed, on prime machines - zcode is the ascii code
-     !        plus 128 of either lower or upper case 'z'.
-     !
+     
+              ! ascii is assumed, on prime machines - zcode is the ascii code
+              ! plus 128 of either lower or upper case 'z'.
+     
                if (inta>=225 .and. inta<=250) inta = inta - 32
                if (intb>=225 .and. intb<=250) intb = intb - 32
            end if
            stdlib_lsame = inta == intb
-     !
-     !     return
-     !
-     !     end of stdlib_lsame
-     !
+     
+           ! return
+     
+           ! end of stdlib_lsame
+     
      end function stdlib_lsame
 
      
      
      real(sp) function stdlib_sasum(n,sx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(sp) stemp
            integer(int32) i,m,mp1,nincx
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic abs,mod
-     !     ..
+           ! ..
            stdlib_sasum = 0.0e0
            stemp = 0.0e0
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !        code for increment equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+              ! code for increment equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,6)
               if (m/=0) then
                  do i = 1,m
@@ -2136,9 +2129,9 @@ module stdlib_linalg_blas
           4)) + abs(sx(i+5))
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  stemp = stemp + abs(sx(i))
@@ -2146,44 +2139,44 @@ module stdlib_linalg_blas
            end if
            stdlib_sasum = stemp
            return
-     !
-     !     end of stdlib_sasum
-     !
+     
+           ! end of stdlib_sasum
+     
      end function stdlib_sasum
 
      
      
      subroutine stdlib_saxpy(n,sa,sx,incx,sy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) sa
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*),sy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,ix,iy,m,mp1
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            if (n<=0) return
            if (sa==0.0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+     
+              ! code for both increments equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,4)
               if (m/=0) then
                  do i = 1,m
@@ -2199,10 +2192,10 @@ module stdlib_linalg_blas
                  sy(i+3) = sy(i+3) + sa*sx(i+3)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -2214,73 +2207,73 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_saxpy
-     !
+     
+           ! end of stdlib_saxpy
+     
      end subroutine stdlib_saxpy
 
      
      
      real(sp) function stdlib_scabs1(z)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) z
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. intrinsic functions ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. intrinsic functions ..
            intrinsic abs,aimag,real
-     !     ..
+           ! ..
            stdlib_scabs1 = abs(real(z)) + abs(aimag(z))
            return
-     !
-     !     end of stdlib_scabs1
-     !
+     
+           ! end of stdlib_scabs1
+     
      end function stdlib_scabs1
 
      
      
      real(sp) function stdlib_scasum(n,cx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) cx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(sp) stemp
            integer(int32) i,nincx
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic abs,aimag,real
-     !     ..
+           ! ..
            stdlib_scasum = 0.0e0
            stemp = 0.0e0
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               do i = 1,n
                  stemp = stemp + abs(real(cx(i))) + abs(aimag(cx(i)))
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  stemp = stemp + abs(real(cx(i))) + abs(aimag(cx(i)))
@@ -2288,9 +2281,9 @@ module stdlib_linalg_blas
            end if
            stdlib_scasum = stemp
            return
-     !
-     !     end of stdlib_scasum
-     !
+     
+           ! end of stdlib_scasum
+     
      end function stdlib_scasum
 
      
@@ -2298,18 +2291,18 @@ module stdlib_linalg_blas
      function stdlib_scnrm2( n, x, incx )
         integer, parameter :: wp = kind(1.e0)
         real(sp) :: stdlib_scnrm2
-     !
-     !  -- reference blas level1 routine (version 3.9.1) --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !     march 2021
-     !
-     !  .. constants ..
+     
+        ! -- reference blas level1 routine (version 3.9.1) --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! march 2021
+     
+        ! .. constants ..
         real(sp), parameter ::szero = 0.0_sp
         real(sp), parameter :: sone  = 1.0_sp
         real(sp), parameter :: maxn = huge(0.0_sp)
-     !  ..
-     !  .. blue's scaling constants ..
+        ! ..
+        ! .. blue's scaling constants ..
      real(sp), parameter :: tsml = real(radix(0._sp), wp)**ceiling(       (minexponent(0._sp) - 1)&
            * 0.5_sp)
      real(sp), parameter :: tbig = real(radix(0._sp), wp)**floor(       (maxexponent(0._sp) -&
@@ -2318,34 +2311,34 @@ module stdlib_linalg_blas
            digits(0._sp)) * 0.5_sp))
      real(sp), parameter :: sbig = real(radix(0._sp), wp)**( - ceiling(       (maxexponent(0._sp)&
            + digits(0._sp) - 1) * 0.5_sp))
-     !  ..
-     !  .. scalar arguments ..
+        ! ..
+        ! .. scalar arguments ..
         integer :: incx, n
-     !  ..
-     !  .. array arguments ..
+        ! ..
+        ! .. array arguments ..
         complex(sp) :: x(*)
-     !  ..
-     !  .. local scalars ..
+        ! ..
+        ! .. local scalars ..
         integer :: i, ix
         logical :: notbig
         real(sp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
-     !
-     !  quick return if possible
-     !
+     
+        ! quick return if possible
+     
         stdlib_scnrm2 =szero
         if( n <= 0 ) return
-     !
+     
         scl = sone
         sumsq =szero
-     !
-     !  compute the sum of squares in 3 accumulators:
-     !     abig -- sums of squares scaled down to avoid overflow
-     !     asml -- sums of squares scaled up to avoid underflow
-     !     amed -- sums of squares that do not require scaling
-     !  the thresholds and multipliers are
-     !     tbig -- values bigger than this are scaled down by sbig
-     !     tsml -- values smaller than this are scaled up by ssml
-     !
+     
+        ! compute the sum of squares in 3 accumulators:
+           ! abig -- sums of squares scaled down to avoid overflow
+           ! asml -- sums of squares scaled up to avoid underflow
+           ! amed -- sums of squares that do not require scaling
+        ! the thresholds and multipliers are
+           ! tbig -- values bigger than this are scaled down by sbig
+           ! tsml -- values smaller than this are scaled up by ssml
+     
         notbig = .true.
         asml =szero
         amed =szero
@@ -2373,23 +2366,23 @@ module stdlib_linalg_blas
            end if
            ix = ix + incx
         end do
-     !
-     !  combine abig and amed or amed and asml if more than sone
-     !  accumulator was used.
-     !
+     
+        ! combine abig and amed or amed and asml if more than sone
+        ! accumulator was used.
+     
         if (abig >szero) then
-     !
-     !     combine abig and amed if abig > 0.
-     !
+     
+           ! combine abig and amed if abig > 0.
+     
            if ( (amed >szero) .or. (amed > maxn) .or. (amed /= amed) ) then
               abig = abig + (amed*sbig)*sbig
            end if
            scl = sone / sbig
            sumsq = abig
         else if (asml >szero) then
-     !
-     !     combine amed and asml if asml > 0.
-     !
+     
+           ! combine amed and asml if asml > 0.
+     
            if ( (amed >szero) .or. (amed > maxn) .or. (amed /= amed) ) then
               amed = sqrt(amed)
               asml = sqrt(asml) / ssml
@@ -2407,9 +2400,9 @@ module stdlib_linalg_blas
               sumsq = asml
            end if
         else
-     !
-     !     otherwise all values are mid-range
-     !
+     
+           ! otherwise all values are mid-range
+     
            scl = sone
            sumsq = amed
         end if
@@ -2420,34 +2413,34 @@ module stdlib_linalg_blas
      
      
      subroutine stdlib_scopy(n,sx,incx,sy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*),sy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,ix,iy,m,mp1
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+     
+              ! code for both increments equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,7)
               if (m/=0) then
                  do i = 1,m
@@ -2466,10 +2459,10 @@ module stdlib_linalg_blas
                  sy(i+6) = sx(i+6)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -2481,45 +2474,45 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_scopy
-     !
+     
+           ! end of stdlib_scopy
+     
      end subroutine stdlib_scopy
 
      
      
      real(sp) function stdlib_sdot(n,sx,incx,sy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*),sy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(sp) stemp
            integer(int32) i,ix,iy,m,mp1
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            stemp = 0.0e0
            stdlib_sdot = 0.0e0
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+     
+              ! code for both increments equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,5)
               if (m/=0) then
                  do i = 1,m
@@ -2536,10 +2529,10 @@ module stdlib_linalg_blas
            sx(i+4)*sy(i+4)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -2552,49 +2545,49 @@ module stdlib_linalg_blas
            end if
            stdlib_sdot = stemp
            return
-     !
-     !     end of stdlib_sdot
-     !
+     
+           ! end of stdlib_sdot
+     
      end function stdlib_sdot
 
      
      
      real(sp) function stdlib_sdsdot(n,sb,sx,incx,sy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) sb
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*),sy(*)
-     !     .. local scalars ..
+           ! .. local scalars ..
            real(dp) stdlib_dsdot
            integer(int32) i,kx,ky,ns
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic dble
-     !     ..
+           ! ..
            stdlib_dsdot = sb
            if (n<=0) then
               stdlib_sdsdot = stdlib_dsdot
               return
            end if
            if (incx==incy .and. incx>0) then
-     !
-     !     code for equal and positive increments.
-     !
+     
+           ! code for equal and positive increments.
+     
               ns = n*incx
               do i = 1,ns,incx
                  stdlib_dsdot = stdlib_dsdot + dble(sx(i))*dble(sy(i))
               end do
            else
-     !
-     !     code for unequal or nonpositive increments.
-     !
+     
+           ! code for unequal or nonpositive increments.
+     
               kx = 1
               ky = 1
               if (incx<0) kx = 1 + (1-n)*incx
@@ -2607,9 +2600,9 @@ module stdlib_linalg_blas
            end if
            stdlib_sdsdot = stdlib_dsdot
            return
-     !
-     !     end of stdlib_sdsdot
-     !
+     
+           ! end of stdlib_sdsdot
+     
      end function stdlib_sdsdot
 
      
@@ -2617,18 +2610,18 @@ module stdlib_linalg_blas
      function stdlib_snrm2( n, x, incx )
         integer, parameter :: wp = kind(1.e0)
         real(sp) :: stdlib_snrm2
-     !
-     !  -- reference blas level1 routine (version 3.9.1) --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !     march 2021
-     !
-     !  .. constants ..
+     
+        ! -- reference blas level1 routine (version 3.9.1) --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! march 2021
+     
+        ! .. constants ..
         real(sp), parameter ::szero = 0.0_sp
         real(sp), parameter :: sone  = 1.0_sp
         real(sp), parameter :: maxn = huge(0.0_sp)
-     !  ..
-     !  .. blue's scaling constants ..
+        ! ..
+        ! .. blue's scaling constants ..
      real(sp), parameter :: tsml = real(radix(0._sp), wp)**ceiling(       (minexponent(0._sp) - 1)&
            * 0.5_sp)
      real(sp), parameter :: tbig = real(radix(0._sp), wp)**floor(       (maxexponent(0._sp) -&
@@ -2637,34 +2630,34 @@ module stdlib_linalg_blas
            digits(0._sp)) * 0.5_sp))
      real(sp), parameter :: sbig = real(radix(0._sp), wp)**( - ceiling(       (maxexponent(0._sp)&
            + digits(0._sp) - 1) * 0.5_sp))
-     !  ..
-     !  .. scalar arguments ..
+        ! ..
+        ! .. scalar arguments ..
         integer :: incx, n
-     !  ..
-     !  .. array arguments ..
+        ! ..
+        ! .. array arguments ..
         real(sp) :: x(*)
-     !  ..
-     !  .. local scalars ..
+        ! ..
+        ! .. local scalars ..
         integer :: i, ix
         logical :: notbig
         real(sp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
-     !
-     !  quick return if possible
-     !
+     
+        ! quick return if possible
+     
         stdlib_snrm2 =szero
         if( n <= 0 ) return
-     !
+     
         scl = sone
         sumsq =szero
-     !
-     !  compute the sum of squares in 3 accumulators:
-     !     abig -- sums of squares scaled down to avoid overflow
-     !     asml -- sums of squares scaled up to avoid underflow
-     !     amed -- sums of squares that do not require scaling
-     !  the thresholds and multipliers are
-     !     tbig -- values bigger than this are scaled down by sbig
-     !     tsml -- values smaller than this are scaled up by ssml
-     !
+     
+        ! compute the sum of squares in 3 accumulators:
+           ! abig -- sums of squares scaled down to avoid overflow
+           ! asml -- sums of squares scaled up to avoid underflow
+           ! amed -- sums of squares that do not require scaling
+        ! the thresholds and multipliers are
+           ! tbig -- values bigger than this are scaled down by sbig
+           ! tsml -- values smaller than this are scaled up by ssml
+     
         notbig = .true.
         asml =szero
         amed =szero
@@ -2683,23 +2676,23 @@ module stdlib_linalg_blas
            end if
            ix = ix + incx
         end do
-     !
-     !  combine abig and amed or amed and asml if more than sone
-     !  accumulator was used.
-     !
+     
+        ! combine abig and amed or amed and asml if more than sone
+        ! accumulator was used.
+     
         if (abig >szero) then
-     !
-     !     combine abig and amed if abig > 0.
-     !
+     
+           ! combine abig and amed if abig > 0.
+     
            if ( (amed >szero) .or. (amed > maxn) .or. (amed /= amed) ) then
               abig = abig + (amed*sbig)*sbig
            end if
            scl = sone / sbig
            sumsq = abig
         else if (asml >szero) then
-     !
-     !     combine amed and asml if asml > 0.
-     !
+     
+           ! combine amed and asml if asml > 0.
+     
            if ( (amed >szero) .or. (amed > maxn) .or. (amed /= amed) ) then
               amed = sqrt(amed)
               asml = sqrt(asml) / ssml
@@ -2717,9 +2710,9 @@ module stdlib_linalg_blas
               sumsq = asml
            end if
         else
-     !
-     !     otherwise all values are mid-range
-     !
+     
+           ! otherwise all values are mid-range
+     
            scl = sone
            sumsq = amed
         end if
@@ -2730,40 +2723,40 @@ module stdlib_linalg_blas
      
      
      subroutine stdlib_srot(n,sx,incx,sy,incy,c,s)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) c,s
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*),sy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(sp) stemp
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !       code for both increments equal to 1
-     !
+     
+             ! code for both increments equal to 1
+     
               do i = 1,n
                  stemp = c*sx(i) + s*sy(i)
                  sy(i) = c*sy(i) - s*sx(i)
                  sx(i) = stemp
               end do
            else
-     !
-     !       code for unequal increments or equal increments not equal
-     !         to 1
-     !
+     
+             ! code for unequal increments or equal increments not equal
+               ! to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -2777,36 +2770,36 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_srot
-     !
+     
+           ! end of stdlib_srot
+     
      end subroutine stdlib_srot
 
      
      
      subroutine stdlib_srotg( a, b, c, s )
         integer, parameter :: wp = kind(1.e0)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !  .. constants ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+        ! .. constants ..
         real(sp), parameter ::szero = 0.0_sp
         real(sp), parameter :: sone  = 1.0_sp
-     !  ..
-     !  .. scaling constants ..
+        ! ..
+        ! .. scaling constants ..
      real(sp), parameter :: safmin = real(radix(0._sp),wp)**max(minexponent(0._sp)-1,1-&
           maxexponent(0._sp)   )
      real(sp), parameter :: safmax = real(radix(0._sp),wp)**max(1-minexponent(0._sp),maxexponent(&
           0._sp)-1   )
-     !  ..
-     !  .. scalar arguments ..
+        ! ..
+        ! .. scalar arguments ..
         real(sp) :: a, b, c, s
-     !  ..
-     !  .. local scalars ..
+        ! ..
+        ! .. local scalars ..
         real(sp) :: anorm, bnorm, scl, sigma, r, z
-     !  ..
+        ! ..
         anorm = abs(a)
         bnorm = abs(b)
         if( bnorm ==szero ) then
@@ -2844,32 +2837,32 @@ module stdlib_linalg_blas
      
      
      subroutine stdlib_srotm(n,sx,incx,sy,incy,sparam)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sparam(5),sx(*),sy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(sp) sflag,sh11,sh12,sh21,sh22,two,w,z,zero
            integer(int32) i,kx,ky,nsteps
-     !     ..
-     !     .. data statements ..
+           ! ..
+           ! .. data statements ..
            data zero,two/0.e0,2.e0/
-     !     ..
-     !
+           ! ..
+     
            sflag = sparam(1)
            if (n<=0 .or. (sflag+two==zero)) return
            if (incx==incy.and.incx>0) then
-     !
+     
               nsteps = n*incx
               if (sflag<zero) then
                  sh11 = sparam(2)
@@ -2906,7 +2899,7 @@ module stdlib_linalg_blas
               ky = 1
               if (incx<0) kx = 1 + (1-n)*incx
               if (incy<0) ky = 1 + (1-n)*incy
-     !
+     
               if (sflag<zero) then
                  sh11 = sparam(2)
                  sh12 = sparam(4)
@@ -2945,100 +2938,98 @@ module stdlib_linalg_blas
               end if
            end if
            return
-     !
-     !     end of stdlib_srotm
-     !
+     
+           ! end of stdlib_srotm
+     
      end subroutine stdlib_srotm
 
      
      
      subroutine stdlib_srotmg(sd1,sd2,sx1,sy1,sparam)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) sd1,sd2,sx1,sy1
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sparam(5)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(sp) gam,gamsq,one,rgamsq,sflag,sh11,sh12,sh21,sh22,sp1,sp2,sq1,sq2,stemp,su,two,&
           zero
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic abs
-     !     ..
-     !     .. data statements ..
-     !
+           ! ..
+           ! .. data statements ..
+     
            data zero,one,two/0.e0,1.e0,2.e0/
            data gam,gamsq,rgamsq/4096.e0,1.67772e7,5.96046e-8/
-     !     ..
-     
+           ! ..
            if (sd1<zero) then
-     !        go zero-h-d-and-sx1..
+              ! go zero-h-d-and-sx1..
               sflag = -one
               sh11 = zero
               sh12 = zero
               sh21 = zero
               sh22 = zero
-     !
+     
               sd1 = zero
               sd2 = zero
               sx1 = zero
            else
-     !        case-sd1-nonnegative
+              ! case-sd1-nonnegative
               sp2 = sd2*sy1
               if (sp2==zero) then
                  sflag = -two
                  sparam(1) = sflag
                  return
               end if
-     !        regular-case..
+              ! regular-case..
               sp1 = sd1*sx1
               sq2 = sp2*sy1
               sq1 = sp1*sx1
-     !
+     
               if (abs(sq1)>abs(sq2)) then
                  sh21 = -sy1/sx1
                  sh12 = sp2/sp1
-     !
+     
                  su = one - sh12*sh21
-     !
+     
                 if (su>zero) then
                   sflag = zero
                   sd1 = sd1/su
                   sd2 = sd2/su
                   sx1 = sx1*su
                 else
-     !            this code path if here for safety. we do not expect this
-     !            condition to ever hold except in edge cases with rounding
-     !            errors. see doi: 10.1145/355841.355847
+                  ! this code path if here for safety. we do not expect this
+                  ! condition to ever hold except in edge cases with rounding
+                  ! errors. see doi: 10.1145/355841.355847
                   sflag = -one
                   sh11 = zero
                   sh12 = zero
                   sh21 = zero
                   sh22 = zero
-     !
+     
                   sd1 = zero
                   sd2 = zero
                   sx1 = zero
                 end if
               else
-     
                  if (sq2<zero) then
-     !              go zero-h-d-and-sx1..
+                    ! go zero-h-d-and-sx1..
                     sflag = -one
                     sh11 = zero
                     sh12 = zero
                     sh21 = zero
                     sh22 = zero
-     !
+     
                     sd1 = zero
                     sd2 = zero
                     sx1 = zero
@@ -3053,8 +3044,7 @@ module stdlib_linalg_blas
                     sx1 = sy1*su
                  end if
               end if
-     
-     !     procedure..scale-check
+           ! procedure..scale-check
               if (sd1/=zero) then
                  do while ((sd1<=rgamsq) .or. (sd1>=gamsq))
                     if (sflag==zero) then
@@ -3079,7 +3069,6 @@ module stdlib_linalg_blas
                     end if
                  enddo
               end if
-     
               if (sd2/=zero) then
                  do while ( (abs(sd2)<=rgamsq) .or. (abs(sd2)>=gamsq) )
                     if (sflag==zero) then
@@ -3102,9 +3091,7 @@ module stdlib_linalg_blas
                     end if
                  end do
               end if
-     
            end if
-     
            if (sflag<zero) then
               sparam(2) = sh11
               sparam(3) = sh21
@@ -3117,46 +3104,45 @@ module stdlib_linalg_blas
               sparam(2) = sh11
               sparam(5) = sh22
            end if
-     
            sparam(1) = sflag
            return
-     !
-     !     end of stdlib_srotmg
-     !
+     
+           ! end of stdlib_srotmg
+     
      end subroutine stdlib_srotmg
 
      
      
      subroutine stdlib_sscal(n,sa,sx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) sa
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,m,mp1,nincx
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
-     !
-     !        clean-up loop
-     !
+     
+              ! code for increment equal to 1
+     
+     
+              ! clean-up loop
+     
               m = mod(n,5)
               if (m/=0) then
                  do i = 1,m
@@ -3173,52 +3159,52 @@ module stdlib_linalg_blas
                  sx(i+4) = sa*sx(i+4)
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  sx(i) = sa*sx(i)
               end do
            end if
            return
-     !
-     !     end of stdlib_sscal
-     !
+     
+           ! end of stdlib_sscal
+     
      end subroutine stdlib_sscal
 
      
      
      subroutine stdlib_sswap(n,sx,incx,sy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) sx(*),sy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(sp) stemp
            integer(int32) i,ix,iy,m,mp1
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic mod
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !       code for both increments equal to 1
-     !
-     !
-     !       clean-up loop
-     !
+     
+             ! code for both increments equal to 1
+     
+     
+             ! clean-up loop
+     
               m = mod(n,3)
               if (m/=0) then
                  do i = 1,m
@@ -3241,10 +3227,10 @@ module stdlib_linalg_blas
                  sy(i+2) = stemp
               end do
            else
-     !
-     !       code for unequal increments or equal increments not equal
-     !         to 1
-     !
+     
+             ! code for unequal increments or equal increments not equal
+               ! to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -3258,120 +3244,118 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_sswap
-     !
+     
+           ! end of stdlib_sswap
+     
      end subroutine stdlib_sswap
 
      
      
      subroutine stdlib_xerbla( srname, info )
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            character*(*)      srname
            integer(int32)            info
-     !     ..
-     !
-     ! =====================================================================
-     !
-     !     .. intrinsic functions ..
+           ! ..
+     
+       ! =====================================================================
+     
+           ! .. intrinsic functions ..
            intrinsic          len_trim
-     !     ..
-     !     .. executable statements ..
-     !
+           ! ..
+           ! .. executable statements ..
+     
            write( *, fmt = 9999 )srname( 1:len_trim( srname ) ), info
-     !
+     
            stop
-     !
+     
       9999 format( ' ** on entry to ', a, ' parameter number ', i2, ' had ','an illegal value' )
-     !
-     !     end of stdlib_xerbla
-     !
+     
+           ! end of stdlib_xerbla
+     
      end subroutine stdlib_xerbla
 
      
      
      subroutine stdlib_xerbla_array(srname_array, srname_len, info)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
-           integer(int32) srname_len, info
-     !     ..
-     !     .. array arguments ..
-           character(1) srname_array(srname_len)
-     !     ..
-     !
-     ! =====================================================================
-     !
-     !     ..
-     !     .. local scalars ..
-           integer(int32) i
-     !     ..
-     !     .. local arrays ..
-           character*32 srname
-     !     ..
-     !     .. intrinsic functions ..
-           intrinsic min, len
-     !     ..
      
-     !     .. executable statements ..
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
+           integer(int32) srname_len, info
+           ! ..
+           ! .. array arguments ..
+           character(1) srname_array(srname_len)
+           ! ..
+     
+       ! =====================================================================
+     
+           ! ..
+           ! .. local scalars ..
+           integer(int32) i
+           ! ..
+           ! .. local arrays ..
+           character*32 srname
+           ! ..
+           ! .. intrinsic functions ..
+           intrinsic min, len
+           ! ..
+     
+           ! .. executable statements ..
            srname = ''
            do i = 1, min( srname_len, len( srname ) )
               srname( i:i ) = srname_array( i )
            end do
-     
            call stdlib_xerbla( srname, info )
-     
            return
-     !
-     !     end of stdlib_xerbla_array
-     !
+     
+           ! end of stdlib_xerbla_array
+     
      end subroutine stdlib_xerbla_array
 
      
      
      subroutine stdlib_zaxpy(n,za,zx,incx,zy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) za
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) zx(*),zy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
      
      
            if (n<=0) return
            if (stdlib_dcabs1(za)==0.0d0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1,n
                  zy(i) = zy(i) + za*zx(i)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -3382,46 +3366,46 @@ module stdlib_linalg_blas
                  iy = iy + incy
               end do
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zaxpy
-     !
+     
+           ! end of stdlib_zaxpy
+     
      end subroutine stdlib_zaxpy
 
      
      
      subroutine stdlib_zcopy(n,zx,incx,zy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) zx(*),zy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1,n
                zy(i) = zx(i)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -3433,50 +3417,50 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_zcopy
-     !
+     
+           ! end of stdlib_zcopy
+     
      end subroutine stdlib_zcopy
 
      
      
      complex(dp) function stdlib_zdotc(n,zx,incx,zy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) zx(*),zy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            complex(dp) ztemp
            integer(int32) i,ix,iy
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic dconjg
-     !     ..
+           ! ..
            ztemp = (0.0d0,0.0d0)
            stdlib_zdotc = (0.0d0,0.0d0)
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1,n
                  ztemp = ztemp + dconjg(zx(i))*zy(i)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -3489,47 +3473,47 @@ module stdlib_linalg_blas
            end if
            stdlib_zdotc = ztemp
            return
-     !
-     !     end of stdlib_zdotc
-     !
+     
+           ! end of stdlib_zdotc
+     
      end function stdlib_zdotc
 
      
      
      complex(dp) function stdlib_zdotu(n,zx,incx,zy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) zx(*),zy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            complex(dp) ztemp
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
            ztemp = (0.0d0,0.0d0)
            stdlib_zdotu = (0.0d0,0.0d0)
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1,n
                  ztemp = ztemp + zx(i)*zy(i)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -3542,50 +3526,50 @@ module stdlib_linalg_blas
            end if
            stdlib_zdotu = ztemp
            return
-     !
-     !     end of stdlib_zdotu
-     !
+     
+           ! end of stdlib_zdotu
+     
      end function stdlib_zdotu
 
      
      
      subroutine stdlib_zdrot( n, zx, incx, zy, incy, c, s )
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32)            incx, incy, n
            real(dp)   c, s
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp)         zx( * ), zy( * )
-     !     ..
-     !
-     ! =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+       ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32)            i, ix, iy
            complex(dp)         ctemp
-     !     ..
-     !     .. executable statements ..
-     !
+           ! ..
+           ! .. executable statements ..
+     
            if( n<=0 )return
            if( incx==1 .and. incy==1 ) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1, n
                  ctemp = c*zx( i ) + s*zy( i )
                  zy( i ) = c*zy( i ) - s*zx( i )
                  zx( i ) = ctemp
               end do
            else
-     !
-     !        code for unequal increments or equal increments not equal
-     !          to 1
-     !
+     
+              ! code for unequal increments or equal increments not equal
+                ! to 1
+     
               ix = 1
               iy = 1
               if( incx<0 )ix = ( -n+1 )*incx + 1
@@ -3599,97 +3583,97 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_zdrot
-     !
+     
+           ! end of stdlib_zdrot
+     
      end subroutine stdlib_zdrot
 
      
      
      subroutine stdlib_zdscal(n,da,zx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) da
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) zx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,nincx
-     !     ..
-     !     .. intrinsic functions ..
+           ! ..
+           ! .. intrinsic functions ..
            intrinsic dcmplx
-     !     ..
+           ! ..
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               do i = 1,n
                  zx(i) = dcmplx(da,0.0d0)*zx(i)
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  zx(i) = dcmplx(da,0.0d0)*zx(i)
               end do
            end if
            return
-     !
-     !     end of stdlib_zdscal
-     !
+     
+           ! end of stdlib_zdscal
+     
      end subroutine stdlib_zdscal
 
      
      
      subroutine stdlib_zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) incx,incy,kl,ku,lda,m,n
            character trans
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
            logical(lk) noconj
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dconjg,max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
            .and..not.stdlib_lsame(trans,'c')) then
@@ -3713,16 +3697,16 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zgbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
-     !
-     !     set  lenx  and  leny, the lengths of the vectors x and y, and set
-     !     up the start points in  x  and  y.
-     !
+     
+           ! set  lenx  and  leny, the lengths of the vectors x and y, and set
+           ! up the start points in  x  and  y.
+     
            if (stdlib_lsame(trans,'n')) then
                lenx = n
                leny = m
@@ -3740,12 +3724,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (leny-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the band part of a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the band part of a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -3775,9 +3759,9 @@ module stdlib_linalg_blas
            if (alpha==zero) return
            kup1 = ku + 1
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  y := alpha*a*x + y.
-     !
+     
+              ! form  y := alpha*a*x + y.
+     
                jx = kx
                if (incy==1) then
                    do 60 j = 1,n
@@ -3802,9 +3786,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
-     !
+     
+              ! form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
+     
                jy = ky
                if (incx==1) then
                    do 110 j = 1,n
@@ -3844,55 +3828,55 @@ module stdlib_linalg_blas
        140         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zgbmv
-     !
+     
+           ! end of stdlib_zgbmv
+     
      end subroutine stdlib_zgbmv
 
      
      
      subroutine stdlib_zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) k,lda,ldb,ldc,m,n
            character transa,transb
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic dconjg,max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,j,l,nrowa,nrowb
            logical(lk) conja,conjb,nota,notb
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !
-     !     set  nota  and  notb  as  true if  a  and  b  respectively are not
-     !     conjugated or transposed, set  conja and conjb  as true if  a  and
-     !     b  respectively are to be  transposed but  not conjugated  and set
-     !     nrowa and nrowb  as the number of rows  of  a  and  b  respectively.
-     !
+           ! ..
+     
+           ! set  nota  and  notb  as  true if  a  and  b  respectively are not
+           ! conjugated or transposed, set  conja and conjb  as true if  a  and
+           ! b  respectively are to be  transposed but  not conjugated  and set
+           ! nrowa and nrowb  as the number of rows  of  a  and  b  respectively.
+     
            nota = stdlib_lsame(transa,'n')
            notb = stdlib_lsame(transb,'n')
            conja = stdlib_lsame(transa,'c')
@@ -3907,9 +3891,9 @@ module stdlib_linalg_blas
            else
                nrowb = n
            end if
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.nota) .and. (.not.conja) .and.(.not.stdlib_lsame(transa,'t'))) then
                info = 1
@@ -3933,14 +3917,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zgemm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one)))&
            return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -3957,14 +3941,14 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (notb) then
                if (nota) then
-     !
-     !           form  c := alpha*a*b + beta*c.
-     !
+     
+                 ! form  c := alpha*a*b + beta*c.
+     
                    do 90 j = 1,n
                        if (beta==zero) then
                            do 50 i = 1,m
@@ -3983,9 +3967,9 @@ module stdlib_linalg_blas
         80             continue
         90         continue
                else if (conja) then
-     !
-     !           form  c := alpha*a**h*b + beta*c.
-     !
+     
+                 ! form  c := alpha*a**h*b + beta*c.
+     
                    do 120 j = 1,n
                        do 110 i = 1,m
                            temp = zero
@@ -4000,9 +3984,9 @@ module stdlib_linalg_blas
        110             continue
        120         continue
                else
-     !
-     !           form  c := alpha*a**t*b + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b + beta*c
+     
                    do 150 j = 1,n
                        do 140 i = 1,m
                            temp = zero
@@ -4019,9 +4003,9 @@ module stdlib_linalg_blas
                end if
            else if (nota) then
                if (conjb) then
-     !
-     !           form  c := alpha*a*b**h + beta*c.
-     !
+     
+                 ! form  c := alpha*a*b**h + beta*c.
+     
                    do 200 j = 1,n
                        if (beta==zero) then
                            do 160 i = 1,m
@@ -4040,9 +4024,9 @@ module stdlib_linalg_blas
        190             continue
        200         continue
                else
-     !
-     !           form  c := alpha*a*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a*b**t + beta*c
+     
                    do 250 j = 1,n
                        if (beta==zero) then
                            do 210 i = 1,m
@@ -4063,9 +4047,9 @@ module stdlib_linalg_blas
                end if
            else if (conja) then
                if (conjb) then
-     !
-     !           form  c := alpha*a**h*b**h + beta*c.
-     !
+     
+                 ! form  c := alpha*a**h*b**h + beta*c.
+     
                    do 280 j = 1,n
                        do 270 i = 1,m
                            temp = zero
@@ -4080,9 +4064,9 @@ module stdlib_linalg_blas
        270             continue
        280         continue
                else
-     !
-     !           form  c := alpha*a**h*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a**h*b**t + beta*c
+     
                    do 310 j = 1,n
                        do 300 i = 1,m
                            temp = zero
@@ -4099,9 +4083,9 @@ module stdlib_linalg_blas
                end if
            else
                if (conjb) then
-     !
-     !           form  c := alpha*a**t*b**h + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b**h + beta*c
+     
                    do 340 j = 1,n
                        do 330 i = 1,m
                            temp = zero
@@ -4116,9 +4100,9 @@ module stdlib_linalg_blas
        330             continue
        340         continue
                else
-     !
-     !           form  c := alpha*a**t*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b**t + beta*c
+     
                    do 370 j = 1,n
                        do 360 i = 1,m
                            temp = zero
@@ -4134,52 +4118,52 @@ module stdlib_linalg_blas
        370         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zgemm
-     !
+     
+           ! end of stdlib_zgemm
+     
      end subroutine stdlib_zgemm
 
      
      
      subroutine stdlib_zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) incx,incy,lda,m,n
            character trans
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
            logical(lk) noconj
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dconjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
            .and..not.stdlib_lsame(trans,'c')) then
@@ -4199,16 +4183,16 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zgemv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
-     !
-     !     set  lenx  and  leny, the lengths of the vectors x and y, and set
-     !     up the start points in  x  and  y.
-     !
+     
+           ! set  lenx  and  leny, the lengths of the vectors x and y, and set
+           ! up the start points in  x  and  y.
+     
            if (stdlib_lsame(trans,'n')) then
                lenx = n
                leny = m
@@ -4226,12 +4210,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (leny-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -4260,9 +4244,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  y := alpha*a*x + y.
-     !
+     
+              ! form  y := alpha*a*x + y.
+     
                jx = kx
                if (incy==1) then
                    do 60 j = 1,n
@@ -4284,9 +4268,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
-     !
+     
+              ! form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
+     
                jy = ky
                if (incx==1) then
                    do 110 j = 1,n
@@ -4323,46 +4307,46 @@ module stdlib_linalg_blas
        140         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zgemv
-     !
+     
+           ! end of stdlib_zgemv
+     
      end subroutine stdlib_zgemv
 
      
      
      subroutine stdlib_zgerc(m,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha
            integer(int32) incx,incy,lda,m,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jy,kx
-     !     ..
+           ! ..
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dconjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (m<0) then
                info = 1
@@ -4379,14 +4363,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zgerc ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or. (alpha==zero)) return
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (incy>0) then
                jy = 1
            else
@@ -4420,46 +4404,46 @@ module stdlib_linalg_blas
                    jy = jy + incy
         40     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zgerc
-     !
+     
+           ! end of stdlib_zgerc
+     
      end subroutine stdlib_zgerc
 
      
      
      subroutine stdlib_zgeru(m,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha
            integer(int32) incx,incy,lda,m,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jy,kx
-     !     ..
+           ! ..
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (m<0) then
                info = 1
@@ -4476,14 +4460,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zgeru ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or. (alpha==zero)) return
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (incy>0) then
                jy = 1
            else
@@ -4517,51 +4501,51 @@ module stdlib_linalg_blas
                    jy = jy + incy
         40     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zgeru
-     !
+     
+           ! end of stdlib_zgeru
+     
      end subroutine stdlib_zgeru
 
      
      
      subroutine stdlib_zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) incx,incy,k,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dble,dconjg,max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -4580,13 +4564,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zhbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -4597,12 +4581,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of the array a
-     !     are accessed sequentially with one pass through a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of the array a
+           ! are accessed sequentially with one pass through a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -4631,9 +4615,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when upper triangle of a is stored.
-     !
+     
+              ! form  y  when upper triangle of a is stored.
+     
                kplus1 = k + 1
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
@@ -4671,9 +4655,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when lower triangle of a is stored.
-     !
+     
+              ! form  y  when lower triangle of a is stored.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -4708,61 +4692,61 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zhbmv
-     !
+     
+           ! end of stdlib_zhbmv
+     
      end subroutine stdlib_zhbmv
 
      
      
      subroutine stdlib_zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) lda,ldb,ldc,m,n
            character side,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic dble,dconjg,max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp1,temp2
            integer(int32) i,info,j,k,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !
-     !     set nrowa as the number of rows of a.
-     !
+           ! ..
+     
+           ! set nrowa as the number of rows of a.
+     
            if (stdlib_lsame(side,'l')) then
                nrowa = m
            else
                nrowa = n
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.stdlib_lsame(side,'l')) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -4783,13 +4767,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zhemm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -4806,13 +4790,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(side,'l')) then
-     !
-     !        form  c := alpha*a*b + beta*c.
-     !
+     
+              ! form  c := alpha*a*b + beta*c.
+     
                if (upper) then
                    do 70 j = 1,n
                        do 60 i = 1,m
@@ -4847,9 +4831,9 @@ module stdlib_linalg_blas
        100         continue
                end if
            else
-     !
-     !        form  c := alpha*b*a + beta*c.
-     !
+     
+              ! form  c := alpha*b*a + beta*c.
+     
                do 170 j = 1,n
                    temp1 = alpha*dble(a(j,j))
                    if (beta==zero) then
@@ -4883,51 +4867,51 @@ module stdlib_linalg_blas
        160         continue
        170     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zhemm
-     !
+     
+           ! end of stdlib_zhemm
+     
      end subroutine stdlib_zhemm
 
      
      
      subroutine stdlib_zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) incx,incy,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dble,dconjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -4944,13 +4928,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zhemv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -4961,13 +4945,13 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -4996,9 +4980,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when a is stored in upper triangle.
-     !
+     
+              ! form  y  when a is stored in upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        temp1 = alpha*x(j)
@@ -5029,9 +5013,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when a is stored in lower triangle.
-     !
+     
+              ! form  y  when a is stored in lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -5064,49 +5048,49 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zhemv
-     !
+     
+           ! end of stdlib_zhemv
+     
      end subroutine stdlib_zhemv
 
      
      
      subroutine stdlib_zher(uplo,n,alpha,x,incx,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha
            integer(int32) incx,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jx,kx
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dble,dconjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -5121,27 +5105,27 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zher  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==dble(zero))) return
-     !
-     !     set the start point in x if the increment is not unity.
-     !
+     
+           ! set the start point in x if the increment is not unity.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when a is stored in upper triangle.
-     !
+     
+              ! form  a  when a is stored in upper triangle.
+     
                if (incx==1) then
                    do 20 j = 1,n
                        if (x(j)/=zero) then
@@ -5172,9 +5156,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when a is stored in lower triangle.
-     !
+     
+              ! form  a  when a is stored in lower triangle.
+     
                if (incx==1) then
                    do 60 j = 1,n
                        if (x(j)/=zero) then
@@ -5205,49 +5189,49 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zher
-     !
+     
+           ! end of stdlib_zher
+     
      end subroutine stdlib_zher
 
      
      
      subroutine stdlib_zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha
            integer(int32) incx,incy,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dble,dconjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -5264,14 +5248,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zher2 ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set up the start points in x and y if the increments are not both
-     !     unity.
-     !
+     
+           ! set up the start points in x and y if the increments are not both
+           ! unity.
+     
            if ((incx/=1) .or. (incy/=1)) then
                if (incx>0) then
                    kx = 1
@@ -5286,15 +5270,15 @@ module stdlib_linalg_blas
                jx = kx
                jy = ky
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when a is stored in the upper triangle.
-     !
+     
+              ! form  a  when a is stored in the upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 20 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -5329,9 +5313,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when a is stored in the lower triangle.
-     !
+     
+              ! form  a  when a is stored in the lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -5366,60 +5350,60 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zher2
-     !
+     
+           ! end of stdlib_zher2
+     
      end subroutine stdlib_zher2
 
      
      
      subroutine stdlib_zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha
            real(dp) beta
            integer(int32) k,lda,ldb,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic dble,dconjg,max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp1,temp2
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(dp) one
            parameter (one=1.0_dp)
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -5441,13 +5425,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zher2k',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==dble(zero)) then
@@ -5482,14 +5466,14 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*b**h + conjg( alpha )*b*a**h +
-     !                   c.
-     !
+     
+              ! form  c := alpha*a*b**h + conjg( alpha )*b*a**h +
+                         ! c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==dble(zero)) then
@@ -5542,10 +5526,10 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**h*b + conjg( alpha )*b**h*a +
-     !                   c.
-     !
+     
+              ! form  c := alpha*a**h*b + conjg( alpha )*b**h*a +
+                         ! c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -5598,58 +5582,58 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zher2k
-     !
+     
+           ! end of stdlib_zher2k
+     
      end subroutine stdlib_zher2k
 
      
      
      subroutine stdlib_zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) k,lda,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic dble,dcmplx,dconjg,max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            real(dp) rtemp
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -5669,13 +5653,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zherk ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -5710,13 +5694,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*a**h + beta*c.
-     !
+     
+              ! form  c := alpha*a*a**h + beta*c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -5767,9 +5751,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**h*a + beta*c.
-     !
+     
+              ! form  c := alpha*a**h*a + beta*c.
+     
                if (upper) then
                    do 220 j = 1,n
                        do 200 i = 1,j - 1
@@ -5818,51 +5802,51 @@ module stdlib_linalg_blas
        260         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zherk
-     !
+     
+           ! end of stdlib_zherk
+     
      end subroutine stdlib_zherk
 
      
      
      subroutine stdlib_zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) incx,incy,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) ap(*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dble,dconjg
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -5877,13 +5861,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zhpmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -5894,12 +5878,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -5929,9 +5913,9 @@ module stdlib_linalg_blas
            if (alpha==zero) return
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when ap contains the upper triangle.
-     !
+     
+              ! form  y  when ap contains the upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        temp1 = alpha*x(j)
@@ -5966,9 +5950,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when ap contains the lower triangle.
-     !
+     
+              ! form  y  when ap contains the lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -6005,49 +5989,49 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zhpmv
-     !
+     
+           ! end of stdlib_zhpmv
+     
      end subroutine stdlib_zhpmv
 
      
      
      subroutine stdlib_zhpr(uplo,n,alpha,x,incx,ap)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha
            integer(int32) incx,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dble,dconjg
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -6060,27 +6044,27 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zhpr  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==dble(zero))) return
-     !
-     !     set the start point in x if the increment is not unity.
-     !
+     
+           ! set the start point in x if the increment is not unity.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when upper triangle is stored in ap.
-     !
+     
+              ! form  a  when upper triangle is stored in ap.
+     
                if (incx==1) then
                    do 20 j = 1,n
                        if (x(j)/=zero) then
@@ -6115,9 +6099,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when lower triangle is stored in ap.
-     !
+     
+              ! form  a  when lower triangle is stored in ap.
+     
                if (incx==1) then
                    do 60 j = 1,n
                        if (x(j)/=zero) then
@@ -6152,49 +6136,49 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zhpr
-     !
+     
+           ! end of stdlib_zhpr
+     
      end subroutine stdlib_zhpr
 
      
      
      subroutine stdlib_zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha
            integer(int32) incx,incy,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) ap(*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dble,dconjg
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -6209,14 +6193,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zhpr2 ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set up the start points in x and y if the increments are not both
-     !     unity.
-     !
+     
+           ! set up the start points in x and y if the increments are not both
+           ! unity.
+     
            if ((incx/=1) .or. (incy/=1)) then
                if (incx>0) then
                    kx = 1
@@ -6231,15 +6215,15 @@ module stdlib_linalg_blas
                jx = kx
                jy = ky
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when upper triangle is stored in ap.
-     !
+     
+              ! form  a  when upper triangle is stored in ap.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 20 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -6278,9 +6262,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when lower triangle is stored in ap.
-     !
+     
+              ! form  a  when lower triangle is stored in ap.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -6319,28 +6303,28 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zhpr2
-     !
+     
+           ! end of stdlib_zhpr2
+     
      end subroutine stdlib_zhpr2
 
      
      
      subroutine stdlib_zrotg( a, b, c, s )
         integer, parameter :: wp = kind(1.d0)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !  .. constants ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+        ! .. constants ..
         real(dp), parameter ::dzero = 0.0_dp
         real(dp), parameter :: done  = 1.0_dp
         complex(dp), parameter ::zzero  = 0.0_dp
-     !  ..
-     !  .. scaling constants ..
+        ! ..
+        ! .. scaling constants ..
      real(dp), parameter :: safmin = real(radix(0._dp),wp)**max(minexponent(0._dp)-1,1-&
           maxexponent(0._dp)   )
      real(dp), parameter :: safmax = real(radix(0._dp),wp)**max(1-minexponent(0._dp),maxexponent(&
@@ -6349,26 +6333,26 @@ module stdlib_linalg_blas
           maxexponent(0._dp)   ) / epsilon(0._dp) )
      real(dp), parameter :: rtmax = sqrt( real(radix(0._dp),wp)**max(1-minexponent(0._dp),&
           maxexponent(0._dp)-1   ) * epsilon(0._dp) )
-     !  ..
-     !  .. scalar arguments ..
+        ! ..
+        ! .. scalar arguments ..
         real(dp) :: c
         complex(dp) :: a, b, s
-     !  ..
-     !  .. local scalars ..
+        ! ..
+        ! .. local scalars ..
         real(dp) :: d, f1, f2, g1, g2, h2, p, u, uu, v, vv, w
         complex(dp) :: f, fs, g, gs, r, t
-     !  ..
-     !  .. intrinsic functions ..
+        ! ..
+        ! .. intrinsic functions ..
         intrinsic :: abs, aimag, conjg, max, min, real, sqrt
-     !  ..
-     !  .. statement functions ..
+        ! ..
+        ! .. statement functions ..
         real(dp) :: abssq
-     !  ..
-     !  .. statement function definitions ..
+        ! ..
+        ! .. statement function definitions ..
         abssq( t ) = real( t )**2 + aimag( t )**2
-     !  ..
-     !  .. executable statements ..
-     !
+        ! ..
+        ! .. executable statements ..
+     
         f = a
         g = b
         if( g ==zzero ) then
@@ -6379,17 +6363,17 @@ module stdlib_linalg_blas
            c =dzero
            g1 = max( abs(real(g)), abs(aimag(g)) )
            if( g1 > rtmin .and. g1 < rtmax ) then
-     !
-     !        use unscaled algorithm
-     !
+     
+              ! use unscaled algorithm
+     
               g2 = abssq( g )
               d = sqrt( g2 )
               s = conjg( g ) / d
               r = d
            else
-     !
-     !        use scaled algorithm
-     !
+     
+              ! use scaled algorithm
+     
               u = min( safmax, max( safmin, g1 ) )
               uu = done / u
               gs = g*uu
@@ -6402,9 +6386,9 @@ module stdlib_linalg_blas
            f1 = max( abs(real(f)), abs(aimag(f)) )
            g1 = max( abs(real(g)), abs(aimag(g)) )
      if( f1 > rtmin .and. f1 < rtmax .and.          g1 > rtmin .and. g1 < rtmax ) then
-     !
-     !        use unscaled algorithm
-     !
+     
+              ! use unscaled algorithm
+     
               f2 = abssq( f )
               g2 = abssq( g )
               h2 = f2 + g2
@@ -6418,18 +6402,18 @@ module stdlib_linalg_blas
               s = conjg( g )*( f*p )
               r = f*( h2*p )
            else
-     !
-     !        use scaled algorithm
-     !
+     
+              ! use scaled algorithm
+     
               u = min( safmax, max( safmin, f1, g1 ) )
               uu = done / u
               gs = g*uu
               g2 = abssq( gs )
               if( f1*uu < rtmin ) then
-     !
-     !           f is not well-scaled when scaled by g1.
-     !           use a different scaling for f.
-     !
+     
+                 ! f is not well-scaled when scaled by g1.
+                 ! use a different scaling for f.
+     
                  v = min( safmax, max( safmin, f1 ) )
                  vv = done / v
                  w = v * uu
@@ -6437,9 +6421,9 @@ module stdlib_linalg_blas
                  f2 = abssq( fs )
                  h2 = f2*w**2 + g2
               else
-     !
-     !           otherwise use the same scaling for f and g.
-     !
+     
+                 ! otherwise use the same scaling for f and g.
+     
                  w = done
                  fs = f*uu
                  f2 = abssq( fs )
@@ -6463,82 +6447,82 @@ module stdlib_linalg_blas
      
      
      subroutine stdlib_zscal(n,za,zx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) za
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) zx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,nincx
-     !     ..
+           ! ..
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               do i = 1,n
                  zx(i) = za*zx(i)
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               nincx = n*incx
               do i = 1,nincx,incx
                  zx(i) = za*zx(i)
               end do
            end if
            return
-     !
-     !     end of stdlib_zscal
-     !
+     
+           ! end of stdlib_zscal
+     
      end subroutine stdlib_zscal
 
      
      
      subroutine stdlib_zswap(n,zx,incx,zy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) zx(*),zy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            complex(dp) ztemp
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
-     !
-     !       code for both increments equal to 1
+     
+             ! code for both increments equal to 1
               do i = 1,n
                  ztemp = zx(i)
                  zx(i) = zy(i)
                  zy(i) = ztemp
               end do
            else
-     !
-     !       code for unequal increments or equal increments not equal
-     !         to 1
-     !
+     
+             ! code for unequal increments or equal increments not equal
+               ! to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -6552,59 +6536,59 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_zswap
-     !
+     
+           ! end of stdlib_zswap
+     
      end subroutine stdlib_zswap
 
      
      
      subroutine stdlib_zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) lda,ldb,ldc,m,n
            character side,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp1,temp2
            integer(int32) i,info,j,k,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !
-     !     set nrowa as the number of rows of a.
-     !
+           ! ..
+     
+           ! set nrowa as the number of rows of a.
+     
            if (stdlib_lsame(side,'l')) then
                nrowa = m
            else
                nrowa = n
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.stdlib_lsame(side,'l')) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -6625,13 +6609,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zsymm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -6648,13 +6632,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(side,'l')) then
-     !
-     !        form  c := alpha*a*b + beta*c.
-     !
+     
+              ! form  c := alpha*a*b + beta*c.
+     
                if (upper) then
                    do 70 j = 1,n
                        do 60 i = 1,m
@@ -6689,9 +6673,9 @@ module stdlib_linalg_blas
        100         continue
                end if
            else
-     !
-     !        form  c := alpha*b*a + beta*c.
-     !
+     
+              ! form  c := alpha*b*a + beta*c.
+     
                do 170 j = 1,n
                    temp1 = alpha*a(j,j)
                    if (beta==zero) then
@@ -6725,59 +6709,59 @@ module stdlib_linalg_blas
        160         continue
        170     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zsymm
-     !
+     
+           ! end of stdlib_zsymm
+     
      end subroutine stdlib_zsymm
 
      
      
      subroutine stdlib_zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) k,lda,ldb,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp1,temp2
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -6799,13 +6783,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zsyr2k',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -6838,13 +6822,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*b**t + alpha*b*a**t + c.
-     !
+     
+              ! form  c := alpha*a*b**t + alpha*b*a**t + c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -6889,9 +6873,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**t*b + alpha*b**t*a + c.
-     !
+     
+              ! form  c := alpha*a**t*b + alpha*b**t*a + c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -6926,59 +6910,59 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zsyr2k
-     !
+     
+           ! end of stdlib_zsyr2k
+     
      end subroutine stdlib_zsyr2k
 
      
      
      subroutine stdlib_zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha,beta
            integer(int32) k,lda,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -6998,13 +6982,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('zsyrk ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -7037,13 +7021,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*a**t + beta*c.
-     !
+     
+              ! form  c := alpha*a*a**t + beta*c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -7086,9 +7070,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**t*a + beta*c.
-     !
+     
+              ! form  c := alpha*a**t*a + beta*c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -7119,49 +7103,49 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_zsyrk
-     !
+     
+           ! end of stdlib_zsyrk
+     
      end subroutine stdlib_zsyrk
 
      
      
      subroutine stdlib_ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,k,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jx,kplus1,kx,l
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dconjg,max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -7183,30 +7167,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ztbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx   too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx   too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !         form  x := a*x.
-     !
+     
+               ! form  x := a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -7269,9 +7253,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x  or  x := a**h*x.
-     !
+     
+              ! form  x := a**t*x  or  x := a**h*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -7360,49 +7344,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ztbmv
-     !
+     
+           ! end of stdlib_ztbmv
+     
      end subroutine stdlib_ztbmv
 
      
      
      subroutine stdlib_ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,k,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jx,kplus1,kx,l
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dconjg,max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -7424,30 +7408,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ztbsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed by sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed by sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -7510,9 +7494,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-     !
+     
+              ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -7601,49 +7585,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ztbsv
-     !
+     
+           ! end of stdlib_ztbsv
+     
      end subroutine stdlib_ztbsv
 
      
      
      subroutine stdlib_ztpmv(uplo,trans,diag,n,ap,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dconjg
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -7661,30 +7645,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ztpmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of ap are
-     !     accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of ap are
+           ! accessed sequentially with one pass through ap.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x:= a*x.
-     !
+     
+              ! form  x:= a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
@@ -7750,9 +7734,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x  or  x := a**h*x.
-     !
+     
+              ! form  x := a**t*x  or  x := a**h*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
@@ -7845,49 +7829,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ztpmv
-     !
+     
+           ! end of stdlib_ztpmv
+     
      end subroutine stdlib_ztpmv
 
      
      
      subroutine stdlib_ztpsv(uplo,trans,diag,n,ap,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dconjg
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -7905,30 +7889,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ztpsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of ap are
-     !     accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of ap are
+           ! accessed sequentially with one pass through ap.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
@@ -7993,9 +7977,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-     !
+     
+              ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
@@ -8089,52 +8073,52 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ztpsv
-     !
+     
+           ! end of stdlib_ztpsv
+     
      end subroutine stdlib_ztpsv
 
      
      
      subroutine stdlib_ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha
            integer(int32) lda,ldb,m,n
            character diag,side,transa,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),b(ldb,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic dconjg,max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,j,k,nrowa
            logical(lk) lside,noconj,nounit,upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            lside = stdlib_lsame(side,'l')
            if (lside) then
                nrowa = m
@@ -8144,7 +8128,7 @@ module stdlib_linalg_blas
            noconj = stdlib_lsame(transa,'t')
            nounit = stdlib_lsame(diag,'n')
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -8169,13 +8153,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ztrmm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (m==0 .or. n==0) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                do 20 j = 1,n
                    do 10 i = 1,m
@@ -8184,14 +8168,14 @@ module stdlib_linalg_blas
         20     continue
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (lside) then
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*a*b.
-     !
+     
+                 ! form  b := alpha*a*b.
+     
                    if (upper) then
                        do 50 j = 1,n
                            do 40 k = 1,m
@@ -8220,9 +8204,9 @@ module stdlib_linalg_blas
         80             continue
                    end if
                else
-     !
-     !           form  b := alpha*a**t*b   or   b := alpha*a**h*b.
-     !
+     
+                 ! form  b := alpha*a**t*b   or   b := alpha*a**h*b.
+     
                    if (upper) then
                        do 120 j = 1,n
                            do 110 i = m,1,-1
@@ -8263,9 +8247,9 @@ module stdlib_linalg_blas
                end if
            else
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*b*a.
-     !
+     
+                 ! form  b := alpha*b*a.
+     
                    if (upper) then
                        do 200 j = n,1,-1
                            temp = alpha
@@ -8300,9 +8284,9 @@ module stdlib_linalg_blas
        240             continue
                    end if
                else
-     !
-     !           form  b := alpha*b*a**t   or   b := alpha*b*a**h.
-     !
+     
+                 ! form  b := alpha*b*a**t   or   b := alpha*b*a**h.
+     
                    if (upper) then
                        do 280 k = 1,n
                            do 260 j = 1,k - 1
@@ -8362,49 +8346,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ztrmm
-     !
+     
+           ! end of stdlib_ztrmm
+     
      end subroutine stdlib_ztrmm
 
      
      
      subroutine stdlib_ztrmv(uplo,trans,diag,n,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jx,kx
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dconjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -8424,30 +8408,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ztrmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := a*x.
-     !
+     
+              ! form  x := a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 20 j = 1,n
@@ -8503,9 +8487,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x  or  x := a**h*x.
-     !
+     
+              ! form  x := a**t*x  or  x := a**h*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 110 j = n,1,-1
@@ -8586,52 +8570,52 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ztrmv
-     !
+     
+           ! end of stdlib_ztrmv
+     
      end subroutine stdlib_ztrmv
 
      
      
      subroutine stdlib_ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(dp) alpha
            integer(int32) lda,ldb,m,n
            character diag,side,transa,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),b(ldb,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic dconjg,max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,j,k,nrowa
            logical(lk) lside,noconj,nounit,upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(dp) one
            parameter (one= (1.0_dp,0.0_dp))
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            lside = stdlib_lsame(side,'l')
            if (lside) then
                nrowa = m
@@ -8641,7 +8625,7 @@ module stdlib_linalg_blas
            noconj = stdlib_lsame(transa,'t')
            nounit = stdlib_lsame(diag,'n')
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -8666,13 +8650,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ztrsm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (m==0 .or. n==0) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                do 20 j = 1,n
                    do 10 i = 1,m
@@ -8681,14 +8665,14 @@ module stdlib_linalg_blas
         20     continue
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (lside) then
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*inv( a )*b.
-     !
+     
+                 ! form  b := alpha*inv( a )*b.
+     
                    if (upper) then
                        do 60 j = 1,n
                            if (alpha/=one) then
@@ -8723,10 +8707,10 @@ module stdlib_linalg_blas
        100             continue
                    end if
                else
-     !
-     !           form  b := alpha*inv( a**t )*b
-     !           or    b := alpha*inv( a**h )*b.
-     !
+     
+                 ! form  b := alpha*inv( a**t )*b
+                 ! or    b := alpha*inv( a**h )*b.
+     
                    if (upper) then
                        do 140 j = 1,n
                            do 130 i = 1,m
@@ -8767,9 +8751,9 @@ module stdlib_linalg_blas
                end if
            else
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*b*inv( a ).
-     !
+     
+                 ! form  b := alpha*b*inv( a ).
+     
                    if (upper) then
                        do 230 j = 1,n
                            if (alpha/=one) then
@@ -8814,10 +8798,10 @@ module stdlib_linalg_blas
        280             continue
                    end if
                else
-     !
-     !           form  b := alpha*b*inv( a**t )
-     !           or    b := alpha*b*inv( a**h ).
-     !
+     
+                 ! form  b := alpha*b*inv( a**t )
+                 ! or    b := alpha*b*inv( a**h ).
+     
                    if (upper) then
                        do 330 k = n,1,-1
                            if (nounit) then
@@ -8881,49 +8865,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ztrsm
-     !
+     
+           ! end of stdlib_ztrsm
+     
      end subroutine stdlib_ztrsm
 
      
      
      subroutine stdlib_ztrsv(uplo,trans,diag,n,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(dp) zero
            parameter (zero= (0.0_dp,0.0_dp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(dp) temp
            integer(int32) i,info,ix,j,jx,kx
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic dconjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -8943,30 +8927,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ztrsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 20 j = n,1,-1
@@ -9021,9 +9005,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-     !
+     
+              ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 110 j = 1,n
@@ -9105,50 +9089,50 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ztrsv
-     !
+     
+           ! end of stdlib_ztrsv
+     
      end subroutine stdlib_ztrsv
 
      
      
      subroutine stdlib_caxpy(n,ca,cx,incx,cy,incy)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) ca
            integer(int32) incx,incy,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) cx(*),cy(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            integer(int32) i,ix,iy
-     !     ..
+           ! ..
      
      
            if (n<=0) return
            if (stdlib_scabs1(ca)==0.0_sp) return
            if (incx==1 .and. incy==1) then
-     !
-     !        code for both increments equal to 1
-     !
+     
+              ! code for both increments equal to 1
+     
               do i = 1,n
                  cy(i) = cy(i) + ca*cx(i)
               end do
            else
-     !
-     !        code for unequal increments or equal increments
-     !          not equal to 1
-     !
+     
+              ! code for unequal increments or equal increments
+                ! not equal to 1
+     
               ix = 1
               iy = 1
               if (incx<0) ix = (-n+1)*incx + 1
@@ -9159,52 +9143,52 @@ module stdlib_linalg_blas
                  iy = iy + incy
               end do
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_caxpy
-     !
+     
+           ! end of stdlib_caxpy
+     
      end subroutine stdlib_caxpy
 
      
      
      subroutine stdlib_cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) incx,incy,kl,ku,lda,m,n
            character trans
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
            logical(lk) noconj
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
            .and..not.stdlib_lsame(trans,'c')) then
@@ -9228,16 +9212,16 @@ module stdlib_linalg_blas
                call stdlib_xerbla('cgbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
-     !
-     !     set  lenx  and  leny, the lengths of the vectors x and y, and set
-     !     up the start points in  x  and  y.
-     !
+     
+           ! set  lenx  and  leny, the lengths of the vectors x and y, and set
+           ! up the start points in  x  and  y.
+     
            if (stdlib_lsame(trans,'n')) then
                lenx = n
                leny = m
@@ -9255,12 +9239,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (leny-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the band part of a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the band part of a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -9290,9 +9274,9 @@ module stdlib_linalg_blas
            if (alpha==zero) return
            kup1 = ku + 1
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  y := alpha*a*x + y.
-     !
+     
+              ! form  y := alpha*a*x + y.
+     
                jx = kx
                if (incy==1) then
                    do 60 j = 1,n
@@ -9317,9 +9301,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
-     !
+     
+              ! form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
+     
                jy = ky
                if (incx==1) then
                    do 110 j = 1,n
@@ -9359,55 +9343,55 @@ module stdlib_linalg_blas
        140         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_cgbmv
-     !
+     
+           ! end of stdlib_cgbmv
+     
      end subroutine stdlib_cgbmv
 
      
      
      subroutine stdlib_cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) k,lda,ldb,ldc,m,n
            character transa,transb
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic conjg,max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,j,l,nrowa,nrowb
            logical(lk) conja,conjb,nota,notb
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !
-     !     set  nota  and  notb  as  true if  a  and  b  respectively are not
-     !     conjugated or transposed, set  conja and conjb  as true if  a  and
-     !     b  respectively are to be  transposed but  not conjugated  and set
-     !     nrowa and  nrowb  as the number of rows of  a  and  b  respectively.
-     !
+           ! ..
+     
+           ! set  nota  and  notb  as  true if  a  and  b  respectively are not
+           ! conjugated or transposed, set  conja and conjb  as true if  a  and
+           ! b  respectively are to be  transposed but  not conjugated  and set
+           ! nrowa and  nrowb  as the number of rows of  a  and  b  respectively.
+     
            nota = stdlib_lsame(transa,'n')
            notb = stdlib_lsame(transb,'n')
            conja = stdlib_lsame(transa,'c')
@@ -9422,9 +9406,9 @@ module stdlib_linalg_blas
            else
                nrowb = n
            end if
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.nota) .and. (.not.conja) .and.(.not.stdlib_lsame(transa,'t'))) then
                info = 1
@@ -9448,14 +9432,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('cgemm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one)))&
            return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -9472,14 +9456,14 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (notb) then
                if (nota) then
-     !
-     !           form  c := alpha*a*b + beta*c.
-     !
+     
+                 ! form  c := alpha*a*b + beta*c.
+     
                    do 90 j = 1,n
                        if (beta==zero) then
                            do 50 i = 1,m
@@ -9498,9 +9482,9 @@ module stdlib_linalg_blas
         80             continue
         90         continue
                else if (conja) then
-     !
-     !           form  c := alpha*a**h*b + beta*c.
-     !
+     
+                 ! form  c := alpha*a**h*b + beta*c.
+     
                    do 120 j = 1,n
                        do 110 i = 1,m
                            temp = zero
@@ -9515,9 +9499,9 @@ module stdlib_linalg_blas
        110             continue
        120         continue
                else
-     !
-     !           form  c := alpha*a**t*b + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b + beta*c
+     
                    do 150 j = 1,n
                        do 140 i = 1,m
                            temp = zero
@@ -9534,9 +9518,9 @@ module stdlib_linalg_blas
                end if
            else if (nota) then
                if (conjb) then
-     !
-     !           form  c := alpha*a*b**h + beta*c.
-     !
+     
+                 ! form  c := alpha*a*b**h + beta*c.
+     
                    do 200 j = 1,n
                        if (beta==zero) then
                            do 160 i = 1,m
@@ -9555,9 +9539,9 @@ module stdlib_linalg_blas
        190             continue
        200         continue
                else
-     !
-     !           form  c := alpha*a*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a*b**t + beta*c
+     
                    do 250 j = 1,n
                        if (beta==zero) then
                            do 210 i = 1,m
@@ -9578,9 +9562,9 @@ module stdlib_linalg_blas
                end if
            else if (conja) then
                if (conjb) then
-     !
-     !           form  c := alpha*a**h*b**h + beta*c.
-     !
+     
+                 ! form  c := alpha*a**h*b**h + beta*c.
+     
                    do 280 j = 1,n
                        do 270 i = 1,m
                            temp = zero
@@ -9595,9 +9579,9 @@ module stdlib_linalg_blas
        270             continue
        280         continue
                else
-     !
-     !           form  c := alpha*a**h*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a**h*b**t + beta*c
+     
                    do 310 j = 1,n
                        do 300 i = 1,m
                            temp = zero
@@ -9614,9 +9598,9 @@ module stdlib_linalg_blas
                end if
            else
                if (conjb) then
-     !
-     !           form  c := alpha*a**t*b**h + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b**h + beta*c
+     
                    do 340 j = 1,n
                        do 330 i = 1,m
                            temp = zero
@@ -9631,9 +9615,9 @@ module stdlib_linalg_blas
        330             continue
        340         continue
                else
-     !
-     !           form  c := alpha*a**t*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b**t + beta*c
+     
                    do 370 j = 1,n
                        do 360 i = 1,m
                            temp = zero
@@ -9649,52 +9633,52 @@ module stdlib_linalg_blas
        370         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_cgemm
-     !
+     
+           ! end of stdlib_cgemm
+     
      end subroutine stdlib_cgemm
 
      
      
      subroutine stdlib_cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) incx,incy,lda,m,n
            character trans
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
            logical(lk) noconj
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
            .and..not.stdlib_lsame(trans,'c')) then
@@ -9714,16 +9698,16 @@ module stdlib_linalg_blas
                call stdlib_xerbla('cgemv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
-     !
-     !     set  lenx  and  leny, the lengths of the vectors x and y, and set
-     !     up the start points in  x  and  y.
-     !
+     
+           ! set  lenx  and  leny, the lengths of the vectors x and y, and set
+           ! up the start points in  x  and  y.
+     
            if (stdlib_lsame(trans,'n')) then
                lenx = n
                leny = m
@@ -9741,12 +9725,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (leny-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -9775,9 +9759,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  y := alpha*a*x + y.
-     !
+     
+              ! form  y := alpha*a*x + y.
+     
                jx = kx
                if (incy==1) then
                    do 60 j = 1,n
@@ -9799,9 +9783,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
-     !
+     
+              ! form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
+     
                jy = ky
                if (incx==1) then
                    do 110 j = 1,n
@@ -9838,46 +9822,46 @@ module stdlib_linalg_blas
        140         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_cgemv
-     !
+     
+           ! end of stdlib_cgemv
+     
      end subroutine stdlib_cgemv
 
      
      
      subroutine stdlib_cgerc(m,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha
            integer(int32) incx,incy,lda,m,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jy,kx
-     !     ..
+           ! ..
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (m<0) then
                info = 1
@@ -9894,14 +9878,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('cgerc ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or. (alpha==zero)) return
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (incy>0) then
                jy = 1
            else
@@ -9935,46 +9919,46 @@ module stdlib_linalg_blas
                    jy = jy + incy
         40     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_cgerc
-     !
+     
+           ! end of stdlib_cgerc
+     
      end subroutine stdlib_cgerc
 
      
      
      subroutine stdlib_cgeru(m,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha
            integer(int32) incx,incy,lda,m,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jy,kx
-     !     ..
+           ! ..
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (m<0) then
                info = 1
@@ -9991,14 +9975,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('cgeru ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or. (alpha==zero)) return
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (incy>0) then
                jy = 1
            else
@@ -10032,51 +10016,51 @@ module stdlib_linalg_blas
                    jy = jy + incy
         40     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_cgeru
-     !
+     
+           ! end of stdlib_cgeru
+     
      end subroutine stdlib_cgeru
 
      
      
      subroutine stdlib_chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) incx,incy,k,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max,min,real
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -10095,13 +10079,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('chbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -10112,12 +10096,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of the array a
-     !     are accessed sequentially with one pass through a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of the array a
+           ! are accessed sequentially with one pass through a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -10146,9 +10130,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when upper triangle of a is stored.
-     !
+     
+              ! form  y  when upper triangle of a is stored.
+     
                kplus1 = k + 1
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
@@ -10186,9 +10170,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when lower triangle of a is stored.
-     !
+     
+              ! form  y  when lower triangle of a is stored.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -10223,61 +10207,61 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_chbmv
-     !
+     
+           ! end of stdlib_chbmv
+     
      end subroutine stdlib_chbmv
 
      
      
      subroutine stdlib_chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) lda,ldb,ldc,m,n
            character side,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic conjg,max,real
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp1,temp2
            integer(int32) i,info,j,k,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !
-     !     set nrowa as the number of rows of a.
-     !
+           ! ..
+     
+           ! set nrowa as the number of rows of a.
+     
            if (stdlib_lsame(side,'l')) then
                nrowa = m
            else
                nrowa = n
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.stdlib_lsame(side,'l')) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -10298,13 +10282,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('chemm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -10321,13 +10305,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(side,'l')) then
-     !
-     !        form  c := alpha*a*b + beta*c.
-     !
+     
+              ! form  c := alpha*a*b + beta*c.
+     
                if (upper) then
                    do 70 j = 1,n
                        do 60 i = 1,m
@@ -10362,9 +10346,9 @@ module stdlib_linalg_blas
        100         continue
                end if
            else
-     !
-     !        form  c := alpha*b*a + beta*c.
-     !
+     
+              ! form  c := alpha*b*a + beta*c.
+     
                do 170 j = 1,n
                    temp1 = alpha*real(a(j,j))
                    if (beta==zero) then
@@ -10398,51 +10382,51 @@ module stdlib_linalg_blas
        160         continue
        170     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_chemm
-     !
+     
+           ! end of stdlib_chemm
+     
      end subroutine stdlib_chemm
 
      
      
      subroutine stdlib_chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) incx,incy,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max,real
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -10459,13 +10443,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('chemv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -10476,13 +10460,13 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -10511,9 +10495,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when a is stored in upper triangle.
-     !
+     
+              ! form  y  when a is stored in upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        temp1 = alpha*x(j)
@@ -10544,9 +10528,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when a is stored in lower triangle.
-     !
+     
+              ! form  y  when a is stored in lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -10579,49 +10563,49 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_chemv
-     !
+     
+           ! end of stdlib_chemv
+     
      end subroutine stdlib_chemv
 
      
      
      subroutine stdlib_cher(uplo,n,alpha,x,incx,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha
            integer(int32) incx,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jx,kx
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max,real
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -10636,27 +10620,27 @@ module stdlib_linalg_blas
                call stdlib_xerbla('cher  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==real(zero))) return
-     !
-     !     set the start point in x if the increment is not unity.
-     !
+     
+           ! set the start point in x if the increment is not unity.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when a is stored in upper triangle.
-     !
+     
+              ! form  a  when a is stored in upper triangle.
+     
                if (incx==1) then
                    do 20 j = 1,n
                        if (x(j)/=zero) then
@@ -10687,9 +10671,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when a is stored in lower triangle.
-     !
+     
+              ! form  a  when a is stored in lower triangle.
+     
                if (incx==1) then
                    do 60 j = 1,n
                        if (x(j)/=zero) then
@@ -10720,49 +10704,49 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_cher
-     !
+     
+           ! end of stdlib_cher
+     
      end subroutine stdlib_cher
 
      
      
      subroutine stdlib_cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha
            integer(int32) incx,incy,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max,real
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -10779,14 +10763,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('cher2 ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set up the start points in x and y if the increments are not both
-     !     unity.
-     !
+     
+           ! set up the start points in x and y if the increments are not both
+           ! unity.
+     
            if ((incx/=1) .or. (incy/=1)) then
                if (incx>0) then
                    kx = 1
@@ -10801,15 +10785,15 @@ module stdlib_linalg_blas
                jx = kx
                jy = ky
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when a is stored in the upper triangle.
-     !
+     
+              ! form  a  when a is stored in the upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 20 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -10844,9 +10828,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when a is stored in the lower triangle.
-     !
+     
+              ! form  a  when a is stored in the lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -10881,60 +10865,60 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_cher2
-     !
+     
+           ! end of stdlib_cher2
+     
      end subroutine stdlib_cher2
 
      
      
      subroutine stdlib_cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha
            real(sp) beta
            integer(int32) k,lda,ldb,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic conjg,max,real
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp1,temp2
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(sp) one
            parameter (one=1.0_sp)
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -10956,13 +10940,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('cher2k',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==real(zero)) then
@@ -10997,14 +10981,14 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*b**h + conjg( alpha )*b*a**h +
-     !                   c.
-     !
+     
+              ! form  c := alpha*a*b**h + conjg( alpha )*b*a**h +
+                         ! c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==real(zero)) then
@@ -11057,10 +11041,10 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**h*b + conjg( alpha )*b**h*a +
-     !                   c.
-     !
+     
+              ! form  c := alpha*a**h*b + conjg( alpha )*b**h*a +
+                         ! c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -11113,58 +11097,58 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_cher2k
-     !
+     
+           ! end of stdlib_cher2k
+     
      end subroutine stdlib_cher2k
 
      
      
      subroutine stdlib_cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) k,lda,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic cmplx,conjg,max,real
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            real(sp) rtemp
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -11184,13 +11168,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('cherk ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -11225,13 +11209,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*a**h + beta*c.
-     !
+     
+              ! form  c := alpha*a*a**h + beta*c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -11282,9 +11266,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**h*a + beta*c.
-     !
+     
+              ! form  c := alpha*a**h*a + beta*c.
+     
                if (upper) then
                    do 220 j = 1,n
                        do 200 i = 1,j - 1
@@ -11333,51 +11317,51 @@ module stdlib_linalg_blas
        260         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_cherk
-     !
+     
+           ! end of stdlib_cherk
+     
      end subroutine stdlib_cherk
 
      
      
      subroutine stdlib_chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) incx,incy,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) ap(*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,real
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -11392,13 +11376,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('chpmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -11409,12 +11393,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -11444,9 +11428,9 @@ module stdlib_linalg_blas
            if (alpha==zero) return
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when ap contains the upper triangle.
-     !
+     
+              ! form  y  when ap contains the upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        temp1 = alpha*x(j)
@@ -11481,9 +11465,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when ap contains the lower triangle.
-     !
+     
+              ! form  y  when ap contains the lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -11520,49 +11504,49 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_chpmv
-     !
+     
+           ! end of stdlib_chpmv
+     
      end subroutine stdlib_chpmv
 
      
      
      subroutine stdlib_chpr(uplo,n,alpha,x,incx,ap)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha
            integer(int32) incx,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,real
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -11575,27 +11559,27 @@ module stdlib_linalg_blas
                call stdlib_xerbla('chpr  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==real(zero))) return
-     !
-     !     set the start point in x if the increment is not unity.
-     !
+     
+           ! set the start point in x if the increment is not unity.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when upper triangle is stored in ap.
-     !
+     
+              ! form  a  when upper triangle is stored in ap.
+     
                if (incx==1) then
                    do 20 j = 1,n
                        if (x(j)/=zero) then
@@ -11630,9 +11614,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when lower triangle is stored in ap.
-     !
+     
+              ! form  a  when lower triangle is stored in ap.
+     
                if (incx==1) then
                    do 60 j = 1,n
                        if (x(j)/=zero) then
@@ -11667,49 +11651,49 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_chpr
-     !
+     
+           ! end of stdlib_chpr
+     
      end subroutine stdlib_chpr
 
      
      
      subroutine stdlib_chpr2(uplo,n,alpha,x,incx,y,incy,ap)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha
            integer(int32) incx,incy,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) ap(*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,real
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -11724,14 +11708,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('chpr2 ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set up the start points in x and y if the increments are not both
-     !     unity.
-     !
+     
+           ! set up the start points in x and y if the increments are not both
+           ! unity.
+     
            if ((incx/=1) .or. (incy/=1)) then
                if (incx>0) then
                    kx = 1
@@ -11746,15 +11730,15 @@ module stdlib_linalg_blas
                jx = kx
                jy = ky
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when upper triangle is stored in ap.
-     !
+     
+              ! form  a  when upper triangle is stored in ap.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 20 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -11793,9 +11777,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when lower triangle is stored in ap.
-     !
+     
+              ! form  a  when lower triangle is stored in ap.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -11834,61 +11818,61 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_chpr2
-     !
+     
+           ! end of stdlib_chpr2
+     
      end subroutine stdlib_chpr2
 
      
      
      subroutine stdlib_csymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) lda,ldb,ldc,m,n
            character side,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp1,temp2
            integer(int32) i,info,j,k,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !
-     !     set nrowa as the number of rows of a.
-     !
+           ! ..
+     
+           ! set nrowa as the number of rows of a.
+     
            if (stdlib_lsame(side,'l')) then
                nrowa = m
            else
                nrowa = n
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.stdlib_lsame(side,'l')) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -11909,13 +11893,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('csymm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -11932,13 +11916,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(side,'l')) then
-     !
-     !        form  c := alpha*a*b + beta*c.
-     !
+     
+              ! form  c := alpha*a*b + beta*c.
+     
                if (upper) then
                    do 70 j = 1,n
                        do 60 i = 1,m
@@ -11973,9 +11957,9 @@ module stdlib_linalg_blas
        100         continue
                end if
            else
-     !
-     !        form  c := alpha*b*a + beta*c.
-     !
+     
+              ! form  c := alpha*b*a + beta*c.
+     
                do 170 j = 1,n
                    temp1 = alpha*a(j,j)
                    if (beta==zero) then
@@ -12009,59 +11993,59 @@ module stdlib_linalg_blas
        160         continue
        170     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_csymm
-     !
+     
+           ! end of stdlib_csymm
+     
      end subroutine stdlib_csymm
 
      
      
      subroutine stdlib_csyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) k,lda,ldb,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp1,temp2
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -12083,13 +12067,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('csyr2k',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -12122,13 +12106,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*b**t + alpha*b*a**t + c.
-     !
+     
+              ! form  c := alpha*a*b**t + alpha*b*a**t + c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -12173,9 +12157,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**t*b + alpha*b**t*a + c.
-     !
+     
+              ! form  c := alpha*a**t*b + alpha*b**t*a + c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -12210,59 +12194,59 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_csyr2k
-     !
+     
+           ! end of stdlib_csyr2k
+     
      end subroutine stdlib_csyr2k
 
      
      
      subroutine stdlib_csyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha,beta
            integer(int32) k,lda,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -12282,13 +12266,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('csyrk ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -12321,13 +12305,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*a**t + beta*c.
-     !
+     
+              ! form  c := alpha*a*a**t + beta*c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -12370,9 +12354,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**t*a + beta*c.
-     !
+     
+              ! form  c := alpha*a**t*a + beta*c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -12403,49 +12387,49 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_csyrk
-     !
+     
+           ! end of stdlib_csyrk
+     
      end subroutine stdlib_csyrk
 
      
      
      subroutine stdlib_ctbmv(uplo,trans,diag,n,k,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,k,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jx,kplus1,kx,l
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -12467,30 +12451,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ctbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx   too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx   too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !         form  x := a*x.
-     !
+     
+               ! form  x := a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -12553,9 +12537,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x  or  x := a**h*x.
-     !
+     
+              ! form  x := a**t*x  or  x := a**h*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -12644,49 +12628,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ctbmv
-     !
+     
+           ! end of stdlib_ctbmv
+     
      end subroutine stdlib_ctbmv
 
      
      
      subroutine stdlib_ctbsv(uplo,trans,diag,n,k,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,k,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jx,kplus1,kx,l
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -12708,30 +12692,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ctbsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed by sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed by sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -12794,9 +12778,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-     !
+     
+              ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -12885,49 +12869,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ctbsv
-     !
+     
+           ! end of stdlib_ctbsv
+     
      end subroutine stdlib_ctbsv
 
      
      
      subroutine stdlib_ctpmv(uplo,trans,diag,n,ap,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -12945,30 +12929,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ctpmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of ap are
-     !     accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of ap are
+           ! accessed sequentially with one pass through ap.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x:= a*x.
-     !
+     
+              ! form  x:= a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
@@ -13034,9 +13018,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x  or  x := a**h*x.
-     !
+     
+              ! form  x := a**t*x  or  x := a**h*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
@@ -13129,49 +13113,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ctpmv
-     !
+     
+           ! end of stdlib_ctpmv
+     
      end subroutine stdlib_ctpmv
 
      
      
      subroutine stdlib_ctpsv(uplo,trans,diag,n,ap,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -13189,30 +13173,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ctpsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of ap are
-     !     accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of ap are
+           ! accessed sequentially with one pass through ap.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
@@ -13277,9 +13261,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-     !
+     
+              ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
@@ -13373,52 +13357,52 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ctpsv
-     !
+     
+           ! end of stdlib_ctpsv
+     
      end subroutine stdlib_ctpsv
 
      
      
      subroutine stdlib_ctrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha
            integer(int32) lda,ldb,m,n
            character diag,side,transa,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),b(ldb,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic conjg,max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,j,k,nrowa
            logical(lk) lside,noconj,nounit,upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            lside = stdlib_lsame(side,'l')
            if (lside) then
                nrowa = m
@@ -13428,7 +13412,7 @@ module stdlib_linalg_blas
            noconj = stdlib_lsame(transa,'t')
            nounit = stdlib_lsame(diag,'n')
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -13453,13 +13437,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ctrmm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (m==0 .or. n==0) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                do 20 j = 1,n
                    do 10 i = 1,m
@@ -13468,14 +13452,14 @@ module stdlib_linalg_blas
         20     continue
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (lside) then
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*a*b.
-     !
+     
+                 ! form  b := alpha*a*b.
+     
                    if (upper) then
                        do 50 j = 1,n
                            do 40 k = 1,m
@@ -13504,9 +13488,9 @@ module stdlib_linalg_blas
         80             continue
                    end if
                else
-     !
-     !           form  b := alpha*a**t*b   or   b := alpha*a**h*b.
-     !
+     
+                 ! form  b := alpha*a**t*b   or   b := alpha*a**h*b.
+     
                    if (upper) then
                        do 120 j = 1,n
                            do 110 i = m,1,-1
@@ -13547,9 +13531,9 @@ module stdlib_linalg_blas
                end if
            else
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*b*a.
-     !
+     
+                 ! form  b := alpha*b*a.
+     
                    if (upper) then
                        do 200 j = n,1,-1
                            temp = alpha
@@ -13584,9 +13568,9 @@ module stdlib_linalg_blas
        240             continue
                    end if
                else
-     !
-     !           form  b := alpha*b*a**t   or   b := alpha*b*a**h.
-     !
+     
+                 ! form  b := alpha*b*a**t   or   b := alpha*b*a**h.
+     
                    if (upper) then
                        do 280 k = 1,n
                            do 260 j = 1,k - 1
@@ -13646,49 +13630,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ctrmm
-     !
+     
+           ! end of stdlib_ctrmm
+     
      end subroutine stdlib_ctrmm
 
      
      
      subroutine stdlib_ctrmv(uplo,trans,diag,n,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jx,kx
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -13708,30 +13692,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ctrmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := a*x.
-     !
+     
+              ! form  x := a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 20 j = 1,n
@@ -13787,9 +13771,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x  or  x := a**h*x.
-     !
+     
+              ! form  x := a**t*x  or  x := a**h*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 110 j = n,1,-1
@@ -13870,52 +13854,52 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ctrmv
-     !
+     
+           ! end of stdlib_ctrmv
+     
      end subroutine stdlib_ctrmv
 
      
      
      subroutine stdlib_ctrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            complex(sp) alpha
            integer(int32) lda,ldb,m,n
            character diag,side,transa,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),b(ldb,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic conjg,max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,j,k,nrowa
            logical(lk) lside,noconj,nounit,upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            complex(sp) one
            parameter (one= (1.0_sp,0.0_sp))
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            lside = stdlib_lsame(side,'l')
            if (lside) then
                nrowa = m
@@ -13925,7 +13909,7 @@ module stdlib_linalg_blas
            noconj = stdlib_lsame(transa,'t')
            nounit = stdlib_lsame(diag,'n')
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -13950,13 +13934,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ctrsm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (m==0 .or. n==0) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                do 20 j = 1,n
                    do 10 i = 1,m
@@ -13965,14 +13949,14 @@ module stdlib_linalg_blas
         20     continue
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (lside) then
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*inv( a )*b.
-     !
+     
+                 ! form  b := alpha*inv( a )*b.
+     
                    if (upper) then
                        do 60 j = 1,n
                            if (alpha/=one) then
@@ -14007,10 +13991,10 @@ module stdlib_linalg_blas
        100             continue
                    end if
                else
-     !
-     !           form  b := alpha*inv( a**t )*b
-     !           or    b := alpha*inv( a**h )*b.
-     !
+     
+                 ! form  b := alpha*inv( a**t )*b
+                 ! or    b := alpha*inv( a**h )*b.
+     
                    if (upper) then
                        do 140 j = 1,n
                            do 130 i = 1,m
@@ -14051,9 +14035,9 @@ module stdlib_linalg_blas
                end if
            else
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*b*inv( a ).
-     !
+     
+                 ! form  b := alpha*b*inv( a ).
+     
                    if (upper) then
                        do 230 j = 1,n
                            if (alpha/=one) then
@@ -14098,10 +14082,10 @@ module stdlib_linalg_blas
        280             continue
                    end if
                else
-     !
-     !           form  b := alpha*b*inv( a**t )
-     !           or    b := alpha*b*inv( a**h ).
-     !
+     
+                 ! form  b := alpha*b*inv( a**t )
+                 ! or    b := alpha*b*inv( a**h ).
+     
                    if (upper) then
                        do 330 k = n,1,-1
                            if (nounit) then
@@ -14165,49 +14149,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ctrsm
-     !
+     
+           ! end of stdlib_ctrsm
+     
      end subroutine stdlib_ctrsm
 
      
      
      subroutine stdlib_ctrsv(uplo,trans,diag,n,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            complex(sp) zero
            parameter (zero= (0.0_sp,0.0_sp))
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            complex(sp) temp
            integer(int32) i,info,ix,j,jx,kx
            logical(lk) noconj,nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic conjg,max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -14227,30 +14211,30 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ctrsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            noconj = stdlib_lsame(trans,'t')
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 20 j = n,1,-1
@@ -14305,9 +14289,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-     !
+     
+              ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 110 j = 1,n
@@ -14389,49 +14373,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ctrsv
-     !
+     
+           ! end of stdlib_ctrsv
+     
      end subroutine stdlib_ctrsv
 
      
      
      subroutine stdlib_dgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) incx,incy,kl,ku,lda,m,n
            character trans
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
            .and..not.stdlib_lsame(trans,'c')) then
@@ -14455,14 +14439,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dgbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     set  lenx  and  leny, the lengths of the vectors x and y, and set
-     !     up the start points in  x  and  y.
-     !
+     
+           ! set  lenx  and  leny, the lengths of the vectors x and y, and set
+           ! up the start points in  x  and  y.
+     
            if (stdlib_lsame(trans,'n')) then
                lenx = n
                leny = m
@@ -14480,12 +14464,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (leny-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the band part of a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the band part of a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -14515,9 +14499,9 @@ module stdlib_linalg_blas
            if (alpha==zero) return
            kup1 = ku + 1
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  y := alpha*a*x + y.
-     !
+     
+              ! form  y := alpha*a*x + y.
+     
                jx = kx
                if (incy==1) then
                    do 60 j = 1,n
@@ -14542,9 +14526,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y := alpha*a**t*x + y.
-     !
+     
+              ! form  y := alpha*a**t*x + y.
+     
                jy = ky
                if (incx==1) then
                    do 100 j = 1,n
@@ -14571,52 +14555,52 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dgbmv
-     !
+     
+           ! end of stdlib_dgbmv
+     
      end subroutine stdlib_dgbmv
 
      
      
      subroutine stdlib_dgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) k,lda,ldb,ldc,m,n
            character transa,transb
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,j,l,nrowa,nrowb
            logical(lk) nota,notb
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !
-     !     set  nota  and  notb  as  true if  a  and  b  respectively are not
-     !     transposed and set  nrowa and nrowb  as the number of rows of  a
-     !     and  b  respectively.
-     !
+           ! ..
+     
+           ! set  nota  and  notb  as  true if  a  and  b  respectively are not
+           ! transposed and set  nrowa and nrowb  as the number of rows of  a
+           ! and  b  respectively.
+     
            nota = stdlib_lsame(transa,'n')
            notb = stdlib_lsame(transb,'n')
            if (nota) then
@@ -14629,9 +14613,9 @@ module stdlib_linalg_blas
            else
                nrowb = n
            end if
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.nota) .and. (.not.stdlib_lsame(transa,'c')) .and.(.not.stdlib_lsame(transa,&
           't'))) then
@@ -14656,14 +14640,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dgemm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one)))&
            return
-     !
-     !     and if  alpha.eq.zero.
-     !
+     
+           ! and if  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -14680,14 +14664,14 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (notb) then
                if (nota) then
-     !
-     !           form  c := alpha*a*b + beta*c.
-     !
+     
+                 ! form  c := alpha*a*b + beta*c.
+     
                    do 90 j = 1,n
                        if (beta==zero) then
                            do 50 i = 1,m
@@ -14706,9 +14690,9 @@ module stdlib_linalg_blas
         80             continue
         90         continue
                else
-     !
-     !           form  c := alpha*a**t*b + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b + beta*c
+     
                    do 120 j = 1,n
                        do 110 i = 1,m
                            temp = zero
@@ -14725,9 +14709,9 @@ module stdlib_linalg_blas
                end if
            else
                if (nota) then
-     !
-     !           form  c := alpha*a*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a*b**t + beta*c
+     
                    do 170 j = 1,n
                        if (beta==zero) then
                            do 130 i = 1,m
@@ -14746,9 +14730,9 @@ module stdlib_linalg_blas
        160             continue
        170         continue
                else
-     !
-     !           form  c := alpha*a**t*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b**t + beta*c
+     
                    do 200 j = 1,n
                        do 190 i = 1,m
                            temp = zero
@@ -14764,49 +14748,49 @@ module stdlib_linalg_blas
        200         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dgemm
-     !
+     
+           ! end of stdlib_dgemm
+     
      end subroutine stdlib_dgemm
 
      
      
      subroutine stdlib_dgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) incx,incy,lda,m,n
            character trans
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
            .and..not.stdlib_lsame(trans,'c')) then
@@ -14826,14 +14810,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dgemv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     set  lenx  and  leny, the lengths of the vectors x and y, and set
-     !     up the start points in  x  and  y.
-     !
+     
+           ! set  lenx  and  leny, the lengths of the vectors x and y, and set
+           ! up the start points in  x  and  y.
+     
            if (stdlib_lsame(trans,'n')) then
                lenx = n
                leny = m
@@ -14851,12 +14835,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (leny-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -14885,9 +14869,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  y := alpha*a*x + y.
-     !
+     
+              ! form  y := alpha*a*x + y.
+     
                jx = kx
                if (incy==1) then
                    do 60 j = 1,n
@@ -14909,9 +14893,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y := alpha*a**t*x + y.
-     !
+     
+              ! form  y := alpha*a**t*x + y.
+     
                jy = ky
                if (incx==1) then
                    do 100 j = 1,n
@@ -14935,46 +14919,46 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dgemv
-     !
+     
+           ! end of stdlib_dgemv
+     
      end subroutine stdlib_dgemv
 
      
      
      subroutine stdlib_dger(m,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha
            integer(int32) incx,incy,lda,m,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,j,jy,kx
-     !     ..
+           ! ..
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (m<0) then
                info = 1
@@ -14991,14 +14975,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dger  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or. (alpha==zero)) return
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (incy>0) then
                jy = 1
            else
@@ -15032,49 +15016,49 @@ module stdlib_linalg_blas
                    jy = jy + incy
         40     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dger
-     !
+     
+           ! end of stdlib_dger
+     
      end subroutine stdlib_dger
 
      
      
      subroutine stdlib_dsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) incx,incy,k,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -15093,13 +15077,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dsbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -15110,12 +15094,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of the array a
-     !     are accessed sequentially with one pass through a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of the array a
+           ! are accessed sequentially with one pass through a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -15144,9 +15128,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when upper triangle of a is stored.
-     !
+     
+              ! form  y  when upper triangle of a is stored.
+     
                kplus1 = k + 1
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
@@ -15184,9 +15168,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when lower triangle of a is stored.
-     !
+     
+              ! form  y  when lower triangle of a is stored.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -15221,46 +15205,46 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dsbmv
-     !
+     
+           ! end of stdlib_dsbmv
+     
      end subroutine stdlib_dsbmv
 
      
      
      subroutine stdlib_dspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) incx,incy,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) ap(*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -15275,13 +15259,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dspmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -15292,12 +15276,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -15327,9 +15311,9 @@ module stdlib_linalg_blas
            if (alpha==zero) return
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when ap contains the upper triangle.
-     !
+     
+              ! form  y  when ap contains the upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        temp1 = alpha*x(j)
@@ -15364,9 +15348,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when ap contains the lower triangle.
-     !
+     
+              ! form  y  when ap contains the lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -15403,46 +15387,46 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dspmv
-     !
+     
+           ! end of stdlib_dspmv
+     
      end subroutine stdlib_dspmv
 
      
      
      subroutine stdlib_dspr(uplo,n,alpha,x,incx,ap)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha
            integer(int32) incx,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -15455,27 +15439,27 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dspr  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set the start point in x if the increment is not unity.
-     !
+     
+           ! set the start point in x if the increment is not unity.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when upper triangle is stored in ap.
-     !
+     
+              ! form  a  when upper triangle is stored in ap.
+     
                if (incx==1) then
                    do 20 j = 1,n
                        if (x(j)/=zero) then
@@ -15504,9 +15488,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when lower triangle is stored in ap.
-     !
+     
+              ! form  a  when lower triangle is stored in ap.
+     
                if (incx==1) then
                    do 60 j = 1,n
                        if (x(j)/=zero) then
@@ -15535,46 +15519,46 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dspr
-     !
+     
+           ! end of stdlib_dspr
+     
      end subroutine stdlib_dspr
 
      
      
      subroutine stdlib_dspr2(uplo,n,alpha,x,incx,y,incy,ap)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha
            integer(int32) incx,incy,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) ap(*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -15589,14 +15573,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dspr2 ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set up the start points in x and y if the increments are not both
-     !     unity.
-     !
+     
+           ! set up the start points in x and y if the increments are not both
+           ! unity.
+     
            if ((incx/=1) .or. (incy/=1)) then
                if (incx>0) then
                    kx = 1
@@ -15611,15 +15595,15 @@ module stdlib_linalg_blas
                jx = kx
                jy = ky
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when upper triangle is stored in ap.
-     !
+     
+              ! form  a  when upper triangle is stored in ap.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 20 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -15652,9 +15636,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when lower triangle is stored in ap.
-     !
+     
+              ! form  a  when lower triangle is stored in ap.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -15687,59 +15671,59 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dspr2
-     !
+     
+           ! end of stdlib_dspr2
+     
      end subroutine stdlib_dspr2
 
      
      
      subroutine stdlib_dsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) lda,ldb,ldc,m,n
            character side,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp1,temp2
            integer(int32) i,info,j,k,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !
-     !     set nrowa as the number of rows of a.
-     !
+           ! ..
+     
+           ! set nrowa as the number of rows of a.
+     
            if (stdlib_lsame(side,'l')) then
                nrowa = m
            else
                nrowa = n
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.stdlib_lsame(side,'l')) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -15760,13 +15744,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dsymm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -15783,13 +15767,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(side,'l')) then
-     !
-     !        form  c := alpha*a*b + beta*c.
-     !
+     
+              ! form  c := alpha*a*b + beta*c.
+     
                if (upper) then
                    do 70 j = 1,n
                        do 60 i = 1,m
@@ -15824,9 +15808,9 @@ module stdlib_linalg_blas
        100         continue
                end if
            else
-     !
-     !        form  c := alpha*b*a + beta*c.
-     !
+     
+              ! form  c := alpha*b*a + beta*c.
+     
                do 170 j = 1,n
                    temp1 = alpha*a(j,j)
                    if (beta==zero) then
@@ -15860,49 +15844,49 @@ module stdlib_linalg_blas
        160         continue
        170     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dsymm
-     !
+     
+           ! end of stdlib_dsymm
+     
      end subroutine stdlib_dsymm
 
      
      
      subroutine stdlib_dsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) incx,incy,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -15919,13 +15903,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dsymv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -15936,13 +15920,13 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -15971,9 +15955,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when a is stored in upper triangle.
-     !
+     
+              ! form  y  when a is stored in upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        temp1 = alpha*x(j)
@@ -16004,9 +15988,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when a is stored in lower triangle.
-     !
+     
+              ! form  y  when a is stored in lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -16039,49 +16023,49 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dsymv
-     !
+     
+           ! end of stdlib_dsymv
+     
      end subroutine stdlib_dsymv
 
      
      
      subroutine stdlib_dsyr(uplo,n,alpha,x,incx,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha
            integer(int32) incx,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,j,jx,kx
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -16096,27 +16080,27 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dsyr  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set the start point in x if the increment is not unity.
-     !
+     
+           ! set the start point in x if the increment is not unity.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when a is stored in upper triangle.
-     !
+     
+              ! form  a  when a is stored in upper triangle.
+     
                if (incx==1) then
                    do 20 j = 1,n
                        if (x(j)/=zero) then
@@ -16141,9 +16125,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when a is stored in lower triangle.
-     !
+     
+              ! form  a  when a is stored in lower triangle.
+     
                if (incx==1) then
                    do 60 j = 1,n
                        if (x(j)/=zero) then
@@ -16168,49 +16152,49 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dsyr
-     !
+     
+           ! end of stdlib_dsyr
+     
      end subroutine stdlib_dsyr
 
      
      
      subroutine stdlib_dsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha
            integer(int32) incx,incy,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -16227,14 +16211,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dsyr2 ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set up the start points in x and y if the increments are not both
-     !     unity.
-     !
+     
+           ! set up the start points in x and y if the increments are not both
+           ! unity.
+     
            if ((incx/=1) .or. (incy/=1)) then
                if (incx>0) then
                    kx = 1
@@ -16249,15 +16233,15 @@ module stdlib_linalg_blas
                jx = kx
                jy = ky
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when a is stored in the upper triangle.
-     !
+     
+              ! form  a  when a is stored in the upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 20 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -16286,9 +16270,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when a is stored in the lower triangle.
-     !
+     
+              ! form  a  when a is stored in the lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -16317,57 +16301,57 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dsyr2
-     !
+     
+           ! end of stdlib_dsyr2
+     
      end subroutine stdlib_dsyr2
 
      
      
      subroutine stdlib_dsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) k,lda,ldb,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp1,temp2
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -16389,13 +16373,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dsyr2k',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -16428,13 +16412,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*b**t + alpha*b*a**t + c.
-     !
+     
+              ! form  c := alpha*a*b**t + alpha*b*a**t + c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -16479,9 +16463,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**t*b + alpha*b**t*a + c.
-     !
+     
+              ! form  c := alpha*a**t*b + alpha*b**t*a + c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -16516,57 +16500,57 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dsyr2k
-     !
+     
+           ! end of stdlib_dsyr2k
+     
      end subroutine stdlib_dsyr2k
 
      
      
      subroutine stdlib_dsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha,beta
            integer(int32) k,lda,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -16586,13 +16570,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dsyrk ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -16625,13 +16609,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*a**t + beta*c.
-     !
+     
+              ! form  c := alpha*a*a**t + beta*c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -16674,9 +16658,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**t*a + beta*c.
-     !
+     
+              ! form  c := alpha*a**t*a + beta*c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -16707,49 +16691,49 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dsyrk
-     !
+     
+           ! end of stdlib_dsyrk
+     
      end subroutine stdlib_dsyrk
 
      
      
      subroutine stdlib_dtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,k,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,j,jx,kplus1,kx,l
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -16771,29 +16755,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dtbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx   too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx   too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !         form  x := a*x.
-     !
+     
+               ! form  x := a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -16856,9 +16840,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x.
-     !
+     
+              ! form  x := a**t*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -16917,49 +16901,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dtbmv
-     !
+     
+           ! end of stdlib_dtbmv
+     
      end subroutine stdlib_dtbmv
 
      
      
      subroutine stdlib_dtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,k,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,j,jx,kplus1,kx,l
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -16981,29 +16965,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dtbsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed by sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed by sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -17066,9 +17050,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t)*x.
-     !
+     
+              ! form  x := inv( a**t)*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -17127,46 +17111,46 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dtbsv
-     !
+     
+           ! end of stdlib_dtbsv
+     
      end subroutine stdlib_dtbsv
 
      
      
      subroutine stdlib_dtpmv(uplo,trans,diag,n,ap,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -17184,29 +17168,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dtpmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of ap are
-     !     accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of ap are
+           ! accessed sequentially with one pass through ap.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x:= a*x.
-     !
+     
+              ! form  x:= a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
@@ -17272,9 +17256,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x.
-     !
+     
+              ! form  x := a**t*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
@@ -17335,46 +17319,46 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dtpmv
-     !
+     
+           ! end of stdlib_dtpmv
+     
      end subroutine stdlib_dtpmv
 
      
      
      subroutine stdlib_dtpsv(uplo,trans,diag,n,ap,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -17392,29 +17376,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dtpsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of ap are
-     !     accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of ap are
+           ! accessed sequentially with one pass through ap.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
@@ -17479,9 +17463,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x.
-     !
+     
+              ! form  x := inv( a**t )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
@@ -17543,50 +17527,50 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dtpsv
-     !
+     
+           ! end of stdlib_dtpsv
+     
      end subroutine stdlib_dtpsv
 
      
      
      subroutine stdlib_dtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha
            integer(int32) lda,ldb,m,n
            character diag,side,transa,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),b(ldb,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,j,k,nrowa
            logical(lk) lside,nounit,upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            lside = stdlib_lsame(side,'l')
            if (lside) then
                nrowa = m
@@ -17595,7 +17579,7 @@ module stdlib_linalg_blas
            end if
            nounit = stdlib_lsame(diag,'n')
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -17620,13 +17604,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dtrmm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (m==0 .or. n==0) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                do 20 j = 1,n
                    do 10 i = 1,m
@@ -17635,14 +17619,14 @@ module stdlib_linalg_blas
         20     continue
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (lside) then
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*a*b.
-     !
+     
+                 ! form  b := alpha*a*b.
+     
                    if (upper) then
                        do 50 j = 1,n
                            do 40 k = 1,m
@@ -17671,9 +17655,9 @@ module stdlib_linalg_blas
         80             continue
                    end if
                else
-     !
-     !           form  b := alpha*a**t*b.
-     !
+     
+                 ! form  b := alpha*a**t*b.
+     
                    if (upper) then
                        do 110 j = 1,n
                            do 100 i = m,1,-1
@@ -17700,9 +17684,9 @@ module stdlib_linalg_blas
                end if
            else
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*b*a.
-     !
+     
+                 ! form  b := alpha*b*a.
+     
                    if (upper) then
                        do 180 j = n,1,-1
                            temp = alpha
@@ -17737,9 +17721,9 @@ module stdlib_linalg_blas
        220             continue
                    end if
                else
-     !
-     !           form  b := alpha*b*a**t.
-     !
+     
+                 ! form  b := alpha*b*a**t.
+     
                    if (upper) then
                        do 260 k = 1,n
                            do 240 j = 1,k - 1
@@ -17779,49 +17763,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dtrmm
-     !
+     
+           ! end of stdlib_dtrmm
+     
      end subroutine stdlib_dtrmm
 
      
      
      subroutine stdlib_dtrmv(uplo,trans,diag,n,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,j,jx,kx
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -17841,29 +17825,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dtrmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := a*x.
-     !
+     
+              ! form  x := a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 20 j = 1,n
@@ -17919,9 +17903,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x.
-     !
+     
+              ! form  x := a**t*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 100 j = n,1,-1
@@ -17972,50 +17956,50 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dtrmv
-     !
+     
+           ! end of stdlib_dtrmv
+     
      end subroutine stdlib_dtrmv
 
      
      
      subroutine stdlib_dtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(dp) alpha
            integer(int32) lda,ldb,m,n
            character diag,side,transa,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),b(ldb,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,j,k,nrowa
            logical(lk) lside,nounit,upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(dp) one,zero
            parameter (one=1.0_dp,zero=0.0_dp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            lside = stdlib_lsame(side,'l')
            if (lside) then
                nrowa = m
@@ -18024,7 +18008,7 @@ module stdlib_linalg_blas
            end if
            nounit = stdlib_lsame(diag,'n')
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -18049,13 +18033,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dtrsm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (m==0 .or. n==0) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                do 20 j = 1,n
                    do 10 i = 1,m
@@ -18064,14 +18048,14 @@ module stdlib_linalg_blas
         20     continue
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (lside) then
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*inv( a )*b.
-     !
+     
+                 ! form  b := alpha*inv( a )*b.
+     
                    if (upper) then
                        do 60 j = 1,n
                            if (alpha/=one) then
@@ -18106,9 +18090,9 @@ module stdlib_linalg_blas
        100             continue
                    end if
                else
-     !
-     !           form  b := alpha*inv( a**t )*b.
-     !
+     
+                 ! form  b := alpha*inv( a**t )*b.
+     
                    if (upper) then
                        do 130 j = 1,n
                            do 120 i = 1,m
@@ -18135,9 +18119,9 @@ module stdlib_linalg_blas
                end if
            else
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*b*inv( a ).
-     !
+     
+                 ! form  b := alpha*b*inv( a ).
+     
                    if (upper) then
                        do 210 j = 1,n
                            if (alpha/=one) then
@@ -18182,9 +18166,9 @@ module stdlib_linalg_blas
        260             continue
                    end if
                else
-     !
-     !           form  b := alpha*b*inv( a**t ).
-     !
+     
+                 ! form  b := alpha*b*inv( a**t ).
+     
                    if (upper) then
                        do 310 k = n,1,-1
                            if (nounit) then
@@ -18232,49 +18216,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dtrsm
-     !
+     
+           ! end of stdlib_dtrsm
+     
      end subroutine stdlib_dtrsm
 
      
      
      subroutine stdlib_dtrsv(uplo,trans,diag,n,a,lda,x,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(dp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(dp) zero
            parameter (zero=0.0_dp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(dp) temp
            integer(int32) i,info,ix,j,jx,kx
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -18294,29 +18278,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('dtrsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 20 j = n,1,-1
@@ -18371,9 +18355,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x.
-     !
+     
+              ! form  x := inv( a**t )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 100 j = 1,n
@@ -18425,34 +18409,34 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_dtrsv
-     !
+     
+           ! end of stdlib_dtrsv
+     
      end subroutine stdlib_dtrsv
 
      
      
      integer(int32) function stdlib_icamax(n,cx,incx)
-     !
-     !  -- reference blas level1 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level1 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            complex(sp) cx(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. local scalars ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. local scalars ..
            real(sp) smax
            integer(int32) i,ix
-     !     ..
+           ! ..
      
      
            stdlib_icamax = 0
@@ -18460,9 +18444,9 @@ module stdlib_linalg_blas
            stdlib_icamax = 1
            if (n==1) return
            if (incx==1) then
-     !
-     !        code for increment equal to 1
-     !
+     
+              ! code for increment equal to 1
+     
               smax = stdlib_scabs1(cx(1))
               do i = 2,n
                  if (stdlib_scabs1(cx(i))>smax) then
@@ -18471,9 +18455,9 @@ module stdlib_linalg_blas
                  end if
               end do
            else
-     !
-     !        code for increment not equal to 1
-     !
+     
+              ! code for increment not equal to 1
+     
               ix = 1
               smax = stdlib_scabs1(cx(1))
               ix = ix + incx
@@ -18486,47 +18470,47 @@ module stdlib_linalg_blas
               end do
            end if
            return
-     !
-     !     end of stdlib_icamax
-     !
+     
+           ! end of stdlib_icamax
+     
      end function stdlib_icamax
 
      
      
      subroutine stdlib_sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) incx,incy,kl,ku,lda,m,n
            character trans
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
            .and..not.stdlib_lsame(trans,'c')) then
@@ -18550,14 +18534,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('sgbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     set  lenx  and  leny, the lengths of the vectors x and y, and set
-     !     up the start points in  x  and  y.
-     !
+     
+           ! set  lenx  and  leny, the lengths of the vectors x and y, and set
+           ! up the start points in  x  and  y.
+     
            if (stdlib_lsame(trans,'n')) then
                lenx = n
                leny = m
@@ -18575,12 +18559,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (leny-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the band part of a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the band part of a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -18610,9 +18594,9 @@ module stdlib_linalg_blas
            if (alpha==zero) return
            kup1 = ku + 1
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  y := alpha*a*x + y.
-     !
+     
+              ! form  y := alpha*a*x + y.
+     
                jx = kx
                if (incy==1) then
                    do 60 j = 1,n
@@ -18637,9 +18621,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y := alpha*a**t*x + y.
-     !
+     
+              ! form  y := alpha*a**t*x + y.
+     
                jy = ky
                if (incx==1) then
                    do 100 j = 1,n
@@ -18666,52 +18650,52 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_sgbmv
-     !
+     
+           ! end of stdlib_sgbmv
+     
      end subroutine stdlib_sgbmv
 
      
      
      subroutine stdlib_sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) k,lda,ldb,ldc,m,n
            character transa,transb
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,j,l,nrowa,nrowb
            logical(lk) nota,notb
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !
-     !     set  nota  and  notb  as  true if  a  and  b  respectively are not
-     !     transposed and set  nrowa and nrowb  as the number of rows of  a
-     !     and  b  respectively.
-     !
+           ! ..
+     
+           ! set  nota  and  notb  as  true if  a  and  b  respectively are not
+           ! transposed and set  nrowa and nrowb  as the number of rows of  a
+           ! and  b  respectively.
+     
            nota = stdlib_lsame(transa,'n')
            notb = stdlib_lsame(transb,'n')
            if (nota) then
@@ -18724,9 +18708,9 @@ module stdlib_linalg_blas
            else
                nrowb = n
            end if
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.nota) .and. (.not.stdlib_lsame(transa,'c')) .and.(.not.stdlib_lsame(transa,&
           't'))) then
@@ -18751,14 +18735,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('sgemm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one)))&
            return
-     !
-     !     and if  alpha.eq.zero.
-     !
+     
+           ! and if  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -18775,14 +18759,14 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (notb) then
                if (nota) then
-     !
-     !           form  c := alpha*a*b + beta*c.
-     !
+     
+                 ! form  c := alpha*a*b + beta*c.
+     
                    do 90 j = 1,n
                        if (beta==zero) then
                            do 50 i = 1,m
@@ -18801,9 +18785,9 @@ module stdlib_linalg_blas
         80             continue
         90         continue
                else
-     !
-     !           form  c := alpha*a**t*b + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b + beta*c
+     
                    do 120 j = 1,n
                        do 110 i = 1,m
                            temp = zero
@@ -18820,9 +18804,9 @@ module stdlib_linalg_blas
                end if
            else
                if (nota) then
-     !
-     !           form  c := alpha*a*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a*b**t + beta*c
+     
                    do 170 j = 1,n
                        if (beta==zero) then
                            do 130 i = 1,m
@@ -18841,9 +18825,9 @@ module stdlib_linalg_blas
        160             continue
        170         continue
                else
-     !
-     !           form  c := alpha*a**t*b**t + beta*c
-     !
+     
+                 ! form  c := alpha*a**t*b**t + beta*c
+     
                    do 200 j = 1,n
                        do 190 i = 1,m
                            temp = zero
@@ -18859,49 +18843,49 @@ module stdlib_linalg_blas
        200         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_sgemm
-     !
+     
+           ! end of stdlib_sgemm
+     
      end subroutine stdlib_sgemm
 
      
      
      subroutine stdlib_sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) incx,incy,lda,m,n
            character trans
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t')&
            .and..not.stdlib_lsame(trans,'c')) then
@@ -18921,14 +18905,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('sgemv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     set  lenx  and  leny, the lengths of the vectors x and y, and set
-     !     up the start points in  x  and  y.
-     !
+     
+           ! set  lenx  and  leny, the lengths of the vectors x and y, and set
+           ! up the start points in  x  and  y.
+     
            if (stdlib_lsame(trans,'n')) then
                lenx = n
                leny = m
@@ -18946,12 +18930,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (leny-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -18980,9 +18964,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  y := alpha*a*x + y.
-     !
+     
+              ! form  y := alpha*a*x + y.
+     
                jx = kx
                if (incy==1) then
                    do 60 j = 1,n
@@ -19004,9 +18988,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y := alpha*a**t*x + y.
-     !
+     
+              ! form  y := alpha*a**t*x + y.
+     
                jy = ky
                if (incx==1) then
                    do 100 j = 1,n
@@ -19030,46 +19014,46 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_sgemv
-     !
+     
+           ! end of stdlib_sgemv
+     
      end subroutine stdlib_sgemv
 
      
      
      subroutine stdlib_sger(m,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha
            integer(int32) incx,incy,lda,m,n
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,j,jy,kx
-     !     ..
+           ! ..
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (m<0) then
                info = 1
@@ -19086,14 +19070,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('sger  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or. (alpha==zero)) return
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (incy>0) then
                jy = 1
            else
@@ -19127,49 +19111,49 @@ module stdlib_linalg_blas
                    jy = jy + incy
         40     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_sger
-     !
+     
+           ! end of stdlib_sger
+     
      end subroutine stdlib_sger
 
      
      
      subroutine stdlib_ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) incx,incy,k,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -19188,13 +19172,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ssbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -19205,12 +19189,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of the array a
-     !     are accessed sequentially with one pass through a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of the array a
+           ! are accessed sequentially with one pass through a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -19239,9 +19223,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when upper triangle of a is stored.
-     !
+     
+              ! form  y  when upper triangle of a is stored.
+     
                kplus1 = k + 1
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
@@ -19279,9 +19263,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when lower triangle of a is stored.
-     !
+     
+              ! form  y  when lower triangle of a is stored.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -19316,46 +19300,46 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ssbmv
-     !
+     
+           ! end of stdlib_ssbmv
+     
      end subroutine stdlib_ssbmv
 
      
      
      subroutine stdlib_sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) incx,incy,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) ap(*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -19370,13 +19354,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('sspmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -19387,12 +19371,12 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -19422,9 +19406,9 @@ module stdlib_linalg_blas
            if (alpha==zero) return
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when ap contains the upper triangle.
-     !
+     
+              ! form  y  when ap contains the upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        temp1 = alpha*x(j)
@@ -19459,9 +19443,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when ap contains the lower triangle.
-     !
+     
+              ! form  y  when ap contains the lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -19498,46 +19482,46 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_sspmv
-     !
+     
+           ! end of stdlib_sspmv
+     
      end subroutine stdlib_sspmv
 
      
      
      subroutine stdlib_sspr(uplo,n,alpha,x,incx,ap)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha
            integer(int32) incx,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -19550,27 +19534,27 @@ module stdlib_linalg_blas
                call stdlib_xerbla('sspr  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set the start point in x if the increment is not unity.
-     !
+     
+           ! set the start point in x if the increment is not unity.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when upper triangle is stored in ap.
-     !
+     
+              ! form  a  when upper triangle is stored in ap.
+     
                if (incx==1) then
                    do 20 j = 1,n
                        if (x(j)/=zero) then
@@ -19599,9 +19583,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when lower triangle is stored in ap.
-     !
+     
+              ! form  a  when lower triangle is stored in ap.
+     
                if (incx==1) then
                    do 60 j = 1,n
                        if (x(j)/=zero) then
@@ -19630,46 +19614,46 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_sspr
-     !
+     
+           ! end of stdlib_sspr
+     
      end subroutine stdlib_sspr
 
      
      
      subroutine stdlib_sspr2(uplo,n,alpha,x,incx,y,incy,ap)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha
            integer(int32) incx,incy,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) ap(*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -19684,14 +19668,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('sspr2 ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set up the start points in x and y if the increments are not both
-     !     unity.
-     !
+     
+           ! set up the start points in x and y if the increments are not both
+           ! unity.
+     
            if ((incx/=1) .or. (incy/=1)) then
                if (incx>0) then
                    kx = 1
@@ -19706,15 +19690,15 @@ module stdlib_linalg_blas
                jx = kx
                jy = ky
            end if
-     !
-     !     start the operations. in this version the elements of the array ap
-     !     are accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of the array ap
+           ! are accessed sequentially with one pass through ap.
+     
            kk = 1
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when upper triangle is stored in ap.
-     !
+     
+              ! form  a  when upper triangle is stored in ap.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 20 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -19747,9 +19731,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when lower triangle is stored in ap.
-     !
+     
+              ! form  a  when lower triangle is stored in ap.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -19782,59 +19766,59 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_sspr2
-     !
+     
+           ! end of stdlib_sspr2
+     
      end subroutine stdlib_sspr2
 
      
      
      subroutine stdlib_ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) lda,ldb,ldc,m,n
            character side,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp1,temp2
            integer(int32) i,info,j,k,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !
-     !     set nrowa as the number of rows of a.
-     !
+           ! ..
+     
+           ! set nrowa as the number of rows of a.
+     
            if (stdlib_lsame(side,'l')) then
                nrowa = m
            else
                nrowa = n
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if ((.not.stdlib_lsame(side,'l')) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -19855,13 +19839,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ssymm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (beta==zero) then
                    do 20 j = 1,n
@@ -19878,13 +19862,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(side,'l')) then
-     !
-     !        form  c := alpha*a*b + beta*c.
-     !
+     
+              ! form  c := alpha*a*b + beta*c.
+     
                if (upper) then
                    do 70 j = 1,n
                        do 60 i = 1,m
@@ -19919,9 +19903,9 @@ module stdlib_linalg_blas
        100         continue
                end if
            else
-     !
-     !        form  c := alpha*b*a + beta*c.
-     !
+     
+              ! form  c := alpha*b*a + beta*c.
+     
                do 170 j = 1,n
                    temp1 = alpha*a(j,j)
                    if (beta==zero) then
@@ -19955,49 +19939,49 @@ module stdlib_linalg_blas
        160         continue
        170     continue
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ssymm
-     !
+     
+           ! end of stdlib_ssymm
+     
      end subroutine stdlib_ssymm
 
      
      
      subroutine stdlib_ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) incx,incy,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -20014,13 +19998,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ssymv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
-     !
-     !     set up the start points in  x  and  y.
-     !
+     
+           ! set up the start points in  x  and  y.
+     
            if (incx>0) then
                kx = 1
            else
@@ -20031,13 +20015,13 @@ module stdlib_linalg_blas
            else
                ky = 1 - (n-1)*incy
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
-     !     first form  y := beta*y.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
+           ! first form  y := beta*y.
+     
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
@@ -20066,9 +20050,9 @@ module stdlib_linalg_blas
            end if
            if (alpha==zero) return
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  y  when a is stored in upper triangle.
-     !
+     
+              ! form  y  when a is stored in upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        temp1 = alpha*x(j)
@@ -20099,9 +20083,9 @@ module stdlib_linalg_blas
         80         continue
                end if
            else
-     !
-     !        form  y  when a is stored in lower triangle.
-     !
+     
+              ! form  y  when a is stored in lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 100 j = 1,n
                        temp1 = alpha*x(j)
@@ -20134,49 +20118,49 @@ module stdlib_linalg_blas
        120         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ssymv
-     !
+     
+           ! end of stdlib_ssymv
+     
      end subroutine stdlib_ssymv
 
      
      
      subroutine stdlib_ssyr(uplo,n,alpha,x,incx,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha
            integer(int32) incx,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,j,jx,kx
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -20191,27 +20175,27 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ssyr  ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set the start point in x if the increment is not unity.
-     !
+     
+           ! set the start point in x if the increment is not unity.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when a is stored in upper triangle.
-     !
+     
+              ! form  a  when a is stored in upper triangle.
+     
                if (incx==1) then
                    do 20 j = 1,n
                        if (x(j)/=zero) then
@@ -20236,9 +20220,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when a is stored in lower triangle.
-     !
+     
+              ! form  a  when a is stored in lower triangle.
+     
                if (incx==1) then
                    do 60 j = 1,n
                        if (x(j)/=zero) then
@@ -20263,49 +20247,49 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ssyr
-     !
+     
+           ! end of stdlib_ssyr
+     
      end subroutine stdlib_ssyr
 
      
      
      subroutine stdlib_ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha
            integer(int32) incx,incy,lda,n
            character uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*),y(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp1,temp2
            integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -20322,14 +20306,14 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ssyr2 ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (alpha==zero)) return
-     !
-     !     set up the start points in x and y if the increments are not both
-     !     unity.
-     !
+     
+           ! set up the start points in x and y if the increments are not both
+           ! unity.
+     
            if ((incx/=1) .or. (incy/=1)) then
                if (incx>0) then
                    kx = 1
@@ -20344,15 +20328,15 @@ module stdlib_linalg_blas
                jx = kx
                jy = ky
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through the triangular part
-     !     of a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through the triangular part
+           ! of a.
+     
            if (stdlib_lsame(uplo,'u')) then
-     !
-     !        form  a  when a is stored in the upper triangle.
-     !
+     
+              ! form  a  when a is stored in the upper triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 20 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -20381,9 +20365,9 @@ module stdlib_linalg_blas
         40         continue
                end if
            else
-     !
-     !        form  a  when a is stored in the lower triangle.
-     !
+     
+              ! form  a  when a is stored in the lower triangle.
+     
                if ((incx==1) .and. (incy==1)) then
                    do 60 j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
@@ -20412,57 +20396,57 @@ module stdlib_linalg_blas
         80         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ssyr2
-     !
+     
+           ! end of stdlib_ssyr2
+     
      end subroutine stdlib_ssyr2
 
      
      
      subroutine stdlib_ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) k,lda,ldb,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),b(ldb,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp1,temp2
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -20484,13 +20468,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ssyr2k',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -20523,13 +20507,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*b**t + alpha*b*a**t + c.
-     !
+     
+              ! form  c := alpha*a*b**t + alpha*b*a**t + c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -20574,9 +20558,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**t*b + alpha*b**t*a + c.
-     !
+     
+              ! form  c := alpha*a**t*b + alpha*b**t*a + c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -20611,57 +20595,57 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ssyr2k
-     !
+     
+           ! end of stdlib_ssyr2k
+     
      end subroutine stdlib_ssyr2k
 
      
      
      subroutine stdlib_ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha,beta
            integer(int32) k,lda,ldc,n
            character trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),c(ldc,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,j,l,nrowa
            logical(lk) upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
            else
                nrowa = k
            end if
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
                info = 1
@@ -20681,13 +20665,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('ssyrk ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
@@ -20720,13 +20704,13 @@ module stdlib_linalg_blas
                end if
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  c := alpha*a*a**t + beta*c.
-     !
+     
+              ! form  c := alpha*a*a**t + beta*c.
+     
                if (upper) then
                    do 130 j = 1,n
                        if (beta==zero) then
@@ -20769,9 +20753,9 @@ module stdlib_linalg_blas
        180         continue
                end if
            else
-     !
-     !        form  c := alpha*a**t*a + beta*c.
-     !
+     
+              ! form  c := alpha*a**t*a + beta*c.
+     
                if (upper) then
                    do 210 j = 1,n
                        do 200 i = 1,j
@@ -20802,49 +20786,49 @@ module stdlib_linalg_blas
        240         continue
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_ssyrk
-     !
+     
+           ! end of stdlib_ssyrk
+     
      end subroutine stdlib_ssyrk
 
      
      
      subroutine stdlib_stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,k,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,j,jx,kplus1,kx,l
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -20866,29 +20850,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('stbmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx   too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx   too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !         form  x := a*x.
-     !
+     
+               ! form  x := a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -20951,9 +20935,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x.
-     !
+     
+              ! form  x := a**t*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -21012,49 +20996,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_stbmv
-     !
+     
+           ! end of stdlib_stbmv
+     
      end subroutine stdlib_stbmv
 
      
      
      subroutine stdlib_stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,k,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,j,jx,kplus1,kx,l
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max,min
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -21076,29 +21060,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('stbsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed by sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed by sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -21161,9 +21145,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t)*x.
-     !
+     
+              ! form  x := inv( a**t)*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
@@ -21222,46 +21206,46 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_stbsv
-     !
+     
+           ! end of stdlib_stbsv
+     
      end subroutine stdlib_stbsv
 
      
      
      subroutine stdlib_stpmv(uplo,trans,diag,n,ap,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -21279,29 +21263,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('stpmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of ap are
-     !     accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of ap are
+           ! accessed sequentially with one pass through ap.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x:= a*x.
-     !
+     
+              ! form  x:= a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
@@ -21367,9 +21351,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x.
-     !
+     
+              ! form  x := a**t*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
@@ -21430,46 +21414,46 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_stpmv
-     !
+     
+           ! end of stdlib_stpmv
+     
      end subroutine stdlib_stpmv
 
      
      
      subroutine stdlib_stpsv(uplo,trans,diag,n,ap,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) ap(*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,j,jx,k,kk,kx
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !
-     !     test the input parameters.
-     !
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -21487,29 +21471,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('stpsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of ap are
-     !     accessed sequentially with one pass through ap.
-     !
+     
+           ! start the operations. in this version the elements of ap are
+           ! accessed sequentially with one pass through ap.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
@@ -21574,9 +21558,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x.
-     !
+     
+              ! form  x := inv( a**t )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
@@ -21638,50 +21622,50 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_stpsv
-     !
+     
+           ! end of stdlib_stpsv
+     
      end subroutine stdlib_stpsv
 
      
      
      subroutine stdlib_strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha
            integer(int32) lda,ldb,m,n
            character diag,side,transa,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),b(ldb,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,j,k,nrowa
            logical(lk) lside,nounit,upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            lside = stdlib_lsame(side,'l')
            if (lside) then
                nrowa = m
@@ -21690,7 +21674,7 @@ module stdlib_linalg_blas
            end if
            nounit = stdlib_lsame(diag,'n')
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -21715,13 +21699,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('strmm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (m==0 .or. n==0) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                do 20 j = 1,n
                    do 10 i = 1,m
@@ -21730,14 +21714,14 @@ module stdlib_linalg_blas
         20     continue
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (lside) then
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*a*b.
-     !
+     
+                 ! form  b := alpha*a*b.
+     
                    if (upper) then
                        do 50 j = 1,n
                            do 40 k = 1,m
@@ -21766,9 +21750,9 @@ module stdlib_linalg_blas
         80             continue
                    end if
                else
-     !
-     !           form  b := alpha*a**t*b.
-     !
+     
+                 ! form  b := alpha*a**t*b.
+     
                    if (upper) then
                        do 110 j = 1,n
                            do 100 i = m,1,-1
@@ -21795,9 +21779,9 @@ module stdlib_linalg_blas
                end if
            else
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*b*a.
-     !
+     
+                 ! form  b := alpha*b*a.
+     
                    if (upper) then
                        do 180 j = n,1,-1
                            temp = alpha
@@ -21832,9 +21816,9 @@ module stdlib_linalg_blas
        220             continue
                    end if
                else
-     !
-     !           form  b := alpha*b*a**t.
-     !
+     
+                 ! form  b := alpha*b*a**t.
+     
                    if (upper) then
                        do 260 k = 1,n
                            do 240 j = 1,k - 1
@@ -21874,49 +21858,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_strmm
-     !
+     
+           ! end of stdlib_strmm
+     
      end subroutine stdlib_strmm
 
      
      
      subroutine stdlib_strmv(uplo,trans,diag,n,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,j,jx,kx
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -21936,29 +21920,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('strmv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := a*x.
-     !
+     
+              ! form  x := a*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 20 j = 1,n
@@ -22014,9 +21998,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := a**t*x.
-     !
+     
+              ! form  x := a**t*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 100 j = n,1,-1
@@ -22067,50 +22051,50 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_strmv
-     !
+     
+           ! end of stdlib_strmv
+     
      end subroutine stdlib_strmv
 
      
      
      subroutine stdlib_strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
-     !
-     !  -- reference blas level3 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level3 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            real(sp) alpha
            integer(int32) lda,ldb,m,n
            character diag,side,transa,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),b(ldb,*)
-     !     ..
-     !
-     !  =====================================================================
-     !
+           ! ..
+     
+        ! =====================================================================
      
      
      
-     !     .. intrinsic functions ..
+     
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,j,k,nrowa
            logical(lk) lside,nounit,upper
-     !     ..
-     !     .. parameters ..
+           ! ..
+           ! .. parameters ..
            real(sp) one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            lside = stdlib_lsame(side,'l')
            if (lside) then
                nrowa = m
@@ -22119,7 +22103,7 @@ module stdlib_linalg_blas
            end if
            nounit = stdlib_lsame(diag,'n')
            upper = stdlib_lsame(uplo,'u')
-     !
+     
            info = 0
            if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
                info = 1
@@ -22144,13 +22128,13 @@ module stdlib_linalg_blas
                call stdlib_xerbla('strsm ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (m==0 .or. n==0) return
-     !
-     !     and when  alpha.eq.zero.
-     !
+     
+           ! and when  alpha.eq.zero.
+     
            if (alpha==zero) then
                do 20 j = 1,n
                    do 10 i = 1,m
@@ -22159,14 +22143,14 @@ module stdlib_linalg_blas
         20     continue
                return
            end if
-     !
-     !     start the operations.
-     !
+     
+           ! start the operations.
+     
            if (lside) then
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*inv( a )*b.
-     !
+     
+                 ! form  b := alpha*inv( a )*b.
+     
                    if (upper) then
                        do 60 j = 1,n
                            if (alpha/=one) then
@@ -22201,9 +22185,9 @@ module stdlib_linalg_blas
        100             continue
                    end if
                else
-     !
-     !           form  b := alpha*inv( a**t )*b.
-     !
+     
+                 ! form  b := alpha*inv( a**t )*b.
+     
                    if (upper) then
                        do 130 j = 1,n
                            do 120 i = 1,m
@@ -22230,9 +22214,9 @@ module stdlib_linalg_blas
                end if
            else
                if (stdlib_lsame(transa,'n')) then
-     !
-     !           form  b := alpha*b*inv( a ).
-     !
+     
+                 ! form  b := alpha*b*inv( a ).
+     
                    if (upper) then
                        do 210 j = 1,n
                            if (alpha/=one) then
@@ -22277,9 +22261,9 @@ module stdlib_linalg_blas
        260             continue
                    end if
                else
-     !
-     !           form  b := alpha*b*inv( a**t ).
-     !
+     
+                 ! form  b := alpha*b*inv( a**t ).
+     
                    if (upper) then
                        do 310 k = n,1,-1
                            if (nounit) then
@@ -22327,49 +22311,49 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_strsm
-     !
+     
+           ! end of stdlib_strsm
+     
      end subroutine stdlib_strsm
 
      
      
      subroutine stdlib_strsv(uplo,trans,diag,n,a,lda,x,incx)
-     !
-     !  -- reference blas level2 routine --
-     !  -- reference blas is a software package provided by univ. of tennessee,    --
-     !  -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     !
-     !     .. scalar arguments ..
+     
+        ! -- reference blas level2 routine --
+        ! -- reference blas is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
            integer(int32) incx,lda,n
            character diag,trans,uplo
-     !     ..
-     !     .. array arguments ..
+           ! ..
+           ! .. array arguments ..
            real(sp) a(lda,*),x(*)
-     !     ..
-     !
-     !  =====================================================================
-     !
-     !     .. parameters ..
+           ! ..
+     
+        ! =====================================================================
+     
+           ! .. parameters ..
            real(sp) zero
            parameter (zero=0.0_sp)
-     !     ..
-     !     .. local scalars ..
+           ! ..
+           ! .. local scalars ..
            real(sp) temp
            integer(int32) i,info,ix,j,jx,kx
            logical(lk) nounit
-     !     ..
+           ! ..
      
      
      
-     !     .. intrinsic functions ..
+           ! .. intrinsic functions ..
            intrinsic max
-     !     ..
-     !
-     !     test the input parameters.
-     !
+           ! ..
+     
+           ! test the input parameters.
+     
            info = 0
            if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
                info = 1
@@ -22389,29 +22373,29 @@ module stdlib_linalg_blas
                call stdlib_xerbla('strsv ',info)
                return
            end if
-     !
-     !     quick return if possible.
-     !
+     
+           ! quick return if possible.
+     
            if (n==0) return
-     !
+     
            nounit = stdlib_lsame(diag,'n')
-     !
-     !     set up the start point in x if the increment is not unity. this
-     !     will be  ( n - 1 )*incx  too small for descending loops.
-     !
+     
+           ! set up the start point in x if the increment is not unity. this
+           ! will be  ( n - 1 )*incx  too small for descending loops.
+     
            if (incx<=0) then
                kx = 1 - (n-1)*incx
            else if (incx/=1) then
                kx = 1
            end if
-     !
-     !     start the operations. in this version the elements of a are
-     !     accessed sequentially with one pass through a.
-     !
+     
+           ! start the operations. in this version the elements of a are
+           ! accessed sequentially with one pass through a.
+     
            if (stdlib_lsame(trans,'n')) then
-     !
-     !        form  x := inv( a )*x.
-     !
+     
+              ! form  x := inv( a )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 20 j = n,1,-1
@@ -22466,9 +22450,9 @@ module stdlib_linalg_blas
                    end if
                end if
            else
-     !
-     !        form  x := inv( a**t )*x.
-     !
+     
+              ! form  x := inv( a**t )*x.
+     
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
                        do 100 j = 1,n
@@ -22520,11 +22504,11 @@ module stdlib_linalg_blas
                    end if
                end if
            end if
-     !
+     
            return
-     !
-     !     end of stdlib_strsv
-     !
+     
+           ! end of stdlib_strsv
+     
      end subroutine stdlib_strsv
 
 

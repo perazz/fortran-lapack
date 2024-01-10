@@ -236,29 +236,48 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH):
        line = body[i]
        continued = False
 
-       is_comment_line = bool(re.match(r'^\s*!', line))
+       # Blank line
+       if bool(re.match(r'^\s*!\s*$',line)):
+           # If line is '!', just print a blank line
+           fid.write(INDENT + "\n")
+           continue
 
-       while (len(line)>MAX_LINE_LENGTH - 2*len(INDENT)) and not is_comment_line:
-          # Find last non-reserved character
-          m = re.search(r'[^a-zA-Z\d\s\.\_\'\"\*\=\<\>\/][a-zA-Z\d\s\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LINE_LENGTH-2])
-          next = line[m.start()+1:]
-          end_line = "&\n" if len(next.strip())>0 else "\n"
-          if continued:
-              fid.write(INDENT + INDENT + line[:m.start()+1] + end_line)
-              print("continued line:" + INDENT + INDENT + line[:m.start()+1])
-          else:
-              fid.write(line[:m.start()+1] + end_line)
-              print("non      line:" + line[:m.start()+1])
-          # Start with reminder
-          line = next
-          print("reminder line:" + line)
-          if line.strip()=='call stdlib_ssteqr.': exit(1)
-          continued = True
-       if len(line)>0:
-           if not continued:
-               fid.write(line + "\n")
-           else:
-               fid.write(INDENT + INDENT + line + "\n")
+       mat = re.match(r'^\s*!', line)
+       is_comment_line = bool(mat)
+
+       # Preprocess comment line: put exclamation mark right before the first occurrence
+       if is_comment_line:
+          post  = line[mat.end():]
+          posts = post.lstrip(' ')
+          nspaces = mat.end()-mat.start()+len(post) - len(posts)
+          line = (" " * nspaces) + "! " + posts
+
+       if bool(re.match(r'^\s*!\s*$',line)):
+           # If line is '!', just print a blank line
+           fid.write(INDENT + "\n")
+       else:
+
+           while (len(line)>MAX_LINE_LENGTH - 2*len(INDENT)) and not is_comment_line:
+              # Find last non-reserved character
+              m = re.search(r'[^a-zA-Z\d\s\.\_\'\"\*\=\<\>\/][a-zA-Z\d\s\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LINE_LENGTH-2])
+              next = line[m.start()+1:]
+              end_line = "&\n" if len(next.strip())>0 else "\n"
+              if continued:
+                  fid.write(INDENT + INDENT + line[:m.start()+1] + end_line)
+                  print("continued line:" + INDENT + INDENT + line[:m.start()+1])
+              else:
+                  fid.write(line[:m.start()+1] + end_line)
+                  print("non      line:" + line[:m.start()+1])
+              # Start with reminder
+              line = next
+              print("reminder line:" + line)
+              if line.strip()=='call stdlib_ssteqr.': exit(1)
+              continued = True
+           if len(line)>0:
+               if not continued:
+                   fid.write(line + "\n")
+               else:
+                   fid.write(INDENT + INDENT + line + "\n")
 
 # This class represents the contents of a 1-function/1-subroutine Fortran source file parsed from BLAS/LAPACK
 class Fortran_Source:
@@ -386,6 +405,7 @@ def is_externals_header(line):
 
     # Begins with a data type
     ext =    bool(re.match(r'\S\s*.. external functions ..',check_line)) \
+          or bool(re.match(r'\S\s*.. external function ..',check_line)) \
           or bool(re.match(r'\S\s*.. external subroutines ..',check_line))
 
     return ext
@@ -500,7 +520,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     print("Parsing source file "+file_name+" ...")
 
     INDENT = "     "
-    DEBUG  = False#file_name.lower().startswith("dladiv")
+    DEBUG  = False#file_name.lower().startswith("dlasyf_rook")
 
     Procedures = []
 
@@ -527,7 +547,6 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             line,is_continuation,is_comment,is_use,will_continue = \
                line_read_and_preprocess(line,Source.is_free_form,file_name)
 
-            if DEBUG: print(line)
             if DEBUG: print("continuation="+str(is_continuation)+" comment="+str(is_comment)+\
                             " use"+str(is_use)+" will_continue="+str(will_continue))
 
@@ -542,6 +561,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
         # Iterate over the joined lines of the file
         for line in file_body:
+
+            if len(line.strip())<=0: continue
+
             # Remove the newline character at the end of the line
             line,is_continuation,is_comment,is_use,will_continue = \
             line_read_and_preprocess(line,Source.is_free_form,file_name)
@@ -563,14 +585,13 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                else:
                   # Just append this line, but ensure F90+ style comment
                   line = re.sub(r'^\S', '!', line)
-                  if DEBUG: print("not a n externals header")
 
                   if whereAt!=Section.HEADER or not remove_headers:
                      Source.body.append(INDENT + line)
 
             else:
 
-               if DEBUG: print("NEW LINE: " + str(whereAt) + " " + line)
+               if DEBUG: print(str(whereAt) + " reads: " + line)
 
                # Check what section we're in
                match whereAt:
