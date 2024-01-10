@@ -23,6 +23,7 @@ def create_constants_module(module_name,out_folder):
     fid.write("module {}\n".format(module_name))
     #fid.write(INDENT + "use stdlib_kinds, only: sp,dp,lk,int32,int64\n")
     fid.write(INDENT + "use iso_fortran_env, only: int32,int64\n")
+    fid.write(INDENT + "use, intrinsic :: ieee_arithmetic, only: ieee_is_nan \n")
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "public\n\n\n\n")
 
@@ -513,6 +514,22 @@ def function_namelists(Sources,external_funs,prefix):
 def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
 
     import re
+    la_names = ['zero','one','two','rtmin','rtmax','safmin','safmax','sbig','ssml','tbig','tsml','half']
+    la_repl = []
+
+    initial = name[0]
+    if initial=='c' or initial=='s':
+        for i in range(len(la_names)):
+            la_repl.append('s'+la_names[i])
+    else: # z, d
+        for i in range(len(la_names)):
+            la_repl.append('d'+la_names[i])
+        la_names.append('czero')
+        la_repl .append('zzero')
+
+    la_names.append('la_isnan')
+    la_repl .append('ieee_is_nan')
+
     print("Renaming procedure body <"+name+">")
 
     body = []
@@ -522,12 +539,16 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
     is_found    = [False for i in range(len(new_names))]
     is_declared = [False for i in range(len(new_names))]
 
+    la_const = False
+
     # First of all, map which of these names are used as declared variables. In this case
     # do not replace their names
     for i in range(len(decl)):
         old_line = decl[i].lower()
         if bool(re.search(r".+\s+[^a-zA-Z\_0-9]"+old_names[i]+r"[^a-zA-Z\_0-9].*",old_line)):
             is_declared[i] = True
+        if "la_constants" in old_line:
+            la_const = True
 
     replacement = prefix+r'\g<0>'
 
@@ -542,8 +563,22 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
             print("***match***" + old_names[j])
             is_found[j] = True
 
+    # Replace la constants
+    if la_const:
+        for j in range(len(la_names)):
+            if is_declared[j]: continue
+            old = len(whole)
+            whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
+#            if len(whole)>old:
+#                print("***match***" + la_names[j])
+#        print("***TEMPORARY STOP")
+#        exit(1)
 
     body = whole.split('\n')
+
+    if la_const:
+        print(body)
+
 
     # Build dependency list
     dependency_list = []
