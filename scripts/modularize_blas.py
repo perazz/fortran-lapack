@@ -3,6 +3,42 @@
 
 from enum import Enum
 
+# Create linear algebra constants module
+def create_constants_module(module_name,out_folder):
+
+    from platform import os
+
+    INDENT          = "     "
+    MAX_LINE_LENGTH = 128
+    remove_headers  = True
+
+    # Get names
+    module_file = module_name + ".f90"
+    module_path = os.path.join(out_folder,module_file)
+
+    # Create file
+    fid = open(module_path,"w")
+
+    # Header
+    fid.write("module {}\n".format(module_name))
+    #fid.write(INDENT + "use stdlib_kinds, only: sp,dp,lk,int32,int64\n")
+    fid.write(INDENT + "use iso_fortran_env, only: int32,int64\n")
+    fid.write(INDENT + "implicit none(type,external)\n")
+    fid.write(INDENT + "public\n\n\n\n")
+
+    # Temporary: to be replaced with stdlib_kinds
+    fid.write(INDENT + "integer, parameter :: sp = selected_real_kind(6)\n")
+    fid.write(INDENT + "integer, parameter :: dp = selected_real_kind(15)\n")
+    fid.write(INDENT + "integer, parameter :: lk = kind(.true.)\n\n\n")
+
+    # Arithmetic constants (private)
+    print_lapack_constants(fid,INDENT)
+
+    # Close module
+    fid.write("\n\n\n\n\nend module {}\n".format(module_name))
+
+    fid.close()
+
 # Read all source files from the source folder, process them, refactor them, and put all
 # subroutines/function into a module
 def create_fortran_module(module_name,source_folder,out_folder,prefix):
@@ -43,19 +79,12 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
 
     # Header
     fid.write("module {}\n".format(module_name))
-    #fid.write(INDENT + "use stdlib_kinds, only: sp,dp,lk,int32,int64\n")
-    fid.write(INDENT + "use iso_fortran_env, only: int32,int64\n")
+    fid.write(INDENT + "use stdlib_linalg_constants\n")
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "private\n\n\n\n")
 
-    # Temporary: to be replaced with stdlib_kinds
-    fid.write(INDENT + "integer, parameter :: sp = selected_real_kind(6)\n")
-    fid.write(INDENT + "integer, parameter :: dp = selected_real_kind(15)\n")
-    fid.write(INDENT + "integer, parameter :: lk = kind(.true.)\n")
-
-
     # Public interface.
-    fid.write(INDENT + "public :: sp,dp,lk,int32,int64\n")
+    fid.write("\n\n\n" + INDENT + "public :: sp,dp,lk,int32,int64\n")
     for function in fortran_functions:
         fid.write(INDENT + "public :: " + function.new_name + "\n")
 
@@ -81,6 +110,57 @@ class Section(Enum):
     EXTERNALS = 3
     BODY = 4
     END = 5
+
+# Print LAPACK constants
+def print_lapack_constants(fid,INDENT):
+
+    real_prefix = ['s','d']
+    cmpl_prefix = ['c','z']
+    precision   = ['32-bit','64-bit']
+
+    for i in range(len(real_prefix)):
+       rpr = real_prefix[i]
+       cpr = cmpl_prefix[i]
+       rk  = rpr + "p"
+
+       fid.write("\n" + INDENT + "! "+precision[i]+" function prefixes \n")
+       fid.write(INDENT + "character,   parameter :: "+rpr+"prefix  = '"+rpr.upper()+"' \n")
+       fid.write(INDENT + "character,   parameter :: "+cpr+"prefix  = '"+cpr.upper()+"' \n")
+
+       fid.write("\n" + INDENT + "! "+precision[i]+" real constants \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"zero  =  0.0_"+rk+"\n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"half  =  0.5_"+rk+"\n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"one   =  1.0_"+rk+"\n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"two   =  2.0_"+rk+"\n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"three =  3.0_"+rk+"\n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"four  =  4.0_"+rk+"\n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"eight =  8.0_"+rk+"\n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"ten   = 10.0_"+rk+"\n")
+
+       fid.write("\n" + INDENT + "! "+precision[i]+" scaling constants \n")
+       fid.write(INDENT + "integer,     parameter :: "     +rpr+"maxexp = maxexponent("+rpr+"zero) \n")
+       fid.write(INDENT + "integer,     parameter :: "     +rpr+"minexp = minexponent("+rpr+"zero) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"radix  = real(radix("+rpr+"zero),"+rk+") \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"ulp    = epsilon("+rpr+"zero) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"eps    = "+rpr+"ulp*"+rpr+"half \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"safmin = "+rpr+"radix**max("+rpr+"minexp-1,1-"+rpr+"maxexp) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"safmax = "+rpr+"one/"+rpr+"safmin \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"smlnum = "+rpr+"safmin/"+rpr+"ulp \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"bignum = "+rpr+"safmax*"+rpr+"ulp \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"rtmin  = sqrt("+rpr+"smlnum) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"rtmax  = sqrt("+rpr+"bignum) \n")
+       fid.write("\n" + INDENT + "! "+precision[i]+" Blue's scaling constants \n")
+       fid.write(INDENT + "! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771 \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"tsml   = "+rpr+"radix**ceiling(("+rpr+"minexp-1)*"+rpr+"half) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"tbig   = "+rpr+"radix**floor(("+rpr+"maxexp-digits("+rpr+"zero)+1)*"+rpr+"half) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"ssml   = "+rpr+"radix**(-floor(("+rpr+"minexp-digits("+rpr+"zero))*"+rpr+"half)) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"sbig   = "+rpr+"radix**(-ceiling(("+rpr+"maxexp+digits("+rpr+"zero)-1)*"+rpr+"half)) \n")
+
+       fid.write("\n" + INDENT + "! "+precision[i]+" complex constants \n")
+       fid.write(INDENT + "complex("+rk+"), parameter :: "+cpr+"zero  = (0.0_"+rk+",0.0_"+rk+")\n")
+       fid.write(INDENT + "complex("+rk+"), parameter :: "+cpr+"half  = (0.5_"+rk+",0.0_"+rk+")\n")
+       fid.write(INDENT + "complex("+rk+"), parameter :: "+cpr+"one   = (1.0_"+rk+",0.0_"+rk+")\n")
+
 
 # Print function tree in a dependency-suitable way
 def print_function_tree(functions,fid,INDENT,MAX_LINE_LENGTH):
@@ -145,7 +225,7 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH):
        continued = False
        while len(line)>MAX_LINE_LENGTH - (2*len(INDENT) if continued else 0):
           # Find last non-character
-          m = re.search(r'[^a-zA-Z\d\s][a-zA-Z\d\s]*$',line)
+          m = re.search(r'[^a-zA-Z\d\s][a-zA-Z\d\s]*$',line[:MAX_LINE_LENGTH-2])
           if continued:
               fid.write(INDENT + INDENT + line[:m.start()+1] + "&\n")
           else:
@@ -175,11 +255,14 @@ class Fortran_Source:
 
 # Read and preprocess a Fortran line for parsing: remove comments, adjust left, and if this is a continuation
 # line, read all continuation lines into it
-def line_read_and_preprocess(line,is_free_form):
+def line_read_and_preprocess(line,is_free_form,file_name):
 
     import re
 
     processed = replace_f77_types(line)
+
+    if is_free_form:
+       processed = replace_la_constants(processed,file_name)
 
     # Remove comments
     if is_free_form:
@@ -218,6 +301,33 @@ def replace_f77_types(line):
     new_line = new_line.replace("DOUBLE PRECISION ","REAL(dp) ")
     new_line = new_line.replace("D+0","_dp")
     new_line = new_line.replace("E+0","_sp")
+
+    return new_line
+
+def replace_la_constants(line,file_name):
+
+    import re
+
+    new_line = line.rstrip()
+
+    letter = file_name[0].lower()
+    if   letter=='c' or letter=='s':
+        new_line = new_line.replace("_wp","_sp")
+        new_line = new_line.replace("(wp)","(sp)")
+        new_line = new_line.replace(" zero","szero")
+        new_line = new_line.replace(" one"," sone")
+        new_line = new_line.replace("(one","(sone")
+        new_line = new_line.replace(" two","stwo")
+        new_line = new_line.replace(" half","shalf")
+    elif letter=='d' or letter=='z':
+        new_line = new_line.replace("_wp","_dp")
+        new_line = new_line.replace("(wp)","(dp)")
+        new_line = new_line.replace(" zero","dzero")
+        new_line = new_line.replace(" one"," done")
+        new_line = new_line.replace("(one","(done")
+        new_line = new_line.replace(" two","dtwo")
+        new_line = new_line.replace(" half","dhalf")
+        new_line = new_line.replace(" czero","zzero")
 
     return new_line
 
@@ -352,7 +462,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
         # Iterate over the lines of the file
         for line in file:
             # Remove the newline character at the end of the line
-            line,is_continuation,is_comment = line_read_and_preprocess(line,Source.is_free_form)
+            line,is_continuation,is_comment = line_read_and_preprocess(line,Source.is_free_form,file_name)
 
             # Append the line to the list
             if is_continuation:
@@ -365,7 +475,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
         for line in file_body:
             # Remove the newline character at the end of the line
-            line,is_continuation,is_comment = line_read_and_preprocess(line,Source.is_free_form)
+            line,is_continuation,is_comment = line_read_and_preprocess(line,Source.is_free_form,file_name)
 
             # Append the line to the list
             if is_comment:
@@ -502,6 +612,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
 
 # Run script
+create_constants_module("stdlib_linalg_constants","../src")
 create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
 create_fortran_module("stdlib_linalg_lapack","../assets/reference_lapack/SRC","../src","stdlib_")
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
