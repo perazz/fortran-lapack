@@ -9,7 +9,7 @@ def create_constants_module(module_name,out_folder):
     from platform import os
 
     INDENT          = "     "
-    MAX_LINE_LENGTH = 128
+    MAX_LINE_LENGTH = 120
     remove_headers  = True
 
     # Get names
@@ -41,7 +41,7 @@ def create_constants_module(module_name,out_folder):
 
 # Read all source files from the source folder, process them, refactor them, and put all
 # subroutines/function into a module
-def create_fortran_module(module_name,source_folder,out_folder,prefix):
+def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functions,used_modules):
 
     from datetime import date
     from platform import os
@@ -49,7 +49,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     # Parameters
     today           = date.today()
     INDENT          = "     "
-    MAX_LINE_LENGTH = 128
+    MAX_LINE_LENGTH = 100
     remove_headers  = True
 
     # Get names
@@ -57,6 +57,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     module_path = os.path.join(out_folder,module_file)
 
     # Get list of source files
+    print("Getting list of source files...")
     source_files = []
     for file in os.listdir(source_folder):
         if (file.endswith(".f90") or file.endswith(".f") or file.endswith(".F90")) \
@@ -68,18 +69,21 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     # Parse all source files
     fortran_functions = []
     for file in source_files:
-        fortran_functions.append(parse_fortran_source(source_folder,file,prefix,remove_headers))
+        Procedures = parse_fortran_source(source_folder,file,prefix,remove_headers)
+        for procedure in Procedures: fortran_functions.append(procedure)
 
     # Rename all procedures
     for function in fortran_functions:
-        function.body,function.deps = rename_source_body(function.body,fortran_functions)
+        function.body,function.deps = rename_source_body(function.old_name,function.body,\
+                                                         fortran_functions,ext_functions,prefix)
 
     # Create file
     fid = open(module_path,"w")
 
     # Header
     fid.write("module {}\n".format(module_name))
-    fid.write(INDENT + "use stdlib_linalg_constants\n")
+    for used in used_modules:
+        fid.write(INDENT + "use " + used + "\n")
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "private\n\n\n\n")
 
@@ -96,12 +100,16 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     fid.write("\n\n" + INDENT + "contains\n")
 
     # Write functions
-    print_function_tree(fortran_functions,fid,INDENT,MAX_LINE_LENGTH)
+    old_names,new_names = function_namelists(fortran_functions,ext_functions,prefix)
+    print_function_tree(fortran_functions,old_names,fid,INDENT,MAX_LINE_LENGTH)
 
     # Close module
     fid.write("\n\n\nend module {}\n".format(module_name))
 
     fid.close()
+
+    # Return list of all functions defined in this module, including the external ones
+    return old_names
 
 # Enum for file sections
 class Section(Enum):
@@ -163,16 +171,17 @@ def print_lapack_constants(fid,INDENT):
 
 
 # Print function tree in a dependency-suitable way
-def print_function_tree(functions,fid,INDENT,MAX_LINE_LENGTH):
+def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH):
 
-    # list of function names
-    fun_names = []
+    ext_funs = fun_names[len(functions):]
 
     # Cleanup first
     for i in range(len(functions)):
-        fun_names.append(functions[i].old_name.lower())
-        functions[i].printed = False
-        functions[i].ideps = []
+        if ext_funs is not None:
+           functions[i].printed = functions[i].old_name in ext_funs
+        else:
+           functions[i].printed = False
+        functions[i].ideps   = []
 
     # Get dependency indices
     for i in range(len(functions)):
@@ -192,10 +201,13 @@ def print_function_tree(functions,fid,INDENT,MAX_LINE_LENGTH):
             if (not functions[i].printed):
                 nprinted = 0
                 for j in range(len(functions[i].deps)):
-                    # Self function: do not consider
-                    if functions[i].ideps[j]==i:
+
+                    dep = functions[i].ideps[j]
+
+                    # Dependency is an external function or the current function: do not consider
+                    if dep>=len(functions) or dep==i:
                         nprinted+=1
-                    elif functions[functions[i].ideps[j]].printed:
+                    elif functions[dep].printed:
                         nprinted+=1
 
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
@@ -223,15 +235,24 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH):
     for i in range(len(body)):
        line = body[i]
        continued = False
-       while len(line)>MAX_LINE_LENGTH - (2*len(INDENT) if continued else 0):
-          # Find last non-character
-          m = re.search(r'[^a-zA-Z\d\s][a-zA-Z\d\s]*$',line[:MAX_LINE_LENGTH-2])
+
+       is_comment_line = bool(re.match(r'^\s*!', line))
+
+       while (len(line)>MAX_LINE_LENGTH - 2*len(INDENT)) and not is_comment_line:
+          # Find last non-reserved character
+          m = re.search(r'[^a-zA-Z\d\s\.\_\'\"\*\=\<\>\/][a-zA-Z\d\s\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LINE_LENGTH-2])
+          next = line[m.start()+1:]
+          end_line = "&\n" if len(next.strip())>0 else "\n"
           if continued:
-              fid.write(INDENT + INDENT + line[:m.start()+1] + "&\n")
+              fid.write(INDENT + INDENT + line[:m.start()+1] + end_line)
+              print("continued line:" + INDENT + INDENT + line[:m.start()+1])
           else:
-              fid.write(line[:m.start()+1] + "&\n")
+              fid.write(line[:m.start()+1] + end_line)
+              print("non      line:" + line[:m.start()+1])
           # Start with reminder
-          line = line[m.start()+2:]
+          line = next
+          print("reminder line:" + line)
+          if line.strip()=='call stdlib_ssteqr.': exit(1)
           continued = True
        if len(line)>0:
            if not continued:
@@ -259,32 +280,46 @@ def line_read_and_preprocess(line,is_free_form,file_name):
 
     import re
 
-    processed = replace_f77_types(line)
+    processed = replace_f77_types(line,is_free_form)
 
     if is_free_form:
        processed = replace_la_constants(processed,file_name)
+
+    will_continue   = bool(re.match(r".*&\s*!*.*$", processed.rstrip()))
+
+    if will_continue:
+        print(re.sub(r'&.*\s*$','',processed).strip())
+        processed = re.sub(r'&.*\s*$','',processed).strip()
 
     # Remove comments
     if is_free_form:
        is_comment_line = bool(re.match(r'^\s*!', processed))
        is_continuation = bool(re.match(r'^\s*&', processed))
+       is_use          = bool(re.match(r'^\s*use', processed))
 
        # If this is a continuation line, remove all that's before the continuation character
        if is_continuation:
            processed = re.sub(r'^\s*&','',processed).strip()
 
-
     else:
        is_comment_line = bool(re.match(r'^\S\S*.*', processed))
        is_continuation = bool(re.match(r'^     \S', processed))
+       is_use          = bool(re.match(r'^      \s*use', processed))
+
        # Remove continuation character
        if is_continuation:
            processed = re.sub(r'^     \S', '', processed).strip()
 
-    return processed,is_continuation,is_comment_line
+    will_continue = will_continue and not is_comment_line
+
+    return processed,is_continuation,is_comment_line,is_use,will_continue
 
 # Parse a line, and replace old-style Fortran datatypes and constructs with stdlib kinds
-def replace_f77_types(line):
+def replace_f77_types(line,is_free_form):
+
+    import re
+
+    INDENT = "" if is_free_form else "      "
 
     new_line = line.rstrip()
     new_line = new_line.replace(".LE.","<=")
@@ -293,13 +328,17 @@ def replace_f77_types(line):
     new_line = new_line.replace(".NE.","/=")
     new_line = new_line.replace(".LT.","<")
     new_line = new_line.replace(".GT.",">")
-    new_line = new_line.replace("COMPLEX*16","COMPLEX(dp)")
-    new_line = new_line.replace("COMPLEX ","COMPLEX(sp) ")
-    new_line = new_line.replace("INTEGER ","INTEGER(int32) ")
-    new_line = new_line.replace("LOGICAL ","LOGICAL(lk) ")
-    new_line = new_line.replace("REAL ","REAL(sp) ")
-    new_line = new_line.replace("DOUBLE PRECISION ","REAL(dp) ")
+    new_line = re.sub(r'^\s*COMPLEX\*16',INDENT+'COMPLEX(dp)',new_line)
+    new_line = re.sub(r'^\s*COMPLEX ',INDENT+'COMPLEX(sp) ',new_line)
+    new_line = re.sub(r'^\s*INTEGER ',INDENT+'INTEGER(int32) ',new_line)
+    new_line = re.sub(r'^\s*LOGICAL ',INDENT+'LOGICAL(lk) ',new_line)
+    new_line = re.sub(r'^\s*REAL ',INDENT+'REAL(sp) ',new_line)
+    new_line = re.sub(r'^\s*DOUBLE PRECISION ',INDENT+'REAL(dp) ',new_line)
+    new_line = new_line.replace("D+000","_dp")
+    new_line = new_line.replace("D+00","_dp")
     new_line = new_line.replace("D+0","_dp")
+    new_line = new_line.replace("E+000","_sp")
+    new_line = new_line.replace("E+00","_sp")
     new_line = new_line.replace("E+0","_sp")
 
     return new_line
@@ -346,8 +385,8 @@ def is_externals_header(line):
     check_line = line.strip().lower()
 
     # Begins with a data type
-    ext =    bool(re.match(r'\S*\s*.. external functions ..',check_line)) \
-          or bool(re.match(r'\S*\s*.. external subroutines ..',check_line))
+    ext =    bool(re.match(r'\S\s*.. external functions ..',check_line)) \
+          or bool(re.match(r'\S\s*.. external subroutines ..',check_line))
 
     return ext
 
@@ -389,7 +428,8 @@ def is_declaration_line(line):
               or check_line.startswith("external::") \
               or check_line.startswith("parameter ") \
               or check_line.startswith("parameter(") \
-              or check_line.startswith("parameter::")
+              or check_line.startswith("parameter::") \
+              or check_line.startswith("implicit none")
 
     return is_decl
 
@@ -399,17 +439,13 @@ def filter_declaration_line(line):
 
     # Remove all EXTERNAL declarations
     filtered =   check_line.startswith("external ") \
-              or check_line.startswith("external::")
+              or check_line.startswith("external::") \
+              or check_line.startswith("implicit none")
 
     return filtered
 
-# Given the list of all sources, rename all matching names in the current source body
-def rename_source_body(lines,Sources):
-
-    prefixes = [" ","(","."]
-
-    body = []
-
+# Assemble two lists of old -> new (prefixed) function names
+def function_namelists(Sources,external_funs,prefix):
     # Assemble list of old and new names
     old_names = []
     new_names = []
@@ -417,14 +453,31 @@ def rename_source_body(lines,Sources):
         old_names.append(Source.old_name.lower())
         new_names.append(Source.new_name.lower())
 
+    # Add list of external functions to that of the names
+    if external_funs is not None:
+        for ext in external_funs:
+            old_names.append(ext.lower())
+            new_names.append(prefix+ext.lower())
+
+    return old_names,new_names
+
+# Given the list of all sources, rename all matching names in the current source body
+def rename_source_body(name,lines,Sources,external_funs,prefix):
+
+    print("Renaming procedure body <"+name+">")
+
+    body = []
+
+    old_names,new_names = function_namelists(Sources,external_funs,prefix)
+
     is_found = [False for i in range(len(new_names))]
 
     for i in range(len(lines)):
         old_line = lines[i].lower()
         for j in range(len(old_names)):
-            line = old_line
-            for k in range(len(prefixes)):
-               line = line.replace(prefixes[k] + old_names[j],prefixes[k] + new_names[j])
+            line = old_line.replace(" " + old_names[j]," " + new_names[j])
+            line =     line.replace("(" + old_names[j],"(" + new_names[j])
+            line =     line.replace("." + old_names[j],"." + new_names[j])
             if len(line)>len(old_line):
                 is_found[j] = True
             old_line = line
@@ -444,15 +497,23 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     from platform import os
     import re
 
+    print("Parsing source file "+file_name+" ...")
+
     INDENT = "     "
-    DEBUG  = file_name.lower().startswith("cheswapr")
+    DEBUG  = False#file_name.lower().startswith("dladiv")
+
+    Procedures = []
+
+    if file_name.endswith(".f") or file_name.endswith(".F") or file_name.endswith(".for") or file_name.endswith(".f77"):
+       free_form = False
+    else:
+       free_form = True
 
     # Init empty source
     Source  = Fortran_Source()
     whereAt = Section.HEADER
-
-    if file_name.endswith(".f") or file_name.endswith(".F") or file_name.endswith(".for") or file_name.endswith(".f77"):
-       Source.is_free_form = False
+    Source.is_free_form = free_form
+    Source.body = []
 
     # FiLoad whole file; split by lines; join concatenation lines
     with open(os.path.join(source_folder,file_name), 'r') as file:
@@ -460,22 +521,30 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
         file_body = []
 
         # Iterate over the lines of the file
+        was_continuing = False
         for line in file:
             # Remove the newline character at the end of the line
-            line,is_continuation,is_comment = line_read_and_preprocess(line,Source.is_free_form,file_name)
+            line,is_continuation,is_comment,is_use,will_continue = \
+               line_read_and_preprocess(line,Source.is_free_form,file_name)
+
+            if DEBUG: print(line)
+            if DEBUG: print("continuation="+str(is_continuation)+" comment="+str(is_comment)+\
+                            " use"+str(is_use)+" will_continue="+str(will_continue))
 
             # Append the line to the list
-            if is_continuation:
+            if is_continuation or was_continuing:
                file_body[-1] = file_body[-1] + line
             else:
                file_body.append(line)
 
-        # Iterate over the joined lines of the file
-        Source.body = []
+            # Set continuation for the next line
+            was_continuing = will_continue
 
+        # Iterate over the joined lines of the file
         for line in file_body:
             # Remove the newline character at the end of the line
-            line,is_continuation,is_comment = line_read_and_preprocess(line,Source.is_free_form,file_name)
+            line,is_continuation,is_comment,is_use,will_continue = \
+            line_read_and_preprocess(line,Source.is_free_form,file_name)
 
             # Append the line to the list
             if is_comment:
@@ -590,31 +659,53 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            elif Source.is_subroutine:
                                line = "END SUBROUTINE " + Source.old_name.upper() + "\n"
 
-                   #case Section.END:
-
                # Append this line
-               if whereAt!=Section.HEADER or not remove_headers:
+
+               non_deleted = whereAt!=Section.HEADER or not remove_headers
+
+               if non_deleted and not is_use:
                   Source.body.append(INDENT + line)
                else:
-                  if DEBUG: print("NOT printed: " + line + " " + whereAt)
+                  if DEBUG: print("NOT printed: " + line + " " + str(whereAt))
 
-    if whereAt!=Section.END:
+            # On function end
+            if whereAt==Section.END:
+
+                  # Save source
+                  Procedures.append(Source)
+
+                  # Reinitialize source
+                  Source  = Fortran_Source()
+                  whereAt = Section.HEADER
+                  Source.is_free_form = free_form
+                  Source.body = []
+
+    if whereAt!=Section.END and whereAt!=Section.HEADER:
         print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper() + " file " + file_name)
+
+    if DEBUG:
+        for i in range(len(Source.body)):
+           print(Source.body[i])
         exit(1)
 
-#    if DEBUG:
-#       for i in range(len(Source.body)):
-#          print(Source.body[i])
-#       exit(1)
-
-    return Source
+    return Procedures
 
 
 
 # Run script
+funs = []
 create_constants_module("stdlib_linalg_constants","../src")
-create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
-create_fortran_module("stdlib_linalg_lapack","../assets/reference_lapack/SRC","../src","stdlib_")
+funs = create_fortran_module("stdlib_linalg_blas",\
+                             "../assets/reference_lapack/BLAS/SRC","../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants"])
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/reference_lapack/SRC",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"])
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
