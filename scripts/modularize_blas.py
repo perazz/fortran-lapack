@@ -74,7 +74,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     # Rename all procedures
     for function in fortran_functions:
-        function.body,function.deps = rename_source_body(function.old_name,function.body,\
+        function.body,function.deps = rename_source_body(function.old_name,function.body,function.decl,\
                                                          fortran_functions,ext_functions,prefix)
 
     # Create file
@@ -293,9 +293,10 @@ class Fortran_Source:
         self.is_subroutine = True
         self.old_name      = "NONAME"
         self.new_name      = "NONAME"
-        self.body          = ""
+        self.body          = []
         self.deps          = []
         self.ideps         = []
+        self.decl          = []
         self.printed       = False
 
 # Read and preprocess a Fortran line for parsing: remove comments, adjust left, and if this is a continuation
@@ -309,9 +310,9 @@ def line_read_and_preprocess(line,is_free_form,file_name):
     if is_free_form:
        processed = replace_la_constants(processed,file_name)
 
-    will_continue   = bool(re.match(r".*&\s*!*.*$", processed.rstrip()))
+    will_continue   = bool(re.match(r".*\S+.*&\s*!*.*$", processed.rstrip()))
 
-    if will_continue:
+    if will_continue: # remove what's right of the ampersand
         print(re.sub(r'&.*\s*$','',processed).strip())
         processed = re.sub(r'&.*\s*$','',processed).strip()
 
@@ -327,12 +328,18 @@ def line_read_and_preprocess(line,is_free_form,file_name):
 
     else:
        is_comment_line = bool(re.match(r'^\S\S*.*', processed))
-       is_continuation = bool(re.match(r'^     \S', processed))
+       is_continuation = bool(re.match(r'^     [\S\&\*]', processed))
+
+#       print("***")
+#       print("processed: "+processed)
+#       print(re.match(r'^     [\S\&\*]', processed))
+#       print("***")
+
        is_use          = bool(re.match(r'^      \s*use', processed))
 
        # Remove continuation character
        if is_continuation:
-           processed = re.sub(r'^     \S', '', processed).strip()
+           processed = re.sub(r'^     [\S\&\*]', '', processed).strip()
 
     will_continue = will_continue and not is_comment_line
 
@@ -352,6 +359,7 @@ def replace_f77_types(line,is_free_form):
     new_line = new_line.replace(".NE.","/=")
     new_line = new_line.replace(".LT.","<")
     new_line = new_line.replace(".GT.",">")
+    new_line = new_line.replace(".AND .",".AND.")
     new_line = re.sub(r'^\s*COMPLEX\*16',INDENT+'COMPLEX(dp)',new_line)
     new_line = re.sub(r'^\s*COMPLEX ',INDENT+'COMPLEX(sp) ',new_line)
     new_line = re.sub(r'^\s*INTEGER ',INDENT+'INTEGER(int32) ',new_line)
@@ -364,12 +372,14 @@ def replace_f77_types(line,is_free_form):
     new_line = re.sub(r'^\s*LOGICAL,',INDENT+'LOGICAL(lk),',new_line)
     new_line = re.sub(r'^\s*REAL,',INDENT+'REAL(sp),',new_line)
     new_line = re.sub(r'^\s*DOUBLE PRECISION,',INDENT+'REAL(dp),',new_line)
-    new_line = new_line.replace("D+000","_dp")
-    new_line = new_line.replace("D+00","_dp")
-    new_line = new_line.replace("D+0","_dp")
     new_line = new_line.replace("E+000","_sp")
     new_line = new_line.replace("E+00","_sp")
+    new_line = new_line.replace("E+01","e+01_sp")
     new_line = new_line.replace("E+0","_sp")
+    new_line = new_line.replace("D+000","_dp")
+    new_line = new_line.replace("D+00","_dp")
+    new_line = new_line.replace("D+01","e+01_dp")
+    new_line = new_line.replace("D+0","_dp")
 
     return new_line
 
@@ -500,27 +510,40 @@ def function_namelists(Sources,external_funs,prefix):
     return old_names,new_names
 
 # Given the list of all sources, rename all matching names in the current source body
-def rename_source_body(name,lines,Sources,external_funs,prefix):
+def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
 
+    import re
     print("Renaming procedure body <"+name+">")
 
     body = []
 
     old_names,new_names = function_namelists(Sources,external_funs,prefix)
 
-    is_found = [False for i in range(len(new_names))]
+    is_found    = [False for i in range(len(new_names))]
+    is_declared = [False for i in range(len(new_names))]
 
-    for i in range(len(lines)):
-        old_line = lines[i].lower()
-        for j in range(len(old_names)):
-            line = old_line.replace(" " + old_names[j]," " + new_names[j])
-            line =     line.replace("(" + old_names[j],"(" + new_names[j])
-            line =     line.replace("." + old_names[j],"." + new_names[j])
-            if len(line)>len(old_line):
-                is_found[j] = True
-            old_line = line
+    # First of all, map which of these names are used as declared variables. In this case
+    # do not replace their names
+    for i in range(len(decl)):
+        old_line = decl[i].lower()
+        if bool(re.search(r".+\s+[^a-zA-Z\_0-9]"+old_names[i]+r"[^a-zA-Z\_0-9].*",old_line)):
+            is_declared[i] = True
 
-        body.append(line);
+    replacement = prefix+r'\g<0>'
+
+    whole = '\n'.join(lines)
+    whole = whole.lower()
+
+    for j in range(len(old_names)):
+        if is_declared[j]: continue
+        old = len(whole)
+        whole = re.sub(r"\b"+old_names[j]+r"\b",replacement,whole)
+        if len(whole)>old:
+            print("***match***" + old_names[j])
+            is_found[j] = True
+
+
+    body = whole.split('\n')
 
     # Build dependency list
     dependency_list = []
@@ -538,7 +561,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     print("Parsing source file "+file_name+" ...")
 
     INDENT = "     "
-    DEBUG  = False #file_name.lower().startswith("cgejsv")
+    DEBUG  = False #file_name.lower().startswith("dlaed6")
 
     Procedures = []
 
@@ -552,6 +575,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     whereAt = Section.HEADER
     Source.is_free_form = free_form
     Source.body = []
+    Source.decl = []
 
     # FiLoad whole file; split by lines; join concatenation lines
     with open(os.path.join(source_folder,file_name), 'r') as file:
@@ -561,6 +585,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
         # Iterate over the lines of the file
         was_continuing = False
         for line in file:
+            if DEBUG: print("raw =" + line)
+
             # Remove the newline character at the end of the line
             line,is_continuation,is_comment,is_use,will_continue = \
                line_read_and_preprocess(line,Source.is_free_form,file_name)
@@ -570,6 +596,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
             # Append the line to the list, if it was not a comment line
             if was_continuing:
+               if DEBUG: print("was continuing: add "+line+" to "+file_body[-1])
                file_body[-1] = file_body[-1] + line
             elif is_continuation:
                # Check if last line was a comment
@@ -577,11 +604,14 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                line_read_and_preprocess(file_body[-1],Source.is_free_form,file_name)
 
                if last_comment:
+                   if DEBUG: print("last comment, add "+line+" to "+file_body[-2])
                    file_body[-2] = file_body[-2] + line
                else:
+                   if DEBUG: print("last not comment, add "+line+" to "+file_body[-1])
                    file_body[-1] = file_body[-1] + line
 
             else:
+               if DEBUG: print("new line: "+line)
                file_body.append(line)
 
             # Set continuation for the next line
@@ -681,6 +711,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            if (filter_declaration_line(line)):
                                if DEBUG: print("filter declaration line")
                                line = "";
+                           else:
+                               Source.decl.append(line)
                        else:
                            # Start body section
                            if DEBUG: print("start body: " + line)
@@ -728,6 +760,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   whereAt = Section.HEADER
                   Source.is_free_form = free_form
                   Source.body = []
+                  Source.decl = []
 
     if whereAt!=Section.END and whereAt!=Section.HEADER:
         print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper() + " file " + file_name)
