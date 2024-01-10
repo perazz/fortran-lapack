@@ -92,6 +92,12 @@ module stdlib_linalg_constants
 
 
 
+contains
+
+
+
+
+
 
 
 end module stdlib_linalg_constants

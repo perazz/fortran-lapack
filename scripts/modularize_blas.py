@@ -172,6 +172,8 @@ def print_lapack_constants(fid,INDENT):
 
     fid.write("\n\n\n" + "contains" + "\n\n\n")
 
+
+
 # Print function tree in a dependency-suitable way
 def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH):
 
@@ -805,6 +807,11 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     return Procedures
 
 
+# Copy files
+import shutil
+
+shutil.copyfile('../assets/reference_lapack/INSTALL/slamch.f', '../assets/reference_lapack/SRC/slamch.f')
+shutil.copyfile('../assets/reference_lapack/INSTALL/dlamch.f', '../assets/reference_lapack/SRC/dlamch.f')
 
 # Run script
 funs = []
