@@ -11,9 +11,10 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     from platform import os
 
     # Parameters
-    today  = date.today()
-    INDENT = "     "
-    remove_headers = True
+    today           = date.today()
+    INDENT          = "     "
+    MAX_LINE_LENGTH = 128
+    remove_headers  = True
 
     # Get names
     module_file = module_name + ".f90"
@@ -66,7 +67,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix):
     fid.write("\n\n" + INDENT + "contains\n")
 
     # Write functions
-    print_function_tree(fortran_functions,fid)
+    print_function_tree(fortran_functions,fid,INDENT,MAX_LINE_LENGTH)
 
     # Close module
     fid.write("\n\n\nend module {}\n".format(module_name))
@@ -82,7 +83,7 @@ class Section(Enum):
     END = 5
 
 # Print function tree in a dependency-suitable way
-def print_function_tree(functions,fid):
+def print_function_tree(functions,fid,INDENT,MAX_LINE_LENGTH):
 
     # list of function names
     fun_names = []
@@ -119,7 +120,7 @@ def print_function_tree(functions,fid):
 
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
                    print(str(nprinted) + "deps printed already for " + functions[i].old_name)
-                   fid.write("\n".join(functions[i].body))
+                   write_function_body(fid,functions[i].body,INDENT,MAX_LINE_LENGTH)
                    functions[i].printed = True
 
 
@@ -134,6 +135,29 @@ def print_function_tree(functions,fid):
         print("***ERROR*** there are non printed functions")
         exit(1)
 
+# Write function body (list of lines)
+def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH):
+
+    import re
+
+    for i in range(len(body)):
+       line = body[i]
+       continued = False
+       while len(line)>MAX_LINE_LENGTH - (2*len(INDENT) if continued else 0):
+          # Find last non-character
+          m = re.search(r'[^a-zA-Z\d\s][a-zA-Z\d\s]*$',line)
+          if continued:
+              fid.write(INDENT + INDENT + line[:m.start()+1] + "&\n")
+          else:
+              fid.write(line[:m.start()+1] + "&\n")
+          # Start with reminder
+          line = line[m.start()+2:]
+          continued = True
+       if len(line)>0:
+           if not continued:
+               fid.write(line + "\n")
+           else:
+               fid.write(INDENT + INDENT + line + "\n")
 
 # This class represents the contents of a 1-function/1-subroutine Fortran source file parsed from BLAS/LAPACK
 class Fortran_Source:
@@ -478,7 +502,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
 
 # Run script
-#create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
+create_fortran_module("stdlib_linalg_blas","../assets/reference_lapack/BLAS/SRC","../src","stdlib_")
 create_fortran_module("stdlib_linalg_lapack","../assets/reference_lapack/SRC","../src","stdlib_")
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
