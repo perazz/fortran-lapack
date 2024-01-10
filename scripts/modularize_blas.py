@@ -417,7 +417,7 @@ def is_externals_header(line):
     # Begins with a data type
     ext =    bool(re.match(r'\S\s*.. external functions ..',check_line)) \
           or bool(re.match(r'\S\s*.. external function ..',check_line)) \
-          or bool(re.match(r'\S\s* external functions ',check_line)) \
+          or bool(re.match(r'\S\s*external functions\s*\S*',check_line)) \
           or bool(re.match(r'\S\s*.. external subroutines ..',check_line))
 
     return ext
@@ -448,6 +448,7 @@ def is_declaration_line(line):
               or check_line.startswith("complex(") \
               or check_line.startswith("complex::") \
               or check_line.startswith("character ") \
+              or check_line.startswith("character,") \
               or check_line.startswith("character(") \
               or check_line.startswith("character*") \
               or check_line.startswith("character*(") \
@@ -537,7 +538,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     print("Parsing source file "+file_name+" ...")
 
     INDENT = "     "
-    DEBUG  = False #file_name.lower().startswith("claqz1")
+    DEBUG  = False #file_name.lower().startswith("cgejsv")
 
     Procedures = []
 
@@ -567,9 +568,19 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             if DEBUG: print("continuation="+str(is_continuation)+" comment="+str(is_comment)+\
                             " use"+str(is_use)+" will_continue="+str(will_continue))
 
-            # Append the line to the list
-            if is_continuation or was_continuing:
+            # Append the line to the list, if it was not a comment line
+            if was_continuing:
                file_body[-1] = file_body[-1] + line
+            elif is_continuation:
+               # Check if last line was a comment
+               last_line,last_cont,last_comment,last_use,last_will_cont = \
+               line_read_and_preprocess(file_body[-1],Source.is_free_form,file_name)
+
+               if last_comment:
+                   file_body[-2] = file_body[-2] + line
+               else:
+                   file_body[-1] = file_body[-1] + line
+
             else:
                file_body.append(line)
 
