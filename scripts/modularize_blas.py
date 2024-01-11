@@ -45,20 +45,28 @@ def create_constants_module(module_name,out_folder):
 
 # Read all source files from the source folder, process them, refactor them, and put all
 # subroutines/function into a module
-def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functions,used_modules):
+def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functions,used_modules, \
+                          split_by_initial):
 
     from datetime import date
     from platform import os
+
+
+    # Splitting by initials
+    if split_by_initial:
+        initials = ['aux','s','d','c','z']
+        modules = []
+        for i in range(len(initials)):
+            modules.append(module_name+"_"+initials[i])
+    else:
+        modules = [module_name]
+        initials = ['']
 
     # Parameters
     today           = date.today()
     INDENT          = "     "
     MAX_LINE_LENGTH = 100
     remove_headers  = True
-
-    # Get names
-    module_file = module_name + ".f90"
-    module_path = os.path.join(out_folder,module_file)
 
     # Get list of source files
     print("Getting list of source files...")
@@ -81,39 +89,84 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         function.body,function.deps = rename_source_body(function.old_name,function.body,function.decl,\
                                                          fortran_functions,ext_functions,prefix)
 
-    # Create file
-    fid = open(module_path,"w")
+    # Create modules
+    for m in range(len(modules)):
+        this_module = module_name
+        if len(initials[m])>0: this_module = this_module + "_" + initials[m]
+        module_file = this_module + ".f90"
+        module_path = os.path.join(out_folder,module_file)
+        fid = open(module_path,"w")
 
-    # Header
-    fid.write("module {}\n".format(module_name))
-    for used in used_modules:
-        fid.write(INDENT + "use " + used + "\n")
-    fid.write(INDENT + "implicit none(type,external)\n")
-    fid.write(INDENT + "private\n\n\n\n")
+        # Header
+        fid.write("module {}\n".format(this_module))
+        for used in used_modules:
+            fid.write(INDENT + "use " + used + "\n")
 
-    # Public interface.
-    fid.write("\n\n\n" + INDENT + "public :: sp,dp,lk,int32,int64\n")
-    for function in fortran_functions:
-        fid.write(INDENT + "public :: " + function.new_name + "\n")
+        # Add top modules in the hierarchy
+        for n in range(m):
+            fid.write(INDENT + "use " + module_name + "_" + initials[n] + "\n")
 
-        if function.new_name=="NONAME":
-            print("\n".join(function.body))
-            exit(1)
+        fid.write(INDENT + "implicit none(type,external)\n")
+        fid.write(INDENT + "private\n\n\n\n")
 
-    # Actual implementation
-    fid.write("\n\n" + INDENT + "contains\n")
+        # Public interface.
+        fid.write("\n\n\n" + INDENT + "public :: sp,dp,lk,int32,int64\n")
+        for function in fortran_functions:
+            if function_in_module(initials[m],function.old_name):
+                fid.write(INDENT + "public :: " + function.new_name + "\n")
 
-    # Write functions
-    old_names,new_names = function_namelists(fortran_functions,ext_functions,prefix)
-    print_function_tree(fortran_functions,old_names,fid,INDENT,MAX_LINE_LENGTH)
+            if function.new_name=="NONAME":
+                print("\n".join(function.body))
+                exit(1)
 
-    # Close module
-    fid.write("\n\n\nend module {}\n".format(module_name))
+        # Actual implementation
+        fid.write("\n\n" + INDENT + "contains\n")
 
-    fid.close()
+        # Write functions
+        old_names,new_names = function_namelists(fortran_functions,ext_functions,prefix)
+        print_function_tree(fortran_functions,old_names,fid,INDENT,MAX_LINE_LENGTH,initials[m])
+
+        # Close module
+        fid.write("\n\n\nend module {}\n".format(this_module))
+        fid.close()
+
+    # Write wrapper module
+    if split_by_initial:
+        module_file = module_name + ".f90"
+        module_path = os.path.join(out_folder,module_file)
+
+        fid = open(module_path,"w")
+
+        # Header
+        fid.write("module {}\n".format(module_name))
+        for used in used_modules:
+            fid.write(INDENT + "use " + used + "\n")
+
+        for i in initials:
+            fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
+        fid.write(INDENT + "implicit none(type,external)\n")
+        fid.write(INDENT + "public\n")
+        # Close module
+        fid.write("\n\n\nend module {}\n".format(module_name))
+        fid.close()
+
 
     # Return list of all functions defined in this module, including the external ones
     return old_names
+
+#
+def function_in_module(initial,function_name):
+   if len(initial)<1:
+       in_module = True
+   elif    function_name.endswith("amax") \
+        or function_name.endswith("abs") \
+        or function_name.endswith("abs1") :
+       in_module = initial[0].lower() == 'a'
+   elif initial[0].lower() in ['c','s','d','z'] :
+       in_module = function_name[0].lower()==initial[0].lower()
+   else:
+       in_module = not (function_name[0].lower() in ['c','s','d','z'])
+   return in_module
 
 # Enum for file sections
 class Section(Enum):
@@ -179,17 +232,21 @@ def print_lapack_constants(fid,INDENT):
 
 
 # Print function tree in a dependency-suitable way
-def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH):
+def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
 
     ext_funs = fun_names[len(functions):]
 
-    # Cleanup first
+    # Cleanup first. Mark all functions that will go into another module as "printed",
+    # so they won't be checked as dependencies
     for i in range(len(functions)):
+        functions[i].ideps   = []
         if ext_funs is not None:
            functions[i].printed = functions[i].old_name in ext_funs
         else:
            functions[i].printed = False
-        functions[i].ideps   = []
+
+        functions[i].printed = functions[i].printed or \
+                               not function_in_module(initial,functions[i].old_name)
 
     # Get dependency indices
     for i in range(len(functions)):
@@ -861,6 +918,7 @@ import shutil
 
 shutil.copyfile('../assets/reference_lapack/INSTALL/slamch.f', '../assets/reference_lapack/SRC/slamch.f')
 shutil.copyfile('../assets/reference_lapack/INSTALL/dlamch.f', '../assets/reference_lapack/SRC/dlamch.f')
+shutil.copyfile('../assets/reference_lapack/INSTALL/sroundup_lwork.f', '../assets/reference_lapack/SRC/sroundup_lwork.f')
 
 # Run script
 funs = []
@@ -869,13 +927,13 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "../assets/reference_lapack/BLAS/SRC","../src",\
                              "stdlib_",\
                              funs,\
-                             ["stdlib_linalg_constants"])
+                             ["stdlib_linalg_constants"],True)
 funs = create_fortran_module("stdlib_linalg_lapack",\
                              "../assets/reference_lapack/SRC",\
                              "../src",\
                              "stdlib_",\
                              funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"])
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 

@@ -16,4 +16,6 @@ implicit-external = false
 source-form = "free"
 [library]
 source-dir="src"
+[preprocess]
+[preprocess.cpp]
 
