@@ -24,6 +24,9 @@ def create_constants_module(module_name,out_folder):
     #fid.write(INDENT + "use stdlib_kinds, only: sp,dp,lk,int32,int64\n")
     fid.write(INDENT + "use iso_fortran_env, only: int32,int64\n")
     fid.write(INDENT + "use, intrinsic :: ieee_arithmetic, only: ieee_is_nan \n")
+    fid.write("#if defined(_OPENMP)\n")
+    fid.write(INDENT + "use omp_lib\n")
+    fid.write("#endif\n")
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "public\n\n\n\n")
 
@@ -61,7 +64,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
     print("Getting list of source files...")
     source_files = []
     for file in os.listdir(source_folder):
-        if (file.endswith(".f90") or file.endswith(".f") or file.endswith(".F90")) \
+        if (file.endswith(".f90") or file.endswith(".f") or file.endswith(".F90") or file.endswith(".F")) \
            and not file.startswith("la_constants") \
            and not file.startswith("la_xisnan"):
             source_files.append(file)
@@ -119,6 +122,7 @@ class Section(Enum):
     EXTERNALS = 3
     BODY = 4
     END = 5
+
 
 # Print LAPACK constants
 def print_lapack_constants(fid,INDENT):
@@ -231,6 +235,18 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH):
         print("***ERROR*** there are non printed functions")
         exit(1)
 
+# Check if line is directive
+def is_directive_line(line):
+
+   ls = line.lstrip()
+
+   is_dir = line.startswith("#") or \
+            line.startswith("!$OMP") or \
+            line.startswith("!$omp")
+
+   return is_dir
+
+
 # Write function body (list of lines)
 def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH):
 
@@ -248,15 +264,18 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH):
 
        mat = re.match(r'^\s*!', line)
        is_comment_line = bool(mat)
+       is_directive = is_directive_line(line)
 
        # Preprocess comment line: put exclamation mark right before the first occurrence
-       if is_comment_line:
+       if is_comment_line and not is_directive:
           post  = line[mat.end():]
           posts = post.lstrip(' ')
           nspaces = mat.end()-mat.start()+len(post) - len(posts)
           line = (" " * nspaces) + "! " + posts
 
-       if bool(re.match(r'^\s*!\s*$',line)):
+       if is_directive:
+           fid.write(line+"\n")
+       elif bool(re.match(r'^\s*!\s*$',line)):
            # If line is '!', just print a blank line
            fid.write(INDENT + "\n")
        else:
@@ -303,6 +322,15 @@ class Fortran_Source:
         self.decl          = []
         self.printed       = False
 
+class Fortran_Line:
+    def __init(self):
+        self.string        = ""
+        self.continuation  = False
+        self.comment       = False
+        self.use           = False
+        self.will_continue = False
+        self.directive     = False
+
 # Read and preprocess a Fortran line for parsing: remove comments, adjust left, and if this is a continuation
 # line, read all continuation lines into it
 def line_read_and_preprocess(line,is_free_form,file_name):
@@ -314,9 +342,12 @@ def line_read_and_preprocess(line,is_free_form,file_name):
     if is_free_form:
        processed = replace_la_constants(processed,file_name)
 
+    # Check if this is a directive
+    is_dir = is_directive_line(processed)
+
     will_continue   = bool(re.match(r".*\S+.*&\s*!*.*$", processed.rstrip()))
 
-    if will_continue: # remove what's right of the ampersand
+    if will_continue and not is_dir: # remove what's right of the ampersand
         print(re.sub(r'&.*\s*$','',processed).strip())
         processed = re.sub(r'&.*\s*$','',processed).strip()
 
@@ -327,27 +358,31 @@ def line_read_and_preprocess(line,is_free_form,file_name):
        is_use          = bool(re.match(r'^\s*use', processed))
 
        # If this is a continuation line, remove all that's before the continuation character
-       if is_continuation:
+       if is_continuation and not is_dir:
            processed = re.sub(r'^\s*&','',processed).strip()
 
     else:
        is_comment_line = bool(re.match(r'^\S\S*.*', processed))
        is_continuation = bool(re.match(r'^     [\S\&\*]', processed))
 
-#       print("***")
-#       print("processed: "+processed)
-#       print(re.match(r'^     [\S\&\*]', processed))
-#       print("***")
 
        is_use          = bool(re.match(r'^      \s*use', processed))
 
        # Remove continuation character
-       if is_continuation:
+       if is_continuation and not is_dir:
            processed = re.sub(r'^     [\S\&\*]', '', processed).strip()
 
     will_continue = will_continue and not is_comment_line
 
-    return processed,is_continuation,is_comment_line,is_use,will_continue
+    Line = Fortran_Line()
+    Line.string = processed
+    Line.continuation = is_continuation
+    Line.comment = is_comment_line
+    Line.use = is_use
+    Line.will_continue = will_continue
+    Line.directive = is_dir
+
+    return Line
 
 # Parse a line, and replace old-style Fortran datatypes and constructs with stdlib kinds
 def replace_f77_types(line,is_free_form):
@@ -542,26 +577,30 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
     is_found    = [False for i in range(len(new_names))]
     is_declared = [False for i in range(len(new_names))]
 
+    print(len(new_names))
+    print(len(old_names))
+
     la_const = False
 
     # First of all, map which of these names are used as declared variables. In this case
     # do not replace their names
     for i in range(len(decl)):
         old_line = decl[i].lower()
-        if bool(re.search(r".+\s+[^a-zA-Z\_0-9]"+old_names[i]+r"[^a-zA-Z\_0-9].*",old_line)):
-            is_declared[i] = True
+        for j in range(len(old_names)):
+            if bool(re.search(r".+\s+[^a-zA-Z\_0-9]"+old_names[j]+r"[^a-zA-Z\_0-9].*",old_line)):
+                is_declared[i] = True
         if "la_constants" in old_line:
             la_const = True
 
     replacement = prefix+r'\g<0>'
 
-    whole = '\n'.join(lines)
-    whole = whole.lower()
+
+    whole = '\n'.join(lines).lower()
 
     for j in range(len(old_names)):
         if is_declared[j]: continue
         old = len(whole)
-        whole = re.sub(r"\b"+old_names[j]+r"\b",replacement,whole)
+        whole = re.sub(r"\b"+old_names[j]+r"\b",replacement,whole) #,flags=re.IGNORECASE)
         if len(whole)>old:
             print("***match***" + old_names[j])
             is_found[j] = True
@@ -571,13 +610,17 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
         for j in range(len(la_names)):
             if is_declared[j]: continue
             old = len(whole)
-            whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
+            whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole) #,flags=re.IGNORECASE)
 #            if len(whole)>old:
 #                print("***match***" + la_names[j])
 #        print("***TEMPORARY STOP")
 #        exit(1)
 
     body = whole.split('\n')
+
+    # Restore declaration lines cases
+    for j in range(len(body)):
+       if is_directive_line(body[j]): body[j] = lines[j]
 
     # Build dependency list
     dependency_list = []
@@ -622,34 +665,35 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             if DEBUG: print("raw =" + line)
 
             # Remove the newline character at the end of the line
-            line,is_continuation,is_comment,is_use,will_continue = \
-               line_read_and_preprocess(line,Source.is_free_form,file_name)
+            Line = line_read_and_preprocess(line,Source.is_free_form,file_name)
 
-            if DEBUG: print("continuation="+str(is_continuation)+" comment="+str(is_comment)+\
-                            " use"+str(is_use)+" will_continue="+str(will_continue))
+            if DEBUG: print("continuation="+str(Line.continuation)+" comment="+str(Line.comment)+\
+                            " use"+str(is_use)+" will_continue="+str(Line.will_continue))
 
+            # This is a directive: append as-is
+            if Line.directive:
+                file_body.append(Line.string)
             # Append the line to the list, if it was not a comment line
-            if was_continuing:
-               if DEBUG: print("was continuing: add "+line+" to "+file_body[-1])
-               file_body[-1] = file_body[-1] + line
-            elif is_continuation:
+            elif was_continuing:
+               if DEBUG: print("was continuing: add "+Line.string+" to "+file_body[-1])
+               file_body[-1] = file_body[-1] + Line.string
+            elif Line.continuation:
                # Check if last line was a comment
-               last_line,last_cont,last_comment,last_use,last_will_cont = \
-               line_read_and_preprocess(file_body[-1],Source.is_free_form,file_name)
+               Last_Line = line_read_and_preprocess(file_body[-1],Source.is_free_form,file_name)
 
-               if last_comment:
-                   if DEBUG: print("last comment, add "+line+" to "+file_body[-2])
-                   file_body[-2] = file_body[-2] + line
+               if Last_Line.comment:
+                   if DEBUG: print("last comment, add "+Line.string+" to "+file_body[-2])
+                   file_body[-2] = file_body[-2] + Line.string
                else:
-                   if DEBUG: print("last not comment, add "+line+" to "+file_body[-1])
-                   file_body[-1] = file_body[-1] + line
+                   if DEBUG: print("last not comment, add "+Line.string+" to "+file_body[-1])
+                   file_body[-1] = file_body[-1] + Line.string
 
             else:
-               if DEBUG: print("new line: "+line)
-               file_body.append(line)
+               if DEBUG: print("new line: "+Line.string)
+               file_body.append(Line.string)
 
             # Set continuation for the next line
-            was_continuing = will_continue
+            was_continuing = Line.will_continue
 
         # Iterate over the joined lines of the file
         for line in file_body:
@@ -657,11 +701,15 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             if len(line.strip())<=0: continue
 
             # Remove the newline character at the end of the line
-            line,is_continuation,is_comment,is_use,will_continue = \
-            line_read_and_preprocess(line,Source.is_free_form,file_name)
+            Line = line_read_and_preprocess(line,Source.is_free_form,file_name)
 
             # Append the line to the list
-            if is_comment:
+            if Line.directive:
+
+               # Directives: apend as-is
+               Source.body.append(line)
+
+            elif Line.comment:
 
                if DEBUG: print("Section.COMMENT " + line + " " + str(whereAt))
 
@@ -777,8 +825,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                # Append this line
 
                non_deleted = whereAt!=Section.HEADER or not remove_headers
+               non_use     = whereAt!=Section.DECLARATION or not Line.use
 
-               if non_deleted and not is_use:
+               if non_deleted and non_use:
                   Source.body.append(INDENT + line)
                else:
                   if DEBUG: print("NOT printed: " + line + " " + str(whereAt))
