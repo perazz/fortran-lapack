@@ -21,6 +21,30 @@ To add fortran-lapack to your project, simply add it as a dependency:
 [dependencies]
 fortran-lapack = { git="https://github.com/perazz/fortran-lapack.git" }
 ```
+# Extension to external BLAS/LAPACK libraries
+
+This task is in progress. The names of all procedures have been prefixed not to pollute the original BLAS/LAPACK namespace, so that handling of external libraries can be accomplished via a preprocessor flag. For example:
+
+```fortran  
+#ifdef EXTERNAL_BLAS
+interface 
+    pure subroutine saxpy(n, a, x, incx, y, incy)
+      import :: ik, sp
+      integer, parameter :: wp = sp
+      integer(ik), intent(in) :: n
+      real(wp), intent(in) :: a
+      real(wp), intent(in) :: x(*)
+      integer(ik), intent(in) :: incx
+      real(wp), intent(inout) :: y(*)
+      integer(ik), intent(in) :: incy
+    end subroutine saxpy
+end interface
+#else
+interface saxpy
+    module procedure stdlib_saxpy
+end interface
+#endif
+```
 
 # Acknowledgments
 The development of this package is supported by the [Sovereign Tech Fund](https://www.sovereigntechfund.de).
