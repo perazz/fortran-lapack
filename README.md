@@ -8,7 +8,8 @@ The following refactorings are applied:
 - `implicit none(type, external)` everywhere
 - BLAS modularized into a single-file module
 - LAPACK modularized into a single-file module
-- All procedures prefixed (with `stdlib_`, currently). 
+- All procedures prefixed (with `stdlib_`, currently).
+- preprocessor-based OpenMP directives retained.
 
 The single-source module structure hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.
 
