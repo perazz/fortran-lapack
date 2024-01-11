@@ -43,6 +43,27 @@ def create_constants_module(module_name,out_folder):
 
     fid.close()
 
+# Patch lapack aux module interface
+def patch_lapack_aux(fid,prefix,indent):
+    fid.write(INDENT + "public :: {}_selctg\n".format(prefix))
+    fid.write(INDENT + "public :: {}_select\n\n".format(prefix))
+    fid.write(INDENT + "! SELCTG is a LOGICAL FUNCTION of three DOUBLE PRECISION arguments \n")
+    fid.write(INDENT + "! used to select eigenvalues to sort to the top left of the Schur form. \n")
+    fid.write(INDENT + "! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., \n")
+    fid.write(INDENT + "abstract interface \n")
+    fid.write(INDENT + "   logical(lk) function {}_selctg(alphar,alphai,beta) \n".format(prefix))
+    fid.write(INDENT + "       import sp,lk \n")
+    fid.write(INDENT + "       implicit none \n")
+    fid.write(INDENT + "       real(sp), intent(in) :: alphar,alphai,beta \n")
+    fid.write(INDENT + "   end function {}_selctg \n\n".format(prefix))
+    fid.write(INDENT + "   logical(lk) function {}_select(alphar,alphai) \n".format(prefix))
+    fid.write(INDENT + "       import sp,lk \n")
+    fid.write(INDENT + "       implicit none \n")
+    fid.write(INDENT + "       real(sp), intent(in) :: alphar,alphai \n")
+    fid.write(INDENT + "   end function {}_select \n".format(prefix))
+    fid.write(INDENT + "end interface \n\n")
+
+
 # Read all source files from the source folder, process them, refactor them, and put all
 # subroutines/function into a module
 def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functions,used_modules, \
@@ -118,6 +139,10 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
             if function.new_name=="NONAME":
                 print("\n".join(function.body))
                 exit(1)
+
+        # Patch AUX
+        if initials[m]=='aux' and module_name=='lapack':
+            patch_lapack_aux(fid,prefix,INDENT)
 
         # Actual implementation
         fid.write("\n\n" + INDENT + "contains\n")
