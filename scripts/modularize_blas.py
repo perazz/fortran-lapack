@@ -867,7 +867,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                elif whereAt==Section.DECLARATION and is_externals_header(line):
                   if DEBUG: print("is externals header")
                   whereAt = Section.EXTERNALS
-                  line = ""
+                  continue
                # We are parsing the header description line
                elif whereAt==Section.HEADER_DESCR:
                   if DEBUG: print("is description header")
@@ -896,6 +896,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                      # Remove header, only keep description
                      if '\par Purpose:' in line:
                         whereAt = Section.HEADER_DESCR
+
+               # Empty comment? skip
+               if line.strip()=='!': continue
 
 
 
@@ -975,6 +978,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                    case Section.EXTERNALS:
 
+                       # Empty line after a comment? skip it
+
                        # Check if this line still begins with a declaration
                        if is_declaration_line(line):
                            # Delete altoghether
@@ -1001,6 +1006,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            open_loops.append(numbers[0])
                            loop_starts.append(nspaces)
 
+                       # End of labelled loop
                        if re.match(r'^\s+\d+\s+continue',line.lower()):
                            # Extract label
                            numbers = re.findall(r'\d+',line.lower())

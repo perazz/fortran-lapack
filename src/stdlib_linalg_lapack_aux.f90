@@ -47,20 +47,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            incx, n
+           integer(int32) :: incx, n
            ! ..
            ! .. array arguments ..
-           complex(sp)            cx(*)
+           complex(sp) :: cx(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp)               smax
-           integer(int32)            i, ix
+           real(sp) :: smax
+           integer(int32) :: i, ix
            ! ..
            ! .. intrinsic functions ..
-           intrinsic          abs
+           intrinsic :: abs
            ! ..
            ! .. executable statements ..
      
@@ -110,15 +110,14 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            ispec
-           real(sp)               one, zero
+           integer(int32) :: ispec
+           real(sp) :: one, zero
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp)               nan1, nan2, nan3, nan4, nan5, nan6, neginf,negzro, newzro, &
-                     posinf
+           real(sp) :: nan1, nan2, nan3, nan4, nan5, nan6, neginf,negzro, newzro, posinf
            ! ..
            ! .. executable statements ..
            stdlib_ieeeck = 1
@@ -232,20 +231,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            m, n, lda
+           integer(int32) :: m, n, lda
            ! ..
            ! .. array arguments ..
-           complex(sp)            a( lda, * )
+           complex(sp) :: a( lda, * )
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           complex(sp)          zero
+           complex(sp) :: zero
            parameter ( zero = (0.0_sp, 0.0_sp) )
            ! ..
            ! .. local scalars ..
-           integer(int32) i
+           integer(int32) :: i
            ! ..
            ! .. executable statements ..
      
@@ -274,20 +273,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            m, n, lda
+           integer(int32) :: m, n, lda
            ! ..
            ! .. array arguments ..
-           complex(sp)            a( lda, * )
+           complex(sp) :: a( lda, * )
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           complex(sp)          zero
+           complex(sp) :: zero
            parameter ( zero = (0.0_sp, 0.0_sp) )
            ! ..
            ! .. local scalars ..
-           integer(int32) i, j
+           integer(int32) :: i, j
            ! ..
            ! .. executable statements ..
      
@@ -324,13 +323,13 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           character          diag
+           character :: diag
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           integer(int32) blas_non_unit_diag, blas_unit_diag
+           integer(int32) :: blas_non_unit_diag, blas_unit_diag
            parameter ( blas_non_unit_diag = 131, blas_unit_diag = 132 )
            ! ..
      
@@ -358,20 +357,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            m, n, lda
+           integer(int32) :: m, n, lda
            ! ..
            ! .. array arguments ..
-           real(dp)   a( lda, * )
+           real(dp) :: a( lda, * )
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(dp) zero
+           real(dp) :: zero
            parameter ( zero = 0.0_dp )
            ! ..
            ! .. local scalars ..
-           integer(int32) i
+           integer(int32) :: i
            ! ..
            ! .. executable statements ..
      
@@ -400,20 +399,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            m, n, lda
+           integer(int32) :: m, n, lda
            ! ..
            ! .. array arguments ..
-           real(dp)   a( lda, * )
+           real(dp) :: a( lda, * )
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(dp) zero
+           real(dp) :: zero
            parameter ( zero = 0.0_dp )
            ! ..
            ! .. local scalars ..
-           integer(int32) i, j
+           integer(int32) :: i, j
            ! ..
            ! .. executable statements ..
      
@@ -450,13 +449,13 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           character          prec
+           character :: prec
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           integer(int32) blas_prec_single, blas_prec_double, blas_prec_indigenous,&
+           integer(int32) :: blas_prec_single, blas_prec_double, blas_prec_indigenous,&
                      blas_prec_extra
            parameter ( blas_prec_single = 211, blas_prec_double = 212,blas_prec_indigenous = 213, &
                      blas_prec_extra = 214 )
@@ -490,20 +489,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            m, n, lda
+           integer(int32) :: m, n, lda
            ! ..
            ! .. array arguments ..
-           real(sp)               a( lda, * )
+           real(sp) :: a( lda, * )
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp)             zero
+           real(sp) :: zero
            parameter ( zero = 0.0_sp )
            ! ..
            ! .. local scalars ..
-           integer(int32) i
+           integer(int32) :: i
            ! ..
            ! .. executable statements ..
      
@@ -532,20 +531,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            m, n, lda
+           integer(int32) :: m, n, lda
            ! ..
            ! .. array arguments ..
-           real(sp)               a( lda, * )
+           real(sp) :: a( lda, * )
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp)             zero
+           real(sp) :: zero
            parameter ( zero = 0.0_sp )
            ! ..
            ! .. local scalars ..
-           integer(int32) i, j
+           integer(int32) :: i, j
            ! ..
            ! .. executable statements ..
      
@@ -582,13 +581,13 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           character          trans
+           character :: trans
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           integer(int32) blas_no_trans, blas_trans, blas_conj_trans
+           integer(int32) :: blas_no_trans, blas_trans, blas_conj_trans
            parameter ( blas_no_trans = 111, blas_trans = 112,blas_conj_trans = 113 )
            ! ..
      
@@ -623,13 +622,13 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           character          uplo
+           character :: uplo
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           integer(int32) blas_upper, blas_lower
+           integer(int32) :: blas_upper, blas_lower
            parameter ( blas_upper = 121, blas_lower = 122 )
            ! ..
      
@@ -657,20 +656,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            m, n, lda
+           integer(int32) :: m, n, lda
            ! ..
            ! .. array arguments ..
-           complex(dp)         a( lda, * )
+           complex(dp) :: a( lda, * )
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           complex(dp)       zero
+           complex(dp) :: zero
            parameter ( zero = (0.0_dp, 0.0_dp) )
            ! ..
            ! .. local scalars ..
-           integer(int32) i
+           integer(int32) :: i
            ! ..
            ! .. executable statements ..
      
@@ -699,20 +698,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            m, n, lda
+           integer(int32) :: m, n, lda
            ! ..
            ! .. array arguments ..
-           complex(dp)         a( lda, * )
+           complex(dp) :: a( lda, * )
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           complex(dp)       zero
+           complex(dp) :: zero
            parameter ( zero = (0.0_dp, 0.0_dp) )
            ! ..
            ! .. local scalars ..
-           integer(int32) i, j
+           integer(int32) :: i, j
            ! ..
            ! .. executable statements ..
      
@@ -747,27 +746,27 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            ihi, ilo, ispec, lwork, n
-           character          name*( * ), opts*( * )
+           integer(int32) :: ihi, ilo, ispec, lwork, n
+           character :: name*( * ), opts*( * )
      
         ! ================================================================
            ! .. parameters ..
-           integer(int32)            inmin, inwin, inibl, ishfts, iacc22, icost
+           integer(int32) :: inmin, inwin, inibl, ishfts, iacc22, icost
            parameter          ( inmin = 12, inwin = 13, inibl = 14,ishfts = 15, iacc22 = 16, &
                      icost = 17 )
-           integer(int32)            nmin, k22min, kacmin, nibble, knwswp, rcost
+           integer(int32) :: nmin, k22min, kacmin, nibble, knwswp, rcost
            parameter          ( nmin = 75, k22min = 14, kacmin = 14,nibble = 14, knwswp = 500, &
                      rcost = 10 )
-           real(sp)               two
+           real(sp) :: two
            parameter          ( two = 2.0 )
            ! ..
            ! .. local scalars ..
-           integer(int32)            nh, ns
-           integer(int32)            i, ic, iz
-           character          subnam*6
+           integer(int32) :: nh, ns
+           integer(int32) :: i, ic, iz
+           character :: subnam*6
            ! ..
            ! .. intrinsic functions ..
-           intrinsic          log, max, mod, nint, real
+           intrinsic :: log, max, mod, nint, real
            ! ..
            ! .. executable statements ..
            if( ( ispec==ishfts ) .or. ( ispec==inwin ) .or.( ispec==iacc22 ) ) then
@@ -911,20 +910,20 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32)            incx, n
+           integer(int32) :: incx, n
            ! ..
            ! .. array arguments ..
-           complex(dp)         zx(*)
+           complex(dp) :: zx(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(dp)   dmax
-           integer(int32)            i, ix
+           real(dp) :: dmax
+           integer(int32) :: i, ix
            ! ..
            ! .. intrinsic functions ..
-           intrinsic          abs
+           intrinsic :: abs
            ! ..
            ! .. executable statements ..
      
@@ -978,18 +977,18 @@ module stdlib_linalg_lapack_aux
      
            ! .. scalar arguments ..
            character*( * )    ca, cb
-           integer(int32)            n
+           integer(int32) :: n
            ! ..
      
        ! =====================================================================
      
            ! .. local scalars ..
-           integer(int32)            i
+           integer(int32) :: i
            ! ..
      
      
            ! .. intrinsic functions ..
-           intrinsic          len
+           intrinsic :: len
            ! ..
            ! .. executable statements ..
      
@@ -1036,18 +1035,18 @@ module stdlib_linalg_lapack_aux
      
            ! .. scalar arguments ..
            character*( * )    name, opts
-           integer(int32)            ispec, n1, n2, n3, n4
+           integer(int32) :: ispec, n1, n2, n3, n4
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           integer(int32)            i, ic, iz, nb, nbmin, nx
-           logical(lk)            cname, sname, twostage
-           character          c1*1, c2*2, c4*2, c3*3, subnam*16
+           integer(int32) :: i, ic, iz, nb, nbmin, nx
+           logical(lk) :: cname, sname, twostage
+           character :: c1*1, c2*2, c4*2, c3*3, subnam*16
            ! ..
            ! .. intrinsic functions ..
-           intrinsic          char, ichar, int, min, real
+           intrinsic :: char, ichar, int, min, real
            ! ..
      
      
@@ -1581,18 +1580,18 @@ module stdlib_linalg_lapack_aux
      
            ! .. scalar arguments ..
            character*( * )    name, opts
-           integer(int32)            ispec, ni, nbi, ibi, nxi
+           integer(int32) :: ispec, ni, nbi, ibi, nxi
      
         ! ================================================================
            ! ..
            ! .. local scalars ..
-           integer(int32)            i, ic, iz, kd, ib, lhous, lwork, nthreads,factoptnb, qroptnb,&
-                      lqoptnb
-           logical(lk)            rprec, cprec
-           character          prec*1, algo*3, stag*5, subnam*12, vect*1
+           integer(int32) :: i, ic, iz, kd, ib, lhous, lwork, nthreads,factoptnb, qroptnb, &
+                     lqoptnb
+           logical(lk) :: rprec, cprec
+           character :: prec*1, algo*3, stag*5, subnam*12, vect*1
            ! ..
            ! .. intrinsic functions ..
-           intrinsic          char, ichar, max
+           intrinsic :: char, ichar, max
            ! ..
      
      
@@ -1819,13 +1818,13 @@ module stdlib_linalg_lapack_aux
      
            ! .. scalar arguments ..
            character*( * )    name, opts
-           integer(int32)            ispec, n1, n2, n3, n4
+           integer(int32) :: ispec, n1, n2, n3, n4
            ! ..
      
         ! =====================================================================
            ! ..
            ! .. local scalars ..
-           integer(int32)            iispec
+           integer(int32) :: iispec
            ! ..
      
      
