@@ -141,7 +141,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
                 exit(1)
 
         # Patch AUX
-        if initials[m]=='aux' and module_name=='lapack':
+        if initials[m]=='aux' and module_name=='stdlib_linalg_lapack_aux':
             patch_lapack_aux(fid,prefix,INDENT)
 
         # Actual implementation
@@ -351,6 +351,30 @@ def heading_spaces(line):
     print("stripped <"+posts+">")
     return nspaces
 
+# Adjust variable declaration
+def adjust_variable_declaration(line):
+
+    import re
+
+    declarations = [r'integer\(\S+\)', \
+                    r'character\*\(\S+\)', \
+                    r'real\(\S+\)', \
+                    r'complex\(\S+\)', \
+                    r'logical\(\S+\)', \
+                    r'character', \
+                    r'intrinsic', \
+                    r'external']
+
+    ll = line.lower()
+
+    for i in range(len(declarations)):
+        m  = re.match(r'^\s*' + declarations[i] + r'\s+\w',ll)
+        if m:
+            line = line[:m.end()-2].rstrip() + " :: " + line[m.end()-1:].lstrip()
+            return line
+
+    return line
+
 # Write function body (list of lines)
 def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
 
@@ -537,6 +561,7 @@ def replace_f77_types(line,is_free_form):
     new_line = new_line.replace("D+00","_dp")
     new_line = new_line.replace("D+01","e+01_dp")
     new_line = new_line.replace("D+0","_dp")
+    new_line = new_line.replace("0.0d0","0.0_dp")
 
     return new_line
 
@@ -939,6 +964,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                if DEBUG: print("filter declaration line")
                                line = "";
                            else:
+
+                               line = adjust_variable_declaration(line)
+
                                Source.decl.append(line)
                        else:
                            # Start body section

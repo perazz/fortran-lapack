@@ -31,13 +31,13 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           complex(dp) z
+           complex(dp) :: z
            ! ..
            ! ..
         ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic abs,dble,dimag
+           intrinsic :: abs,dble,dimag
      
            stdlib_dcabs1 = abs(dble(z)) + abs(dimag(z))
            return
@@ -55,20 +55,20 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,n
+           integer(int32) :: incx,n
            ! ..
            ! .. array arguments ..
-           real(dp) dx(*)
+           real(dp) :: dx(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(dp) dmax
-           integer(int32) i,ix
+           real(dp) :: dmax
+           integer(int32) :: i,ix
            ! ..
            ! .. intrinsic functions ..
-           intrinsic dabs
+           intrinsic :: dabs
            ! ..
            stdlib_idamax = 0
            if (n<1 .or. incx<=0) return
@@ -115,20 +115,20 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,n
+           integer(int32) :: incx,n
            ! ..
            ! .. array arguments ..
-           real(sp) sx(*)
+           real(sp) :: sx(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp) smax
-           integer(int32) i,ix
+           real(sp) :: smax
+           integer(int32) :: i,ix
            ! ..
            ! .. intrinsic functions ..
-           intrinsic abs
+           intrinsic :: abs
            ! ..
            stdlib_isamax = 0
            if (n<1 .or. incx<=0) return
@@ -175,17 +175,17 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,n
+           integer(int32) :: incx,n
            ! ..
            ! .. array arguments ..
-           complex(dp) zx(*)
+           complex(dp) :: zx(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(dp) dmax
-           integer(int32) i,ix
+           real(dp) :: dmax
+           integer(int32) :: i,ix
            ! ..
      
      
@@ -235,16 +235,16 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           character ca,cb
+           character :: ca,cb
            ! ..
      
        ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic ichar
+           intrinsic :: ichar
            ! ..
            ! .. local scalars ..
-           integer(int32) inta,intb,zcode
+           integer(int32) :: inta,intb,zcode
            ! ..
      
            ! test if the characters are equal
@@ -307,13 +307,13 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           complex(sp) z
+           complex(sp) :: z
            ! ..
      
         ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic abs,aimag,real
+           intrinsic :: abs,aimag,real
            ! ..
            stdlib_scabs1 = abs(real(z)) + abs(aimag(z))
            return
@@ -335,14 +335,14 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           character*(*)      srname
-           integer(int32)            info
+           character*(*) :: srname
+           integer(int32) :: info
            ! ..
      
        ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic          len_trim
+           intrinsic :: len_trim
            ! ..
            ! .. executable statements ..
      
@@ -381,7 +381,7 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) srname_len, info
+           integer(int32) :: srname_len, info
            ! ..
            ! .. array arguments ..
            character(1) srname_array(srname_len)
@@ -391,13 +391,13 @@ module stdlib_linalg_blas_aux
      
            ! ..
            ! .. local scalars ..
-           integer(int32) i
+           integer(int32) :: i
            ! ..
            ! .. local arrays ..
            character*32 srname
            ! ..
            ! .. intrinsic functions ..
-           intrinsic min, len
+           intrinsic :: min, len
            ! ..
      
            ! .. executable statements ..
@@ -421,17 +421,17 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,n
+           integer(int32) :: incx,n
            ! ..
            ! .. array arguments ..
-           complex(sp) cx(*)
+           complex(sp) :: cx(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp) smax
-           integer(int32) i,ix
+           real(sp) :: smax
+           integer(int32) :: i,ix
            ! ..
      
      

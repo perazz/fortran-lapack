@@ -60,20 +60,20 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,n
+           integer(int32) :: incx,n
            ! ..
            ! .. array arguments ..
-           real(sp) sx(*)
+           real(sp) :: sx(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp) stemp
-           integer(int32) i,m,mp1,nincx
+           real(sp) :: stemp
+           integer(int32) :: i,m,mp1,nincx
            ! ..
            ! .. intrinsic functions ..
-           intrinsic abs,mod
+           intrinsic :: abs,mod
            ! ..
            stdlib_sasum = 0.0e0
            stemp = 0.0e0
@@ -125,20 +125,20 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) sa
-           integer(int32) incx,incy,n
+           real(sp) :: sa
+           integer(int32) :: incx,incy,n
            ! ..
            ! .. array arguments ..
-           real(sp) sx(*),sy(*)
+           real(sp) :: sx(*),sy(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           integer(int32) i,ix,iy,m,mp1
+           integer(int32) :: i,ix,iy,m,mp1
            ! ..
            ! .. intrinsic functions ..
-           intrinsic mod
+           intrinsic :: mod
            ! ..
            if (n<=0) return
            if (sa==0.0) return
@@ -194,20 +194,20 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,n
+           integer(int32) :: incx,n
            ! ..
            ! .. array arguments ..
-           complex(sp) cx(*)
+           complex(sp) :: cx(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp) stemp
-           integer(int32) i,nincx
+           real(sp) :: stemp
+           integer(int32) :: i,nincx
            ! ..
            ! .. intrinsic functions ..
-           intrinsic abs,aimag,real
+           intrinsic :: abs,aimag,real
            ! ..
            stdlib_scasum = 0.0e0
            stemp = 0.0e0
@@ -371,19 +371,19 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,incy,n
+           integer(int32) :: incx,incy,n
            ! ..
            ! .. array arguments ..
-           real(sp) sx(*),sy(*)
+           real(sp) :: sx(*),sy(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           integer(int32) i,ix,iy,m,mp1
+           integer(int32) :: i,ix,iy,m,mp1
            ! ..
            ! .. intrinsic functions ..
-           intrinsic mod
+           intrinsic :: mod
            ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
@@ -441,20 +441,20 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,incy,n
+           integer(int32) :: incx,incy,n
            ! ..
            ! .. array arguments ..
-           real(sp) sx(*),sy(*)
+           real(sp) :: sx(*),sy(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp) stemp
-           integer(int32) i,ix,iy,m,mp1
+           real(sp) :: stemp
+           integer(int32) :: i,ix,iy,m,mp1
            ! ..
            ! .. intrinsic functions ..
-           intrinsic mod
+           intrinsic :: mod
            ! ..
            stemp = 0.0e0
            stdlib_sdot = 0.0e0
@@ -517,17 +517,17 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) sb
-           integer(int32) incx,incy,n
+           real(sp) :: sb
+           integer(int32) :: incx,incy,n
            ! ..
            ! .. array arguments ..
-           real(sp) sx(*),sy(*)
+           real(sp) :: sx(*),sy(*)
            ! .. local scalars ..
-           real(dp) stdlib_dsdot
-           integer(int32) i,kx,ky,ns
+           real(dp) :: stdlib_dsdot
+           integer(int32) :: i,kx,ky,ns
            ! ..
            ! .. intrinsic functions ..
-           intrinsic dble
+           intrinsic :: dble
            ! ..
            stdlib_dsdot = sb
            if (n<=0) then
@@ -575,29 +575,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha,beta
-           integer(int32) incx,incy,kl,ku,lda,m,n
-           character trans
+           real(sp) :: alpha,beta
+           integer(int32) :: incx,incy,kl,ku,lda,m,n
+           character :: trans
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*),y(*)
+           real(sp) :: a(lda,*),x(*),y(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max,min
+           intrinsic :: max,min
            ! ..
      
            ! test the input parameters.
@@ -762,12 +762,12 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha,beta
-           integer(int32) k,lda,ldb,ldc,m,n
-           character transa,transb
+           real(sp) :: alpha,beta
+           integer(int32) :: k,lda,ldb,ldc,m,n
+           character :: transa,transb
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),b(ldb,*),c(ldc,*)
+           real(sp) :: a(lda,*),b(ldb,*),c(ldc,*)
            ! ..
      
         ! =====================================================================
@@ -776,15 +776,15 @@ module stdlib_linalg_blas_s
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,j,l,nrowa,nrowb
-           logical(lk) nota,notb
+           real(sp) :: temp
+           integer(int32) :: i,info,j,l,nrowa,nrowb
+           logical(lk) :: nota,notb
            ! ..
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
      
@@ -958,29 +958,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha,beta
-           integer(int32) incx,incy,lda,m,n
-           character trans
+           real(sp) :: alpha,beta
+           integer(int32) :: incx,incy,lda,m,n
+           character :: trans
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*),y(*)
+           real(sp) :: a(lda,*),x(*),y(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
      
            ! test the input parameters.
@@ -1132,26 +1132,26 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha
-           integer(int32) incx,incy,lda,m,n
+           real(sp) :: alpha
+           integer(int32) :: incx,incy,lda,m,n
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*),y(*)
+           real(sp) :: a(lda,*),x(*),y(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,j,jy,kx
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,j,jy,kx
            ! ..
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
      
            ! test the input parameters.
@@ -1346,18 +1346,18 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) c,s
-           integer(int32) incx,incy,n
+           real(sp) :: c,s
+           integer(int32) :: incx,incy,n
            ! ..
            ! .. array arguments ..
-           real(sp) sx(*),sy(*)
+           real(sp) :: sx(*),sy(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp) stemp
-           integer(int32) i,ix,iy
+           real(sp) :: stemp
+           integer(int32) :: i,ix,iy
            ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
@@ -1483,17 +1483,17 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,incy,n
+           integer(int32) :: incx,incy,n
            ! ..
            ! .. array arguments ..
-           real(sp) sparam(5),sx(*),sy(*)
+           real(sp) :: sparam(5),sx(*),sy(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp) sflag,sh11,sh12,sh21,sh22,two,w,z,zero
-           integer(int32) i,kx,ky,nsteps
+           real(sp) :: sflag,sh11,sh12,sh21,sh22,two,w,z,zero
+           integer(int32) :: i,kx,ky,nsteps
            ! ..
            ! .. data statements ..
            data zero,two/0.e0,2.e0/
@@ -1604,20 +1604,20 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) sd1,sd2,sx1,sy1
+           real(sp) :: sd1,sd2,sx1,sy1
            ! ..
            ! .. array arguments ..
-           real(sp) sparam(5)
+           real(sp) :: sparam(5)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp) gam,gamsq,one,rgamsq,sflag,sh11,sh12,sh21,sh22,sp1,sp2,sq1,sq2,stemp,su,two,&
-                     zero
+           real(sp) :: gam,gamsq,one,rgamsq,sflag,sh11,sh12,sh21,sh22,sp1,sp2,sq1,sq2,stemp,su,&
+                     two,zero
            ! ..
            ! .. intrinsic functions ..
-           intrinsic abs
+           intrinsic :: abs
            ! ..
            ! .. data statements ..
      
@@ -1775,29 +1775,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha,beta
-           integer(int32) incx,incy,k,lda,n
-           character uplo
+           real(sp) :: alpha,beta
+           integer(int32) :: incx,incy,k,lda,n
+           character :: uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*),y(*)
+           real(sp) :: a(lda,*),x(*),y(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp1,temp2
-           integer(int32) i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
+           real(sp) :: temp1,temp2
+           integer(int32) :: i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max,min
+           intrinsic :: max,min
            ! ..
      
            ! test the input parameters.
@@ -1965,20 +1965,20 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) sa
-           integer(int32) incx,n
+           real(sp) :: sa
+           integer(int32) :: incx,n
            ! ..
            ! .. array arguments ..
-           real(sp) sx(*)
+           real(sp) :: sx(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           integer(int32) i,m,mp1,nincx
+           integer(int32) :: i,m,mp1,nincx
            ! ..
            ! .. intrinsic functions ..
-           intrinsic mod
+           intrinsic :: mod
            ! ..
            if (n<=0 .or. incx<=0) return
            if (incx==1) then
@@ -2030,23 +2030,23 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha,beta
-           integer(int32) incx,incy,n
-           character uplo
+           real(sp) :: alpha,beta
+           integer(int32) :: incx,incy,n
+           character :: uplo
            ! ..
            ! .. array arguments ..
-           real(sp) ap(*),x(*),y(*)
+           real(sp) :: ap(*),x(*),y(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp1,temp2
-           integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
+           real(sp) :: temp1,temp2
+           integer(int32) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! ..
      
      
@@ -2215,23 +2215,23 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha
-           integer(int32) incx,n
-           character uplo
+           real(sp) :: alpha
+           integer(int32) :: incx,n
+           character :: uplo
            ! ..
            ! .. array arguments ..
-           real(sp) ap(*),x(*)
+           real(sp) :: ap(*),x(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,j,jx,k,kk,kx
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,j,jx,k,kk,kx
            ! ..
      
      
@@ -2350,23 +2350,23 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha
-           integer(int32) incx,incy,n
-           character uplo
+           real(sp) :: alpha
+           integer(int32) :: incx,incy,n
+           character :: uplo
            ! ..
            ! .. array arguments ..
-           real(sp) ap(*),x(*),y(*)
+           real(sp) :: ap(*),x(*),y(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp1,temp2
-           integer(int32) i,info,ix,iy,j,jx,jy,k,kk,kx,ky
+           real(sp) :: temp1,temp2
+           integer(int32) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! ..
      
      
@@ -2503,20 +2503,20 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,incy,n
+           integer(int32) :: incx,incy,n
            ! ..
            ! .. array arguments ..
-           real(sp) sx(*),sy(*)
+           real(sp) :: sx(*),sy(*)
            ! ..
      
         ! =====================================================================
      
            ! .. local scalars ..
-           real(sp) stemp
-           integer(int32) i,ix,iy,m,mp1
+           real(sp) :: stemp
+           integer(int32) :: i,ix,iy,m,mp1
            ! ..
            ! .. intrinsic functions ..
-           intrinsic mod
+           intrinsic :: mod
            ! ..
            if (n<=0) return
            if (incx==1 .and. incy==1) then
@@ -2584,12 +2584,12 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha,beta
-           integer(int32) lda,ldb,ldc,m,n
-           character side,uplo
+           real(sp) :: alpha,beta
+           integer(int32) :: lda,ldb,ldc,m,n
+           character :: side,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),b(ldb,*),c(ldc,*)
+           real(sp) :: a(lda,*),b(ldb,*),c(ldc,*)
            ! ..
      
         ! =====================================================================
@@ -2598,15 +2598,15 @@ module stdlib_linalg_blas_s
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
            ! .. local scalars ..
-           real(sp) temp1,temp2
-           integer(int32) i,info,j,k,nrowa
-           logical(lk) upper
+           real(sp) :: temp1,temp2
+           integer(int32) :: i,info,j,k,nrowa
+           logical(lk) :: upper
            ! ..
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
      
@@ -2760,29 +2760,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha,beta
-           integer(int32) incx,incy,lda,n
-           character uplo
+           real(sp) :: alpha,beta
+           integer(int32) :: incx,incy,lda,n
+           character :: uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*),y(*)
+           real(sp) :: a(lda,*),x(*),y(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp1,temp2
-           integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
+           real(sp) :: temp1,temp2
+           integer(int32) :: i,info,ix,iy,j,jx,jy,kx,ky
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
      
            ! test the input parameters.
@@ -2942,29 +2942,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha
-           integer(int32) incx,lda,n
-           character uplo
+           real(sp) :: alpha
+           integer(int32) :: incx,lda,n
+           character :: uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*)
+           real(sp) :: a(lda,*),x(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,j,jx,kx
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,j,jx,kx
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
      
            ! test the input parameters.
@@ -3074,29 +3074,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha
-           integer(int32) incx,incy,lda,n
-           character uplo
+           real(sp) :: alpha
+           integer(int32) :: incx,incy,lda,n
+           character :: uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*),y(*)
+           real(sp) :: a(lda,*),x(*),y(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp1,temp2
-           integer(int32) i,info,ix,iy,j,jx,jy,kx,ky
+           real(sp) :: temp1,temp2
+           integer(int32) :: i,info,ix,iy,j,jx,jy,kx,ky
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
      
            ! test the input parameters.
@@ -3229,12 +3229,12 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha,beta
-           integer(int32) k,lda,ldb,ldc,n
-           character trans,uplo
+           real(sp) :: alpha,beta
+           integer(int32) :: k,lda,ldb,ldc,n
+           character :: trans,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),b(ldb,*),c(ldc,*)
+           real(sp) :: a(lda,*),b(ldb,*),c(ldc,*)
            ! ..
      
         ! =====================================================================
@@ -3243,15 +3243,15 @@ module stdlib_linalg_blas_s
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
            ! .. local scalars ..
-           real(sp) temp1,temp2
-           integer(int32) i,info,j,l,nrowa
-           logical(lk) upper
+           real(sp) :: temp1,temp2
+           integer(int32) :: i,info,j,l,nrowa
+           logical(lk) :: upper
            ! ..
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
      
@@ -3434,12 +3434,12 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha,beta
-           integer(int32) k,lda,ldc,n
-           character trans,uplo
+           real(sp) :: alpha,beta
+           integer(int32) :: k,lda,ldc,n
+           character :: trans,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),c(ldc,*)
+           real(sp) :: a(lda,*),c(ldc,*)
            ! ..
      
         ! =====================================================================
@@ -3448,15 +3448,15 @@ module stdlib_linalg_blas_s
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,j,l,nrowa
-           logical(lk) upper
+           real(sp) :: temp
+           integer(int32) :: i,info,j,l,nrowa
+           logical(lk) :: upper
            ! ..
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
      
@@ -3628,29 +3628,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,k,lda,n
-           character diag,trans,uplo
+           integer(int32) :: incx,k,lda,n
+           character :: diag,trans,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*)
+           real(sp) :: a(lda,*),x(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,j,jx,kplus1,kx,l
-           logical(lk) nounit
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,j,jx,kplus1,kx,l
+           logical(lk) :: nounit
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max,min
+           intrinsic :: max,min
            ! ..
      
            ! test the input parameters.
@@ -3844,29 +3844,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,k,lda,n
-           character diag,trans,uplo
+           integer(int32) :: incx,k,lda,n
+           character :: diag,trans,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*)
+           real(sp) :: a(lda,*),x(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,j,jx,kplus1,kx,l
-           logical(lk) nounit
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,j,jx,kplus1,kx,l
+           logical(lk) :: nounit
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max,min
+           intrinsic :: max,min
            ! ..
      
            ! test the input parameters.
@@ -4057,23 +4057,23 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,n
-           character diag,trans,uplo
+           integer(int32) :: incx,n
+           character :: diag,trans,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) ap(*),x(*)
+           real(sp) :: ap(*),x(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,j,jx,k,kk,kx
-           logical(lk) nounit
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,j,jx,k,kk,kx
+           logical(lk) :: nounit
            ! ..
      
      
@@ -4270,23 +4270,23 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,n
-           character diag,trans,uplo
+           integer(int32) :: incx,n
+           character :: diag,trans,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) ap(*),x(*)
+           real(sp) :: ap(*),x(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,j,jx,k,kk,kx
-           logical(lk) nounit
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,j,jx,k,kk,kx
+           logical(lk) :: nounit
            ! ..
      
      
@@ -4482,12 +4482,12 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha
-           integer(int32) lda,ldb,m,n
-           character diag,side,transa,uplo
+           real(sp) :: alpha
+           integer(int32) :: lda,ldb,m,n
+           character :: diag,side,transa,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),b(ldb,*)
+           real(sp) :: a(lda,*),b(ldb,*)
            ! ..
      
         ! =====================================================================
@@ -4496,15 +4496,15 @@ module stdlib_linalg_blas_s
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,j,k,nrowa
-           logical(lk) lside,nounit,upper
+           real(sp) :: temp
+           integer(int32) :: i,info,j,k,nrowa
+           logical(lk) :: lside,nounit,upper
            ! ..
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
      
@@ -4721,29 +4721,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,lda,n
-           character diag,trans,uplo
+           integer(int32) :: incx,lda,n
+           character :: diag,trans,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*)
+           real(sp) :: a(lda,*),x(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,j,jx,kx
-           logical(lk) nounit
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,j,jx,kx
+           logical(lk) :: nounit
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
      
            ! test the input parameters.
@@ -4919,12 +4919,12 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           real(sp) alpha
-           integer(int32) lda,ldb,m,n
-           character diag,side,transa,uplo
+           real(sp) :: alpha
+           integer(int32) :: lda,ldb,m,n
+           character :: diag,side,transa,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),b(ldb,*)
+           real(sp) :: a(lda,*),b(ldb,*)
            ! ..
      
         ! =====================================================================
@@ -4933,15 +4933,15 @@ module stdlib_linalg_blas_s
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,j,k,nrowa
-           logical(lk) lside,nounit,upper
+           real(sp) :: temp
+           integer(int32) :: i,info,j,k,nrowa
+           logical(lk) :: lside,nounit,upper
            ! ..
            ! .. parameters ..
-           real(sp) one,zero
+           real(sp) :: one,zero
            parameter (one=1.0_sp,zero=0.0_sp)
            ! ..
      
@@ -5184,29 +5184,29 @@ module stdlib_linalg_blas_s
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
      
            ! .. scalar arguments ..
-           integer(int32) incx,lda,n
-           character diag,trans,uplo
+           integer(int32) :: incx,lda,n
+           character :: diag,trans,uplo
            ! ..
            ! .. array arguments ..
-           real(sp) a(lda,*),x(*)
+           real(sp) :: a(lda,*),x(*)
            ! ..
      
         ! =====================================================================
      
            ! .. parameters ..
-           real(sp) zero
+           real(sp) :: zero
            parameter (zero=0.0_sp)
            ! ..
            ! .. local scalars ..
-           real(sp) temp
-           integer(int32) i,info,ix,j,jx,kx
-           logical(lk) nounit
+           real(sp) :: temp
+           integer(int32) :: i,info,ix,j,jx,kx
+           logical(lk) :: nounit
            ! ..
      
      
      
            ! .. intrinsic functions ..
-           intrinsic max
+           intrinsic :: max
            ! ..
      
            ! test the input parameters.
