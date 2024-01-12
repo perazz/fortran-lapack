@@ -968,7 +968,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                            print(line)
                            print("loop "+str(numbers[0])+" found, "+str(nspaces)+" spaces")
-                           line = (" "*nspaces) + "loop_" + str(numbers[0]) + ": " + line[m_loop.end():]
+                           line = (" "*nspaces) + "loop_" + str(numbers[0]) + ": do " + line[m_loop.end():]
 
                            open_loops.append(numbers[0])
                            loop_starts.append(nspaces)
