@@ -976,18 +976,16 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                        if re.match(r'^\s+\d+\s+continue',line.lower()):
                            # Extract label
                            numbers = re.findall(r'\d+',line.lower())
-                           print("end loop "+str(numbers[0])+" found")
 
-                           loop_ID = open_loops.pop()
-                           nspaces = loop_starts.pop()
-
-                           if not loop_ID==numbers[0]:
-                               print("INVALID LOOP MATCH")
-                               exit(1)
-
-                           print(line)
-                           line = (" "*nspaces) + "end do loop_" + str(loop_ID)
-                           print(line)
+                           # This "continue" matches loop
+                           if len(open_loops)>0:
+                               if open_loops[-1]==numbers[0]:
+                                   print("end loop "+str(numbers[0])+" found")
+                                   loop_ID = open_loops.pop()
+                                   nspaces = loop_starts.pop()
+                                   print(line)
+                                   line = (" "*nspaces) + "end do loop_" + str(loop_ID)
+                                   print(line)
 
                        # End of the function/subroutine: inside a module, it must contain its name
                        if     line.strip().upper()=="END" \
@@ -1060,12 +1058,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
