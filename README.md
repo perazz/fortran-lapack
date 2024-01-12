@@ -1,3 +1,5 @@
+==================== WORK IN PROGRESS ====================
+
 # fortran-lapack
 This package contains a Modern Fortran implementation of the [Reference-LAPACK](http://github.com/reference-LAPACK) library.
 The reference Fortran-77 library is automatically downloaded from its master repository, and processed to create Modern Fortran modules with full explicit typing features. 
