@@ -196,10 +196,11 @@ def function_in_module(initial,function_name):
 # Enum for file sections
 class Section(Enum):
     HEADER = 1
-    DECLARATION = 2
-    EXTERNALS = 3
-    BODY = 4
-    END = 5
+    HEADER_DESCR = 2
+    DECLARATION = 3
+    EXTERNALS = 4
+    BODY = 5
+    END = 6
 
 
 # Print LAPACK constants
@@ -302,7 +303,8 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
 
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
                    print(str(nprinted) + "deps printed already for " + functions[i].old_name)
-                   write_function_body(fid,functions[i].body,INDENT,MAX_LINE_LENGTH)
+                   write_function_body(fid,functions[i].header," " * header_indentation(functions[i].body),MAX_LINE_LENGTH,False)
+                   write_function_body(fid,functions[i].body,INDENT,MAX_LINE_LENGTH,True)
                    functions[i].printed = True
 
 
@@ -328,17 +330,46 @@ def is_directive_line(line):
 
    return is_dir
 
+# Return indentation for the header
+def header_indentation(body):
+    nspaces = 1
+    # Seek SUBROUTINE or FUNCTION line
+    for i in range(len(body)):
+        l = body[i].lower()
+        if 'subroutine' in l or 'function' in l:
+            nspaces = heading_spaces(body[i])
+            print("INDENT FOUND: "+str(nspaces)+" FROM <"+l+">")
+            break
+
+    return nspaces
+
+# Return number of spaces at the beginning of a string
+def heading_spaces(line):
+    posts = line.lstrip(' ')
+    nspaces = len(line)-len(posts)
+    print("line     <"+line+">")
+    print("stripped <"+posts+">")
+    return nspaces
 
 # Write function body (list of lines)
-def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH):
+def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
 
     import re
+
+    header = True
 
     for i in range(len(body)):
        line = body[i]
        continued = False
 
        # Blank line
+       if line.strip()=="":
+           # Do not print
+           if header: continue
+       else:
+           header = False
+
+       # Blank comment line
        if bool(re.match(r'^\s*!\s*$',line)):
            # If line is '!', just print a blank line
            fid.write(INDENT + "\n")
@@ -350,10 +381,15 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH):
 
        # Preprocess comment line: put exclamation mark right before the first occurrence
        if is_comment_line and not is_directive:
-          post  = line[mat.end():]
-          posts = post.lstrip(' ')
-          nspaces = mat.end()-mat.start()+len(post) - len(posts)
-          line = (" " * nspaces) + "! " + posts
+          if adjust_comments:
+              # Put exclamation mark at the location where the first nonspace character was
+              post  = line[mat.end():]
+              posts = post.lstrip(' ')
+              nspaces = mat.end()-mat.start()+len(post) - len(posts)
+              line = (" " * nspaces) + "! " + posts
+          else:
+              # Just add indent
+              line = INDENT + line.lstrip(' ')
 
        if is_directive:
            fid.write(line+"\n")
@@ -735,6 +771,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     Source.is_free_form = free_form
     Source.body = []
     Source.decl = []
+    Source.header = []
 
     # FiLoad whole file; split by lines; join concatenation lines
     with open(os.path.join(source_folder,file_name), 'r') as file:
@@ -750,7 +787,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             Line = line_read_and_preprocess(line,Source.is_free_form,file_name)
 
             if DEBUG: print("continuation="+str(Line.continuation)+" comment="+str(Line.comment)+\
-                            " use"+str(is_use)+" will_continue="+str(Line.will_continue))
+                            " use"+str(Line.use)+" will_continue="+str(Line.will_continue))
 
             # This is a directive: append as-is
             if Line.directive:
@@ -804,12 +841,36 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   if DEBUG: print("is externals header")
                   whereAt = Section.EXTERNALS
                   line = ""
+               # We are parsing the header description line
+               elif whereAt==Section.HEADER_DESCR:
+                  if DEBUG: print("is description header")
+
+                  # Go back to standard header
+                  if '\endverbatim' in line:
+                      whereAt=Section.HEADER
+                  else:
+                      # Strip comment sign and add to header
+                      line = re.sub(r'\*\>',"",line)
+                      line = re.sub(r'^\*',"",line)
+                      line = re.sub(r'\!\>',"",line)
+                      line = re.sub(r'\\verbatim',"",line)
+                      line = re.sub(r'=============',"",line)
+                      if len(line)>0: Source.header.append("! " + line.strip())
+                      if DEBUG: print(Source.header[-1])
+
+
                else:
                   # Just append this line, but ensure F90+ style comment
                   line = re.sub(r'^\S', '!', line)
 
                   if whereAt!=Section.HEADER or not remove_headers:
                      Source.body.append(INDENT + line)
+                  elif remove_headers:
+                     # Remove header, only keep description
+                     if '\par Purpose:' in line:
+                        whereAt = Section.HEADER_DESCR
+
+
 
             else:
 
@@ -926,6 +987,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   Source.is_free_form = free_form
                   Source.body = []
                   Source.decl = []
+                  Source.header = []
 
     if whereAt!=Section.END and whereAt!=Section.HEADER:
         print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper() + " file " + file_name)
@@ -938,12 +1000,21 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     return Procedures
 
 
-# Copy files
+# Copy files into a temporary folder
 import shutil
+import os
+import glob
 
-shutil.copyfile('../assets/reference_lapack/INSTALL/slamch.f', '../assets/reference_lapack/SRC/slamch.f')
-shutil.copyfile('../assets/reference_lapack/INSTALL/dlamch.f', '../assets/reference_lapack/SRC/dlamch.f')
-shutil.copyfile('../assets/reference_lapack/INSTALL/sroundup_lwork.f', '../assets/reference_lapack/SRC/sroundup_lwork.f')
+os.makedirs('../assets/lapack_sources',exist_ok=True)
+
+
+for file in glob.glob(r'../assets/reference_lapack/SRC/*.f*') + glob.glob(r'../assets/reference_lapack/SRC/*.F*'):
+    print(file)
+    shutil.copy(file, '../assets/lapack_sources/')
+
+shutil.copyfile('../assets/reference_lapack/INSTALL/slamch.f', '../assets/lapack_sources/slamch.f')
+shutil.copyfile('../assets/reference_lapack/INSTALL/dlamch.f', '../assets/lapack_sources/dlamch.f')
+shutil.copyfile('../assets/reference_lapack/INSTALL/sroundup_lwork.f', '../assets/lapack_sources/sroundup_lwork.f')
 
 # Run script
 funs = []
@@ -953,12 +1024,14 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/reference_lapack/SRC",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
+
+
 
 
