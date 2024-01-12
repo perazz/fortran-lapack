@@ -474,26 +474,26 @@ module stdlib_linalg_blas_z
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
-                       do 10 i = 1,leny
+                       loop_10: i = 1,leny
                            y(i) = zero
-        10             continue
+                       end do loop_10
                    else
-                       do 20 i = 1,leny
+                       loop_20: i = 1,leny
                            y(i) = beta*y(i)
-        20             continue
+                       end do loop_20
                    end if
                else
                    iy = ky
                    if (beta==zero) then
-                       do 30 i = 1,leny
+                       loop_30: i = 1,leny
                            y(iy) = zero
                            iy = iy + incy
-        30             continue
+                       end do loop_30
                    else
-                       do 40 i = 1,leny
+                       loop_40: i = 1,leny
                            y(iy) = beta*y(iy)
                            iy = iy + incy
-        40             continue
+                       end do loop_40
                    end if
                end if
            end if
@@ -505,26 +505,26 @@ module stdlib_linalg_blas_z
      
                jx = kx
                if (incy==1) then
-                   do 60 j = 1,n
+                   loop_60: j = 1,n
                        temp = alpha*x(jx)
                        k = kup1 - j
-                       do 50 i = max(1,j-ku),min(m,j+kl)
+                       loop_50: i = max(1,j-ku),min(m,j+kl)
                            y(i) = y(i) + temp*a(k+i,j)
-        50             continue
+                       end do loop_50
                        jx = jx + incx
-        60         continue
+                   end do loop_60
                else
-                   do 80 j = 1,n
+                   loop_80: j = 1,n
                        temp = alpha*x(jx)
                        iy = ky
                        k = kup1 - j
-                       do 70 i = max(1,j-ku),min(m,j+kl)
+                       loop_70: i = max(1,j-ku),min(m,j+kl)
                            y(iy) = y(iy) + temp*a(k+i,j)
                            iy = iy + incy
-        70             continue
+                       end do loop_70
                        jx = jx + incx
                        if (j>ku) ky = ky + incy
-        80         continue
+                   end do loop_80
                end if
            else
      
@@ -532,41 +532,41 @@ module stdlib_linalg_blas_z
      
                jy = ky
                if (incx==1) then
-                   do 110 j = 1,n
+                   loop_110: j = 1,n
                        temp = zero
                        k = kup1 - j
                        if (noconj) then
-                           do 90 i = max(1,j-ku),min(m,j+kl)
+                           loop_90: i = max(1,j-ku),min(m,j+kl)
                                temp = temp + a(k+i,j)*x(i)
-        90                 continue
+                           end do loop_90
                        else
-                           do 100 i = max(1,j-ku),min(m,j+kl)
+                           loop_100: i = max(1,j-ku),min(m,j+kl)
                                temp = temp + dconjg(a(k+i,j))*x(i)
-       100                 continue
+                           end do loop_100
                        end if
                        y(jy) = y(jy) + alpha*temp
                        jy = jy + incy
-       110         continue
+                   end do loop_110
                else
-                   do 140 j = 1,n
+                   loop_140: j = 1,n
                        temp = zero
                        ix = kx
                        k = kup1 - j
                        if (noconj) then
-                           do 120 i = max(1,j-ku),min(m,j+kl)
+                           loop_120: i = max(1,j-ku),min(m,j+kl)
                                temp = temp + a(k+i,j)*x(ix)
                                ix = ix + incx
-       120                 continue
+                           end do loop_120
                        else
-                           do 130 i = max(1,j-ku),min(m,j+kl)
+                           loop_130: i = max(1,j-ku),min(m,j+kl)
                                temp = temp + dconjg(a(k+i,j))*x(ix)
                                ix = ix + incx
-       130                 continue
+                           end do loop_130
                        end if
                        y(jy) = y(jy) + alpha*temp
                        jy = jy + incy
                        if (j>ku) kx = kx + incx
-       140         continue
+                   end do loop_140
                end if
            end if
      
@@ -673,17 +673,17 @@ module stdlib_linalg_blas_z
      
            if (alpha==zero) then
                if (beta==zero) then
-                   do 20 j = 1,n
-                       do 10 i = 1,m
+                   loop_20: j = 1,n
+                       loop_10: i = 1,m
                            c(i,j) = zero
-        10             continue
-        20         continue
+                       end do loop_10
+                   end do loop_20
                else
-                   do 40 j = 1,n
-                       do 30 i = 1,m
+                   loop_40: j = 1,n
+                       loop_30: i = 1,m
                            c(i,j) = beta*c(i,j)
-        30             continue
-        40         continue
+                       end do loop_30
+                   end do loop_40
                end if
                return
            end if
@@ -695,173 +695,173 @@ module stdlib_linalg_blas_z
      
                  ! form  c := alpha*a*b + beta*c.
      
-                   do 90 j = 1,n
+                   loop_90: j = 1,n
                        if (beta==zero) then
-                           do 50 i = 1,m
+                           loop_50: i = 1,m
                                c(i,j) = zero
-        50                 continue
+                           end do loop_50
                        else if (beta/=one) then
-                           do 60 i = 1,m
+                           loop_60: i = 1,m
                                c(i,j) = beta*c(i,j)
-        60                 continue
+                           end do loop_60
                        end if
-                       do 80 l = 1,k
+                       loop_80: l = 1,k
                            temp = alpha*b(l,j)
-                           do 70 i = 1,m
+                           loop_70: i = 1,m
                                c(i,j) = c(i,j) + temp*a(i,l)
-        70                 continue
-        80             continue
-        90         continue
+                           end do loop_70
+                       end do loop_80
+                   end do loop_90
                else if (conja) then
      
                  ! form  c := alpha*a**h*b + beta*c.
      
-                   do 120 j = 1,n
-                       do 110 i = 1,m
+                   loop_120: j = 1,n
+                       loop_110: i = 1,m
                            temp = zero
-                           do 100 l = 1,k
+                           loop_100: l = 1,k
                                temp = temp + dconjg(a(l,i))*b(l,j)
-       100                 continue
+                           end do loop_100
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       110             continue
-       120         continue
+                       end do loop_110
+                   end do loop_120
                else
      
                  ! form  c := alpha*a**t*b + beta*c
      
-                   do 150 j = 1,n
-                       do 140 i = 1,m
+                   loop_150: j = 1,n
+                       loop_140: i = 1,m
                            temp = zero
-                           do 130 l = 1,k
+                           loop_130: l = 1,k
                                temp = temp + a(l,i)*b(l,j)
-       130                 continue
+                           end do loop_130
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       140             continue
-       150         continue
+                       end do loop_140
+                   end do loop_150
                end if
            else if (nota) then
                if (conjb) then
      
                  ! form  c := alpha*a*b**h + beta*c.
      
-                   do 200 j = 1,n
+                   loop_200: j = 1,n
                        if (beta==zero) then
-                           do 160 i = 1,m
+                           loop_160: i = 1,m
                                c(i,j) = zero
-       160                 continue
+                           end do loop_160
                        else if (beta/=one) then
-                           do 170 i = 1,m
+                           loop_170: i = 1,m
                                c(i,j) = beta*c(i,j)
-       170                 continue
+                           end do loop_170
                        end if
-                       do 190 l = 1,k
+                       loop_190: l = 1,k
                            temp = alpha*dconjg(b(j,l))
-                           do 180 i = 1,m
+                           loop_180: i = 1,m
                                c(i,j) = c(i,j) + temp*a(i,l)
-       180                 continue
-       190             continue
-       200         continue
+                           end do loop_180
+                       end do loop_190
+                   end do loop_200
                else
      
                  ! form  c := alpha*a*b**t + beta*c
      
-                   do 250 j = 1,n
+                   loop_250: j = 1,n
                        if (beta==zero) then
-                           do 210 i = 1,m
+                           loop_210: i = 1,m
                                c(i,j) = zero
-       210                 continue
+                           end do loop_210
                        else if (beta/=one) then
-                           do 220 i = 1,m
+                           loop_220: i = 1,m
                                c(i,j) = beta*c(i,j)
-       220                 continue
+                           end do loop_220
                        end if
-                       do 240 l = 1,k
+                       loop_240: l = 1,k
                            temp = alpha*b(j,l)
-                           do 230 i = 1,m
+                           loop_230: i = 1,m
                                c(i,j) = c(i,j) + temp*a(i,l)
-       230                 continue
-       240             continue
-       250         continue
+                           end do loop_230
+                       end do loop_240
+                   end do loop_250
                end if
            else if (conja) then
                if (conjb) then
      
                  ! form  c := alpha*a**h*b**h + beta*c.
      
-                   do 280 j = 1,n
-                       do 270 i = 1,m
+                   loop_280: j = 1,n
+                       loop_270: i = 1,m
                            temp = zero
-                           do 260 l = 1,k
+                           loop_260: l = 1,k
                                temp = temp + dconjg(a(l,i))*dconjg(b(j,l))
-       260                 continue
+                           end do loop_260
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       270             continue
-       280         continue
+                       end do loop_270
+                   end do loop_280
                else
      
                  ! form  c := alpha*a**h*b**t + beta*c
      
-                   do 310 j = 1,n
-                       do 300 i = 1,m
+                   loop_310: j = 1,n
+                       loop_300: i = 1,m
                            temp = zero
-                           do 290 l = 1,k
+                           loop_290: l = 1,k
                                temp = temp + dconjg(a(l,i))*b(j,l)
-       290                 continue
+                           end do loop_290
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       300             continue
-       310         continue
+                       end do loop_300
+                   end do loop_310
                end if
            else
                if (conjb) then
      
                  ! form  c := alpha*a**t*b**h + beta*c
      
-                   do 340 j = 1,n
-                       do 330 i = 1,m
+                   loop_340: j = 1,n
+                       loop_330: i = 1,m
                            temp = zero
-                           do 320 l = 1,k
+                           loop_320: l = 1,k
                                temp = temp + a(l,i)*dconjg(b(j,l))
-       320                 continue
+                           end do loop_320
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       330             continue
-       340         continue
+                       end do loop_330
+                   end do loop_340
                else
      
                  ! form  c := alpha*a**t*b**t + beta*c
      
-                   do 370 j = 1,n
-                       do 360 i = 1,m
+                   loop_370: j = 1,n
+                       loop_360: i = 1,m
                            temp = zero
-                           do 350 l = 1,k
+                           loop_350: l = 1,k
                                temp = temp + a(l,i)*b(j,l)
-       350                 continue
+                           end do loop_350
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       360             continue
-       370         continue
+                       end do loop_360
+                   end do loop_370
                end if
            end if
      
@@ -969,26 +969,26 @@ module stdlib_linalg_blas_z
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
-                       do 10 i = 1,leny
+                       loop_10: i = 1,leny
                            y(i) = zero
-        10             continue
+                       end do loop_10
                    else
-                       do 20 i = 1,leny
+                       loop_20: i = 1,leny
                            y(i) = beta*y(i)
-        20             continue
+                       end do loop_20
                    end if
                else
                    iy = ky
                    if (beta==zero) then
-                       do 30 i = 1,leny
+                       loop_30: i = 1,leny
                            y(iy) = zero
                            iy = iy + incy
-        30             continue
+                       end do loop_30
                    else
-                       do 40 i = 1,leny
+                       loop_40: i = 1,leny
                            y(iy) = beta*y(iy)
                            iy = iy + incy
-        40             continue
+                       end do loop_40
                    end if
                end if
            end if
@@ -999,23 +999,23 @@ module stdlib_linalg_blas_z
      
                jx = kx
                if (incy==1) then
-                   do 60 j = 1,n
+                   loop_60: j = 1,n
                        temp = alpha*x(jx)
-                       do 50 i = 1,m
+                       loop_50: i = 1,m
                            y(i) = y(i) + temp*a(i,j)
-        50             continue
+                       end do loop_50
                        jx = jx + incx
-        60         continue
+                   end do loop_60
                else
-                   do 80 j = 1,n
+                   loop_80: j = 1,n
                        temp = alpha*x(jx)
                        iy = ky
-                       do 70 i = 1,m
+                       loop_70: i = 1,m
                            y(iy) = y(iy) + temp*a(i,j)
                            iy = iy + incy
-        70             continue
+                       end do loop_70
                        jx = jx + incx
-        80         continue
+                   end do loop_80
                end if
            else
      
@@ -1023,38 +1023,38 @@ module stdlib_linalg_blas_z
      
                jy = ky
                if (incx==1) then
-                   do 110 j = 1,n
+                   loop_110: j = 1,n
                        temp = zero
                        if (noconj) then
-                           do 90 i = 1,m
+                           loop_90: i = 1,m
                                temp = temp + a(i,j)*x(i)
-        90                 continue
+                           end do loop_90
                        else
-                           do 100 i = 1,m
+                           loop_100: i = 1,m
                                temp = temp + dconjg(a(i,j))*x(i)
-       100                 continue
+                           end do loop_100
                        end if
                        y(jy) = y(jy) + alpha*temp
                        jy = jy + incy
-       110         continue
+                   end do loop_110
                else
-                   do 140 j = 1,n
+                   loop_140: j = 1,n
                        temp = zero
                        ix = kx
                        if (noconj) then
-                           do 120 i = 1,m
+                           loop_120: i = 1,m
                                temp = temp + a(i,j)*x(ix)
                                ix = ix + incx
-       120                 continue
+                           end do loop_120
                        else
-                           do 130 i = 1,m
+                           loop_130: i = 1,m
                                temp = temp + dconjg(a(i,j))*x(ix)
                                ix = ix + incx
-       130                 continue
+                           end do loop_130
                        end if
                        y(jy) = y(jy) + alpha*temp
                        jy = jy + incy
-       140         continue
+                   end do loop_140
                end if
            end if
      
@@ -1130,32 +1130,32 @@ module stdlib_linalg_blas_z
                jy = 1 - (n-1)*incy
            end if
            if (incx==1) then
-               do 20 j = 1,n
+               loop_20: j = 1,n
                    if (y(jy)/=zero) then
                        temp = alpha*dconjg(y(jy))
-                       do 10 i = 1,m
+                       loop_10: i = 1,m
                            a(i,j) = a(i,j) + x(i)*temp
-        10             continue
+                       end do loop_10
                    end if
                    jy = jy + incy
-        20     continue
+               end do loop_20
            else
                if (incx>0) then
                    kx = 1
                else
                    kx = 1 - (m-1)*incx
                end if
-               do 40 j = 1,n
+               loop_40: j = 1,n
                    if (y(jy)/=zero) then
                        temp = alpha*dconjg(y(jy))
                        ix = kx
-                       do 30 i = 1,m
+                       loop_30: i = 1,m
                            a(i,j) = a(i,j) + x(ix)*temp
                            ix = ix + incx
-        30             continue
+                       end do loop_30
                    end if
                    jy = jy + incy
-        40     continue
+               end do loop_40
            end if
      
            return
@@ -1230,32 +1230,32 @@ module stdlib_linalg_blas_z
                jy = 1 - (n-1)*incy
            end if
            if (incx==1) then
-               do 20 j = 1,n
+               loop_20: j = 1,n
                    if (y(jy)/=zero) then
                        temp = alpha*y(jy)
-                       do 10 i = 1,m
+                       loop_10: i = 1,m
                            a(i,j) = a(i,j) + x(i)*temp
-        10             continue
+                       end do loop_10
                    end if
                    jy = jy + incy
-        20     continue
+               end do loop_20
            else
                if (incx>0) then
                    kx = 1
                else
                    kx = 1 - (m-1)*incx
                end if
-               do 40 j = 1,n
+               loop_40: j = 1,n
                    if (y(jy)/=zero) then
                        temp = alpha*y(jy)
                        ix = kx
-                       do 30 i = 1,m
+                       loop_30: i = 1,m
                            a(i,j) = a(i,j) + x(ix)*temp
                            ix = ix + incx
-        30             continue
+                       end do loop_30
                    end if
                    jy = jy + incy
-        40     continue
+               end do loop_40
            end if
      
            return
@@ -1349,26 +1349,26 @@ module stdlib_linalg_blas_z
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
-                       do 10 i = 1,n
+                       loop_10: i = 1,n
                            y(i) = zero
-        10             continue
+                       end do loop_10
                    else
-                       do 20 i = 1,n
+                       loop_20: i = 1,n
                            y(i) = beta*y(i)
-        20             continue
+                       end do loop_20
                    end if
                else
                    iy = ky
                    if (beta==zero) then
-                       do 30 i = 1,n
+                       loop_30: i = 1,n
                            y(iy) = zero
                            iy = iy + incy
-        30             continue
+                       end do loop_30
                    else
-                       do 40 i = 1,n
+                       loop_40: i = 1,n
                            y(iy) = beta*y(iy)
                            iy = iy + incy
-        40             continue
+                       end do loop_40
                    end if
                end if
            end if
@@ -1379,31 +1379,31 @@ module stdlib_linalg_blas_z
      
                kplus1 = k + 1
                if ((incx==1) .and. (incy==1)) then
-                   do 60 j = 1,n
+                   loop_60: j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        l = kplus1 - j
-                       do 50 i = max(1,j-k),j - 1
+                       loop_50: i = max(1,j-k),j - 1
                            y(i) = y(i) + temp1*a(l+i,j)
                            temp2 = temp2 + dconjg(a(l+i,j))*x(i)
-        50             continue
+                       end do loop_50
                        y(j) = y(j) + temp1*dble(a(kplus1,j)) + alpha*temp2
-        60         continue
+                   end do loop_60
                else
                    jx = kx
                    jy = ky
-                   do 80 j = 1,n
+                   loop_80: j = 1,n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        ix = kx
                        iy = ky
                        l = kplus1 - j
-                       do 70 i = max(1,j-k),j - 1
+                       loop_70: i = max(1,j-k),j - 1
                            y(iy) = y(iy) + temp1*a(l+i,j)
                            temp2 = temp2 + dconjg(a(l+i,j))*x(ix)
                            ix = ix + incx
                            iy = iy + incy
-        70             continue
+                       end do loop_70
                        y(jy) = y(jy) + temp1*dble(a(kplus1,j)) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
@@ -1411,44 +1411,44 @@ module stdlib_linalg_blas_z
                            kx = kx + incx
                            ky = ky + incy
                        end if
-        80         continue
+                   end do loop_80
                end if
            else
      
               ! form  y  when lower triangle of a is stored.
      
                if ((incx==1) .and. (incy==1)) then
-                   do 100 j = 1,n
+                   loop_100: j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        y(j) = y(j) + temp1*dble(a(1,j))
                        l = 1 - j
-                       do 90 i = j + 1,min(n,j+k)
+                       loop_90: i = j + 1,min(n,j+k)
                            y(i) = y(i) + temp1*a(l+i,j)
                            temp2 = temp2 + dconjg(a(l+i,j))*x(i)
-        90             continue
+                       end do loop_90
                        y(j) = y(j) + alpha*temp2
-       100         continue
+                   end do loop_100
                else
                    jx = kx
                    jy = ky
-                   do 120 j = 1,n
+                   loop_120: j = 1,n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        y(jy) = y(jy) + temp1*dble(a(1,j))
                        l = 1 - j
                        ix = jx
                        iy = jy
-                       do 110 i = j + 1,min(n,j+k)
+                       loop_110: i = j + 1,min(n,j+k)
                            ix = ix + incx
                            iy = iy + incy
                            y(iy) = y(iy) + temp1*a(l+i,j)
                            temp2 = temp2 + dconjg(a(l+i,j))*x(ix)
-       110             continue
+                       end do loop_110
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
-       120         continue
+                   end do loop_120
                end if
            end if
      
@@ -1540,17 +1540,17 @@ module stdlib_linalg_blas_z
      
            if (alpha==zero) then
                if (beta==zero) then
-                   do 20 j = 1,n
-                       do 10 i = 1,m
+                   loop_20: j = 1,n
+                       loop_10: i = 1,m
                            c(i,j) = zero
-        10             continue
-        20         continue
+                       end do loop_10
+                   end do loop_20
                else
-                   do 40 j = 1,n
-                       do 30 i = 1,m
+                   loop_40: j = 1,n
+                       loop_30: i = 1,m
                            c(i,j) = beta*c(i,j)
-        30             continue
-        40         continue
+                       end do loop_30
+                   end do loop_40
                end if
                return
            end if
@@ -1562,74 +1562,74 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*a*b + beta*c.
      
                if (upper) then
-                   do 70 j = 1,n
-                       do 60 i = 1,m
+                   loop_70: j = 1,n
+                       loop_60: i = 1,m
                            temp1 = alpha*b(i,j)
                            temp2 = zero
-                           do 50 k = 1,i - 1
+                           loop_50: k = 1,i - 1
                                c(k,j) = c(k,j) + temp1*a(k,i)
                                temp2 = temp2 + b(k,j)*dconjg(a(k,i))
-        50                 continue
+                           end do loop_50
                            if (beta==zero) then
                                c(i,j) = temp1*dble(a(i,i)) + alpha*temp2
                            else
                                c(i,j) = beta*c(i,j) + temp1*dble(a(i,i)) +alpha*temp2
                            end if
-        60             continue
-        70         continue
+                       end do loop_60
+                   end do loop_70
                else
-                   do 100 j = 1,n
-                       do 90 i = m,1,-1
+                   loop_100: j = 1,n
+                       loop_90: i = m,1,-1
                            temp1 = alpha*b(i,j)
                            temp2 = zero
-                           do 80 k = i + 1,m
+                           loop_80: k = i + 1,m
                                c(k,j) = c(k,j) + temp1*a(k,i)
                                temp2 = temp2 + b(k,j)*dconjg(a(k,i))
-        80                 continue
+                           end do loop_80
                            if (beta==zero) then
                                c(i,j) = temp1*dble(a(i,i)) + alpha*temp2
                            else
                                c(i,j) = beta*c(i,j) + temp1*dble(a(i,i)) +alpha*temp2
                            end if
-        90             continue
-       100         continue
+                       end do loop_90
+                   end do loop_100
                end if
            else
      
               ! form  c := alpha*b*a + beta*c.
      
-               do 170 j = 1,n
+               loop_170: j = 1,n
                    temp1 = alpha*dble(a(j,j))
                    if (beta==zero) then
-                       do 110 i = 1,m
+                       loop_110: i = 1,m
                            c(i,j) = temp1*b(i,j)
-       110             continue
+                       end do loop_110
                    else
-                       do 120 i = 1,m
+                       loop_120: i = 1,m
                            c(i,j) = beta*c(i,j) + temp1*b(i,j)
-       120             continue
+                       end do loop_120
                    end if
-                   do 140 k = 1,j - 1
+                   loop_140: k = 1,j - 1
                        if (upper) then
                            temp1 = alpha*a(k,j)
                        else
                            temp1 = alpha*dconjg(a(j,k))
                        end if
-                       do 130 i = 1,m
+                       loop_130: i = 1,m
                            c(i,j) = c(i,j) + temp1*b(i,k)
-       130             continue
-       140         continue
-                   do 160 k = j + 1,n
+                       end do loop_130
+                   end do loop_140
+                   loop_160: k = j + 1,n
                        if (upper) then
                            temp1 = alpha*dconjg(a(j,k))
                        else
                            temp1 = alpha*a(k,j)
                        end if
-                       do 150 i = 1,m
+                       loop_150: i = 1,m
                            c(i,j) = c(i,j) + temp1*b(i,k)
-       150             continue
-       160         continue
-       170     continue
+                       end do loop_150
+                   end do loop_160
+               end do loop_170
            end if
      
            return
@@ -1722,26 +1722,26 @@ module stdlib_linalg_blas_z
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
-                       do 10 i = 1,n
+                       loop_10: i = 1,n
                            y(i) = zero
-        10             continue
+                       end do loop_10
                    else
-                       do 20 i = 1,n
+                       loop_20: i = 1,n
                            y(i) = beta*y(i)
-        20             continue
+                       end do loop_20
                    end if
                else
                    iy = ky
                    if (beta==zero) then
-                       do 30 i = 1,n
+                       loop_30: i = 1,n
                            y(iy) = zero
                            iy = iy + incy
-        30             continue
+                       end do loop_30
                    else
-                       do 40 i = 1,n
+                       loop_40: i = 1,n
                            y(iy) = beta*y(iy)
                            iy = iy + incy
-        40             continue
+                       end do loop_40
                    end if
                end if
            end if
@@ -1751,68 +1751,68 @@ module stdlib_linalg_blas_z
               ! form  y  when a is stored in upper triangle.
      
                if ((incx==1) .and. (incy==1)) then
-                   do 60 j = 1,n
+                   loop_60: j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
-                       do 50 i = 1,j - 1
+                       loop_50: i = 1,j - 1
                            y(i) = y(i) + temp1*a(i,j)
                            temp2 = temp2 + dconjg(a(i,j))*x(i)
-        50             continue
+                       end do loop_50
                        y(j) = y(j) + temp1*dble(a(j,j)) + alpha*temp2
-        60         continue
+                   end do loop_60
                else
                    jx = kx
                    jy = ky
-                   do 80 j = 1,n
+                   loop_80: j = 1,n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        ix = kx
                        iy = ky
-                       do 70 i = 1,j - 1
+                       loop_70: i = 1,j - 1
                            y(iy) = y(iy) + temp1*a(i,j)
                            temp2 = temp2 + dconjg(a(i,j))*x(ix)
                            ix = ix + incx
                            iy = iy + incy
-        70             continue
+                       end do loop_70
                        y(jy) = y(jy) + temp1*dble(a(j,j)) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
-        80         continue
+                   end do loop_80
                end if
            else
      
               ! form  y  when a is stored in lower triangle.
      
                if ((incx==1) .and. (incy==1)) then
-                   do 100 j = 1,n
+                   loop_100: j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        y(j) = y(j) + temp1*dble(a(j,j))
-                       do 90 i = j + 1,n
+                       loop_90: i = j + 1,n
                            y(i) = y(i) + temp1*a(i,j)
                            temp2 = temp2 + dconjg(a(i,j))*x(i)
-        90             continue
+                       end do loop_90
                        y(j) = y(j) + alpha*temp2
-       100         continue
+                   end do loop_100
                else
                    jx = kx
                    jy = ky
-                   do 120 j = 1,n
+                   loop_120: j = 1,n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        y(jy) = y(jy) + temp1*dble(a(j,j))
                        ix = jx
                        iy = jy
-                       do 110 i = j + 1,n
+                       loop_110: i = j + 1,n
                            ix = ix + incx
                            iy = iy + incy
                            y(iy) = y(iy) + temp1*a(i,j)
                            temp2 = temp2 + dconjg(a(i,j))*x(ix)
-       110             continue
+                       end do loop_110
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
-       120         continue
+                   end do loop_120
                end if
            end if
      
@@ -1897,66 +1897,66 @@ module stdlib_linalg_blas_z
               ! form  a  when a is stored in upper triangle.
      
                if (incx==1) then
-                   do 20 j = 1,n
+                   loop_20: j = 1,n
                        if (x(j)/=zero) then
                            temp = alpha*dconjg(x(j))
-                           do 10 i = 1,j - 1
+                           loop_10: i = 1,j - 1
                                a(i,j) = a(i,j) + x(i)*temp
-        10                 continue
+                           end do loop_10
                            a(j,j) = dble(a(j,j)) + dble(x(j)*temp)
                        else
                            a(j,j) = dble(a(j,j))
                        end if
-        20         continue
+                   end do loop_20
                else
                    jx = kx
-                   do 40 j = 1,n
+                   loop_40: j = 1,n
                        if (x(jx)/=zero) then
                            temp = alpha*dconjg(x(jx))
                            ix = kx
-                           do 30 i = 1,j - 1
+                           loop_30: i = 1,j - 1
                                a(i,j) = a(i,j) + x(ix)*temp
                                ix = ix + incx
-        30                 continue
+                           end do loop_30
                            a(j,j) = dble(a(j,j)) + dble(x(jx)*temp)
                        else
                            a(j,j) = dble(a(j,j))
                        end if
                        jx = jx + incx
-        40         continue
+                   end do loop_40
                end if
            else
      
               ! form  a  when a is stored in lower triangle.
      
                if (incx==1) then
-                   do 60 j = 1,n
+                   loop_60: j = 1,n
                        if (x(j)/=zero) then
                            temp = alpha*dconjg(x(j))
                            a(j,j) = dble(a(j,j)) + dble(temp*x(j))
-                           do 50 i = j + 1,n
+                           loop_50: i = j + 1,n
                                a(i,j) = a(i,j) + x(i)*temp
-        50                 continue
+                           end do loop_50
                        else
                            a(j,j) = dble(a(j,j))
                        end if
-        60         continue
+                   end do loop_60
                else
                    jx = kx
-                   do 80 j = 1,n
+                   loop_80: j = 1,n
                        if (x(jx)/=zero) then
                            temp = alpha*dconjg(x(jx))
                            a(j,j) = dble(a(j,j)) + dble(temp*x(jx))
                            ix = jx
-                           do 70 i = j + 1,n
+                           loop_70: i = j + 1,n
                                ix = ix + incx
                                a(i,j) = a(i,j) + x(ix)*temp
-        70                 continue
+                           end do loop_70
                        else
                            a(j,j) = dble(a(j,j))
                        end if
                        jx = jx + incx
-        80         continue
+                   end do loop_80
                end if
            end if
      
@@ -2053,74 +2053,74 @@ module stdlib_linalg_blas_z
               ! form  a  when a is stored in the upper triangle.
      
                if ((incx==1) .and. (incy==1)) then
-                   do 20 j = 1,n
+                   loop_20: j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
                            temp1 = alpha*dconjg(y(j))
                            temp2 = dconjg(alpha*x(j))
-                           do 10 i = 1,j - 1
+                           loop_10: i = 1,j - 1
                                a(i,j) = a(i,j) + x(i)*temp1 + y(i)*temp2
-        10                 continue
+                           end do loop_10
                            a(j,j) = dble(a(j,j)) +dble(x(j)*temp1+y(j)*temp2)
                        else
                            a(j,j) = dble(a(j,j))
                        end if
-        20         continue
+                   end do loop_20
                else
-                   do 40 j = 1,n
+                   loop_40: j = 1,n
                        if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
                            temp1 = alpha*dconjg(y(jy))
                            temp2 = dconjg(alpha*x(jx))
                            ix = kx
                            iy = ky
-                           do 30 i = 1,j - 1
+                           loop_30: i = 1,j - 1
                                a(i,j) = a(i,j) + x(ix)*temp1 + y(iy)*temp2
                                ix = ix + incx
                                iy = iy + incy
-        30                 continue
+                           end do loop_30
                            a(j,j) = dble(a(j,j)) +dble(x(jx)*temp1+y(jy)*temp2)
                        else
                            a(j,j) = dble(a(j,j))
                        end if
                        jx = jx + incx
                        jy = jy + incy
-        40         continue
+                   end do loop_40
                end if
            else
      
               ! form  a  when a is stored in the lower triangle.
      
                if ((incx==1) .and. (incy==1)) then
-                   do 60 j = 1,n
+                   loop_60: j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
                            temp1 = alpha*dconjg(y(j))
                            temp2 = dconjg(alpha*x(j))
                            a(j,j) = dble(a(j,j)) +dble(x(j)*temp1+y(j)*temp2)
-                           do 50 i = j + 1,n
+                           loop_50: i = j + 1,n
                                a(i,j) = a(i,j) + x(i)*temp1 + y(i)*temp2
-        50                 continue
+                           end do loop_50
                        else
                            a(j,j) = dble(a(j,j))
                        end if
-        60         continue
+                   end do loop_60
                else
-                   do 80 j = 1,n
+                   loop_80: j = 1,n
                        if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
                            temp1 = alpha*dconjg(y(jy))
                            temp2 = dconjg(alpha*x(jx))
                            a(j,j) = dble(a(j,j)) +dble(x(jx)*temp1+y(jy)*temp2)
                            ix = jx
                            iy = jy
-                           do 70 i = j + 1,n
+                           loop_70: i = j + 1,n
                                ix = ix + incx
                                iy = iy + incy
                                a(i,j) = a(i,j) + x(ix)*temp1 + y(iy)*temp2
-        70                 continue
+                           end do loop_70
                        else
                            a(j,j) = dble(a(j,j))
                        end if
                        jx = jx + incx
                        jy = jy + incy
-        80         continue
+                   end do loop_80
                end if
            end if
      
@@ -2214,33 +2214,33 @@ module stdlib_linalg_blas_z
            if (alpha==zero) then
                if (upper) then
                    if (beta==dble(zero)) then
-                       do 20 j = 1,n
-                           do 10 i = 1,j
+                       loop_20: j = 1,n
+                           loop_10: i = 1,j
                                c(i,j) = zero
-        10                 continue
-        20             continue
+                           end do loop_10
+                       end do loop_20
                    else
-                       do 40 j = 1,n
-                           do 30 i = 1,j - 1
+                       loop_40: j = 1,n
+                           loop_30: i = 1,j - 1
                                c(i,j) = beta*c(i,j)
-        30                 continue
+                           end do loop_30
                            c(j,j) = beta*dble(c(j,j))
-        40             continue
+                       end do loop_40
                    end if
                else
                    if (beta==dble(zero)) then
-                       do 60 j = 1,n
-                           do 50 i = j,n
+                       loop_60: j = 1,n
+                           loop_50: i = j,n
                                c(i,j) = zero
-        50                 continue
-        60             continue
+                           end do loop_50
+                       end do loop_60
                    else
-                       do 80 j = 1,n
+                       loop_80: j = 1,n
                            c(j,j) = beta*dble(c(j,j))
-                           do 70 i = j + 1,n
+                           loop_70: i = j + 1,n
                                c(i,j) = beta*c(i,j)
-        70                 continue
-        80             continue
+                           end do loop_70
+                       end do loop_80
                    end if
                end if
                return
@@ -2254,55 +2254,55 @@ module stdlib_linalg_blas_z
                          ! c.
      
                if (upper) then
-                   do 130 j = 1,n
+                   loop_130: j = 1,n
                        if (beta==dble(zero)) then
-                           do 90 i = 1,j
+                           loop_90: i = 1,j
                                c(i,j) = zero
-        90                 continue
+                           end do loop_90
                        else if (beta/=one) then
-                           do 100 i = 1,j - 1
+                           loop_100: i = 1,j - 1
                                c(i,j) = beta*c(i,j)
-       100                 continue
+                           end do loop_100
                            c(j,j) = beta*dble(c(j,j))
                        else
                            c(j,j) = dble(c(j,j))
                        end if
-                       do 120 l = 1,k
+                       loop_120: l = 1,k
                            if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
                                temp1 = alpha*dconjg(b(j,l))
                                temp2 = dconjg(alpha*a(j,l))
-                               do 110 i = 1,j - 1
+                               loop_110: i = 1,j - 1
                                    c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
-       110                     continue
+                               end do loop_110
                                c(j,j) = dble(c(j,j)) +dble(a(j,l)*temp1+b(j,l)*temp2)
                            end if
-       120             continue
-       130         continue
+                       end do loop_120
+                   end do loop_130
                else
-                   do 180 j = 1,n
+                   loop_180: j = 1,n
                        if (beta==dble(zero)) then
-                           do 140 i = j,n
+                           loop_140: i = j,n
                                c(i,j) = zero
-       140                 continue
+                           end do loop_140
                        else if (beta/=one) then
-                           do 150 i = j + 1,n
+                           loop_150: i = j + 1,n
                                c(i,j) = beta*c(i,j)
-       150                 continue
+                           end do loop_150
                            c(j,j) = beta*dble(c(j,j))
                        else
                            c(j,j) = dble(c(j,j))
                        end if
-                       do 170 l = 1,k
+                       loop_170: l = 1,k
                            if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
                                temp1 = alpha*dconjg(b(j,l))
                                temp2 = dconjg(alpha*a(j,l))
-                               do 160 i = j + 1,n
+                               loop_160: i = j + 1,n
                                    c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
-       160                     continue
+                               end do loop_160
                                c(j,j) = dble(c(j,j)) +dble(a(j,l)*temp1+b(j,l)*temp2)
                            end if
-       170             continue
-       180         continue
+                       end do loop_170
+                   end do loop_180
                end if
            else
      
@@ -2310,14 +2310,14 @@ module stdlib_linalg_blas_z
                          ! c.
      
                if (upper) then
-                   do 210 j = 1,n
-                       do 200 i = 1,j
+                   loop_210: j = 1,n
+                       loop_200: i = 1,j
                            temp1 = zero
                            temp2 = zero
-                           do 190 l = 1,k
+                           loop_190: l = 1,k
                                temp1 = temp1 + dconjg(a(l,i))*b(l,j)
                                temp2 = temp2 + dconjg(b(l,i))*a(l,j)
-       190                 continue
+                           end do loop_190
                            if (i==j) then
                                if (beta==dble(zero)) then
                                    c(j,j) = dble(alpha*temp1+dconjg(alpha)*temp2)
@@ -2332,17 +2332,17 @@ module stdlib_linalg_blas_z
                                    c(i,j) = beta*c(i,j) + alpha*temp1 +dconjg(alpha)*temp2
                                end if
                            end if
-       200             continue
-       210         continue
+                       end do loop_200
+                   end do loop_210
                else
-                   do 240 j = 1,n
-                       do 230 i = j,n
+                   loop_240: j = 1,n
+                       loop_230: i = j,n
                            temp1 = zero
                            temp2 = zero
-                           do 220 l = 1,k
+                           loop_220: l = 1,k
                                temp1 = temp1 + dconjg(a(l,i))*b(l,j)
                                temp2 = temp2 + dconjg(b(l,i))*a(l,j)
-       220                 continue
+                           end do loop_220
                            if (i==j) then
                                if (beta==dble(zero)) then
                                    c(j,j) = dble(alpha*temp1+dconjg(alpha)*temp2)
@@ -2357,8 +2357,8 @@ module stdlib_linalg_blas_z
                                    c(i,j) = beta*c(i,j) + alpha*temp1 +dconjg(alpha)*temp2
                                end if
                            end if
-       230             continue
-       240         continue
+                       end do loop_230
+                   end do loop_240
                end if
            end if
      
@@ -2448,33 +2448,33 @@ module stdlib_linalg_blas_z
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
-                       do 20 j = 1,n
-                           do 10 i = 1,j
+                       loop_20: j = 1,n
+                           loop_10: i = 1,j
                                c(i,j) = zero
-        10                 continue
-        20             continue
+                           end do loop_10
+                       end do loop_20
                    else
-                       do 40 j = 1,n
-                           do 30 i = 1,j - 1
+                       loop_40: j = 1,n
+                           loop_30: i = 1,j - 1
                                c(i,j) = beta*c(i,j)
-        30                 continue
+                           end do loop_30
                            c(j,j) = beta*dble(c(j,j))
-        40             continue
+                       end do loop_40
                    end if
                else
                    if (beta==zero) then
-                       do 60 j = 1,n
-                           do 50 i = j,n
+                       loop_60: j = 1,n
+                           loop_50: i = j,n
                                c(i,j) = zero
-        50                 continue
-        60             continue
+                           end do loop_50
+                       end do loop_60
                    else
-                       do 80 j = 1,n
+                       loop_80: j = 1,n
                            c(j,j) = beta*dble(c(j,j))
-                           do 70 i = j + 1,n
+                           loop_70: i = j + 1,n
                                c(i,j) = beta*c(i,j)
-        70                 continue
-        80             continue
+                           end do loop_70
+                       end do loop_80
                    end if
                end if
                return
@@ -2487,104 +2487,104 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*a*a**h + beta*c.
      
                if (upper) then
-                   do 130 j = 1,n
+                   loop_130: j = 1,n
                        if (beta==zero) then
-                           do 90 i = 1,j
+                           loop_90: i = 1,j
                                c(i,j) = zero
-        90                 continue
+                           end do loop_90
                        else if (beta/=one) then
-                           do 100 i = 1,j - 1
+                           loop_100: i = 1,j - 1
                                c(i,j) = beta*c(i,j)
-       100                 continue
+                           end do loop_100
                            c(j,j) = beta*dble(c(j,j))
                        else
                            c(j,j) = dble(c(j,j))
                        end if
-                       do 120 l = 1,k
+                       loop_120: l = 1,k
                            if (a(j,l)/=dcmplx(zero)) then
                                temp = alpha*dconjg(a(j,l))
-                               do 110 i = 1,j - 1
+                               loop_110: i = 1,j - 1
                                    c(i,j) = c(i,j) + temp*a(i,l)
-       110                     continue
+                               end do loop_110
                                c(j,j) = dble(c(j,j)) + dble(temp*a(i,l))
                            end if
-       120             continue
-       130         continue
+                       end do loop_120
+                   end do loop_130
                else
-                   do 180 j = 1,n
+                   loop_180: j = 1,n
                        if (beta==zero) then
-                           do 140 i = j,n
+                           loop_140: i = j,n
                                c(i,j) = zero
-       140                 continue
+                           end do loop_140
                        else if (beta/=one) then
                            c(j,j) = beta*dble(c(j,j))
-                           do 150 i = j + 1,n
+                           loop_150: i = j + 1,n
                                c(i,j) = beta*c(i,j)
-       150                 continue
+                           end do loop_150
                        else
                            c(j,j) = dble(c(j,j))
                        end if
-                       do 170 l = 1,k
+                       loop_170: l = 1,k
                            if (a(j,l)/=dcmplx(zero)) then
                                temp = alpha*dconjg(a(j,l))
                                c(j,j) = dble(c(j,j)) + dble(temp*a(j,l))
-                               do 160 i = j + 1,n
+                               loop_160: i = j + 1,n
                                    c(i,j) = c(i,j) + temp*a(i,l)
-       160                     continue
+                               end do loop_160
                            end if
-       170             continue
-       180         continue
+                       end do loop_170
+                   end do loop_180
                end if
            else
      
               ! form  c := alpha*a**h*a + beta*c.
      
                if (upper) then
-                   do 220 j = 1,n
-                       do 200 i = 1,j - 1
+                   loop_220: j = 1,n
+                       loop_200: i = 1,j - 1
                            temp = zero
-                           do 190 l = 1,k
+                           loop_190: l = 1,k
                                temp = temp + dconjg(a(l,i))*a(l,j)
-       190                 continue
+                           end do loop_190
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       200             continue
+                       end do loop_200
                        rtemp = zero
-                       do 210 l = 1,k
+                       loop_210: l = 1,k
                            rtemp = rtemp + dconjg(a(l,j))*a(l,j)
-       210             continue
+                       end do loop_210
                        if (beta==zero) then
                            c(j,j) = alpha*rtemp
                        else
                            c(j,j) = alpha*rtemp + beta*dble(c(j,j))
                        end if
-       220         continue
+                   end do loop_220
                else
-                   do 260 j = 1,n
+                   loop_260: j = 1,n
                        rtemp = zero
-                       do 230 l = 1,k
+                       loop_230: l = 1,k
                            rtemp = rtemp + dconjg(a(l,j))*a(l,j)
-       230             continue
+                       end do loop_230
                        if (beta==zero) then
                            c(j,j) = alpha*rtemp
                        else
                            c(j,j) = alpha*rtemp + beta*dble(c(j,j))
                        end if
-                       do 250 i = j + 1,n
+                       loop_250: i = j + 1,n
                            temp = zero
-                           do 240 l = 1,k
+                           loop_240: l = 1,k
                                temp = temp + dconjg(a(l,i))*a(l,j)
-       240                 continue
+                           end do loop_240
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       250             continue
-       260         continue
+                       end do loop_250
+                   end do loop_260
                end if
            end if
      
@@ -2675,26 +2675,26 @@ module stdlib_linalg_blas_z
            if (beta/=one) then
                if (incy==1) then
                    if (beta==zero) then
-                       do 10 i = 1,n
+                       loop_10: i = 1,n
                            y(i) = zero
-        10             continue
+                       end do loop_10
                    else
-                       do 20 i = 1,n
+                       loop_20: i = 1,n
                            y(i) = beta*y(i)
-        20             continue
+                       end do loop_20
                    end if
                else
                    iy = ky
                    if (beta==zero) then
-                       do 30 i = 1,n
+                       loop_30: i = 1,n
                            y(iy) = zero
                            iy = iy + incy
-        30             continue
+                       end do loop_30
                    else
-                       do 40 i = 1,n
+                       loop_40: i = 1,n
                            y(iy) = beta*y(iy)
                            iy = iy + incy
-        40             continue
+                       end do loop_40
                    end if
                end if
            end if
@@ -2705,76 +2705,76 @@ module stdlib_linalg_blas_z
               ! form  y  when ap contains the upper triangle.
      
                if ((incx==1) .and. (incy==1)) then
-                   do 60 j = 1,n
+                   loop_60: j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        k = kk
-                       do 50 i = 1,j - 1
+                       loop_50: i = 1,j - 1
                            y(i) = y(i) + temp1*ap(k)
                            temp2 = temp2 + dconjg(ap(k))*x(i)
                            k = k + 1
-        50             continue
+                       end do loop_50
                        y(j) = y(j) + temp1*dble(ap(kk+j-1)) + alpha*temp2
                        kk = kk + j
-        60         continue
+                   end do loop_60
                else
                    jx = kx
                    jy = ky
-                   do 80 j = 1,n
+                   loop_80: j = 1,n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        ix = kx
                        iy = ky
-                       do 70 k = kk,kk + j - 2
+                       loop_70: k = kk,kk + j - 2
                            y(iy) = y(iy) + temp1*ap(k)
                            temp2 = temp2 + dconjg(ap(k))*x(ix)
                            ix = ix + incx
                            iy = iy + incy
-        70             continue
+                       end do loop_70
                        y(jy) = y(jy) + temp1*dble(ap(kk+j-1)) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        kk = kk + j
-        80         continue
+                   end do loop_80
                end if
            else
      
               ! form  y  when ap contains the lower triangle.
      
                if ((incx==1) .and. (incy==1)) then
-                   do 100 j = 1,n
+                   loop_100: j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        y(j) = y(j) + temp1*dble(ap(kk))
                        k = kk + 1
-                       do 90 i = j + 1,n
+                       loop_90: i = j + 1,n
                            y(i) = y(i) + temp1*ap(k)
                            temp2 = temp2 + dconjg(ap(k))*x(i)
                            k = k + 1
-        90             continue
+                       end do loop_90
                        y(j) = y(j) + alpha*temp2
                        kk = kk + (n-j+1)
-       100         continue
+                   end do loop_100
                else
                    jx = kx
                    jy = ky
-                   do 120 j = 1,n
+                   loop_120: j = 1,n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        y(jy) = y(jy) + temp1*dble(ap(kk))
                        ix = jx
                        iy = jy
-                       do 110 k = kk + 1,kk + n - j
+                       loop_110: k = kk + 1,kk + n - j
                            ix = ix + incx
                            iy = iy + incy
                            y(iy) = y(iy) + temp1*ap(k)
                            temp2 = temp2 + dconjg(ap(k))*x(ix)
-       110             continue
+                       end do loop_110
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        kk = kk + (n-j+1)
-       120         continue
+                   end do loop_120
                end if
            end if
      
@@ -2857,74 +2857,74 @@ module stdlib_linalg_blas_z
               ! form  a  when upper triangle is stored in ap.
      
                if (incx==1) then
-                   do 20 j = 1,n
+                   loop_20: j = 1,n
                        if (x(j)/=zero) then
                            temp = alpha*dconjg(x(j))
                            k = kk
-                           do 10 i = 1,j - 1
+                           loop_10: i = 1,j - 1
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
-        10                 continue
+                           end do loop_10
                            ap(kk+j-1) = dble(ap(kk+j-1)) + dble(x(j)*temp)
                        else
                            ap(kk+j-1) = dble(ap(kk+j-1))
                        end if
                        kk = kk + j
-        20         continue
+                   end do loop_20
                else
                    jx = kx
-                   do 40 j = 1,n
+                   loop_40: j = 1,n
                        if (x(jx)/=zero) then
                            temp = alpha*dconjg(x(jx))
                            ix = kx
-                           do 30 k = kk,kk + j - 2
+                           loop_30: k = kk,kk + j - 2
                                ap(k) = ap(k) + x(ix)*temp
                                ix = ix + incx
-        30                 continue
+                           end do loop_30
                            ap(kk+j-1) = dble(ap(kk+j-1)) + dble(x(jx)*temp)
                        else
                            ap(kk+j-1) = dble(ap(kk+j-1))
                        end if
                        jx = jx + incx
                        kk = kk + j
-        40         continue
+                   end do loop_40
                end if
            else
      
               ! form  a  when lower triangle is stored in ap.
      
                if (incx==1) then
-                   do 60 j = 1,n
+                   loop_60: j = 1,n
                        if (x(j)/=zero) then
                            temp = alpha*dconjg(x(j))
                            ap(kk) = dble(ap(kk)) + dble(temp*x(j))
                            k = kk + 1
-                           do 50 i = j + 1,n
+                           loop_50: i = j + 1,n
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
-        50                 continue
+                           end do loop_50
                        else
                            ap(kk) = dble(ap(kk))
                        end if
                        kk = kk + n - j + 1
-        60         continue
+                   end do loop_60
                else
                    jx = kx
-                   do 80 j = 1,n
+                   loop_80: j = 1,n
                        if (x(jx)/=zero) then
                            temp = alpha*dconjg(x(jx))
                            ap(kk) = dble(ap(kk)) + dble(temp*x(jx))
                            ix = jx
-                           do 70 k = kk + 1,kk + n - j
+                           loop_70: k = kk + 1,kk + n - j
                                ix = ix + incx
                                ap(k) = ap(k) + x(ix)*temp
-        70                 continue
+                           end do loop_70
                        else
                            ap(kk) = dble(ap(kk))
                        end if
                        jx = jx + incx
                        kk = kk + n - j + 1
-        80         continue
+                   end do loop_80
                end if
            end if
      
@@ -3019,33 +3019,33 @@ module stdlib_linalg_blas_z
               ! form  a  when upper triangle is stored in ap.
      
                if ((incx==1) .and. (incy==1)) then
-                   do 20 j = 1,n
+                   loop_20: j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
                            temp1 = alpha*dconjg(y(j))
                            temp2 = dconjg(alpha*x(j))
                            k = kk
-                           do 10 i = 1,j - 1
+                           loop_10: i = 1,j - 1
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
-        10                 continue
+                           end do loop_10
                            ap(kk+j-1) = dble(ap(kk+j-1)) +dble(x(j)*temp1+y(j)*temp2)
                        else
                            ap(kk+j-1) = dble(ap(kk+j-1))
                        end if
                        kk = kk + j
-        20         continue
+                   end do loop_20
                else
-                   do 40 j = 1,n
+                   loop_40: j = 1,n
                        if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
                            temp1 = alpha*dconjg(y(jy))
                            temp2 = dconjg(alpha*x(jx))
                            ix = kx
                            iy = ky
-                           do 30 k = kk,kk + j - 2
+                           loop_30: k = kk,kk + j - 2
                                ap(k) = ap(k) + x(ix)*temp1 + y(iy)*temp2
                                ix = ix + incx
                                iy = iy + incy
-        30                 continue
+                           end do loop_30
                            ap(kk+j-1) = dble(ap(kk+j-1)) +dble(x(jx)*temp1+y(jy)*temp2)
                        else
                            ap(kk+j-1) = dble(ap(kk+j-1))
@@ -3053,48 +3053,48 @@ module stdlib_linalg_blas_z
                        jx = jx + incx
                        jy = jy + incy
                        kk = kk + j
-        40         continue
+                   end do loop_40
                end if
            else
      
               ! form  a  when lower triangle is stored in ap.
      
                if ((incx==1) .and. (incy==1)) then
-                   do 60 j = 1,n
+                   loop_60: j = 1,n
                        if ((x(j)/=zero) .or. (y(j)/=zero)) then
                            temp1 = alpha*dconjg(y(j))
                            temp2 = dconjg(alpha*x(j))
                            ap(kk) = dble(ap(kk)) +dble(x(j)*temp1+y(j)*temp2)
                            k = kk + 1
-                           do 50 i = j + 1,n
+                           loop_50: i = j + 1,n
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
-        50                 continue
+                           end do loop_50
                        else
                            ap(kk) = dble(ap(kk))
                        end if
                        kk = kk + n - j + 1
-        60         continue
+                   end do loop_60
                else
-                   do 80 j = 1,n
+                   loop_80: j = 1,n
                        if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
                            temp1 = alpha*dconjg(y(jy))
                            temp2 = dconjg(alpha*x(jx))
                            ap(kk) = dble(ap(kk)) +dble(x(jx)*temp1+y(jy)*temp2)
                            ix = jx
                            iy = jy
-                           do 70 k = kk + 1,kk + n - j
+                           loop_70: k = kk + 1,kk + n - j
                                ix = ix + incx
                                iy = iy + incy
                                ap(k) = ap(k) + x(ix)*temp1 + y(iy)*temp2
-        70                 continue
+                           end do loop_70
                        else
                            ap(kk) = dble(ap(kk))
                        end if
                        jx = jx + incx
                        jy = jy + incy
                        kk = kk + n - j + 1
-        80         continue
+                   end do loop_80
                end if
            end if
      
@@ -3429,17 +3429,17 @@ module stdlib_linalg_blas_z
      
            if (alpha==zero) then
                if (beta==zero) then
-                   do 20 j = 1,n
-                       do 10 i = 1,m
+                   loop_20: j = 1,n
+                       loop_10: i = 1,m
                            c(i,j) = zero
-        10             continue
-        20         continue
+                       end do loop_10
+                   end do loop_20
                else
-                   do 40 j = 1,n
-                       do 30 i = 1,m
+                   loop_40: j = 1,n
+                       loop_30: i = 1,m
                            c(i,j) = beta*c(i,j)
-        30             continue
-        40         continue
+                       end do loop_30
+                   end do loop_40
                end if
                return
            end if
@@ -3451,74 +3451,74 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*a*b + beta*c.
      
                if (upper) then
-                   do 70 j = 1,n
-                       do 60 i = 1,m
+                   loop_70: j = 1,n
+                       loop_60: i = 1,m
                            temp1 = alpha*b(i,j)
                            temp2 = zero
-                           do 50 k = 1,i - 1
+                           loop_50: k = 1,i - 1
                                c(k,j) = c(k,j) + temp1*a(k,i)
                                temp2 = temp2 + b(k,j)*a(k,i)
-        50                 continue
+                           end do loop_50
                            if (beta==zero) then
                                c(i,j) = temp1*a(i,i) + alpha*temp2
                            else
                                c(i,j) = beta*c(i,j) + temp1*a(i,i) +alpha*temp2
                            end if
-        60             continue
-        70         continue
+                       end do loop_60
+                   end do loop_70
                else
-                   do 100 j = 1,n
-                       do 90 i = m,1,-1
+                   loop_100: j = 1,n
+                       loop_90: i = m,1,-1
                            temp1 = alpha*b(i,j)
                            temp2 = zero
-                           do 80 k = i + 1,m
+                           loop_80: k = i + 1,m
                                c(k,j) = c(k,j) + temp1*a(k,i)
                                temp2 = temp2 + b(k,j)*a(k,i)
-        80                 continue
+                           end do loop_80
                            if (beta==zero) then
                                c(i,j) = temp1*a(i,i) + alpha*temp2
                            else
                                c(i,j) = beta*c(i,j) + temp1*a(i,i) +alpha*temp2
                            end if
-        90             continue
-       100         continue
+                       end do loop_90
+                   end do loop_100
                end if
            else
      
               ! form  c := alpha*b*a + beta*c.
      
-               do 170 j = 1,n
+               loop_170: j = 1,n
                    temp1 = alpha*a(j,j)
                    if (beta==zero) then
-                       do 110 i = 1,m
+                       loop_110: i = 1,m
                            c(i,j) = temp1*b(i,j)
-       110             continue
+                       end do loop_110
                    else
-                       do 120 i = 1,m
+                       loop_120: i = 1,m
                            c(i,j) = beta*c(i,j) + temp1*b(i,j)
-       120             continue
+                       end do loop_120
                    end if
-                   do 140 k = 1,j - 1
+                   loop_140: k = 1,j - 1
                        if (upper) then
                            temp1 = alpha*a(k,j)
                        else
                            temp1 = alpha*a(j,k)
                        end if
-                       do 130 i = 1,m
+                       loop_130: i = 1,m
                            c(i,j) = c(i,j) + temp1*b(i,k)
-       130             continue
-       140         continue
-                   do 160 k = j + 1,n
+                       end do loop_130
+                   end do loop_140
+                   loop_160: k = j + 1,n
                        if (upper) then
                            temp1 = alpha*a(j,k)
                        else
                            temp1 = alpha*a(k,j)
                        end if
-                       do 150 i = 1,m
+                       loop_150: i = 1,m
                            c(i,j) = c(i,j) + temp1*b(i,k)
-       150             continue
-       160         continue
-       170     continue
+                       end do loop_150
+                   end do loop_160
+               end do loop_170
            end if
      
            return
@@ -3610,31 +3610,31 @@ module stdlib_linalg_blas_z
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
-                       do 20 j = 1,n
-                           do 10 i = 1,j
+                       loop_20: j = 1,n
+                           loop_10: i = 1,j
                                c(i,j) = zero
-        10                 continue
-        20             continue
+                           end do loop_10
+                       end do loop_20
                    else
-                       do 40 j = 1,n
-                           do 30 i = 1,j
+                       loop_40: j = 1,n
+                           loop_30: i = 1,j
                                c(i,j) = beta*c(i,j)
-        30                 continue
-        40             continue
+                           end do loop_30
+                       end do loop_40
                    end if
                else
                    if (beta==zero) then
-                       do 60 j = 1,n
-                           do 50 i = j,n
+                       loop_60: j = 1,n
+                           loop_50: i = j,n
                                c(i,j) = zero
-        50                 continue
-        60             continue
+                           end do loop_50
+                       end do loop_60
                    else
-                       do 80 j = 1,n
-                           do 70 i = j,n
+                       loop_80: j = 1,n
+                           loop_70: i = j,n
                                c(i,j) = beta*c(i,j)
-        70                 continue
-        80             continue
+                           end do loop_70
+                       end do loop_80
                    end if
                end if
                return
@@ -3647,84 +3647,84 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*a*b**t + alpha*b*a**t + c.
      
                if (upper) then
-                   do 130 j = 1,n
+                   loop_130: j = 1,n
                        if (beta==zero) then
-                           do 90 i = 1,j
+                           loop_90: i = 1,j
                                c(i,j) = zero
-        90                 continue
+                           end do loop_90
                        else if (beta/=one) then
-                           do 100 i = 1,j
+                           loop_100: i = 1,j
                                c(i,j) = beta*c(i,j)
-       100                 continue
+                           end do loop_100
                        end if
-                       do 120 l = 1,k
+                       loop_120: l = 1,k
                            if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
                                temp1 = alpha*b(j,l)
                                temp2 = alpha*a(j,l)
-                               do 110 i = 1,j
+                               loop_110: i = 1,j
                                    c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
-       110                     continue
+                               end do loop_110
                            end if
-       120             continue
-       130         continue
+                       end do loop_120
+                   end do loop_130
                else
-                   do 180 j = 1,n
+                   loop_180: j = 1,n
                        if (beta==zero) then
-                           do 140 i = j,n
+                           loop_140: i = j,n
                                c(i,j) = zero
-       140                 continue
+                           end do loop_140
                        else if (beta/=one) then
-                           do 150 i = j,n
+                           loop_150: i = j,n
                                c(i,j) = beta*c(i,j)
-       150                 continue
+                           end do loop_150
                        end if
-                       do 170 l = 1,k
+                       loop_170: l = 1,k
                            if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
                                temp1 = alpha*b(j,l)
                                temp2 = alpha*a(j,l)
-                               do 160 i = j,n
+                               loop_160: i = j,n
                                    c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
-       160                     continue
+                               end do loop_160
                            end if
-       170             continue
-       180         continue
+                       end do loop_170
+                   end do loop_180
                end if
            else
      
               ! form  c := alpha*a**t*b + alpha*b**t*a + c.
      
                if (upper) then
-                   do 210 j = 1,n
-                       do 200 i = 1,j
+                   loop_210: j = 1,n
+                       loop_200: i = 1,j
                            temp1 = zero
                            temp2 = zero
-                           do 190 l = 1,k
+                           loop_190: l = 1,k
                                temp1 = temp1 + a(l,i)*b(l,j)
                                temp2 = temp2 + b(l,i)*a(l,j)
-       190                 continue
+                           end do loop_190
                            if (beta==zero) then
                                c(i,j) = alpha*temp1 + alpha*temp2
                            else
                                c(i,j) = beta*c(i,j) + alpha*temp1 +alpha*temp2
                            end if
-       200             continue
-       210         continue
+                       end do loop_200
+                   end do loop_210
                else
-                   do 240 j = 1,n
-                       do 230 i = j,n
+                   loop_240: j = 1,n
+                       loop_230: i = j,n
                            temp1 = zero
                            temp2 = zero
-                           do 220 l = 1,k
+                           loop_220: l = 1,k
                                temp1 = temp1 + a(l,i)*b(l,j)
                                temp2 = temp2 + b(l,i)*a(l,j)
-       220                 continue
+                           end do loop_220
                            if (beta==zero) then
                                c(i,j) = alpha*temp1 + alpha*temp2
                            else
                                c(i,j) = beta*c(i,j) + alpha*temp1 +alpha*temp2
                            end if
-       230             continue
-       240         continue
+                       end do loop_230
+                   end do loop_240
                end if
            end if
      
@@ -3815,31 +3815,31 @@ module stdlib_linalg_blas_z
            if (alpha==zero) then
                if (upper) then
                    if (beta==zero) then
-                       do 20 j = 1,n
-                           do 10 i = 1,j
+                       loop_20: j = 1,n
+                           loop_10: i = 1,j
                                c(i,j) = zero
-        10                 continue
-        20             continue
+                           end do loop_10
+                       end do loop_20
                    else
-                       do 40 j = 1,n
-                           do 30 i = 1,j
+                       loop_40: j = 1,n
+                           loop_30: i = 1,j
                                c(i,j) = beta*c(i,j)
-        30                 continue
-        40             continue
+                           end do loop_30
+                       end do loop_40
                    end if
                else
                    if (beta==zero) then
-                       do 60 j = 1,n
-                           do 50 i = j,n
+                       loop_60: j = 1,n
+                           loop_50: i = j,n
                                c(i,j) = zero
-        50                 continue
-        60             continue
+                           end do loop_50
+                       end do loop_60
                    else
-                       do 80 j = 1,n
-                           do 70 i = j,n
+                       loop_80: j = 1,n
+                           loop_70: i = j,n
                                c(i,j) = beta*c(i,j)
-        70                 continue
-        80             continue
+                           end do loop_70
+                       end do loop_80
                    end if
                end if
                return
@@ -3852,78 +3852,78 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*a*a**t + beta*c.
      
                if (upper) then
-                   do 130 j = 1,n
+                   loop_130: j = 1,n
                        if (beta==zero) then
-                           do 90 i = 1,j
+                           loop_90: i = 1,j
                                c(i,j) = zero
-        90                 continue
+                           end do loop_90
                        else if (beta/=one) then
-                           do 100 i = 1,j
+                           loop_100: i = 1,j
                                c(i,j) = beta*c(i,j)
-       100                 continue
+                           end do loop_100
                        end if
-                       do 120 l = 1,k
+                       loop_120: l = 1,k
                            if (a(j,l)/=zero) then
                                temp = alpha*a(j,l)
-                               do 110 i = 1,j
+                               loop_110: i = 1,j
                                    c(i,j) = c(i,j) + temp*a(i,l)
-       110                     continue
+                               end do loop_110
                            end if
-       120             continue
-       130         continue
+                       end do loop_120
+                   end do loop_130
                else
-                   do 180 j = 1,n
+                   loop_180: j = 1,n
                        if (beta==zero) then
-                           do 140 i = j,n
+                           loop_140: i = j,n
                                c(i,j) = zero
-       140                 continue
+                           end do loop_140
                        else if (beta/=one) then
-                           do 150 i = j,n
+                           loop_150: i = j,n
                                c(i,j) = beta*c(i,j)
-       150                 continue
+                           end do loop_150
                        end if
-                       do 170 l = 1,k
+                       loop_170: l = 1,k
                            if (a(j,l)/=zero) then
                                temp = alpha*a(j,l)
-                               do 160 i = j,n
+                               loop_160: i = j,n
                                    c(i,j) = c(i,j) + temp*a(i,l)
-       160                     continue
+                               end do loop_160
                            end if
-       170             continue
-       180         continue
+                       end do loop_170
+                   end do loop_180
                end if
            else
      
               ! form  c := alpha*a**t*a + beta*c.
      
                if (upper) then
-                   do 210 j = 1,n
-                       do 200 i = 1,j
+                   loop_210: j = 1,n
+                       loop_200: i = 1,j
                            temp = zero
-                           do 190 l = 1,k
+                           loop_190: l = 1,k
                                temp = temp + a(l,i)*a(l,j)
-       190                 continue
+                           end do loop_190
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       200             continue
-       210         continue
+                       end do loop_200
+                   end do loop_210
                else
-                   do 240 j = 1,n
-                       do 230 i = j,n
+                   loop_240: j = 1,n
+                       loop_230: i = j,n
                            temp = zero
-                           do 220 l = 1,k
+                           loop_220: l = 1,k
                                temp = temp + a(l,i)*a(l,j)
-       220                 continue
+                           end do loop_220
                            if (beta==zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
                            end if
-       230             continue
-       240         continue
+                       end do loop_230
+                   end do loop_240
                end if
            end if
      
@@ -4020,62 +4020,62 @@ module stdlib_linalg_blas_z
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
-                       do 20 j = 1,n
+                       loop_20: j = 1,n
                            if (x(j)/=zero) then
                                temp = x(j)
                                l = kplus1 - j
-                               do 10 i = max(1,j-k),j - 1
+                               loop_10: i = max(1,j-k),j - 1
                                    x(i) = x(i) + temp*a(l+i,j)
-        10                     continue
+                               end do loop_10
                                if (nounit) x(j) = x(j)*a(kplus1,j)
                            end if
-        20             continue
+                       end do loop_20
                    else
                        jx = kx
-                       do 40 j = 1,n
+                       loop_40: j = 1,n
                            if (x(jx)/=zero) then
                                temp = x(jx)
                                ix = kx
                                l = kplus1 - j
-                               do 30 i = max(1,j-k),j - 1
+                               loop_30: i = max(1,j-k),j - 1
                                    x(ix) = x(ix) + temp*a(l+i,j)
                                    ix = ix + incx
-        30                     continue
+                               end do loop_30
                                if (nounit) x(jx) = x(jx)*a(kplus1,j)
                            end if
                            jx = jx + incx
                            if (j>k) kx = kx + incx
-        40             continue
+                       end do loop_40
                    end if
                else
                    if (incx==1) then
-                       do 60 j = n,1,-1
+                       loop_60: j = n,1,-1
                            if (x(j)/=zero) then
                                temp = x(j)
                                l = 1 - j
-                               do 50 i = min(n,j+k),j + 1,-1
+                               loop_50: i = min(n,j+k),j + 1,-1
                                    x(i) = x(i) + temp*a(l+i,j)
-        50                     continue
+                               end do loop_50
                                if (nounit) x(j) = x(j)*a(1,j)
                            end if
-        60             continue
+                       end do loop_60
                    else
                        kx = kx + (n-1)*incx
                        jx = kx
-                       do 80 j = n,1,-1
+                       loop_80: j = n,1,-1
                            if (x(jx)/=zero) then
                                temp = x(jx)
                                ix = kx
                                l = 1 - j
-                               do 70 i = min(n,j+k),j + 1,-1
+                               loop_70: i = min(n,j+k),j + 1,-1
                                    x(ix) = x(ix) + temp*a(l+i,j)
                                    ix = ix - incx
-        70                     continue
+                               end do loop_70
                                if (nounit) x(jx) = x(jx)*a(1,j)
                            end if
                            jx = jx - incx
                            if ((n-j)>=k) kx = kx - incx
-        80             continue
+                       end do loop_80
                    end if
                end if
            else
@@ -4085,88 +4085,88 @@ module stdlib_linalg_blas_z
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
-                       do 110 j = n,1,-1
+                       loop_110: j = n,1,-1
                            temp = x(j)
                            l = kplus1 - j
                            if (noconj) then
                                if (nounit) temp = temp*a(kplus1,j)
-                               do 90 i = j - 1,max(1,j-k),-1
+                               loop_90: i = j - 1,max(1,j-k),-1
                                    temp = temp + a(l+i,j)*x(i)
-        90                     continue
+                               end do loop_90
                            else
                                if (nounit) temp = temp*dconjg(a(kplus1,j))
-                               do 100 i = j - 1,max(1,j-k),-1
+                               loop_100: i = j - 1,max(1,j-k),-1
                                    temp = temp + dconjg(a(l+i,j))*x(i)
-       100                     continue
+                               end do loop_100
                            end if
                            x(j) = temp
-       110             continue
+                       end do loop_110
                    else
                        kx = kx + (n-1)*incx
                        jx = kx
-                       do 140 j = n,1,-1
+                       loop_140: j = n,1,-1
                            temp = x(jx)
                            kx = kx - incx
                            ix = kx
                            l = kplus1 - j
                            if (noconj) then
                                if (nounit) temp = temp*a(kplus1,j)
-                               do 120 i = j - 1,max(1,j-k),-1
+                               loop_120: i = j - 1,max(1,j-k),-1
                                    temp = temp + a(l+i,j)*x(ix)
                                    ix = ix - incx
-       120                     continue
+                               end do loop_120
                            else
                                if (nounit) temp = temp*dconjg(a(kplus1,j))
-                               do 130 i = j - 1,max(1,j-k),-1
+                               loop_130: i = j - 1,max(1,j-k),-1
                                    temp = temp + dconjg(a(l+i,j))*x(ix)
                                    ix = ix - incx
-       130                     continue
+                               end do loop_130
                            end if
                            x(jx) = temp
                            jx = jx - incx
-       140             continue
+                       end do loop_140
                    end if
                else
                    if (incx==1) then
-                       do 170 j = 1,n
+                       loop_170: j = 1,n
                            temp = x(j)
                            l = 1 - j
                            if (noconj) then
                                if (nounit) temp = temp*a(1,j)
-                               do 150 i = j + 1,min(n,j+k)
+                               loop_150: i = j + 1,min(n,j+k)
                                    temp = temp + a(l+i,j)*x(i)
-       150                     continue
+                               end do loop_150
                            else
                                if (nounit) temp = temp*dconjg(a(1,j))
-                               do 160 i = j + 1,min(n,j+k)
+                               loop_160: i = j + 1,min(n,j+k)
                                    temp = temp + dconjg(a(l+i,j))*x(i)
-       160                     continue
+                               end do loop_160
                            end if
                            x(j) = temp
-       170             continue
+                       end do loop_170
                    else
                        jx = kx
-                       do 200 j = 1,n
+                       loop_200: j = 1,n
                            temp = x(jx)
                            kx = kx + incx
                            ix = kx
                            l = 1 - j
                            if (noconj) then
                                if (nounit) temp = temp*a(1,j)
-                               do 180 i = j + 1,min(n,j+k)
+                               loop_180: i = j + 1,min(n,j+k)
                                    temp = temp + a(l+i,j)*x(ix)
                                    ix = ix + incx
-       180                     continue
+                               end do loop_180
                            else
                                if (nounit) temp = temp*dconjg(a(1,j))
-                               do 190 i = j + 1,min(n,j+k)
+                               loop_190: i = j + 1,min(n,j+k)
                                    temp = temp + dconjg(a(l+i,j))*x(ix)
                                    ix = ix + incx
-       190                     continue
+                               end do loop_190
                            end if
                            x(jx) = temp
                            jx = jx + incx
-       200             continue
+                       end do loop_200
                    end if
                end if
            end if
@@ -4267,62 +4267,62 @@ module stdlib_linalg_blas_z
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
-                       do 20 j = n,1,-1
+                       loop_20: j = n,1,-1
                            if (x(j)/=zero) then
                                l = kplus1 - j
                                if (nounit) x(j) = x(j)/a(kplus1,j)
                                temp = x(j)
-                               do 10 i = j - 1,max(1,j-k),-1
+                               loop_10: i = j - 1,max(1,j-k),-1
                                    x(i) = x(i) - temp*a(l+i,j)
-        10                     continue
+                               end do loop_10
                            end if
-        20             continue
+                       end do loop_20
                    else
                        kx = kx + (n-1)*incx
                        jx = kx
-                       do 40 j = n,1,-1
+                       loop_40: j = n,1,-1
                            kx = kx - incx
                            if (x(jx)/=zero) then
                                ix = kx
                                l = kplus1 - j
                                if (nounit) x(jx) = x(jx)/a(kplus1,j)
                                temp = x(jx)
-                               do 30 i = j - 1,max(1,j-k),-1
+                               loop_30: i = j - 1,max(1,j-k),-1
                                    x(ix) = x(ix) - temp*a(l+i,j)
                                    ix = ix - incx
-        30                     continue
+                               end do loop_30
                            end if
                            jx = jx - incx
-        40             continue
+                       end do loop_40
                    end if
                else
                    if (incx==1) then
-                       do 60 j = 1,n
+                       loop_60: j = 1,n
                            if (x(j)/=zero) then
                                l = 1 - j
                                if (nounit) x(j) = x(j)/a(1,j)
                                temp = x(j)
-                               do 50 i = j + 1,min(n,j+k)
+                               loop_50: i = j + 1,min(n,j+k)
                                    x(i) = x(i) - temp*a(l+i,j)
-        50                     continue
+                               end do loop_50
                            end if
-        60             continue
+                       end do loop_60
                    else
                        jx = kx
-                       do 80 j = 1,n
+                       loop_80: j = 1,n
                            kx = kx + incx
                            if (x(jx)/=zero) then
                                ix = kx
                                l = 1 - j
                                if (nounit) x(jx) = x(jx)/a(1,j)
                                temp = x(jx)
-                               do 70 i = j + 1,min(n,j+k)
+                               loop_70: i = j + 1,min(n,j+k)
                                    x(ix) = x(ix) - temp*a(l+i,j)
                                    ix = ix + incx
-        70                     continue
+                               end do loop_70
                            end if
                            jx = jx + incx
-        80             continue
+                       end do loop_80
                    end if
                end if
            else
@@ -4332,88 +4332,88 @@ module stdlib_linalg_blas_z
                if (stdlib_lsame(uplo,'u')) then
                    kplus1 = k + 1
                    if (incx==1) then
-                       do 110 j = 1,n
+                       loop_110: j = 1,n
                            temp = x(j)
                            l = kplus1 - j
                            if (noconj) then
-                               do 90 i = max(1,j-k),j - 1
+                               loop_90: i = max(1,j-k),j - 1
                                    temp = temp - a(l+i,j)*x(i)
-        90                     continue
+                               end do loop_90
                                if (nounit) temp = temp/a(kplus1,j)
                            else
-                               do 100 i = max(1,j-k),j - 1
+                               loop_100: i = max(1,j-k),j - 1
                                    temp = temp - dconjg(a(l+i,j))*x(i)
-       100                     continue
+                               end do loop_100
                                if (nounit) temp = temp/dconjg(a(kplus1,j))
                            end if
                            x(j) = temp
-       110             continue
+                       end do loop_110
                    else
                        jx = kx
-                       do 140 j = 1,n
+                       loop_140: j = 1,n
                            temp = x(jx)
                            ix = kx
                            l = kplus1 - j
                            if (noconj) then
-                               do 120 i = max(1,j-k),j - 1
+                               loop_120: i = max(1,j-k),j - 1
                                    temp = temp - a(l+i,j)*x(ix)
                                    ix = ix + incx
-       120                     continue
+                               end do loop_120
                                if (nounit) temp = temp/a(kplus1,j)
                            else
-                               do 130 i = max(1,j-k),j - 1
+                               loop_130: i = max(1,j-k),j - 1
                                    temp = temp - dconjg(a(l+i,j))*x(ix)
                                    ix = ix + incx
-       130                     continue
+                               end do loop_130
                                if (nounit) temp = temp/dconjg(a(kplus1,j))
                            end if
                            x(jx) = temp
                            jx = jx + incx
                            if (j>k) kx = kx + incx
-       140             continue
+                       end do loop_140
                    end if
                else
                    if (incx==1) then
-                       do 170 j = n,1,-1
+                       loop_170: j = n,1,-1
                            temp = x(j)
                            l = 1 - j
                            if (noconj) then
-                               do 150 i = min(n,j+k),j + 1,-1
+                               loop_150: i = min(n,j+k),j + 1,-1
                                    temp = temp - a(l+i,j)*x(i)
-       150                     continue
+                               end do loop_150
                                if (nounit) temp = temp/a(1,j)
                            else
-                               do 160 i = min(n,j+k),j + 1,-1
+                               loop_160: i = min(n,j+k),j + 1,-1
                                    temp = temp - dconjg(a(l+i,j))*x(i)
-       160                     continue
+                               end do loop_160
                                if (nounit) temp = temp/dconjg(a(1,j))
                            end if
                            x(j) = temp
-       170             continue
+                       end do loop_170
                    else
                        kx = kx + (n-1)*incx
                        jx = kx
-                       do 200 j = n,1,-1
+                       loop_200: j = n,1,-1
                            temp = x(jx)
                            ix = kx
                            l = 1 - j
                            if (noconj) then
-                               do 180 i = min(n,j+k),j + 1,-1
+                               loop_180: i = min(n,j+k),j + 1,-1
                                    temp = temp - a(l+i,j)*x(ix)
                                    ix = ix - incx
-       180                     continue
+                               end do loop_180
                                if (nounit) temp = temp/a(1,j)
                            else
-                               do 190 i = min(n,j+k),j + 1,-1
+                               loop_190: i = min(n,j+k),j + 1,-1
                                    temp = temp - dconjg(a(l+i,j))*x(ix)
                                    ix = ix - incx
-       190                     continue
+                               end do loop_190
                                if (nounit) temp = temp/dconjg(a(1,j))
                            end if
                            x(jx) = temp
                            jx = jx - incx
                            if ((n-j)>=k) kx = kx - incx
-       200             continue
+                       end do loop_200
                    end if
                end if
            end if
@@ -4507,65 +4507,65 @@ module stdlib_linalg_blas_z
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
-                       do 20 j = 1,n
+                       loop_20: j = 1,n
                            if (x(j)/=zero) then
                                temp = x(j)
                                k = kk
-                               do 10 i = 1,j - 1
+                               loop_10: i = 1,j - 1
                                    x(i) = x(i) + temp*ap(k)
                                    k = k + 1
-        10                     continue
+                               end do loop_10
                                if (nounit) x(j) = x(j)*ap(kk+j-1)
                            end if
                            kk = kk + j
-        20             continue
+                       end do loop_20
                    else
                        jx = kx
-                       do 40 j = 1,n
+                       loop_40: j = 1,n
                            if (x(jx)/=zero) then
                                temp = x(jx)
                                ix = kx
-                               do 30 k = kk,kk + j - 2
+                               loop_30: k = kk,kk + j - 2
                                    x(ix) = x(ix) + temp*ap(k)
                                    ix = ix + incx
-        30                     continue
+                               end do loop_30
                                if (nounit) x(jx) = x(jx)*ap(kk+j-1)
                            end if
                            jx = jx + incx
                            kk = kk + j
-        40             continue
+                       end do loop_40
                    end if
                else
                    kk = (n* (n+1))/2
                    if (incx==1) then
-                       do 60 j = n,1,-1
+                       loop_60: j = n,1,-1
                            if (x(j)/=zero) then
                                temp = x(j)
                                k = kk
-                               do 50 i = n,j + 1,-1
+                               loop_50: i = n,j + 1,-1
                                    x(i) = x(i) + temp*ap(k)
                                    k = k - 1
-        50                     continue
+                               end do loop_50
                                if (nounit) x(j) = x(j)*ap(kk-n+j)
                            end if
                            kk = kk - (n-j+1)
-        60             continue
+                       end do loop_60
                    else
                        kx = kx + (n-1)*incx
                        jx = kx
-                       do 80 j = n,1,-1
+                       loop_80: j = n,1,-1
                            if (x(jx)/=zero) then
                                temp = x(jx)
                                ix = kx
-                               do 70 k = kk,kk - (n- (j+1)),-1
+                               loop_70: k = kk,kk - (n- (j+1)),-1
                                    x(ix) = x(ix) + temp*ap(k)
                                    ix = ix - incx
-        70                     continue
+                               end do loop_70
                                if (nounit) x(jx) = x(jx)*ap(kk-n+j)
                            end if
                            jx = jx - incx
                            kk = kk - (n-j+1)
-        80             continue
+                       end do loop_80
                    end if
                end if
            else
@@ -4575,92 +4575,92 @@ module stdlib_linalg_blas_z
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
-                       do 110 j = n,1,-1
+                       loop_110: j = n,1,-1
                            temp = x(j)
                            k = kk - 1
                            if (noconj) then
                                if (nounit) temp = temp*ap(kk)
-                               do 90 i = j - 1,1,-1
+                               loop_90: i = j - 1,1,-1
                                    temp = temp + ap(k)*x(i)
                                    k = k - 1
-        90                     continue
+                               end do loop_90
                            else
                                if (nounit) temp = temp*dconjg(ap(kk))
-                               do 100 i = j - 1,1,-1
+                               loop_100: i = j - 1,1,-1
                                    temp = temp + dconjg(ap(k))*x(i)
                                    k = k - 1
-       100                     continue
+                               end do loop_100
                            end if
                            x(j) = temp
                            kk = kk - j
-       110             continue
+                       end do loop_110
                    else
                        jx = kx + (n-1)*incx
-                       do 140 j = n,1,-1
+                       loop_140: j = n,1,-1
                            temp = x(jx)
                            ix = jx
                            if (noconj) then
                                if (nounit) temp = temp*ap(kk)
-                               do 120 k = kk - 1,kk - j + 1,-1
+                               loop_120: k = kk - 1,kk - j + 1,-1
                                    ix = ix - incx
                                    temp = temp + ap(k)*x(ix)
-       120                     continue
+                               end do loop_120
                            else
                                if (nounit) temp = temp*dconjg(ap(kk))
-                               do 130 k = kk - 1,kk - j + 1,-1
+                               loop_130: k = kk - 1,kk - j + 1,-1
                                    ix = ix - incx
                                    temp = temp + dconjg(ap(k))*x(ix)
-       130                     continue
+                               end do loop_130
                            end if
                            x(jx) = temp
                            jx = jx - incx
                            kk = kk - j
-       140             continue
+                       end do loop_140
                    end if
                else
                    kk = 1
                    if (incx==1) then
-                       do 170 j = 1,n
+                       loop_170: j = 1,n
                            temp = x(j)
                            k = kk + 1
                            if (noconj) then
                                if (nounit) temp = temp*ap(kk)
-                               do 150 i = j + 1,n
+                               loop_150: i = j + 1,n
                                    temp = temp + ap(k)*x(i)
                                    k = k + 1
-       150                     continue
+                               end do loop_150
                            else
                                if (nounit) temp = temp*dconjg(ap(kk))
-                               do 160 i = j + 1,n
+                               loop_160: i = j + 1,n
                                    temp = temp + dconjg(ap(k))*x(i)
                                    k = k + 1
-       160                     continue
+                               end do loop_160
                            end if
                            x(j) = temp
                            kk = kk + (n-j+1)
-       170             continue
+                       end do loop_170
                    else
                        jx = kx
-                       do 200 j = 1,n
+                       loop_200: j = 1,n
                            temp = x(jx)
                            ix = jx
                            if (noconj) then
                                if (nounit) temp = temp*ap(kk)
-                               do 180 k = kk + 1,kk + n - j
+                               loop_180: k = kk + 1,kk + n - j
                                    ix = ix + incx
                                    temp = temp + ap(k)*x(ix)
-       180                     continue
+                               end do loop_180
                            else
                                if (nounit) temp = temp*dconjg(ap(kk))
-                               do 190 k = kk + 1,kk + n - j
+                               loop_190: k = kk + 1,kk + n - j
                                    ix = ix + incx
                                    temp = temp + dconjg(ap(k))*x(ix)
-       190                     continue
+                               end do loop_190
                            end if
                            x(jx) = temp
                            jx = jx + incx
                            kk = kk + (n-j+1)
-       200             continue
+                       end do loop_200
                    end if
                end if
            end if
@@ -4756,64 +4756,64 @@ module stdlib_linalg_blas_z
                if (stdlib_lsame(uplo,'u')) then
                    kk = (n* (n+1))/2
                    if (incx==1) then
-                       do 20 j = n,1,-1
+                       loop_20: j = n,1,-1
                            if (x(j)/=zero) then
                                if (nounit) x(j) = x(j)/ap(kk)
                                temp = x(j)
                                k = kk - 1
-                               do 10 i = j - 1,1,-1
+                               loop_10: i = j - 1,1,-1
                                    x(i) = x(i) - temp*ap(k)
                                    k = k - 1
-        10                     continue
+                               end do loop_10
                            end if
                            kk = kk - j
-        20             continue
+                       end do loop_20
                    else
                        jx = kx + (n-1)*incx
-                       do 40 j = n,1,-1
+                       loop_40: j = n,1,-1
                            if (x(jx)/=zero) then
                                if (nounit) x(jx) = x(jx)/ap(kk)
                                temp = x(jx)
                                ix = jx
-                               do 30 k = kk - 1,kk - j + 1,-1
+                               loop_30: k = kk - 1,kk - j + 1,-1
                                    ix = ix - incx
                                    x(ix) = x(ix) - temp*ap(k)
-        30                     continue
+                               end do loop_30
                            end if
                            jx = jx - incx
                            kk = kk - j
-        40             continue
+                       end do loop_40
                    end if
                else
                    kk = 1
                    if (incx==1) then
-                       do 60 j = 1,n
+                       loop_60: j = 1,n
                            if (x(j)/=zero) then
                                if (nounit) x(j) = x(j)/ap(kk)
                                temp = x(j)
                                k = kk + 1
-                               do 50 i = j + 1,n
+                               loop_50: i = j + 1,n
                                    x(i) = x(i) - temp*ap(k)
                                    k = k + 1
-        50                     continue
+                               end do loop_50
                            end if
                            kk = kk + (n-j+1)
-        60             continue
+                       end do loop_60
                    else
                        jx = kx
-                       do 80 j = 1,n
+                       loop_80: j = 1,n
                            if (x(jx)/=zero) then
                                if (nounit) x(jx) = x(jx)/ap(kk)
                                temp = x(jx)
                                ix = jx
-                               do 70 k = kk + 1,kk + n - j
+                               loop_70: k = kk + 1,kk + n - j
                                    ix = ix + incx
                                    x(ix) = x(ix) - temp*ap(k)
-        70                     continue
+                               end do loop_70
                            end if
                            jx = jx + incx
                            kk = kk + (n-j+1)
-        80             continue
+                       end do loop_80
                    end if
                end if
            else
@@ -4823,93 +4823,93 @@ module stdlib_linalg_blas_z
                if (stdlib_lsame(uplo,'u')) then
                    kk = 1
                    if (incx==1) then
-                       do 110 j = 1,n
+                       loop_110: j = 1,n
                            temp = x(j)
                            k = kk
                            if (noconj) then
-                               do 90 i = 1,j - 1
+                               loop_90: i = 1,j - 1
                                    temp = temp - ap(k)*x(i)
                                    k = k + 1
-        90                     continue
+                               end do loop_90
                                if (nounit) temp = temp/ap(kk+j-1)
                            else
-                               do 100 i = 1,j - 1
+                               loop_100: i = 1,j - 1
                                    temp = temp - dconjg(ap(k))*x(i)
                                    k = k + 1
-       100                     continue
+                               end do loop_100
                                if (nounit) temp = temp/dconjg(ap(kk+j-1))
                            end if
                            x(j) = temp
                            kk = kk + j
-       110             continue
+                       end do loop_110
                    else
                        jx = kx
-                       do 140 j = 1,n
+                       loop_140: j = 1,n
                            temp = x(jx)
                            ix = kx
                            if (noconj) then
-                               do 120 k = kk,kk + j - 2
+                               loop_120: k = kk,kk + j - 2
                                    temp = temp - ap(k)*x(ix)
                                    ix = ix + incx
-       120                     continue
+                               end do loop_120
                                if (nounit) temp = temp/ap(kk+j-1)
                            else
-                               do 130 k = kk,kk + j - 2
+                               loop_130: k = kk,kk + j - 2
                                    temp = temp - dconjg(ap(k))*x(ix)
                                    ix = ix + incx
-       130                     continue
+                               end do loop_130
                                if (nounit) temp = temp/dconjg(ap(kk+j-1))
                            end if
                            x(jx) = temp
                            jx = jx + incx
                            kk = kk + j
-       140             continue
+                       end do loop_140
                    end if
                else
                    kk = (n* (n+1))/2
                    if (incx==1) then
-                       do 170 j = n,1,-1
+                       loop_170: j = n,1,-1
                            temp = x(j)
                            k = kk
                            if (noconj) then
-                               do 150 i = n,j + 1,-1
+                               loop_150: i = n,j + 1,-1
                                    temp = temp - ap(k)*x(i)
                                    k = k - 1
-       150                     continue
+                               end do loop_150
                                if (nounit) temp = temp/ap(kk-n+j)
                            else
-                               do 160 i = n,j + 1,-1
+                               loop_160: i = n,j + 1,-1
                                    temp = temp - dconjg(ap(k))*x(i)
                                    k = k - 1
-       160                     continue
+                               end do loop_160
                                if (nounit) temp = temp/dconjg(ap(kk-n+j))
                            end if
                            x(j) = temp
                            kk = kk - (n-j+1)
-       170             continue
+                       end do loop_170
                    else
                        kx = kx + (n-1)*incx
                        jx = kx
-                       do 200 j = n,1,-1
+                       loop_200: j = n,1,-1
                            temp = x(jx)
                            ix = kx
                            if (noconj) then
-                               do 180 k = kk,kk - (n- (j+1)),-1
+                               loop_180: k = kk,kk - (n- (j+1)),-1
                                    temp = temp - ap(k)*x(ix)
                                    ix = ix - incx
-       180                     continue
+                               end do loop_180
                                if (nounit) temp = temp/ap(kk-n+j)
                            else
-                               do 190 k = kk,kk - (n- (j+1)),-1
+                               loop_190: k = kk,kk - (n- (j+1)),-1
                                    temp = temp - dconjg(ap(k))*x(ix)
                                    ix = ix - incx
-       190                     continue
+                               end do loop_190
                                if (nounit) temp = temp/dconjg(ap(kk-n+j))
                            end if
                            x(jx) = temp
                            jx = jx - incx
                            kk = kk - (n-j+1)
-       200             continue
+                       end do loop_200
                    end if
                end if
            end if
@@ -5005,11 +5005,11 @@ module stdlib_linalg_blas_z
            ! and when  alpha.eq.zero.
      
            if (alpha==zero) then
-               do 20 j = 1,n
-                   do 10 i = 1,m
+               loop_20: j = 1,n
+                   loop_10: i = 1,m
                        b(i,j) = zero
-        10         continue
-        20     continue
+                   end do loop_10
+               end do loop_20
                return
            end if
      
@@ -5021,72 +5021,72 @@ module stdlib_linalg_blas_z
                  ! form  b := alpha*a*b.
      
                    if (upper) then
-                       do 50 j = 1,n
-                           do 40 k = 1,m
+                       loop_50: j = 1,n
+                           loop_40: k = 1,m
                                if (b(k,j)/=zero) then
                                    temp = alpha*b(k,j)
-                                   do 30 i = 1,k - 1
+                                   loop_30: i = 1,k - 1
                                        b(i,j) = b(i,j) + temp*a(i,k)
-        30                         continue
+                                   end do loop_30
                                    if (nounit) temp = temp*a(k,k)
                                    b(k,j) = temp
                                end if
-        40                 continue
-        50             continue
+                           end do loop_40
+                       end do loop_50
                    else
-                       do 80 j = 1,n
-                           do 70 k = m,1,-1
+                       loop_80: j = 1,n
+                           loop_70: k = m,1,-1
                                if (b(k,j)/=zero) then
                                    temp = alpha*b(k,j)
                                    b(k,j) = temp
                                    if (nounit) b(k,j) = b(k,j)*a(k,k)
-                                   do 60 i = k + 1,m
+                                   loop_60: i = k + 1,m
                                        b(i,j) = b(i,j) + temp*a(i,k)
-        60                         continue
+                                   end do loop_60
                                end if
-        70                 continue
-        80             continue
+                           end do loop_70
+                       end do loop_80
                    end if
                else
      
                  ! form  b := alpha*a**t*b   or   b := alpha*a**h*b.
      
                    if (upper) then
-                       do 120 j = 1,n
-                           do 110 i = m,1,-1
+                       loop_120: j = 1,n
+                           loop_110: i = m,1,-1
                                temp = b(i,j)
                                if (noconj) then
                                    if (nounit) temp = temp*a(i,i)
-                                   do 90 k = 1,i - 1
+                                   loop_90: k = 1,i - 1
                                        temp = temp + a(k,i)*b(k,j)
-        90                         continue
+                                   end do loop_90
                                else
                                    if (nounit) temp = temp*dconjg(a(i,i))
-                                   do 100 k = 1,i - 1
+                                   loop_100: k = 1,i - 1
                                        temp = temp + dconjg(a(k,i))*b(k,j)
-       100                         continue
+                                   end do loop_100
                                end if
                                b(i,j) = alpha*temp
-       110                 continue
-       120             continue
+                           end do loop_110
+                       end do loop_120
                    else
-                       do 160 j = 1,n
-                           do 150 i = 1,m
+                       loop_160: j = 1,n
+                           loop_150: i = 1,m
                                temp = b(i,j)
                                if (noconj) then
                                    if (nounit) temp = temp*a(i,i)
-                                   do 130 k = i + 1,m
+                                   loop_130: k = i + 1,m
                                        temp = temp + a(k,i)*b(k,j)
-       130                         continue
+                                   end do loop_130
                                else
                                    if (nounit) temp = temp*dconjg(a(i,i))
-                                   do 140 k = i + 1,m
+                                   loop_140: k = i + 1,m
                                        temp = temp + dconjg(a(k,i))*b(k,j)
-       140                         continue
+                                   end do loop_140
                                end if
                                b(i,j) = alpha*temp
-       150                 continue
-       160             continue
+                           end do loop_150
+                       end do loop_160
                    end if
                end if
            else
@@ -5095,56 +5095,56 @@ module stdlib_linalg_blas_z
                  ! form  b := alpha*b*a.
      
                    if (upper) then
-                       do 200 j = n,1,-1
+                       loop_200: j = n,1,-1
                            temp = alpha
                            if (nounit) temp = temp*a(j,j)
-                           do 170 i = 1,m
+                           loop_170: i = 1,m
                                b(i,j) = temp*b(i,j)
-       170                 continue
-                           do 190 k = 1,j - 1
+                           end do loop_170
+                           loop_190: k = 1,j - 1
                                if (a(k,j)/=zero) then
                                    temp = alpha*a(k,j)
-                                   do 180 i = 1,m
+                                   loop_180: i = 1,m
                                        b(i,j) = b(i,j) + temp*b(i,k)
-       180                         continue
+                                   end do loop_180
                                end if
-       190                 continue
-       200             continue
+                           end do loop_190
+                       end do loop_200
                    else
-                       do 240 j = 1,n
+                       loop_240: j = 1,n
                            temp = alpha
                            if (nounit) temp = temp*a(j,j)
-                           do 210 i = 1,m
+                           loop_210: i = 1,m
                                b(i,j) = temp*b(i,j)
-       210                 continue
-                           do 230 k = j + 1,n
+                           end do loop_210
+                           loop_230: k = j + 1,n
                                if (a(k,j)/=zero) then
                                    temp = alpha*a(k,j)
-                                   do 220 i = 1,m
+                                   loop_220: i = 1,m
                                        b(i,j) = b(i,j) + temp*b(i,k)
-       220                         continue
+                                   end do loop_220
                                end if
-       230                 continue
-       240             continue
+                           end do loop_230
+                       end do loop_240
                    end if
                else
      
                  ! form  b := alpha*b*a**t   or   b := alpha*b*a**h.
      
                    if (upper) then
-                       do 280 k = 1,n
-                           do 260 j = 1,k - 1
+                       loop_280: k = 1,n
+                           loop_260: j = 1,k - 1
                                if (a(j,k)/=zero) then
                                    if (noconj) then
                                        temp = alpha*a(j,k)
                                    else
                                        temp = alpha*dconjg(a(j,k))
                                    end if
-                                   do 250 i = 1,m
+                                   loop_250: i = 1,m
                                        b(i,j) = b(i,j) + temp*b(i,k)
-       250                         continue
+                                   end do loop_250
                                end if
-       260                 continue
+                           end do loop_260
                            temp = alpha
                            if (nounit) then
                                if (noconj) then
@@ -5154,25 +5154,25 @@ module stdlib_linalg_blas_z
                                end if
                            end if
                            if (temp/=one) then
-                               do 270 i = 1,m
+                               loop_270: i = 1,m
                                    b(i,k) = temp*b(i,k)
-       270                     continue
+                               end do loop_270
                            end if
-       280             continue
+                       end do loop_280
                    else
-                       do 320 k = n,1,-1
-                           do 300 j = k + 1,n
+                       loop_320: k = n,1,-1
+                           loop_300: j = k + 1,n
                                if (a(j,k)/=zero) then
                                    if (noconj) then
                                        temp = alpha*a(j,k)
                                    else
                                        temp = alpha*dconjg(a(j,k))
                                    end if
-                                   do 290 i = 1,m
+                                   loop_290: i = 1,m
                                        b(i,j) = b(i,j) + temp*b(i,k)
-       290                         continue
+                                   end do loop_290
                                end if
-       300                 continue
+                           end do loop_300
                            temp = alpha
                            if (nounit) then
                                if (noconj) then
@@ -5182,11 +5182,11 @@ module stdlib_linalg_blas_z
                                end if
                            end if
                            if (temp/=one) then
-                               do 310 i = 1,m
+                               loop_310: i = 1,m
                                    b(i,k) = temp*b(i,k)
-       310                     continue
+                               end do loop_310
                            end if
-       320             continue
+                       end do loop_320
                    end if
                end if
            end if
@@ -5281,56 +5281,56 @@ module stdlib_linalg_blas_z
      
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
-                       do 20 j = 1,n
+                       loop_20: j = 1,n
                            if (x(j)/=zero) then
                                temp = x(j)
-                               do 10 i = 1,j - 1
+                               loop_10: i = 1,j - 1
                                    x(i) = x(i) + temp*a(i,j)
-        10                     continue
+                               end do loop_10
                                if (nounit) x(j) = x(j)*a(j,j)
                            end if
-        20             continue
+                       end do loop_20
                    else
                        jx = kx
-                       do 40 j = 1,n
+                       loop_40: j = 1,n
                            if (x(jx)/=zero) then
                                temp = x(jx)
                                ix = kx
-                               do 30 i = 1,j - 1
+                               loop_30: i = 1,j - 1
                                    x(ix) = x(ix) + temp*a(i,j)
                                    ix = ix + incx
-        30                     continue
+                               end do loop_30
                                if (nounit) x(jx) = x(jx)*a(j,j)
                            end if
                            jx = jx + incx
-        40             continue
+                       end do loop_40
                    end if
                else
                    if (incx==1) then
-                       do 60 j = n,1,-1
+                       loop_60: j = n,1,-1
                            if (x(j)/=zero) then
                                temp = x(j)
-                               do 50 i = n,j + 1,-1
+                               loop_50: i = n,j + 1,-1
                                    x(i) = x(i) + temp*a(i,j)
-        50                     continue
+                               end do loop_50
                                if (nounit) x(j) = x(j)*a(j,j)
                            end if
-        60             continue
+                       end do loop_60
                    else
                        kx = kx + (n-1)*incx
                        jx = kx
-                       do 80 j = n,1,-1
+                       loop_80: j = n,1,-1
                            if (x(jx)/=zero) then
                                temp = x(jx)
                                ix = kx
-                               do 70 i = n,j + 1,-1
+                               loop_70: i = n,j + 1,-1
                                    x(ix) = x(ix) + temp*a(i,j)
                                    ix = ix - incx
-        70                     continue
+                               end do loop_70
                                if (nounit) x(jx) = x(jx)*a(j,j)
                            end if
                            jx = jx - incx
-        80             continue
+                       end do loop_80
                    end if
                end if
            else
@@ -5339,81 +5339,81 @@ module stdlib_linalg_blas_z
      
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
-                       do 110 j = n,1,-1
+                       loop_110: j = n,1,-1
                            temp = x(j)
                            if (noconj) then
                                if (nounit) temp = temp*a(j,j)
-                               do 90 i = j - 1,1,-1
+                               loop_90: i = j - 1,1,-1
                                    temp = temp + a(i,j)*x(i)
-        90                     continue
+                               end do loop_90
                            else
                                if (nounit) temp = temp*dconjg(a(j,j))
-                               do 100 i = j - 1,1,-1
+                               loop_100: i = j - 1,1,-1
                                    temp = temp + dconjg(a(i,j))*x(i)
-       100                     continue
+                               end do loop_100
                            end if
                            x(j) = temp
-       110             continue
+                       end do loop_110
                    else
                        jx = kx + (n-1)*incx
-                       do 140 j = n,1,-1
+                       loop_140: j = n,1,-1
                            temp = x(jx)
                            ix = jx
                            if (noconj) then
                                if (nounit) temp = temp*a(j,j)
-                               do 120 i = j - 1,1,-1
+                               loop_120: i = j - 1,1,-1
                                    ix = ix - incx
                                    temp = temp + a(i,j)*x(ix)
-       120                     continue
+                               end do loop_120
                            else
                                if (nounit) temp = temp*dconjg(a(j,j))
-                               do 130 i = j - 1,1,-1
+                               loop_130: i = j - 1,1,-1
                                    ix = ix - incx
                                    temp = temp + dconjg(a(i,j))*x(ix)
-       130                     continue
+                               end do loop_130
                            end if
                            x(jx) = temp
                            jx = jx - incx
-       140             continue
+                       end do loop_140
                    end if
                else
                    if (incx==1) then
-                       do 170 j = 1,n
+                       loop_170: j = 1,n
                            temp = x(j)
                            if (noconj) then
                                if (nounit) temp = temp*a(j,j)
-                               do 150 i = j + 1,n
+                               loop_150: i = j + 1,n
                                    temp = temp + a(i,j)*x(i)
-       150                     continue
+                               end do loop_150
                            else
                                if (nounit) temp = temp*dconjg(a(j,j))
-                               do 160 i = j + 1,n
+                               loop_160: i = j + 1,n
                                    temp = temp + dconjg(a(i,j))*x(i)
-       160                     continue
+                               end do loop_160
                            end if
                            x(j) = temp
-       170             continue
+                       end do loop_170
                    else
                        jx = kx
-                       do 200 j = 1,n
+                       loop_200: j = 1,n
                            temp = x(jx)
                            ix = jx
                            if (noconj) then
                                if (nounit) temp = temp*a(j,j)
-                               do 180 i = j + 1,n
+                               loop_180: i = j + 1,n
                                    ix = ix + incx
                                    temp = temp + a(i,j)*x(ix)
-       180                     continue
+                               end do loop_180
                            else
                                if (nounit) temp = temp*dconjg(a(j,j))
-                               do 190 i = j + 1,n
+                               loop_190: i = j + 1,n
                                    ix = ix + incx
                                    temp = temp + dconjg(a(i,j))*x(ix)
-       190                     continue
+                               end do loop_190
                            end if
                            x(jx) = temp
                            jx = jx + incx
-       200             continue
+                       end do loop_200
                    end if
                end if
            end if
@@ -5510,11 +5510,11 @@ module stdlib_linalg_blas_z
            ! and when  alpha.eq.zero.
      
            if (alpha==zero) then
-               do 20 j = 1,n
-                   do 10 i = 1,m
+               loop_20: j = 1,n
+                   loop_10: i = 1,m
                        b(i,j) = zero
-        10         continue
-        20     continue
+                   end do loop_10
+               end do loop_20
                return
            end if
      
@@ -5526,37 +5526,37 @@ module stdlib_linalg_blas_z
                  ! form  b := alpha*inv( a )*b.
      
                    if (upper) then
-                       do 60 j = 1,n
+                       loop_60: j = 1,n
                            if (alpha/=one) then
-                               do 30 i = 1,m
+                               loop_30: i = 1,m
                                    b(i,j) = alpha*b(i,j)
-        30                     continue
+                               end do loop_30
                            end if
-                           do 50 k = m,1,-1
+                           loop_50: k = m,1,-1
                                if (b(k,j)/=zero) then
                                    if (nounit) b(k,j) = b(k,j)/a(k,k)
-                                   do 40 i = 1,k - 1
+                                   loop_40: i = 1,k - 1
                                        b(i,j) = b(i,j) - b(k,j)*a(i,k)
-        40                         continue
+                                   end do loop_40
                                end if
-        50                 continue
-        60             continue
+                           end do loop_50
+                       end do loop_60
                    else
-                       do 100 j = 1,n
+                       loop_100: j = 1,n
                            if (alpha/=one) then
-                               do 70 i = 1,m
+                               loop_70: i = 1,m
                                    b(i,j) = alpha*b(i,j)
-        70                     continue
+                               end do loop_70
                            end if
-                           do 90 k = 1,m
+                           loop_90: k = 1,m
                                if (b(k,j)/=zero) then
                                    if (nounit) b(k,j) = b(k,j)/a(k,k)
-                                   do 80 i = k + 1,m
+                                   loop_80: i = k + 1,m
                                        b(i,j) = b(i,j) - b(k,j)*a(i,k)
-        80                         continue
+                                   end do loop_80
                                end if
-        90                 continue
-       100             continue
+                           end do loop_90
+                       end do loop_100
                    end if
                else
      
@@ -5564,41 +5564,41 @@ module stdlib_linalg_blas_z
                  ! or    b := alpha*inv( a**h )*b.
      
                    if (upper) then
-                       do 140 j = 1,n
-                           do 130 i = 1,m
+                       loop_140: j = 1,n
+                           loop_130: i = 1,m
                                temp = alpha*b(i,j)
                                if (noconj) then
-                                   do 110 k = 1,i - 1
+                                   loop_110: k = 1,i - 1
                                        temp = temp - a(k,i)*b(k,j)
-       110                         continue
+                                   end do loop_110
                                    if (nounit) temp = temp/a(i,i)
                                else
-                                   do 120 k = 1,i - 1
+                                   loop_120: k = 1,i - 1
                                        temp = temp - dconjg(a(k,i))*b(k,j)
-       120                         continue
+                                   end do loop_120
                                    if (nounit) temp = temp/dconjg(a(i,i))
                                end if
                                b(i,j) = temp
-       130                 continue
-       140             continue
+                           end do loop_130
+                       end do loop_140
                    else
-                       do 180 j = 1,n
-                           do 170 i = m,1,-1
+                       loop_180: j = 1,n
+                           loop_170: i = m,1,-1
                                temp = alpha*b(i,j)
                                if (noconj) then
-                                   do 150 k = i + 1,m
+                                   loop_150: k = i + 1,m
                                        temp = temp - a(k,i)*b(k,j)
-       150                         continue
+                                   end do loop_150
                                    if (nounit) temp = temp/a(i,i)
                                else
-                                   do 160 k = i + 1,m
+                                   loop_160: k = i + 1,m
                                        temp = temp - dconjg(a(k,i))*b(k,j)
-       160                         continue
+                                   end do loop_160
                                    if (nounit) temp = temp/dconjg(a(i,i))
                                end if
                                b(i,j) = temp
-       170                 continue
-       180             continue
+                           end do loop_170
+                       end do loop_180
                    end if
                end if
            else
@@ -5607,47 +5607,47 @@ module stdlib_linalg_blas_z
                  ! form  b := alpha*b*inv( a ).
      
                    if (upper) then
-                       do 230 j = 1,n
+                       loop_230: j = 1,n
                            if (alpha/=one) then
-                               do 190 i = 1,m
+                               loop_190: i = 1,m
                                    b(i,j) = alpha*b(i,j)
-       190                     continue
+                               end do loop_190
                            end if
-                           do 210 k = 1,j - 1
+                           loop_210: k = 1,j - 1
                                if (a(k,j)/=zero) then
-                                   do 200 i = 1,m
+                                   loop_200: i = 1,m
                                        b(i,j) = b(i,j) - a(k,j)*b(i,k)
-       200                         continue
+                                   end do loop_200
                                end if
-       210                 continue
+                           end do loop_210
                            if (nounit) then
                                temp = one/a(j,j)
-                               do 220 i = 1,m
+                               loop_220: i = 1,m
                                    b(i,j) = temp*b(i,j)
-       220                     continue
+                               end do loop_220
                            end if
-       230             continue
+                       end do loop_230
                    else
-                       do 280 j = n,1,-1
+                       loop_280: j = n,1,-1
                            if (alpha/=one) then
-                               do 240 i = 1,m
+                               loop_240: i = 1,m
                                    b(i,j) = alpha*b(i,j)
-       240                     continue
+                               end do loop_240
                            end if
-                           do 260 k = j + 1,n
+                           loop_260: k = j + 1,n
                                if (a(k,j)/=zero) then
-                                   do 250 i = 1,m
+                                   loop_250: i = 1,m
                                        b(i,j) = b(i,j) - a(k,j)*b(i,k)
-       250                         continue
+                                   end do loop_250
                                end if
-       260                 continue
+                           end do loop_260
                            if (nounit) then
                                temp = one/a(j,j)
-                               do 270 i = 1,m
+                               loop_270: i = 1,m
                                    b(i,j) = temp*b(i,j)
-       270                     continue
+                               end do loop_270
                            end if
-       280             continue
+                       end do loop_280
                    end if
                else
      
@@ -5655,65 +5655,65 @@ module stdlib_linalg_blas_z
                  ! or    b := alpha*b*inv( a**h ).
      
                    if (upper) then
-                       do 330 k = n,1,-1
+                       loop_330: k = n,1,-1
                            if (nounit) then
                                if (noconj) then
                                    temp = one/a(k,k)
                                else
                                    temp = one/dconjg(a(k,k))
                                end if
-                               do 290 i = 1,m
+                               loop_290: i = 1,m
                                    b(i,k) = temp*b(i,k)
-       290                     continue
+                               end do loop_290
                            end if
-                           do 310 j = 1,k - 1
+                           loop_310: j = 1,k - 1
                                if (a(j,k)/=zero) then
                                    if (noconj) then
                                        temp = a(j,k)
                                    else
                                        temp = dconjg(a(j,k))
                                    end if
-                                   do 300 i = 1,m
+                                   loop_300: i = 1,m
                                        b(i,j) = b(i,j) - temp*b(i,k)
-       300                         continue
+                                   end do loop_300
                                end if
-       310                 continue
+                           end do loop_310
                            if (alpha/=one) then
-                               do 320 i = 1,m
+                               loop_320: i = 1,m
                                    b(i,k) = alpha*b(i,k)
-       320                     continue
+                               end do loop_320
                            end if
-       330             continue
+                       end do loop_330
                    else
-                       do 380 k = 1,n
+                       loop_380: k = 1,n
                            if (nounit) then
                                if (noconj) then
                                    temp = one/a(k,k)
                                else
                                    temp = one/dconjg(a(k,k))
                                end if
-                               do 340 i = 1,m
+                               loop_340: i = 1,m
                                    b(i,k) = temp*b(i,k)
-       340                     continue
+                               end do loop_340
                            end if
-                           do 360 j = k + 1,n
+                           loop_360: j = k + 1,n
                                if (a(j,k)/=zero) then
                                    if (noconj) then
                                        temp = a(j,k)
                                    else
                                        temp = dconjg(a(j,k))
                                    end if
-                                   do 350 i = 1,m
+                                   loop_350: i = 1,m
                                        b(i,j) = b(i,j) - temp*b(i,k)
-       350                         continue
+                                   end do loop_350
                                end if
-       360                 continue
+                           end do loop_360
                            if (alpha/=one) then
-                               do 370 i = 1,m
+                               loop_370: i = 1,m
                                    b(i,k) = alpha*b(i,k)
-       370                     continue
+                               end do loop_370
                            end if
-       380             continue
+                       end do loop_380
                    end if
                end if
            end if
@@ -5810,55 +5810,55 @@ module stdlib_linalg_blas_z
      
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
-                       do 20 j = n,1,-1
+                       loop_20: j = n,1,-1
                            if (x(j)/=zero) then
                                if (nounit) x(j) = x(j)/a(j,j)
                                temp = x(j)
-                               do 10 i = j - 1,1,-1
+                               loop_10: i = j - 1,1,-1
                                    x(i) = x(i) - temp*a(i,j)
-        10                     continue
+                               end do loop_10
                            end if
-        20             continue
+                       end do loop_20
                    else
                        jx = kx + (n-1)*incx
-                       do 40 j = n,1,-1
+                       loop_40: j = n,1,-1
                            if (x(jx)/=zero) then
                                if (nounit) x(jx) = x(jx)/a(j,j)
                                temp = x(jx)
                                ix = jx
-                               do 30 i = j - 1,1,-1
+                               loop_30: i = j - 1,1,-1
                                    ix = ix - incx
                                    x(ix) = x(ix) - temp*a(i,j)
-        30                     continue
+                               end do loop_30
                            end if
                            jx = jx - incx
-        40             continue
+                       end do loop_40
                    end if
                else
                    if (incx==1) then
-                       do 60 j = 1,n
+                       loop_60: j = 1,n
                            if (x(j)/=zero) then
                                if (nounit) x(j) = x(j)/a(j,j)
                                temp = x(j)
-                               do 50 i = j + 1,n
+                               loop_50: i = j + 1,n
                                    x(i) = x(i) - temp*a(i,j)
-        50                     continue
+                               end do loop_50
                            end if
-        60             continue
+                       end do loop_60
                    else
                        jx = kx
-                       do 80 j = 1,n
+                       loop_80: j = 1,n
                            if (x(jx)/=zero) then
                                if (nounit) x(jx) = x(jx)/a(j,j)
                                temp = x(jx)
                                ix = jx
-                               do 70 i = j + 1,n
+                               loop_70: i = j + 1,n
                                    ix = ix + incx
                                    x(ix) = x(ix) - temp*a(i,j)
-        70                     continue
+                               end do loop_70
                            end if
                            jx = jx + incx
-        80             continue
+                       end do loop_80
                    end if
                end if
            else
@@ -5867,82 +5867,82 @@ module stdlib_linalg_blas_z
      
                if (stdlib_lsame(uplo,'u')) then
                    if (incx==1) then
-                       do 110 j = 1,n
+                       loop_110: j = 1,n
                            temp = x(j)
                            if (noconj) then
-                               do 90 i = 1,j - 1
+                               loop_90: i = 1,j - 1
                                    temp = temp - a(i,j)*x(i)
-        90                     continue
+                               end do loop_90
                                if (nounit) temp = temp/a(j,j)
                            else
-                               do 100 i = 1,j - 1
+                               loop_100: i = 1,j - 1
                                    temp = temp - dconjg(a(i,j))*x(i)
-       100                     continue
+                               end do loop_100
                                if (nounit) temp = temp/dconjg(a(j,j))
                            end if
                            x(j) = temp
-       110             continue
+                       end do loop_110
                    else
                        jx = kx
-                       do 140 j = 1,n
+                       loop_140: j = 1,n
                            ix = kx
                            temp = x(jx)
                            if (noconj) then
-                               do 120 i = 1,j - 1
+                               loop_120: i = 1,j - 1
                                    temp = temp - a(i,j)*x(ix)
                                    ix = ix + incx
-       120                     continue
+                               end do loop_120
                                if (nounit) temp = temp/a(j,j)
                            else
-                               do 130 i = 1,j - 1
+                               loop_130: i = 1,j - 1
                                    temp = temp - dconjg(a(i,j))*x(ix)
                                    ix = ix + incx
-       130                     continue
+                               end do loop_130
                                if (nounit) temp = temp/dconjg(a(j,j))
                            end if
                            x(jx) = temp
                            jx = jx + incx
-       140             continue
+                       end do loop_140
                    end if
                else
                    if (incx==1) then
-                       do 170 j = n,1,-1
+                       loop_170: j = n,1,-1
                            temp = x(j)
                            if (noconj) then
-                               do 150 i = n,j + 1,-1
+                               loop_150: i = n,j + 1,-1
                                    temp = temp - a(i,j)*x(i)
-       150                     continue
+                               end do loop_150
                                if (nounit) temp = temp/a(j,j)
                            else
-                               do 160 i = n,j + 1,-1
+                               loop_160: i = n,j + 1,-1
                                    temp = temp - dconjg(a(i,j))*x(i)
-       160                     continue
+                               end do loop_160
                                if (nounit) temp = temp/dconjg(a(j,j))
                            end if
                            x(j) = temp
-       170             continue
+                       end do loop_170
                    else
                        kx = kx + (n-1)*incx
                        jx = kx
-                       do 200 j = n,1,-1
+                       loop_200: j = n,1,-1
                            ix = kx
                            temp = x(jx)
                            if (noconj) then
-                               do 180 i = n,j + 1,-1
+                               loop_180: i = n,j + 1,-1
                                    temp = temp - a(i,j)*x(ix)
                                    ix = ix - incx
-       180                     continue
+                               end do loop_180
                                if (nounit) temp = temp/a(j,j)
                            else
-                               do 190 i = n,j + 1,-1
+                               loop_190: i = n,j + 1,-1
                                    temp = temp - dconjg(a(i,j))*x(ix)
                                    ix = ix - incx
-       190                     continue
+                               end do loop_190
                                if (nounit) temp = temp/dconjg(a(j,j))
                            end if
                            x(jx) = temp
                            jx = jx - incx
-       200             continue
+                       end do loop_200
                    end if
                end if
            end if

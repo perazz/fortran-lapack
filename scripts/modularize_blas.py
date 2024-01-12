@@ -772,6 +772,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     Source.body = []
     Source.decl = []
     Source.header = []
+    open_loops = []
+    loop_starts = []
 
     # FiLoad whole file; split by lines; join concatenation lines
     with open(os.path.join(source_folder,file_name), 'r') as file:
@@ -955,6 +957,38 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                    case Section.BODY:
 
+                       # Labelled do loop? save
+                       m_loop = re.match(r'^\s*do\s+[0-9]+\s+',line.lower())
+                       if m_loop:
+                           # Extract label
+                           numbers = re.findall(r'\d+',line)
+                           nspaces = len(line) - len(line.lstrip(' '))
+
+                           print(line[m_loop.end():])
+
+                           print(line)
+                           print("loop "+str(numbers[0])+" found, "+str(nspaces)+" spaces")
+                           line = (" "*nspaces) + "loop_" + str(numbers[0]) + ": " + line[m_loop.end():]
+
+                           open_loops.append(numbers[0])
+                           loop_starts.append(nspaces)
+
+                       if re.match(r'^\s+\d+\s+continue',line.lower()):
+                           # Extract label
+                           numbers = re.findall(r'\d+',line.lower())
+                           print("end loop "+str(numbers[0])+" found")
+
+                           loop_ID = open_loops.pop()
+                           nspaces = loop_starts.pop()
+
+                           if not loop_ID==numbers[0]:
+                               print("INVALID LOOP MATCH")
+                               exit(1)
+
+                           print(line)
+                           line = (" "*nspaces) + "end do loop_" + str(loop_ID)
+                           print(line)
+
                        # End of the function/subroutine: inside a module, it must contain its name
                        if     line.strip().upper()=="END" \
                            or bool(re.match(r'^\s*END\s*SUBROUTINE.*$',line.upper())) \
@@ -985,9 +1019,11 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   Source  = Fortran_Source()
                   whereAt = Section.HEADER
                   Source.is_free_form = free_form
-                  Source.body = []
-                  Source.decl = []
+                  Source.body   = []
+                  Source.decl   = []
                   Source.header = []
+                  open_loops    = []
+                  loop_starts   = []
 
     if whereAt!=Section.END and whereAt!=Section.HEADER:
         print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper() + " file " + file_name)
