@@ -720,30 +720,26 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
     is_found    = [False for i in range(len(new_names))]
     is_declared = [False for i in range(len(new_names))]
 
-    print(len(new_names))
-    print(len(old_names))
-
     la_const = False
 
     # First of all, map which of these names are used as declared variables. In this case
     # do not replace their names
-    for i in range(len(decl)):
-        old_line = decl[i].lower()
-        for j in range(len(old_names)):
-            if bool(re.search(r".+\s+[^a-zA-Z\_0-9]"+old_names[j]+r"[^a-zA-Z\_0-9].*",old_line)):
-                is_declared[i] = True
-        if "la_constants" in old_line:
-            la_const = True
+    whole_decl = '\n'.join(decl).lower()
+    print("... <"+name+"> find declarations..."+str(len(decl)))
+    for j in range(len(old_names)):
+        if bool(re.search(r"\b"+old_names[j]+r"\b",whole_decl)): is_declared[i] = True
+        if "la_constants" in whole_decl: la_const = True
 
     replacement = prefix+r'\g<0>'
 
 
+    print("... <"+name+"> merge text...")
     whole = '\n'.join(lines).lower()
-
+    print("... <"+name+"> rename declarations...")
     for j in range(len(old_names)):
         if is_declared[j]: continue
         old = len(whole)
-        whole = re.sub(r"\b"+old_names[j]+r"\b",replacement,whole) #,flags=re.IGNORECASE)
+        whole = re.sub(r"\b"+old_names[j]+r"\b",replacement,whole)
         if len(whole)>old:
             print("***match***" + old_names[j])
             is_found[j] = True
@@ -753,7 +749,7 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
         for j in range(len(la_names)):
             if is_declared[j]: continue
             old = len(whole)
-            whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole) #,flags=re.IGNORECASE)
+            whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
 #            if len(whole)>old:
 #                print("***match***" + la_names[j])
 #        print("***TEMPORARY STOP")
@@ -761,11 +757,13 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
 
     body = whole.split('\n')
 
-    # Restore declaration lines cases
+    # Restore directive lines cases
+    print("... <"+name+"> restire directive lines...")
     for j in range(len(body)):
        if is_directive_line(body[j]): body[j] = lines[j]
 
     # Build dependency list
+    print("... <"+name+"> build deps...")
     dependency_list = []
     for j in range(len(old_names)):
         if is_found[j]:
@@ -1005,6 +1003,19 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                            open_loops.append(numbers[0])
                            loop_starts.append(nspaces)
+
+                       # Go go inside labelled loop
+                       if re.match(r'^\s*go\s*to\s+\d+',line.lower()):
+                           # Extract label
+                           numbers = re.findall(r'\d+',line.lower())
+
+                           # This "go to" matches one of the current loops
+                           if len(open_loops)>0:
+                               if numbers[0] in open_loops:
+                                   print("goto "+str(numbers[0])+" found")
+                                   nspaces = len(line) - len(line.lstrip(' '))
+                                   line = (" "*nspaces) + "cycle loop_" + str(numbers[0])
+                                   print(line)
 
                        # End of labelled loop
                        if re.match(r'^\s+\d+\s+continue',line.lower()):
