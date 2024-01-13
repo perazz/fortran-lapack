@@ -45,22 +45,25 @@ def create_constants_module(module_name,out_folder):
 
 # Patch lapack aux module interface
 def patch_lapack_aux(fid,prefix,indent):
-    fid.write(INDENT + "public :: {}_selctg\n".format(prefix))
-    fid.write(INDENT + "public :: {}_select\n\n".format(prefix))
+
+    INDENT          = "     "
+
+    fid.write(INDENT + "public :: {}selctg\n".format(prefix))
+    fid.write(INDENT + "public :: {}select\n\n".format(prefix))
     fid.write(INDENT + "! SELCTG is a LOGICAL FUNCTION of three DOUBLE PRECISION arguments \n")
     fid.write(INDENT + "! used to select eigenvalues to sort to the top left of the Schur form. \n")
     fid.write(INDENT + "! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., \n")
     fid.write(INDENT + "abstract interface \n")
-    fid.write(INDENT + "   logical(lk) function {}_selctg(alphar,alphai,beta) \n".format(prefix))
+    fid.write(INDENT + "   logical(lk) function {}selctg(alphar,alphai,beta) \n".format(prefix))
     fid.write(INDENT + "       import sp,lk \n")
     fid.write(INDENT + "       implicit none \n")
     fid.write(INDENT + "       real(sp), intent(in) :: alphar,alphai,beta \n")
-    fid.write(INDENT + "   end function {}_selctg \n\n".format(prefix))
-    fid.write(INDENT + "   logical(lk) function {}_select(alphar,alphai) \n".format(prefix))
+    fid.write(INDENT + "   end function {}selctg \n\n".format(prefix))
+    fid.write(INDENT + "   logical(lk) function {}select(alphar,alphai) \n".format(prefix))
     fid.write(INDENT + "       import sp,lk \n")
     fid.write(INDENT + "       implicit none \n")
     fid.write(INDENT + "       real(sp), intent(in) :: alphar,alphai \n")
-    fid.write(INDENT + "   end function {}_select \n".format(prefix))
+    fid.write(INDENT + "   end function {}select \n".format(prefix))
     fid.write(INDENT + "end interface \n\n")
 
 
@@ -141,7 +144,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
                 exit(1)
 
         # Patch AUX
-        if initials[m]=='aux' and module_name=='stdlib_linalg_lapack_aux':
+        if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
             patch_lapack_aux(fid,prefix,INDENT)
 
         # Actual implementation
@@ -181,16 +184,24 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
 #
 def function_in_module(initial,function_name):
+
+   oname = function_name.lower().strip()
+
    if len(initial)<1:
        in_module = True
-   elif    function_name.endswith("amax") \
-        or function_name.endswith("abs") \
-        or function_name.endswith("abs1") :
+   elif    oname.endswith("amax") \
+        or oname.endswith("abs") \
+        or oname.endswith("abs1") :
        in_module = initial[0].lower() == 'a'
+   # PATCH: exclude functions
+   # - with names ending in *x or *_extended, as they require external subroutines
+   # which are not provided by the Fortran implementation
+   elif ((len(oname)>6 and oname.endswith('x')) or oname.endswith('extended')):
+       in_module = False
    elif initial[0].lower() in ['c','s','d','z'] :
-       in_module = function_name[0].lower()==initial[0].lower()
+       in_module = oname[0]==initial[0].lower()
    else:
-       in_module = not (function_name[0].lower() in ['c','s','d','z'])
+       in_module = not (oname[0] in ['c','s','d','z'])
    return in_module
 
 # Enum for file sections
@@ -370,7 +381,22 @@ def adjust_variable_declaration(line):
     for i in range(len(declarations)):
         m  = re.match(r'^\s*' + declarations[i] + r'\s+\w',ll)
         if m:
-            line = line[:m.end()-2].rstrip() + " :: " + line[m.end()-1:].lstrip()
+            variable = line[m.end()-1:].lstrip()
+            line = line[:m.end()-2].rstrip() + " :: " + variable
+
+            # Patch function argument
+            if i==4 and variable.lower().strip()=='selctg':
+                print(line)
+                nspaces = len(line)-len(line.lstrip(' '))
+                line = nspaces*" " + "procedure(stdlib_selctg) :: selctg"
+                print(line)
+
+            if i==4 and variable.lower().strip()=='select':
+                print(line)
+                nspaces = len(line)-len(line.lstrip(' '))
+                line = nspaces*" " + "procedure(stdlib_select) :: select"
+                print(line)
+
             return line
 
     return line
@@ -616,6 +642,8 @@ def is_externals_header(line):
     # Begins with a data type
     ext =    bool(re.match(r'\S\s*.. external functions ..',check_line)) \
           or bool(re.match(r'\S\s*.. external function ..',check_line)) \
+          or bool(re.match(r'\S\s*from blas',check_line)) \
+          or bool(re.match(r'\S\s*from lapack',check_line)) \
           or bool(re.match(r'\S\s*external functions\s*\S*',check_line)) \
           or bool(re.match(r'\S\s*.. external subroutines ..',check_line))
 
@@ -1010,17 +1038,23 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            open_loops.append(numbers[0])
                            loop_starts.append(nspaces)
 
-                       # Go go inside labelled loop
-                       if re.match(r'^\s*go\s*to\s+\d+',line.lower()):
+                       # Go to inside labelled loop
+                       m_goto = re.search(r'go\s*to\s+\d+$',line.lower())
+                       if bool(m_goto):
                            # Extract label
-                           numbers = re.findall(r'\d+',line.lower())
+                           numbers = re.findall(r'\d+$',line.lower())
 
                            # This "go to" matches one of the current loops
                            if len(open_loops)>0:
                                if numbers[0] in open_loops:
                                    print("goto "+str(numbers[0])+" found")
                                    nspaces = len(line) - len(line.lstrip(' '))
-                                   line = (" "*nspaces) + "cycle loop_" + str(numbers[0])
+                                   left = line[:m_goto.start()]
+                                   if len(left.strip())<=0:
+                                       line = (nspaces*" ") + "cycle loop_" + str(numbers[0])
+                                   else:
+                                       line = line[:m_goto.start()] + "cycle loop_" + str(numbers[0])
+
                                    print(line)
 
                        # End of labelled loop

@@ -32,6 +32,26 @@ module stdlib_linalg_lapack_aux
      public :: stdlib_lsamen
      public :: stdlib_xerbla
      public :: stdlib_xerbla_array
+     public :: stdlib_selctg
+     public :: stdlib_select
+
+     ! SELCTG is a LOGICAL FUNCTION of three DOUBLE PRECISION arguments 
+     ! used to select eigenvalues to sort to the top left of the Schur form. 
+     ! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., 
+     abstract interface 
+        logical(lk) function stdlib_selctg(alphar,alphai,beta) 
+            import sp,lk 
+            implicit none 
+            real(sp), intent(in) :: alphar,alphai,beta 
+        end function stdlib_selctg 
+
+        logical(lk) function stdlib_select(alphar,alphai) 
+            import sp,lk 
+            implicit none 
+            real(sp), intent(in) :: alphar,alphai 
+        end function stdlib_select 
+     end interface 
+
 
 
      contains
