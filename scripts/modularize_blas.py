@@ -423,6 +423,9 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
        else:
 
            while (len(line)>MAX_LINE_LENGTH - 2*len(INDENT)) and not is_comment_line:
+
+              shift = 0
+
               # Find last non-reserved character
               m = re.search(r'[^a-zA-Z\d\.\_\'\"\*\=\<\>\/][a-zA-Z\d\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LINE_LENGTH-2])
 
@@ -432,11 +435,15 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
                   print("EEEEEEEE")
                   exit(1)
 
-              next = line[m.start()+1:]
+              # PATCH :: Check that we're not splitting a string between quotes, aka ' &\n'
+              if re.search(r'\'\s+$',line[:m.start()+1]): shift = -2
+
+              next = line[m.start()+1+shift:]
+
               end_line = "&\n" if len(next.strip())>0 else "\n"
               comment  = "continued" if continued else "non      "
-              fid.write(line[:m.start()+1] + end_line)
-              print(comment+" line:" + line[:m.start()+1])
+              fid.write(line[:m.start()+1+shift] + end_line)
+              print(comment+" line:" + line[:m.start()+1+shift])
 
               # Start with reminder (add same number of trailing spaces
               nspaces = len(line)-len(line.lstrip(' '))
@@ -895,10 +902,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                      if '\par Purpose:' in line:
                         whereAt = Section.HEADER_DESCR
 
-               # Empty comment? skip
-               if line.strip()=='!': continue
-
-
+               # Empty comment line? skip
+               ls = line.strip()
+               if ls=='!' or ls=='! ..': continue
 
             else:
 
