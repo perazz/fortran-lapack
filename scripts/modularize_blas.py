@@ -239,7 +239,7 @@ def function_in_module(initial,function_name):
                             and not oname.endswith('geqrt3')   \
                             and not oname.endswith('tpqrt3')   \
                             and not oname.endswith('gelqt3')   \
-                            and not oname.endswith('sytrs3')   \
+                            and not oname.endswith('sytrs_3')  \
                             and not oname.endswith('orbdb3')   \
                             and not oname.endswith('trevc3'))) \
           or oname.endswith('extended') \
@@ -452,6 +452,8 @@ def adjust_variable_declaration(line,datatype):
 def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
 
     import re
+
+    fid.write("\n")
 
     header = True
 

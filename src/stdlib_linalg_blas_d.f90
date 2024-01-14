@@ -50,7 +50,9 @@ module stdlib_linalg_blas_d
 
 
      contains
+
      ! DASUM takes the sum of the absolute values.
+
      real(dp) function stdlib_dasum(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -97,8 +99,10 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dasum
      end function stdlib_dasum
+
      ! DAXPY constant times a vector plus a vector.
      ! uses unrolled loops for increments equal to one.
+
      subroutine stdlib_daxpy(n,da,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -148,8 +152,10 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_daxpy
      end subroutine stdlib_daxpy
+
      ! DCOPY copies a vector, x, to a vector, y.
      ! uses unrolled loops for increments equal to 1.
+
      subroutine stdlib_dcopy(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -200,8 +206,10 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dcopy
      end subroutine stdlib_dcopy
+
      ! DDOT forms the dot product of two vectors.
      ! uses unrolled loops for increments equal to one.
+
      real(dp) function stdlib_ddot(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -254,10 +262,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_ddot
      end function stdlib_ddot
+
      ! DGBMV  performs one of the matrix-vector operations
      ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
+
      subroutine stdlib_dgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -412,12 +422,14 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dgbmv
      end subroutine stdlib_dgbmv
+
      ! DGEMM  performs one of the matrix-matrix operations
      ! C := alpha*op( A )*op( B ) + beta*C,
      ! where  op( X ) is one of
      ! op( X ) = X   or   op( X ) = X**T,
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
+
      subroutine stdlib_dgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -578,10 +590,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dgemm
      end subroutine stdlib_dgemm
+
      ! DGEMV  performs one of the matrix-vector operations
      ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
+
      subroutine stdlib_dgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -725,10 +739,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dgemv
      end subroutine stdlib_dgemv
+
      ! DGER   performs the rank 1 operation
      ! A := alpha*x*y**T + A,
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
+
      subroutine stdlib_dger(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -805,10 +821,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dger
      end subroutine stdlib_dger
+
      ! !
      ! DNRM2 returns the euclidean norm of a vector via the function
      ! name, so that
      ! DNRM2 := sqrt( x'*x )
+
      function stdlib_dnrm2( n, x, incx )
         integer, parameter :: wp = kind(1.d0)
         real(dp) :: stdlib_dnrm2
@@ -902,7 +920,9 @@ module stdlib_linalg_blas_d
         stdlib_dnrm2 = scl*sqrt( sumsq )
         return
      end function stdlib_dnrm2
+
      ! DROT applies a plane rotation.
+
      subroutine stdlib_drot(n,dx,incx,dy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -942,6 +962,7 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_drot
      end subroutine stdlib_drot
+
      ! !
      ! The computation uses the formulas
      ! sigma = sgn(a)    if |a| >  |b|
@@ -957,6 +978,7 @@ module stdlib_linalg_blas_d
      ! If z = 1, set c = 0, s = 1.
      ! If |z| < 1, set c = sqrt(1 - z**2) and s = z.
      ! If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
+
      subroutine stdlib_drotg( a, b, c, s )
         integer, parameter :: wp = kind(1.d0)
         ! -- reference blas level1 routine --
@@ -1007,6 +1029,7 @@ module stdlib_linalg_blas_d
         end if
         return
      end subroutine stdlib_drotg
+
      ! APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
      ! (DX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF DX ARE IN
      ! (DY**T)
@@ -1018,6 +1041,7 @@ module stdlib_linalg_blas_d
      ! H=(          )    (          )    (          )    (          )
      ! (DH21  DH22),   (DH21  1.D0),   (-1.D0 DH22),   (0.D0  1.D0).
      ! SEE DROTMG FOR A DESCRIPTION OF DATA STORAGE IN DPARAM.
+
      subroutine stdlib_drotm(n,dx,incx,dy,incy,dparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1111,6 +1135,7 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_drotm
      end subroutine stdlib_drotm
+
      ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
      ! THE SECOND COMPONENT OF THE 2-VECTOR  (DSQRT(DD1)*DX1,DSQRT(DD2)    DY2)**T.
      ! WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
@@ -1124,6 +1149,7 @@ module stdlib_linalg_blas_d
      ! THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE
      ! INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
      ! OF DD1 AND DD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
+
      subroutine stdlib_drotmg(dd1,dd2,dx1,dy1,dparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1271,10 +1297,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_drotmg
      end subroutine stdlib_drotmg
+
      ! DSBMV  performs the matrix-vector  operation
      ! y := alpha*A*x + beta*y,
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric band matrix, with k super-diagonals.
+
      subroutine stdlib_dsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1436,8 +1464,10 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dsbmv
      end subroutine stdlib_dsbmv
+
      ! DSCAL scales a vector by a constant.
      ! uses unrolled loops for increment equal to 1.
+
      subroutine stdlib_dscal(n,da,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1481,12 +1511,14 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dscal
      end subroutine stdlib_dscal
+
      ! Compute the inner product of two vectors with extended
      ! precision accumulation and result.
      ! Returns D.P. dot product accumulated in D.P., for S.P. SX and SY
      ! DSDOT = sum for I = 0 to N-1 of  SX(LX+I*INCX) * SY(LY+I*INCY),
      ! where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
      ! defined in a similar way using INCY.
+
      real(dp) function stdlib_dsdot(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1527,10 +1559,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dsdot
      end function stdlib_dsdot
+
      ! DSPMV  performs the matrix-vector operation
      ! y := alpha*A*x + beta*y,
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix, supplied in packed form.
+
      subroutine stdlib_dspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1686,10 +1720,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dspmv
      end subroutine stdlib_dspmv
+
      ! DSPR    performs the symmetric rank 1 operation
      ! A := alpha*x*x**T + A,
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix, supplied in packed form.
+
      subroutine stdlib_dspr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1796,10 +1832,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dspr
      end subroutine stdlib_dspr
+
      ! DSPR2  performs the symmetric rank 2 operation
      ! A := alpha*x*y**T + alpha*y*x**T + A,
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n symmetric matrix, supplied in packed form.
+
      subroutine stdlib_dspr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1926,8 +1964,10 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dspr2
      end subroutine stdlib_dspr2
+
      ! DSWAP interchanges two vectors.
      ! uses unrolled loops for increments equal to 1.
+
      subroutine stdlib_dswap(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1985,12 +2025,14 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dswap
      end subroutine stdlib_dswap
+
      ! DSYMM  performs one of the matrix-matrix operations
      ! C := alpha*A*B + beta*C,
      ! or
      ! C := alpha*B*A + beta*C,
      ! where alpha and beta are scalars,  A is a symmetric matrix and  B and
      ! C are  m by n matrices.
+
      subroutine stdlib_dsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2135,10 +2177,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dsymm
      end subroutine stdlib_dsymm
+
      ! DSYMV  performs the matrix-vector  operation
      ! y := alpha*A*x + beta*y,
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix.
+
      subroutine stdlib_dsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2290,10 +2334,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dsymv
      end subroutine stdlib_dsymv
+
      ! DSYR   performs the symmetric rank 1 operation
      ! A := alpha*x*x**T + A,
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix.
+
      subroutine stdlib_dsyr(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2396,10 +2442,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dsyr
      end subroutine stdlib_dsyr
+
      ! DSYR2  performs the symmetric rank 2 operation
      ! A := alpha*x*y**T + alpha*y*x**T + A,
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n symmetric matrix.
+
      subroutine stdlib_dsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2522,6 +2570,7 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dsyr2
      end subroutine stdlib_dsyr2
+
      ! DSYR2K  performs one of the symmetric rank 2k operations
      ! C := alpha*A*B**T + alpha*B*A**T + beta*C,
      ! or
@@ -2529,6 +2578,7 @@ module stdlib_linalg_blas_d
      ! where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
+
      subroutine stdlib_dsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2700,6 +2750,7 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dsyr2k
      end subroutine stdlib_dsyr2k
+
      ! DSYRK  performs one of the symmetric rank k operations
      ! C := alpha*A*A**T + beta*C,
      ! or
@@ -2707,6 +2758,7 @@ module stdlib_linalg_blas_d
      ! where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
+
      subroutine stdlib_dsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2870,10 +2922,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dsyrk
      end subroutine stdlib_dsyrk
+
      ! DTBMV  performs one of the matrix-vector operations
      ! x := A*x,   or   x := A**T*x,
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
+
      subroutine stdlib_dtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3056,6 +3110,7 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dtbmv
      end subroutine stdlib_dtbmv
+
      ! DTBSV  solves one of the systems of equations
      ! A*x = b,   or   A**T*x = b,
      ! where b and x are n element vectors and A is an n by n unit, or
@@ -3063,6 +3118,7 @@ module stdlib_linalg_blas_d
      ! diagonals.
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
+
      subroutine stdlib_dtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3245,10 +3301,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dtbsv
      end subroutine stdlib_dtbsv
+
      ! DTPMV  performs one of the matrix-vector operations
      ! x := A*x,   or   x := A**T*x,
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
+
      subroutine stdlib_dtpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3430,12 +3488,14 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dtpmv
      end subroutine stdlib_dtpmv
+
      ! DTPSV  solves one of the systems of equations
      ! A*x = b,   or   A**T*x = b,
      ! where b and x are n element vectors and A is an n by n unit, or
      ! non-unit, upper or lower triangular matrix, supplied in packed form.
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
+
      subroutine stdlib_dtpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3617,11 +3677,13 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dtpsv
      end subroutine stdlib_dtpsv
+
      ! DTRMM  performs one of the matrix-matrix operations
      ! B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
      ! where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T.
+
      subroutine stdlib_dtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3826,10 +3888,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dtrmm
      end subroutine stdlib_dtrmm
+
      ! DTRMV  performs one of the matrix-vector operations
      ! x := A*x,   or   x := A**T*x,
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
+
      subroutine stdlib_dtrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3995,12 +4059,14 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dtrmv
      end subroutine stdlib_dtrmv
+
      ! DTRSM  solves one of the matrix equations
      ! op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
      ! where alpha is a scalar, X and B are m by n matrices, A is a unit, or
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T.
      ! The matrix X is overwritten on B.
+
      subroutine stdlib_dtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -4229,12 +4295,14 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dtrsm
      end subroutine stdlib_dtrsm
+
      ! DTRSV  solves one of the systems of equations
      ! A*x = b,   or   A**T*x = b,
      ! where b and x are n element vectors and A is an n by n unit, or
      ! non-unit, upper or lower triangular matrix.
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
+
      subroutine stdlib_dtrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -4400,8 +4468,10 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dtrsv
      end subroutine stdlib_dtrsv
+
      ! DZASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
      ! returns a double precision result.
+
      real(dp) function stdlib_dzasum(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -4435,10 +4505,12 @@ module stdlib_linalg_blas_d
            return
            ! end of stdlib_dzasum
      end function stdlib_dzasum
+
      ! !
      ! DZNRM2 returns the euclidean norm of a vector via the function
      ! name, so that
      ! DZNRM2 := sqrt( x**H*x )
+
      function stdlib_dznrm2( n, x, incx )
         integer, parameter :: wp = kind(1.d0)
         real(dp) :: stdlib_dznrm2

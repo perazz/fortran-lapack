@@ -49,8 +49,10 @@ module stdlib_linalg_blas_s
 
 
      contains
+
      ! SASUM takes the sum of the absolute values.
      ! uses unrolled loops for increment equal to one.
+
      real(sp) function stdlib_sasum(n,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -97,8 +99,10 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sasum
      end function stdlib_sasum
+
      ! SAXPY constant times a vector plus a vector.
      ! uses unrolled loops for increments equal to one.
+
      subroutine stdlib_saxpy(n,sa,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -148,8 +152,10 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_saxpy
      end subroutine stdlib_saxpy
+
      ! SCASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
      ! returns a single precision result.
+
      real(sp) function stdlib_scasum(n,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -183,10 +189,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_scasum
      end function stdlib_scasum
+
      ! !
      ! SCNRM2 returns the euclidean norm of a vector via the function
      ! name, so that
      ! SCNRM2 := sqrt( x**H*x )
+
      function stdlib_scnrm2( n, x, incx )
         integer, parameter :: wp = kind(1.e0)
         real(sp) :: stdlib_scnrm2
@@ -289,8 +297,10 @@ module stdlib_linalg_blas_s
         stdlib_scnrm2 = scl*sqrt( sumsq )
         return
      end function stdlib_scnrm2
+
      ! SCOPY copies a vector, x, to a vector, y.
      ! uses unrolled loops for increments equal to 1.
+
      subroutine stdlib_scopy(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -341,8 +351,10 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_scopy
      end subroutine stdlib_scopy
+
      ! SDOT forms the dot product of two vectors.
      ! uses unrolled loops for increments equal to one.
+
      real(sp) function stdlib_sdot(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -395,12 +407,14 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sdot
      end function stdlib_sdot
+
      ! Compute the inner product of two vectors with extended
      ! precision accumulation.
      ! Returns S.P. result with dot product accumulated in D.P.
      ! SDSDOT = SB + sum for I = 0 to N-1 of SX(LX+I*INCX)*SY(LY+I*INCY),
      ! where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
      ! defined in a similar way using INCY.
+
      real(sp) function stdlib_sdsdot(n,sb,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -442,10 +456,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sdsdot
      end function stdlib_sdsdot
+
      ! SGBMV  performs one of the matrix-vector operations
      ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
+
      subroutine stdlib_sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -600,12 +616,14 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sgbmv
      end subroutine stdlib_sgbmv
+
      ! SGEMM  performs one of the matrix-matrix operations
      ! C := alpha*op( A )*op( B ) + beta*C,
      ! where  op( X ) is one of
      ! op( X ) = X   or   op( X ) = X**T,
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
+
      subroutine stdlib_sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -766,10 +784,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sgemm
      end subroutine stdlib_sgemm
+
      ! SGEMV  performs one of the matrix-vector operations
      ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
+
      subroutine stdlib_sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -913,10 +933,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sgemv
      end subroutine stdlib_sgemv
+
      ! SGER   performs the rank 1 operation
      ! A := alpha*x*y**T + A,
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
+
      subroutine stdlib_sger(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -993,10 +1015,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sger
      end subroutine stdlib_sger
+
      ! !
      ! SNRM2 returns the euclidean norm of a vector via the function
      ! name, so that
      ! SNRM2 := sqrt( x'*x ).
+
      function stdlib_snrm2( n, x, incx )
         integer, parameter :: wp = kind(1.e0)
         real(sp) :: stdlib_snrm2
@@ -1090,7 +1114,9 @@ module stdlib_linalg_blas_s
         stdlib_snrm2 = scl*sqrt( sumsq )
         return
      end function stdlib_snrm2
+
      ! applies a plane rotation.
+
      subroutine stdlib_srot(n,sx,incx,sy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1130,6 +1156,7 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_srot
      end subroutine stdlib_srot
+
      ! !
      ! The computation uses the formulas
      ! sigma = sgn(a)    if |a| >  |b|
@@ -1145,6 +1172,7 @@ module stdlib_linalg_blas_s
      ! If z = 1, set c = 0, s = 1.
      ! If |z| < 1, set c = sqrt(1 - z**2) and s = z.
      ! If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
+
      subroutine stdlib_srotg( a, b, c, s )
         integer, parameter :: wp = kind(1.e0)
         ! -- reference blas level1 routine --
@@ -1195,6 +1223,7 @@ module stdlib_linalg_blas_s
         end if
         return
      end subroutine stdlib_srotg
+
      ! APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
      ! (SX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF SX ARE IN
      ! (SX**T)
@@ -1206,6 +1235,7 @@ module stdlib_linalg_blas_s
      ! H=(          )    (          )    (          )    (          )
      ! (SH21  SH22),   (SH21  1.E0),   (-1.E0 SH22),   (0.E0  1.E0).
      ! SEE  SROTMG FOR A DESCRIPTION OF DATA STORAGE IN SPARAM.
+
      subroutine stdlib_srotm(n,sx,incx,sy,incy,sparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1299,6 +1329,7 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_srotm
      end subroutine stdlib_srotm
+
      ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
      ! THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(SD1)*SX1,SQRT(SD2)    SY2)**T.
      ! WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
@@ -1312,6 +1343,7 @@ module stdlib_linalg_blas_s
      ! THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE
      ! INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
      ! OF SD1 AND SD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
+
      subroutine stdlib_srotmg(sd1,sd2,sx1,sy1,sparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1459,10 +1491,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_srotmg
      end subroutine stdlib_srotmg
+
      ! SSBMV  performs the matrix-vector  operation
      ! y := alpha*A*x + beta*y,
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric band matrix, with k super-diagonals.
+
      subroutine stdlib_ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1624,8 +1658,10 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_ssbmv
      end subroutine stdlib_ssbmv
+
      ! SSCAL scales a vector by a constant.
      ! uses unrolled loops for increment equal to 1.
+
      subroutine stdlib_sscal(n,sa,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1669,10 +1705,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sscal
      end subroutine stdlib_sscal
+
      ! SSPMV  performs the matrix-vector operation
      ! y := alpha*A*x + beta*y,
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix, supplied in packed form.
+
      subroutine stdlib_sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1828,10 +1866,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sspmv
      end subroutine stdlib_sspmv
+
      ! SSPR    performs the symmetric rank 1 operation
      ! A := alpha*x*x**T + A,
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix, supplied in packed form.
+
      subroutine stdlib_sspr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1938,10 +1978,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sspr
      end subroutine stdlib_sspr
+
      ! SSPR2  performs the symmetric rank 2 operation
      ! A := alpha*x*y**T + alpha*y*x**T + A,
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n symmetric matrix, supplied in packed form.
+
      subroutine stdlib_sspr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2068,8 +2110,10 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sspr2
      end subroutine stdlib_sspr2
+
      ! SSWAP interchanges two vectors.
      ! uses unrolled loops for increments equal to 1.
+
      subroutine stdlib_sswap(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2127,12 +2171,14 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_sswap
      end subroutine stdlib_sswap
+
      ! SSYMM  performs one of the matrix-matrix operations
      ! C := alpha*A*B + beta*C,
      ! or
      ! C := alpha*B*A + beta*C,
      ! where alpha and beta are scalars,  A is a symmetric matrix and  B and
      ! C are  m by n matrices.
+
      subroutine stdlib_ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2277,10 +2323,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_ssymm
      end subroutine stdlib_ssymm
+
      ! SSYMV  performs the matrix-vector  operation
      ! y := alpha*A*x + beta*y,
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix.
+
      subroutine stdlib_ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2432,10 +2480,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_ssymv
      end subroutine stdlib_ssymv
+
      ! SSYR   performs the symmetric rank 1 operation
      ! A := alpha*x*x**T + A,
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix.
+
      subroutine stdlib_ssyr(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2538,10 +2588,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_ssyr
      end subroutine stdlib_ssyr
+
      ! SSYR2  performs the symmetric rank 2 operation
      ! A := alpha*x*y**T + alpha*y*x**T + A,
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n symmetric matrix.
+
      subroutine stdlib_ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2664,6 +2716,7 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_ssyr2
      end subroutine stdlib_ssyr2
+
      ! SSYR2K  performs one of the symmetric rank 2k operations
      ! C := alpha*A*B**T + alpha*B*A**T + beta*C,
      ! or
@@ -2671,6 +2724,7 @@ module stdlib_linalg_blas_s
      ! where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
+
      subroutine stdlib_ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2842,6 +2896,7 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_ssyr2k
      end subroutine stdlib_ssyr2k
+
      ! SSYRK  performs one of the symmetric rank k operations
      ! C := alpha*A*A**T + beta*C,
      ! or
@@ -2849,6 +2904,7 @@ module stdlib_linalg_blas_s
      ! where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
+
      subroutine stdlib_ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3012,10 +3068,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_ssyrk
      end subroutine stdlib_ssyrk
+
      ! STBMV  performs one of the matrix-vector operations
      ! x := A*x,   or   x := A**T*x,
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
+
      subroutine stdlib_stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3198,6 +3256,7 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_stbmv
      end subroutine stdlib_stbmv
+
      ! STBSV  solves one of the systems of equations
      ! A*x = b,   or   A**T*x = b,
      ! where b and x are n element vectors and A is an n by n unit, or
@@ -3205,6 +3264,7 @@ module stdlib_linalg_blas_s
      ! diagonals.
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
+
      subroutine stdlib_stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3387,10 +3447,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_stbsv
      end subroutine stdlib_stbsv
+
      ! STPMV  performs one of the matrix-vector operations
      ! x := A*x,   or   x := A**T*x,
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
+
      subroutine stdlib_stpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3572,12 +3634,14 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_stpmv
      end subroutine stdlib_stpmv
+
      ! STPSV  solves one of the systems of equations
      ! A*x = b,   or   A**T*x = b,
      ! where b and x are n element vectors and A is an n by n unit, or
      ! non-unit, upper or lower triangular matrix, supplied in packed form.
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
+
      subroutine stdlib_stpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3759,11 +3823,13 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_stpsv
      end subroutine stdlib_stpsv
+
      ! STRMM  performs one of the matrix-matrix operations
      ! B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
      ! where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T.
+
      subroutine stdlib_strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3968,10 +4034,12 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_strmm
      end subroutine stdlib_strmm
+
      ! STRMV  performs one of the matrix-vector operations
      ! x := A*x,   or   x := A**T*x,
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
+
      subroutine stdlib_strmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -4137,12 +4205,14 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_strmv
      end subroutine stdlib_strmv
+
      ! STRSM  solves one of the matrix equations
      ! op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
      ! where alpha is a scalar, X and B are m by n matrices, A is a unit, or
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T.
      ! The matrix X is overwritten on B.
+
      subroutine stdlib_strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -4371,12 +4441,14 @@ module stdlib_linalg_blas_s
            return
            ! end of stdlib_strsm
      end subroutine stdlib_strsm
+
      ! STRSV  solves one of the systems of equations
      ! A*x = b,   or   A**T*x = b,
      ! where b and x are n element vectors and A is an n by n unit, or
      ! non-unit, upper or lower triangular matrix.
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
+
      subroutine stdlib_strsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --

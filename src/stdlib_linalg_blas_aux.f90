@@ -21,7 +21,9 @@ module stdlib_linalg_blas_aux
 
 
      contains
+
      ! DCABS1 computes |Re(.)| + |Im(.)| of a double complex number
+
      real(dp) function stdlib_dcabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -35,7 +37,9 @@ module stdlib_linalg_blas_aux
            return
            ! end of stdlib_dcabs1
      end function stdlib_dcabs1
+
      ! IDAMAX finds the index of the first element having maximum absolute value.
+
      integer(int32) function stdlib_idamax(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -79,7 +83,9 @@ module stdlib_linalg_blas_aux
            return
            ! end of stdlib_idamax
      end function stdlib_idamax
+
      ! ISAMAX finds the index of the first element having maximum absolute value.
+
      integer(int32) function stdlib_isamax(n,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -123,7 +129,9 @@ module stdlib_linalg_blas_aux
            return
            ! end of stdlib_isamax
      end function stdlib_isamax
+
      ! IZAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
+
      integer(int32) function stdlib_izamax(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -167,8 +175,10 @@ module stdlib_linalg_blas_aux
            return
            ! end of stdlib_izamax
      end function stdlib_izamax
+
      ! LSAME returns .TRUE. if CA is the same letter as CB regardless of
      ! case.
+
      logical(lk) function stdlib_lsame(ca,cb)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -213,7 +223,9 @@ module stdlib_linalg_blas_aux
            ! return
            ! end of stdlib_lsame
      end function stdlib_lsame
+
      ! SCABS1 computes |Re(.)| + |Im(.)| of a complex number
+
      real(sp) function stdlib_scabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -227,11 +239,13 @@ module stdlib_linalg_blas_aux
            return
            ! end of stdlib_scabs1
      end function stdlib_scabs1
+
      ! XERBLA  is an error handler for the LAPACK routines.
      ! It is called by an LAPACK routine if an input parameter has an
      ! invalid value.  A message is printed and execution stops.
      ! Installers may consider modifying the STOP statement in order to
      ! call system-specific exception-handling facilities.
+
      subroutine stdlib_xerbla( srname, info )
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -249,6 +263,7 @@ module stdlib_linalg_blas_aux
                 
            ! end of stdlib_xerbla
      end subroutine stdlib_xerbla
+
      ! XERBLA_ARRAY assists other languages in calling XERBLA, the LAPACK
      ! and BLAS error handler.  Rather than taking a Fortran string argument
      ! as the function's name, XERBLA_ARRAY takes an array of single
@@ -265,6 +280,7 @@ module stdlib_linalg_blas_aux
      ! }
      ! Providing XERBLA_ARRAY is not necessary for intercepting LAPACK
      ! errors.  XERBLA_ARRAY calls XERBLA.
+
      subroutine stdlib_xerbla_array(srname_array, srname_len, info)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -290,7 +306,9 @@ module stdlib_linalg_blas_aux
            return
            ! end of stdlib_xerbla_array
      end subroutine stdlib_xerbla_array
+
      ! ICAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
+
      integer(int32) function stdlib_icamax(n,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --

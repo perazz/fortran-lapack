@@ -50,7 +50,9 @@ module stdlib_linalg_blas_c
 
 
      contains
+
      ! CAXPY constant times a vector plus a vector.
+
      subroutine stdlib_caxpy(n,ca,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -88,7 +90,9 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_caxpy
      end subroutine stdlib_caxpy
+
      ! CCOPY copies a vector x to a vector y.
+
      subroutine stdlib_ccopy(n,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -122,8 +126,10 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_ccopy
      end subroutine stdlib_ccopy
+
      ! CDOTC forms the dot product of two complex vectors
      ! CDOTC = X^H * Y
+
      complex(sp) function stdlib_cdotc(n,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -163,8 +169,10 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cdotc
      end function stdlib_cdotc
+
      ! CDOTU forms the dot product of two complex vectors
      ! CDOTU = X^T * Y
+
      complex(sp) function stdlib_cdotu(n,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -202,11 +210,13 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cdotu
      end function stdlib_cdotu
+
      ! CGBMV  performs one of the matrix-vector operations
      ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
      ! y := alpha*A**H*x + beta*y,
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
+
      subroutine stdlib_cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -378,12 +388,14 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cgbmv
      end subroutine stdlib_cgbmv
+
      ! CGEMM  performs one of the matrix-matrix operations
      ! C := alpha*op( A )*op( B ) + beta*C,
      ! where  op( X ) is one of
      ! op( X ) = X   or   op( X ) = X**T   or   op( X ) = X**H,
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
+
      subroutine stdlib_cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -631,11 +643,13 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cgemm
      end subroutine stdlib_cgemm
+
      ! CGEMV performs one of the matrix-vector operations
      ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
      ! y := alpha*A**H*x + beta*y,
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
+
      subroutine stdlib_cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -796,10 +810,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cgemv
      end subroutine stdlib_cgemv
+
      ! CGERC  performs the rank 1 operation
      ! A := alpha*x*y**H + A,
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
+
      subroutine stdlib_cgerc(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -876,10 +892,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cgerc
      end subroutine stdlib_cgerc
+
      ! CGERU  performs the rank 1 operation
      ! A := alpha*x*y**T + A,
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
+
      subroutine stdlib_cgeru(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -956,10 +974,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cgeru
      end subroutine stdlib_cgeru
+
      ! CHBMV  performs the matrix-vector  operation
      ! y := alpha*A*x + beta*y,
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian band matrix, with k super-diagonals.
+
      subroutine stdlib_chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1123,12 +1143,14 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_chbmv
      end subroutine stdlib_chbmv
+
      ! CHEMM  performs one of the matrix-matrix operations
      ! C := alpha*A*B + beta*C,
      ! or
      ! C := alpha*B*A + beta*C,
      ! where alpha and beta are scalars, A is an hermitian matrix and  B and
      ! C are m by n matrices.
+
      subroutine stdlib_chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1275,10 +1297,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_chemm
      end subroutine stdlib_chemm
+
      ! CHEMV  performs the matrix-vector  operation
      ! y := alpha*A*x + beta*y,
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix.
+
      subroutine stdlib_chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1432,10 +1456,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_chemv
      end subroutine stdlib_chemv
+
      ! CHER   performs the hermitian rank 1 operation
      ! A := alpha*x*x**H + A,
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix.
+
      subroutine stdlib_cher(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1550,10 +1576,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cher
      end subroutine stdlib_cher
+
      ! CHER2  performs the hermitian rank 2 operation
      ! A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n hermitian matrix.
+
      subroutine stdlib_cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1688,6 +1716,7 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cher2
      end subroutine stdlib_cher2
+
      ! CHER2K  performs one of the hermitian rank 2k operations
      ! C := alpha*A*B**H + conjg( alpha )*B*A**H + beta*C,
      ! or
@@ -1695,6 +1724,7 @@ module stdlib_linalg_blas_c
      ! where  alpha and beta  are scalars with  beta  real,  C is an  n by n
      ! hermitian matrix and  A and B  are  n by k matrices in the first case
      ! and  k by n  matrices in the second case.
+
      subroutine stdlib_cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1899,6 +1929,7 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cher2k
      end subroutine stdlib_cher2k
+
      ! CHERK  performs one of the hermitian rank k operations
      ! C := alpha*A*A**H + beta*C,
      ! or
@@ -1906,6 +1937,7 @@ module stdlib_linalg_blas_c
      ! where  alpha and beta  are  real scalars,  C is an  n by n  hermitian
      ! matrix and  A  is an  n by k  matrix in the  first case and a  k by n
      ! matrix in the second case.
+
      subroutine stdlib_cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2098,10 +2130,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cherk
      end subroutine stdlib_cherk
+
      ! CHPMV  performs the matrix-vector operation
      ! y := alpha*A*x + beta*y,
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix, supplied in packed form.
+
      subroutine stdlib_chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2261,10 +2295,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_chpmv
      end subroutine stdlib_chpmv
+
      ! CHPR    performs the hermitian rank 1 operation
      ! A := alpha*x*x**H + A,
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix, supplied in packed form.
+
      subroutine stdlib_chpr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2385,10 +2421,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_chpr
      end subroutine stdlib_chpr
+
      ! CHPR2  performs the hermitian rank 2 operation
      ! A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n hermitian matrix, supplied in packed form.
+
      subroutine stdlib_chpr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2529,6 +2567,7 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_chpr2
      end subroutine stdlib_chpr2
+
      ! !
      ! The computation uses the formulas
      ! |x| = sqrt( Re(x)**2 + Im(x)**2 )
@@ -2543,6 +2582,7 @@ module stdlib_linalg_blas_c
      ! the same as in SROTG when |a| > |b|.  When |b| >= |a|, the
      ! sign of c and s will be different from those computed by SROTG
      ! if the signs of a and b are not the same.
+
      subroutine stdlib_crotg( a, b, c, s )
         integer, parameter :: wp = kind(1.e0)
         ! -- reference blas level1 routine --
@@ -2652,7 +2692,9 @@ module stdlib_linalg_blas_c
         a = r
         return
      end subroutine stdlib_crotg
+
      ! CSCAL scales a vector by a constant.
+
      subroutine stdlib_cscal(n,ca,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2681,9 +2723,11 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cscal
      end subroutine stdlib_cscal
+
      ! CSROT applies a plane rotation, where the cos and sin (c and s) are real
      ! and the vectors cx and cy are complex.
      ! jack dongarra, linpack, 3/11/78.
+
      subroutine stdlib_csrot( n, cx, incx, cy, incy, c, s )
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2724,7 +2768,9 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_csrot
      end subroutine stdlib_csrot
+
      ! CSSCAL scales a complex vector by a real constant.
+
      subroutine stdlib_csscal(n,sa,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2755,7 +2801,9 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_csscal
      end subroutine stdlib_csscal
+
      ! CSWAP interchanges two vectors.
+
      subroutine stdlib_cswap(n,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2794,12 +2842,14 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_cswap
      end subroutine stdlib_cswap
+
      ! CSYMM  performs one of the matrix-matrix operations
      ! C := alpha*A*B + beta*C,
      ! or
      ! C := alpha*B*A + beta*C,
      ! where  alpha and beta are scalars, A is a symmetric matrix and  B and
      ! C are m by n matrices.
+
      subroutine stdlib_csymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2946,6 +2996,7 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_csymm
      end subroutine stdlib_csymm
+
      ! CSYR2K  performs one of the symmetric rank 2k operations
      ! C := alpha*A*B**T + alpha*B*A**T + beta*C,
      ! or
@@ -2953,6 +3004,7 @@ module stdlib_linalg_blas_c
      ! where  alpha and beta  are scalars,  C is an  n by n symmetric matrix
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
+
      subroutine stdlib_csyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3126,6 +3178,7 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_csyr2k
      end subroutine stdlib_csyr2k
+
      ! CSYRK  performs one of the symmetric rank k operations
      ! C := alpha*A*A**T + beta*C,
      ! or
@@ -3133,6 +3186,7 @@ module stdlib_linalg_blas_c
      ! where  alpha and beta  are scalars,  C is an  n by n symmetric matrix
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
+
      subroutine stdlib_csyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3298,10 +3352,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_csyrk
      end subroutine stdlib_csyrk
+
      ! CTBMV  performs one of the matrix-vector operations
      ! x := A*x,   or   x := A**T*x,   or   x := A**H*x,
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
+
      subroutine stdlib_ctbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3515,6 +3571,7 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_ctbmv
      end subroutine stdlib_ctbmv
+
      ! CTBSV  solves one of the systems of equations
      ! A*x = b,   or   A**T*x = b,   or   A**H*x = b,
      ! where b and x are n element vectors and A is an n by n unit, or
@@ -3522,6 +3579,7 @@ module stdlib_linalg_blas_c
      ! diagonals.
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
+
      subroutine stdlib_ctbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3735,10 +3793,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_ctbsv
      end subroutine stdlib_ctbsv
+
      ! CTPMV  performs one of the matrix-vector operations
      ! x := A*x,   or   x := A**T*x,   or   x := A**H*x,
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
+
      subroutine stdlib_ctpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -3955,12 +4015,14 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_ctpmv
      end subroutine stdlib_ctpmv
+
      ! CTPSV  solves one of the systems of equations
      ! A*x = b,   or   A**T*x = b,   or   A**H*x = b,
      ! where b and x are n element vectors and A is an n by n unit, or
      ! non-unit, upper or lower triangular matrix, supplied in packed form.
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
+
      subroutine stdlib_ctpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -4177,11 +4239,13 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_ctpsv
      end subroutine stdlib_ctpsv
+
      ! CTRMM  performs one of the matrix-matrix operations
      ! B := alpha*op( A )*B,   or   B := alpha*B*op( A )
      ! where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
+
      subroutine stdlib_ctrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -4423,10 +4487,12 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_ctrmm
      end subroutine stdlib_ctrmm
+
      ! CTRMV  performs one of the matrix-vector operations
      ! x := A*x,   or   x := A**T*x,   or   x := A**H*x,
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
+
      subroutine stdlib_ctrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -4623,12 +4689,14 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_ctrmv
      end subroutine stdlib_ctrmv
+
      ! CTRSM  solves one of the matrix equations
      ! op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
      ! where alpha is a scalar, X and B are m by n matrices, A is a unit, or
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
      ! The matrix X is overwritten on B.
+
      subroutine stdlib_ctrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -4892,12 +4960,14 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_ctrsm
      end subroutine stdlib_ctrsm
+
      ! CTRSV  solves one of the systems of equations
      ! A*x = b,   or   A**T*x = b,   or   A**H*x = b,
      ! where b and x are n element vectors and A is an n by n unit, or
      ! non-unit, upper or lower triangular matrix.
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
+
      subroutine stdlib_ctrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
