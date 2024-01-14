@@ -196,7 +196,28 @@ def function_in_module(initial,function_name):
    # PATCH: exclude functions
    # - with names ending in *x or *_extended, as they require external subroutines
    # which are not provided by the Fortran implementation
-   elif ((len(oname)>6 and oname.endswith('x')) or oname.endswith('extended')):
+   elif ((len(oname)>6 and oname.endswith('x')) or \
+         (len(oname)>6 and (oname.endswith('2') \
+                            and not oname.endswith('ladiv2')   \
+                            and not oname.endswith('geqrt2')   \
+                            and not oname.endswith('getrf2')   \
+                            and not oname.endswith('getrfnp2') \
+                            and not oname.endswith('tplqt2')   \
+                            and not oname.endswith('sytrs2')   \
+                            and not oname.endswith('orbdb2')   \
+                            and not oname.endswith('tpqrt2')   \
+                            and not oname.endswith('potrf2'))) or \
+         (len(oname)>6 and (oname.endswith('3') \
+                            and not oname.endswith('ladiv3')   \
+                            and not oname.endswith('geqrt3')   \
+                            and not oname.endswith('tpqrt3')   \
+                            and not oname.endswith('gelqt3')   \
+                            and not oname.endswith('orbdb3')   \
+                            and not oname.endswith('trevc3'))) \
+          or oname.endswith('extended') \
+          or oname.endswith('ssytri2') \
+          or oname.endswith('_2stage') \
+          or oname.endswith('ssysv_rk')):
        in_module = False
    elif initial[0].lower() in ['c','s','d','z'] :
        in_module = oname[0]==initial[0].lower()
@@ -358,8 +379,6 @@ def header_indentation(body):
 def heading_spaces(line):
     posts = line.lstrip(' ')
     nspaces = len(line)-len(posts)
-    print("line     <"+line+">")
-    print("stripped <"+posts+">")
     return nspaces
 
 # Adjust variable declaration
@@ -424,6 +443,14 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
            # If line is '!', just print a blank line
            fid.write(INDENT + "\n")
            continue
+
+       # Patches
+       find = [r'larfg\( n, a, a\( 1, min\( 2, n \) \), lda, t \)$']
+       repl = [r'larfg( n, a(1,1), a( 1, min( 2, n ) ), lda, t(1,1) )']
+
+       for j in range(len(find)):
+           line = re.sub(find[j],repl[j],line)
+
 
        mat = re.match(r'^\s*!', line)
        is_comment_line = bool(mat)
@@ -523,7 +550,6 @@ def line_read_and_preprocess(line,is_free_form,file_name):
     will_continue   = bool(re.match(r".*\S+.*&\s*!*.*$", processed.rstrip()))
 
     if will_continue and not is_dir: # remove what's right of the ampersand
-        print(re.sub(r'&.*\s*$','',processed).strip())
         processed = re.sub(r'&.*\s*$','',processed).strip()
 
     # Remove comments
@@ -760,7 +786,6 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
     # First of all, map which of these names are used as declared variables. In this case
     # do not replace their names
     whole_decl = '\n'.join(decl).lower()
-    print("... <"+name+"> find declarations..."+str(len(decl)))
     for j in range(len(old_names)):
         if bool(re.search(r"\b"+old_names[j]+r"\b",whole_decl)): is_declared[i] = True
         if "la_constants" in whole_decl: la_const = True
@@ -768,9 +793,7 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
     replacement = prefix+r'\g<0>'
 
 
-    print("... <"+name+"> merge text...")
     whole = '\n'.join(lines).lower()
-    print("... <"+name+"> rename declarations...")
     for j in range(len(old_names)):
         if is_declared[j]: continue
         old = len(whole)
@@ -785,20 +808,14 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
             if is_declared[j]: continue
             old = len(whole)
             whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
-#            if len(whole)>old:
-#                print("***match***" + la_names[j])
-#        print("***TEMPORARY STOP")
-#        exit(1)
 
     body = whole.split('\n')
 
     # Restore directive lines cases
-    print("... <"+name+"> restire directive lines...")
     for j in range(len(body)):
        if is_directive_line(body[j]): body[j] = lines[j]
 
     # Build dependency list
-    print("... <"+name+"> build deps...")
     dependency_list = []
     for j in range(len(old_names)):
         if is_found[j]:
@@ -1028,12 +1045,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            # Extract label
                            numbers = re.findall(r'\d+',line)
                            nspaces = len(line) - len(line.lstrip(' '))
-
-                           print(line[m_loop.end():])
-
-                           print(line)
-                           print("loop "+str(numbers[0])+" found, "+str(nspaces)+" spaces")
-                           line = (" "*nspaces) + "loop_" + str(numbers[0]) + ": do " + line[m_loop.end():]
+                           line    = (" "*nspaces) + "loop_" + str(numbers[0]) + ": do " + line[m_loop.end():]
 
                            open_loops.append(numbers[0])
                            loop_starts.append(nspaces)
@@ -1047,7 +1059,6 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            # This "go to" matches one of the current loops
                            if len(open_loops)>0:
                                if numbers[0] in open_loops:
-                                   print("goto "+str(numbers[0])+" found")
                                    nspaces = len(line) - len(line.lstrip(' '))
                                    left = line[:m_goto.start()]
                                    if len(left.strip())<=0:
@@ -1055,7 +1066,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                    else:
                                        line = line[:m_goto.start()] + "cycle loop_" + str(numbers[0])
 
-                                   print(line)
+                                   if DEBUG: print(line)
 
                        # End of labelled loop
                        if re.match(r'^\s+\d+\s+continue',line.lower()):
@@ -1065,12 +1076,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            # This "continue" matches loop
                            if len(open_loops)>0:
                                if open_loops[-1]==numbers[0]:
-                                   print("end loop "+str(numbers[0])+" found")
                                    loop_ID = open_loops.pop()
                                    nspaces = loop_starts.pop()
-                                   print(line)
-                                   line = (" "*nspaces) + "end do loop_" + str(loop_ID)
-                                   print(line)
+                                   line    = (" "*nspaces) + "end do loop_" + str(loop_ID)
 
                        # End of the function/subroutine: inside a module, it must contain its name
                        if     line.strip().upper()=="END" \
