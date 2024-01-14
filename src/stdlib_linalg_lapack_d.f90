@@ -434,6 +434,7 @@ module stdlib_linalg_lapack_d
      public :: stdlib_dsytri_rook
      public :: stdlib_dsytrs
      public :: stdlib_dsytrs2
+     public :: stdlib_dsytrs_3
      public :: stdlib_dsytrs_aa
      public :: stdlib_dsytrs_rook
      public :: stdlib_dtbcon
@@ -20344,6 +20345,167 @@ module stdlib_linalg_lapack_d
            return
            ! end of stdlib_dsytrs2
      end subroutine stdlib_dsytrs2
+
+     ! DSYTRS_3 solves a system of linear equations A * X = B with a real
+     ! symmetric matrix A using the factorization computed
+     ! by DSYTRF_RK or DSYTRF_BK:
+     ! A = P*U*D*(U**T)*(P**T) or A = P*L*D*(L**T)*(P**T),
+     ! where U (or L) is unit upper (or lower) triangular matrix,
+     ! U**T (or L**T) is the transpose of U (or L), P is a permutation
+     ! matrix, P**T is the transpose of P, and D is symmetric and block
+     ! diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+     ! This algorithm is using Level 3 BLAS.
+
+     subroutine stdlib_dsytrs_3( uplo, n, nrhs, a, lda, e, ipiv, b, ldb,info )
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           character :: uplo
+           integer(int32) :: info, lda, ldb, n, nrhs
+           ! .. array arguments ..
+           integer(int32) :: ipiv( * )
+           real(dp) :: a( lda, * ), b( ldb, * ), e( * )
+        ! =====================================================================
+           ! .. parameters ..
+           real(dp) :: one
+           parameter          ( one = 1.0_dp )
+           ! .. local scalars ..
+           logical(lk) :: upper
+           integer(int32) :: i, j, k, kp
+           real(dp) :: ak, akm1, akm1k, bk, bkm1, denom
+     
+     
+     
+           ! .. intrinsic functions ..
+           intrinsic :: abs, max
+           ! .. executable statements ..
+           info = 0
+           upper = stdlib_lsame( uplo, 'u' )
+           if( .not.upper .and. .not.stdlib_lsame( uplo, 'l' ) ) then
+              info = -1
+           else if( n<0 ) then
+              info = -2
+           else if( nrhs<0 ) then
+              info = -3
+           else if( lda<max( 1, n ) ) then
+              info = -5
+           else if( ldb<max( 1, n ) ) then
+              info = -9
+           end if
+           if( info/=0 ) then
+              call stdlib_xerbla( 'stdlib_dsytrs_3', -info )
+              return
+           end if
+           ! quick return if possible
+           if( n==0 .or. nrhs==0 )return
+           if( upper ) then
+              ! begin upper
+              ! solve a*x = b, where a = u*d*u**t.
+              ! p**t * b
+              ! interchange rows k and ipiv(k) of matrix b in the same order
+              ! that the formation order of ipiv(i) vector for upper case.
+              ! (we can do the simple loop over ipiv with decrement -1,
+              ! since the abs value of ipiv( i ) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = n, 1, -1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_dswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+              ! compute (u \p**t * b) -> b    [ (u \p**t * b) ]
+              call stdlib_dtrsm( 'l', 'u', 'n', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! compute d \ b -> b   [ d \ (u \p**t * b) ]
+              i = n
+              do while ( i>=1 )
+                 if( ipiv( i )>0 ) then
+                    call stdlib_dscal( nrhs, one / a( i, i ), b( i, 1 ), ldb )
+                 else if ( i>1 ) then
+                    akm1k = e( i )
+                    akm1 = a( i-1, i-1 ) / akm1k
+                    ak = a( i, i ) / akm1k
+                    denom = akm1*ak - one
+                    do j = 1, nrhs
+                       bkm1 = b( i-1, j ) / akm1k
+                       bk = b( i, j ) / akm1k
+                       b( i-1, j ) = ( ak*bkm1-bk ) / denom
+                       b( i, j ) = ( akm1*bk-bkm1 ) / denom
+                    end do
+                    i = i - 1
+                 end if
+                 i = i - 1
+              end do
+              ! compute (u**t \ b) -> b   [ u**t \ (d \ (u \p**t * b) ) ]
+              call stdlib_dtrsm( 'l', 'u', 't', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! p * b  [ p * (u**t \ (d \ (u \p**t * b) )) ]
+              ! interchange rows k and ipiv(k) of matrix b in reverse order
+              ! from the formation order of ipiv(i) vector for upper case.
+              ! (we can do the simple loop over ipiv with increment 1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = 1, n
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_dswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+           else
+              ! begin lower
+              ! solve a*x = b, where a = l*d*l**t.
+              ! p**t * b
+              ! interchange rows k and ipiv(k) of matrix b in the same order
+              ! that the formation order of ipiv(i) vector for lower case.
+              ! (we can do the simple loop over ipiv with increment 1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = 1, n
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_dswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+              ! compute (l \p**t * b) -> b    [ (l \p**t * b) ]
+              call stdlib_dtrsm( 'l', 'l', 'n', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! compute d \ b -> b   [ d \ (l \p**t * b) ]
+              i = 1
+              do while ( i<=n )
+                 if( ipiv( i )>0 ) then
+                    call stdlib_dscal( nrhs, one / a( i, i ), b( i, 1 ), ldb )
+                 else if( i<n ) then
+                    akm1k = e( i )
+                    akm1 = a( i, i ) / akm1k
+                    ak = a( i+1, i+1 ) / akm1k
+                    denom = akm1*ak - one
+                    do  j = 1, nrhs
+                       bkm1 = b( i, j ) / akm1k
+                       bk = b( i+1, j ) / akm1k
+                       b( i, j ) = ( ak*bkm1-bk ) / denom
+                       b( i+1, j ) = ( akm1*bk-bkm1 ) / denom
+                    end do
+                    i = i + 1
+                 end if
+                 i = i + 1
+              end do
+              ! compute (l**t \ b) -> b   [ l**t \ (d \ (l \p**t * b) ) ]
+              call stdlib_dtrsm('l', 'l', 't', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! p * b  [ p * (l**t \ (d \ (l \p**t * b) )) ]
+              ! interchange rows k and ipiv(k) of matrix b in reverse order
+              ! from the formation order of ipiv(i) vector for lower case.
+              ! (we can do the simple loop over ipiv with decrement -1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = n, 1, -1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_dswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+              ! end lower
+           end if
+           return
+           ! end of stdlib_dsytrs_3
+     end subroutine stdlib_dsytrs_3
 
      ! DSYTRS_AA solves a system of linear equations A*X = B with a real
      ! symmetric matrix A using the factorization A = U**T*T*U or

@@ -375,6 +375,7 @@ module stdlib_linalg_lapack_c
      public :: stdlib_csytri_rook
      public :: stdlib_csytrs
      public :: stdlib_csytrs2
+     public :: stdlib_csytrs_3
      public :: stdlib_csytrs_aa
      public :: stdlib_csytrs_rook
      public :: stdlib_ctbcon
@@ -2790,10 +2791,6 @@ module stdlib_linalg_lapack_c
            integer(int32) :: i, ii, imax, itemp, j, jmax, k, kk, kp, kstep,p
            real(sp) :: absakk, alpha, colmax, d, d11, d22, r1, stemp,rowmax, tt, sfmin
            complex(sp) :: d12, d21, t, wk, wkm1, wkp1, z
-           logical(lk) :: stdlib_lsame
-           integer(int32) :: stdlib_icamax
-           real(sp) :: stdlib_slamch, stdlib_slapy2
-     
      
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, real, sqrt
@@ -3319,10 +3316,6 @@ module stdlib_linalg_lapack_c
            integer(int32) :: i, ii, imax, itemp, j, jmax, k, kk, kp, kstep,p
            real(sp) :: absakk, alpha, colmax, d, d11, d22, r1, stemp,rowmax, tt, sfmin
            complex(sp) :: d12, d21, t, wk, wkm1, wkp1, z
-           logical(lk) :: stdlib_lsame
-           integer(int32) :: stdlib_icamax
-           real(sp) :: stdlib_slamch, stdlib_slapy2
-     
      
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, real, sqrt
@@ -5977,7 +5970,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: res( n, nrhs )
         ! =====================================================================
            ! .. local scalars ..
-           real(sp) :: tmp
+           real(sp) :: tmp, safe1
            integer(int32) :: i, j
            complex(sp) :: cdum
            ! .. intrinsic functions ..
@@ -23587,6 +23580,167 @@ module stdlib_linalg_lapack_c
            ! end of stdlib_csytrs2
      end subroutine stdlib_csytrs2
 
+     ! CSYTRS_3 solves a system of linear equations A * X = B with a complex
+     ! symmetric matrix A using the factorization computed
+     ! by CSYTRF_RK or CSYTRF_BK:
+     ! A = P*U*D*(U**T)*(P**T) or A = P*L*D*(L**T)*(P**T),
+     ! where U (or L) is unit upper (or lower) triangular matrix,
+     ! U**T (or L**T) is the transpose of U (or L), P is a permutation
+     ! matrix, P**T is the transpose of P, and D is symmetric and block
+     ! diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+     ! This algorithm is using Level 3 BLAS.
+
+     subroutine stdlib_csytrs_3( uplo, n, nrhs, a, lda, e, ipiv, b, ldb,info )
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           character :: uplo
+           integer(int32) :: info, lda, ldb, n, nrhs
+           ! .. array arguments ..
+           integer(int32) :: ipiv( * )
+           complex(sp) :: a( lda, * ), b( ldb, * ), e( * )
+        ! =====================================================================
+           ! .. parameters ..
+           complex(sp) :: one
+           parameter          ( one = ( 1.0_sp,0.0_sp ) )
+           ! .. local scalars ..
+           logical(lk) :: upper
+           integer(int32) :: i, j, k, kp
+           complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
+     
+     
+     
+           ! .. intrinsic functions ..
+           intrinsic :: abs, max
+           ! .. executable statements ..
+           info = 0
+           upper = stdlib_lsame( uplo, 'u' )
+           if( .not.upper .and. .not.stdlib_lsame( uplo, 'l' ) ) then
+              info = -1
+           else if( n<0 ) then
+              info = -2
+           else if( nrhs<0 ) then
+              info = -3
+           else if( lda<max( 1, n ) ) then
+              info = -5
+           else if( ldb<max( 1, n ) ) then
+              info = -9
+           end if
+           if( info/=0 ) then
+              call stdlib_xerbla( 'stdlib_csytrs_3', -info )
+              return
+           end if
+           ! quick return if possible
+           if( n==0 .or. nrhs==0 )return
+           if( upper ) then
+              ! begin upper
+              ! solve a*x = b, where a = u*d*u**t.
+              ! p**t * b
+              ! interchange rows k and ipiv(k) of matrix b in the same order
+              ! that the formation order of ipiv(i) vector for upper case.
+              ! (we can do the simple loop over ipiv with decrement -1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = n, 1, -1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_cswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+              ! compute (u \p**t * b) -> b    [ (u \p**t * b) ]
+              call stdlib_ctrsm( 'l', 'u', 'n', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! compute d \ b -> b   [ d \ (u \p**t * b) ]
+              i = n
+              do while ( i>=1 )
+                 if( ipiv( i )>0 ) then
+                    call stdlib_cscal( nrhs, one / a( i, i ), b( i, 1 ), ldb )
+                 else if ( i>1 ) then
+                    akm1k = e( i )
+                    akm1 = a( i-1, i-1 ) / akm1k
+                    ak = a( i, i ) / akm1k
+                    denom = akm1*ak - one
+                    do j = 1, nrhs
+                       bkm1 = b( i-1, j ) / akm1k
+                       bk = b( i, j ) / akm1k
+                       b( i-1, j ) = ( ak*bkm1-bk ) / denom
+                       b( i, j ) = ( akm1*bk-bkm1 ) / denom
+                    end do
+                    i = i - 1
+                 end if
+                 i = i - 1
+              end do
+              ! compute (u**t \ b) -> b   [ u**t \ (d \ (u \p**t * b) ) ]
+              call stdlib_ctrsm( 'l', 'u', 't', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! p * b  [ p * (u**t \ (d \ (u \p**t * b) )) ]
+              ! interchange rows k and ipiv(k) of matrix b in reverse order
+              ! from the formation order of ipiv(i) vector for upper case.
+              ! (we can do the simple loop over ipiv with increment 1,
+              ! since the abs value of ipiv( i ) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = 1, n, 1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_cswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+           else
+              ! begin lower
+              ! solve a*x = b, where a = l*d*l**t.
+              ! p**t * b
+              ! interchange rows k and ipiv(k) of matrix b in the same order
+              ! that the formation order of ipiv(i) vector for lower case.
+              ! (we can do the simple loop over ipiv with increment 1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = 1, n, 1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_cswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+              ! compute (l \p**t * b) -> b    [ (l \p**t * b) ]
+              call stdlib_ctrsm( 'l', 'l', 'n', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! compute d \ b -> b   [ d \ (l \p**t * b) ]
+              i = 1
+              do while ( i<=n )
+                 if( ipiv( i )>0 ) then
+                    call stdlib_cscal( nrhs, one / a( i, i ), b( i, 1 ), ldb )
+                 else if( i<n ) then
+                    akm1k = e( i )
+                    akm1 = a( i, i ) / akm1k
+                    ak = a( i+1, i+1 ) / akm1k
+                    denom = akm1*ak - one
+                    do  j = 1, nrhs
+                       bkm1 = b( i, j ) / akm1k
+                       bk = b( i+1, j ) / akm1k
+                       b( i, j ) = ( ak*bkm1-bk ) / denom
+                       b( i+1, j ) = ( akm1*bk-bkm1 ) / denom
+                    end do
+                    i = i + 1
+                 end if
+                 i = i + 1
+              end do
+              ! compute (l**t \ b) -> b   [ l**t \ (d \ (l \p**t * b) ) ]
+              call stdlib_ctrsm('l', 'l', 't', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! p * b  [ p * (l**t \ (d \ (l \p**t * b) )) ]
+              ! interchange rows k and ipiv(k) of matrix b in reverse order
+              ! from the formation order of ipiv(i) vector for lower case.
+              ! (we can do the simple loop over ipiv with decrement -1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = n, 1, -1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_cswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+              ! end lower
+           end if
+           return
+           ! end of stdlib_csytrs_3
+     end subroutine stdlib_csytrs_3
+
      ! CSYTRS_AA solves a system of linear equations A*X = B with a complex
      ! symmetric matrix A using the factorization A = U**T*T*U or
      ! A = L*T*L**T computed by CSYTRF_AA.
@@ -38672,7 +38826,7 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(int32) :: ncols, i, j, k, kp
            real(sp) :: amax, umax, rpvgrw, tmp
-           logical(lk) :: upper, stdlib_lsame
+           logical(lk) :: upper
            complex(sp) :: zdum
      
            ! .. intrinsic functions ..
@@ -58760,7 +58914,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_chetrs( uplo, n, nrhs, a, lda, ipiv, b, ldb, info )
               else
               ! solve with trs2 ( use level blas 3)
-                 call stdlib_chetrs2( uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info )
+!                 call stdlib_chetrs2( uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info )
               end if
            end if
            work( 1 ) = lwkopt
@@ -58839,7 +58993,7 @@ module stdlib_linalg_lapack_c
            call stdlib_chetrf_rk( uplo, n, a, lda, e, ipiv, work, lwork, info )
            if( info==0 ) then
               ! solve the system a*x = b with blas3 solver, overwriting b with x.
-              call stdlib_chetrs_3( uplo, n, nrhs, a, lda, e, ipiv, b, ldb, info )
+!              call stdlib_chetrs_3( uplo, n, nrhs, a, lda, e, ipiv, b, ldb, info )
            end if
            work( 1 ) = lwkopt
            return
@@ -63927,8 +64081,8 @@ module stdlib_linalg_lapack_c
                            1), -1, childinfo )
                  lbbcsd = int( rwork(1) )
               else if( r == p ) then
-                 call stdlib_cunbdb2( m, p, q, x11, ldx11, x21, ldx21, theta, dum,cdum, cdum, &
-                           cdum, work(1), -1, childinfo )
+!                 call stdlib_cunbdb2( m, p, q, x11, ldx11, x21, ldx21, theta, dum,cdum, cdum, &
+!                           cdum, work(1), -1, childinfo )
                  lorbdb = int( work(1) )
                  if( wantu1 .and. p > 0 ) then
                     call stdlib_cungqr( p-1, p-1, p-1, u1(2,2), ldu1, cdum, work(1),-1, childinfo &
@@ -63952,8 +64106,8 @@ module stdlib_linalg_lapack_c
                            1), -1, childinfo )
                  lbbcsd = int( rwork(1) )
               else if( r == m-p ) then
-                 call stdlib_cunbdb3( m, p, q, x11, ldx11, x21, ldx21, theta, dum,cdum, cdum, &
-                           cdum, work(1), -1, childinfo )
+!                 call stdlib_cunbdb3( m, p, q, x11, ldx11, x21, ldx21, theta, dum,cdum, cdum, &
+!                           cdum, work(1), -1, childinfo )
                  lorbdb = int( work(1) )
                  if( wantu1 .and. p > 0 ) then
                     call stdlib_cungqr( p, p, q, u1, ldu1, cdum, work(1), -1,childinfo )
@@ -64068,8 +64222,8 @@ module stdlib_linalg_lapack_c
            else if( r == p ) then
               ! case 2: r = p
               ! simultaneously bidiagonalize x11 and x21
-              call stdlib_cunbdb2( m, p, q, x11, ldx11, x21, ldx21, theta,rwork(iphi), work(&
-                        itaup1), work(itaup2),work(itauq1), work(iorbdb), lorbdb, childinfo )
+!              call stdlib_cunbdb2( m, p, q, x11, ldx11, x21, ldx21, theta,rwork(iphi), work(&
+!                        itaup1), work(itaup2),work(itauq1), work(iorbdb), lorbdb, childinfo )
               ! accumulate householder reflectors
               if( wantu1 .and. p > 0 ) then
                  u1(1,1) = one
@@ -64110,8 +64264,8 @@ module stdlib_linalg_lapack_c
            else if( r == m-p ) then
               ! case 3: r = m-p
               ! simultaneously bidiagonalize x11 and x21
-              call stdlib_cunbdb3( m, p, q, x11, ldx11, x21, ldx21, theta,rwork(iphi), work(&
-                        itaup1), work(itaup2),work(itauq1), work(iorbdb), lorbdb, childinfo )
+!              call stdlib_cunbdb3( m, p, q, x11, ldx11, x21, ldx21, theta,rwork(iphi), work(&
+!                        itaup1), work(itaup2),work(itauq1), work(iorbdb), lorbdb, childinfo )
               ! accumulate householder reflectors
               if( wantu1 .and. p > 0 ) then
                  call stdlib_clacpy( 'l', p, q, x11, ldx11, u1, ldu1 )
@@ -76703,17 +76857,6 @@ module stdlib_linalg_lapack_c
                      upper
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, conjg, real, sign, sqrt
-     
-     
-     
-     
-     
-           real(sp) :: stdlib_slamch
-     
-           logical(lk) :: stdlib_lsame
-     
-     
-     
      
            ! .. executable statements ..
            ! test the input arguments

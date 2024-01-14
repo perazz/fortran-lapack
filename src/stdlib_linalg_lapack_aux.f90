@@ -72,27 +72,27 @@ module stdlib_linalg_lapack_aux
             implicit none 
             real(dp), intent(in) :: alphar,alphai 
         end function stdlib_select_d 
-        logical(lk) function stdlib_selctg_c(alphar,alphai,beta) 
+        logical(lk) function stdlib_selctg_c(alpha,beta) 
             import sp,dp,lk 
             implicit none 
-            complex(sp), intent(in) :: alphar,alphai,beta 
+            complex(sp), intent(in) :: alpha,beta 
         end function stdlib_selctg_c 
 
-        logical(lk) function stdlib_select_c(alphar,alphai) 
+        logical(lk) function stdlib_select_c(alpha) 
             import sp,dp,lk 
             implicit none 
-            complex(sp), intent(in) :: alphar,alphai 
+            complex(sp), intent(in) :: alpha 
         end function stdlib_select_c 
-        logical(lk) function stdlib_selctg_z(alphar,alphai,beta) 
+        logical(lk) function stdlib_selctg_z(alpha,beta) 
             import sp,dp,lk 
             implicit none 
-            complex(dp), intent(in) :: alphar,alphai,beta 
+            complex(dp), intent(in) :: alpha,beta 
         end function stdlib_selctg_z 
 
-        logical(lk) function stdlib_select_z(alphar,alphai) 
+        logical(lk) function stdlib_select_z(alpha) 
             import sp,dp,lk 
             implicit none 
-            complex(dp), intent(in) :: alphar,alphai 
+            complex(dp), intent(in) :: alpha 
         end function stdlib_select_z 
      end interface 
 

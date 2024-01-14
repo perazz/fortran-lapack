@@ -53,7 +53,9 @@ def patch_lapack_aux(fid,prefix,indent):
 
     for i in range(len(initials)):
         fid.write(INDENT + "public :: {prf}selctg_{int}\n".format(prf=prefix,int=initials[i]))
-        fid.write(INDENT + "public :: {prf}select_{int}\n\n".format(prf=prefix,int=initials[i]))
+        fid.write(INDENT + "public :: {prf}select_{int}\n".format(prf=prefix,int=initials[i]))
+
+    fid.write("\n")
 
 
     fid.write(INDENT + "! SELCTG is a LOGICAL FUNCTION of three DOUBLE PRECISION arguments \n")
@@ -61,16 +63,29 @@ def patch_lapack_aux(fid,prefix,indent):
     fid.write(INDENT + "! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., \n")
     fid.write(INDENT + "abstract interface \n")
     for i in range(len(initials)):
-        fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
-        fid.write(INDENT + "       import sp,dp,lk \n")
-        fid.write(INDENT + "       implicit none \n")
-        fid.write(INDENT + "       {}, intent(in) :: alphar,alphai,beta \n".format(datatypes[i]))
-        fid.write(INDENT + "   end function {prf}selctg_{int} \n\n".format(prf=prefix,int=initials[i]))
-        fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
-        fid.write(INDENT + "       import sp,dp,lk \n")
-        fid.write(INDENT + "       implicit none \n")
-        fid.write(INDENT + "       {}, intent(in) :: alphar,alphai \n".format(datatypes[i]))
-        fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
+        if (i<=1):
+            fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       implicit none \n")
+            fid.write(INDENT + "       {}, intent(in) :: alphar,alphai,beta \n".format(datatypes[i]))
+            fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       implicit none \n")
+            fid.write(INDENT + "       {}, intent(in) :: alphar,alphai \n".format(datatypes[i]))
+            fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
+        else:
+            fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alpha,beta) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       implicit none \n")
+            fid.write(INDENT + "       {}, intent(in) :: alpha,beta \n".format(datatypes[i]))
+            fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alpha) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       implicit none \n")
+            fid.write(INDENT + "       {}, intent(in) :: alpha \n".format(datatypes[i]))
+            fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
+
 
     fid.write(INDENT + "end interface \n\n")
 
@@ -231,7 +246,9 @@ def function_in_module(initial,function_name):
                             and not oname.endswith('getrfnp2') \
                             and not oname.endswith('tplqt2')   \
                             and not oname.endswith('sytrs2')   \
+                            and not oname.endswith('hetrs2')   \
                             and not oname.endswith('orbdb2')   \
+                            and not oname.endswith('unbdb2')   \
                             and not oname.endswith('tpqrt2')   \
                             and not oname.endswith('potrf2'))) or \
          (len(oname)>6 and (oname.endswith('3') \
@@ -240,7 +257,9 @@ def function_in_module(initial,function_name):
                             and not oname.endswith('tpqrt3')   \
                             and not oname.endswith('gelqt3')   \
                             and not oname.endswith('sytrs_3')  \
+                            and not oname.endswith('hetrs_3')  \
                             and not oname.endswith('orbdb3')   \
+                            and not oname.endswith('unbdb3')   \
                             and not oname.endswith('trevc3'))) \
           or oname.endswith('extended') \
           or oname.endswith('ssytri2') \
