@@ -150,6 +150,8 @@ module stdlib_linalg_lapack_z
      public :: stdlib_zhetri
      public :: stdlib_zhetri_rook
      public :: stdlib_zhetrs
+     public :: stdlib_zhetrs2
+     public :: stdlib_zhetrs_3
      public :: stdlib_zhetrs_aa
      public :: stdlib_zhetrs_rook
      public :: stdlib_zhfrk
@@ -425,6 +427,8 @@ module stdlib_linalg_lapack_z
      public :: stdlib_ztzrzf
      public :: stdlib_zunbdb
      public :: stdlib_zunbdb1
+     public :: stdlib_zunbdb2
+     public :: stdlib_zunbdb3
      public :: stdlib_zunbdb4
      public :: stdlib_zunbdb5
      public :: stdlib_zunbdb6
@@ -2862,10 +2866,6 @@ module stdlib_linalg_lapack_z
            integer(int32) :: i, ii, imax, itemp, j, jmax, k, kk, kp, kstep,p
            real(dp) :: absakk, alpha, colmax, d, d11, d22, r1, dtemp,rowmax, tt, sfmin
            complex(dp) :: d12, d21, t, wk, wkm1, wkp1, z
-           logical(lk) :: stdlib_lsame
-           integer(int32) :: stdlib_izamax
-           real(dp) :: stdlib_dlamch, stdlib_dlapy2
-     
      
            ! .. intrinsic functions ..
            intrinsic :: abs, dble, dcmplx, dconjg, dimag, max, sqrt
@@ -3391,10 +3391,6 @@ module stdlib_linalg_lapack_z
            integer(int32) :: i, ii, imax, itemp, j, jmax, k, kk, kp, kstep,p
            real(dp) :: absakk, alpha, colmax, d, d11, d22, r1, dtemp,rowmax, tt, sfmin
            complex(dp) :: d12, d21, t, wk, wkm1, wkp1, z
-           logical(lk) :: stdlib_lsame
-           integer(int32) :: stdlib_izamax
-           real(dp) :: stdlib_dlamch, stdlib_dlapy2
-     
      
            ! .. intrinsic functions ..
            intrinsic :: abs, dble, dcmplx, dconjg, dimag, max, sqrt
@@ -4336,6 +4332,170 @@ module stdlib_linalg_lapack_z
            return
            ! end of stdlib_zhetri_rook
      end subroutine stdlib_zhetri_rook
+
+     ! ZHETRS_3 solves a system of linear equations A * X = B with a complex
+     ! Hermitian matrix A using the factorization computed
+     ! by ZHETRF_RK or ZHETRF_BK:
+     ! A = P*U*D*(U**H)*(P**T) or A = P*L*D*(L**H)*(P**T),
+     ! where U (or L) is unit upper (or lower) triangular matrix,
+     ! U**H (or L**H) is the conjugate of U (or L), P is a permutation
+     ! matrix, P**T is the transpose of P, and D is Hermitian and block
+     ! diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+     ! This algorithm is using Level 3 BLAS.
+
+     subroutine stdlib_zhetrs_3( uplo, n, nrhs, a, lda, e, ipiv, b, ldb,info )
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           character :: uplo
+           integer(int32) :: info, lda, ldb, n, nrhs
+           ! .. array arguments ..
+           integer(int32) :: ipiv( * )
+           complex(dp) :: a( lda, * ), b( ldb, * ), e( * )
+        ! =====================================================================
+           ! .. parameters ..
+           complex(dp) :: one
+           parameter          ( one = ( 1.0_dp,0.0_dp ) )
+           ! .. local scalars ..
+           logical(lk) :: upper
+           integer(int32) :: i, j, k, kp
+           real(dp) :: s
+           complex(dp) :: ak, akm1, akm1k, bk, bkm1, denom
+     
+     
+     
+           ! .. intrinsic functions ..
+           intrinsic :: abs, dble, dconjg, max
+           ! .. executable statements ..
+           info = 0
+           upper = stdlib_lsame( uplo, 'u' )
+           if( .not.upper .and. .not.stdlib_lsame( uplo, 'l' ) ) then
+              info = -1
+           else if( n<0 ) then
+              info = -2
+           else if( nrhs<0 ) then
+              info = -3
+           else if( lda<max( 1, n ) ) then
+              info = -5
+           else if( ldb<max( 1, n ) ) then
+              info = -9
+           end if
+           if( info/=0 ) then
+              call stdlib_xerbla( 'stdlib_zhetrs_3', -info )
+              return
+           end if
+           ! quick return if possible
+           if( n==0 .or. nrhs==0 )return
+           if( upper ) then
+              ! begin upper
+              ! solve a*x = b, where a = u*d*u**h.
+              ! p**t * b
+              ! interchange rows k and ipiv(k) of matrix b in the same order
+              ! that the formation order of ipiv(i) vector for upper case.
+              ! (we can do the simple loop over ipiv with decrement -1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = n, 1, -1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+              ! compute (u \p**t * b) -> b    [ (u \p**t * b) ]
+              call stdlib_ztrsm( 'l', 'u', 'n', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! compute d \ b -> b   [ d \ (u \p**t * b) ]
+              i = n
+              do while ( i>=1 )
+                 if( ipiv( i )>0 ) then
+                    s = dble( one ) / dble( a( i, i ) )
+                    call stdlib_zdscal( nrhs, s, b( i, 1 ), ldb )
+                 else if ( i>1 ) then
+                    akm1k = e( i )
+                    akm1 = a( i-1, i-1 ) / akm1k
+                    ak = a( i, i ) / dconjg( akm1k )
+                    denom = akm1*ak - one
+                    do j = 1, nrhs
+                       bkm1 = b( i-1, j ) / akm1k
+                       bk = b( i, j ) / dconjg( akm1k )
+                       b( i-1, j ) = ( ak*bkm1-bk ) / denom
+                       b( i, j ) = ( akm1*bk-bkm1 ) / denom
+                    end do
+                    i = i - 1
+                 end if
+                 i = i - 1
+              end do
+              ! compute (u**h \ b) -> b   [ u**h \ (d \ (u \p**t * b) ) ]
+              call stdlib_ztrsm( 'l', 'u', 'c', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! p * b  [ p * (u**h \ (d \ (u \p**t * b) )) ]
+              ! interchange rows k and ipiv(k) of matrix b in reverse order
+              ! from the formation order of ipiv(i) vector for upper case.
+              ! (we can do the simple loop over ipiv with increment 1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = 1, n, 1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+           else
+              ! begin lower
+              ! solve a*x = b, where a = l*d*l**h.
+              ! p**t * b
+              ! interchange rows k and ipiv(k) of matrix b in the same order
+              ! that the formation order of ipiv(i) vector for lower case.
+              ! (we can do the simple loop over ipiv with increment 1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = 1, n, 1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+              ! compute (l \p**t * b) -> b    [ (l \p**t * b) ]
+              call stdlib_ztrsm( 'l', 'l', 'n', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! compute d \ b -> b   [ d \ (l \p**t * b) ]
+              i = 1
+              do while ( i<=n )
+                 if( ipiv( i )>0 ) then
+                    s = dble( one ) / dble( a( i, i ) )
+                    call stdlib_zdscal( nrhs, s, b( i, 1 ), ldb )
+                 else if( i<n ) then
+                    akm1k = e( i )
+                    akm1 = a( i, i ) / dconjg( akm1k )
+                    ak = a( i+1, i+1 ) / akm1k
+                    denom = akm1*ak - one
+                    do  j = 1, nrhs
+                       bkm1 = b( i, j ) / dconjg( akm1k )
+                       bk = b( i+1, j ) / akm1k
+                       b( i, j ) = ( ak*bkm1-bk ) / denom
+                       b( i+1, j ) = ( akm1*bk-bkm1 ) / denom
+                    end do
+                    i = i + 1
+                 end if
+                 i = i + 1
+              end do
+              ! compute (l**h \ b) -> b   [ l**h \ (d \ (l \p**t * b) ) ]
+              call stdlib_ztrsm('l', 'l', 'c', 'u', n, nrhs, one, a, lda, b, ldb )
+              ! p * b  [ p * (l**h \ (d \ (l \p**t * b) )) ]
+              ! interchange rows k and ipiv(k) of matrix b in reverse order
+              ! from the formation order of ipiv(i) vector for lower case.
+              ! (we can do the simple loop over ipiv with decrement -1,
+              ! since the abs value of ipiv(i) represents the row index
+              ! of the interchange with row i in both 1x1 and 2x2 pivot cases)
+              do k = n, 1, -1
+                 kp = abs( ipiv( k ) )
+                 if( kp/=k ) then
+                    call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 end if
+              end do
+              ! end lower
+           end if
+           return
+           ! end of stdlib_zhetrs_3
+     end subroutine stdlib_zhetrs_3
 
      ! Level 3 BLAS like routine for C in RFP Format.
      ! ZHFRK performs one of the Hermitian rank--k operations
@@ -6018,13 +6178,11 @@ module stdlib_linalg_lapack_z
            complex(dp) :: res( n, nrhs )
         ! =====================================================================
            ! .. local scalars ..
-           real(dp) :: tmp
+           real(dp) :: tmp, safe1
            integer(int32) :: i, j
            complex(dp) :: cdum
            ! .. intrinsic functions ..
            intrinsic :: abs, real, dimag, max
-     
-     
      
            ! .. statement functions ..
            complex(dp) :: cabs1
@@ -38006,6 +38164,191 @@ module stdlib_linalg_lapack_z
            ! end of stdlib_zhetrs
      end subroutine stdlib_zhetrs
 
+     ! ZHETRS2 solves a system of linear equations A*X = B with a complex
+     ! Hermitian matrix A using the factorization A = U*D*U**H or
+     ! A = L*D*L**H computed by ZHETRF and converted by ZSYCONV.
+
+     subroutine stdlib_zhetrs2( uplo, n, nrhs, a, lda, ipiv, b, ldb,work, info )
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           character :: uplo
+           integer(int32) :: info, lda, ldb, n, nrhs
+           ! .. array arguments ..
+           integer(int32) :: ipiv( * )
+           complex(dp) :: a( lda, * ), b( ldb, * ), work( * )
+        ! =====================================================================
+           ! .. parameters ..
+           complex(dp) :: one
+           parameter          ( one = (1.0_dp,0.0_dp) )
+           ! .. local scalars ..
+           logical(lk) :: upper
+           integer(int32) :: i, iinfo, j, k, kp
+           real(dp) :: s
+           complex(dp) :: ak, akm1, akm1k, bk, bkm1, denom
+     
+     
+     
+           ! .. intrinsic functions ..
+           intrinsic :: dble, dconjg, max
+           ! .. executable statements ..
+           info = 0
+           upper = stdlib_lsame( uplo, 'u' )
+           if( .not.upper .and. .not.stdlib_lsame( uplo, 'l' ) ) then
+              info = -1
+           else if( n<0 ) then
+              info = -2
+           else if( nrhs<0 ) then
+              info = -3
+           else if( lda<max( 1, n ) ) then
+              info = -5
+           else if( ldb<max( 1, n ) ) then
+              info = -8
+           end if
+           if( info/=0 ) then
+              call stdlib_xerbla( 'stdlib_zhetrs2', -info )
+              return
+           end if
+           ! quick return if possible
+           if( n==0 .or. nrhs==0 )return
+           ! convert a
+           call stdlib_zsyconv( uplo, 'c', n, a, lda, ipiv, work, iinfo )
+           if( upper ) then
+              ! solve a*x = b, where a = u*d*u**h.
+             ! p**t * b
+             k=n
+             do while ( k >= 1 )
+              if( ipiv( k )>0 ) then
+                 ! 1 x 1 diagonal block
+                 ! interchange rows k and ipiv(k).
+                 kp = ipiv( k )
+                 if( kp/=k )call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 k=k-1
+              else
+                 ! 2 x 2 diagonal block
+                 ! interchange rows k-1 and -ipiv(k).
+                 kp = -ipiv( k )
+                 if( kp==-ipiv( k-1 ) )call stdlib_zswap( nrhs, b( k-1, 1 ), ldb, b( kp, 1 ), ldb &
+                           )
+                 k=k-2
+              end if
+             end do
+        ! compute (u \p**t * b) -> b    [ (u \p**t * b) ]
+             call stdlib_ztrsm('l','u','n','u',n,nrhs,one,a,lda,b,ldb)
+        ! compute d \ b -> b   [ d \ (u \p**t * b) ]
+              i=n
+              do while ( i >= 1 )
+                 if( ipiv(i) > 0 ) then
+                   s = dble( one ) / dble( a( i, i ) )
+                   call stdlib_zdscal( nrhs, s, b( i, 1 ), ldb )
+                 elseif ( i > 1) then
+                    if ( ipiv(i-1) == ipiv(i) ) then
+                       akm1k = work(i)
+                       akm1 = a( i-1, i-1 ) / akm1k
+                       ak = a( i, i ) / dconjg( akm1k )
+                       denom = akm1*ak - one
+                       loop_15: do j = 1, nrhs
+                          bkm1 = b( i-1, j ) / akm1k
+                          bk = b( i, j ) / dconjg( akm1k )
+                          b( i-1, j ) = ( ak*bkm1-bk ) / denom
+                          b( i, j ) = ( akm1*bk-bkm1 ) / denom
+                       end do loop_15
+                    i = i - 1
+                    endif
+                 endif
+                 i = i - 1
+              end do
+            ! compute (u**h \ b) -> b   [ u**h \ (d \ (u \p**t * b) ) ]
+              call stdlib_ztrsm('l','u','c','u',n,nrhs,one,a,lda,b,ldb)
+             ! p * b  [ p * (u**h \ (d \ (u \p**t * b) )) ]
+             k=1
+             do while ( k <= n )
+              if( ipiv( k )>0 ) then
+                 ! 1 x 1 diagonal block
+                 ! interchange rows k and ipiv(k).
+                 kp = ipiv( k )
+                 if( kp/=k )call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 k=k+1
+              else
+                 ! 2 x 2 diagonal block
+                 ! interchange rows k-1 and -ipiv(k).
+                 kp = -ipiv( k )
+                 if( k < n .and. kp==-ipiv( k+1 ) )call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp,&
+                            1 ), ldb )
+                 k=k+2
+              endif
+             end do
+           else
+              ! solve a*x = b, where a = l*d*l**h.
+             ! p**t * b
+             k=1
+             do while ( k <= n )
+              if( ipiv( k )>0 ) then
+                 ! 1 x 1 diagonal block
+                 ! interchange rows k and ipiv(k).
+                 kp = ipiv( k )
+                 if( kp/=k )call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 k=k+1
+              else
+                 ! 2 x 2 diagonal block
+                 ! interchange rows k and -ipiv(k+1).
+                 kp = -ipiv( k+1 )
+                 if( kp==-ipiv( k ) )call stdlib_zswap( nrhs, b( k+1, 1 ), ldb, b( kp, 1 ), ldb )
+                           
+                 k=k+2
+              endif
+             end do
+        ! compute (l \p**t * b) -> b    [ (l \p**t * b) ]
+             call stdlib_ztrsm('l','l','n','u',n,nrhs,one,a,lda,b,ldb)
+        ! compute d \ b -> b   [ d \ (l \p**t * b) ]
+              i=1
+              do while ( i <= n )
+                 if( ipiv(i) > 0 ) then
+                   s = dble( one ) / dble( a( i, i ) )
+                   call stdlib_zdscal( nrhs, s, b( i, 1 ), ldb )
+                 else
+                       akm1k = work(i)
+                       akm1 = a( i, i ) / dconjg( akm1k )
+                       ak = a( i+1, i+1 ) / akm1k
+                       denom = akm1*ak - one
+                       loop_25: do j = 1, nrhs
+                          bkm1 = b( i, j ) / dconjg( akm1k )
+                          bk = b( i+1, j ) / akm1k
+                          b( i, j ) = ( ak*bkm1-bk ) / denom
+                          b( i+1, j ) = ( akm1*bk-bkm1 ) / denom
+                       end do loop_25
+                       i = i + 1
+                 endif
+                 i = i + 1
+              end do
+        ! compute (l**h \ b) -> b   [ l**h \ (d \ (l \p**t * b) ) ]
+             call stdlib_ztrsm('l','l','c','u',n,nrhs,one,a,lda,b,ldb)
+             ! p * b  [ p * (l**h \ (d \ (l \p**t * b) )) ]
+             k=n
+             do while ( k >= 1 )
+              if( ipiv( k )>0 ) then
+                 ! 1 x 1 diagonal block
+                 ! interchange rows k and ipiv(k).
+                 kp = ipiv( k )
+                 if( kp/=k )call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp, 1 ), ldb )
+                 k=k-1
+              else
+                 ! 2 x 2 diagonal block
+                 ! interchange rows k-1 and -ipiv(k).
+                 kp = -ipiv( k )
+                 if( k>1 .and. kp==-ipiv( k-1 ) )call stdlib_zswap( nrhs, b( k, 1 ), ldb, b( kp, &
+                           1 ), ldb )
+                 k=k-2
+              endif
+             end do
+           end if
+           ! revert a
+           call stdlib_zsyconv( uplo, 'r', n, a, lda, ipiv, work, iinfo )
+           return
+           ! end of stdlib_zhetrs2
+     end subroutine stdlib_zhetrs2
+
      ! ZHETRS_AA solves a system of linear equations A*X = B with a complex
      ! hermitian matrix A using the factorization A = U**H*T*U or
      ! A = L*T*L**H computed by ZHETRF_AA.
@@ -39191,7 +39534,7 @@ module stdlib_linalg_lapack_z
            ! .. local scalars ..
            integer(int32) :: ncols, i, j, k, kp
            real(dp) :: amax, umax, rpvgrw, tmp
-           logical(lk) :: upper, stdlib_lsame
+           logical(lk) :: upper
            complex(dp) :: zdum
      
            ! .. intrinsic functions ..
@@ -64021,6 +64364,243 @@ module stdlib_linalg_lapack_z
            ! end of stdlib_zunbdb1
      end subroutine stdlib_zunbdb1
 
+     ! ZUNBDB2 simultaneously bidiagonalizes the blocks of a tall and skinny
+     ! matrix X with orthonomal columns:
+     ! [ B11 ]
+     ! [ X11 ]   [ P1 |    ] [  0  ]
+     ! [-----] = [---------] [-----] Q1**T .
+     ! [ X21 ]   [    | P2 ] [ B21 ]
+     ! [  0  ]
+     ! X11 is P-by-Q, and X21 is (M-P)-by-Q. P must be no larger than M-P,
+     ! Q, or M-Q. Routines ZUNBDB1, ZUNBDB3, and ZUNBDB4 handle cases in
+     ! which P is not the minimum dimension.
+     ! The unitary matrices P1, P2, and Q1 are P-by-P, (M-P)-by-(M-P),
+     ! and (M-Q)-by-(M-Q), respectively. They are represented implicitly by
+     ! Householder vectors.
+     ! B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
+     ! angles THETA, PHI.
+
+     subroutine stdlib_zunbdb2( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
+               work, lwork, info )
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           integer(int32) :: info, lwork, m, p, q, ldx11, ldx21
+           ! .. array arguments ..
+           real(dp) :: phi(*), theta(*)
+           complex(dp) :: taup1(*), taup2(*), tauq1(*), work(*),x11(ldx11,*), x21(ldx21,*)
+        ! ====================================================================
+           ! .. parameters ..
+           complex(dp) :: negone, one
+           parameter          ( negone = (-1.0d0,0.0d0),one = (1.0d0,0.0d0) )
+           ! .. local scalars ..
+           real(dp) :: c, s
+           integer(int32) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5,lworkmin, &
+                     lworkopt
+           logical(lk) :: lquery
+     
+     
+     
+           ! .. intrinsic function ..
+           intrinsic :: atan2, cos, max, sin, sqrt
+           ! .. executable statements ..
+           ! test input arguments
+           info = 0
+           lquery = lwork == -1
+           if( m < 0 ) then
+              info = -1
+           else if( p < 0 .or. p > m-p ) then
+              info = -2
+           else if( q < 0 .or. q < p .or. m-q < p ) then
+              info = -3
+           else if( ldx11 < max( 1, p ) ) then
+              info = -5
+           else if( ldx21 < max( 1, m-p ) ) then
+              info = -7
+           end if
+           ! compute workspace
+           if( info == 0 ) then
+              ilarf = 2
+              llarf = max( p-1, m-p, q-1 )
+              iorbdb5 = 2
+              lorbdb5 = q-1
+              lworkopt = max( ilarf+llarf-1, iorbdb5+lorbdb5-1 )
+              lworkmin = lworkopt
+              work(1) = lworkopt
+              if( lwork < lworkmin .and. .not.lquery ) then
+                info = -14
+              end if
+           end if
+           if( info /= 0 ) then
+              call stdlib_xerbla( 'stdlib_zunbdb2', -info )
+              return
+           else if( lquery ) then
+              return
+           end if
+           ! reduce rows 1, ..., p of x11 and x21
+           do i = 1, p
+              if( i > 1 ) then
+                 call stdlib_zdrot( q-i+1, x11(i,i), ldx11, x21(i-1,i), ldx21, c,s )
+              end if
+              call stdlib_zlacgv( q-i+1, x11(i,i), ldx11 )
+              call stdlib_zlarfgp( q-i+1, x11(i,i), x11(i,i+1), ldx11, tauq1(i) )
+              c = dble( x11(i,i) )
+              x11(i,i) = one
+              call stdlib_zlarf( 'r', p-i, q-i+1, x11(i,i), ldx11, tauq1(i),x11(i+1,i), ldx11, &
+                        work(ilarf) )
+              call stdlib_zlarf( 'r', m-p-i+1, q-i+1, x11(i,i), ldx11, tauq1(i),x21(i,i), ldx21, &
+                        work(ilarf) )
+              call stdlib_zlacgv( q-i+1, x11(i,i), ldx11 )
+              s = sqrt( stdlib_dznrm2( p-i, x11(i+1,i), 1 )**2+ stdlib_dznrm2( m-p-i+1, x21(i,i), &
+                        1 )**2 )
+              theta(i) = atan2( s, c )
+              call stdlib_zunbdb5( p-i, m-p-i+1, q-i, x11(i+1,i), 1, x21(i,i), 1,x11(i+1,i+1), &
+                        ldx11, x21(i,i+1), ldx21,work(iorbdb5), lorbdb5, childinfo )
+              call stdlib_zscal( p-i, negone, x11(i+1,i), 1 )
+              call stdlib_zlarfgp( m-p-i+1, x21(i,i), x21(i+1,i), 1, taup2(i) )
+              if( i < p ) then
+                 call stdlib_zlarfgp( p-i, x11(i+1,i), x11(i+2,i), 1, taup1(i) )
+                 phi(i) = atan2( dble( x11(i+1,i) ), dble( x21(i,i) ) )
+                 c = cos( phi(i) )
+                 s = sin( phi(i) )
+                 x11(i+1,i) = one
+                 call stdlib_zlarf( 'l', p-i, q-i, x11(i+1,i), 1, dconjg(taup1(i)),x11(i+1,i+1), &
+                           ldx11, work(ilarf) )
+              end if
+              x21(i,i) = one
+              call stdlib_zlarf( 'l', m-p-i+1, q-i, x21(i,i), 1, dconjg(taup2(i)),x21(i,i+1), &
+                        ldx21, work(ilarf) )
+           end do
+           ! reduce the bottom-right portion of x21 to the identity matrix
+           do i = p + 1, q
+              call stdlib_zlarfgp( m-p-i+1, x21(i,i), x21(i+1,i), 1, taup2(i) )
+              x21(i,i) = one
+              call stdlib_zlarf( 'l', m-p-i+1, q-i, x21(i,i), 1, dconjg(taup2(i)),x21(i,i+1), &
+                        ldx21, work(ilarf) )
+           end do
+           return
+           ! end of stdlib_zunbdb2
+     end subroutine stdlib_zunbdb2
+
+     ! ZUNBDB3 simultaneously bidiagonalizes the blocks of a tall and skinny
+     ! matrix X with orthonomal columns:
+     ! [ B11 ]
+     ! [ X11 ]   [ P1 |    ] [  0  ]
+     ! [-----] = [---------] [-----] Q1**T .
+     ! [ X21 ]   [    | P2 ] [ B21 ]
+     ! [  0  ]
+     ! X11 is P-by-Q, and X21 is (M-P)-by-Q. M-P must be no larger than P,
+     ! Q, or M-Q. Routines ZUNBDB1, ZUNBDB2, and ZUNBDB4 handle cases in
+     ! which M-P is not the minimum dimension.
+     ! The unitary matrices P1, P2, and Q1 are P-by-P, (M-P)-by-(M-P),
+     ! and (M-Q)-by-(M-Q), respectively. They are represented implicitly by
+     ! Householder vectors.
+     ! B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
+     ! implicitly by angles THETA, PHI.
+
+     subroutine stdlib_zunbdb3( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
+               work, lwork, info )
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           integer(int32) :: info, lwork, m, p, q, ldx11, ldx21
+           ! .. array arguments ..
+           real(dp) :: phi(*), theta(*)
+           complex(dp) :: taup1(*), taup2(*), tauq1(*), work(*),x11(ldx11,*), x21(ldx21,*)
+        ! ====================================================================
+           ! .. parameters ..
+           complex(dp) :: one
+           parameter          ( one = (1.0d0,0.0d0) )
+           ! .. local scalars ..
+           real(dp) :: c, s
+           integer(int32) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5,lworkmin, &
+                     lworkopt
+           logical(lk) :: lquery
+     
+     
+     
+           ! .. intrinsic function ..
+           intrinsic :: atan2, cos, max, sin, sqrt
+           ! .. executable statements ..
+           ! test input arguments
+           info = 0
+           lquery = lwork == -1
+           if( m < 0 ) then
+              info = -1
+           else if( 2*p < m .or. p > m ) then
+              info = -2
+           else if( q < m-p .or. m-q < m-p ) then
+              info = -3
+           else if( ldx11 < max( 1, p ) ) then
+              info = -5
+           else if( ldx21 < max( 1, m-p ) ) then
+              info = -7
+           end if
+           ! compute workspace
+           if( info == 0 ) then
+              ilarf = 2
+              llarf = max( p, m-p-1, q-1 )
+              iorbdb5 = 2
+              lorbdb5 = q-1
+              lworkopt = max( ilarf+llarf-1, iorbdb5+lorbdb5-1 )
+              lworkmin = lworkopt
+              work(1) = lworkopt
+              if( lwork < lworkmin .and. .not.lquery ) then
+                info = -14
+              end if
+           end if
+           if( info /= 0 ) then
+              call stdlib_xerbla( 'stdlib_zunbdb3', -info )
+              return
+           else if( lquery ) then
+              return
+           end if
+           ! reduce rows 1, ..., m-p of x11 and x21
+           do i = 1, m-p
+              if( i > 1 ) then
+                 call stdlib_zdrot( q-i+1, x11(i-1,i), ldx11, x21(i,i), ldx11, c,s )
+              end if
+              call stdlib_zlacgv( q-i+1, x21(i,i), ldx21 )
+              call stdlib_zlarfgp( q-i+1, x21(i,i), x21(i,i+1), ldx21, tauq1(i) )
+              s = dble( x21(i,i) )
+              x21(i,i) = one
+              call stdlib_zlarf( 'r', p-i+1, q-i+1, x21(i,i), ldx21, tauq1(i),x11(i,i), ldx11, &
+                        work(ilarf) )
+              call stdlib_zlarf( 'r', m-p-i, q-i+1, x21(i,i), ldx21, tauq1(i),x21(i+1,i), ldx21, &
+                        work(ilarf) )
+              call stdlib_zlacgv( q-i+1, x21(i,i), ldx21 )
+              c = sqrt( stdlib_dznrm2( p-i+1, x11(i,i), 1 )**2+ stdlib_dznrm2( m-p-i, x21(i+1,i), &
+                        1 )**2 )
+              theta(i) = atan2( s, c )
+              call stdlib_zunbdb5( p-i+1, m-p-i, q-i, x11(i,i), 1, x21(i+1,i), 1,x11(i,i+1), &
+                        ldx11, x21(i+1,i+1), ldx21,work(iorbdb5), lorbdb5, childinfo )
+              call stdlib_zlarfgp( p-i+1, x11(i,i), x11(i+1,i), 1, taup1(i) )
+              if( i < m-p ) then
+                 call stdlib_zlarfgp( m-p-i, x21(i+1,i), x21(i+2,i), 1, taup2(i) )
+                 phi(i) = atan2( dble( x21(i+1,i) ), dble( x11(i,i) ) )
+                 c = cos( phi(i) )
+                 s = sin( phi(i) )
+                 x21(i+1,i) = one
+                 call stdlib_zlarf( 'l', m-p-i, q-i, x21(i+1,i), 1,dconjg(taup2(i)), x21(i+1,i+1),&
+                            ldx21,work(ilarf) )
+              end if
+              x11(i,i) = one
+              call stdlib_zlarf( 'l', p-i+1, q-i, x11(i,i), 1, dconjg(taup1(i)),x11(i,i+1), ldx11,&
+                         work(ilarf) )
+           end do
+           ! reduce the bottom-right portion of x11 to the identity matrix
+           do i = m-p + 1, q
+              call stdlib_zlarfgp( p-i+1, x11(i,i), x11(i+1,i), 1, taup1(i) )
+              x11(i,i) = one
+              call stdlib_zlarf( 'l', p-i+1, q-i, x11(i,i), 1, dconjg(taup1(i)),x11(i,i+1), ldx11,&
+                         work(ilarf) )
+           end do
+           return
+           ! end of stdlib_zunbdb3
+     end subroutine stdlib_zunbdb3
+
      ! ZUNBDB4 simultaneously bidiagonalizes the blocks of a tall and skinny
      ! matrix X with orthonomal columns:
      ! [ B11 ]
@@ -77287,17 +77867,6 @@ module stdlib_linalg_lapack_z
                      upper
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, conjg, dble, sign, sqrt
-     
-     
-     
-     
-     
-           real(dp) :: stdlib_dlamch
-     
-           logical(lk) :: stdlib_lsame
-     
-     
-     
      
            ! .. executable statements ..
            ! test the input arguments

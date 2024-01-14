@@ -36,13 +36,10 @@ module stdlib_linalg_lapack_aux
      public :: stdlib_xerbla_array
      public :: stdlib_selctg_s
      public :: stdlib_select_s
-
      public :: stdlib_selctg_d
      public :: stdlib_select_d
-
      public :: stdlib_selctg_c
      public :: stdlib_select_c
-
      public :: stdlib_selctg_z
      public :: stdlib_select_z
 
@@ -55,7 +52,6 @@ module stdlib_linalg_lapack_aux
             implicit none 
             real(sp), intent(in) :: alphar,alphai,beta 
         end function stdlib_selctg_s 
-
         logical(lk) function stdlib_select_s(alphar,alphai) 
             import sp,dp,lk 
             implicit none 
@@ -66,7 +62,6 @@ module stdlib_linalg_lapack_aux
             implicit none 
             real(dp), intent(in) :: alphar,alphai,beta 
         end function stdlib_selctg_d 
-
         logical(lk) function stdlib_select_d(alphar,alphai) 
             import sp,dp,lk 
             implicit none 
@@ -77,7 +72,6 @@ module stdlib_linalg_lapack_aux
             implicit none 
             complex(sp), intent(in) :: alpha,beta 
         end function stdlib_selctg_c 
-
         logical(lk) function stdlib_select_c(alpha) 
             import sp,dp,lk 
             implicit none 
@@ -88,7 +82,6 @@ module stdlib_linalg_lapack_aux
             implicit none 
             complex(dp), intent(in) :: alpha,beta 
         end function stdlib_selctg_z 
-
         logical(lk) function stdlib_select_z(alpha) 
             import sp,dp,lk 
             implicit none 
