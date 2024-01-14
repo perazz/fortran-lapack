@@ -44241,7 +44241,7 @@ module stdlib_linalg_lapack_c
      
               ! compute householder transform when m=1
      
-              call stdlib_clarfg( n, a, a( 1, min( 2, n ) ), lda, t )
+              call stdlib_clarfg( n, a(1,1), a( 1, min( 2, n ) ), lda, t(1,1) )
               t(1,1)=conjg(t(1,1))
      
            else
@@ -91738,7 +91738,7 @@ module stdlib_linalg_lapack_c
                      ldvsr, * ),work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_selctg) :: selctg
+           procedure(stdlib_selctg_c) :: selctg
      
            ! ..
      
@@ -92072,7 +92072,7 @@ module stdlib_linalg_lapack_c
                      ldvsr, * ),work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_selctg) :: selctg
+           procedure(stdlib_selctg_c) :: selctg
      
            ! ..
      
@@ -95009,7 +95009,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a( lda, * ), vs( ldvs, * ), w( * ), work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_select) :: select
+           procedure(stdlib_select_c) :: select
      
            ! ..
      
@@ -95244,7 +95244,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a( lda, * ), vs( ldvs, * ), w( * ), work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_select) :: select
+           procedure(stdlib_select_c) :: select
      
            ! ..
      
@@ -98853,7 +98853,7 @@ module stdlib_linalg_lapack_c
                      ldvsr, * ),work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_selctg) :: selctg
+           procedure(stdlib_selctg_c) :: selctg
      
            ! ..
      

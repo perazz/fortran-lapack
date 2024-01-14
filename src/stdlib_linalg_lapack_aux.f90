@@ -10,6 +10,7 @@ module stdlib_linalg_lapack_aux
 
 
      public :: sp,dp,lk,int32,int64
+     public :: stdlib_droundup_lwork
      public :: stdlib_icmax1
      public :: stdlib_ieeeck
      public :: stdlib_ilaclc
@@ -30,31 +31,116 @@ module stdlib_linalg_lapack_aux
      public :: stdlib_iparmq
      public :: stdlib_izmax1
      public :: stdlib_lsamen
+     public :: stdlib_sroundup_lwork
      public :: stdlib_xerbla
      public :: stdlib_xerbla_array
-     public :: stdlib_selctg
-     public :: stdlib_select
+     public :: stdlib_selctg_s
+     public :: stdlib_select_s
+
+     public :: stdlib_selctg_d
+     public :: stdlib_select_d
+
+     public :: stdlib_selctg_c
+     public :: stdlib_select_c
+
+     public :: stdlib_selctg_z
+     public :: stdlib_select_z
 
      ! SELCTG is a LOGICAL FUNCTION of three DOUBLE PRECISION arguments 
      ! used to select eigenvalues to sort to the top left of the Schur form. 
      ! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., 
      abstract interface 
-        logical(lk) function stdlib_selctg(alphar,alphai,beta) 
-            import sp,lk 
+        logical(lk) function stdlib_selctg_s(alphar,alphai,beta) 
+            import sp,dp,lk 
             implicit none 
             real(sp), intent(in) :: alphar,alphai,beta 
-        end function stdlib_selctg 
+        end function stdlib_selctg_s 
 
-        logical(lk) function stdlib_select(alphar,alphai) 
-            import sp,lk 
+        logical(lk) function stdlib_select_s(alphar,alphai) 
+            import sp,dp,lk 
             implicit none 
             real(sp), intent(in) :: alphar,alphai 
-        end function stdlib_select 
+        end function stdlib_select_s 
+        logical(lk) function stdlib_selctg_d(alphar,alphai,beta) 
+            import sp,dp,lk 
+            implicit none 
+            real(dp), intent(in) :: alphar,alphai,beta 
+        end function stdlib_selctg_d 
+
+        logical(lk) function stdlib_select_d(alphar,alphai) 
+            import sp,dp,lk 
+            implicit none 
+            real(dp), intent(in) :: alphar,alphai 
+        end function stdlib_select_d 
+        logical(lk) function stdlib_selctg_c(alphar,alphai,beta) 
+            import sp,dp,lk 
+            implicit none 
+            complex(sp), intent(in) :: alphar,alphai,beta 
+        end function stdlib_selctg_c 
+
+        logical(lk) function stdlib_select_c(alphar,alphai) 
+            import sp,dp,lk 
+            implicit none 
+            complex(sp), intent(in) :: alphar,alphai 
+        end function stdlib_select_c 
+        logical(lk) function stdlib_selctg_z(alphar,alphai,beta) 
+            import sp,dp,lk 
+            implicit none 
+            complex(dp), intent(in) :: alphar,alphai,beta 
+        end function stdlib_selctg_z 
+
+        logical(lk) function stdlib_select_z(alphar,alphai) 
+            import sp,dp,lk 
+            implicit none 
+            complex(dp), intent(in) :: alphar,alphai 
+        end function stdlib_select_z 
      end interface 
 
 
 
      contains
+     
+     
+     ! DROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
+     ! This routine guarantees it is rounded up instead of down by
+     ! multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
+     ! E.g.,
+     ! float( 9007199254740993            ) == 9007199254740992
+     ! float( 9007199254740993 ) * (1.+eps) == 9007199254740994
+     ! \return DROUNDUP_LWORK
+     
+     ! DROUNDUP_LWORK >= LWORK.
+     ! DROUNDUP_LWORK is guaranteed to have zero decimal part.
+     real(dp) function stdlib_droundup_lwork( lwork )
+     
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
+           integer(int32) :: lwork
+           ! ..
+     
+       ! =====================================================================
+           ! ..
+           ! .. intrinsic functions ..
+           intrinsic :: epsilon, dble, int
+           ! ..
+           ! .. executable statements ..
+           ! ..
+           stdlib_droundup_lwork = dble( lwork )
+     
+           if( int( stdlib_droundup_lwork ) < lwork ) then
+               ! force round up of lwork
+               stdlib_droundup_lwork = stdlib_droundup_lwork * ( 1.0_dp + epsilon(0.0_dp) )
+                         
+           endif
+     
+           return
+     
+           ! end of stdlib_droundup_lwork
+     
+     end function stdlib_droundup_lwork
      
      
      ! ICMAX1 finds the index of the first vector element of maximum absolute value.
@@ -1032,6 +1118,48 @@ module stdlib_linalg_lapack_aux
            ! end of stdlib_lsamen
      
      end function stdlib_lsamen
+     
+     
+     ! SROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
+     ! This routine guarantees it is rounded up instead of down by
+     ! multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
+     ! E.g.,
+     ! float( 16777217            ) == 16777216
+     ! float( 16777217 ) * (1.+eps) == 16777218
+     ! \return SROUNDUP_LWORK
+     
+     ! SROUNDUP_LWORK >= LWORK.
+     ! SROUNDUP_LWORK is guaranteed to have zero decimal part.
+     real(sp)             function stdlib_sroundup_lwork( lwork )
+     
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+     
+           ! .. scalar arguments ..
+           integer(int32) :: lwork
+           ! ..
+     
+       ! =====================================================================
+           ! ..
+           ! .. intrinsic functions ..
+           intrinsic :: epsilon, real, int
+           ! ..
+           ! .. executable statements ..
+           ! ..
+           stdlib_sroundup_lwork = real( lwork )
+     
+           if( int( stdlib_sroundup_lwork ) < lwork ) then
+               ! force round up of lwork
+               stdlib_sroundup_lwork = stdlib_sroundup_lwork * ( 1.0_sp + epsilon(0.0_sp) )
+                         
+           endif
+     
+           return
+     
+           ! end of stdlib_sroundup_lwork
+     
+     end function stdlib_sroundup_lwork
      
      
      ! ILAENV is called from the LAPACK routines to choose problem-dependent

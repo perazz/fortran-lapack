@@ -62,12 +62,12 @@ def patch_lapack_aux(fid,prefix,indent):
     fid.write(INDENT + "abstract interface \n")
     for i in range(len(initials)):
         fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
-        fid.write(INDENT + "       import sp,lk \n")
+        fid.write(INDENT + "       import sp,dp,lk \n")
         fid.write(INDENT + "       implicit none \n")
         fid.write(INDENT + "       {}, intent(in) :: alphar,alphai,beta \n".format(datatypes[i]))
         fid.write(INDENT + "   end function {prf}selctg_{int} \n\n".format(prf=prefix,int=initials[i]))
         fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
-        fid.write(INDENT + "       import sp,lk \n")
+        fid.write(INDENT + "       import sp,dp,lk \n")
         fid.write(INDENT + "       implicit none \n")
         fid.write(INDENT + "       {}, intent(in) :: alphar,alphai \n".format(datatypes[i]))
         fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
@@ -217,6 +217,7 @@ def function_in_module(initial,function_name):
        in_module = True
    elif    oname.endswith("amax") \
         or oname.endswith("abs") \
+        or oname.endswith("roundup_lwork") \
         or oname.endswith("abs1") :
        in_module = initial[0].lower() == 'a'
    # PATCH: exclude functions
@@ -238,6 +239,7 @@ def function_in_module(initial,function_name):
                             and not oname.endswith('geqrt3')   \
                             and not oname.endswith('tpqrt3')   \
                             and not oname.endswith('gelqt3')   \
+                            and not oname.endswith('sytrs3')   \
                             and not oname.endswith('orbdb3')   \
                             and not oname.endswith('trevc3'))) \
           or oname.endswith('extended') \
@@ -465,9 +467,8 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
            header = False
 
        # Blank comment line
-       if bool(re.match(r'^\s*!\s*$',line)):
-           # If line is '!', just print a blank line
-           fid.write(INDENT + "\n")
+       if bool(re.match(r'^\s*!\s*\.{0,2}\s*$',line)):
+           # If line is '!', just skip it
            continue
 
        # Patches
@@ -1172,6 +1173,7 @@ for file in glob.glob(r'../assets/reference_lapack/SRC/*.f*') + glob.glob(r'../a
 shutil.copyfile('../assets/reference_lapack/INSTALL/slamch.f', '../assets/lapack_sources/slamch.f')
 shutil.copyfile('../assets/reference_lapack/INSTALL/dlamch.f', '../assets/lapack_sources/dlamch.f')
 shutil.copyfile('../assets/reference_lapack/INSTALL/sroundup_lwork.f', '../assets/lapack_sources/sroundup_lwork.f')
+shutil.copyfile('../assets/reference_lapack/INSTALL/droundup_lwork.f', '../assets/lapack_sources/droundup_lwork.f')
 
 # Run script
 funs = []

@@ -44721,7 +44721,7 @@ module stdlib_linalg_lapack_z
      
               ! compute householder transform when m=1
      
-              call stdlib_zlarfg( n, a, a( 1, min( 2, n ) ), lda, t )
+              call stdlib_zlarfg( n, a(1,1), a( 1, min( 2, n ) ), lda, t(1,1) )
               t(1,1)=conjg(t(1,1))
      
            else
@@ -85663,7 +85663,7 @@ module stdlib_linalg_lapack_z
               maxwrk = max( maxwrk, minwrk )
            end if
            if( info==0 ) then
-              work( 1 ) = droundup_lwork( maxwrk )
+              work( 1 ) = stdlib_droundup_lwork( maxwrk )
               if( lwork<minwrk .and. .not. lquery ) then
                  info = -12
               end if
@@ -87183,7 +87183,7 @@ module stdlib_linalg_lapack_z
      
            ! return optimal workspace in work(1)
      
-           work( 1 ) = droundup_lwork( maxwrk )
+           work( 1 ) = stdlib_droundup_lwork( maxwrk )
      
            return
      
@@ -92323,7 +92323,7 @@ module stdlib_linalg_lapack_z
                      ldvsr, * ),work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_selctg) :: selctg
+           procedure(stdlib_selctg_z) :: selctg
      
            ! ..
      
@@ -92657,7 +92657,7 @@ module stdlib_linalg_lapack_z
                      ldvsr, * ),work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_selctg) :: selctg
+           procedure(stdlib_selctg_z) :: selctg
      
            ! ..
      
@@ -95594,7 +95594,7 @@ module stdlib_linalg_lapack_z
            complex(dp) :: a( lda, * ), vs( ldvs, * ), w( * ), work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_select) :: select
+           procedure(stdlib_select_z) :: select
      
            ! ..
      
@@ -95829,7 +95829,7 @@ module stdlib_linalg_lapack_z
            complex(dp) :: a( lda, * ), vs( ldvs, * ), w( * ), work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_select) :: select
+           procedure(stdlib_select_z) :: select
      
            ! ..
      
@@ -99436,7 +99436,7 @@ module stdlib_linalg_lapack_z
                      ldvsr, * ),work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_selctg) :: selctg
+           procedure(stdlib_selctg_z) :: selctg
      
            ! ..
      

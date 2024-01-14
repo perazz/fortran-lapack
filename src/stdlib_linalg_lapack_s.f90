@@ -357,7 +357,6 @@ module stdlib_linalg_lapack_s
      public :: stdlib_spttrf
      public :: stdlib_spttrs
      public :: stdlib_sptts2
-     public :: stdlib_sroundup_lwork
      public :: stdlib_srscl
      public :: stdlib_ssb2st_kernels
      public :: stdlib_ssbev
@@ -18337,48 +18336,6 @@ module stdlib_linalg_lapack_s
            ! end of stdlib_sptts2
      
      end subroutine stdlib_sptts2
-     
-     
-     ! SROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
-     ! This routine guarantees it is rounded up instead of down by
-     ! multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
-     ! E.g.,
-     ! float( 16777217            ) == 16777216
-     ! float( 16777217 ) * (1.+eps) == 16777218
-     ! \return SROUNDUP_LWORK
-     
-     ! SROUNDUP_LWORK >= LWORK.
-     ! SROUNDUP_LWORK is guaranteed to have zero decimal part.
-     real(sp)             function stdlib_sroundup_lwork( lwork )
-     
-        ! -- lapack auxiliary routine --
-        ! -- lapack is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
-           ! .. scalar arguments ..
-           integer(int32) :: lwork
-           ! ..
-     
-       ! =====================================================================
-           ! ..
-           ! .. intrinsic functions ..
-           intrinsic :: epsilon, real, int
-           ! ..
-           ! .. executable statements ..
-           ! ..
-           stdlib_sroundup_lwork = real( lwork )
-     
-           if( int( stdlib_sroundup_lwork ) < lwork ) then
-               ! force round up of lwork
-               stdlib_sroundup_lwork = stdlib_sroundup_lwork * ( 1.0_sp + epsilon(0.0_sp) )
-                         
-           endif
-     
-           return
-     
-           ! end of stdlib_sroundup_lwork
-     
-     end function stdlib_sroundup_lwork
      
      
      ! SRSCL multiplies an n-element real vector x by the real scalar 1/a.
@@ -52028,22 +51985,6 @@ module stdlib_linalg_lapack_s
      end subroutine stdlib_ssyrfs
      
      
-     ! SSYSV_RK computes the solution to a real system of linear
-     ! equations A * X = B, where A is an N-by-N symmetric matrix
-     ! and X and B are N-by-NRHS matrices.
-     ! The bounded Bunch-Kaufman (rook) diagonal pivoting method is used
-     ! to factor A as
-     ! A = P*U*D*(U**T)*(P**T),  if UPLO = 'U', or
-     ! A = P*L*D*(L**T)*(P**T),  if UPLO = 'L',
-     ! where U (or L) is unit upper (or lower) triangular matrix,
-     ! U**T (or L**T) is the transpose of U (or L), P is a permutation
-     ! matrix, P**T is the transpose of P, and D is symmetric and block
-     ! diagonal with 1-by-1 and 2-by-2 diagonal blocks.
-     ! SSYTRF_RK is called to compute the factorization of a real
-     ! symmetric matrix.  The factored form of A is then used to solve
-     ! the system of equations A * X = B by calling BLAS3 routine SSYTRS_3.
-     
-     
      ! SSYSV_ROOK computes the solution to a real system of linear
      ! equations
      ! A * X = B,
@@ -78982,7 +78923,7 @@ module stdlib_linalg_lapack_s
                      * ),vsr( ldvsr, * ), work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_selctg) :: selctg
+           procedure(stdlib_selctg_s) :: selctg
      
            ! ..
      
@@ -79386,7 +79327,7 @@ module stdlib_linalg_lapack_s
                      rcondv( 2 ), vsl( ldvsl, * ), vsr( ldvsr, * ),work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_selctg) :: selctg
+           procedure(stdlib_selctg_s) :: selctg
      
            ! ..
      
@@ -89667,7 +89608,7 @@ module stdlib_linalg_lapack_s
            real(sp) :: a( lda, * ), vs( ldvs, * ), wi( * ), work( * ),wr( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_select) :: select
+           procedure(stdlib_select_s) :: select
      
            ! ..
      
@@ -89989,7 +89930,7 @@ module stdlib_linalg_lapack_s
            real(sp) :: a( lda, * ), vs( ldvs, * ), wi( * ), work( * ),wr( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_select) :: select
+           procedure(stdlib_select_s) :: select
      
            ! ..
      
@@ -98714,16 +98655,6 @@ module stdlib_linalg_lapack_s
            ! ..
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, float, sign, sqrt
-           ! ..
-     
-     
-     
-     
-     
-           ! ..
-     
-     
-     
      
            ! ..
            ! .. executable statements ..
@@ -99868,7 +99799,7 @@ module stdlib_linalg_lapack_s
                      * ),vsr( ldvsr, * ), work( * )
            ! ..
            ! .. function arguments ..
-           procedure(stdlib_selctg) :: selctg
+           procedure(stdlib_selctg_s) :: selctg
      
            ! ..
      
