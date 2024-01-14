@@ -3,15 +3,10 @@ module stdlib_linalg_blas_c
      use stdlib_linalg_blas_aux
      use stdlib_linalg_blas_s
      use stdlib_linalg_blas_d
-     implicit none(type,external)
+     implicit none(type, external)
      private
 
-
-
-
-
-
-     public :: sp,dp,lk,int32,int64
+     public :: sp, dp, lk, int32, int64
      public :: stdlib_caxpy
      public :: stdlib_ccopy
      public :: stdlib_cdotc
@@ -48,30 +43,28 @@ module stdlib_linalg_blas_c
      public :: stdlib_ctrsm
      public :: stdlib_ctrsv
 
-
      contains
 
      ! CAXPY constant times a vector plus a vector.
 
-     subroutine stdlib_caxpy(n,ca,cx,incx,cy,incy)
+     subroutine stdlib_caxpy(n, ca, cx, incx, cy, incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            complex(sp) :: ca
-           integer(int32) :: incx,incy,n
+           integer(int32) :: incx, incy, n
            ! .. array arguments ..
-           complex(sp) :: cx(*),cy(*)
+           complex(sp) :: cx(*), cy(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i,ix,iy
+           integer(int32) :: i, ix, iy
      
-     
-           if (n<=0) return
-           if (stdlib_scabs1(ca)==0.0_sp) return
-           if (incx==1 .and. incy==1) then
+           if (n <= 0) return
+           if (stdlib_scabs1(ca) == 0.0_sp) return
+           if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
-              do i = 1,n
+              do i = 1, n
                  cy(i) = cy(i) + ca*cx(i)
               end do
            else
@@ -79,9 +72,9 @@ module stdlib_linalg_blas_c
                 ! not equal to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
-              do i = 1,n
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1, n
                  cy(iy) = cy(iy) + ca*cx(ix)
                  ix = ix + incx
                  iy = iy + incy
@@ -93,21 +86,21 @@ module stdlib_linalg_blas_c
 
      ! CCOPY copies a vector x to a vector y.
 
-     subroutine stdlib_ccopy(n,cx,incx,cy,incy)
+     subroutine stdlib_ccopy(n, cx, incx, cy, incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,incy,n
+           integer(int32) :: incx, incy, n
            ! .. array arguments ..
-           complex(sp) :: cx(*),cy(*)
+           complex(sp) :: cx(*), cy(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i,ix,iy
-           if (n<=0) return
-           if (incx==1 .and. incy==1) then
+           integer(int32) :: i, ix, iy
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
-              do i = 1,n
+              do i = 1, n
                  cy(i) = cx(i)
               end do
            else
@@ -115,9 +108,9 @@ module stdlib_linalg_blas_c
                 ! not equal to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
-              do i = 1,n
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1, n
                  cy(iy) = cx(ix)
                  ix = ix + incx
                  iy = iy + incy
@@ -130,26 +123,26 @@ module stdlib_linalg_blas_c
      ! CDOTC forms the dot product of two complex vectors
      ! CDOTC = X^H * Y
 
-     complex(sp) function stdlib_cdotc(n,cx,incx,cy,incy)
+     complex(sp) function stdlib_cdotc(n, cx, incx, cy, incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,incy,n
+           integer(int32) :: incx, incy, n
            ! .. array arguments ..
-           complex(sp) :: cx(*),cy(*)
+           complex(sp) :: cx(*), cy(*)
         ! =====================================================================
            ! .. local scalars ..
            complex(sp) :: ctemp
-           integer(int32) :: i,ix,iy
+           integer(int32) :: i, ix, iy
            ! .. intrinsic functions ..
            intrinsic :: conjg
-           ctemp = (0.0,0.0)
-           stdlib_cdotc = (0.0,0.0)
-           if (n<=0) return
-           if (incx==1 .and. incy==1) then
+           ctemp = (0.0, 0.0)
+           stdlib_cdotc = (0.0, 0.0)
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
-              do i = 1,n
+              do i = 1, n
                  ctemp = ctemp + conjg(cx(i))*cy(i)
               end do
            else
@@ -157,9 +150,9 @@ module stdlib_linalg_blas_c
                 ! not equal to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
-              do i = 1,n
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1, n
                  ctemp = ctemp + conjg(cx(ix))*cy(iy)
                  ix = ix + incx
                  iy = iy + incy
@@ -173,24 +166,24 @@ module stdlib_linalg_blas_c
      ! CDOTU forms the dot product of two complex vectors
      ! CDOTU = X^T * Y
 
-     complex(sp) function stdlib_cdotu(n,cx,incx,cy,incy)
+     complex(sp) function stdlib_cdotu(n, cx, incx, cy, incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,incy,n
+           integer(int32) :: incx, incy, n
            ! .. array arguments ..
-           complex(sp) :: cx(*),cy(*)
+           complex(sp) :: cx(*), cy(*)
         ! =====================================================================
            ! .. local scalars ..
            complex(sp) :: ctemp
-           integer(int32) :: i,ix,iy
-           ctemp = (0.0,0.0)
-           stdlib_cdotu = (0.0,0.0)
-           if (n<=0) return
-           if (incx==1 .and. incy==1) then
+           integer(int32) :: i, ix, iy
+           ctemp = (0.0, 0.0)
+           stdlib_cdotu = (0.0, 0.0)
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
-              do i = 1,n
+              do i = 1, n
                  ctemp = ctemp + cx(i)*cy(i)
               end do
            else
@@ -198,9 +191,9 @@ module stdlib_linalg_blas_c
                 ! not equal to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
-              do i = 1,n
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1, n
                  ctemp = ctemp + cx(ix)*cy(iy)
                  ix = ix + incx
                  iy = iy + incy
@@ -217,171 +210,169 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
-     subroutine stdlib_cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+     subroutine stdlib_cgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: incx,incy,kl,ku,lda,m,n
+           complex(sp) :: alpha, beta
+           integer(int32) :: incx, incy, kl, ku, lda, m, n
            character :: trans
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*),y(*)
+           complex(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
+           integer(int32) :: i, info, ix, iy, j, jx, jy, k, kup1, kx, ky, lenx, leny
            logical(lk) :: noconj
      
-     
-     
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max,min
+           intrinsic :: conjg, max, min
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
-                     .and..not.stdlib_lsame(trans,'c')) then
+           if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
+                     .and. .not. stdlib_lsame(trans, 'c')) then
                info = 1
-           else if (m<0) then
+           else if (m < 0) then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (kl<0) then
+           else if (kl < 0) then
                info = 4
-           else if (ku<0) then
+           else if (ku < 0) then
                info = 5
-           else if (lda< (kl+ku+1)) then
+           else if (lda < (kl + ku + 1)) then
                info = 8
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 10
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 13
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_cgbmv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_cgbmv ', info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-           noconj = stdlib_lsame(trans,'t')
+           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
+           noconj = stdlib_lsame(trans, 't')
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
                lenx = n
                leny = m
            else
                lenx = m
                leny = n
            end if
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (lenx-1)*incx
+               kx = 1 - (lenx - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (leny-1)*incy
+               ky = 1 - (leny - 1)*incy
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through the band part of a.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
-                       loop_10: do i = 1,leny
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
+                       loop_10: do i = 1, leny
                            y(i) = zero
                        end do loop_10
                    else
-                       loop_20: do i = 1,leny
+                       loop_20: do i = 1, leny
                            y(i) = beta*y(i)
                        end do loop_20
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
-                       loop_30: do i = 1,leny
+                   if (beta == zero) then
+                       loop_30: do i = 1, leny
                            y(iy) = zero
                            iy = iy + incy
                        end do loop_30
                    else
-                       loop_40: do i = 1,leny
+                       loop_40: do i = 1, leny
                            y(iy) = beta*y(iy)
                            iy = iy + incy
                        end do loop_40
                    end if
                end if
            end if
-           if (alpha==zero) return
+           if (alpha == zero) return
            kup1 = ku + 1
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  y := alpha*a*x + y.
                jx = kx
-               if (incy==1) then
-                   loop_60: do j = 1,n
+               if (incy == 1) then
+                   loop_60: do j = 1, n
                        temp = alpha*x(jx)
                        k = kup1 - j
-                       loop_50: do i = max(1,j-ku),min(m,j+kl)
-                           y(i) = y(i) + temp*a(k+i,j)
+                       loop_50: do i = max(1, j - ku), min(m, j + kl)
+                           y(i) = y(i) + temp*a(k + i, j)
                        end do loop_50
                        jx = jx + incx
                    end do loop_60
                else
-                   loop_80: do j = 1,n
+                   loop_80: do j = 1, n
                        temp = alpha*x(jx)
                        iy = ky
                        k = kup1 - j
-                       loop_70: do i = max(1,j-ku),min(m,j+kl)
-                           y(iy) = y(iy) + temp*a(k+i,j)
+                       loop_70: do i = max(1, j - ku), min(m, j + kl)
+                           y(iy) = y(iy) + temp*a(k + i, j)
                            iy = iy + incy
                        end do loop_70
                        jx = jx + incx
-                       if (j>ku) ky = ky + incy
+                       if (j > ku) ky = ky + incy
                    end do loop_80
                end if
            else
               ! form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
                jy = ky
-               if (incx==1) then
-                   loop_110: do j = 1,n
+               if (incx == 1) then
+                   loop_110: do j = 1, n
                        temp = zero
                        k = kup1 - j
                        if (noconj) then
-                           loop_90: do i = max(1,j-ku),min(m,j+kl)
-                               temp = temp + a(k+i,j)*x(i)
+                           loop_90: do i = max(1, j - ku), min(m, j + kl)
+                               temp = temp + a(k + i, j)*x(i)
                            end do loop_90
                        else
-                           loop_100: do i = max(1,j-ku),min(m,j+kl)
-                               temp = temp + conjg(a(k+i,j))*x(i)
+                           loop_100: do i = max(1, j - ku), min(m, j + kl)
+                               temp = temp + conjg(a(k + i, j))*x(i)
                            end do loop_100
                        end if
                        y(jy) = y(jy) + alpha*temp
                        jy = jy + incy
                    end do loop_110
                else
-                   loop_140: do j = 1,n
+                   loop_140: do j = 1, n
                        temp = zero
                        ix = kx
                        k = kup1 - j
                        if (noconj) then
-                           loop_120: do i = max(1,j-ku),min(m,j+kl)
-                               temp = temp + a(k+i,j)*x(ix)
+                           loop_120: do i = max(1, j - ku), min(m, j + kl)
+                               temp = temp + a(k + i, j)*x(ix)
                                ix = ix + incx
                            end do loop_120
                        else
-                           loop_130: do i = max(1,j-ku),min(m,j+kl)
-                               temp = temp + conjg(a(k+i,j))*x(ix)
+                           loop_130: do i = max(1, j - ku), min(m, j + kl)
+                               temp = temp + conjg(a(k + i, j))*x(ix)
                                ix = ix + incx
                            end do loop_130
                        end if
                        y(jy) = y(jy) + alpha*temp
                        jy = jy + incy
-                       if (j>ku) kx = kx + incx
+                       if (j > ku) kx = kx + incx
                    end do loop_140
                end if
            end if
@@ -396,39 +387,37 @@ module stdlib_linalg_blas_c
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
-     subroutine stdlib_cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     subroutine stdlib_cgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: k,lda,ldb,ldc,m,n
-           character :: transa,transb
+           complex(sp) :: alpha, beta
+           integer(int32) :: k, lda, ldb, ldc, m, n
+           character :: transa, transb
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
      
-     
-     
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max
+           intrinsic :: conjg, max
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,j,l,nrowa,nrowb
-           logical(lk) :: conja,conjb,nota,notb
+           integer(int32) :: i, info, j, l, nrowa, nrowb
+           logical(lk) :: conja, conjb, nota, notb
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! conjugated or transposed, set  conja and conjb  as true if  a  and
            ! b  respectively are to be  transposed but  not conjugated  and set
            ! nrowa and  nrowb  as the number of rows of  a  and  b  respectively.
-           nota = stdlib_lsame(transa,'n')
-           notb = stdlib_lsame(transb,'n')
-           conja = stdlib_lsame(transa,'c')
-           conjb = stdlib_lsame(transb,'c')
+           nota = stdlib_lsame(transa, 'n')
+           notb = stdlib_lsame(transb, 'n')
+           conja = stdlib_lsame(transa, 'c')
+           conjb = stdlib_lsame(transb, 'c')
            if (nota) then
                nrowa = m
            else
@@ -441,43 +430,43 @@ module stdlib_linalg_blas_c
            end if
            ! test the input parameters.
            info = 0
-           if ((.not.nota) .and. (.not.conja) .and.(.not.stdlib_lsame(transa,'t'))) then
+           if ((.not. nota) .and. (.not. conja) .and. (.not. stdlib_lsame(transa, 't'))) then
                info = 1
-           else if ((.not.notb) .and. (.not.conjb) .and.(.not.stdlib_lsame(transb,'t'))) &
+           else if ((.not. notb) .and. (.not. conjb) .and. (.not. stdlib_lsame(transb, 't'))) &
                      then
                info = 2
-           else if (m<0) then
+           else if (m < 0) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (k<0) then
+           else if (k < 0) then
                info = 5
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1, nrowa)) then
                info = 8
-           else if (ldb<max(1,nrowb)) then
+           else if (ldb < max(1, nrowb)) then
                info = 10
-           else if (ldc<max(1,m)) then
+           else if (ldc < max(1, m)) then
                info = 13
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_cgemm ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_cgemm ', info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one))) &
+           if ((m == 0) .or. (n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) &
                      return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
-               if (beta==zero) then
-                   loop_20: do j = 1,n
-                       loop_10: do i = 1,m
-                           c(i,j) = zero
+           if (alpha == zero) then
+               if (beta == zero) then
+                   loop_20: do j = 1, n
+                       loop_10: do i = 1, m
+                           c(i, j) = zero
                        end do loop_10
                    end do loop_20
                else
-                   loop_40: do j = 1,n
-                       loop_30: do i = 1,m
-                           c(i,j) = beta*c(i,j)
+                   loop_40: do j = 1, n
+                       loop_30: do i = 1, m
+                           c(i, j) = beta*c(i, j)
                        end do loop_30
                    end do loop_40
                end if
@@ -487,50 +476,50 @@ module stdlib_linalg_blas_c
            if (notb) then
                if (nota) then
                  ! form  c := alpha*a*b + beta*c.
-                   loop_90: do j = 1,n
-                       if (beta==zero) then
-                           loop_50: do i = 1,m
-                               c(i,j) = zero
+                   loop_90: do j = 1, n
+                       if (beta == zero) then
+                           loop_50: do i = 1, m
+                               c(i, j) = zero
                            end do loop_50
-                       else if (beta/=one) then
-                           loop_60: do i = 1,m
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_60: do i = 1, m
+                               c(i, j) = beta*c(i, j)
                            end do loop_60
                        end if
-                       loop_80: do l = 1,k
-                           temp = alpha*b(l,j)
-                           loop_70: do i = 1,m
-                               c(i,j) = c(i,j) + temp*a(i,l)
+                       loop_80: do l = 1, k
+                           temp = alpha*b(l, j)
+                           loop_70: do i = 1, m
+                               c(i, j) = c(i, j) + temp*a(i, l)
                            end do loop_70
                        end do loop_80
                    end do loop_90
                else if (conja) then
                  ! form  c := alpha*a**h*b + beta*c.
-                   loop_120: do j = 1,n
-                       loop_110: do i = 1,m
+                   loop_120: do j = 1, n
+                       loop_110: do i = 1, m
                            temp = zero
-                           loop_100: do l = 1,k
-                               temp = temp + conjg(a(l,i))*b(l,j)
+                           loop_100: do l = 1, k
+                               temp = temp + conjg(a(l, i))*b(l, j)
                            end do loop_100
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_110
                    end do loop_120
                else
                  ! form  c := alpha*a**t*b + beta*c
-                   loop_150: do j = 1,n
-                       loop_140: do i = 1,m
+                   loop_150: do j = 1, n
+                       loop_140: do i = 1, m
                            temp = zero
-                           loop_130: do l = 1,k
-                               temp = temp + a(l,i)*b(l,j)
+                           loop_130: do l = 1, k
+                               temp = temp + a(l, i)*b(l, j)
                            end do loop_130
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_140
                    end do loop_150
@@ -538,39 +527,39 @@ module stdlib_linalg_blas_c
            else if (nota) then
                if (conjb) then
                  ! form  c := alpha*a*b**h + beta*c.
-                   loop_200: do j = 1,n
-                       if (beta==zero) then
-                           loop_160: do i = 1,m
-                               c(i,j) = zero
+                   loop_200: do j = 1, n
+                       if (beta == zero) then
+                           loop_160: do i = 1, m
+                               c(i, j) = zero
                            end do loop_160
-                       else if (beta/=one) then
-                           loop_170: do i = 1,m
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_170: do i = 1, m
+                               c(i, j) = beta*c(i, j)
                            end do loop_170
                        end if
-                       loop_190: do l = 1,k
-                           temp = alpha*conjg(b(j,l))
-                           loop_180: do i = 1,m
-                               c(i,j) = c(i,j) + temp*a(i,l)
+                       loop_190: do l = 1, k
+                           temp = alpha*conjg(b(j, l))
+                           loop_180: do i = 1, m
+                               c(i, j) = c(i, j) + temp*a(i, l)
                            end do loop_180
                        end do loop_190
                    end do loop_200
                else
                  ! form  c := alpha*a*b**t + beta*c
-                   loop_250: do j = 1,n
-                       if (beta==zero) then
-                           loop_210: do i = 1,m
-                               c(i,j) = zero
+                   loop_250: do j = 1, n
+                       if (beta == zero) then
+                           loop_210: do i = 1, m
+                               c(i, j) = zero
                            end do loop_210
-                       else if (beta/=one) then
-                           loop_220: do i = 1,m
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_220: do i = 1, m
+                               c(i, j) = beta*c(i, j)
                            end do loop_220
                        end if
-                       loop_240: do l = 1,k
-                           temp = alpha*b(j,l)
-                           loop_230: do i = 1,m
-                               c(i,j) = c(i,j) + temp*a(i,l)
+                       loop_240: do l = 1, k
+                           temp = alpha*b(j, l)
+                           loop_230: do i = 1, m
+                               c(i, j) = c(i, j) + temp*a(i, l)
                            end do loop_230
                        end do loop_240
                    end do loop_250
@@ -578,31 +567,31 @@ module stdlib_linalg_blas_c
            else if (conja) then
                if (conjb) then
                  ! form  c := alpha*a**h*b**h + beta*c.
-                   loop_280: do j = 1,n
-                       loop_270: do i = 1,m
+                   loop_280: do j = 1, n
+                       loop_270: do i = 1, m
                            temp = zero
-                           loop_260: do l = 1,k
-                               temp = temp + conjg(a(l,i))*conjg(b(j,l))
+                           loop_260: do l = 1, k
+                               temp = temp + conjg(a(l, i))*conjg(b(j, l))
                            end do loop_260
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_270
                    end do loop_280
                else
                  ! form  c := alpha*a**h*b**t + beta*c
-                   loop_310: do j = 1,n
-                       loop_300: do i = 1,m
+                   loop_310: do j = 1, n
+                       loop_300: do i = 1, m
                            temp = zero
-                           loop_290: do l = 1,k
-                               temp = temp + conjg(a(l,i))*b(j,l)
+                           loop_290: do l = 1, k
+                               temp = temp + conjg(a(l, i))*b(j, l)
                            end do loop_290
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_300
                    end do loop_310
@@ -610,31 +599,31 @@ module stdlib_linalg_blas_c
            else
                if (conjb) then
                  ! form  c := alpha*a**t*b**h + beta*c
-                   loop_340: do j = 1,n
-                       loop_330: do i = 1,m
+                   loop_340: do j = 1, n
+                       loop_330: do i = 1, m
                            temp = zero
-                           loop_320: do l = 1,k
-                               temp = temp + a(l,i)*conjg(b(j,l))
+                           loop_320: do l = 1, k
+                               temp = temp + a(l, i)*conjg(b(j, l))
                            end do loop_320
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_330
                    end do loop_340
                else
                  ! form  c := alpha*a**t*b**t + beta*c
-                   loop_370: do j = 1,n
-                       loop_360: do i = 1,m
+                   loop_370: do j = 1, n
+                       loop_360: do i = 1, m
                            temp = zero
-                           loop_350: do l = 1,k
-                               temp = temp + a(l,i)*b(j,l)
+                           loop_350: do l = 1, k
+                               temp = temp + a(l, i)*b(j, l)
                            end do loop_350
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_360
                    end do loop_370
@@ -650,120 +639,118 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
 
-     subroutine stdlib_cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     subroutine stdlib_cgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: incx,incy,lda,m,n
+           complex(sp) :: alpha, beta
+           integer(int32) :: incx, incy, lda, m, n
            character :: trans
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*),y(*)
+           complex(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
+           integer(int32) :: i, info, ix, iy, j, jx, jy, kx, ky, lenx, leny
            logical(lk) :: noconj
      
-     
-     
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max
+           intrinsic :: conjg, max
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
-                     .and..not.stdlib_lsame(trans,'c')) then
+           if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
+                     .and. .not. stdlib_lsame(trans, 'c')) then
                info = 1
-           else if (m<0) then
+           else if (m < 0) then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (lda<max(1,m)) then
+           else if (lda < max(1, m)) then
                info = 6
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 8
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 11
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_cgemv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_cgemv ', info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
-           noconj = stdlib_lsame(trans,'t')
+           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
+           noconj = stdlib_lsame(trans, 't')
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
                lenx = n
                leny = m
            else
                lenx = m
                leny = n
            end if
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (lenx-1)*incx
+               kx = 1 - (lenx - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (leny-1)*incy
+               ky = 1 - (leny - 1)*incy
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
-                       loop_10: do i = 1,leny
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
+                       loop_10: do i = 1, leny
                            y(i) = zero
                        end do loop_10
                    else
-                       loop_20: do i = 1,leny
+                       loop_20: do i = 1, leny
                            y(i) = beta*y(i)
                        end do loop_20
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
-                       loop_30: do i = 1,leny
+                   if (beta == zero) then
+                       loop_30: do i = 1, leny
                            y(iy) = zero
                            iy = iy + incy
                        end do loop_30
                    else
-                       loop_40: do i = 1,leny
+                       loop_40: do i = 1, leny
                            y(iy) = beta*y(iy)
                            iy = iy + incy
                        end do loop_40
                    end if
                end if
            end if
-           if (alpha==zero) return
-           if (stdlib_lsame(trans,'n')) then
+           if (alpha == zero) return
+           if (stdlib_lsame(trans, 'n')) then
               ! form  y := alpha*a*x + y.
                jx = kx
-               if (incy==1) then
-                   loop_60: do j = 1,n
+               if (incy == 1) then
+                   loop_60: do j = 1, n
                        temp = alpha*x(jx)
-                       loop_50: do i = 1,m
-                           y(i) = y(i) + temp*a(i,j)
+                       loop_50: do i = 1, m
+                           y(i) = y(i) + temp*a(i, j)
                        end do loop_50
                        jx = jx + incx
                    end do loop_60
                else
-                   loop_80: do j = 1,n
+                   loop_80: do j = 1, n
                        temp = alpha*x(jx)
                        iy = ky
-                       loop_70: do i = 1,m
-                           y(iy) = y(iy) + temp*a(i,j)
+                       loop_70: do i = 1, m
+                           y(iy) = y(iy) + temp*a(i, j)
                            iy = iy + incy
                        end do loop_70
                        jx = jx + incx
@@ -772,33 +759,33 @@ module stdlib_linalg_blas_c
            else
               ! form  y := alpha*a**t*x + y  or  y := alpha*a**h*x + y.
                jy = ky
-               if (incx==1) then
-                   loop_110: do j = 1,n
+               if (incx == 1) then
+                   loop_110: do j = 1, n
                        temp = zero
                        if (noconj) then
-                           loop_90: do i = 1,m
-                               temp = temp + a(i,j)*x(i)
+                           loop_90: do i = 1, m
+                               temp = temp + a(i, j)*x(i)
                            end do loop_90
                        else
-                           loop_100: do i = 1,m
-                               temp = temp + conjg(a(i,j))*x(i)
+                           loop_100: do i = 1, m
+                               temp = temp + conjg(a(i, j))*x(i)
                            end do loop_100
                        end if
                        y(jy) = y(jy) + alpha*temp
                        jy = jy + incy
                    end do loop_110
                else
-                   loop_140: do j = 1,n
+                   loop_140: do j = 1, n
                        temp = zero
                        ix = kx
                        if (noconj) then
-                           loop_120: do i = 1,m
-                               temp = temp + a(i,j)*x(ix)
+                           loop_120: do i = 1, m
+                               temp = temp + a(i, j)*x(ix)
                                ix = ix + incx
                            end do loop_120
                        else
-                           loop_130: do i = 1,m
-                               temp = temp + conjg(a(i,j))*x(ix)
+                           loop_130: do i = 1, m
+                               temp = temp + conjg(a(i, j))*x(ix)
                                ix = ix + incx
                            end do loop_130
                        end if
@@ -816,73 +803,73 @@ module stdlib_linalg_blas_c
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_cgerc(m,n,alpha,x,incx,y,incy,a,lda)
+     subroutine stdlib_cgerc(m, n, alpha, x, incx, y, incy, a, lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            complex(sp) :: alpha
-           integer(int32) :: incx,incy,lda,m,n
+           integer(int32) :: incx, incy, lda, m, n
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*),y(*)
+           complex(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jy,kx
+           integer(int32) :: i, info, ix, j, jy, kx
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max
+           intrinsic :: conjg, max
            ! test the input parameters.
            info = 0
-           if (m<0) then
+           if (m < 0) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 7
-           else if (lda<max(1,m)) then
+           else if (lda < max(1, m)) then
                info = 9
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_cgerc ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_cgerc ', info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or. (alpha==zero)) return
+           if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
-           if (incy>0) then
+           if (incy > 0) then
                jy = 1
            else
-               jy = 1 - (n-1)*incy
+               jy = 1 - (n - 1)*incy
            end if
-           if (incx==1) then
-               loop_20: do j = 1,n
-                   if (y(jy)/=zero) then
+           if (incx == 1) then
+               loop_20: do j = 1, n
+                   if (y(jy) /= zero) then
                        temp = alpha*conjg(y(jy))
-                       loop_10: do i = 1,m
-                           a(i,j) = a(i,j) + x(i)*temp
+                       loop_10: do i = 1, m
+                           a(i, j) = a(i, j) + x(i)*temp
                        end do loop_10
                    end if
                    jy = jy + incy
                end do loop_20
            else
-               if (incx>0) then
+               if (incx > 0) then
                    kx = 1
                else
-                   kx = 1 - (m-1)*incx
+                   kx = 1 - (m - 1)*incx
                end if
-               loop_40: do j = 1,n
-                   if (y(jy)/=zero) then
+               loop_40: do j = 1, n
+                   if (y(jy) /= zero) then
                        temp = alpha*conjg(y(jy))
                        ix = kx
-                       loop_30: do i = 1,m
-                           a(i,j) = a(i,j) + x(ix)*temp
+                       loop_30: do i = 1, m
+                           a(i, j) = a(i, j) + x(ix)*temp
                            ix = ix + incx
                        end do loop_30
                    end if
@@ -898,73 +885,73 @@ module stdlib_linalg_blas_c
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_cgeru(m,n,alpha,x,incx,y,incy,a,lda)
+     subroutine stdlib_cgeru(m, n, alpha, x, incx, y, incy, a, lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            complex(sp) :: alpha
-           integer(int32) :: incx,incy,lda,m,n
+           integer(int32) :: incx, incy, lda, m, n
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*),y(*)
+           complex(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jy,kx
+           integer(int32) :: i, info, ix, j, jy, kx
      
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (m<0) then
+           if (m < 0) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 7
-           else if (lda<max(1,m)) then
+           else if (lda < max(1, m)) then
                info = 9
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_cgeru ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_cgeru ', info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or. (alpha==zero)) return
+           if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
-           if (incy>0) then
+           if (incy > 0) then
                jy = 1
            else
-               jy = 1 - (n-1)*incy
+               jy = 1 - (n - 1)*incy
            end if
-           if (incx==1) then
-               loop_20: do j = 1,n
-                   if (y(jy)/=zero) then
+           if (incx == 1) then
+               loop_20: do j = 1, n
+                   if (y(jy) /= zero) then
                        temp = alpha*y(jy)
-                       loop_10: do i = 1,m
-                           a(i,j) = a(i,j) + x(i)*temp
+                       loop_10: do i = 1, m
+                           a(i, j) = a(i, j) + x(i)*temp
                        end do loop_10
                    end if
                    jy = jy + incy
                end do loop_20
            else
-               if (incx>0) then
+               if (incx > 0) then
                    kx = 1
                else
-                   kx = 1 - (m-1)*incx
+                   kx = 1 - (m - 1)*incx
                end if
-               loop_40: do j = 1,n
-                   if (y(jy)/=zero) then
+               loop_40: do j = 1, n
+                   if (y(jy) /= zero) then
                        temp = alpha*y(jy)
                        ix = kx
-                       loop_30: do i = 1,m
-                           a(i,j) = a(i,j) + x(ix)*temp
+                       loop_30: do i = 1, m
+                           a(i, j) = a(i, j) + x(ix)*temp
                            ix = ix + incx
                        end do loop_30
                    end if
@@ -980,125 +967,123 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian band matrix, with k super-diagonals.
 
-     subroutine stdlib_chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+     subroutine stdlib_chbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: incx,incy,k,lda,n
+           complex(sp) :: alpha, beta
+           integer(int32) :: incx, incy, k, lda, n
            character :: uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*),y(*)
+           complex(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
-           complex(sp) :: temp1,temp2
-           integer(int32) :: i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
-     
-     
+           complex(sp) :: temp1, temp2
+           integer(int32) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max,min,real
+           intrinsic :: conjg, max, min, real
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (k<0) then
+           else if (k < 0) then
                info = 3
-           else if (lda< (k+1)) then
+           else if (lda < (k + 1)) then
                info = 6
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 8
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 11
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_chbmv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_chbmv ', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (n-1)*incx
+               kx = 1 - (n - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (n-1)*incy
+               ky = 1 - (n - 1)*incy
            end if
            ! start the operations. in this version the elements of the array a
            ! are accessed sequentially with one pass through a.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
-                       loop_10: do i = 1,n
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
+                       loop_10: do i = 1, n
                            y(i) = zero
                        end do loop_10
                    else
-                       loop_20: do i = 1,n
+                       loop_20: do i = 1, n
                            y(i) = beta*y(i)
                        end do loop_20
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
-                       loop_30: do i = 1,n
+                   if (beta == zero) then
+                       loop_30: do i = 1, n
                            y(iy) = zero
                            iy = iy + incy
                        end do loop_30
                    else
-                       loop_40: do i = 1,n
+                       loop_40: do i = 1, n
                            y(iy) = beta*y(iy)
                            iy = iy + incy
                        end do loop_40
                    end if
                end if
            end if
-           if (alpha==zero) return
-           if (stdlib_lsame(uplo,'u')) then
+           if (alpha == zero) return
+           if (stdlib_lsame(uplo, 'u')) then
               ! form  y  when upper triangle of a is stored.
                kplus1 = k + 1
-               if ((incx==1) .and. (incy==1)) then
-                   loop_60: do j = 1,n
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_60: do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        l = kplus1 - j
-                       loop_50: do i = max(1,j-k),j - 1
-                           y(i) = y(i) + temp1*a(l+i,j)
-                           temp2 = temp2 + conjg(a(l+i,j))*x(i)
+                       loop_50: do i = max(1, j - k), j - 1
+                           y(i) = y(i) + temp1*a(l + i, j)
+                           temp2 = temp2 + conjg(a(l + i, j))*x(i)
                        end do loop_50
-                       y(j) = y(j) + temp1*real(a(kplus1,j)) + alpha*temp2
+                       y(j) = y(j) + temp1*real(a(kplus1, j)) + alpha*temp2
                    end do loop_60
                else
                    jx = kx
                    jy = ky
-                   loop_80: do j = 1,n
+                   loop_80: do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        ix = kx
                        iy = ky
                        l = kplus1 - j
-                       loop_70: do i = max(1,j-k),j - 1
-                           y(iy) = y(iy) + temp1*a(l+i,j)
-                           temp2 = temp2 + conjg(a(l+i,j))*x(ix)
+                       loop_70: do i = max(1, j - k), j - 1
+                           y(iy) = y(iy) + temp1*a(l + i, j)
+                           temp2 = temp2 + conjg(a(l + i, j))*x(ix)
                            ix = ix + incx
                            iy = iy + incy
                        end do loop_70
-                       y(jy) = y(jy) + temp1*real(a(kplus1,j)) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(a(kplus1, j)) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
-                       if (j>k) then
+                       if (j > k) then
                            kx = kx + incx
                            ky = ky + incy
                        end if
@@ -1106,33 +1091,33 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  y  when lower triangle of a is stored.
-               if ((incx==1) .and. (incy==1)) then
-                   loop_100: do j = 1,n
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_100: do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = zero
-                       y(j) = y(j) + temp1*real(a(1,j))
+                       y(j) = y(j) + temp1*real(a(1, j))
                        l = 1 - j
-                       loop_90: do i = j + 1,min(n,j+k)
-                           y(i) = y(i) + temp1*a(l+i,j)
-                           temp2 = temp2 + conjg(a(l+i,j))*x(i)
+                       loop_90: do i = j + 1, min(n, j + k)
+                           y(i) = y(i) + temp1*a(l + i, j)
+                           temp2 = temp2 + conjg(a(l + i, j))*x(i)
                        end do loop_90
                        y(j) = y(j) + alpha*temp2
                    end do loop_100
                else
                    jx = kx
                    jy = ky
-                   loop_120: do j = 1,n
+                   loop_120: do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = zero
-                       y(jy) = y(jy) + temp1*real(a(1,j))
+                       y(jy) = y(jy) + temp1*real(a(1, j))
                        l = 1 - j
                        ix = jx
                        iy = jy
-                       loop_110: do i = j + 1,min(n,j+k)
+                       loop_110: do i = j + 1, min(n, j + k)
                            ix = ix + incx
                            iy = iy + incy
-                           y(iy) = y(iy) + temp1*a(l+i,j)
-                           temp2 = temp2 + conjg(a(l+i,j))*x(ix)
+                           y(iy) = y(iy) + temp1*a(l + i, j)
+                           temp2 = temp2 + conjg(a(l + i, j))*x(ix)
                        end do loop_110
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
@@ -1151,145 +1136,143 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, A is an hermitian matrix and  B and
      ! C are m by n matrices.
 
-     subroutine stdlib_chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     subroutine stdlib_chemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: lda,ldb,ldc,m,n
-           character :: side,uplo
+           complex(sp) :: alpha, beta
+           integer(int32) :: lda, ldb, ldc, m, n
+           character :: side, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
      
-     
-     
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max,real
+           intrinsic :: conjg, max, real
            ! .. local scalars ..
-           complex(sp) :: temp1,temp2
-           integer(int32) :: i,info,j,k,nrowa
+           complex(sp) :: temp1, temp2
+           integer(int32) :: i, info, j, k, nrowa
            logical(lk) :: upper
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! set nrowa as the number of rows of a.
-           if (stdlib_lsame(side,'l')) then
+           if (stdlib_lsame(side, 'l')) then
                nrowa = m
            else
                nrowa = n
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo, 'u')
            ! test the input parameters.
            info = 0
-           if ((.not.stdlib_lsame(side,'l')) .and. (.not.stdlib_lsame(side,'r'))) then
+           if ((.not. stdlib_lsame(side, 'l')) .and. (.not. stdlib_lsame(side, 'r'))) then
                info = 1
-           else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo, 'l'))) then
                info = 2
-           else if (m<0) then
+           else if (m < 0) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1, nrowa)) then
                info = 7
-           else if (ldb<max(1,m)) then
+           else if (ldb < max(1, m)) then
                info = 9
-           else if (ldc<max(1,m)) then
+           else if (ldc < max(1, m)) then
                info = 12
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_chemm ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_chemm ', info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
+           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
-               if (beta==zero) then
-                   loop_20: do j = 1,n
-                       loop_10: do i = 1,m
-                           c(i,j) = zero
+           if (alpha == zero) then
+               if (beta == zero) then
+                   loop_20: do j = 1, n
+                       loop_10: do i = 1, m
+                           c(i, j) = zero
                        end do loop_10
                    end do loop_20
                else
-                   loop_40: do j = 1,n
-                       loop_30: do i = 1,m
-                           c(i,j) = beta*c(i,j)
+                   loop_40: do j = 1, n
+                       loop_30: do i = 1, m
+                           c(i, j) = beta*c(i, j)
                        end do loop_30
                    end do loop_40
                end if
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(side,'l')) then
+           if (stdlib_lsame(side, 'l')) then
               ! form  c := alpha*a*b + beta*c.
                if (upper) then
-                   loop_70: do j = 1,n
-                       loop_60: do i = 1,m
-                           temp1 = alpha*b(i,j)
+                   loop_70: do j = 1, n
+                       loop_60: do i = 1, m
+                           temp1 = alpha*b(i, j)
                            temp2 = zero
-                           loop_50: do k = 1,i - 1
-                               c(k,j) = c(k,j) + temp1*a(k,i)
-                               temp2 = temp2 + b(k,j)*conjg(a(k,i))
+                           loop_50: do k = 1, i - 1
+                               c(k, j) = c(k, j) + temp1*a(k, i)
+                               temp2 = temp2 + b(k, j)*conjg(a(k, i))
                            end do loop_50
-                           if (beta==zero) then
-                               c(i,j) = temp1*real(a(i,i)) + alpha*temp2
+                           if (beta == zero) then
+                               c(i, j) = temp1*real(a(i, i)) + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + temp1*real(a(i,i)) +alpha*temp2
+                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i)) + alpha*temp2
                            end if
                        end do loop_60
                    end do loop_70
                else
-                   loop_100: do j = 1,n
-                       loop_90: do i = m,1,-1
-                           temp1 = alpha*b(i,j)
+                   loop_100: do j = 1, n
+                       loop_90: do i = m, 1, -1
+                           temp1 = alpha*b(i, j)
                            temp2 = zero
-                           loop_80: do k = i + 1,m
-                               c(k,j) = c(k,j) + temp1*a(k,i)
-                               temp2 = temp2 + b(k,j)*conjg(a(k,i))
+                           loop_80: do k = i + 1, m
+                               c(k, j) = c(k, j) + temp1*a(k, i)
+                               temp2 = temp2 + b(k, j)*conjg(a(k, i))
                            end do loop_80
-                           if (beta==zero) then
-                               c(i,j) = temp1*real(a(i,i)) + alpha*temp2
+                           if (beta == zero) then
+                               c(i, j) = temp1*real(a(i, i)) + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + temp1*real(a(i,i)) +alpha*temp2
+                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i)) + alpha*temp2
                            end if
                        end do loop_90
                    end do loop_100
                end if
            else
               ! form  c := alpha*b*a + beta*c.
-               loop_170: do j = 1,n
-                   temp1 = alpha*real(a(j,j))
-                   if (beta==zero) then
-                       loop_110: do i = 1,m
-                           c(i,j) = temp1*b(i,j)
+               loop_170: do j = 1, n
+                   temp1 = alpha*real(a(j, j))
+                   if (beta == zero) then
+                       loop_110: do i = 1, m
+                           c(i, j) = temp1*b(i, j)
                        end do loop_110
                    else
-                       loop_120: do i = 1,m
-                           c(i,j) = beta*c(i,j) + temp1*b(i,j)
+                       loop_120: do i = 1, m
+                           c(i, j) = beta*c(i, j) + temp1*b(i, j)
                        end do loop_120
                    end if
-                   loop_140: do k = 1,j - 1
+                   loop_140: do k = 1, j - 1
                        if (upper) then
-                           temp1 = alpha*a(k,j)
+                           temp1 = alpha*a(k, j)
                        else
-                           temp1 = alpha*conjg(a(j,k))
+                           temp1 = alpha*conjg(a(j, k))
                        end if
-                       loop_130: do i = 1,m
-                           c(i,j) = c(i,j) + temp1*b(i,k)
+                       loop_130: do i = 1, m
+                           c(i, j) = c(i, j) + temp1*b(i, k)
                        end do loop_130
                    end do loop_140
-                   loop_160: do k = j + 1,n
+                   loop_160: do k = j + 1, n
                        if (upper) then
-                           temp1 = alpha*conjg(a(j,k))
+                           temp1 = alpha*conjg(a(j, k))
                        else
-                           temp1 = alpha*a(k,j)
+                           temp1 = alpha*a(k, j)
                        end if
-                       loop_150: do i = 1,m
-                           c(i,j) = c(i,j) + temp1*b(i,k)
+                       loop_150: do i = 1, m
+                           c(i, j) = c(i, j) + temp1*b(i, k)
                        end do loop_150
                    end do loop_160
                end do loop_170
@@ -1303,149 +1286,147 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix.
 
-     subroutine stdlib_chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     subroutine stdlib_chemv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: incx,incy,lda,n
+           complex(sp) :: alpha, beta
+           integer(int32) :: incx, incy, lda, n
            character :: uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*),y(*)
+           complex(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
-           complex(sp) :: temp1,temp2
-           integer(int32) :: i,info,ix,iy,j,jx,jy,kx,ky
-     
-     
+           complex(sp) :: temp1, temp2
+           integer(int32) :: i, info, ix, iy, j, jx, jy, kx, ky
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max,real
+           intrinsic :: conjg, max, real
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (lda<max(1,n)) then
+           else if (lda < max(1, n)) then
                info = 5
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 7
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 10
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_chemv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_chemv ', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (n-1)*incx
+               kx = 1 - (n - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (n-1)*incy
+               ky = 1 - (n - 1)*incy
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through the triangular part
            ! of a.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
-                       loop_10: do i = 1,n
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
+                       loop_10: do i = 1, n
                            y(i) = zero
                        end do loop_10
                    else
-                       loop_20: do i = 1,n
+                       loop_20: do i = 1, n
                            y(i) = beta*y(i)
                        end do loop_20
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
-                       loop_30: do i = 1,n
+                   if (beta == zero) then
+                       loop_30: do i = 1, n
                            y(iy) = zero
                            iy = iy + incy
                        end do loop_30
                    else
-                       loop_40: do i = 1,n
+                       loop_40: do i = 1, n
                            y(iy) = beta*y(iy)
                            iy = iy + incy
                        end do loop_40
                    end if
                end if
            end if
-           if (alpha==zero) return
-           if (stdlib_lsame(uplo,'u')) then
+           if (alpha == zero) return
+           if (stdlib_lsame(uplo, 'u')) then
               ! form  y  when a is stored in upper triangle.
-               if ((incx==1) .and. (incy==1)) then
-                   loop_60: do j = 1,n
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_60: do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = zero
-                       loop_50: do i = 1,j - 1
-                           y(i) = y(i) + temp1*a(i,j)
-                           temp2 = temp2 + conjg(a(i,j))*x(i)
+                       loop_50: do i = 1, j - 1
+                           y(i) = y(i) + temp1*a(i, j)
+                           temp2 = temp2 + conjg(a(i, j))*x(i)
                        end do loop_50
-                       y(j) = y(j) + temp1*real(a(j,j)) + alpha*temp2
+                       y(j) = y(j) + temp1*real(a(j, j)) + alpha*temp2
                    end do loop_60
                else
                    jx = kx
                    jy = ky
-                   loop_80: do j = 1,n
+                   loop_80: do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        ix = kx
                        iy = ky
-                       loop_70: do i = 1,j - 1
-                           y(iy) = y(iy) + temp1*a(i,j)
-                           temp2 = temp2 + conjg(a(i,j))*x(ix)
+                       loop_70: do i = 1, j - 1
+                           y(iy) = y(iy) + temp1*a(i, j)
+                           temp2 = temp2 + conjg(a(i, j))*x(ix)
                            ix = ix + incx
                            iy = iy + incy
                        end do loop_70
-                       y(jy) = y(jy) + temp1*real(a(j,j)) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(a(j, j)) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                    end do loop_80
                end if
            else
               ! form  y  when a is stored in lower triangle.
-               if ((incx==1) .and. (incy==1)) then
-                   loop_100: do j = 1,n
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_100: do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = zero
-                       y(j) = y(j) + temp1*real(a(j,j))
-                       loop_90: do i = j + 1,n
-                           y(i) = y(i) + temp1*a(i,j)
-                           temp2 = temp2 + conjg(a(i,j))*x(i)
+                       y(j) = y(j) + temp1*real(a(j, j))
+                       loop_90: do i = j + 1, n
+                           y(i) = y(i) + temp1*a(i, j)
+                           temp2 = temp2 + conjg(a(i, j))*x(i)
                        end do loop_90
                        y(j) = y(j) + alpha*temp2
                    end do loop_100
                else
                    jx = kx
                    jy = ky
-                   loop_120: do j = 1,n
+                   loop_120: do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = zero
-                       y(jy) = y(jy) + temp1*real(a(j,j))
+                       y(jy) = y(jy) + temp1*real(a(j, j))
                        ix = jx
                        iy = jy
-                       loop_110: do i = j + 1,n
+                       loop_110: do i = j + 1, n
                            ix = ix + incx
                            iy = iy + incy
-                           y(iy) = y(iy) + temp1*a(i,j)
-                           temp2 = temp2 + conjg(a(i,j))*x(ix)
+                           y(iy) = y(iy) + temp1*a(i, j)
+                           temp2 = temp2 + conjg(a(i, j))*x(ix)
                        end do loop_110
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
@@ -1462,112 +1443,110 @@ module stdlib_linalg_blas_c
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix.
 
-     subroutine stdlib_cher(uplo,n,alpha,x,incx,a,lda)
+     subroutine stdlib_cher(uplo, n, alpha, x, incx, a, lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(sp) :: alpha
-           integer(int32) :: incx,lda,n
+           integer(int32) :: incx, lda, n
            character :: uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*)
+           complex(sp) :: a(lda, *), x(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jx,kx
-     
-     
+           integer(int32) :: i, info, ix, j, jx, kx
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max,real
+           intrinsic :: conjg, max, real
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
-           else if (lda<max(1,n)) then
+           else if (lda < max(1, n)) then
                info = 7
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_cher  ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_cher  ', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (alpha==real(zero))) return
+           if ((n == 0) .or. (alpha == real(zero))) return
            ! set the start point in x if the increment is not unity.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through the triangular part
            ! of a.
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo, 'u')) then
               ! form  a  when a is stored in upper triangle.
-               if (incx==1) then
-                   loop_20: do j = 1,n
-                       if (x(j)/=zero) then
+               if (incx == 1) then
+                   loop_20: do j = 1, n
+                       if (x(j) /= zero) then
                            temp = alpha*conjg(x(j))
-                           loop_10: do i = 1,j - 1
-                               a(i,j) = a(i,j) + x(i)*temp
+                           loop_10: do i = 1, j - 1
+                               a(i, j) = a(i, j) + x(i)*temp
                            end do loop_10
-                           a(j,j) = real(a(j,j)) + real(x(j)*temp)
+                           a(j, j) = real(a(j, j)) + real(x(j)*temp)
                        else
-                           a(j,j) = real(a(j,j))
+                           a(j, j) = real(a(j, j))
                        end if
                    end do loop_20
                else
                    jx = kx
-                   loop_40: do j = 1,n
-                       if (x(jx)/=zero) then
+                   loop_40: do j = 1, n
+                       if (x(jx) /= zero) then
                            temp = alpha*conjg(x(jx))
                            ix = kx
-                           loop_30: do i = 1,j - 1
-                               a(i,j) = a(i,j) + x(ix)*temp
+                           loop_30: do i = 1, j - 1
+                               a(i, j) = a(i, j) + x(ix)*temp
                                ix = ix + incx
                            end do loop_30
-                           a(j,j) = real(a(j,j)) + real(x(jx)*temp)
+                           a(j, j) = real(a(j, j)) + real(x(jx)*temp)
                        else
-                           a(j,j) = real(a(j,j))
+                           a(j, j) = real(a(j, j))
                        end if
                        jx = jx + incx
                    end do loop_40
                end if
            else
               ! form  a  when a is stored in lower triangle.
-               if (incx==1) then
-                   loop_60: do j = 1,n
-                       if (x(j)/=zero) then
+               if (incx == 1) then
+                   loop_60: do j = 1, n
+                       if (x(j) /= zero) then
                            temp = alpha*conjg(x(j))
-                           a(j,j) = real(a(j,j)) + real(temp*x(j))
-                           loop_50: do i = j + 1,n
-                               a(i,j) = a(i,j) + x(i)*temp
+                           a(j, j) = real(a(j, j)) + real(temp*x(j))
+                           loop_50: do i = j + 1, n
+                               a(i, j) = a(i, j) + x(i)*temp
                            end do loop_50
                        else
-                           a(j,j) = real(a(j,j))
+                           a(j, j) = real(a(j, j))
                        end if
                    end do loop_60
                else
                    jx = kx
-                   loop_80: do j = 1,n
-                       if (x(jx)/=zero) then
+                   loop_80: do j = 1, n
+                       if (x(jx) /= zero) then
                            temp = alpha*conjg(x(jx))
-                           a(j,j) = real(a(j,j)) + real(temp*x(jx))
+                           a(j, j) = real(a(j, j)) + real(temp*x(jx))
                            ix = jx
-                           loop_70: do i = j + 1,n
+                           loop_70: do i = j + 1, n
                                ix = ix + incx
-                               a(i,j) = a(i,j) + x(ix)*temp
+                               a(i, j) = a(i, j) + x(ix)*temp
                            end do loop_70
                        else
-                           a(j,j) = real(a(j,j))
+                           a(j, j) = real(a(j, j))
                        end if
                        jx = jx + incx
                    end do loop_80
@@ -1582,59 +1561,57 @@ module stdlib_linalg_blas_c
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n hermitian matrix.
 
-     subroutine stdlib_cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
+     subroutine stdlib_cher2(uplo, n, alpha, x, incx, y, incy, a, lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            complex(sp) :: alpha
-           integer(int32) :: incx,incy,lda,n
+           integer(int32) :: incx, incy, lda, n
            character :: uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*),y(*)
+           complex(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
-           complex(sp) :: temp1,temp2
-           integer(int32) :: i,info,ix,iy,j,jx,jy,kx,ky
-     
-     
+           complex(sp) :: temp1, temp2
+           integer(int32) :: i, info, ix, iy, j, jx, jy, kx, ky
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max,real
+           intrinsic :: conjg, max, real
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 7
-           else if (lda<max(1,n)) then
+           else if (lda < max(1, n)) then
                info = 9
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_cher2 ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_cher2 ', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (alpha==zero)) return
+           if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
            ! unity.
-           if ((incx/=1) .or. (incy/=1)) then
-               if (incx>0) then
+           if ((incx /= 1) .or. (incy /= 1)) then
+               if (incx > 0) then
                    kx = 1
                else
-                   kx = 1 - (n-1)*incx
+                   kx = 1 - (n - 1)*incx
                end if
-               if (incy>0) then
+               if (incy > 0) then
                    ky = 1
                else
-                   ky = 1 - (n-1)*incy
+                   ky = 1 - (n - 1)*incy
                end if
                jx = kx
                jy = ky
@@ -1642,36 +1619,36 @@ module stdlib_linalg_blas_c
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through the triangular part
            ! of a.
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo, 'u')) then
               ! form  a  when a is stored in the upper triangle.
-               if ((incx==1) .and. (incy==1)) then
-                   loop_20: do j = 1,n
-                       if ((x(j)/=zero) .or. (y(j)/=zero)) then
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_20: do j = 1, n
+                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
-                           loop_10: do i = 1,j - 1
-                               a(i,j) = a(i,j) + x(i)*temp1 + y(i)*temp2
+                           loop_10: do i = 1, j - 1
+                               a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do loop_10
-                           a(j,j) = real(a(j,j)) +real(x(j)*temp1+y(j)*temp2)
+                           a(j, j) = real(a(j, j)) + real(x(j)*temp1 + y(j)*temp2)
                        else
-                           a(j,j) = real(a(j,j))
+                           a(j, j) = real(a(j, j))
                        end if
                    end do loop_20
                else
-                   loop_40: do j = 1,n
-                       if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
+                   loop_40: do j = 1, n
+                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
                            ix = kx
                            iy = ky
-                           loop_30: do i = 1,j - 1
-                               a(i,j) = a(i,j) + x(ix)*temp1 + y(iy)*temp2
+                           loop_30: do i = 1, j - 1
+                               a(i, j) = a(i, j) + x(ix)*temp1 + y(iy)*temp2
                                ix = ix + incx
                                iy = iy + incy
                            end do loop_30
-                           a(j,j) = real(a(j,j)) +real(x(jx)*temp1+y(jy)*temp2)
+                           a(j, j) = real(a(j, j)) + real(x(jx)*temp1 + y(jy)*temp2)
                        else
-                           a(j,j) = real(a(j,j))
+                           a(j, j) = real(a(j, j))
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -1679,34 +1656,34 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  a  when a is stored in the lower triangle.
-               if ((incx==1) .and. (incy==1)) then
-                   loop_60: do j = 1,n
-                       if ((x(j)/=zero) .or. (y(j)/=zero)) then
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_60: do j = 1, n
+                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
-                           a(j,j) = real(a(j,j)) +real(x(j)*temp1+y(j)*temp2)
-                           loop_50: do i = j + 1,n
-                               a(i,j) = a(i,j) + x(i)*temp1 + y(i)*temp2
+                           a(j, j) = real(a(j, j)) + real(x(j)*temp1 + y(j)*temp2)
+                           loop_50: do i = j + 1, n
+                               a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do loop_50
                        else
-                           a(j,j) = real(a(j,j))
+                           a(j, j) = real(a(j, j))
                        end if
                    end do loop_60
                else
-                   loop_80: do j = 1,n
-                       if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
+                   loop_80: do j = 1, n
+                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
-                           a(j,j) = real(a(j,j)) +real(x(jx)*temp1+y(jy)*temp2)
+                           a(j, j) = real(a(j, j)) + real(x(jx)*temp1 + y(jy)*temp2)
                            ix = jx
                            iy = jy
-                           loop_70: do i = j + 1,n
+                           loop_70: do i = j + 1, n
                                ix = ix + incx
                                iy = iy + incy
-                               a(i,j) = a(i,j) + x(ix)*temp1 + y(iy)*temp2
+                               a(i, j) = a(i, j) + x(ix)*temp1 + y(iy)*temp2
                            end do loop_70
                        else
-                           a(j,j) = real(a(j,j))
+                           a(j, j) = real(a(j, j))
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -1725,91 +1702,89 @@ module stdlib_linalg_blas_c
      ! hermitian matrix and  A and B  are  n by k matrices in the first case
      ! and  k by n  matrices in the second case.
 
-     subroutine stdlib_cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     subroutine stdlib_cher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            complex(sp) :: alpha
            real(sp) :: beta
-           integer(int32) :: k,lda,ldb,ldc,n
-           character :: trans,uplo
+           integer(int32) :: k, lda, ldb, ldc, n
+           character :: trans, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
      
-     
-     
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max,real
+           intrinsic :: conjg, max, real
            ! .. local scalars ..
-           complex(sp) :: temp1,temp2
-           integer(int32) :: i,info,j,l,nrowa
+           complex(sp) :: temp1, temp2
+           integer(int32) :: i, info, j, l, nrowa
            logical(lk) :: upper
            ! .. parameters ..
            real(sp) :: one
-           parameter (one=1.0_sp)
+           parameter(one=1.0_sp)
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! test the input parameters.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo, 'u')
            info = 0
-           if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo, 'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c'))) &
+           else if ((.not. stdlib_lsame(trans, 'n')) .and. (.not. stdlib_lsame(trans, 'c'))) &
                      then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (k<0) then
+           else if (k < 0) then
                info = 4
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1, nrowa)) then
                info = 7
-           else if (ldb<max(1,nrowa)) then
+           else if (ldb < max(1, nrowa)) then
                info = 9
-           else if (ldc<max(1,n)) then
+           else if (ldc < max(1, n)) then
                info = 12
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_cher2k',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_cher2k', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
+           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
+           if (alpha == zero) then
                if (upper) then
-                   if (beta==real(zero)) then
-                       loop_20: do j = 1,n
-                           loop_10: do i = 1,j
-                               c(i,j) = zero
+                   if (beta == real(zero)) then
+                       loop_20: do j = 1, n
+                           loop_10: do i = 1, j
+                               c(i, j) = zero
                            end do loop_10
                        end do loop_20
                    else
-                       loop_40: do j = 1,n
-                           loop_30: do i = 1,j - 1
-                               c(i,j) = beta*c(i,j)
+                       loop_40: do j = 1, n
+                           loop_30: do i = 1, j - 1
+                               c(i, j) = beta*c(i, j)
                            end do loop_30
-                           c(j,j) = beta*real(c(j,j))
+                           c(j, j) = beta*real(c(j, j))
                        end do loop_40
                    end if
                else
-                   if (beta==real(zero)) then
-                       loop_60: do j = 1,n
-                           loop_50: do i = j,n
-                               c(i,j) = zero
+                   if (beta == real(zero)) then
+                       loop_60: do j = 1, n
+                           loop_50: do i = j, n
+                               c(i, j) = zero
                            end do loop_50
                        end do loop_60
                    else
-                       loop_80: do j = 1,n
-                           c(j,j) = beta*real(c(j,j))
-                           loop_70: do i = j + 1,n
-                               c(i,j) = beta*c(i,j)
+                       loop_80: do j = 1, n
+                           c(j, j) = beta*real(c(j, j))
+                           loop_70: do i = j + 1, n
+                               c(i, j) = beta*c(i, j)
                            end do loop_70
                        end do loop_80
                    end if
@@ -1817,56 +1792,56 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  c := alpha*a*b**h + conjg( alpha )*b*a**h +
                          ! c.
                if (upper) then
-                   loop_130: do j = 1,n
-                       if (beta==real(zero)) then
-                           loop_90: do i = 1,j
-                               c(i,j) = zero
+                   loop_130: do j = 1, n
+                       if (beta == real(zero)) then
+                           loop_90: do i = 1, j
+                               c(i, j) = zero
                            end do loop_90
-                       else if (beta/=one) then
-                           loop_100: do i = 1,j - 1
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_100: do i = 1, j - 1
+                               c(i, j) = beta*c(i, j)
                            end do loop_100
-                           c(j,j) = beta*real(c(j,j))
+                           c(j, j) = beta*real(c(j, j))
                        else
-                           c(j,j) = real(c(j,j))
+                           c(j, j) = real(c(j, j))
                        end if
-                       loop_120: do l = 1,k
-                           if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
-                               temp1 = alpha*conjg(b(j,l))
-                               temp2 = conjg(alpha*a(j,l))
-                               loop_110: do i = 1,j - 1
-                                   c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
+                       loop_120: do l = 1, k
+                           if ((a(j, l) /= zero) .or. (b(j, l) /= zero)) then
+                               temp1 = alpha*conjg(b(j, l))
+                               temp2 = conjg(alpha*a(j, l))
+                               loop_110: do i = 1, j - 1
+                                   c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do loop_110
-                               c(j,j) = real(c(j,j)) +real(a(j,l)*temp1+b(j,l)*temp2)
+                               c(j, j) = real(c(j, j)) + real(a(j, l)*temp1 + b(j, l)*temp2)
                            end if
                        end do loop_120
                    end do loop_130
                else
-                   loop_180: do j = 1,n
-                       if (beta==real(zero)) then
-                           loop_140: do i = j,n
-                               c(i,j) = zero
+                   loop_180: do j = 1, n
+                       if (beta == real(zero)) then
+                           loop_140: do i = j, n
+                               c(i, j) = zero
                            end do loop_140
-                       else if (beta/=one) then
-                           loop_150: do i = j + 1,n
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_150: do i = j + 1, n
+                               c(i, j) = beta*c(i, j)
                            end do loop_150
-                           c(j,j) = beta*real(c(j,j))
+                           c(j, j) = beta*real(c(j, j))
                        else
-                           c(j,j) = real(c(j,j))
+                           c(j, j) = real(c(j, j))
                        end if
-                       loop_170: do l = 1,k
-                           if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
-                               temp1 = alpha*conjg(b(j,l))
-                               temp2 = conjg(alpha*a(j,l))
-                               loop_160: do i = j + 1,n
-                                   c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
+                       loop_170: do l = 1, k
+                           if ((a(j, l) /= zero) .or. (b(j, l) /= zero)) then
+                               temp1 = alpha*conjg(b(j, l))
+                               temp2 = conjg(alpha*a(j, l))
+                               loop_160: do i = j + 1, n
+                                   c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do loop_160
-                               c(j,j) = real(c(j,j)) +real(a(j,l)*temp1+b(j,l)*temp2)
+                               c(j, j) = real(c(j, j)) + real(a(j, l)*temp1 + b(j, l)*temp2)
                            end if
                        end do loop_170
                    end do loop_180
@@ -1875,51 +1850,51 @@ module stdlib_linalg_blas_c
               ! form  c := alpha*a**h*b + conjg( alpha )*b**h*a +
                          ! c.
                if (upper) then
-                   loop_210: do j = 1,n
-                       loop_200: do i = 1,j
+                   loop_210: do j = 1, n
+                       loop_200: do i = 1, j
                            temp1 = zero
                            temp2 = zero
-                           loop_190: do l = 1,k
-                               temp1 = temp1 + conjg(a(l,i))*b(l,j)
-                               temp2 = temp2 + conjg(b(l,i))*a(l,j)
+                           loop_190: do l = 1, k
+                               temp1 = temp1 + conjg(a(l, i))*b(l, j)
+                               temp2 = temp2 + conjg(b(l, i))*a(l, j)
                            end do loop_190
-                           if (i==j) then
-                               if (beta==real(zero)) then
-                                   c(j,j) = real(alpha*temp1+conjg(alpha)*temp2)
+                           if (i == j) then
+                               if (beta == real(zero)) then
+                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2)
                                else
-                                   c(j,j) = beta*real(c(j,j)) +real(alpha*temp1+conjg(alpha)&
+                                   c(j, j) = beta*real(c(j, j)) + real(alpha*temp1 + conjg(alpha) &
                                              *temp2)
                                end if
                            else
-                               if (beta==real(zero)) then
-                                   c(i,j) = alpha*temp1 + conjg(alpha)*temp2
+                               if (beta == real(zero)) then
+                                   c(i, j) = alpha*temp1 + conjg(alpha)*temp2
                                else
-                                   c(i,j) = beta*c(i,j) + alpha*temp1 +conjg(alpha)*temp2
+                                   c(i, j) = beta*c(i, j) + alpha*temp1 + conjg(alpha)*temp2
                                end if
                            end if
                        end do loop_200
                    end do loop_210
                else
-                   loop_240: do j = 1,n
-                       loop_230: do i = j,n
+                   loop_240: do j = 1, n
+                       loop_230: do i = j, n
                            temp1 = zero
                            temp2 = zero
-                           loop_220: do l = 1,k
-                               temp1 = temp1 + conjg(a(l,i))*b(l,j)
-                               temp2 = temp2 + conjg(b(l,i))*a(l,j)
+                           loop_220: do l = 1, k
+                               temp1 = temp1 + conjg(a(l, i))*b(l, j)
+                               temp2 = temp2 + conjg(b(l, i))*a(l, j)
                            end do loop_220
-                           if (i==j) then
-                               if (beta==real(zero)) then
-                                   c(j,j) = real(alpha*temp1+conjg(alpha)*temp2)
+                           if (i == j) then
+                               if (beta == real(zero)) then
+                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2)
                                else
-                                   c(j,j) = beta*real(c(j,j)) +real(alpha*temp1+conjg(alpha)&
+                                   c(j, j) = beta*real(c(j, j)) + real(alpha*temp1 + conjg(alpha) &
                                              *temp2)
                                end if
                            else
-                               if (beta==real(zero)) then
-                                   c(i,j) = alpha*temp1 + conjg(alpha)*temp2
+                               if (beta == real(zero)) then
+                                   c(i, j) = alpha*temp1 + conjg(alpha)*temp2
                                else
-                                   c(i,j) = beta*c(i,j) + alpha*temp1 +conjg(alpha)*temp2
+                                   c(i, j) = beta*c(i, j) + alpha*temp1 + conjg(alpha)*temp2
                                end if
                            end if
                        end do loop_230
@@ -1938,87 +1913,85 @@ module stdlib_linalg_blas_c
      ! matrix and  A  is an  n by k  matrix in the  first case and a  k by n
      ! matrix in the second case.
 
-     subroutine stdlib_cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     subroutine stdlib_cherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp) :: alpha,beta
-           integer(int32) :: k,lda,ldc,n
-           character :: trans,uplo
+           real(sp) :: alpha, beta
+           integer(int32) :: k, lda, ldc, n
+           character :: trans, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),c(ldc,*)
+           complex(sp) :: a(lda, *), c(ldc, *)
         ! =====================================================================
      
-     
-     
            ! .. intrinsic functions ..
-           intrinsic :: cmplx,conjg,max,real
+           intrinsic :: cmplx, conjg, max, real
            ! .. local scalars ..
            complex(sp) :: temp
            real(sp) :: rtemp
-           integer(int32) :: i,info,j,l,nrowa
+           integer(int32) :: i, info, j, l, nrowa
            logical(lk) :: upper
            ! .. parameters ..
-           real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+           real(sp) :: one, zero
+           parameter(one=1.0_sp, zero=0.0_sp)
            ! test the input parameters.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo, 'u')
            info = 0
-           if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo, 'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'c'))) &
+           else if ((.not. stdlib_lsame(trans, 'n')) .and. (.not. stdlib_lsame(trans, 'c'))) &
                      then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (k<0) then
+           else if (k < 0) then
                info = 4
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1, nrowa)) then
                info = 7
-           else if (ldc<max(1,n)) then
+           else if (ldc < max(1, n)) then
                info = 10
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_cherk ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_cherk ', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
+           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
+           if (alpha == zero) then
                if (upper) then
-                   if (beta==zero) then
-                       loop_20: do j = 1,n
-                           loop_10: do i = 1,j
-                               c(i,j) = zero
+                   if (beta == zero) then
+                       loop_20: do j = 1, n
+                           loop_10: do i = 1, j
+                               c(i, j) = zero
                            end do loop_10
                        end do loop_20
                    else
-                       loop_40: do j = 1,n
-                           loop_30: do i = 1,j - 1
-                               c(i,j) = beta*c(i,j)
+                       loop_40: do j = 1, n
+                           loop_30: do i = 1, j - 1
+                               c(i, j) = beta*c(i, j)
                            end do loop_30
-                           c(j,j) = beta*real(c(j,j))
+                           c(j, j) = beta*real(c(j, j))
                        end do loop_40
                    end if
                else
-                   if (beta==zero) then
-                       loop_60: do j = 1,n
-                           loop_50: do i = j,n
-                               c(i,j) = zero
+                   if (beta == zero) then
+                       loop_60: do j = 1, n
+                           loop_50: do i = j, n
+                               c(i, j) = zero
                            end do loop_50
                        end do loop_60
                    else
-                       loop_80: do j = 1,n
-                           c(j,j) = beta*real(c(j,j))
-                           loop_70: do i = j + 1,n
-                               c(i,j) = beta*c(i,j)
+                       loop_80: do j = 1, n
+                           c(j, j) = beta*real(c(j, j))
+                           loop_70: do i = j + 1, n
+                               c(i, j) = beta*c(i, j)
                            end do loop_70
                        end do loop_80
                    end if
@@ -2026,52 +1999,52 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  c := alpha*a*a**h + beta*c.
                if (upper) then
-                   loop_130: do j = 1,n
-                       if (beta==zero) then
-                           loop_90: do i = 1,j
-                               c(i,j) = zero
+                   loop_130: do j = 1, n
+                       if (beta == zero) then
+                           loop_90: do i = 1, j
+                               c(i, j) = zero
                            end do loop_90
-                       else if (beta/=one) then
-                           loop_100: do i = 1,j - 1
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_100: do i = 1, j - 1
+                               c(i, j) = beta*c(i, j)
                            end do loop_100
-                           c(j,j) = beta*real(c(j,j))
+                           c(j, j) = beta*real(c(j, j))
                        else
-                           c(j,j) = real(c(j,j))
+                           c(j, j) = real(c(j, j))
                        end if
-                       loop_120: do l = 1,k
-                           if (a(j,l)/=cmplx(zero)) then
-                               temp = alpha*conjg(a(j,l))
-                               loop_110: do i = 1,j - 1
-                                   c(i,j) = c(i,j) + temp*a(i,l)
+                       loop_120: do l = 1, k
+                           if (a(j, l) /= cmplx(zero)) then
+                               temp = alpha*conjg(a(j, l))
+                               loop_110: do i = 1, j - 1
+                                   c(i, j) = c(i, j) + temp*a(i, l)
                                end do loop_110
-                               c(j,j) = real(c(j,j)) + real(temp*a(i,l))
+                               c(j, j) = real(c(j, j)) + real(temp*a(i, l))
                            end if
                        end do loop_120
                    end do loop_130
                else
-                   loop_180: do j = 1,n
-                       if (beta==zero) then
-                           loop_140: do i = j,n
-                               c(i,j) = zero
+                   loop_180: do j = 1, n
+                       if (beta == zero) then
+                           loop_140: do i = j, n
+                               c(i, j) = zero
                            end do loop_140
-                       else if (beta/=one) then
-                           c(j,j) = beta*real(c(j,j))
-                           loop_150: do i = j + 1,n
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           c(j, j) = beta*real(c(j, j))
+                           loop_150: do i = j + 1, n
+                               c(i, j) = beta*c(i, j)
                            end do loop_150
                        else
-                           c(j,j) = real(c(j,j))
+                           c(j, j) = real(c(j, j))
                        end if
-                       loop_170: do l = 1,k
-                           if (a(j,l)/=cmplx(zero)) then
-                               temp = alpha*conjg(a(j,l))
-                               c(j,j) = real(c(j,j)) + real(temp*a(j,l))
-                               loop_160: do i = j + 1,n
-                                   c(i,j) = c(i,j) + temp*a(i,l)
+                       loop_170: do l = 1, k
+                           if (a(j, l) /= cmplx(zero)) then
+                               temp = alpha*conjg(a(j, l))
+                               c(j, j) = real(c(j, j)) + real(temp*a(j, l))
+                               loop_160: do i = j + 1, n
+                                   c(i, j) = c(i, j) + temp*a(i, l)
                                end do loop_160
                            end if
                        end do loop_170
@@ -2080,48 +2053,48 @@ module stdlib_linalg_blas_c
            else
               ! form  c := alpha*a**h*a + beta*c.
                if (upper) then
-                   loop_220: do j = 1,n
-                       loop_200: do i = 1,j - 1
+                   loop_220: do j = 1, n
+                       loop_200: do i = 1, j - 1
                            temp = zero
-                           loop_190: do l = 1,k
-                               temp = temp + conjg(a(l,i))*a(l,j)
+                           loop_190: do l = 1, k
+                               temp = temp + conjg(a(l, i))*a(l, j)
                            end do loop_190
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_200
                        rtemp = zero
-                       loop_210: do l = 1,k
-                           rtemp = rtemp + conjg(a(l,j))*a(l,j)
+                       loop_210: do l = 1, k
+                           rtemp = rtemp + conjg(a(l, j))*a(l, j)
                        end do loop_210
-                       if (beta==zero) then
-                           c(j,j) = alpha*rtemp
+                       if (beta == zero) then
+                           c(j, j) = alpha*rtemp
                        else
-                           c(j,j) = alpha*rtemp + beta*real(c(j,j))
+                           c(j, j) = alpha*rtemp + beta*real(c(j, j))
                        end if
                    end do loop_220
                else
-                   loop_260: do j = 1,n
+                   loop_260: do j = 1, n
                        rtemp = zero
-                       loop_230: do l = 1,k
-                           rtemp = rtemp + conjg(a(l,j))*a(l,j)
+                       loop_230: do l = 1, k
+                           rtemp = rtemp + conjg(a(l, j))*a(l, j)
                        end do loop_230
-                       if (beta==zero) then
-                           c(j,j) = alpha*rtemp
+                       if (beta == zero) then
+                           c(j, j) = alpha*rtemp
                        else
-                           c(j,j) = alpha*rtemp + beta*real(c(j,j))
+                           c(j, j) = alpha*rtemp + beta*real(c(j, j))
                        end if
-                       loop_250: do i = j + 1,n
+                       loop_250: do i = j + 1, n
                            temp = zero
-                           loop_240: do l = 1,k
-                               temp = temp + conjg(a(l,i))*a(l,j)
+                           loop_240: do l = 1, k
+                               temp = temp + conjg(a(l, i))*a(l, j)
                            end do loop_240
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_250
                    end do loop_260
@@ -2136,119 +2109,117 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     subroutine stdlib_chpmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: incx,incy,n
+           complex(sp) :: alpha, beta
+           integer(int32) :: incx, incy, n
            character :: uplo
            ! .. array arguments ..
-           complex(sp) :: ap(*),x(*),y(*)
+           complex(sp) :: ap(*), x(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
-           complex(sp) :: temp1,temp2
-           integer(int32) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     
-     
+           complex(sp) :: temp1, temp2
+           integer(int32) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,real
+           intrinsic :: conjg, real
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 6
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 9
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_chpmv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_chpmv ', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (n-1)*incx
+               kx = 1 - (n - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (n-1)*incy
+               ky = 1 - (n - 1)*incy
            end if
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with one pass through ap.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
-                       loop_10: do i = 1,n
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
+                       loop_10: do i = 1, n
                            y(i) = zero
                        end do loop_10
                    else
-                       loop_20: do i = 1,n
+                       loop_20: do i = 1, n
                            y(i) = beta*y(i)
                        end do loop_20
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
-                       loop_30: do i = 1,n
+                   if (beta == zero) then
+                       loop_30: do i = 1, n
                            y(iy) = zero
                            iy = iy + incy
                        end do loop_30
                    else
-                       loop_40: do i = 1,n
+                       loop_40: do i = 1, n
                            y(iy) = beta*y(iy)
                            iy = iy + incy
                        end do loop_40
                    end if
                end if
            end if
-           if (alpha==zero) return
+           if (alpha == zero) return
            kk = 1
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo, 'u')) then
               ! form  y  when ap contains the upper triangle.
-               if ((incx==1) .and. (incy==1)) then
-                   loop_60: do j = 1,n
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_60: do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        k = kk
-                       loop_50: do i = 1,j - 1
+                       loop_50: do i = 1, j - 1
                            y(i) = y(i) + temp1*ap(k)
                            temp2 = temp2 + conjg(ap(k))*x(i)
                            k = k + 1
                        end do loop_50
-                       y(j) = y(j) + temp1*real(ap(kk+j-1)) + alpha*temp2
+                       y(j) = y(j) + temp1*real(ap(kk + j - 1)) + alpha*temp2
                        kk = kk + j
                    end do loop_60
                else
                    jx = kx
                    jy = ky
-                   loop_80: do j = 1,n
+                   loop_80: do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        ix = kx
                        iy = ky
-                       loop_70: do k = kk,kk + j - 2
+                       loop_70: do k = kk, kk + j - 2
                            y(iy) = y(iy) + temp1*ap(k)
                            temp2 = temp2 + conjg(ap(k))*x(ix)
                            ix = ix + incx
                            iy = iy + incy
                        end do loop_70
-                       y(jy) = y(jy) + temp1*real(ap(kk+j-1)) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(ap(kk + j - 1)) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        kk = kk + j
@@ -2256,30 +2227,30 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  y  when ap contains the lower triangle.
-               if ((incx==1) .and. (incy==1)) then
-                   loop_100: do j = 1,n
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_100: do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        y(j) = y(j) + temp1*real(ap(kk))
                        k = kk + 1
-                       loop_90: do i = j + 1,n
+                       loop_90: do i = j + 1, n
                            y(i) = y(i) + temp1*ap(k)
                            temp2 = temp2 + conjg(ap(k))*x(i)
                            k = k + 1
                        end do loop_90
                        y(j) = y(j) + alpha*temp2
-                       kk = kk + (n-j+1)
+                       kk = kk + (n - j + 1)
                    end do loop_100
                else
                    jx = kx
                    jy = ky
-                   loop_120: do j = 1,n
+                   loop_120: do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = zero
                        y(jy) = y(jy) + temp1*real(ap(kk))
                        ix = jx
                        iy = jy
-                       loop_110: do k = kk + 1,kk + n - j
+                       loop_110: do k = kk + 1, kk + n - j
                            ix = ix + incx
                            iy = iy + incy
                            y(iy) = y(iy) + temp1*ap(k)
@@ -2288,7 +2259,7 @@ module stdlib_linalg_blas_c
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
-                       kk = kk + (n-j+1)
+                       kk = kk + (n - j + 1)
                    end do loop_120
                end if
            end if
@@ -2301,82 +2272,80 @@ module stdlib_linalg_blas_c
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_chpr(uplo,n,alpha,x,incx,ap)
+     subroutine stdlib_chpr(uplo, n, alpha, x, incx, ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(sp) :: alpha
-           integer(int32) :: incx,n
+           integer(int32) :: incx, n
            character :: uplo
            ! .. array arguments ..
-           complex(sp) :: ap(*),x(*)
+           complex(sp) :: ap(*), x(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jx,k,kk,kx
-     
-     
+           integer(int32) :: i, info, ix, j, jx, k, kk, kx
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,real
+           intrinsic :: conjg, real
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_chpr  ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_chpr  ', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (alpha==real(zero))) return
+           if ((n == 0) .or. (alpha == real(zero))) return
            ! set the start point in x if the increment is not unity.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with one pass through ap.
            kk = 1
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo, 'u')) then
               ! form  a  when upper triangle is stored in ap.
-               if (incx==1) then
-                   loop_20: do j = 1,n
-                       if (x(j)/=zero) then
+               if (incx == 1) then
+                   loop_20: do j = 1, n
+                       if (x(j) /= zero) then
                            temp = alpha*conjg(x(j))
                            k = kk
-                           loop_10: do i = 1,j - 1
+                           loop_10: do i = 1, j - 1
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
                            end do loop_10
-                           ap(kk+j-1) = real(ap(kk+j-1)) + real(x(j)*temp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1)) + real(x(j)*temp)
                        else
-                           ap(kk+j-1) = real(ap(kk+j-1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1))
                        end if
                        kk = kk + j
                    end do loop_20
                else
                    jx = kx
-                   loop_40: do j = 1,n
-                       if (x(jx)/=zero) then
+                   loop_40: do j = 1, n
+                       if (x(jx) /= zero) then
                            temp = alpha*conjg(x(jx))
                            ix = kx
-                           loop_30: do k = kk,kk + j - 2
+                           loop_30: do k = kk, kk + j - 2
                                ap(k) = ap(k) + x(ix)*temp
                                ix = ix + incx
                            end do loop_30
-                           ap(kk+j-1) = real(ap(kk+j-1)) + real(x(jx)*temp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1)) + real(x(jx)*temp)
                        else
-                           ap(kk+j-1) = real(ap(kk+j-1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1))
                        end if
                        jx = jx + incx
                        kk = kk + j
@@ -2384,13 +2353,13 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  a  when lower triangle is stored in ap.
-               if (incx==1) then
-                   loop_60: do j = 1,n
-                       if (x(j)/=zero) then
+               if (incx == 1) then
+                   loop_60: do j = 1, n
+                       if (x(j) /= zero) then
                            temp = alpha*conjg(x(j))
                            ap(kk) = real(ap(kk)) + real(temp*x(j))
                            k = kk + 1
-                           loop_50: do i = j + 1,n
+                           loop_50: do i = j + 1, n
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
                            end do loop_50
@@ -2401,12 +2370,12 @@ module stdlib_linalg_blas_c
                    end do loop_60
                else
                    jx = kx
-                   loop_80: do j = 1,n
-                       if (x(jx)/=zero) then
+                   loop_80: do j = 1, n
+                       if (x(jx) /= zero) then
                            temp = alpha*conjg(x(jx))
                            ap(kk) = real(ap(kk)) + real(temp*x(jx))
                            ix = jx
-                           loop_70: do k = kk + 1,kk + n - j
+                           loop_70: do k = kk + 1, kk + n - j
                                ix = ix + incx
                                ap(k) = ap(k) + x(ix)*temp
                            end do loop_70
@@ -2427,57 +2396,55 @@ module stdlib_linalg_blas_c
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_chpr2(uplo,n,alpha,x,incx,y,incy,ap)
+     subroutine stdlib_chpr2(uplo, n, alpha, x, incx, y, incy, ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            complex(sp) :: alpha
-           integer(int32) :: incx,incy,n
+           integer(int32) :: incx, incy, n
            character :: uplo
            ! .. array arguments ..
-           complex(sp) :: ap(*),x(*),y(*)
+           complex(sp) :: ap(*), x(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
-           complex(sp) :: temp1,temp2
-           integer(int32) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-     
-     
+           complex(sp) :: temp1, temp2
+           integer(int32) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,real
+           intrinsic :: conjg, real
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 7
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_chpr2 ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_chpr2 ', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (alpha==zero)) return
+           if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
            ! unity.
-           if ((incx/=1) .or. (incy/=1)) then
-               if (incx>0) then
+           if ((incx /= 1) .or. (incy /= 1)) then
+               if (incx > 0) then
                    kx = 1
                else
-                   kx = 1 - (n-1)*incx
+                   kx = 1 - (n - 1)*incx
                end if
-               if (incy>0) then
+               if (incy > 0) then
                    ky = 1
                else
-                   ky = 1 - (n-1)*incy
+                   ky = 1 - (n - 1)*incy
                end if
                jx = kx
                jy = ky
@@ -2485,39 +2452,39 @@ module stdlib_linalg_blas_c
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with one pass through ap.
            kk = 1
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo, 'u')) then
               ! form  a  when upper triangle is stored in ap.
-               if ((incx==1) .and. (incy==1)) then
-                   loop_20: do j = 1,n
-                       if ((x(j)/=zero) .or. (y(j)/=zero)) then
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_20: do j = 1, n
+                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
                            k = kk
-                           loop_10: do i = 1,j - 1
+                           loop_10: do i = 1, j - 1
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
                            end do loop_10
-                           ap(kk+j-1) = real(ap(kk+j-1)) +real(x(j)*temp1+y(j)*temp2)
+                           ap(kk + j - 1) = real(ap(kk + j - 1)) + real(x(j)*temp1 + y(j)*temp2)
                        else
-                           ap(kk+j-1) = real(ap(kk+j-1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1))
                        end if
                        kk = kk + j
                    end do loop_20
                else
-                   loop_40: do j = 1,n
-                       if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
+                   loop_40: do j = 1, n
+                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
                            ix = kx
                            iy = ky
-                           loop_30: do k = kk,kk + j - 2
+                           loop_30: do k = kk, kk + j - 2
                                ap(k) = ap(k) + x(ix)*temp1 + y(iy)*temp2
                                ix = ix + incx
                                iy = iy + incy
                            end do loop_30
-                           ap(kk+j-1) = real(ap(kk+j-1)) +real(x(jx)*temp1+y(jy)*temp2)
+                           ap(kk + j - 1) = real(ap(kk + j - 1)) + real(x(jx)*temp1 + y(jy)*temp2)
                        else
-                           ap(kk+j-1) = real(ap(kk+j-1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1))
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -2526,14 +2493,14 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  a  when lower triangle is stored in ap.
-               if ((incx==1) .and. (incy==1)) then
-                   loop_60: do j = 1,n
-                       if ((x(j)/=zero) .or. (y(j)/=zero)) then
+               if ((incx == 1) .and. (incy == 1)) then
+                   loop_60: do j = 1, n
+                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
-                           ap(kk) = real(ap(kk)) +real(x(j)*temp1+y(j)*temp2)
+                           ap(kk) = real(ap(kk)) + real(x(j)*temp1 + y(j)*temp2)
                            k = kk + 1
-                           loop_50: do i = j + 1,n
+                           loop_50: do i = j + 1, n
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
                            end do loop_50
@@ -2543,14 +2510,14 @@ module stdlib_linalg_blas_c
                        kk = kk + n - j + 1
                    end do loop_60
                else
-                   loop_80: do j = 1,n
-                       if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
+                   loop_80: do j = 1, n
+                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
-                           ap(kk) = real(ap(kk)) +real(x(jx)*temp1+y(jy)*temp2)
+                           ap(kk) = real(ap(kk)) + real(x(jx)*temp1 + y(jy)*temp2)
                            ix = jx
                            iy = jy
-                           loop_70: do k = kk + 1,kk + n - j
+                           loop_70: do k = kk + 1, kk + n - j
                                ix = ix + incx
                                iy = iy + incy
                                ap(k) = ap(k) + x(ix)*temp1 + y(iy)*temp2
@@ -2583,24 +2550,24 @@ module stdlib_linalg_blas_c
      ! sign of c and s will be different from those computed by SROTG
      ! if the signs of a and b are not the same.
 
-     subroutine stdlib_crotg( a, b, c, s )
+     subroutine stdlib_crotg(a, b, c, s)
         integer, parameter :: wp = kind(1.e0)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        real(sp), parameter ::szero = 0.0_sp
-        real(sp), parameter :: sone  = 1.0_sp
-        complex(sp), parameter :: czero  = 0.0_sp
+        real(sp), parameter :: szero = 0.0_sp
+        real(sp), parameter :: sone = 1.0_sp
+        complex(sp), parameter :: czero = 0.0_sp
         ! .. scaling constants ..
-     real(sp), parameter :: safmin = real(radix(0._sp),wp)**max(minexponent(0._sp)-1,1-&
-               maxexponent(0._sp)   )
-     real(sp), parameter :: safmax = real(radix(0._sp),wp)**max(1-minexponent(0._sp),maxexponent(&
-               0._sp)-1   )
-     real(sp), parameter :: rtmin = sqrt( real(radix(0._sp),wp)**max(minexponent(0._sp)-1,1-&
-               maxexponent(0._sp)   ) / epsilon(0._sp) )
-     real(sp), parameter :: rtmax = sqrt( real(radix(0._sp),wp)**max(1-minexponent(0._sp),&
-               maxexponent(0._sp)-1   ) * epsilon(0._sp) )
+     real(sp), parameter :: safmin = real(radix(0._sp), wp)**max(minexponent(0._sp) - 1, 1 - &
+               maxexponent(0._sp))
+     real(sp), parameter :: safmax = real(radix(0._sp), wp)**max(1 - minexponent(0._sp), maxexponent( &
+               0._sp) - 1)
+     real(sp), parameter :: rtmin = sqrt(real(radix(0._sp), wp)**max(minexponent(0._sp) - 1, 1 - &
+               maxexponent(0._sp))/epsilon(0._sp))
+     real(sp), parameter :: rtmax = sqrt(real(radix(0._sp), wp)**max(1 - minexponent(0._sp), &
+               maxexponent(0._sp) - 1)*epsilon(0._sp))
         ! .. scalar arguments ..
         real(sp) :: c
         complex(sp) :: a, b, s
@@ -2612,81 +2579,81 @@ module stdlib_linalg_blas_c
         ! .. statement functions ..
         real(sp) :: abssq
         ! .. statement function definitions ..
-        abssq( t ) = real( t )**2 + aimag( t )**2
+        abssq(t) = real(t)**2 + aimag(t)**2
         ! .. executable statements ..
         f = a
         g = b
-        if( g == czero ) then
+        if (g == czero) then
            c = sone
            s = czero
            r = f
-        else if( f == czero ) then
-           c =szero
-           g1 = max( abs(real(g)), abs(aimag(g)) )
-           if( g1 > rtmin .and. g1 < rtmax ) then
+        else if (f == czero) then
+           c = szero
+           g1 = max(abs(real(g)), abs(aimag(g)))
+           if (g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
-              g2 = abssq( g )
-              d = sqrt( g2 )
-              s = conjg( g ) / d
+              g2 = abssq(g)
+              d = sqrt(g2)
+              s = conjg(g)/d
               r = d
            else
               ! use scaled algorithm
-              u = min( safmax, max( safmin, g1 ) )
-              uu = sone / u
+              u = min(safmax, max(safmin, g1))
+              uu = sone/u
               gs = g*uu
-              g2 = abssq( gs )
-              d = sqrt( g2 )
-              s = conjg( gs ) / d
+              g2 = abssq(gs)
+              d = sqrt(g2)
+              s = conjg(gs)/d
               r = d*u
            end if
         else
-           f1 = max( abs(real(f)), abs(aimag(f)) )
-           g1 = max( abs(real(g)), abs(aimag(g)) )
-     if( f1 > rtmin .and. f1 < rtmax .and.          g1 > rtmin .and. g1 < rtmax ) then
+           f1 = max(abs(real(f)), abs(aimag(f)))
+           g1 = max(abs(real(g)), abs(aimag(g)))
+     if (f1 > rtmin .and. f1 < rtmax .and. g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
-              f2 = abssq( f )
-              g2 = abssq( g )
+              f2 = abssq(f)
+              g2 = abssq(g)
               h2 = f2 + g2
-              if( f2 > rtmin .and. h2 < rtmax ) then
-                 d = sqrt( f2*h2 )
+              if (f2 > rtmin .and. h2 < rtmax) then
+                 d = sqrt(f2*h2)
               else
-                 d = sqrt( f2 )*sqrt( h2 )
+                 d = sqrt(f2)*sqrt(h2)
               end if
-              p = 1 / d
+              p = 1/d
               c = f2*p
-              s = conjg( g )*( f*p )
-              r = f*( h2*p )
+              s = conjg(g)*(f*p)
+              r = f*(h2*p)
            else
               ! use scaled algorithm
-              u = min( safmax, max( safmin, f1, g1 ) )
-              uu = sone / u
+              u = min(safmax, max(safmin, f1, g1))
+              uu = sone/u
               gs = g*uu
-              g2 = abssq( gs )
-              if( f1*uu < rtmin ) then
+              g2 = abssq(gs)
+              if (f1*uu < rtmin) then
                  ! f is not well-scaled when scaled by g1.
                  ! use a different scaling for f.
-                 v = min( safmax, max( safmin, f1 ) )
-                 vv = sone / v
-                 w = v * uu
+                 v = min(safmax, max(safmin, f1))
+                 vv = sone/v
+                 w = v*uu
                  fs = f*vv
-                 f2 = abssq( fs )
+                 f2 = abssq(fs)
                  h2 = f2*w**2 + g2
               else
                  ! otherwise use the same scaling for f and g.
                  w = sone
                  fs = f*uu
-                 f2 = abssq( fs )
+                 f2 = abssq(fs)
                  h2 = f2 + g2
               end if
-              if( f2 > rtmin .and. h2 < rtmax ) then
-                 d = sqrt( f2*h2 )
+              if (f2 > rtmin .and. h2 < rtmax) then
+                 d = sqrt(f2*h2)
               else
-                 d = sqrt( f2 )*sqrt( h2 )
+                 d = sqrt(f2)*sqrt(h2)
               end if
-              p = 1 / d
-              c = ( f2*p )*w
-              s = conjg( gs )*( fs*p )
-              r = ( fs*( h2*p ) )*u
+              p = 1/d
+              c = (f2*p)*w
+              s = conjg(gs)*(fs*p)
+              r = (fs*(h2*p))*u
            end if
         end if
         a = r
@@ -2695,28 +2662,28 @@ module stdlib_linalg_blas_c
 
      ! CSCAL scales a vector by a constant.
 
-     subroutine stdlib_cscal(n,ca,cx,incx)
+     subroutine stdlib_cscal(n, ca, cx, incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            complex(sp) :: ca
-           integer(int32) :: incx,n
+           integer(int32) :: incx, n
            ! .. array arguments ..
            complex(sp) :: cx(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i,nincx
-           if (n<=0 .or. incx<=0) return
-           if (incx==1) then
+           integer(int32) :: i, nincx
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
               ! code for increment equal to 1
-              do i = 1,n
+              do i = 1, n
                  cx(i) = ca*cx(i)
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
-              do i = 1,nincx,incx
+              do i = 1, nincx, incx
                  cx(i) = ca*cx(i)
               end do
            end if
@@ -2728,7 +2695,7 @@ module stdlib_linalg_blas_c
      ! and the vectors cx and cy are complex.
      ! jack dongarra, linpack, 3/11/78.
 
-     subroutine stdlib_csrot( n, cx, incx, cy, incy, c, s )
+     subroutine stdlib_csrot(n, cx, incx, cy, incy, c, s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2736,31 +2703,31 @@ module stdlib_linalg_blas_c
            integer(int32) :: incx, incy, n
            real(sp) :: c, s
            ! .. array arguments ..
-           complex(sp) :: cx( * ), cy( * )
+           complex(sp) :: cx(*), cy(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(int32) :: i, ix, iy
            complex(sp) :: ctemp
            ! .. executable statements ..
-           if( n<=0 )return
-           if( incx==1 .and. incy==1 ) then
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               do i = 1, n
-                 ctemp = c*cx( i ) + s*cy( i )
-                 cy( i ) = c*cy( i ) - s*cx( i )
-                 cx( i ) = ctemp
+                 ctemp = c*cx(i) + s*cy(i)
+                 cy(i) = c*cy(i) - s*cx(i)
+                 cx(i) = ctemp
               end do
            else
               ! code for unequal increments or equal increments not equal
                 ! to 1
               ix = 1
               iy = 1
-              if( incx<0 )ix = ( -n+1 )*incx + 1
-              if( incy<0 )iy = ( -n+1 )*incy + 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
               do i = 1, n
-                 ctemp = c*cx( ix ) + s*cy( iy )
-                 cy( iy ) = c*cy( iy ) - s*cx( ix )
-                 cx( ix ) = ctemp
+                 ctemp = c*cx(ix) + s*cy(iy)
+                 cy(iy) = c*cy(iy) - s*cx(ix)
+                 cx(ix) = ctemp
                  ix = ix + incx
                  iy = iy + incy
               end do
@@ -2771,31 +2738,31 @@ module stdlib_linalg_blas_c
 
      ! CSSCAL scales a complex vector by a real constant.
 
-     subroutine stdlib_csscal(n,sa,cx,incx)
+     subroutine stdlib_csscal(n, sa, cx, incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(sp) :: sa
-           integer(int32) :: incx,n
+           integer(int32) :: incx, n
            ! .. array arguments ..
            complex(sp) :: cx(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i,nincx
+           integer(int32) :: i, nincx
            ! .. intrinsic functions ..
-           intrinsic :: aimag,cmplx,real
-           if (n<=0 .or. incx<=0) return
-           if (incx==1) then
+           intrinsic :: aimag, cmplx, real
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
               ! code for increment equal to 1
-              do i = 1,n
-                 cx(i) = cmplx(sa*real(cx(i)),sa*aimag(cx(i)))
+              do i = 1, n
+                 cx(i) = cmplx(sa*real(cx(i)), sa*aimag(cx(i)))
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
-              do i = 1,nincx,incx
-                 cx(i) = cmplx(sa*real(cx(i)),sa*aimag(cx(i)))
+              do i = 1, nincx, incx
+                 cx(i) = cmplx(sa*real(cx(i)), sa*aimag(cx(i)))
               end do
            end if
            return
@@ -2804,22 +2771,22 @@ module stdlib_linalg_blas_c
 
      ! CSWAP interchanges two vectors.
 
-     subroutine stdlib_cswap(n,cx,incx,cy,incy)
+     subroutine stdlib_cswap(n, cx, incx, cy, incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,incy,n
+           integer(int32) :: incx, incy, n
            ! .. array arguments ..
-           complex(sp) :: cx(*),cy(*)
+           complex(sp) :: cx(*), cy(*)
         ! =====================================================================
            ! .. local scalars ..
            complex(sp) :: ctemp
-           integer(int32) :: i,ix,iy
-           if (n<=0) return
-           if (incx==1 .and. incy==1) then
+           integer(int32) :: i, ix, iy
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
              ! code for both increments equal to 1
-              do i = 1,n
+              do i = 1, n
                  ctemp = cx(i)
                  cx(i) = cy(i)
                  cy(i) = ctemp
@@ -2829,9 +2796,9 @@ module stdlib_linalg_blas_c
                ! to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
-              do i = 1,n
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
+              do i = 1, n
                  ctemp = cx(ix)
                  cx(ix) = cy(iy)
                  cy(iy) = ctemp
@@ -2850,145 +2817,143 @@ module stdlib_linalg_blas_c
      ! where  alpha and beta are scalars, A is a symmetric matrix and  B and
      ! C are m by n matrices.
 
-     subroutine stdlib_csymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     subroutine stdlib_csymm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: lda,ldb,ldc,m,n
-           character :: side,uplo
+           complex(sp) :: alpha, beta
+           integer(int32) :: lda, ldb, ldc, m, n
+           character :: side, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
-     
      
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
-           complex(sp) :: temp1,temp2
-           integer(int32) :: i,info,j,k,nrowa
+           complex(sp) :: temp1, temp2
+           integer(int32) :: i, info, j, k, nrowa
            logical(lk) :: upper
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! set nrowa as the number of rows of a.
-           if (stdlib_lsame(side,'l')) then
+           if (stdlib_lsame(side, 'l')) then
                nrowa = m
            else
                nrowa = n
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo, 'u')
            ! test the input parameters.
            info = 0
-           if ((.not.stdlib_lsame(side,'l')) .and. (.not.stdlib_lsame(side,'r'))) then
+           if ((.not. stdlib_lsame(side, 'l')) .and. (.not. stdlib_lsame(side, 'r'))) then
                info = 1
-           else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo, 'l'))) then
                info = 2
-           else if (m<0) then
+           else if (m < 0) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1, nrowa)) then
                info = 7
-           else if (ldb<max(1,m)) then
+           else if (ldb < max(1, m)) then
                info = 9
-           else if (ldc<max(1,m)) then
+           else if (ldc < max(1, m)) then
                info = 12
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_csymm ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_csymm ', info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
+           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
-               if (beta==zero) then
-                   loop_20: do j = 1,n
-                       loop_10: do i = 1,m
-                           c(i,j) = zero
+           if (alpha == zero) then
+               if (beta == zero) then
+                   loop_20: do j = 1, n
+                       loop_10: do i = 1, m
+                           c(i, j) = zero
                        end do loop_10
                    end do loop_20
                else
-                   loop_40: do j = 1,n
-                       loop_30: do i = 1,m
-                           c(i,j) = beta*c(i,j)
+                   loop_40: do j = 1, n
+                       loop_30: do i = 1, m
+                           c(i, j) = beta*c(i, j)
                        end do loop_30
                    end do loop_40
                end if
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(side,'l')) then
+           if (stdlib_lsame(side, 'l')) then
               ! form  c := alpha*a*b + beta*c.
                if (upper) then
-                   loop_70: do j = 1,n
-                       loop_60: do i = 1,m
-                           temp1 = alpha*b(i,j)
+                   loop_70: do j = 1, n
+                       loop_60: do i = 1, m
+                           temp1 = alpha*b(i, j)
                            temp2 = zero
-                           loop_50: do k = 1,i - 1
-                               c(k,j) = c(k,j) + temp1*a(k,i)
-                               temp2 = temp2 + b(k,j)*a(k,i)
+                           loop_50: do k = 1, i - 1
+                               c(k, j) = c(k, j) + temp1*a(k, i)
+                               temp2 = temp2 + b(k, j)*a(k, i)
                            end do loop_50
-                           if (beta==zero) then
-                               c(i,j) = temp1*a(i,i) + alpha*temp2
+                           if (beta == zero) then
+                               c(i, j) = temp1*a(i, i) + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + temp1*a(i,i) +alpha*temp2
+                               c(i, j) = beta*c(i, j) + temp1*a(i, i) + alpha*temp2
                            end if
                        end do loop_60
                    end do loop_70
                else
-                   loop_100: do j = 1,n
-                       loop_90: do i = m,1,-1
-                           temp1 = alpha*b(i,j)
+                   loop_100: do j = 1, n
+                       loop_90: do i = m, 1, -1
+                           temp1 = alpha*b(i, j)
                            temp2 = zero
-                           loop_80: do k = i + 1,m
-                               c(k,j) = c(k,j) + temp1*a(k,i)
-                               temp2 = temp2 + b(k,j)*a(k,i)
+                           loop_80: do k = i + 1, m
+                               c(k, j) = c(k, j) + temp1*a(k, i)
+                               temp2 = temp2 + b(k, j)*a(k, i)
                            end do loop_80
-                           if (beta==zero) then
-                               c(i,j) = temp1*a(i,i) + alpha*temp2
+                           if (beta == zero) then
+                               c(i, j) = temp1*a(i, i) + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + temp1*a(i,i) +alpha*temp2
+                               c(i, j) = beta*c(i, j) + temp1*a(i, i) + alpha*temp2
                            end if
                        end do loop_90
                    end do loop_100
                end if
            else
               ! form  c := alpha*b*a + beta*c.
-               loop_170: do j = 1,n
-                   temp1 = alpha*a(j,j)
-                   if (beta==zero) then
-                       loop_110: do i = 1,m
-                           c(i,j) = temp1*b(i,j)
+               loop_170: do j = 1, n
+                   temp1 = alpha*a(j, j)
+                   if (beta == zero) then
+                       loop_110: do i = 1, m
+                           c(i, j) = temp1*b(i, j)
                        end do loop_110
                    else
-                       loop_120: do i = 1,m
-                           c(i,j) = beta*c(i,j) + temp1*b(i,j)
+                       loop_120: do i = 1, m
+                           c(i, j) = beta*c(i, j) + temp1*b(i, j)
                        end do loop_120
                    end if
-                   loop_140: do k = 1,j - 1
+                   loop_140: do k = 1, j - 1
                        if (upper) then
-                           temp1 = alpha*a(k,j)
+                           temp1 = alpha*a(k, j)
                        else
-                           temp1 = alpha*a(j,k)
+                           temp1 = alpha*a(j, k)
                        end if
-                       loop_130: do i = 1,m
-                           c(i,j) = c(i,j) + temp1*b(i,k)
+                       loop_130: do i = 1, m
+                           c(i, j) = c(i, j) + temp1*b(i, k)
                        end do loop_130
                    end do loop_140
-                   loop_160: do k = j + 1,n
+                   loop_160: do k = j + 1, n
                        if (upper) then
-                           temp1 = alpha*a(j,k)
+                           temp1 = alpha*a(j, k)
                        else
-                           temp1 = alpha*a(k,j)
+                           temp1 = alpha*a(k, j)
                        end if
-                       loop_150: do i = 1,m
-                           c(i,j) = c(i,j) + temp1*b(i,k)
+                       loop_150: do i = 1, m
+                           c(i, j) = c(i, j) + temp1*b(i, k)
                        end do loop_150
                    end do loop_160
                end do loop_170
@@ -3005,88 +2970,86 @@ module stdlib_linalg_blas_c
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
 
-     subroutine stdlib_csyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     subroutine stdlib_csyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: k,lda,ldb,ldc,n
-           character :: trans,uplo
+           complex(sp) :: alpha, beta
+           integer(int32) :: k, lda, ldb, ldc, n
+           character :: trans, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
-     
      
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
-           complex(sp) :: temp1,temp2
-           integer(int32) :: i,info,j,l,nrowa
+           complex(sp) :: temp1, temp2
+           integer(int32) :: i, info, j, l, nrowa
            logical(lk) :: upper
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! test the input parameters.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo, 'u')
            info = 0
-           if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo, 'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t'))) &
+           else if ((.not. stdlib_lsame(trans, 'n')) .and. (.not. stdlib_lsame(trans, 't'))) &
                      then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (k<0) then
+           else if (k < 0) then
                info = 4
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1, nrowa)) then
                info = 7
-           else if (ldb<max(1,nrowa)) then
+           else if (ldb < max(1, nrowa)) then
                info = 9
-           else if (ldc<max(1,n)) then
+           else if (ldc < max(1, n)) then
                info = 12
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_csyr2k',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_csyr2k', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
+           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
+           if (alpha == zero) then
                if (upper) then
-                   if (beta==zero) then
-                       loop_20: do j = 1,n
-                           loop_10: do i = 1,j
-                               c(i,j) = zero
+                   if (beta == zero) then
+                       loop_20: do j = 1, n
+                           loop_10: do i = 1, j
+                               c(i, j) = zero
                            end do loop_10
                        end do loop_20
                    else
-                       loop_40: do j = 1,n
-                           loop_30: do i = 1,j
-                               c(i,j) = beta*c(i,j)
+                       loop_40: do j = 1, n
+                           loop_30: do i = 1, j
+                               c(i, j) = beta*c(i, j)
                            end do loop_30
                        end do loop_40
                    end if
                else
-                   if (beta==zero) then
-                       loop_60: do j = 1,n
-                           loop_50: do i = j,n
-                               c(i,j) = zero
+                   if (beta == zero) then
+                       loop_60: do j = 1, n
+                           loop_50: do i = j, n
+                               c(i, j) = zero
                            end do loop_50
                        end do loop_60
                    else
-                       loop_80: do j = 1,n
-                           loop_70: do i = j,n
-                               c(i,j) = beta*c(i,j)
+                       loop_80: do j = 1, n
+                           loop_70: do i = j, n
+                               c(i, j) = beta*c(i, j)
                            end do loop_70
                        end do loop_80
                    end if
@@ -3094,46 +3057,46 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  c := alpha*a*b**t + alpha*b*a**t + c.
                if (upper) then
-                   loop_130: do j = 1,n
-                       if (beta==zero) then
-                           loop_90: do i = 1,j
-                               c(i,j) = zero
+                   loop_130: do j = 1, n
+                       if (beta == zero) then
+                           loop_90: do i = 1, j
+                               c(i, j) = zero
                            end do loop_90
-                       else if (beta/=one) then
-                           loop_100: do i = 1,j
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_100: do i = 1, j
+                               c(i, j) = beta*c(i, j)
                            end do loop_100
                        end if
-                       loop_120: do l = 1,k
-                           if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
-                               temp1 = alpha*b(j,l)
-                               temp2 = alpha*a(j,l)
-                               loop_110: do i = 1,j
-                                   c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
+                       loop_120: do l = 1, k
+                           if ((a(j, l) /= zero) .or. (b(j, l) /= zero)) then
+                               temp1 = alpha*b(j, l)
+                               temp2 = alpha*a(j, l)
+                               loop_110: do i = 1, j
+                                   c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do loop_110
                            end if
                        end do loop_120
                    end do loop_130
                else
-                   loop_180: do j = 1,n
-                       if (beta==zero) then
-                           loop_140: do i = j,n
-                               c(i,j) = zero
+                   loop_180: do j = 1, n
+                       if (beta == zero) then
+                           loop_140: do i = j, n
+                               c(i, j) = zero
                            end do loop_140
-                       else if (beta/=one) then
-                           loop_150: do i = j,n
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_150: do i = j, n
+                               c(i, j) = beta*c(i, j)
                            end do loop_150
                        end if
-                       loop_170: do l = 1,k
-                           if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
-                               temp1 = alpha*b(j,l)
-                               temp2 = alpha*a(j,l)
-                               loop_160: do i = j,n
-                                   c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
+                       loop_170: do l = 1, k
+                           if ((a(j, l) /= zero) .or. (b(j, l) /= zero)) then
+                               temp1 = alpha*b(j, l)
+                               temp2 = alpha*a(j, l)
+                               loop_160: do i = j, n
+                                   c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do loop_160
                            end if
                        end do loop_170
@@ -3142,34 +3105,34 @@ module stdlib_linalg_blas_c
            else
               ! form  c := alpha*a**t*b + alpha*b**t*a + c.
                if (upper) then
-                   loop_210: do j = 1,n
-                       loop_200: do i = 1,j
+                   loop_210: do j = 1, n
+                       loop_200: do i = 1, j
                            temp1 = zero
                            temp2 = zero
-                           loop_190: do l = 1,k
-                               temp1 = temp1 + a(l,i)*b(l,j)
-                               temp2 = temp2 + b(l,i)*a(l,j)
+                           loop_190: do l = 1, k
+                               temp1 = temp1 + a(l, i)*b(l, j)
+                               temp2 = temp2 + b(l, i)*a(l, j)
                            end do loop_190
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp1 + alpha*temp2
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp1 + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + alpha*temp1 +alpha*temp2
+                               c(i, j) = beta*c(i, j) + alpha*temp1 + alpha*temp2
                            end if
                        end do loop_200
                    end do loop_210
                else
-                   loop_240: do j = 1,n
-                       loop_230: do i = j,n
+                   loop_240: do j = 1, n
+                       loop_230: do i = j, n
                            temp1 = zero
                            temp2 = zero
-                           loop_220: do l = 1,k
-                               temp1 = temp1 + a(l,i)*b(l,j)
-                               temp2 = temp2 + b(l,i)*a(l,j)
+                           loop_220: do l = 1, k
+                               temp1 = temp1 + a(l, i)*b(l, j)
+                               temp2 = temp2 + b(l, i)*a(l, j)
                            end do loop_220
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp1 + alpha*temp2
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp1 + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + alpha*temp1 +alpha*temp2
+                               c(i, j) = beta*c(i, j) + alpha*temp1 + alpha*temp2
                            end if
                        end do loop_230
                    end do loop_240
@@ -3187,86 +3150,84 @@ module stdlib_linalg_blas_c
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
 
-     subroutine stdlib_csyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     subroutine stdlib_csyrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: alpha,beta
-           integer(int32) :: k,lda,ldc,n
-           character :: trans,uplo
+           complex(sp) :: alpha, beta
+           integer(int32) :: k, lda, ldc, n
+           character :: trans, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),c(ldc,*)
+           complex(sp) :: a(lda, *), c(ldc, *)
         ! =====================================================================
-     
-     
      
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,j,l,nrowa
+           integer(int32) :: i, info, j, l, nrowa
            logical(lk) :: upper
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! test the input parameters.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo, 'u')
            info = 0
-           if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo, 'l'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'n')) .and.(.not.stdlib_lsame(trans,'t'))) &
+           else if ((.not. stdlib_lsame(trans, 'n')) .and. (.not. stdlib_lsame(trans, 't'))) &
                      then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (k<0) then
+           else if (k < 0) then
                info = 4
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1, nrowa)) then
                info = 7
-           else if (ldc<max(1,n)) then
+           else if (ldc < max(1, n)) then
                info = 10
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_csyrk ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_csyrk ', info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
+           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
+           if (alpha == zero) then
                if (upper) then
-                   if (beta==zero) then
-                       loop_20: do j = 1,n
-                           loop_10: do i = 1,j
-                               c(i,j) = zero
+                   if (beta == zero) then
+                       loop_20: do j = 1, n
+                           loop_10: do i = 1, j
+                               c(i, j) = zero
                            end do loop_10
                        end do loop_20
                    else
-                       loop_40: do j = 1,n
-                           loop_30: do i = 1,j
-                               c(i,j) = beta*c(i,j)
+                       loop_40: do j = 1, n
+                           loop_30: do i = 1, j
+                               c(i, j) = beta*c(i, j)
                            end do loop_30
                        end do loop_40
                    end if
                else
-                   if (beta==zero) then
-                       loop_60: do j = 1,n
-                           loop_50: do i = j,n
-                               c(i,j) = zero
+                   if (beta == zero) then
+                       loop_60: do j = 1, n
+                           loop_50: do i = j, n
+                               c(i, j) = zero
                            end do loop_50
                        end do loop_60
                    else
-                       loop_80: do j = 1,n
-                           loop_70: do i = j,n
-                               c(i,j) = beta*c(i,j)
+                       loop_80: do j = 1, n
+                           loop_70: do i = j, n
+                               c(i, j) = beta*c(i, j)
                            end do loop_70
                        end do loop_80
                    end if
@@ -3274,44 +3235,44 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  c := alpha*a*a**t + beta*c.
                if (upper) then
-                   loop_130: do j = 1,n
-                       if (beta==zero) then
-                           loop_90: do i = 1,j
-                               c(i,j) = zero
+                   loop_130: do j = 1, n
+                       if (beta == zero) then
+                           loop_90: do i = 1, j
+                               c(i, j) = zero
                            end do loop_90
-                       else if (beta/=one) then
-                           loop_100: do i = 1,j
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_100: do i = 1, j
+                               c(i, j) = beta*c(i, j)
                            end do loop_100
                        end if
-                       loop_120: do l = 1,k
-                           if (a(j,l)/=zero) then
-                               temp = alpha*a(j,l)
-                               loop_110: do i = 1,j
-                                   c(i,j) = c(i,j) + temp*a(i,l)
+                       loop_120: do l = 1, k
+                           if (a(j, l) /= zero) then
+                               temp = alpha*a(j, l)
+                               loop_110: do i = 1, j
+                                   c(i, j) = c(i, j) + temp*a(i, l)
                                end do loop_110
                            end if
                        end do loop_120
                    end do loop_130
                else
-                   loop_180: do j = 1,n
-                       if (beta==zero) then
-                           loop_140: do i = j,n
-                               c(i,j) = zero
+                   loop_180: do j = 1, n
+                       if (beta == zero) then
+                           loop_140: do i = j, n
+                               c(i, j) = zero
                            end do loop_140
-                       else if (beta/=one) then
-                           loop_150: do i = j,n
-                               c(i,j) = beta*c(i,j)
+                       else if (beta /= one) then
+                           loop_150: do i = j, n
+                               c(i, j) = beta*c(i, j)
                            end do loop_150
                        end if
-                       loop_170: do l = 1,k
-                           if (a(j,l)/=zero) then
-                               temp = alpha*a(j,l)
-                               loop_160: do i = j,n
-                                   c(i,j) = c(i,j) + temp*a(i,l)
+                       loop_170: do l = 1, k
+                           if (a(j, l) /= zero) then
+                               temp = alpha*a(j, l)
+                               loop_160: do i = j, n
+                                   c(i, j) = c(i, j) + temp*a(i, l)
                                end do loop_160
                            end if
                        end do loop_170
@@ -3320,30 +3281,30 @@ module stdlib_linalg_blas_c
            else
               ! form  c := alpha*a**t*a + beta*c.
                if (upper) then
-                   loop_210: do j = 1,n
-                       loop_200: do i = 1,j
+                   loop_210: do j = 1, n
+                       loop_200: do i = 1, j
                            temp = zero
-                           loop_190: do l = 1,k
-                               temp = temp + a(l,i)*a(l,j)
+                           loop_190: do l = 1, k
+                               temp = temp + a(l, i)*a(l, j)
                            end do loop_190
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_200
                    end do loop_210
                else
-                   loop_240: do j = 1,n
-                       loop_230: do i = j,n
+                   loop_240: do j = 1, n
+                       loop_230: do i = j, n
                            temp = zero
-                           loop_220: do l = 1,k
-                               temp = temp + a(l,i)*a(l,j)
+                           loop_220: do l = 1, k
+                               temp = temp + a(l, i)*a(l, j)
                            end do loop_220
-                           if (beta==zero) then
-                               c(i,j) = alpha*temp
+                           if (beta == zero) then
+                               c(i, j) = alpha*temp
                            else
-                               c(i,j) = alpha*temp + beta*c(i,j)
+                               c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do loop_230
                    end do loop_240
@@ -3358,165 +3319,163 @@ module stdlib_linalg_blas_c
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
-     subroutine stdlib_ctbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+     subroutine stdlib_ctbmv(uplo, trans, diag, n, k, a, lda, x, incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,k,lda,n
-           character :: diag,trans,uplo
+           integer(int32) :: incx, k, lda, n
+           character :: diag, trans, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*)
+           complex(sp) :: a(lda, *), x(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jx,kplus1,kx,l
-           logical(lk) :: noconj,nounit
-     
-     
+           integer(int32) :: i, info, ix, j, jx, kplus1, kx, l
+           logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max,min
+           intrinsic :: conjg, max, min
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
-                     .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
+                     .and. .not. stdlib_lsame(trans, 'c')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag, 'u') .and. .not. stdlib_lsame(diag, 'n')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (k<0) then
+           else if (k < 0) then
                info = 5
-           else if (lda< (k+1)) then
+           else if (lda < (k + 1)) then
                info = 7
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 9
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_ctbmv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_ctbmv ', info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           if (n == 0) return
+           noconj = stdlib_lsame(trans, 't')
+           nounit = stdlib_lsame(diag, 'n')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx   too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
                ! form  x := a*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo, 'u')) then
                    kplus1 = k + 1
-                   if (incx==1) then
-                       loop_20: do j = 1,n
-                           if (x(j)/=zero) then
+                   if (incx == 1) then
+                       loop_20: do j = 1, n
+                           if (x(j) /= zero) then
                                temp = x(j)
                                l = kplus1 - j
-                               loop_10: do i = max(1,j-k),j - 1
-                                   x(i) = x(i) + temp*a(l+i,j)
+                               loop_10: do i = max(1, j - k), j - 1
+                                   x(i) = x(i) + temp*a(l + i, j)
                                end do loop_10
-                               if (nounit) x(j) = x(j)*a(kplus1,j)
+                               if (nounit) x(j) = x(j)*a(kplus1, j)
                            end if
                        end do loop_20
                    else
                        jx = kx
-                       loop_40: do j = 1,n
-                           if (x(jx)/=zero) then
+                       loop_40: do j = 1, n
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
                                l = kplus1 - j
-                               loop_30: do i = max(1,j-k),j - 1
-                                   x(ix) = x(ix) + temp*a(l+i,j)
+                               loop_30: do i = max(1, j - k), j - 1
+                                   x(ix) = x(ix) + temp*a(l + i, j)
                                    ix = ix + incx
                                end do loop_30
-                               if (nounit) x(jx) = x(jx)*a(kplus1,j)
+                               if (nounit) x(jx) = x(jx)*a(kplus1, j)
                            end if
                            jx = jx + incx
-                           if (j>k) kx = kx + incx
+                           if (j > k) kx = kx + incx
                        end do loop_40
                    end if
                else
-                   if (incx==1) then
-                       loop_60: do j = n,1,-1
-                           if (x(j)/=zero) then
+                   if (incx == 1) then
+                       loop_60: do j = n, 1, -1
+                           if (x(j) /= zero) then
                                temp = x(j)
                                l = 1 - j
-                               loop_50: do i = min(n,j+k),j + 1,-1
-                                   x(i) = x(i) + temp*a(l+i,j)
+                               loop_50: do i = min(n, j + k), j + 1, -1
+                                   x(i) = x(i) + temp*a(l + i, j)
                                end do loop_50
-                               if (nounit) x(j) = x(j)*a(1,j)
+                               if (nounit) x(j) = x(j)*a(1, j)
                            end if
                        end do loop_60
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
-                       loop_80: do j = n,1,-1
-                           if (x(jx)/=zero) then
+                       loop_80: do j = n, 1, -1
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
                                l = 1 - j
-                               loop_70: do i = min(n,j+k),j + 1,-1
-                                   x(ix) = x(ix) + temp*a(l+i,j)
+                               loop_70: do i = min(n, j + k), j + 1, -1
+                                   x(ix) = x(ix) + temp*a(l + i, j)
                                    ix = ix - incx
                                end do loop_70
-                               if (nounit) x(jx) = x(jx)*a(1,j)
+                               if (nounit) x(jx) = x(jx)*a(1, j)
                            end if
                            jx = jx - incx
-                           if ((n-j)>=k) kx = kx - incx
+                           if ((n - j) >= k) kx = kx - incx
                        end do loop_80
                    end if
                end if
            else
               ! form  x := a**t*x  or  x := a**h*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo, 'u')) then
                    kplus1 = k + 1
-                   if (incx==1) then
-                       loop_110: do j = n,1,-1
+                   if (incx == 1) then
+                       loop_110: do j = n, 1, -1
                            temp = x(j)
                            l = kplus1 - j
                            if (noconj) then
-                               if (nounit) temp = temp*a(kplus1,j)
-                               loop_90: do i = j - 1,max(1,j-k),-1
-                                   temp = temp + a(l+i,j)*x(i)
+                               if (nounit) temp = temp*a(kplus1, j)
+                               loop_90: do i = j - 1, max(1, j - k), -1
+                                   temp = temp + a(l + i, j)*x(i)
                                end do loop_90
                            else
-                               if (nounit) temp = temp*conjg(a(kplus1,j))
-                               loop_100: do i = j - 1,max(1,j-k),-1
-                                   temp = temp + conjg(a(l+i,j))*x(i)
+                               if (nounit) temp = temp*conjg(a(kplus1, j))
+                               loop_100: do i = j - 1, max(1, j - k), -1
+                                   temp = temp + conjg(a(l + i, j))*x(i)
                                end do loop_100
                            end if
                            x(j) = temp
                        end do loop_110
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
-                       loop_140: do j = n,1,-1
+                       loop_140: do j = n, 1, -1
                            temp = x(jx)
                            kx = kx - incx
                            ix = kx
                            l = kplus1 - j
                            if (noconj) then
-                               if (nounit) temp = temp*a(kplus1,j)
-                               loop_120: do i = j - 1,max(1,j-k),-1
-                                   temp = temp + a(l+i,j)*x(ix)
+                               if (nounit) temp = temp*a(kplus1, j)
+                               loop_120: do i = j - 1, max(1, j - k), -1
+                                   temp = temp + a(l + i, j)*x(ix)
                                    ix = ix - incx
                                end do loop_120
                            else
-                               if (nounit) temp = temp*conjg(a(kplus1,j))
-                               loop_130: do i = j - 1,max(1,j-k),-1
-                                   temp = temp + conjg(a(l+i,j))*x(ix)
+                               if (nounit) temp = temp*conjg(a(kplus1, j))
+                               loop_130: do i = j - 1, max(1, j - k), -1
+                                   temp = temp + conjg(a(l + i, j))*x(ix)
                                    ix = ix - incx
                                end do loop_130
                            end if
@@ -3525,40 +3484,40 @@ module stdlib_linalg_blas_c
                        end do loop_140
                    end if
                else
-                   if (incx==1) then
-                       loop_170: do j = 1,n
+                   if (incx == 1) then
+                       loop_170: do j = 1, n
                            temp = x(j)
                            l = 1 - j
                            if (noconj) then
-                               if (nounit) temp = temp*a(1,j)
-                               loop_150: do i = j + 1,min(n,j+k)
-                                   temp = temp + a(l+i,j)*x(i)
+                               if (nounit) temp = temp*a(1, j)
+                               loop_150: do i = j + 1, min(n, j + k)
+                                   temp = temp + a(l + i, j)*x(i)
                                end do loop_150
                            else
-                               if (nounit) temp = temp*conjg(a(1,j))
-                               loop_160: do i = j + 1,min(n,j+k)
-                                   temp = temp + conjg(a(l+i,j))*x(i)
+                               if (nounit) temp = temp*conjg(a(1, j))
+                               loop_160: do i = j + 1, min(n, j + k)
+                                   temp = temp + conjg(a(l + i, j))*x(i)
                                end do loop_160
                            end if
                            x(j) = temp
                        end do loop_170
                    else
                        jx = kx
-                       loop_200: do j = 1,n
+                       loop_200: do j = 1, n
                            temp = x(jx)
                            kx = kx + incx
                            ix = kx
                            l = 1 - j
                            if (noconj) then
-                               if (nounit) temp = temp*a(1,j)
-                               loop_180: do i = j + 1,min(n,j+k)
-                                   temp = temp + a(l+i,j)*x(ix)
+                               if (nounit) temp = temp*a(1, j)
+                               loop_180: do i = j + 1, min(n, j + k)
+                                   temp = temp + a(l + i, j)*x(ix)
                                    ix = ix + incx
                                end do loop_180
                            else
-                               if (nounit) temp = temp*conjg(a(1,j))
-                               loop_190: do i = j + 1,min(n,j+k)
-                                   temp = temp + conjg(a(l+i,j))*x(ix)
+                               if (nounit) temp = temp*conjg(a(1, j))
+                               loop_190: do i = j + 1, min(n, j + k)
+                                   temp = temp + conjg(a(l + i, j))*x(ix)
                                    ix = ix + incx
                                end do loop_190
                            end if
@@ -3580,90 +3539,88 @@ module stdlib_linalg_blas_c
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_ctbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+     subroutine stdlib_ctbsv(uplo, trans, diag, n, k, a, lda, x, incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,k,lda,n
-           character :: diag,trans,uplo
+           integer(int32) :: incx, k, lda, n
+           character :: diag, trans, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*)
+           complex(sp) :: a(lda, *), x(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jx,kplus1,kx,l
-           logical(lk) :: noconj,nounit
-     
-     
+           integer(int32) :: i, info, ix, j, jx, kplus1, kx, l
+           logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max,min
+           intrinsic :: conjg, max, min
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
-                     .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
+                     .and. .not. stdlib_lsame(trans, 'c')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag, 'u') .and. .not. stdlib_lsame(diag, 'n')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (k<0) then
+           else if (k < 0) then
                info = 5
-           else if (lda< (k+1)) then
+           else if (lda < (k + 1)) then
                info = 7
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 9
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_ctbsv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_ctbsv ', info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           if (n == 0) return
+           noconj = stdlib_lsame(trans, 't')
+           nounit = stdlib_lsame(diag, 'n')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
            ! accessed by sequentially with one pass through a.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo, 'u')) then
                    kplus1 = k + 1
-                   if (incx==1) then
-                       loop_20: do j = n,1,-1
-                           if (x(j)/=zero) then
+                   if (incx == 1) then
+                       loop_20: do j = n, 1, -1
+                           if (x(j) /= zero) then
                                l = kplus1 - j
-                               if (nounit) x(j) = x(j)/a(kplus1,j)
+                               if (nounit) x(j) = x(j)/a(kplus1, j)
                                temp = x(j)
-                               loop_10: do i = j - 1,max(1,j-k),-1
-                                   x(i) = x(i) - temp*a(l+i,j)
+                               loop_10: do i = j - 1, max(1, j - k), -1
+                                   x(i) = x(i) - temp*a(l + i, j)
                                end do loop_10
                            end if
                        end do loop_20
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
-                       loop_40: do j = n,1,-1
+                       loop_40: do j = n, 1, -1
                            kx = kx - incx
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                ix = kx
                                l = kplus1 - j
-                               if (nounit) x(jx) = x(jx)/a(kplus1,j)
+                               if (nounit) x(jx) = x(jx)/a(kplus1, j)
                                temp = x(jx)
-                               loop_30: do i = j - 1,max(1,j-k),-1
-                                   x(ix) = x(ix) - temp*a(l+i,j)
+                               loop_30: do i = j - 1, max(1, j - k), -1
+                                   x(ix) = x(ix) - temp*a(l + i, j)
                                    ix = ix - incx
                                end do loop_30
                            end if
@@ -3671,28 +3628,28 @@ module stdlib_linalg_blas_c
                        end do loop_40
                    end if
                else
-                   if (incx==1) then
-                       loop_60: do j = 1,n
-                           if (x(j)/=zero) then
+                   if (incx == 1) then
+                       loop_60: do j = 1, n
+                           if (x(j) /= zero) then
                                l = 1 - j
-                               if (nounit) x(j) = x(j)/a(1,j)
+                               if (nounit) x(j) = x(j)/a(1, j)
                                temp = x(j)
-                               loop_50: do i = j + 1,min(n,j+k)
-                                   x(i) = x(i) - temp*a(l+i,j)
+                               loop_50: do i = j + 1, min(n, j + k)
+                                   x(i) = x(i) - temp*a(l + i, j)
                                end do loop_50
                            end if
                        end do loop_60
                    else
                        jx = kx
-                       loop_80: do j = 1,n
+                       loop_80: do j = 1, n
                            kx = kx + incx
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                ix = kx
                                l = 1 - j
-                               if (nounit) x(jx) = x(jx)/a(1,j)
+                               if (nounit) x(jx) = x(jx)/a(1, j)
                                temp = x(jx)
-                               loop_70: do i = j + 1,min(n,j+k)
-                                   x(ix) = x(ix) - temp*a(l+i,j)
+                               loop_70: do i = j + 1, min(n, j + k)
+                                   x(ix) = x(ix) - temp*a(l + i, j)
                                    ix = ix + incx
                                end do loop_70
                            end if
@@ -3702,90 +3659,90 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo, 'u')) then
                    kplus1 = k + 1
-                   if (incx==1) then
-                       loop_110: do j = 1,n
+                   if (incx == 1) then
+                       loop_110: do j = 1, n
                            temp = x(j)
                            l = kplus1 - j
                            if (noconj) then
-                               loop_90: do i = max(1,j-k),j - 1
-                                   temp = temp - a(l+i,j)*x(i)
+                               loop_90: do i = max(1, j - k), j - 1
+                                   temp = temp - a(l + i, j)*x(i)
                                end do loop_90
-                               if (nounit) temp = temp/a(kplus1,j)
+                               if (nounit) temp = temp/a(kplus1, j)
                            else
-                               loop_100: do i = max(1,j-k),j - 1
-                                   temp = temp - conjg(a(l+i,j))*x(i)
+                               loop_100: do i = max(1, j - k), j - 1
+                                   temp = temp - conjg(a(l + i, j))*x(i)
                                end do loop_100
-                               if (nounit) temp = temp/conjg(a(kplus1,j))
+                               if (nounit) temp = temp/conjg(a(kplus1, j))
                            end if
                            x(j) = temp
                        end do loop_110
                    else
                        jx = kx
-                       loop_140: do j = 1,n
+                       loop_140: do j = 1, n
                            temp = x(jx)
                            ix = kx
                            l = kplus1 - j
                            if (noconj) then
-                               loop_120: do i = max(1,j-k),j - 1
-                                   temp = temp - a(l+i,j)*x(ix)
+                               loop_120: do i = max(1, j - k), j - 1
+                                   temp = temp - a(l + i, j)*x(ix)
                                    ix = ix + incx
                                end do loop_120
-                               if (nounit) temp = temp/a(kplus1,j)
+                               if (nounit) temp = temp/a(kplus1, j)
                            else
-                               loop_130: do i = max(1,j-k),j - 1
-                                   temp = temp - conjg(a(l+i,j))*x(ix)
+                               loop_130: do i = max(1, j - k), j - 1
+                                   temp = temp - conjg(a(l + i, j))*x(ix)
                                    ix = ix + incx
                                end do loop_130
-                               if (nounit) temp = temp/conjg(a(kplus1,j))
+                               if (nounit) temp = temp/conjg(a(kplus1, j))
                            end if
                            x(jx) = temp
                            jx = jx + incx
-                           if (j>k) kx = kx + incx
+                           if (j > k) kx = kx + incx
                        end do loop_140
                    end if
                else
-                   if (incx==1) then
-                       loop_170: do j = n,1,-1
+                   if (incx == 1) then
+                       loop_170: do j = n, 1, -1
                            temp = x(j)
                            l = 1 - j
                            if (noconj) then
-                               loop_150: do i = min(n,j+k),j + 1,-1
-                                   temp = temp - a(l+i,j)*x(i)
+                               loop_150: do i = min(n, j + k), j + 1, -1
+                                   temp = temp - a(l + i, j)*x(i)
                                end do loop_150
-                               if (nounit) temp = temp/a(1,j)
+                               if (nounit) temp = temp/a(1, j)
                            else
-                               loop_160: do i = min(n,j+k),j + 1,-1
-                                   temp = temp - conjg(a(l+i,j))*x(i)
+                               loop_160: do i = min(n, j + k), j + 1, -1
+                                   temp = temp - conjg(a(l + i, j))*x(i)
                                end do loop_160
-                               if (nounit) temp = temp/conjg(a(1,j))
+                               if (nounit) temp = temp/conjg(a(1, j))
                            end if
                            x(j) = temp
                        end do loop_170
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
-                       loop_200: do j = n,1,-1
+                       loop_200: do j = n, 1, -1
                            temp = x(jx)
                            ix = kx
                            l = 1 - j
                            if (noconj) then
-                               loop_180: do i = min(n,j+k),j + 1,-1
-                                   temp = temp - a(l+i,j)*x(ix)
+                               loop_180: do i = min(n, j + k), j + 1, -1
+                                   temp = temp - a(l + i, j)*x(ix)
                                    ix = ix - incx
                                end do loop_180
-                               if (nounit) temp = temp/a(1,j)
+                               if (nounit) temp = temp/a(1, j)
                            else
-                               loop_190: do i = min(n,j+k),j + 1,-1
-                                   temp = temp - conjg(a(l+i,j))*x(ix)
+                               loop_190: do i = min(n, j + k), j + 1, -1
+                                   temp = temp - conjg(a(l + i, j))*x(ix)
                                    ix = ix - incx
                                end do loop_190
-                               if (nounit) temp = temp/conjg(a(1,j))
+                               if (nounit) temp = temp/conjg(a(1, j))
                            end if
                            x(jx) = temp
                            jx = jx - incx
-                           if ((n-j)>=k) kx = kx - incx
+                           if ((n - j) >= k) kx = kx - incx
                        end do loop_200
                    end if
                end if
@@ -3799,142 +3756,140 @@ module stdlib_linalg_blas_c
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
 
-     subroutine stdlib_ctpmv(uplo,trans,diag,n,ap,x,incx)
+     subroutine stdlib_ctpmv(uplo, trans, diag, n, ap, x, incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,n
-           character :: diag,trans,uplo
+           integer(int32) :: incx, n
+           character :: diag, trans, uplo
            ! .. array arguments ..
-           complex(sp) :: ap(*),x(*)
+           complex(sp) :: ap(*), x(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jx,k,kk,kx
-           logical(lk) :: noconj,nounit
-     
-     
+           integer(int32) :: i, info, ix, j, jx, k, kk, kx
+           logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
-                     .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
+                     .and. .not. stdlib_lsame(trans, 'c')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag, 'u') .and. .not. stdlib_lsame(diag, 'n')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 7
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_ctpmv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_ctpmv ', info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           if (n == 0) return
+           noconj = stdlib_lsame(trans, 't')
+           nounit = stdlib_lsame(diag, 'n')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of ap are
            ! accessed sequentially with one pass through ap.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  x:= a*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo, 'u')) then
                    kk = 1
-                   if (incx==1) then
-                       loop_20: do j = 1,n
-                           if (x(j)/=zero) then
+                   if (incx == 1) then
+                       loop_20: do j = 1, n
+                           if (x(j) /= zero) then
                                temp = x(j)
                                k = kk
-                               loop_10: do i = 1,j - 1
+                               loop_10: do i = 1, j - 1
                                    x(i) = x(i) + temp*ap(k)
                                    k = k + 1
                                end do loop_10
-                               if (nounit) x(j) = x(j)*ap(kk+j-1)
+                               if (nounit) x(j) = x(j)*ap(kk + j - 1)
                            end if
                            kk = kk + j
                        end do loop_20
                    else
                        jx = kx
-                       loop_40: do j = 1,n
-                           if (x(jx)/=zero) then
+                       loop_40: do j = 1, n
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
-                               loop_30: do k = kk,kk + j - 2
+                               loop_30: do k = kk, kk + j - 2
                                    x(ix) = x(ix) + temp*ap(k)
                                    ix = ix + incx
                                end do loop_30
-                               if (nounit) x(jx) = x(jx)*ap(kk+j-1)
+                               if (nounit) x(jx) = x(jx)*ap(kk + j - 1)
                            end if
                            jx = jx + incx
                            kk = kk + j
                        end do loop_40
                    end if
                else
-                   kk = (n* (n+1))/2
-                   if (incx==1) then
-                       loop_60: do j = n,1,-1
-                           if (x(j)/=zero) then
+                   kk = (n*(n + 1))/2
+                   if (incx == 1) then
+                       loop_60: do j = n, 1, -1
+                           if (x(j) /= zero) then
                                temp = x(j)
                                k = kk
-                               loop_50: do i = n,j + 1,-1
+                               loop_50: do i = n, j + 1, -1
                                    x(i) = x(i) + temp*ap(k)
                                    k = k - 1
                                end do loop_50
-                               if (nounit) x(j) = x(j)*ap(kk-n+j)
+                               if (nounit) x(j) = x(j)*ap(kk - n + j)
                            end if
-                           kk = kk - (n-j+1)
+                           kk = kk - (n - j + 1)
                        end do loop_60
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
-                       loop_80: do j = n,1,-1
-                           if (x(jx)/=zero) then
+                       loop_80: do j = n, 1, -1
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
-                               loop_70: do k = kk,kk - (n- (j+1)),-1
+                               loop_70: do k = kk, kk - (n - (j + 1)), -1
                                    x(ix) = x(ix) + temp*ap(k)
                                    ix = ix - incx
                                end do loop_70
-                               if (nounit) x(jx) = x(jx)*ap(kk-n+j)
+                               if (nounit) x(jx) = x(jx)*ap(kk - n + j)
                            end if
                            jx = jx - incx
-                           kk = kk - (n-j+1)
+                           kk = kk - (n - j + 1)
                        end do loop_80
                    end if
                end if
            else
               ! form  x := a**t*x  or  x := a**h*x.
-               if (stdlib_lsame(uplo,'u')) then
-                   kk = (n* (n+1))/2
-                   if (incx==1) then
-                       loop_110: do j = n,1,-1
+               if (stdlib_lsame(uplo, 'u')) then
+                   kk = (n*(n + 1))/2
+                   if (incx == 1) then
+                       loop_110: do j = n, 1, -1
                            temp = x(j)
                            k = kk - 1
                            if (noconj) then
                                if (nounit) temp = temp*ap(kk)
-                               loop_90: do i = j - 1,1,-1
+                               loop_90: do i = j - 1, 1, -1
                                    temp = temp + ap(k)*x(i)
                                    k = k - 1
                                end do loop_90
                            else
                                if (nounit) temp = temp*conjg(ap(kk))
-                               loop_100: do i = j - 1,1,-1
+                               loop_100: do i = j - 1, 1, -1
                                    temp = temp + conjg(ap(k))*x(i)
                                    k = k - 1
                                end do loop_100
@@ -3943,19 +3898,19 @@ module stdlib_linalg_blas_c
                            kk = kk - j
                        end do loop_110
                    else
-                       jx = kx + (n-1)*incx
-                       loop_140: do j = n,1,-1
+                       jx = kx + (n - 1)*incx
+                       loop_140: do j = n, 1, -1
                            temp = x(jx)
                            ix = jx
                            if (noconj) then
                                if (nounit) temp = temp*ap(kk)
-                               loop_120: do k = kk - 1,kk - j + 1,-1
+                               loop_120: do k = kk - 1, kk - j + 1, -1
                                    ix = ix - incx
                                    temp = temp + ap(k)*x(ix)
                                end do loop_120
                            else
                                if (nounit) temp = temp*conjg(ap(kk))
-                               loop_130: do k = kk - 1,kk - j + 1,-1
+                               loop_130: do k = kk - 1, kk - j + 1, -1
                                    ix = ix - incx
                                    temp = temp + conjg(ap(k))*x(ix)
                                end do loop_130
@@ -3967,47 +3922,47 @@ module stdlib_linalg_blas_c
                    end if
                else
                    kk = 1
-                   if (incx==1) then
-                       loop_170: do j = 1,n
+                   if (incx == 1) then
+                       loop_170: do j = 1, n
                            temp = x(j)
                            k = kk + 1
                            if (noconj) then
                                if (nounit) temp = temp*ap(kk)
-                               loop_150: do i = j + 1,n
+                               loop_150: do i = j + 1, n
                                    temp = temp + ap(k)*x(i)
                                    k = k + 1
                                end do loop_150
                            else
                                if (nounit) temp = temp*conjg(ap(kk))
-                               loop_160: do i = j + 1,n
+                               loop_160: do i = j + 1, n
                                    temp = temp + conjg(ap(k))*x(i)
                                    k = k + 1
                                end do loop_160
                            end if
                            x(j) = temp
-                           kk = kk + (n-j+1)
+                           kk = kk + (n - j + 1)
                        end do loop_170
                    else
                        jx = kx
-                       loop_200: do j = 1,n
+                       loop_200: do j = 1, n
                            temp = x(jx)
                            ix = jx
                            if (noconj) then
                                if (nounit) temp = temp*ap(kk)
-                               loop_180: do k = kk + 1,kk + n - j
+                               loop_180: do k = kk + 1, kk + n - j
                                    ix = ix + incx
                                    temp = temp + ap(k)*x(ix)
                                end do loop_180
                            else
                                if (nounit) temp = temp*conjg(ap(kk))
-                               loop_190: do k = kk + 1,kk + n - j
+                               loop_190: do k = kk + 1, kk + n - j
                                    ix = ix + incx
                                    temp = temp + conjg(ap(k))*x(ix)
                                end do loop_190
                            end if
                            x(jx) = temp
                            jx = jx + incx
-                           kk = kk + (n-j+1)
+                           kk = kk + (n - j + 1)
                        end do loop_200
                    end if
                end if
@@ -4023,70 +3978,68 @@ module stdlib_linalg_blas_c
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_ctpsv(uplo,trans,diag,n,ap,x,incx)
+     subroutine stdlib_ctpsv(uplo, trans, diag, n, ap, x, incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,n
-           character :: diag,trans,uplo
+           integer(int32) :: incx, n
+           character :: diag, trans, uplo
            ! .. array arguments ..
-           complex(sp) :: ap(*),x(*)
+           complex(sp) :: ap(*), x(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jx,k,kk,kx
-           logical(lk) :: noconj,nounit
-     
-     
+           integer(int32) :: i, info, ix, j, jx, k, kk, kx
+           logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
-                     .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
+                     .and. .not. stdlib_lsame(trans, 'c')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag, 'u') .and. .not. stdlib_lsame(diag, 'n')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 7
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_ctpsv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_ctpsv ', info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           if (n == 0) return
+           noconj = stdlib_lsame(trans, 't')
+           nounit = stdlib_lsame(diag, 'n')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of ap are
            ! accessed sequentially with one pass through ap.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'u')) then
-                   kk = (n* (n+1))/2
-                   if (incx==1) then
-                       loop_20: do j = n,1,-1
-                           if (x(j)/=zero) then
+               if (stdlib_lsame(uplo, 'u')) then
+                   kk = (n*(n + 1))/2
+                   if (incx == 1) then
+                       loop_20: do j = n, 1, -1
+                           if (x(j) /= zero) then
                                if (nounit) x(j) = x(j)/ap(kk)
                                temp = x(j)
                                k = kk - 1
-                               loop_10: do i = j - 1,1,-1
+                               loop_10: do i = j - 1, 1, -1
                                    x(i) = x(i) - temp*ap(k)
                                    k = k - 1
                                end do loop_10
@@ -4094,13 +4047,13 @@ module stdlib_linalg_blas_c
                            kk = kk - j
                        end do loop_20
                    else
-                       jx = kx + (n-1)*incx
-                       loop_40: do j = n,1,-1
-                           if (x(jx)/=zero) then
+                       jx = kx + (n - 1)*incx
+                       loop_40: do j = n, 1, -1
+                           if (x(jx) /= zero) then
                                if (nounit) x(jx) = x(jx)/ap(kk)
                                temp = x(jx)
                                ix = jx
-                               loop_30: do k = kk - 1,kk - j + 1,-1
+                               loop_30: do k = kk - 1, kk - j + 1, -1
                                    ix = ix - incx
                                    x(ix) = x(ix) - temp*ap(k)
                                end do loop_30
@@ -4111,77 +4064,77 @@ module stdlib_linalg_blas_c
                    end if
                else
                    kk = 1
-                   if (incx==1) then
-                       loop_60: do j = 1,n
-                           if (x(j)/=zero) then
+                   if (incx == 1) then
+                       loop_60: do j = 1, n
+                           if (x(j) /= zero) then
                                if (nounit) x(j) = x(j)/ap(kk)
                                temp = x(j)
                                k = kk + 1
-                               loop_50: do i = j + 1,n
+                               loop_50: do i = j + 1, n
                                    x(i) = x(i) - temp*ap(k)
                                    k = k + 1
                                end do loop_50
                            end if
-                           kk = kk + (n-j+1)
+                           kk = kk + (n - j + 1)
                        end do loop_60
                    else
                        jx = kx
-                       loop_80: do j = 1,n
-                           if (x(jx)/=zero) then
+                       loop_80: do j = 1, n
+                           if (x(jx) /= zero) then
                                if (nounit) x(jx) = x(jx)/ap(kk)
                                temp = x(jx)
                                ix = jx
-                               loop_70: do k = kk + 1,kk + n - j
+                               loop_70: do k = kk + 1, kk + n - j
                                    ix = ix + incx
                                    x(ix) = x(ix) - temp*ap(k)
                                end do loop_70
                            end if
                            jx = jx + incx
-                           kk = kk + (n-j+1)
+                           kk = kk + (n - j + 1)
                        end do loop_80
                    end if
                end if
            else
               ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo, 'u')) then
                    kk = 1
-                   if (incx==1) then
-                       loop_110: do j = 1,n
+                   if (incx == 1) then
+                       loop_110: do j = 1, n
                            temp = x(j)
                            k = kk
                            if (noconj) then
-                               loop_90: do i = 1,j - 1
+                               loop_90: do i = 1, j - 1
                                    temp = temp - ap(k)*x(i)
                                    k = k + 1
                                end do loop_90
-                               if (nounit) temp = temp/ap(kk+j-1)
+                               if (nounit) temp = temp/ap(kk + j - 1)
                            else
-                               loop_100: do i = 1,j - 1
+                               loop_100: do i = 1, j - 1
                                    temp = temp - conjg(ap(k))*x(i)
                                    k = k + 1
                                end do loop_100
-                               if (nounit) temp = temp/conjg(ap(kk+j-1))
+                               if (nounit) temp = temp/conjg(ap(kk + j - 1))
                            end if
                            x(j) = temp
                            kk = kk + j
                        end do loop_110
                    else
                        jx = kx
-                       loop_140: do j = 1,n
+                       loop_140: do j = 1, n
                            temp = x(jx)
                            ix = kx
                            if (noconj) then
-                               loop_120: do k = kk,kk + j - 2
+                               loop_120: do k = kk, kk + j - 2
                                    temp = temp - ap(k)*x(ix)
                                    ix = ix + incx
                                end do loop_120
-                               if (nounit) temp = temp/ap(kk+j-1)
+                               if (nounit) temp = temp/ap(kk + j - 1)
                            else
-                               loop_130: do k = kk,kk + j - 2
+                               loop_130: do k = kk, kk + j - 2
                                    temp = temp - conjg(ap(k))*x(ix)
                                    ix = ix + incx
                                end do loop_130
-                               if (nounit) temp = temp/conjg(ap(kk+j-1))
+                               if (nounit) temp = temp/conjg(ap(kk + j - 1))
                            end if
                            x(jx) = temp
                            jx = jx + incx
@@ -4189,49 +4142,49 @@ module stdlib_linalg_blas_c
                        end do loop_140
                    end if
                else
-                   kk = (n* (n+1))/2
-                   if (incx==1) then
-                       loop_170: do j = n,1,-1
+                   kk = (n*(n + 1))/2
+                   if (incx == 1) then
+                       loop_170: do j = n, 1, -1
                            temp = x(j)
                            k = kk
                            if (noconj) then
-                               loop_150: do i = n,j + 1,-1
+                               loop_150: do i = n, j + 1, -1
                                    temp = temp - ap(k)*x(i)
                                    k = k - 1
                                end do loop_150
-                               if (nounit) temp = temp/ap(kk-n+j)
+                               if (nounit) temp = temp/ap(kk - n + j)
                            else
-                               loop_160: do i = n,j + 1,-1
+                               loop_160: do i = n, j + 1, -1
                                    temp = temp - conjg(ap(k))*x(i)
                                    k = k - 1
                                end do loop_160
-                               if (nounit) temp = temp/conjg(ap(kk-n+j))
+                               if (nounit) temp = temp/conjg(ap(kk - n + j))
                            end if
                            x(j) = temp
-                           kk = kk - (n-j+1)
+                           kk = kk - (n - j + 1)
                        end do loop_170
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
-                       loop_200: do j = n,1,-1
+                       loop_200: do j = n, 1, -1
                            temp = x(jx)
                            ix = kx
                            if (noconj) then
-                               loop_180: do k = kk,kk - (n- (j+1)),-1
+                               loop_180: do k = kk, kk - (n - (j + 1)), -1
                                    temp = temp - ap(k)*x(ix)
                                    ix = ix - incx
                                end do loop_180
-                               if (nounit) temp = temp/ap(kk-n+j)
+                               if (nounit) temp = temp/ap(kk - n + j)
                            else
-                               loop_190: do k = kk,kk - (n- (j+1)),-1
+                               loop_190: do k = kk, kk - (n - (j + 1)), -1
                                    temp = temp - conjg(ap(k))*x(ix)
                                    ix = ix - incx
                                end do loop_190
-                               if (nounit) temp = temp/conjg(ap(kk-n+j))
+                               if (nounit) temp = temp/conjg(ap(kk - n + j))
                            end if
                            x(jx) = temp
                            jx = jx - incx
-                           kk = kk - (n-j+1)
+                           kk = kk - (n - j + 1)
                        end do loop_200
                    end if
                end if
@@ -4246,102 +4199,100 @@ module stdlib_linalg_blas_c
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
 
-     subroutine stdlib_ctrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     subroutine stdlib_ctrmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            complex(sp) :: alpha
-           integer(int32) :: lda,ldb,m,n
-           character :: diag,side,transa,uplo
+           integer(int32) :: lda, ldb, m, n
+           character :: diag, side, transa, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),b(ldb,*)
+           complex(sp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
      
-     
-     
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max
+           intrinsic :: conjg, max
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,j,k,nrowa
-           logical(lk) :: lside,noconj,nounit,upper
+           integer(int32) :: i, info, j, k, nrowa
+           logical(lk) :: lside, noconj, nounit, upper
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! test the input parameters.
-           lside = stdlib_lsame(side,'l')
+           lside = stdlib_lsame(side, 'l')
            if (lside) then
                nrowa = m
            else
                nrowa = n
            end if
-           noconj = stdlib_lsame(transa,'t')
-           nounit = stdlib_lsame(diag,'n')
-           upper = stdlib_lsame(uplo,'u')
+           noconj = stdlib_lsame(transa, 't')
+           nounit = stdlib_lsame(diag, 'n')
+           upper = stdlib_lsame(uplo, 'u')
            info = 0
-           if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
+           if ((.not. lside) .and. (.not. stdlib_lsame(side, 'r'))) then
                info = 1
-           else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo, 'l'))) then
                info = 2
-           else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-                     .not.stdlib_lsame(transa,'c'))) then
+           else if ((.not. stdlib_lsame(transa, 'n')) .and. (.not. stdlib_lsame(transa, 't')) .and. ( &
+                     .not. stdlib_lsame(transa, 'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+           else if ((.not. stdlib_lsame(diag, 'u')) .and. (.not. stdlib_lsame(diag, 'n'))) &
                      then
                info = 4
-           else if (m<0) then
+           else if (m < 0) then
                info = 5
-           else if (n<0) then
+           else if (n < 0) then
                info = 6
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1, nrowa)) then
                info = 9
-           else if (ldb<max(1,m)) then
+           else if (ldb < max(1, m)) then
                info = 11
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_ctrmm ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_ctrmm ', info)
                return
            end if
            ! quick return if possible.
-           if (m==0 .or. n==0) return
+           if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
-               loop_20: do j = 1,n
-                   loop_10: do i = 1,m
-                       b(i,j) = zero
+           if (alpha == zero) then
+               loop_20: do j = 1, n
+                   loop_10: do i = 1, m
+                       b(i, j) = zero
                    end do loop_10
                end do loop_20
                return
            end if
            ! start the operations.
            if (lside) then
-               if (stdlib_lsame(transa,'n')) then
+               if (stdlib_lsame(transa, 'n')) then
                  ! form  b := alpha*a*b.
                    if (upper) then
-                       loop_50: do j = 1,n
-                           loop_40: do k = 1,m
-                               if (b(k,j)/=zero) then
-                                   temp = alpha*b(k,j)
-                                   loop_30: do i = 1,k - 1
-                                       b(i,j) = b(i,j) + temp*a(i,k)
+                       loop_50: do j = 1, n
+                           loop_40: do k = 1, m
+                               if (b(k, j) /= zero) then
+                                   temp = alpha*b(k, j)
+                                   loop_30: do i = 1, k - 1
+                                       b(i, j) = b(i, j) + temp*a(i, k)
                                    end do loop_30
-                                   if (nounit) temp = temp*a(k,k)
-                                   b(k,j) = temp
+                                   if (nounit) temp = temp*a(k, k)
+                                   b(k, j) = temp
                                end if
                            end do loop_40
                        end do loop_50
                    else
-                       loop_80: do j = 1,n
-                           loop_70: do k = m,1,-1
-                               if (b(k,j)/=zero) then
-                                   temp = alpha*b(k,j)
-                                   b(k,j) = temp
-                                   if (nounit) b(k,j) = b(k,j)*a(k,k)
-                                   loop_60: do i = k + 1,m
-                                       b(i,j) = b(i,j) + temp*a(i,k)
+                       loop_80: do j = 1, n
+                           loop_70: do k = m, 1, -1
+                               if (b(k, j) /= zero) then
+                                   temp = alpha*b(k, j)
+                                   b(k, j) = temp
+                                   if (nounit) b(k, j) = b(k, j)*a(k, k)
+                                   loop_60: do i = k + 1, m
+                                       b(i, j) = b(i, j) + temp*a(i, k)
                                    end do loop_60
                                end if
                            end do loop_70
@@ -4350,74 +4301,74 @@ module stdlib_linalg_blas_c
                else
                  ! form  b := alpha*a**t*b   or   b := alpha*a**h*b.
                    if (upper) then
-                       loop_120: do j = 1,n
-                           loop_110: do i = m,1,-1
-                               temp = b(i,j)
+                       loop_120: do j = 1, n
+                           loop_110: do i = m, 1, -1
+                               temp = b(i, j)
                                if (noconj) then
-                                   if (nounit) temp = temp*a(i,i)
-                                   loop_90: do k = 1,i - 1
-                                       temp = temp + a(k,i)*b(k,j)
+                                   if (nounit) temp = temp*a(i, i)
+                                   loop_90: do k = 1, i - 1
+                                       temp = temp + a(k, i)*b(k, j)
                                    end do loop_90
                                else
-                                   if (nounit) temp = temp*conjg(a(i,i))
-                                   loop_100: do k = 1,i - 1
-                                       temp = temp + conjg(a(k,i))*b(k,j)
+                                   if (nounit) temp = temp*conjg(a(i, i))
+                                   loop_100: do k = 1, i - 1
+                                       temp = temp + conjg(a(k, i))*b(k, j)
                                    end do loop_100
                                end if
-                               b(i,j) = alpha*temp
+                               b(i, j) = alpha*temp
                            end do loop_110
                        end do loop_120
                    else
-                       loop_160: do j = 1,n
-                           loop_150: do i = 1,m
-                               temp = b(i,j)
+                       loop_160: do j = 1, n
+                           loop_150: do i = 1, m
+                               temp = b(i, j)
                                if (noconj) then
-                                   if (nounit) temp = temp*a(i,i)
-                                   loop_130: do k = i + 1,m
-                                       temp = temp + a(k,i)*b(k,j)
+                                   if (nounit) temp = temp*a(i, i)
+                                   loop_130: do k = i + 1, m
+                                       temp = temp + a(k, i)*b(k, j)
                                    end do loop_130
                                else
-                                   if (nounit) temp = temp*conjg(a(i,i))
-                                   loop_140: do k = i + 1,m
-                                       temp = temp + conjg(a(k,i))*b(k,j)
+                                   if (nounit) temp = temp*conjg(a(i, i))
+                                   loop_140: do k = i + 1, m
+                                       temp = temp + conjg(a(k, i))*b(k, j)
                                    end do loop_140
                                end if
-                               b(i,j) = alpha*temp
+                               b(i, j) = alpha*temp
                            end do loop_150
                        end do loop_160
                    end if
                end if
            else
-               if (stdlib_lsame(transa,'n')) then
+               if (stdlib_lsame(transa, 'n')) then
                  ! form  b := alpha*b*a.
                    if (upper) then
-                       loop_200: do j = n,1,-1
+                       loop_200: do j = n, 1, -1
                            temp = alpha
-                           if (nounit) temp = temp*a(j,j)
-                           loop_170: do i = 1,m
-                               b(i,j) = temp*b(i,j)
+                           if (nounit) temp = temp*a(j, j)
+                           loop_170: do i = 1, m
+                               b(i, j) = temp*b(i, j)
                            end do loop_170
-                           loop_190: do k = 1,j - 1
-                               if (a(k,j)/=zero) then
-                                   temp = alpha*a(k,j)
-                                   loop_180: do i = 1,m
-                                       b(i,j) = b(i,j) + temp*b(i,k)
+                           loop_190: do k = 1, j - 1
+                               if (a(k, j) /= zero) then
+                                   temp = alpha*a(k, j)
+                                   loop_180: do i = 1, m
+                                       b(i, j) = b(i, j) + temp*b(i, k)
                                    end do loop_180
                                end if
                            end do loop_190
                        end do loop_200
                    else
-                       loop_240: do j = 1,n
+                       loop_240: do j = 1, n
                            temp = alpha
-                           if (nounit) temp = temp*a(j,j)
-                           loop_210: do i = 1,m
-                               b(i,j) = temp*b(i,j)
+                           if (nounit) temp = temp*a(j, j)
+                           loop_210: do i = 1, m
+                               b(i, j) = temp*b(i, j)
                            end do loop_210
-                           loop_230: do k = j + 1,n
-                               if (a(k,j)/=zero) then
-                                   temp = alpha*a(k,j)
-                                   loop_220: do i = 1,m
-                                       b(i,j) = b(i,j) + temp*b(i,k)
+                           loop_230: do k = j + 1, n
+                               if (a(k, j) /= zero) then
+                                   temp = alpha*a(k, j)
+                                   loop_220: do i = 1, m
+                                       b(i, j) = b(i, j) + temp*b(i, k)
                                    end do loop_220
                                end if
                            end do loop_230
@@ -4426,58 +4377,58 @@ module stdlib_linalg_blas_c
                else
                  ! form  b := alpha*b*a**t   or   b := alpha*b*a**h.
                    if (upper) then
-                       loop_280: do k = 1,n
-                           loop_260: do j = 1,k - 1
-                               if (a(j,k)/=zero) then
+                       loop_280: do k = 1, n
+                           loop_260: do j = 1, k - 1
+                               if (a(j, k) /= zero) then
                                    if (noconj) then
-                                       temp = alpha*a(j,k)
+                                       temp = alpha*a(j, k)
                                    else
-                                       temp = alpha*conjg(a(j,k))
+                                       temp = alpha*conjg(a(j, k))
                                    end if
-                                   loop_250: do i = 1,m
-                                       b(i,j) = b(i,j) + temp*b(i,k)
+                                   loop_250: do i = 1, m
+                                       b(i, j) = b(i, j) + temp*b(i, k)
                                    end do loop_250
                                end if
                            end do loop_260
                            temp = alpha
                            if (nounit) then
                                if (noconj) then
-                                   temp = temp*a(k,k)
+                                   temp = temp*a(k, k)
                                else
-                                   temp = temp*conjg(a(k,k))
+                                   temp = temp*conjg(a(k, k))
                                end if
                            end if
-                           if (temp/=one) then
-                               loop_270: do i = 1,m
-                                   b(i,k) = temp*b(i,k)
+                           if (temp /= one) then
+                               loop_270: do i = 1, m
+                                   b(i, k) = temp*b(i, k)
                                end do loop_270
                            end if
                        end do loop_280
                    else
-                       loop_320: do k = n,1,-1
-                           loop_300: do j = k + 1,n
-                               if (a(j,k)/=zero) then
+                       loop_320: do k = n, 1, -1
+                           loop_300: do j = k + 1, n
+                               if (a(j, k) /= zero) then
                                    if (noconj) then
-                                       temp = alpha*a(j,k)
+                                       temp = alpha*a(j, k)
                                    else
-                                       temp = alpha*conjg(a(j,k))
+                                       temp = alpha*conjg(a(j, k))
                                    end if
-                                   loop_290: do i = 1,m
-                                       b(i,j) = b(i,j) + temp*b(i,k)
+                                   loop_290: do i = 1, m
+                                       b(i, j) = b(i, j) + temp*b(i, k)
                                    end do loop_290
                                end if
                            end do loop_300
                            temp = alpha
                            if (nounit) then
                                if (noconj) then
-                                   temp = temp*a(k,k)
+                                   temp = temp*a(k, k)
                                else
-                                   temp = temp*conjg(a(k,k))
+                                   temp = temp*conjg(a(k, k))
                                end if
                            end if
-                           if (temp/=one) then
-                               loop_310: do i = 1,m
-                                   b(i,k) = temp*b(i,k)
+                           if (temp /= one) then
+                               loop_310: do i = 1, m
+                                   b(i, k) = temp*b(i, k)
                                end do loop_310
                            end if
                        end do loop_320
@@ -4493,112 +4444,110 @@ module stdlib_linalg_blas_c
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
 
-     subroutine stdlib_ctrmv(uplo,trans,diag,n,a,lda,x,incx)
+     subroutine stdlib_ctrmv(uplo, trans, diag, n, a, lda, x, incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,lda,n
-           character :: diag,trans,uplo
+           integer(int32) :: incx, lda, n
+           character :: diag, trans, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*)
+           complex(sp) :: a(lda, *), x(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jx,kx
-           logical(lk) :: noconj,nounit
-     
-     
+           integer(int32) :: i, info, ix, j, jx, kx
+           logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max
+           intrinsic :: conjg, max
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
-                     .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
+                     .and. .not. stdlib_lsame(trans, 'c')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag, 'u') .and. .not. stdlib_lsame(diag, 'n')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (lda<max(1,n)) then
+           else if (lda < max(1, n)) then
                info = 6
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 8
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_ctrmv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_ctrmv ', info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           if (n == 0) return
+           noconj = stdlib_lsame(trans, 't')
+           nounit = stdlib_lsame(diag, 'n')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  x := a*x.
-               if (stdlib_lsame(uplo,'u')) then
-                   if (incx==1) then
-                       loop_20: do j = 1,n
-                           if (x(j)/=zero) then
+               if (stdlib_lsame(uplo, 'u')) then
+                   if (incx == 1) then
+                       loop_20: do j = 1, n
+                           if (x(j) /= zero) then
                                temp = x(j)
-                               loop_10: do i = 1,j - 1
-                                   x(i) = x(i) + temp*a(i,j)
+                               loop_10: do i = 1, j - 1
+                                   x(i) = x(i) + temp*a(i, j)
                                end do loop_10
-                               if (nounit) x(j) = x(j)*a(j,j)
+                               if (nounit) x(j) = x(j)*a(j, j)
                            end if
                        end do loop_20
                    else
                        jx = kx
-                       loop_40: do j = 1,n
-                           if (x(jx)/=zero) then
+                       loop_40: do j = 1, n
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
-                               loop_30: do i = 1,j - 1
-                                   x(ix) = x(ix) + temp*a(i,j)
+                               loop_30: do i = 1, j - 1
+                                   x(ix) = x(ix) + temp*a(i, j)
                                    ix = ix + incx
                                end do loop_30
-                               if (nounit) x(jx) = x(jx)*a(j,j)
+                               if (nounit) x(jx) = x(jx)*a(j, j)
                            end if
                            jx = jx + incx
                        end do loop_40
                    end if
                else
-                   if (incx==1) then
-                       loop_60: do j = n,1,-1
-                           if (x(j)/=zero) then
+                   if (incx == 1) then
+                       loop_60: do j = n, 1, -1
+                           if (x(j) /= zero) then
                                temp = x(j)
-                               loop_50: do i = n,j + 1,-1
-                                   x(i) = x(i) + temp*a(i,j)
+                               loop_50: do i = n, j + 1, -1
+                                   x(i) = x(i) + temp*a(i, j)
                                end do loop_50
-                               if (nounit) x(j) = x(j)*a(j,j)
+                               if (nounit) x(j) = x(j)*a(j, j)
                            end if
                        end do loop_60
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
-                       loop_80: do j = n,1,-1
-                           if (x(jx)/=zero) then
+                       loop_80: do j = n, 1, -1
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
-                               loop_70: do i = n,j + 1,-1
-                                   x(ix) = x(ix) + temp*a(i,j)
+                               loop_70: do i = n, j + 1, -1
+                                   x(ix) = x(ix) + temp*a(i, j)
                                    ix = ix - incx
                                end do loop_70
-                               if (nounit) x(jx) = x(jx)*a(j,j)
+                               if (nounit) x(jx) = x(jx)*a(j, j)
                            end if
                            jx = jx - incx
                        end do loop_80
@@ -4606,39 +4555,39 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  x := a**t*x  or  x := a**h*x.
-               if (stdlib_lsame(uplo,'u')) then
-                   if (incx==1) then
-                       loop_110: do j = n,1,-1
+               if (stdlib_lsame(uplo, 'u')) then
+                   if (incx == 1) then
+                       loop_110: do j = n, 1, -1
                            temp = x(j)
                            if (noconj) then
-                               if (nounit) temp = temp*a(j,j)
-                               loop_90: do i = j - 1,1,-1
-                                   temp = temp + a(i,j)*x(i)
+                               if (nounit) temp = temp*a(j, j)
+                               loop_90: do i = j - 1, 1, -1
+                                   temp = temp + a(i, j)*x(i)
                                end do loop_90
                            else
-                               if (nounit) temp = temp*conjg(a(j,j))
-                               loop_100: do i = j - 1,1,-1
-                                   temp = temp + conjg(a(i,j))*x(i)
+                               if (nounit) temp = temp*conjg(a(j, j))
+                               loop_100: do i = j - 1, 1, -1
+                                   temp = temp + conjg(a(i, j))*x(i)
                                end do loop_100
                            end if
                            x(j) = temp
                        end do loop_110
                    else
-                       jx = kx + (n-1)*incx
-                       loop_140: do j = n,1,-1
+                       jx = kx + (n - 1)*incx
+                       loop_140: do j = n, 1, -1
                            temp = x(jx)
                            ix = jx
                            if (noconj) then
-                               if (nounit) temp = temp*a(j,j)
-                               loop_120: do i = j - 1,1,-1
+                               if (nounit) temp = temp*a(j, j)
+                               loop_120: do i = j - 1, 1, -1
                                    ix = ix - incx
-                                   temp = temp + a(i,j)*x(ix)
+                                   temp = temp + a(i, j)*x(ix)
                                end do loop_120
                            else
-                               if (nounit) temp = temp*conjg(a(j,j))
-                               loop_130: do i = j - 1,1,-1
+                               if (nounit) temp = temp*conjg(a(j, j))
+                               loop_130: do i = j - 1, 1, -1
                                    ix = ix - incx
-                                   temp = temp + conjg(a(i,j))*x(ix)
+                                   temp = temp + conjg(a(i, j))*x(ix)
                                end do loop_130
                            end if
                            x(jx) = temp
@@ -4646,38 +4595,38 @@ module stdlib_linalg_blas_c
                        end do loop_140
                    end if
                else
-                   if (incx==1) then
-                       loop_170: do j = 1,n
+                   if (incx == 1) then
+                       loop_170: do j = 1, n
                            temp = x(j)
                            if (noconj) then
-                               if (nounit) temp = temp*a(j,j)
-                               loop_150: do i = j + 1,n
-                                   temp = temp + a(i,j)*x(i)
+                               if (nounit) temp = temp*a(j, j)
+                               loop_150: do i = j + 1, n
+                                   temp = temp + a(i, j)*x(i)
                                end do loop_150
                            else
-                               if (nounit) temp = temp*conjg(a(j,j))
-                               loop_160: do i = j + 1,n
-                                   temp = temp + conjg(a(i,j))*x(i)
+                               if (nounit) temp = temp*conjg(a(j, j))
+                               loop_160: do i = j + 1, n
+                                   temp = temp + conjg(a(i, j))*x(i)
                                end do loop_160
                            end if
                            x(j) = temp
                        end do loop_170
                    else
                        jx = kx
-                       loop_200: do j = 1,n
+                       loop_200: do j = 1, n
                            temp = x(jx)
                            ix = jx
                            if (noconj) then
-                               if (nounit) temp = temp*a(j,j)
-                               loop_180: do i = j + 1,n
+                               if (nounit) temp = temp*a(j, j)
+                               loop_180: do i = j + 1, n
                                    ix = ix + incx
-                                   temp = temp + a(i,j)*x(ix)
+                                   temp = temp + a(i, j)*x(ix)
                                end do loop_180
                            else
-                               if (nounit) temp = temp*conjg(a(j,j))
-                               loop_190: do i = j + 1,n
+                               if (nounit) temp = temp*conjg(a(j, j))
+                               loop_190: do i = j + 1, n
                                    ix = ix + incx
-                                   temp = temp + conjg(a(i,j))*x(ix)
+                                   temp = temp + conjg(a(i, j))*x(ix)
                                end do loop_190
                            end if
                            x(jx) = temp
@@ -4697,108 +4646,106 @@ module stdlib_linalg_blas_c
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
      ! The matrix X is overwritten on B.
 
-     subroutine stdlib_ctrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     subroutine stdlib_ctrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            complex(sp) :: alpha
-           integer(int32) :: lda,ldb,m,n
-           character :: diag,side,transa,uplo
+           integer(int32) :: lda, ldb, m, n
+           character :: diag, side, transa, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),b(ldb,*)
+           complex(sp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
      
-     
-     
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max
+           intrinsic :: conjg, max
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,j,k,nrowa
-           logical(lk) :: lside,noconj,nounit,upper
+           integer(int32) :: i, info, j, k, nrowa
+           logical(lk) :: lside, noconj, nounit, upper
            ! .. parameters ..
            complex(sp) :: one
-           parameter (one= (1.0_sp,0.0_sp))
+           parameter(one=(1.0_sp, 0.0_sp))
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! test the input parameters.
-           lside = stdlib_lsame(side,'l')
+           lside = stdlib_lsame(side, 'l')
            if (lside) then
                nrowa = m
            else
                nrowa = n
            end if
-           noconj = stdlib_lsame(transa,'t')
-           nounit = stdlib_lsame(diag,'n')
-           upper = stdlib_lsame(uplo,'u')
+           noconj = stdlib_lsame(transa, 't')
+           nounit = stdlib_lsame(diag, 'n')
+           upper = stdlib_lsame(uplo, 'u')
            info = 0
-           if ((.not.lside) .and. (.not.stdlib_lsame(side,'r'))) then
+           if ((.not. lside) .and. (.not. stdlib_lsame(side, 'r'))) then
                info = 1
-           else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'l'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo, 'l'))) then
                info = 2
-           else if ((.not.stdlib_lsame(transa,'n')) .and.(.not.stdlib_lsame(transa,'t')) .and.(&
-                     .not.stdlib_lsame(transa,'c'))) then
+           else if ((.not. stdlib_lsame(transa, 'n')) .and. (.not. stdlib_lsame(transa, 't')) .and. ( &
+                     .not. stdlib_lsame(transa, 'c'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'u')) .and. (.not.stdlib_lsame(diag,'n'))) &
+           else if ((.not. stdlib_lsame(diag, 'u')) .and. (.not. stdlib_lsame(diag, 'n'))) &
                      then
                info = 4
-           else if (m<0) then
+           else if (m < 0) then
                info = 5
-           else if (n<0) then
+           else if (n < 0) then
                info = 6
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1, nrowa)) then
                info = 9
-           else if (ldb<max(1,m)) then
+           else if (ldb < max(1, m)) then
                info = 11
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_ctrsm ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_ctrsm ', info)
                return
            end if
            ! quick return if possible.
-           if (m==0 .or. n==0) return
+           if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
-               loop_20: do j = 1,n
-                   loop_10: do i = 1,m
-                       b(i,j) = zero
+           if (alpha == zero) then
+               loop_20: do j = 1, n
+                   loop_10: do i = 1, m
+                       b(i, j) = zero
                    end do loop_10
                end do loop_20
                return
            end if
            ! start the operations.
            if (lside) then
-               if (stdlib_lsame(transa,'n')) then
+               if (stdlib_lsame(transa, 'n')) then
                  ! form  b := alpha*inv( a )*b.
                    if (upper) then
-                       loop_60: do j = 1,n
-                           if (alpha/=one) then
-                               loop_30: do i = 1,m
-                                   b(i,j) = alpha*b(i,j)
+                       loop_60: do j = 1, n
+                           if (alpha /= one) then
+                               loop_30: do i = 1, m
+                                   b(i, j) = alpha*b(i, j)
                                end do loop_30
                            end if
-                           loop_50: do k = m,1,-1
-                               if (b(k,j)/=zero) then
-                                   if (nounit) b(k,j) = b(k,j)/a(k,k)
-                                   loop_40: do i = 1,k - 1
-                                       b(i,j) = b(i,j) - b(k,j)*a(i,k)
+                           loop_50: do k = m, 1, -1
+                               if (b(k, j) /= zero) then
+                                   if (nounit) b(k, j) = b(k, j)/a(k, k)
+                                   loop_40: do i = 1, k - 1
+                                       b(i, j) = b(i, j) - b(k, j)*a(i, k)
                                    end do loop_40
                                end if
                            end do loop_50
                        end do loop_60
                    else
-                       loop_100: do j = 1,n
-                           if (alpha/=one) then
-                               loop_70: do i = 1,m
-                                   b(i,j) = alpha*b(i,j)
+                       loop_100: do j = 1, n
+                           if (alpha /= one) then
+                               loop_70: do i = 1, m
+                                   b(i, j) = alpha*b(i, j)
                                end do loop_70
                            end if
-                           loop_90: do k = 1,m
-                               if (b(k,j)/=zero) then
-                                   if (nounit) b(k,j) = b(k,j)/a(k,k)
-                                   loop_80: do i = k + 1,m
-                                       b(i,j) = b(i,j) - b(k,j)*a(i,k)
+                           loop_90: do k = 1, m
+                               if (b(k, j) /= zero) then
+                                   if (nounit) b(k, j) = b(k, j)/a(k, k)
+                                   loop_80: do i = k + 1, m
+                                       b(i, j) = b(i, j) - b(k, j)*a(i, k)
                                    end do loop_80
                                end if
                            end do loop_90
@@ -4808,85 +4755,85 @@ module stdlib_linalg_blas_c
                  ! form  b := alpha*inv( a**t )*b
                  ! or    b := alpha*inv( a**h )*b.
                    if (upper) then
-                       loop_140: do j = 1,n
-                           loop_130: do i = 1,m
-                               temp = alpha*b(i,j)
+                       loop_140: do j = 1, n
+                           loop_130: do i = 1, m
+                               temp = alpha*b(i, j)
                                if (noconj) then
-                                   loop_110: do k = 1,i - 1
-                                       temp = temp - a(k,i)*b(k,j)
+                                   loop_110: do k = 1, i - 1
+                                       temp = temp - a(k, i)*b(k, j)
                                    end do loop_110
-                                   if (nounit) temp = temp/a(i,i)
+                                   if (nounit) temp = temp/a(i, i)
                                else
-                                   loop_120: do k = 1,i - 1
-                                       temp = temp - conjg(a(k,i))*b(k,j)
+                                   loop_120: do k = 1, i - 1
+                                       temp = temp - conjg(a(k, i))*b(k, j)
                                    end do loop_120
-                                   if (nounit) temp = temp/conjg(a(i,i))
+                                   if (nounit) temp = temp/conjg(a(i, i))
                                end if
-                               b(i,j) = temp
+                               b(i, j) = temp
                            end do loop_130
                        end do loop_140
                    else
-                       loop_180: do j = 1,n
-                           loop_170: do i = m,1,-1
-                               temp = alpha*b(i,j)
+                       loop_180: do j = 1, n
+                           loop_170: do i = m, 1, -1
+                               temp = alpha*b(i, j)
                                if (noconj) then
-                                   loop_150: do k = i + 1,m
-                                       temp = temp - a(k,i)*b(k,j)
+                                   loop_150: do k = i + 1, m
+                                       temp = temp - a(k, i)*b(k, j)
                                    end do loop_150
-                                   if (nounit) temp = temp/a(i,i)
+                                   if (nounit) temp = temp/a(i, i)
                                else
-                                   loop_160: do k = i + 1,m
-                                       temp = temp - conjg(a(k,i))*b(k,j)
+                                   loop_160: do k = i + 1, m
+                                       temp = temp - conjg(a(k, i))*b(k, j)
                                    end do loop_160
-                                   if (nounit) temp = temp/conjg(a(i,i))
+                                   if (nounit) temp = temp/conjg(a(i, i))
                                end if
-                               b(i,j) = temp
+                               b(i, j) = temp
                            end do loop_170
                        end do loop_180
                    end if
                end if
            else
-               if (stdlib_lsame(transa,'n')) then
+               if (stdlib_lsame(transa, 'n')) then
                  ! form  b := alpha*b*inv( a ).
                    if (upper) then
-                       loop_230: do j = 1,n
-                           if (alpha/=one) then
-                               loop_190: do i = 1,m
-                                   b(i,j) = alpha*b(i,j)
+                       loop_230: do j = 1, n
+                           if (alpha /= one) then
+                               loop_190: do i = 1, m
+                                   b(i, j) = alpha*b(i, j)
                                end do loop_190
                            end if
-                           loop_210: do k = 1,j - 1
-                               if (a(k,j)/=zero) then
-                                   loop_200: do i = 1,m
-                                       b(i,j) = b(i,j) - a(k,j)*b(i,k)
+                           loop_210: do k = 1, j - 1
+                               if (a(k, j) /= zero) then
+                                   loop_200: do i = 1, m
+                                       b(i, j) = b(i, j) - a(k, j)*b(i, k)
                                    end do loop_200
                                end if
                            end do loop_210
                            if (nounit) then
-                               temp = one/a(j,j)
-                               loop_220: do i = 1,m
-                                   b(i,j) = temp*b(i,j)
+                               temp = one/a(j, j)
+                               loop_220: do i = 1, m
+                                   b(i, j) = temp*b(i, j)
                                end do loop_220
                            end if
                        end do loop_230
                    else
-                       loop_280: do j = n,1,-1
-                           if (alpha/=one) then
-                               loop_240: do i = 1,m
-                                   b(i,j) = alpha*b(i,j)
+                       loop_280: do j = n, 1, -1
+                           if (alpha /= one) then
+                               loop_240: do i = 1, m
+                                   b(i, j) = alpha*b(i, j)
                                end do loop_240
                            end if
-                           loop_260: do k = j + 1,n
-                               if (a(k,j)/=zero) then
-                                   loop_250: do i = 1,m
-                                       b(i,j) = b(i,j) - a(k,j)*b(i,k)
+                           loop_260: do k = j + 1, n
+                               if (a(k, j) /= zero) then
+                                   loop_250: do i = 1, m
+                                       b(i, j) = b(i, j) - a(k, j)*b(i, k)
                                    end do loop_250
                                end if
                            end do loop_260
                            if (nounit) then
-                               temp = one/a(j,j)
-                               loop_270: do i = 1,m
-                                   b(i,j) = temp*b(i,j)
+                               temp = one/a(j, j)
+                               loop_270: do i = 1, m
+                                   b(i, j) = temp*b(i, j)
                                end do loop_270
                            end if
                        end do loop_280
@@ -4895,62 +4842,62 @@ module stdlib_linalg_blas_c
                  ! form  b := alpha*b*inv( a**t )
                  ! or    b := alpha*b*inv( a**h ).
                    if (upper) then
-                       loop_330: do k = n,1,-1
+                       loop_330: do k = n, 1, -1
                            if (nounit) then
                                if (noconj) then
-                                   temp = one/a(k,k)
+                                   temp = one/a(k, k)
                                else
-                                   temp = one/conjg(a(k,k))
+                                   temp = one/conjg(a(k, k))
                                end if
-                               loop_290: do i = 1,m
-                                   b(i,k) = temp*b(i,k)
+                               loop_290: do i = 1, m
+                                   b(i, k) = temp*b(i, k)
                                end do loop_290
                            end if
-                           loop_310: do j = 1,k - 1
-                               if (a(j,k)/=zero) then
+                           loop_310: do j = 1, k - 1
+                               if (a(j, k) /= zero) then
                                    if (noconj) then
-                                       temp = a(j,k)
+                                       temp = a(j, k)
                                    else
-                                       temp = conjg(a(j,k))
+                                       temp = conjg(a(j, k))
                                    end if
-                                   loop_300: do i = 1,m
-                                       b(i,j) = b(i,j) - temp*b(i,k)
+                                   loop_300: do i = 1, m
+                                       b(i, j) = b(i, j) - temp*b(i, k)
                                    end do loop_300
                                end if
                            end do loop_310
-                           if (alpha/=one) then
-                               loop_320: do i = 1,m
-                                   b(i,k) = alpha*b(i,k)
+                           if (alpha /= one) then
+                               loop_320: do i = 1, m
+                                   b(i, k) = alpha*b(i, k)
                                end do loop_320
                            end if
                        end do loop_330
                    else
-                       loop_380: do k = 1,n
+                       loop_380: do k = 1, n
                            if (nounit) then
                                if (noconj) then
-                                   temp = one/a(k,k)
+                                   temp = one/a(k, k)
                                else
-                                   temp = one/conjg(a(k,k))
+                                   temp = one/conjg(a(k, k))
                                end if
-                               loop_340: do i = 1,m
-                                   b(i,k) = temp*b(i,k)
+                               loop_340: do i = 1, m
+                                   b(i, k) = temp*b(i, k)
                                end do loop_340
                            end if
-                           loop_360: do j = k + 1,n
-                               if (a(j,k)/=zero) then
+                           loop_360: do j = k + 1, n
+                               if (a(j, k) /= zero) then
                                    if (noconj) then
-                                       temp = a(j,k)
+                                       temp = a(j, k)
                                    else
-                                       temp = conjg(a(j,k))
+                                       temp = conjg(a(j, k))
                                    end if
-                                   loop_350: do i = 1,m
-                                       b(i,j) = b(i,j) - temp*b(i,k)
+                                   loop_350: do i = 1, m
+                                       b(i, j) = b(i, j) - temp*b(i, k)
                                    end do loop_350
                                end if
                            end do loop_360
-                           if (alpha/=one) then
-                               loop_370: do i = 1,m
-                                   b(i,k) = alpha*b(i,k)
+                           if (alpha /= one) then
+                               loop_370: do i = 1, m
+                                   b(i, k) = alpha*b(i, k)
                                end do loop_370
                            end if
                        end do loop_380
@@ -4968,110 +4915,108 @@ module stdlib_linalg_blas_c
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_ctrsv(uplo,trans,diag,n,a,lda,x,incx)
+     subroutine stdlib_ctrsv(uplo, trans, diag, n, a, lda, x, incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx,lda,n
-           character :: diag,trans,uplo
+           integer(int32) :: incx, lda, n
+           character :: diag, trans, uplo
            ! .. array arguments ..
-           complex(sp) :: a(lda,*),x(*)
+           complex(sp) :: a(lda, *), x(*)
         ! =====================================================================
            ! .. parameters ..
            complex(sp) :: zero
-           parameter (zero= (0.0_sp,0.0_sp))
+           parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
            complex(sp) :: temp
-           integer(int32) :: i,info,ix,j,jx,kx
-           logical(lk) :: noconj,nounit
-     
-     
+           integer(int32) :: i, info, ix, j, jx, kx
+           logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: conjg,max
+           intrinsic :: conjg, max
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'u') .and. .not.stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'n') .and. .not.stdlib_lsame(trans,'t') &
-                     .and..not.stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
+                     .and. .not. stdlib_lsame(trans, 'c')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'u') .and. .not.stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag, 'u') .and. .not. stdlib_lsame(diag, 'n')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (lda<max(1,n)) then
+           else if (lda < max(1, n)) then
                info = 6
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 8
            end if
-           if (info/=0) then
-               call stdlib_xerbla('stdlib_ctrsv ',info)
+           if (info /= 0) then
+               call stdlib_xerbla('stdlib_ctrsv ', info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           if (n == 0) return
+           noconj = stdlib_lsame(trans, 't')
+           nounit = stdlib_lsame(diag, 'n')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans, 'n')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'u')) then
-                   if (incx==1) then
-                       loop_20: do j = n,1,-1
-                           if (x(j)/=zero) then
-                               if (nounit) x(j) = x(j)/a(j,j)
+               if (stdlib_lsame(uplo, 'u')) then
+                   if (incx == 1) then
+                       loop_20: do j = n, 1, -1
+                           if (x(j) /= zero) then
+                               if (nounit) x(j) = x(j)/a(j, j)
                                temp = x(j)
-                               loop_10: do i = j - 1,1,-1
-                                   x(i) = x(i) - temp*a(i,j)
+                               loop_10: do i = j - 1, 1, -1
+                                   x(i) = x(i) - temp*a(i, j)
                                end do loop_10
                            end if
                        end do loop_20
                    else
-                       jx = kx + (n-1)*incx
-                       loop_40: do j = n,1,-1
-                           if (x(jx)/=zero) then
-                               if (nounit) x(jx) = x(jx)/a(j,j)
+                       jx = kx + (n - 1)*incx
+                       loop_40: do j = n, 1, -1
+                           if (x(jx) /= zero) then
+                               if (nounit) x(jx) = x(jx)/a(j, j)
                                temp = x(jx)
                                ix = jx
-                               loop_30: do i = j - 1,1,-1
+                               loop_30: do i = j - 1, 1, -1
                                    ix = ix - incx
-                                   x(ix) = x(ix) - temp*a(i,j)
+                                   x(ix) = x(ix) - temp*a(i, j)
                                end do loop_30
                            end if
                            jx = jx - incx
                        end do loop_40
                    end if
                else
-                   if (incx==1) then
-                       loop_60: do j = 1,n
-                           if (x(j)/=zero) then
-                               if (nounit) x(j) = x(j)/a(j,j)
+                   if (incx == 1) then
+                       loop_60: do j = 1, n
+                           if (x(j) /= zero) then
+                               if (nounit) x(j) = x(j)/a(j, j)
                                temp = x(j)
-                               loop_50: do i = j + 1,n
-                                   x(i) = x(i) - temp*a(i,j)
+                               loop_50: do i = j + 1, n
+                                   x(i) = x(i) - temp*a(i, j)
                                end do loop_50
                            end if
                        end do loop_60
                    else
                        jx = kx
-                       loop_80: do j = 1,n
-                           if (x(jx)/=zero) then
-                               if (nounit) x(jx) = x(jx)/a(j,j)
+                       loop_80: do j = 1, n
+                           if (x(jx) /= zero) then
+                               if (nounit) x(jx) = x(jx)/a(j, j)
                                temp = x(jx)
                                ix = jx
-                               loop_70: do i = j + 1,n
+                               loop_70: do i = j + 1, n
                                    ix = ix + incx
-                                   x(ix) = x(ix) - temp*a(i,j)
+                                   x(ix) = x(ix) - temp*a(i, j)
                                end do loop_70
                            end if
                            jx = jx + incx
@@ -5080,80 +5025,80 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-               if (stdlib_lsame(uplo,'u')) then
-                   if (incx==1) then
-                       loop_110: do j = 1,n
+               if (stdlib_lsame(uplo, 'u')) then
+                   if (incx == 1) then
+                       loop_110: do j = 1, n
                            temp = x(j)
                            if (noconj) then
-                               loop_90: do i = 1,j - 1
-                                   temp = temp - a(i,j)*x(i)
+                               loop_90: do i = 1, j - 1
+                                   temp = temp - a(i, j)*x(i)
                                end do loop_90
-                               if (nounit) temp = temp/a(j,j)
+                               if (nounit) temp = temp/a(j, j)
                            else
-                               loop_100: do i = 1,j - 1
-                                   temp = temp - conjg(a(i,j))*x(i)
+                               loop_100: do i = 1, j - 1
+                                   temp = temp - conjg(a(i, j))*x(i)
                                end do loop_100
-                               if (nounit) temp = temp/conjg(a(j,j))
+                               if (nounit) temp = temp/conjg(a(j, j))
                            end if
                            x(j) = temp
                        end do loop_110
                    else
                        jx = kx
-                       loop_140: do j = 1,n
+                       loop_140: do j = 1, n
                            ix = kx
                            temp = x(jx)
                            if (noconj) then
-                               loop_120: do i = 1,j - 1
-                                   temp = temp - a(i,j)*x(ix)
+                               loop_120: do i = 1, j - 1
+                                   temp = temp - a(i, j)*x(ix)
                                    ix = ix + incx
                                end do loop_120
-                               if (nounit) temp = temp/a(j,j)
+                               if (nounit) temp = temp/a(j, j)
                            else
-                               loop_130: do i = 1,j - 1
-                                   temp = temp - conjg(a(i,j))*x(ix)
+                               loop_130: do i = 1, j - 1
+                                   temp = temp - conjg(a(i, j))*x(ix)
                                    ix = ix + incx
                                end do loop_130
-                               if (nounit) temp = temp/conjg(a(j,j))
+                               if (nounit) temp = temp/conjg(a(j, j))
                            end if
                            x(jx) = temp
                            jx = jx + incx
                        end do loop_140
                    end if
                else
-                   if (incx==1) then
-                       loop_170: do j = n,1,-1
+                   if (incx == 1) then
+                       loop_170: do j = n, 1, -1
                            temp = x(j)
                            if (noconj) then
-                               loop_150: do i = n,j + 1,-1
-                                   temp = temp - a(i,j)*x(i)
+                               loop_150: do i = n, j + 1, -1
+                                   temp = temp - a(i, j)*x(i)
                                end do loop_150
-                               if (nounit) temp = temp/a(j,j)
+                               if (nounit) temp = temp/a(j, j)
                            else
-                               loop_160: do i = n,j + 1,-1
-                                   temp = temp - conjg(a(i,j))*x(i)
+                               loop_160: do i = n, j + 1, -1
+                                   temp = temp - conjg(a(i, j))*x(i)
                                end do loop_160
-                               if (nounit) temp = temp/conjg(a(j,j))
+                               if (nounit) temp = temp/conjg(a(j, j))
                            end if
                            x(j) = temp
                        end do loop_170
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
-                       loop_200: do j = n,1,-1
+                       loop_200: do j = n, 1, -1
                            ix = kx
                            temp = x(jx)
                            if (noconj) then
-                               loop_180: do i = n,j + 1,-1
-                                   temp = temp - a(i,j)*x(ix)
+                               loop_180: do i = n, j + 1, -1
+                                   temp = temp - a(i, j)*x(ix)
                                    ix = ix - incx
                                end do loop_180
-                               if (nounit) temp = temp/a(j,j)
+                               if (nounit) temp = temp/a(j, j)
                            else
-                               loop_190: do i = n,j + 1,-1
-                                   temp = temp - conjg(a(i,j))*x(ix)
+                               loop_190: do i = n, j + 1, -1
+                                   temp = temp - conjg(a(i, j))*x(ix)
                                    ix = ix - incx
                                end do loop_190
-                               if (nounit) temp = temp/conjg(a(j,j))
+                               if (nounit) temp = temp/conjg(a(j, j))
                            end if
                            x(jx) = temp
                            jx = jx - incx
@@ -5164,7 +5109,5 @@ module stdlib_linalg_blas_c
            return
            ! end of stdlib_ctrsv
      end subroutine stdlib_ctrsv
-
-
 
 end module stdlib_linalg_blas_c

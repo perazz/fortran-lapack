@@ -5,9 +5,7 @@ module stdlib_linalg_blas
      use stdlib_linalg_blas_d
      use stdlib_linalg_blas_c
      use stdlib_linalg_blas_z
-     implicit none(type,external)
+     implicit none(type, external)
      public
-
-
 
 end module stdlib_linalg_blas
