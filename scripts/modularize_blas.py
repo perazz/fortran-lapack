@@ -45,22 +45,48 @@ def create_constants_module(module_name,out_folder):
 
 # Patch lapack aux module interface
 def patch_lapack_aux(fid,prefix,indent):
-    fid.write(INDENT + "public :: {}_selctg\n".format(prefix))
-    fid.write(INDENT + "public :: {}_select\n\n".format(prefix))
+
+    INDENT          = "     "
+
+    initials = ['s','d','c','z']
+    datatypes = ['real(sp)','real(dp)','complex(sp)','complex(dp)']
+
+    for i in range(len(initials)):
+        fid.write(INDENT + "public :: {prf}selctg_{int}\n".format(prf=prefix,int=initials[i]))
+        fid.write(INDENT + "public :: {prf}select_{int}\n".format(prf=prefix,int=initials[i]))
+
+    fid.write("\n")
+
+
     fid.write(INDENT + "! SELCTG is a LOGICAL FUNCTION of three DOUBLE PRECISION arguments \n")
     fid.write(INDENT + "! used to select eigenvalues to sort to the top left of the Schur form. \n")
     fid.write(INDENT + "! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., \n")
     fid.write(INDENT + "abstract interface \n")
-    fid.write(INDENT + "   logical(lk) function {}_selctg(alphar,alphai,beta) \n".format(prefix))
-    fid.write(INDENT + "       import sp,lk \n")
-    fid.write(INDENT + "       implicit none \n")
-    fid.write(INDENT + "       real(sp), intent(in) :: alphar,alphai,beta \n")
-    fid.write(INDENT + "   end function {}_selctg \n\n".format(prefix))
-    fid.write(INDENT + "   logical(lk) function {}_select(alphar,alphai) \n".format(prefix))
-    fid.write(INDENT + "       import sp,lk \n")
-    fid.write(INDENT + "       implicit none \n")
-    fid.write(INDENT + "       real(sp), intent(in) :: alphar,alphai \n")
-    fid.write(INDENT + "   end function {}_select \n".format(prefix))
+    for i in range(len(initials)):
+        if (i<=1):
+            fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       implicit none \n")
+            fid.write(INDENT + "       {}, intent(in) :: alphar,alphai,beta \n".format(datatypes[i]))
+            fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       implicit none \n")
+            fid.write(INDENT + "       {}, intent(in) :: alphar,alphai \n".format(datatypes[i]))
+            fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
+        else:
+            fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alpha,beta) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       implicit none \n")
+            fid.write(INDENT + "       {}, intent(in) :: alpha,beta \n".format(datatypes[i]))
+            fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alpha) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       implicit none \n")
+            fid.write(INDENT + "       {}, intent(in) :: alpha \n".format(datatypes[i]))
+            fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
+
+
     fid.write(INDENT + "end interface \n\n")
 
 
@@ -141,7 +167,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
                 exit(1)
 
         # Patch AUX
-        if initials[m]=='aux' and module_name=='stdlib_linalg_lapack_aux':
+        if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
             patch_lapack_aux(fid,prefix,INDENT)
 
         # Actual implementation
@@ -179,18 +205,71 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
     # Return list of all functions defined in this module, including the external ones
     return old_names
 
-#
+def function_module_initial(function_name):
+   initials = ['aux','c','s','d','z']
+
+   oname = function_name.lower().strip()
+
+   for i in range(len(initials)):
+       initial = initials[i]
+       if len(initial)<1:
+           return 'a'
+       elif    oname.endswith("amax") \
+            or oname.endswith("abs") \
+            or oname.endswith("abs1") :
+           return 'a'
+       elif initial in ['c','s','d','z'] and oname[0]==initial[0].lower():
+               return oname[0]
+
+   # No matches
+   return 'a'
+
 def function_in_module(initial,function_name):
+
+   oname = function_name.lower().strip()
+
    if len(initial)<1:
        in_module = True
-   elif    function_name.endswith("amax") \
-        or function_name.endswith("abs") \
-        or function_name.endswith("abs1") :
+   elif    oname.endswith("amax") \
+        or oname.endswith("abs") \
+        or oname.endswith("roundup_lwork") \
+        or oname.endswith("abs1") :
        in_module = initial[0].lower() == 'a'
+   # PATCH: exclude functions
+   # - with names ending in *x or *_extended, as they require external subroutines
+   # which are not provided by the Fortran implementation
+   elif ((len(oname)>6 and oname.endswith('x')) or \
+         (len(oname)>6 and (oname.endswith('2') \
+                            and not oname.endswith('ladiv2')   \
+                            and not oname.endswith('geqrt2')   \
+                            and not oname.endswith('getrf2')   \
+                            and not oname.endswith('getrfnp2') \
+                            and not oname.endswith('tplqt2')   \
+                            and not oname.endswith('sytrs2')   \
+                            and not oname.endswith('hetrs2')   \
+                            and not oname.endswith('orbdb2')   \
+                            and not oname.endswith('unbdb2')   \
+                            and not oname.endswith('tpqrt2')   \
+                            and not oname.endswith('potrf2'))) or \
+         (len(oname)>6 and (oname.endswith('3') \
+                            and not oname.endswith('ladiv3')   \
+                            and not oname.endswith('geqrt3')   \
+                            and not oname.endswith('tpqrt3')   \
+                            and not oname.endswith('gelqt3')   \
+                            and not oname.endswith('sytrs_3')  \
+                            and not oname.endswith('hetrs_3')  \
+                            and not oname.endswith('orbdb3')   \
+                            and not oname.endswith('unbdb3')   \
+                            and not oname.endswith('trevc3'))) \
+          or oname.endswith('extended') \
+          or oname.endswith('ssytri2') \
+          or oname.endswith('_2stage') \
+          or oname.endswith('ssysv_rk')):
+       in_module = False
    elif initial[0].lower() in ['c','s','d','z'] :
-       in_module = function_name[0].lower()==initial[0].lower()
+       in_module = oname[0]==initial[0].lower()
    else:
-       in_module = not (function_name[0].lower() in ['c','s','d','z'])
+       in_module = not (oname[0] in ['c','s','d','z'])
    return in_module
 
 # Enum for file sections
@@ -347,12 +426,10 @@ def header_indentation(body):
 def heading_spaces(line):
     posts = line.lstrip(' ')
     nspaces = len(line)-len(posts)
-    print("line     <"+line+">")
-    print("stripped <"+posts+">")
     return nspaces
 
 # Adjust variable declaration
-def adjust_variable_declaration(line):
+def adjust_variable_declaration(line,datatype):
 
     import re
 
@@ -370,7 +447,22 @@ def adjust_variable_declaration(line):
     for i in range(len(declarations)):
         m  = re.match(r'^\s*' + declarations[i] + r'\s+\w',ll)
         if m:
-            line = line[:m.end()-2].rstrip() + " :: " + line[m.end()-1:].lstrip()
+            variable = line[m.end()-1:].lstrip()
+            line = line[:m.end()-2].rstrip() + " :: " + variable
+
+            # Patch function argument
+            if i==4 and variable.lower().strip()=='selctg':
+                print(line)
+                nspaces = len(line)-len(line.lstrip(' '))
+                line = nspaces*" " + "procedure(stdlib_selctg_"+datatype[0]+") :: selctg"
+                print(line)
+
+            if i==4 and variable.lower().strip()=='select':
+                print(line)
+                nspaces = len(line)-len(line.lstrip(' '))
+                line = nspaces*" " + "procedure(stdlib_select_"+datatype[0]+") :: select"
+                print(line)
+
             return line
 
     return line
@@ -379,6 +471,8 @@ def adjust_variable_declaration(line):
 def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
 
     import re
+
+    fid.write("\n")
 
     header = True
 
@@ -394,10 +488,17 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
            header = False
 
        # Blank comment line
-       if bool(re.match(r'^\s*!\s*$',line)):
-           # If line is '!', just print a blank line
-           fid.write(INDENT + "\n")
+       if bool(re.match(r'^\s*!\s*\.{0,2}\s*$',line)):
+           # If line is '!', just skip it
            continue
+
+       # Patches
+       find = [r'larfg\( n, a, a\( 1, min\( 2, n \) \), lda, t \)$']
+       repl = [r'larfg( n, a(1,1), a( 1, min( 2, n ) ), lda, t(1,1) )']
+
+       for j in range(len(find)):
+           line = re.sub(find[j],repl[j],line)
+
 
        mat = re.match(r'^\s*!', line)
        is_comment_line = bool(mat)
@@ -423,6 +524,9 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
        else:
 
            while (len(line)>MAX_LINE_LENGTH - 2*len(INDENT)) and not is_comment_line:
+
+              shift = 0
+
               # Find last non-reserved character
               m = re.search(r'[^a-zA-Z\d\.\_\'\"\*\=\<\>\/][a-zA-Z\d\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LINE_LENGTH-2])
 
@@ -432,11 +536,15 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
                   print("EEEEEEEE")
                   exit(1)
 
-              next = line[m.start()+1:]
+              # PATCH :: Check that we're not splitting a string between quotes, aka ' &\n'
+              if re.search(r'\'\s+$',line[:m.start()+1]): shift = -2
+
+              next = line[m.start()+1+shift:]
+
               end_line = "&\n" if len(next.strip())>0 else "\n"
               comment  = "continued" if continued else "non      "
-              fid.write(line[:m.start()+1] + end_line)
-              print(comment+" line:" + line[:m.start()+1])
+              fid.write(line[:m.start()+1+shift] + end_line)
+              print(comment+" line:" + line[:m.start()+1+shift])
 
               # Start with reminder (add same number of trailing spaces
               nspaces = len(line)-len(line.lstrip(' '))
@@ -490,7 +598,6 @@ def line_read_and_preprocess(line,is_free_form,file_name):
     will_continue   = bool(re.match(r".*\S+.*&\s*!*.*$", processed.rstrip()))
 
     if will_continue and not is_dir: # remove what's right of the ampersand
-        print(re.sub(r'&.*\s*$','',processed).strip())
         processed = re.sub(r'&.*\s*$','',processed).strip()
 
     # Remove comments
@@ -609,6 +716,8 @@ def is_externals_header(line):
     # Begins with a data type
     ext =    bool(re.match(r'\S\s*.. external functions ..',check_line)) \
           or bool(re.match(r'\S\s*.. external function ..',check_line)) \
+          or bool(re.match(r'\S\s*from blas',check_line)) \
+          or bool(re.match(r'\S\s*from lapack',check_line)) \
           or bool(re.match(r'\S\s*external functions\s*\S*',check_line)) \
           or bool(re.match(r'\S\s*.. external subroutines ..',check_line))
 
@@ -720,30 +829,23 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
     is_found    = [False for i in range(len(new_names))]
     is_declared = [False for i in range(len(new_names))]
 
-    print(len(new_names))
-    print(len(old_names))
-
     la_const = False
 
     # First of all, map which of these names are used as declared variables. In this case
     # do not replace their names
-    for i in range(len(decl)):
-        old_line = decl[i].lower()
-        for j in range(len(old_names)):
-            if bool(re.search(r".+\s+[^a-zA-Z\_0-9]"+old_names[j]+r"[^a-zA-Z\_0-9].*",old_line)):
-                is_declared[i] = True
-        if "la_constants" in old_line:
-            la_const = True
+    whole_decl = '\n'.join(decl).lower()
+    for j in range(len(old_names)):
+        if bool(re.search(r"\b"+old_names[j]+r"\b",whole_decl)): is_declared[i] = True
+        if "la_constants" in whole_decl: la_const = True
 
     replacement = prefix+r'\g<0>'
 
 
     whole = '\n'.join(lines).lower()
-
     for j in range(len(old_names)):
         if is_declared[j]: continue
         old = len(whole)
-        whole = re.sub(r"\b"+old_names[j]+r"\b",replacement,whole) #,flags=re.IGNORECASE)
+        whole = re.sub(r"\b"+old_names[j]+r"\b",replacement,whole)
         if len(whole)>old:
             print("***match***" + old_names[j])
             is_found[j] = True
@@ -753,15 +855,11 @@ def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
         for j in range(len(la_names)):
             if is_declared[j]: continue
             old = len(whole)
-            whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole) #,flags=re.IGNORECASE)
-#            if len(whole)>old:
-#                print("***match***" + la_names[j])
-#        print("***TEMPORARY STOP")
-#        exit(1)
+            whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
 
     body = whole.split('\n')
 
-    # Restore declaration lines cases
+    # Restore directive lines cases
     for j in range(len(body)):
        if is_directive_line(body[j]): body[j] = lines[j]
 
@@ -779,6 +877,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     import re
 
     print("Parsing source file "+file_name+" ...")
+
+    initial = 'a'
 
     INDENT = "     "
     DEBUG  = False #file_name.lower().startswith("dlaed6")
@@ -897,10 +997,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                      if '\par Purpose:' in line:
                         whereAt = Section.HEADER_DESCR
 
-               # Empty comment? skip
-               if line.strip()=='!': continue
-
-
+               # Empty comment line? skip
+               ls = line.strip()
+               if ls=='!' or ls=='! ..': continue
 
             else:
 
@@ -925,6 +1024,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
+                               initial = function_module_initial(Source.old_name)
 
                            if DEBUG: print("Subroutine name found: " + str(name))
 
@@ -940,6 +1040,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
+                               initial = function_module_initial(Source.old_name)
 
                            if DEBUG: print("Function name found: " + str(name))
 
@@ -968,7 +1069,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                line = "";
                            else:
 
-                               line = adjust_variable_declaration(line)
+                               line = adjust_variable_declaration(line,initial)
 
                                Source.decl.append(line)
                        else:
@@ -996,15 +1097,28 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            # Extract label
                            numbers = re.findall(r'\d+',line)
                            nspaces = len(line) - len(line.lstrip(' '))
-
-                           print(line[m_loop.end():])
-
-                           print(line)
-                           print("loop "+str(numbers[0])+" found, "+str(nspaces)+" spaces")
-                           line = (" "*nspaces) + "loop_" + str(numbers[0]) + ": do " + line[m_loop.end():]
+                           line    = (" "*nspaces) + "loop_" + str(numbers[0]) + ": do " + line[m_loop.end():]
 
                            open_loops.append(numbers[0])
                            loop_starts.append(nspaces)
+
+                       # Go to inside labelled loop
+                       m_goto = re.search(r'go\s*to\s+\d+$',line.lower())
+                       if bool(m_goto):
+                           # Extract label
+                           numbers = re.findall(r'\d+$',line.lower())
+
+                           # This "go to" matches one of the current loops
+                           if len(open_loops)>0:
+                               if numbers[0] in open_loops:
+                                   nspaces = len(line) - len(line.lstrip(' '))
+                                   left = line[:m_goto.start()]
+                                   if len(left.strip())<=0:
+                                       line = (nspaces*" ") + "cycle loop_" + str(numbers[0])
+                                   else:
+                                       line = line[:m_goto.start()] + "cycle loop_" + str(numbers[0])
+
+                                   if DEBUG: print(line)
 
                        # End of labelled loop
                        if re.match(r'^\s+\d+\s+continue',line.lower()):
@@ -1014,12 +1128,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            # This "continue" matches loop
                            if len(open_loops)>0:
                                if open_loops[-1]==numbers[0]:
-                                   print("end loop "+str(numbers[0])+" found")
                                    loop_ID = open_loops.pop()
                                    nspaces = loop_starts.pop()
-                                   print(line)
-                                   line = (" "*nspaces) + "end do loop_" + str(loop_ID)
-                                   print(line)
+                                   line    = (" "*nspaces) + "end do loop_" + str(loop_ID)
 
                        # End of the function/subroutine: inside a module, it must contain its name
                        if     line.strip().upper()=="END" \
@@ -1083,6 +1194,7 @@ for file in glob.glob(r'../assets/reference_lapack/SRC/*.f*') + glob.glob(r'../a
 shutil.copyfile('../assets/reference_lapack/INSTALL/slamch.f', '../assets/lapack_sources/slamch.f')
 shutil.copyfile('../assets/reference_lapack/INSTALL/dlamch.f', '../assets/lapack_sources/dlamch.f')
 shutil.copyfile('../assets/reference_lapack/INSTALL/sroundup_lwork.f', '../assets/lapack_sources/sroundup_lwork.f')
+shutil.copyfile('../assets/reference_lapack/INSTALL/droundup_lwork.f', '../assets/lapack_sources/droundup_lwork.f')
 
 # Run script
 funs = []
