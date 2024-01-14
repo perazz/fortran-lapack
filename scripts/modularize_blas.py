@@ -48,22 +48,30 @@ def patch_lapack_aux(fid,prefix,indent):
 
     INDENT          = "     "
 
-    fid.write(INDENT + "public :: {}selctg\n".format(prefix))
-    fid.write(INDENT + "public :: {}select\n\n".format(prefix))
+    initials = ['s','d','c','z']
+    datatypes = ['real(sp)','real(dp)','complex(sp)','complex(dp)']
+
+    for i in range(len(initials)):
+        fid.write(INDENT + "public :: {prf}selctg_{int}\n".format(prf=prefix,int=initials[i]))
+        fid.write(INDENT + "public :: {prf}select_{int}\n\n".format(prf=prefix,int=initials[i]))
+
+
     fid.write(INDENT + "! SELCTG is a LOGICAL FUNCTION of three DOUBLE PRECISION arguments \n")
     fid.write(INDENT + "! used to select eigenvalues to sort to the top left of the Schur form. \n")
     fid.write(INDENT + "! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., \n")
     fid.write(INDENT + "abstract interface \n")
-    fid.write(INDENT + "   logical(lk) function {}selctg(alphar,alphai,beta) \n".format(prefix))
-    fid.write(INDENT + "       import sp,lk \n")
-    fid.write(INDENT + "       implicit none \n")
-    fid.write(INDENT + "       real(sp), intent(in) :: alphar,alphai,beta \n")
-    fid.write(INDENT + "   end function {}selctg \n\n".format(prefix))
-    fid.write(INDENT + "   logical(lk) function {}select(alphar,alphai) \n".format(prefix))
-    fid.write(INDENT + "       import sp,lk \n")
-    fid.write(INDENT + "       implicit none \n")
-    fid.write(INDENT + "       real(sp), intent(in) :: alphar,alphai \n")
-    fid.write(INDENT + "   end function {}select \n".format(prefix))
+    for i in range(len(initials)):
+        fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
+        fid.write(INDENT + "       import sp,lk \n")
+        fid.write(INDENT + "       implicit none \n")
+        fid.write(INDENT + "       {}, intent(in) :: alphar,alphai,beta \n".format(datatypes[i]))
+        fid.write(INDENT + "   end function {prf}selctg_{int} \n\n".format(prf=prefix,int=initials[i]))
+        fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
+        fid.write(INDENT + "       import sp,lk \n")
+        fid.write(INDENT + "       implicit none \n")
+        fid.write(INDENT + "       {}, intent(in) :: alphar,alphai \n".format(datatypes[i]))
+        fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
+
     fid.write(INDENT + "end interface \n\n")
 
 
@@ -182,7 +190,25 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
     # Return list of all functions defined in this module, including the external ones
     return old_names
 
-#
+def function_module_initial(function_name):
+   initials = ['aux','c','s','d','z']
+
+   oname = function_name.lower().strip()
+
+   for i in range(len(initials)):
+       initial = initials[i]
+       if len(initial)<1:
+           return 'a'
+       elif    oname.endswith("amax") \
+            or oname.endswith("abs") \
+            or oname.endswith("abs1") :
+           return 'a'
+       elif initial in ['c','s','d','z'] and oname[0]==initial[0].lower():
+               return oname[0]
+
+   # No matches
+   return 'a'
+
 def function_in_module(initial,function_name):
 
    oname = function_name.lower().strip()
@@ -382,7 +408,7 @@ def heading_spaces(line):
     return nspaces
 
 # Adjust variable declaration
-def adjust_variable_declaration(line):
+def adjust_variable_declaration(line,datatype):
 
     import re
 
@@ -407,13 +433,13 @@ def adjust_variable_declaration(line):
             if i==4 and variable.lower().strip()=='selctg':
                 print(line)
                 nspaces = len(line)-len(line.lstrip(' '))
-                line = nspaces*" " + "procedure(stdlib_selctg) :: selctg"
+                line = nspaces*" " + "procedure(stdlib_selctg_"+datatype[0]+") :: selctg"
                 print(line)
 
             if i==4 and variable.lower().strip()=='select':
                 print(line)
                 nspaces = len(line)-len(line.lstrip(' '))
-                line = nspaces*" " + "procedure(stdlib_select) :: select"
+                line = nspaces*" " + "procedure(stdlib_select_"+datatype[0]+") :: select"
                 print(line)
 
             return line
@@ -830,6 +856,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
     print("Parsing source file "+file_name+" ...")
 
+    initial = 'a'
+
     INDENT = "     "
     DEBUG  = False #file_name.lower().startswith("dlaed6")
 
@@ -974,6 +1002,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
+                               initial = function_module_initial(Source.old_name)
 
                            if DEBUG: print("Subroutine name found: " + str(name))
 
@@ -989,6 +1018,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
+                               initial = function_module_initial(Source.old_name)
 
                            if DEBUG: print("Function name found: " + str(name))
 
@@ -1017,7 +1047,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                line = "";
                            else:
 
-                               line = adjust_variable_declaration(line)
+                               line = adjust_variable_declaration(line,initial)
 
                                Source.decl.append(line)
                        else:
