@@ -1,4 +1,4 @@
-==================== WORK IN PROGRESS ====================
+# ==================== WORK IN PROGRESS ====================
 
 # fortran-lapack
 This package contains a Modern Fortran implementation of the [Reference-LAPACK](http://github.com/reference-LAPACK) library.
