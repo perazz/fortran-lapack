@@ -31,9 +31,12 @@ def create_constants_module(module_name,out_folder):
     fid.write(INDENT + "public\n\n\n\n")
 
     # Temporary: to be replaced with stdlib_kinds
-    fid.write(INDENT + "integer, parameter :: sp = selected_real_kind(6)\n")
-    fid.write(INDENT + "integer, parameter :: dp = selected_real_kind(15)\n")
-    fid.write(INDENT + "integer, parameter :: lk = kind(.true.)\n\n\n")
+    fid.write(INDENT + "integer, parameter :: sp  = selected_real_kind(6)\n")
+    fid.write(INDENT + "integer, parameter :: dp  = selected_real_kind(15)\n")
+    fid.write(INDENT + "integer, parameter :: lk  = kind(.true.)\n")
+    fid.write(INDENT + "! Integer size support for ILP64 builds should be done here")
+    fid.write(INDENT + "integer, parameter :: ilp = int32\n")
+    fid.write(INDENT + "private            :: int32, int64\n\n\n")
 
     # Arithmetic constants (private)
     print_lapack_constants(fid,INDENT)
@@ -157,7 +160,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         fid.write(INDENT + "private\n\n\n\n")
 
         # Public interface.
-        fid.write("\n\n\n" + INDENT + "public :: sp,dp,lk,int32,int64\n")
+        fid.write("\n\n\n" + INDENT + "public :: sp,dp,lk,ilp\n")
         for function in fortran_functions:
             if function_in_module(initials[m],function.old_name):
                 fid.write(INDENT + "public :: " + function.new_name + "\n")
@@ -650,13 +653,13 @@ def replace_f77_types(line,is_free_form):
     new_line = new_line.replace(".AND .",".AND.")
     new_line = re.sub(r'^\s*COMPLEX\*16',INDENT+'COMPLEX(dp)',new_line)
     new_line = re.sub(r'^\s*COMPLEX ',INDENT+'COMPLEX(sp) ',new_line)
-    new_line = re.sub(r'^\s*INTEGER ',INDENT+'INTEGER(int32) ',new_line)
+    new_line = re.sub(r'^\s*INTEGER ',INDENT+'INTEGER(ilp) ',new_line)
     new_line = re.sub(r'^\s*LOGICAL ',INDENT+'LOGICAL(lk) ',new_line)
     new_line = re.sub(r'^\s*REAL ',INDENT+'REAL(sp) ',new_line)
     new_line = re.sub(r'^\s*DOUBLE PRECISION ',INDENT+'REAL(dp) ',new_line)
     new_line = re.sub(r'^\s*COMPLEX\*16,',INDENT+'COMPLEX(dp),',new_line)
     new_line = re.sub(r'^\s*COMPLEX,',INDENT+'COMPLEX(sp),',new_line)
-    new_line = re.sub(r'^\s*INTEGER,',INDENT+'INTEGER(int32),',new_line)
+    new_line = re.sub(r'^\s*INTEGER,',INDENT+'INTEGER(ilp),',new_line)
     new_line = re.sub(r'^\s*LOGICAL,',INDENT+'LOGICAL(lk),',new_line)
     new_line = re.sub(r'^\s*REAL,',INDENT+'REAL(sp),',new_line)
     new_line = re.sub(r'^\s*DOUBLE PRECISION,',INDENT+'REAL(dp),',new_line)
