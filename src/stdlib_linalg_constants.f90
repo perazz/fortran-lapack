@@ -10,6 +10,9 @@ module stdlib_linalg_constants
      integer, parameter :: sp = selected_real_kind(6)
      integer, parameter :: dp = selected_real_kind(15)
      integer, parameter :: lk = kind(.true.)
+     ! Integer size support for ILP64 builds should be done here     
+     integer, parameter :: ilp = int32
+     private :: int32, int64
 
      ! 32-bit function prefixes
      character, parameter :: sprefix = 'S'

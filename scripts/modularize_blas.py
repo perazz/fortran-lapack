@@ -34,7 +34,7 @@ def create_constants_module(module_name,out_folder):
     fid.write(INDENT + "integer, parameter :: sp  = selected_real_kind(6)\n")
     fid.write(INDENT + "integer, parameter :: dp  = selected_real_kind(15)\n")
     fid.write(INDENT + "integer, parameter :: lk  = kind(.true.)\n")
-    fid.write(INDENT + "! Integer size support for ILP64 builds should be done here")
+    fid.write(INDENT + "! Integer size support for ILP64 builds should be done here\n")
     fid.write(INDENT + "integer, parameter :: ilp = int32\n")
     fid.write(INDENT + "private            :: int32, int64\n\n\n")
 
@@ -45,6 +45,33 @@ def create_constants_module(module_name,out_folder):
     fid.write("\n\n\n\n\nend module {}\n".format(module_name))
 
     fid.close()
+
+# Add parameter constants
+def patch_parameters(fid,prefix,indent):
+
+    INDENT          = "     "
+
+    initials = ['s','d','c','z']
+    datatypes = ['real(sp)','real(dp)','complex(sp)','complex(dp)']
+
+    kinds = ['sp','dp','sp','dp']
+
+    kind = 'sp'
+
+    fid.write("real   ({kd}), parameter :: zero   = 0.0_{kd}\n".format(kd=kind))
+    fid.write("real   ({kd}), parameter :: thresh = 0.1_{kd}\n".format(kd=kind))
+    fid.write("real   ({kd}), parameter :: half   = 0.5_{kd}\n".format(kd=kind))
+    fid.write("real   ({kd}), parameter :: one    = 1.0_{kd}\n".format(kd=kind))
+    fid.write("real   ({kd}), parameter :: two    = 2.0_{kd}\n".format(kd=kind))
+    fid.write("real   ({kd}), parameter :: fuzzy1 = one + 1.0e-5_{kd}\n".format(kd=kind))
+    fid.write("real   ({kd}), parameter :: relfac = two \n".format(kd=kind))
+
+    # fudge is sometimes 2.0, sometimes 2.1
+
+
+    fid.write("integer(ilp), parameter :: itmax = 5\n")
+
+
 
 # Patch lapack aux module interface
 def patch_lapack_aux(fid,prefix,indent):
@@ -169,8 +196,9 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
                 print("\n".join(function.body))
                 exit(1)
 
-        # Patch AUX
+
         if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
+            # AUX: add procedure interfaces
             patch_lapack_aux(fid,prefix,INDENT)
 
         # Actual implementation

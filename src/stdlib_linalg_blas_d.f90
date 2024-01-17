@@ -5,7 +5,7 @@ module stdlib_linalg_blas_d
      implicit none(type, external)
      private
 
-     public :: sp, dp, lk, int32, int64
+     public :: sp, dp, lk, ilp
      public :: stdlib_dasum
      public :: stdlib_daxpy
      public :: stdlib_dcopy
@@ -52,13 +52,13 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            ! .. array arguments ..
            real(dp) :: dx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: dtemp
-           integer(int32) :: i, m, mp1, nincx
+           integer(ilp) :: i, m, mp1, nincx
            ! .. intrinsic functions ..
            intrinsic :: dabs, mod
            stdlib_dasum = 0.0_dp
@@ -103,12 +103,12 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: da
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            ! .. array arguments ..
            real(dp) :: dx(*), dy(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ix, iy, m, mp1
+           integer(ilp) :: i, ix, iy, m, mp1
            ! .. intrinsic functions ..
            intrinsic :: mod
            if (n <= 0) return
@@ -155,12 +155,12 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            ! .. array arguments ..
            real(dp) :: dx(*), dy(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ix, iy, m, mp1
+           integer(ilp) :: i, ix, iy, m, mp1
            ! .. intrinsic functions ..
            intrinsic :: mod
            if (n <= 0) return
@@ -209,13 +209,13 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            ! .. array arguments ..
            real(dp) :: dx(*), dy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: dtemp
-           integer(int32) :: i, ix, iy, m, mp1
+           integer(ilp) :: i, ix, iy, m, mp1
            ! .. intrinsic functions ..
            intrinsic :: mod
            stdlib_ddot = 0.0_dp
@@ -268,7 +268,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: incx, incy, kl, ku, lda, m, n
+           integer(ilp) :: incx, incy, kl, ku, lda, m, n
            character :: trans
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
@@ -278,7 +278,7 @@ module stdlib_linalg_blas_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, iy, j, jx, jy, k, kup1, kx, ky, lenx, leny
+           integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kup1, kx, ky, lenx, leny
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -428,7 +428,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: k, lda, ldb, ldc, m, n
+           integer(ilp) :: k, lda, ldb, ldc, m, n
            character :: transa, transb
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
@@ -438,7 +438,7 @@ module stdlib_linalg_blas_d
            intrinsic :: max
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, j, l, nrowa, nrowb
+           integer(ilp) :: i, info, j, l, nrowa, nrowb
            logical(lk) :: nota, notb
            ! .. parameters ..
            real(dp) :: one, zero
@@ -592,7 +592,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: incx, incy, lda, m, n
+           integer(ilp) :: incx, incy, lda, m, n
            character :: trans
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
@@ -602,7 +602,7 @@ module stdlib_linalg_blas_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, iy, j, jx, jy, kx, ky, lenx, leny
+           integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky, lenx, leny
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -739,7 +739,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha
-           integer(int32) :: incx, incy, lda, m, n
+           integer(ilp) :: incx, incy, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
@@ -748,7 +748,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, j, jy, kx
+           integer(ilp) :: i, info, ix, j, jy, kx
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -917,13 +917,13 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: c, s
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            ! .. array arguments ..
            real(dp) :: dx(*), dy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: dtemp
-           integer(int32) :: i, ix, iy
+           integer(ilp) :: i, ix, iy
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
              ! code for both increments equal to 1
@@ -1035,13 +1035,13 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            ! .. array arguments ..
            real(dp) :: dparam(5), dx(*), dy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: dflag, dh11, dh12, dh21, dh22, two, w, z, zero
-           integer(int32) :: i, kx, ky, nsteps
+           integer(ilp) :: i, kx, ky, nsteps
            ! .. data statements ..
            data zero, two/0.d0, 2.d0/
            dflag = dparam(1)
@@ -1297,7 +1297,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: incx, incy, k, lda, n
+           integer(ilp) :: incx, incy, k, lda, n
            character :: uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
@@ -1307,7 +1307,7 @@ module stdlib_linalg_blas_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp1, temp2
-           integer(int32) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
+           integer(ilp) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -1460,12 +1460,12 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: da
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            ! .. array arguments ..
            real(dp) :: dx(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, m, mp1, nincx
+           integer(ilp) :: i, m, mp1, nincx
            ! .. intrinsic functions ..
            intrinsic :: mod
            if (n <= 0 .or. incx <= 0) return
@@ -1510,7 +1510,7 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            ! .. array arguments ..
            real(sp) :: sx(*), sy(*)
         ! authors:
@@ -1519,7 +1519,7 @@ module stdlib_linalg_blas_d
         ! kincaid, d. r., (u. of texas), krogh, f. t., (jpl)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, kx, ky, ns
+           integer(ilp) :: i, kx, ky, ns
            ! .. intrinsic functions ..
            intrinsic :: dble
            stdlib_dsdot = 0.0d0
@@ -1557,7 +1557,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            character :: uplo
            ! .. array arguments ..
            real(dp) :: ap(*), x(*), y(*)
@@ -1567,7 +1567,7 @@ module stdlib_linalg_blas_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp1, temp2
-           integer(int32) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
+           integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
      
            ! test the input parameters.
            info = 0
@@ -1716,7 +1716,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            character :: uplo
            ! .. array arguments ..
            real(dp) :: ap(*), x(*)
@@ -1726,7 +1726,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, j, jx, k, kk, kx
+           integer(ilp) :: i, info, ix, j, jx, k, kk, kx
      
            ! test the input parameters.
            info = 0
@@ -1826,7 +1826,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            character :: uplo
            ! .. array arguments ..
            real(dp) :: ap(*), x(*), y(*)
@@ -1836,7 +1836,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp1, temp2
-           integer(int32) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
+           integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
      
            ! test the input parameters.
            info = 0
@@ -1953,13 +1953,13 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            ! .. array arguments ..
            real(dp) :: dx(*), dy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: dtemp
-           integer(int32) :: i, ix, iy, m, mp1
+           integer(ilp) :: i, ix, iy, m, mp1
            ! .. intrinsic functions ..
            intrinsic :: mod
            if (n <= 0) return
@@ -2019,7 +2019,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: lda, ldb, ldc, m, n
+           integer(ilp) :: lda, ldb, ldc, m, n
            character :: side, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
@@ -2029,7 +2029,7 @@ module stdlib_linalg_blas_d
            intrinsic :: max
            ! .. local scalars ..
            real(dp) :: temp1, temp2
-           integer(int32) :: i, info, j, k, nrowa
+           integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: upper
            ! .. parameters ..
            real(dp) :: one, zero
@@ -2167,7 +2167,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: incx, incy, lda, n
+           integer(ilp) :: incx, incy, lda, n
            character :: uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
@@ -2177,7 +2177,7 @@ module stdlib_linalg_blas_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp1, temp2
-           integer(int32) :: i, info, ix, iy, j, jx, jy, kx, ky
+           integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -2322,7 +2322,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha
-           integer(int32) :: incx, lda, n
+           integer(ilp) :: incx, lda, n
            character :: uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
@@ -2332,7 +2332,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, j, jx, kx
+           integer(ilp) :: i, info, ix, j, jx, kx
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -2428,7 +2428,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha
-           integer(int32) :: incx, incy, lda, n
+           integer(ilp) :: incx, incy, lda, n
            character :: uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
@@ -2438,7 +2438,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp1, temp2
-           integer(int32) :: i, info, ix, iy, j, jx, jy, kx, ky
+           integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -2557,7 +2557,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: k, lda, ldb, ldc, n
+           integer(ilp) :: k, lda, ldb, ldc, n
            character :: trans, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
@@ -2567,7 +2567,7 @@ module stdlib_linalg_blas_d
            intrinsic :: max
            ! .. local scalars ..
            real(dp) :: temp1, temp2
-           integer(int32) :: i, info, j, l, nrowa
+           integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
            ! .. parameters ..
            real(dp) :: one, zero
@@ -2735,7 +2735,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: k, lda, ldc, n
+           integer(ilp) :: k, lda, ldc, n
            character :: trans, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *)
@@ -2745,7 +2745,7 @@ module stdlib_linalg_blas_d
            intrinsic :: max
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, j, l, nrowa
+           integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
            ! .. parameters ..
            real(dp) :: one, zero
@@ -2901,7 +2901,7 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, k, lda, n
+           integer(ilp) :: incx, k, lda, n
            character :: diag, trans, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
@@ -2911,7 +2911,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, j, jx, kplus1, kx, l
+           integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
            logical(lk) :: nounit
      
            ! .. intrinsic functions ..
@@ -3090,7 +3090,7 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, k, lda, n
+           integer(ilp) :: incx, k, lda, n
            character :: diag, trans, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
@@ -3100,7 +3100,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, j, jx, kplus1, kx, l
+           integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
            logical(lk) :: nounit
      
            ! .. intrinsic functions ..
@@ -3276,7 +3276,7 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            character :: diag, trans, uplo
            ! .. array arguments ..
            real(dp) :: ap(*), x(*)
@@ -3286,7 +3286,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, j, jx, k, kk, kx
+           integer(ilp) :: i, info, ix, j, jx, k, kk, kx
            logical(lk) :: nounit
      
            ! test the input parameters.
@@ -3463,7 +3463,7 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            character :: diag, trans, uplo
            ! .. array arguments ..
            real(dp) :: ap(*), x(*)
@@ -3473,7 +3473,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, j, jx, k, kk, kx
+           integer(ilp) :: i, info, ix, j, jx, k, kk, kx
            logical(lk) :: nounit
      
            ! test the input parameters.
@@ -3650,7 +3650,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha
-           integer(int32) :: lda, ldb, m, n
+           integer(ilp) :: lda, ldb, m, n
            character :: diag, side, transa, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
@@ -3660,7 +3660,7 @@ module stdlib_linalg_blas_d
            intrinsic :: max
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, j, k, nrowa
+           integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, nounit, upper
            ! .. parameters ..
            real(dp) :: one, zero
@@ -3857,7 +3857,7 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, lda, n
+           integer(ilp) :: incx, lda, n
            character :: diag, trans, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
@@ -3867,7 +3867,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, j, jx, kx
+           integer(ilp) :: i, info, ix, j, jx, kx
            logical(lk) :: nounit
      
            ! .. intrinsic functions ..
@@ -4029,7 +4029,7 @@ module stdlib_linalg_blas_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha
-           integer(int32) :: lda, ldb, m, n
+           integer(ilp) :: lda, ldb, m, n
            character :: diag, side, transa, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
@@ -4039,7 +4039,7 @@ module stdlib_linalg_blas_d
            intrinsic :: max
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, j, k, nrowa
+           integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, nounit, upper
            ! .. parameters ..
            real(dp) :: one, zero
@@ -4262,7 +4262,7 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, lda, n
+           integer(ilp) :: incx, lda, n
            character :: diag, trans, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
@@ -4272,7 +4272,7 @@ module stdlib_linalg_blas_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: temp
-           integer(int32) :: i, info, ix, j, jx, kx
+           integer(ilp) :: i, info, ix, j, jx, kx
            logical(lk) :: nounit
      
            ! .. intrinsic functions ..
@@ -4429,13 +4429,13 @@ module stdlib_linalg_blas_d
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            ! .. array arguments ..
            complex(dp) :: zx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: stemp
-           integer(int32) :: i, nincx
+           integer(ilp) :: i, nincx
      
            stdlib_dzasum = 0.0_dp
            stemp = 0.0_dp

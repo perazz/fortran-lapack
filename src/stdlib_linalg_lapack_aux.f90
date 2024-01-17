@@ -4,7 +4,7 @@ module stdlib_linalg_lapack_aux
      implicit none(type, external)
      private
 
-     public :: sp, dp, lk, int32, int64
+     public :: sp, dp, lk, ilp
      public :: stdlib_droundup_lwork
      public :: stdlib_icmax1
      public :: stdlib_ieeeck
@@ -101,7 +101,7 @@ module stdlib_linalg_lapack_aux
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: lwork
+           integer(ilp) :: lwork
        ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: epsilon, dble, int
@@ -120,18 +120,18 @@ module stdlib_linalg_lapack_aux
      ! Based on ICAMAX from Level 1 BLAS.
      ! The change is to use the 'genuine' absolute value.
 
-     integer(int32) function stdlib_icmax1(n, cx, incx)
+     integer(ilp) function stdlib_icmax1(n, cx, incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            ! .. array arguments ..
            complex(sp) :: cx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: smax
-           integer(int32) :: i, ix
+           integer(ilp) :: i, ix
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. executable statements ..
@@ -168,12 +168,12 @@ module stdlib_linalg_lapack_aux
      ! IEEECK is called from the ILAENV to verify that Infinity and
      ! possibly NaN arithmetic is safe (i.e. will not trap).
 
-     integer(int32) function stdlib_ieeeck(ispec, zero, one)
+     integer(ilp) function stdlib_ieeeck(ispec, zero, one)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ispec
+           integer(ilp) :: ispec
            real(sp) :: one, zero
         ! =====================================================================
            ! .. local scalars ..
@@ -257,12 +257,12 @@ module stdlib_linalg_lapack_aux
 
      ! ILACLC scans A for its last non-zero column.
 
-     integer(int32) function stdlib_ilaclc(m, n, a, lda)
+     integer(ilp) function stdlib_ilaclc(m, n, a, lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: m, n, lda
+           integer(ilp) :: m, n, lda
            ! .. array arguments ..
            complex(sp) :: a(lda, *)
         ! =====================================================================
@@ -270,7 +270,7 @@ module stdlib_linalg_lapack_aux
            complex(sp) :: zero
            parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
@@ -290,12 +290,12 @@ module stdlib_linalg_lapack_aux
 
      ! ILACLR scans A for its last non-zero row.
 
-     integer(int32) function stdlib_ilaclr(m, n, a, lda)
+     integer(ilp) function stdlib_ilaclr(m, n, a, lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: m, n, lda
+           integer(ilp) :: m, n, lda
            ! .. array arguments ..
            complex(sp) :: a(lda, *)
         ! =====================================================================
@@ -303,7 +303,7 @@ module stdlib_linalg_lapack_aux
            complex(sp) :: zero
            parameter(zero=(0.0_sp, 0.0_sp))
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
@@ -331,7 +331,7 @@ module stdlib_linalg_lapack_aux
      ! character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
      ! returns the constant value corresponding to DIAG.
 
-     integer(int32) function stdlib_iladiag(diag)
+     integer(ilp) function stdlib_iladiag(diag)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -339,7 +339,7 @@ module stdlib_linalg_lapack_aux
            character :: diag
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: blas_non_unit_diag, blas_unit_diag
+           integer(ilp) :: blas_non_unit_diag, blas_unit_diag
            parameter(blas_non_unit_diag=131, blas_unit_diag=132)
      
            ! .. executable statements ..
@@ -356,12 +356,12 @@ module stdlib_linalg_lapack_aux
 
      ! ILADLC scans A for its last non-zero column.
 
-     integer(int32) function stdlib_iladlc(m, n, a, lda)
+     integer(ilp) function stdlib_iladlc(m, n, a, lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: m, n, lda
+           integer(ilp) :: m, n, lda
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -369,7 +369,7 @@ module stdlib_linalg_lapack_aux
            real(dp) :: zero
            parameter(zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
@@ -389,12 +389,12 @@ module stdlib_linalg_lapack_aux
 
      ! ILADLR scans A for its last non-zero row.
 
-     integer(int32) function stdlib_iladlr(m, n, a, lda)
+     integer(ilp) function stdlib_iladlr(m, n, a, lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: m, n, lda
+           integer(ilp) :: m, n, lda
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -402,7 +402,7 @@ module stdlib_linalg_lapack_aux
            real(dp) :: zero
            parameter(zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
@@ -430,7 +430,7 @@ module stdlib_linalg_lapack_aux
      ! character indicating a supported intermediate precision.  Otherwise
      ! ILAPREC returns the constant value corresponding to PREC.
 
-     integer(int32) function stdlib_ilaprec(prec)
+     integer(ilp) function stdlib_ilaprec(prec)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -438,7 +438,7 @@ module stdlib_linalg_lapack_aux
            character :: prec
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: blas_prec_single, blas_prec_double, blas_prec_indigenous, &
+           integer(ilp) :: blas_prec_single, blas_prec_double, blas_prec_indigenous, &
                      blas_prec_extra
            parameter(blas_prec_single=211, blas_prec_double=212, blas_prec_indigenous=213, &
                      blas_prec_extra=214)
@@ -461,12 +461,12 @@ module stdlib_linalg_lapack_aux
 
      ! ILASLC scans A for its last non-zero column.
 
-     integer(int32) function stdlib_ilaslc(m, n, a, lda)
+     integer(ilp) function stdlib_ilaslc(m, n, a, lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: m, n, lda
+           integer(ilp) :: m, n, lda
            ! .. array arguments ..
            real(sp) :: a(lda, *)
         ! =====================================================================
@@ -474,7 +474,7 @@ module stdlib_linalg_lapack_aux
            real(sp) :: zero
            parameter(zero=0.0_sp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
@@ -494,12 +494,12 @@ module stdlib_linalg_lapack_aux
 
      ! ILASLR scans A for its last non-zero row.
 
-     integer(int32) function stdlib_ilaslr(m, n, a, lda)
+     integer(ilp) function stdlib_ilaslr(m, n, a, lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: m, n, lda
+           integer(ilp) :: m, n, lda
            ! .. array arguments ..
            real(sp) :: a(lda, *)
         ! =====================================================================
@@ -507,7 +507,7 @@ module stdlib_linalg_lapack_aux
            real(sp) :: zero
            parameter(zero=0.0_sp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
@@ -535,7 +535,7 @@ module stdlib_linalg_lapack_aux
      ! a character indicating a transposition operator.  Otherwise ILATRANS
      ! returns the constant value corresponding to TRANS.
 
-     integer(int32) function stdlib_ilatrans(trans)
+     integer(ilp) function stdlib_ilatrans(trans)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -543,7 +543,7 @@ module stdlib_linalg_lapack_aux
            character :: trans
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: blas_no_trans, blas_trans, blas_conj_trans
+           integer(ilp) :: blas_no_trans, blas_trans, blas_conj_trans
            parameter(blas_no_trans=111, blas_trans=112, blas_conj_trans=113)
      
            ! .. executable statements ..
@@ -567,7 +567,7 @@ module stdlib_linalg_lapack_aux
      ! a character indicating an upper- or lower-triangular matrix.
      ! Otherwise ILAUPLO returns the constant value corresponding to UPLO.
 
-     integer(int32) function stdlib_ilauplo(uplo)
+     integer(ilp) function stdlib_ilauplo(uplo)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -575,7 +575,7 @@ module stdlib_linalg_lapack_aux
            character :: uplo
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: blas_upper, blas_lower
+           integer(ilp) :: blas_upper, blas_lower
            parameter(blas_upper=121, blas_lower=122)
      
            ! .. executable statements ..
@@ -592,12 +592,12 @@ module stdlib_linalg_lapack_aux
 
      ! ILAZLC scans A for its last non-zero column.
 
-     integer(int32) function stdlib_ilazlc(m, n, a, lda)
+     integer(ilp) function stdlib_ilazlc(m, n, a, lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: m, n, lda
+           integer(ilp) :: m, n, lda
            ! .. array arguments ..
            complex(dp) :: a(lda, *)
         ! =====================================================================
@@ -605,7 +605,7 @@ module stdlib_linalg_lapack_aux
            complex(dp) :: zero
            parameter(zero=(0.0_dp, 0.0_dp))
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
@@ -625,12 +625,12 @@ module stdlib_linalg_lapack_aux
 
      ! ILAZLR scans A for its last non-zero row.
 
-     integer(int32) function stdlib_ilazlr(m, n, a, lda)
+     integer(ilp) function stdlib_ilazlr(m, n, a, lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: m, n, lda
+           integer(ilp) :: m, n, lda
            ! .. array arguments ..
            complex(dp) :: a(lda, *)
         ! =====================================================================
@@ -638,7 +638,7 @@ module stdlib_linalg_lapack_aux
            complex(dp) :: zero
            parameter(zero=(0.0_dp, 0.0_dp))
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
@@ -664,26 +664,26 @@ module stdlib_linalg_lapack_aux
      ! problems. It is called whenever
      ! IPARMQ is called with 12 <= ISPEC <= 16
 
-     integer(int32) function stdlib_iparmq(ispec, name, opts, n, ilo, ihi, lwork)
+     integer(ilp) function stdlib_iparmq(ispec, name, opts, n, ilo, ihi, lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihi, ilo, ispec, lwork, n
+           integer(ilp) :: ihi, ilo, ispec, lwork, n
            character :: name*(*), opts*(*)
         ! ================================================================
            ! .. parameters ..
-           integer(int32) :: inmin, inwin, inibl, ishfts, iacc22, icost
+           integer(ilp) :: inmin, inwin, inibl, ishfts, iacc22, icost
            parameter(inmin=12, inwin=13, inibl=14, ishfts=15, iacc22=16, &
                      icost=17)
-           integer(int32) :: nmin, k22min, kacmin, nibble, knwswp, rcost
+           integer(ilp) :: nmin, k22min, kacmin, nibble, knwswp, rcost
            parameter(nmin=75, k22min=14, kacmin=14, nibble=14, knwswp=500, &
                      rcost=10)
            real(sp) :: two
            parameter(two=2.0)
            ! .. local scalars ..
-           integer(int32) :: nh, ns
-           integer(int32) :: i, ic, iz
+           integer(ilp) :: nh, ns
+           integer(ilp) :: i, ic, iz
            character :: subnam*6
            ! .. intrinsic functions ..
            intrinsic :: log, max, mod, nint, real
@@ -787,18 +787,18 @@ module stdlib_linalg_lapack_aux
      ! Based on IZAMAX from Level 1 BLAS.
      ! The change is to use the 'genuine' absolute value.
 
-     integer(int32) function stdlib_izmax1(n, zx, incx)
+     integer(ilp) function stdlib_izmax1(n, zx, incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            ! .. array arguments ..
            complex(dp) :: zx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: dmax
-           integer(int32) :: i, ix
+           integer(ilp) :: i, ix
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. executable statements ..
@@ -844,10 +844,10 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character*(*) ca, cb
-           integer(int32) :: n
+           integer(ilp) :: n
        ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
      
            ! .. intrinsic functions ..
            intrinsic :: len
@@ -880,7 +880,7 @@ module stdlib_linalg_lapack_aux
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: lwork
+           integer(ilp) :: lwork
        ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: epsilon, real, int
@@ -909,16 +909,16 @@ module stdlib_linalg_lapack_aux
      ! This routine will not function correctly if it is converted to all
      ! lower case.  Converting it to all upper case is allowed.
 
-     integer(int32) function stdlib_ilaenv(ispec, name, opts, n1, n2, n3, n4)
+     integer(ilp) function stdlib_ilaenv(ispec, name, opts, n1, n2, n3, n4)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character*(*) name, opts
-           integer(int32) :: ispec, n1, n2, n3, n4
+           integer(ilp) :: ispec, n1, n2, n3, n4
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ic, iz, nb, nbmin, nx
+           integer(ilp) :: i, ic, iz, nb, nbmin, nx
            logical(lk) :: cname, sname, twostage
            character :: c1*1, c2*2, c4*2, c3*3, subnam*16
            ! .. intrinsic functions ..
@@ -1385,7 +1385,7 @@ module stdlib_linalg_lapack_aux
      ! It is called whenever ILAENV2STAGE is called with 1 <= ISPEC <= 5
      ! with a direct conversion ISPEC + 16.
 
-     integer(int32) function stdlib_iparam2stage(ispec, name, opts, ni, nbi, ibi, nxi)
+     integer(ilp) function stdlib_iparam2stage(ispec, name, opts, ni, nbi, ibi, nxi)
 #if defined(_OPENMP)
 #endif
      
@@ -1394,10 +1394,10 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character*(*) name, opts
-           integer(int32) :: ispec, ni, nbi, ibi, nxi
+           integer(ilp) :: ispec, ni, nbi, ibi, nxi
         ! ================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ic, iz, kd, ib, lhous, lwork, nthreads, factoptnb, qroptnb, &
+           integer(ilp) :: i, ic, iz, kd, ib, lhous, lwork, nthreads, factoptnb, qroptnb, &
                      lqoptnb
            logical(lk) :: rprec, cprec
            character :: prec*1, algo*3, stag*5, subnam*12, vect*1
@@ -1587,17 +1587,17 @@ module stdlib_linalg_lapack_aux
      ! This routine will not function correctly if it is converted to all
      ! lower case.  Converting it to all upper case is allowed.
 
-     integer(int32) function stdlib_ilaenv2stage(ispec, name, opts, n1, n2, n3, n4)
+     integer(ilp) function stdlib_ilaenv2stage(ispec, name, opts, n1, n2, n3, n4)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! july 2017
            ! .. scalar arguments ..
            character*(*) name, opts
-           integer(int32) :: ispec, n1, n2, n3, n4
+           integer(ilp) :: ispec, n1, n2, n3, n4
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: iispec
+           integer(ilp) :: iispec
      
            ! .. executable statements ..
            go to(10, 10, 10, 10, 10) ispec

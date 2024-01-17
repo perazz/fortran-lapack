@@ -6,7 +6,7 @@ module stdlib_linalg_lapack_d
      implicit none(type, external)
      private
 
-     public :: sp, dp, lk, int32, int64
+     public :: sp, dp, lk, ilp
      public :: stdlib_dbbcsd
      public :: stdlib_dbdsdc
      public :: stdlib_dbdsqr
@@ -487,16 +487,16 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, kl, ku, ldab, m, n
+           integer(ilp) :: info, kl, ku, ldab, m, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: ab(ldab, *)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, jp, ju, km, kv
+           integer(ilp) :: i, j, jp, ju, km, kv
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -578,9 +578,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: info, kl, ku, ldab, ldb, n, nrhs
+           integer(ilp) :: info, kl, ku, ldab, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: ab(ldab, *), b(ldb, *)
         ! =====================================================================
            ! .. parameters ..
@@ -588,7 +588,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lnoti, notran
-           integer(int32) :: i, j, kd, l, lm
+           integer(ilp) :: i, j, kd, l, lm
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -673,7 +673,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: job, side
-           integer(int32) :: ihi, ilo, info, ldv, m, n
+           integer(ilp) :: ihi, ilo, info, ldv, m, n
            ! .. array arguments ..
            real(dp) :: scale(*), v(ldv, *)
         ! =====================================================================
@@ -682,7 +682,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: leftv, rightv
-           integer(int32) :: i, ii, k
+           integer(ilp) :: i, ii, k
            real(dp) :: s
      
            ! .. intrinsic functions ..
@@ -773,13 +773,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: job, side
-           integer(int32) :: ihi, ilo, info, ldv, m, n
+           integer(ilp) :: ihi, ilo, info, ldv, m, n
            ! .. array arguments ..
            real(dp) :: lscale(*), rscale(*), v(ldv, *)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: leftv, rightv
-           integer(int32) :: i, k
+           integer(ilp) :: i, k
      
            ! .. intrinsic functions ..
            intrinsic :: max, int
@@ -886,7 +886,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: b(ldb, *), d(*), dl(*), du(*)
         ! =====================================================================
@@ -894,7 +894,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero
            parameter(zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: fact, temp
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -1069,16 +1069,16 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: d(*), dl(*), du(*), du2(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero
            parameter(zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: fact, temp
            ! .. intrinsic functions ..
            intrinsic :: abs
@@ -1160,13 +1160,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: itrans, ldb, n, nrhs
+           integer(ilp) :: itrans, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: b(ldb, *), d(*), dl(*), du(*), du2(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ip, j
+           integer(ilp) :: i, ip, j
            real(dp) :: temp
            ! .. executable statements ..
            ! quick return if possible
@@ -1275,12 +1275,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: n, kl, ku, ncols, ldab, ldafb
+           integer(ilp) :: n, kl, ku, ncols, ldab, ldafb
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), afb(ldafb, *)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, j, kd
+           integer(ilp) :: i, j, kd
            real(dp) :: amax, umax, rpvgrw
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min
@@ -1316,12 +1316,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: n, ncols, lda, ldaf
+           integer(ilp) :: n, ncols, lda, ldaf
            ! .. array arguments ..
            real(dp) :: a(lda, *), af(ldaf, *)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: amax, umax, rpvgrw
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min
@@ -1353,13 +1353,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: n
+           integer(ilp) :: n
            ! .. array arguments ..
            real(dp) :: x(*), y(*), w(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: s
-           integer(int32) :: i
+           integer(ilp) :: i
            ! .. executable statements ..
            do 10 i = 1, n
              s = x(i) + w(i)
@@ -1408,19 +1408,19 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: kase, n
+           integer(ilp) :: kase, n
            real(dp) :: est
            ! .. array arguments ..
-           integer(int32) :: isgn(*), isave(3)
+           integer(ilp) :: isgn(*), isave(3)
            real(dp) :: v(*), x(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero, one, two
            parameter(zero=0.0_dp, one=1.0_dp, two=2.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, jlast
+           integer(ilp) :: i, jlast
            real(dp) :: altsgn, estold, temp, xs
      
            ! .. intrinsic functions ..
@@ -1541,19 +1541,19 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: kase, n
+           integer(ilp) :: kase, n
            real(dp) :: est
            ! .. array arguments ..
-           integer(int32) :: isgn(*)
+           integer(ilp) :: isgn(*)
            real(dp) :: v(*), x(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero, one, two
            parameter(zero=0.0_dp, one=1.0_dp, two=2.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, iter, j, jlast, jump
+           integer(ilp) :: i, iter, j, jlast, jump
            real(dp) :: altsgn, estold, temp
      
            ! .. intrinsic functions ..
@@ -1664,12 +1664,12 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: lda, ldb, m, n
+           integer(ilp) :: lda, ldb, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
      
            ! .. intrinsic functions ..
            intrinsic :: min
@@ -1831,17 +1831,17 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ijob, info, minp, mmax, mout, n, nbmin, nitmax
+           integer(ilp) :: ijob, info, minp, mmax, mout, n, nbmin, nitmax
            real(dp) :: abstol, pivmin, reltol
            ! .. array arguments ..
-           integer(int32) :: iwork(*), nab(mmax, *), nval(*)
+           integer(ilp) :: iwork(*), nab(mmax, *), nval(*)
            real(dp) :: ab(mmax, *), c(*), d(*), e(*), e2(*), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, two, half
            parameter(zero=0.0d0, two=2.0d0, half=1.0d0/two)
            ! .. local scalars ..
-           integer(int32) :: itmp1, itmp2, j, ji, jit, jp, kf, kfnew, kl, klnew
+           integer(ilp) :: itmp1, itmp2, j, ji, jit, jp, kf, kfnew, kl, klnew
            real(dp) :: tmp1, tmp2
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min
@@ -2076,7 +2076,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: dlam, rho
            ! .. array arguments ..
            real(dp) :: d(2), delta(2), z(2)
@@ -2145,16 +2145,16 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: curlvl, curpbm, info, n, tlvls
+           integer(ilp) :: curlvl, curpbm, info, n, tlvls
            ! .. array arguments ..
-           integer(int32) :: givcol(2, *), givptr(*), perm(*), prmptr(*), qptr(*)
+           integer(ilp) :: givcol(2, *), givptr(*), perm(*), prmptr(*), qptr(*)
            real(dp) :: givnum(2, *), q(*), z(*), ztemp(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, half, one
            parameter(zero=0.0d0, half=0.5d0, one=1.0d0)
            ! .. local scalars ..
-           integer(int32) :: bsiz1, bsiz2, curr, i, k, mid, psiz1, psiz2, ptr, zptr1
+           integer(ilp) :: bsiz1, bsiz2, curr, i, k, mid, psiz1, psiz2, ptr, zptr1
      
            ! .. intrinsic functions ..
            intrinsic :: dble, int, sqrt
@@ -2265,7 +2265,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: half
            parameter(half=0.5d0)
            ! .. local scalars ..
-           integer(int32) :: sgn1, sgn2
+           integer(ilp) :: sgn1, sgn2
            real(dp) :: ab, acmn, acmx, acs, adf, cs, ct, df, rt, sm, tb, tn
            ! .. intrinsic functions ..
            intrinsic :: abs, sqrt
@@ -2355,7 +2355,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: lda, ldb
+           integer(ilp) :: lda, ldb
            real(dp) :: safmin, scale1, scale2, wi, wr1, wr2
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
@@ -2541,13 +2541,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldsa, m, n
+           integer(ilp) :: info, lda, ldsa, m, n
            ! .. array arguments ..
            real(sp) :: sa(ldsa, *)
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: rmax
      
            ! .. executable statements ..
@@ -2579,7 +2579,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: ldb, ldx, n, nrhs
+           integer(ilp) :: ldb, ldx, n, nrhs
            real(dp) :: alpha, beta
            ! .. array arguments ..
            real(dp) :: b(ldb, *), d(*), dl(*), du(*), x(ldx, *)
@@ -2588,7 +2588,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
      
            ! .. executable statements ..
            if (n == 0) return
@@ -2776,13 +2776,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: dtrd1, dtrd2, n1, n2
+           integer(ilp) :: dtrd1, dtrd2, n1, n2
            ! .. array arguments ..
-           integer(int32) :: index(*)
+           integer(ilp) :: index(*)
            real(dp) :: a(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ind1, ind2, n1sv, n2sv
+           integer(ilp) :: i, ind1, ind2, n1sv, n2sv
            ! .. executable statements ..
            n1sv = n1
            n2sv = n2
@@ -2887,7 +2887,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*)
         ! =====================================================================
@@ -2896,7 +2896,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            real(dp) :: sfmin
-           integer(int32) :: i, iinfo, n1, n2
+           integer(ilp) :: i, iinfo, n1, n2
      
            ! .. intrinsic functions ..
            intrinsic :: abs, dsign, max, min
@@ -2978,13 +2978,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: forwrd
-           integer(int32) :: ldx, m, n
+           integer(ilp) :: ldx, m, n
            ! .. array arguments ..
-           integer(int32) :: k(*)
+           integer(ilp) :: k(*)
            real(dp) :: x(ldx, *)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, in, j, jj
+           integer(ilp) :: i, in, j, jj
            real(dp) :: temp
            ! .. executable statements ..
            if (m <= 1) return
@@ -3047,13 +3047,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: forwrd
-           integer(int32) :: ldx, m, n
+           integer(ilp) :: ldx, m, n
            ! .. array arguments ..
-           integer(int32) :: k(*)
+           integer(ilp) :: k(*)
            real(dp) :: x(ldx, *)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ii, in, j
+           integer(ilp) :: i, ii, in, j
            real(dp) :: temp
            ! .. executable statements ..
            if (n <= 1) return
@@ -3149,7 +3149,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed
-           integer(int32) :: kl, ku, ldab, m, n
+           integer(ilp) :: kl, ku, ldab, m, n
            real(dp) :: amax, colcnd, rowcnd
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), c(*), r(*)
@@ -3158,7 +3158,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, thresh
            parameter(one=1.0_dp, thresh=0.1_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: cj, large, small
      
            ! .. intrinsic functions ..
@@ -3218,7 +3218,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed
-           integer(int32) :: lda, m, n
+           integer(ilp) :: lda, m, n
            real(dp) :: amax, colcnd, rowcnd
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(*), r(*)
@@ -3227,7 +3227,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, thresh
            parameter(one=1.0_dp, thresh=0.1_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: cj, large, small
      
            ! .. executable statements ..
@@ -3293,7 +3293,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: si1, si2, sr1, sr2
-           integer(int32) :: ldh, n
+           integer(ilp) :: ldh, n
            ! .. array arguments ..
            real(dp) :: h(ldh, *), v(*)
         ! ================================================================
@@ -3346,7 +3346,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed, uplo
-           integer(int32) :: kd, ldab, n
+           integer(ilp) :: kd, ldab, n
            real(dp) :: amax, scond
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), s(*)
@@ -3355,7 +3355,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, thresh
            parameter(one=1.0_dp, thresh=0.1_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: cj, large, small
      
            ! .. intrinsic functions ..
@@ -3406,7 +3406,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed, uplo
-           integer(int32) :: n
+           integer(ilp) :: n
            real(dp) :: amax, scond
            ! .. array arguments ..
            real(dp) :: ap(*), s(*)
@@ -3415,7 +3415,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, thresh
            parameter(one=1.0_dp, thresh=0.1_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, jc
+           integer(ilp) :: i, j, jc
            real(dp) :: cj, large, small
      
            ! .. executable statements ..
@@ -3468,7 +3468,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed, uplo
-           integer(int32) :: lda, n
+           integer(ilp) :: lda, n
            real(dp) :: amax, scond
            ! .. array arguments ..
            real(dp) :: a(lda, *), s(*)
@@ -3477,7 +3477,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, thresh
            parameter(one=1.0_dp, thresh=0.1_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: cj, large, small
      
            ! .. executable statements ..
@@ -3528,12 +3528,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incc, incx, n
+           integer(ilp) :: incc, incx, n
            ! .. array arguments ..
            real(dp) :: c(*), s(*), x(*), y(*), z(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ic, ix
+           integer(ilp) :: i, ic, ix
            real(dp) :: ci, si, t1, t2, t3, t4, t5, t6, xi, yi, zi
            ! .. executable statements ..
            ix = 1
@@ -3572,7 +3572,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side
-           integer(int32) :: incv, ldc, m, n
+           integer(ilp) :: incv, ldc, m, n
            real(dp) :: tau
            ! .. array arguments ..
            real(dp) :: c(ldc, *), v(*), work(*)
@@ -3582,7 +3582,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: applyleft
-           integer(int32) :: i, lastv, lastc
+           integer(ilp) :: i, lastv, lastc
      
            ! .. executable statements ..
            applyleft = stdlib_lsame(side, 'l')
@@ -3649,7 +3649,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: direct, side, storev, trans
-           integer(int32) :: k, ldc, ldt, ldv, ldwork, m, n
+           integer(ilp) :: k, ldc, ldt, ldv, ldwork, m, n
            ! .. array arguments ..
            real(dp) :: c(ldc, *), t(ldt, *), v(ldv, *), work(ldwork, *)
         ! =====================================================================
@@ -3658,7 +3658,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            character :: transt
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
      
            ! .. executable statements ..
            ! quick return if possible
@@ -3978,7 +3978,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: ident
-           integer(int32) :: k, lda, ldb, ldt, ldwork, m, n
+           integer(ilp) :: k, lda, ldb, ldt, ldwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *), work(ldwork, *)
         ! =====================================================================
@@ -3987,7 +3987,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lnotident
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
      
            ! .. executable statements ..
            ! quick return if possible
@@ -4119,7 +4119,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: direct, storev
-           integer(int32) :: k, ldt, ldv, n
+           integer(ilp) :: k, ldt, ldv, n
            ! .. array arguments ..
            real(dp) :: t(ldt, *), tau(*), v(ldv, *)
         ! =====================================================================
@@ -4127,7 +4127,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, prevlastv, lastv
+           integer(ilp) :: i, j, prevlastv, lastv
      
            ! .. executable statements ..
            ! quick return if possible
@@ -4246,7 +4246,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side
-           integer(int32) :: ldc, m, n
+           integer(ilp) :: ldc, m, n
            real(dp) :: tau
            ! .. array arguments ..
            real(dp) :: c(ldc, *), v(*), work(*)
@@ -4255,7 +4255,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: j
+           integer(ilp) :: j
            real(dp) :: sum, t1, t10, t2, t3, t4, t5, t6, t7, t8, t9, v1, v10, v2, v3, v4, v5, v6, &
                      v7, v8, v9
      
@@ -4750,7 +4750,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: incv, ldc, n
+           integer(ilp) :: incv, ldc, n
            real(dp) :: tau
            ! .. array arguments ..
            real(dp) :: c(ldc, *), v(*), work(*)
@@ -4783,7 +4783,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incc, incx, incy, n
+           integer(ilp) :: incc, incx, incy, n
            ! .. array arguments ..
            real(dp) :: c(*), x(*), y(*)
         ! =====================================================================
@@ -4791,7 +4791,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, ic, ix, iy
+           integer(ilp) :: i, ic, ix, iy
            real(dp) :: f, g, t, tt
            ! .. intrinsic functions ..
            intrinsic :: abs, sqrt
@@ -4837,17 +4837,17 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, n, nsplit
+           integer(ilp) :: info, n, nsplit
            real(dp) :: spltol, tnrm
            ! .. array arguments ..
-           integer(int32) :: isplit(*)
+           integer(ilp) :: isplit(*)
            real(dp) :: d(*), e(*), e2(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero
            parameter(zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: eabs, tmp1
            ! .. intrinsic functions ..
            intrinsic :: abs
@@ -4898,7 +4898,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobt
-           integer(int32) :: eigcnt, info, lcnt, n, rcnt
+           integer(ilp) :: eigcnt, info, lcnt, n, rcnt
            real(dp) :: pivmin, vl, vu
            ! .. array arguments ..
            real(dp) :: d(*), e(*)
@@ -4907,7 +4907,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero
            parameter(zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            logical(lk) :: matt
            real(dp) :: lpivot, rpivot, sl, su, tmp, tmp2
      
@@ -4997,18 +4997,18 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ifirst, ilast, info, n, offset
+           integer(ilp) :: ifirst, ilast, info, n, offset
            real(dp) :: pivmin, rtol, spdiam
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: d(*), e2(*), w(*), werr(*), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one, two, half
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0, half=0.5d0)
-           integer(int32) :: maxitr
+           integer(ilp) :: maxitr
            ! .. local scalars ..
-           integer(int32) :: cnt, i, i1, i2, ii, iter, j, k, next, nint, olnint, p, prev, &
+           integer(ilp) :: cnt, i, i1, i2, ii, iter, j, k, next, nint, olnint, p, prev, &
                      savi1
            real(dp) :: dplus, fac, left, mid, right, s, tmp, width
            ! .. intrinsic functions ..
@@ -5176,7 +5176,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, iw, n
+           integer(ilp) :: info, iw, n
            real(dp) :: pivmin, reltol, gl, gu, w, werr
            ! .. array arguments ..
            real(dp) :: d(*), e2(*)
@@ -5185,7 +5185,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: fudge, half, two, zero
            parameter(half=0.5d0, two=2.0d0, fudge=two, zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: i, it, itmax, negcnt
+           integer(ilp) :: i, it, itmax, negcnt
            real(dp) :: atoli, eps, left, mid, right, rtoli, tmp1, tmp2, tnorm
      
            ! .. intrinsic functions ..
@@ -5250,7 +5250,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: n, info
+           integer(ilp) :: n, info
            ! .. array arguments ..
            real(dp) :: d(*), e(*)
         ! =====================================================================
@@ -5258,7 +5258,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, relcond
            parameter(zero=0.0d0, relcond=0.999d0)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            logical(lk) :: yesrel
            real(dp) :: eps, safmin, smlnum, rmin, tmp, tmp2, offdig, offdig2
      
@@ -5416,7 +5416,7 @@ module stdlib_linalg_lapack_d
            parameter(two=2.0d0)
            ! .. local scalars ..
            ! logical            first
-           integer(int32) :: count, i
+           integer(ilp) :: count, i
            real(dp) :: eps, f1, g1, safmin, safmn2, safmx2, scale
      
            ! .. intrinsic functions ..
@@ -5557,12 +5557,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incc, incx, incy, n
+           integer(ilp) :: incc, incx, incy, n
            ! .. array arguments ..
            real(dp) :: c(*), s(*), x(*), y(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ic, ix, iy
+           integer(ilp) :: i, ic, ix, iy
            real(dp) :: xi, yi
            ! .. executable statements ..
            ix = 1
@@ -5590,21 +5590,21 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: n
+           integer(ilp) :: n
            ! .. array arguments ..
-           integer(int32) :: iseed(4)
+           integer(ilp) :: iseed(4)
            real(dp) :: x(n)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one
            parameter(one=1.0d0)
-           integer(int32) :: lv, ipw2
+           integer(ilp) :: lv, ipw2
            real(dp) :: r
            parameter(lv=128, ipw2=4096, r=one/ipw2)
            ! .. local scalars ..
-           integer(int32) :: i, i1, i2, i3, i4, it1, it2, it3, it4, j
+           integer(ilp) :: i, i1, i2, i3, i4, it1, it2, it3, it4, j
            ! .. local arrays ..
-           integer(int32) :: mm(lv, 4)
+           integer(ilp) :: mm(lv, 4)
            ! .. intrinsic functions ..
            intrinsic :: dble, min, mod
            ! .. data statements ..
@@ -5796,7 +5796,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side
-           integer(int32) :: incv, l, ldc, m, n
+           integer(ilp) :: incv, l, ldc, m, n
            real(dp) :: tau
            ! .. array arguments ..
            real(dp) :: c(ldc, *), v(*), work(*)
@@ -5850,7 +5850,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: direct, side, storev, trans
-           integer(int32) :: k, l, ldc, ldt, ldv, ldwork, m, n
+           integer(ilp) :: k, l, ldc, ldt, ldv, ldwork, m, n
            ! .. array arguments ..
            real(dp) :: c(ldc, *), t(ldt, *), v(ldv, *), work(ldwork, *)
         ! =====================================================================
@@ -5859,7 +5859,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            character :: transt
-           integer(int32) :: i, info, j
+           integer(ilp) :: i, info, j
      
            ! .. executable statements ..
            ! quick return if possible
@@ -5950,7 +5950,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: direct, storev
-           integer(int32) :: k, ldt, ldv, n
+           integer(ilp) :: k, ldt, ldv, n
            ! .. array arguments ..
            real(dp) :: t(ldt, *), tau(*), v(ldv, *)
         ! =====================================================================
@@ -5958,7 +5958,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero
            parameter(zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, info, j
+           integer(ilp) :: i, info, j
      
            ! .. executable statements ..
            ! check for currently supported options
@@ -6077,7 +6077,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: dsigma, rho
            ! .. array arguments ..
            real(dp) :: d(2), delta(2), work(2), z(2)
@@ -6168,15 +6168,15 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: lvl, msub, n, nd
+           integer(ilp) :: lvl, msub, n, nd
            ! .. array arguments ..
-           integer(int32) :: inode(*), ndiml(*), ndimr(*)
+           integer(ilp) :: inode(*), ndiml(*), ndimr(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: two
            parameter(two=2.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, il, ir, llst, maxn, ncrnt, nlvl
+           integer(ilp) :: i, il, ir, llst, maxn, ncrnt, nlvl
            real(dp) :: temp
            ! .. intrinsic functions ..
            intrinsic :: dble, int, log, max
@@ -6222,13 +6222,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: lda, m, n
+           integer(ilp) :: lda, m, n
            real(dp) :: alpha, beta
            ! .. array arguments ..
            real(dp) :: a(lda, *)
        ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
      
            ! .. intrinsic functions ..
            intrinsic :: min
@@ -6274,7 +6274,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: i0, n0, n0in, pp, ttype
+           integer(ilp) :: i0, n0, n0in, pp, ttype
            real(dp) :: dmin, dmin1, dmin2, dn, dn1, dn2, g, tau
            ! .. array arguments ..
            real(dp) :: z(*)
@@ -6286,7 +6286,7 @@ module stdlib_linalg_lapack_d
            parameter(qurtr=0.250d0, third=0.3330d0, half=0.50d0, zero=0.0d0, &
                      one=1.0d0, two=2.0d0, hundrd=100.0d0)
            ! .. local scalars ..
-           integer(int32) :: i4, nn, np
+           integer(ilp) :: i4, nn, np
            real(dp) :: a2, b1, b2, gam, gap1, gap2, s
            ! .. intrinsic functions ..
            intrinsic :: max, min, sqrt
@@ -6478,7 +6478,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: ieee
-           integer(int32) :: i0, n0, pp
+           integer(ilp) :: i0, n0, pp
            real(dp) :: dmin, dmin1, dmin2, dn, dnm1, dnm2, tau, sigma, eps
            ! .. array arguments ..
            real(dp) :: z(*)
@@ -6487,7 +6487,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, half
            parameter(zero=0.0d0, half=0.5)
            ! .. local scalars ..
-           integer(int32) :: j4, j4p2
+           integer(ilp) :: j4, j4p2
            real(dp) :: d, emin, temp, dthresh
            ! .. intrinsic functions ..
            intrinsic :: min
@@ -6705,7 +6705,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: i0, n0, pp
+           integer(ilp) :: i0, n0, pp
            real(dp) :: dmin, dmin1, dmin2, dn, dnm1, dnm2
            ! .. array arguments ..
            real(dp) :: z(*)
@@ -6714,7 +6714,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero
            parameter(zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: j4, j4p2
+           integer(ilp) :: j4, j4p2
            real(dp) :: d, emin, safmin, temp
      
            ! .. intrinsic functions ..
@@ -6869,7 +6869,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: direct, pivot, side
-           integer(int32) :: lda, m, n
+           integer(ilp) :: lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(*), s(*)
         ! =====================================================================
@@ -6877,7 +6877,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, info, j
+           integer(ilp) :: i, info, j
            real(dp) :: ctemp, stemp, temp
      
            ! .. intrinsic functions ..
@@ -7084,18 +7084,18 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: id
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: d(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: select
+           integer(ilp) :: select
            parameter(select=20)
            ! .. local scalars ..
-           integer(int32) :: dir, endd, i, j, start, stkpnt
+           integer(ilp) :: dir, endd, i, j, start, stkpnt
            real(dp) :: d1, d2, d3, dmnmx, tmp
            ! .. local arrays ..
-           integer(int32) :: stack(2, 32)
+           integer(ilp) :: stack(2, 32)
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -7394,7 +7394,7 @@ module stdlib_linalg_lapack_d
            parameter(four=4.0d0)
            ! .. local scalars ..
            logical(lk) :: gasmal, swap
-           integer(int32) :: pmax
+           integer(ilp) :: pmax
            real(dp) :: a, clt, crt, d, fa, ft, ga, gt, ha, ht, l, m, mm, r, s, slt, srt, t, temp, &
                      tsign, tt
            ! .. intrinsic functions ..
@@ -7524,13 +7524,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, k1, k2, lda, n
+           integer(ilp) :: incx, k1, k2, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *)
        ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, i1, i2, inc, ip, ix, ix0, j, k, n32
+           integer(ilp) :: i, i1, i2, inc, ip, ix, ix0, j, k, n32
            real(dp) :: temp
            ! .. executable statements ..
            ! interchange row i with row ipiv(k1+(i-k1)*abs(incx)) for each of rows
@@ -7596,7 +7596,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: ltranl, ltranr
-           integer(int32) :: info, isgn, ldb, ldtl, ldtr, ldx, n1, n2
+           integer(ilp) :: info, isgn, ldb, ldtl, ldtr, ldx, n1, n2
            real(dp) :: scale, xnorm
            ! .. array arguments ..
            real(dp) :: b(ldb, *), tl(ldtl, *), tr(ldtr, *), x(ldx, *)
@@ -7608,12 +7608,12 @@ module stdlib_linalg_lapack_d
            parameter(two=2.0_dp, half=0.5_dp, eight=8.0_dp)
            ! .. local scalars ..
            logical(lk) :: bswap, xswap
-           integer(int32) :: i, ip, ipiv, ipsv, j, jp, jpsv, k
+           integer(ilp) :: i, ip, ipiv, ipsv, j, jp, jpsv, k
            real(dp) :: bet, eps, gam, l21, sgn, smin, smlnum, tau1, temp, u11, u12, u22, &
                      xmax
            ! .. local arrays ..
            logical(lk) :: bswpiv(4), xswpiv(4)
-           integer(int32) :: jpiv(4), locl21(4), locu12(4), locu22(4)
+           integer(ilp) :: jpiv(4), locl21(4), locu12(4), locu22(4)
            real(dp) :: btmp(4), t16(4, 4), tmp(4), x2(2)
      
            ! .. intrinsic functions ..
@@ -7865,9 +7865,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kb, lda, ldw, n, nb
+           integer(ilp) :: info, kb, lda, ldw, n, nb
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
@@ -7876,7 +7876,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: eight, sevten
            parameter(eight=8.0_dp, sevten=17.0_dp)
            ! .. local scalars ..
-           integer(int32) :: imax, j, jb, jj, jmax, jp, k, kk, kkw, kp, kstep, kw
+           integer(ilp) :: imax, j, jb, jj, jmax, jp, k, kk, kkw, kp, kstep, kw
            real(dp) :: absakk, alpha, colmax, d11, d21, d22, r1, rowmax, t
      
            ! .. intrinsic functions ..
@@ -8303,9 +8303,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kb, lda, ldw, n, nb
+           integer(ilp) :: info, kb, lda, ldw, n, nb
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), e(*), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
@@ -8315,7 +8315,7 @@ module stdlib_linalg_lapack_d
            parameter(eight=8.0_dp, sevten=17.0_dp)
            ! .. local scalars ..
            logical(lk) :: done
-           integer(int32) :: imax, itemp, j, jb, jj, jmax, k, kk, kw, kkw, kp, kstep, p, ii
+           integer(ilp) :: imax, itemp, j, jb, jj, jmax, k, kk, kw, kkw, kp, kstep, p, ii
            real(dp) :: absakk, alpha, colmax, d11, d12, d21, d22, dtemp, r1, rowmax, t, &
                      sfmin
      
@@ -8745,9 +8745,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kb, lda, ldw, n, nb
+           integer(ilp) :: info, kb, lda, ldw, n, nb
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
@@ -8757,7 +8757,7 @@ module stdlib_linalg_lapack_d
            parameter(eight=8.0_dp, sevten=17.0_dp)
            ! .. local scalars ..
            logical(lk) :: done
-           integer(int32) :: imax, itemp, j, jb, jj, jmax, jp1, jp2, k, kk, kw, kkw, kp, kstep, p, &
+           integer(ilp) :: imax, itemp, j, jb, jj, jmax, jp1, jp2, k, kk, kw, kkw, kp, kstep, p, &
                      ii
            real(dp) :: absakk, alpha, colmax, d11, d12, d21, d22, dtemp, r1, rowmax, t, &
                      sfmin
@@ -9201,13 +9201,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldsa, n
+           integer(ilp) :: info, lda, ldsa, n
            ! .. array arguments ..
            real(sp) :: sa(ldsa, *)
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: rmax
            logical(lk) :: upper
      
@@ -9258,7 +9258,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, normin, trans, uplo
-           integer(int32) :: info, kd, ldab, n
+           integer(ilp) :: info, kd, ldab, n
            real(dp) :: scale
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), cnorm(*), x(*)
@@ -9268,7 +9268,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, half=0.5_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
-           integer(int32) :: i, imax, j, jfirst, jinc, jlast, jlen, maind
+           integer(ilp) :: i, imax, j, jfirst, jinc, jlast, jlen, maind
            real(dp) :: bignum, grow, rec, smlnum, sumj, tjj, tjjs, tmax, tscal, uscal, xbnd, xj, &
                      xmax
      
@@ -9679,7 +9679,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, normin, trans, uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            real(dp) :: scale
            ! .. array arguments ..
            real(dp) :: ap(*), cnorm(*), x(*)
@@ -9689,7 +9689,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, half=0.5_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
-           integer(int32) :: i, imax, ip, j, jfirst, jinc, jlast, jlen
+           integer(ilp) :: i, imax, ip, j, jfirst, jinc, jlast, jlen
            real(dp) :: bignum, grow, rec, smlnum, sumj, tjj, tjjs, tmax, tscal, uscal, xbnd, xj, &
                      xmax
      
@@ -10099,7 +10099,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, normin, trans, uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            real(dp) :: scale
            ! .. array arguments ..
            real(dp) :: a(lda, *), cnorm(*), x(*)
@@ -10109,7 +10109,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, half=0.5_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
-           integer(int32) :: i, imax, j, jfirst, jinc, jlast
+           integer(ilp) :: i, imax, j, jfirst, jinc, jlast
            real(dp) :: bignum, grow, rec, smlnum, sumj, tjj, tjjs, tmax, tscal, uscal, xbnd, xj, &
                      xmax
      
@@ -10499,7 +10499,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -10508,7 +10508,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -10574,7 +10574,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -10583,7 +10583,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, ib, nb
+           integer(ilp) :: i, ib, nb
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -10661,7 +10661,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx1, incx2, info, ldq1, ldq2, lwork, m1, m2, n
+           integer(ilp) :: incx1, incx2, info, ldq1, ldq2, lwork, m1, m2, n
            ! .. array arguments ..
            real(dp) :: q1(ldq1, *), q2(ldq2, *), work(*), x1(*), x2(*)
         ! =====================================================================
@@ -10671,7 +10671,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: negone, one, zero
            parameter(negone=-1.0d0, one=1.0d0, zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: normsq1, normsq2, scl1, scl2, ssq1, ssq2
      
            ! .. intrinsic function ..
@@ -10782,7 +10782,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, lda, m, n
+           integer(ilp) :: info, k, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -10790,7 +10790,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, ii, j, l
+           integer(ilp) :: i, ii, j, l
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -10847,7 +10847,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, lda, m, n
+           integer(ilp) :: info, k, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -10855,7 +10855,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, l
+           integer(ilp) :: i, j, l
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -10913,7 +10913,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, lda, m, n
+           integer(ilp) :: info, k, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -10921,7 +10921,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, l
+           integer(ilp) :: i, j, l
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -10983,7 +10983,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, lda, lwork, m, n
+           integer(ilp) :: info, k, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -10992,7 +10992,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iinfo, iws, j, ki, kk, l, ldwork, lwkopt, nb, nbmin, nx
+           integer(ilp) :: i, ib, iinfo, iws, j, ki, kk, l, ldwork, lwkopt, nb, nbmin, nx
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -11102,7 +11102,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, lda, lwork, m, n
+           integer(ilp) :: info, k, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -11111,7 +11111,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iinfo, iws, j, kk, l, ldwork, lwkopt, nb, nbmin, nx
+           integer(ilp) :: i, ib, iinfo, iws, j, kk, l, ldwork, lwkopt, nb, nbmin, nx
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -11226,7 +11226,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, lda, lwork, m, n
+           integer(ilp) :: info, k, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -11235,7 +11235,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iinfo, iws, j, ki, kk, l, ldwork, lwkopt, nb, nbmin, nx
+           integer(ilp) :: i, ib, iinfo, iws, j, ki, kk, l, ldwork, lwkopt, nb, nbmin, nx
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -11345,7 +11345,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, lda, m, n
+           integer(ilp) :: info, k, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -11353,7 +11353,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, ii, j, l
+           integer(ilp) :: i, ii, j, l
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -11412,7 +11412,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, lda, lwork, m, n
+           integer(ilp) :: info, k, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -11421,7 +11421,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, ii, iinfo, iws, j, kk, l, ldwork, lwkopt, nb, nbmin, nx
+           integer(ilp) :: i, ib, ii, iinfo, iws, j, kk, l, ldwork, lwkopt, nb, nbmin, nx
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -11547,7 +11547,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldt, lwork, m, n, mb, nb
+           integer(ilp) :: info, lda, ldt, lwork, m, n, mb, nb
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *), work(*)
         ! =====================================================================
@@ -11556,8 +11556,8 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: nblocal, mb2, m_plus_one, itmp, ib_bottom, lworkopt, &
-                     num_all_row_blocks, jb_t, ib, imb, kb, kb_last, knb, mb1
+           integer(ilp) :: nblocal, mb2, m_plus_one, itmp, ib_bottom, lworkopt, num_all_row_blocks, &
+                      jb_t, ib, imb, kb, kb_last, knb, mb1
            ! .. local arrays ..
            real(dp) :: dummy(1, 1)
      
@@ -11678,7 +11678,7 @@ module stdlib_linalg_lapack_d
      
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: m, n, n1, n2, ldq, ldc, lwork, info
+           integer(ilp) :: m, n, n1, n2, ldq, ldc, lwork, info
            ! .. array arguments ..
            real(dp) :: q(ldq, *), c(ldc, *), work(*)
         ! =====================================================================
@@ -11687,7 +11687,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: left, lquery, notran
-           integer(int32) :: i, ldwork, len, lwkopt, nb, nq, nw
+           integer(ilp) :: i, ldwork, len, lwkopt, nb, nq, nw
      
            ! .. intrinsic functions ..
            intrinsic :: dble, max, min
@@ -11870,7 +11870,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, lda, ldc, m, n
+           integer(ilp) :: info, k, lda, ldc, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
@@ -11879,7 +11879,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: left, notran
-           integer(int32) :: i, i1, i2, i3, mi, ni, nq
+           integer(ilp) :: i, i1, i2, i3, mi, ni, nq
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -11965,7 +11965,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, lda, ldc, m, n
+           integer(ilp) :: info, k, lda, ldc, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
@@ -11974,7 +11974,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: left, notran
-           integer(int32) :: i, i1, i2, i3, ic, jc, mi, ni, nq
+           integer(ilp) :: i, i1, i2, i3, ic, jc, mi, ni, nq
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -12065,7 +12065,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, lda, ldc, m, n
+           integer(ilp) :: info, k, lda, ldc, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
@@ -12074,7 +12074,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: left, notran
-           integer(int32) :: i, i1, i2, i3, ic, jc, mi, ni, nq
+           integer(ilp) :: i, i1, i2, i3, ic, jc, mi, ni, nq
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -12165,17 +12165,17 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, lda, ldc, lwork, m, n
+           integer(ilp) :: info, k, lda, ldc, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: nbmax, ldt, tsize
+           integer(ilp) :: nbmax, ldt, tsize
            parameter(nbmax=64, ldt=nbmax + 1, tsize=ldt*nbmax)
            ! .. local scalars ..
            logical(lk) :: left, lquery, notran
            character :: transt
-           integer(int32) :: i, i1, i2, i3, ib, ic, iinfo, iwt, jc, ldwork, lwkopt, mi, nb, nbmin, &
+           integer(ilp) :: i, i1, i2, i3, ib, ic, iinfo, iwt, jc, ldwork, lwkopt, mi, nb, nbmin, &
                      ni, nq, nw
      
            ! .. intrinsic functions ..
@@ -12307,16 +12307,16 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, lda, ldc, lwork, m, n
+           integer(ilp) :: info, k, lda, ldc, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: nbmax, ldt, tsize
+           integer(ilp) :: nbmax, ldt, tsize
            parameter(nbmax=64, ldt=nbmax + 1, tsize=ldt*nbmax)
            ! .. local scalars ..
            logical(lk) :: left, lquery, notran
-           integer(int32) :: i, i1, i2, i3, ib, iinfo, iwt, ldwork, lwkopt, mi, nb, nbmin, ni, nq, &
+           integer(ilp) :: i, i1, i2, i3, ib, iinfo, iwt, ldwork, lwkopt, mi, nb, nbmin, ni, nq, &
                      nw
      
            ! .. intrinsic functions ..
@@ -12442,16 +12442,16 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, lda, ldc, lwork, m, n
+           integer(ilp) :: info, k, lda, ldc, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: nbmax, ldt, tsize
+           integer(ilp) :: nbmax, ldt, tsize
            parameter(nbmax=64, ldt=nbmax + 1, tsize=ldt*nbmax)
            ! .. local scalars ..
            logical(lk) :: left, lquery, notran
-           integer(int32) :: i, i1, i2, i3, ib, ic, iinfo, iwt, jc, ldwork, lwkopt, mi, nb, nbmin, &
+           integer(ilp) :: i, i1, i2, i3, ib, ic, iinfo, iwt, jc, ldwork, lwkopt, mi, nb, nbmin, &
                      ni, nq, nw
      
            ! .. intrinsic functions ..
@@ -12578,7 +12578,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, lda, ldc, m, n
+           integer(ilp) :: info, k, lda, ldc, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
@@ -12587,7 +12587,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: left, notran
-           integer(int32) :: i, i1, i2, i3, mi, ni, nq
+           integer(ilp) :: i, i1, i2, i3, mi, ni, nq
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -12673,13 +12673,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, l, lda, ldc, m, n
+           integer(ilp) :: info, k, l, lda, ldc, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, notran
-           integer(int32) :: i, i1, i2, i3, ic, ja, jc, mi, ni, nq
+           integer(ilp) :: i, i1, i2, i3, ic, ja, jc, mi, ni, nq
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -12770,17 +12770,17 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, lda, ldc, lwork, m, n
+           integer(ilp) :: info, k, lda, ldc, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: nbmax, ldt, tsize
+           integer(ilp) :: nbmax, ldt, tsize
            parameter(nbmax=64, ldt=nbmax + 1, tsize=ldt*nbmax)
            ! .. local scalars ..
            logical(lk) :: left, lquery, notran
            character :: transt
-           integer(int32) :: i, i1, i2, i3, ib, iinfo, iwt, ldwork, lwkopt, mi, nb, nbmin, ni, nq, &
+           integer(ilp) :: i, i1, i2, i3, ib, iinfo, iwt, ldwork, lwkopt, mi, nb, nbmin, ni, nq, &
                      nw
      
            ! .. intrinsic functions ..
@@ -12911,17 +12911,17 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, l, lda, ldc, lwork, m, n
+           integer(ilp) :: info, k, l, lda, ldc, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: nbmax, ldt, tsize
+           integer(ilp) :: nbmax, ldt, tsize
            parameter(nbmax=64, ldt=nbmax + 1, tsize=ldt*nbmax)
            ! .. local scalars ..
            logical(lk) :: left, lquery, notran
            character :: transt
-           integer(int32) :: i, i1, i2, i3, ib, ic, iinfo, iwt, ja, jc, ldwork, lwkopt, mi, nb, &
+           integer(ilp) :: i, i1, i2, i3, ib, ic, iinfo, iwt, ja, jc, ldwork, lwkopt, mi, nb, &
                      nbmin, ni, nq, nw
      
            ! .. intrinsic functions ..
@@ -13060,7 +13060,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kd, ldab, n
+           integer(ilp) :: info, kd, ldab, n
            real(dp) :: amax, scond
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), s(*)
@@ -13070,7 +13070,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: smin
      
            ! .. intrinsic functions ..
@@ -13150,7 +13150,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kd, ldab, n
+           integer(ilp) :: info, kd, ldab, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *)
         ! =====================================================================
@@ -13159,7 +13159,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, kld, km, m
+           integer(ilp) :: j, kld, km, m
            real(dp) :: ajj
      
            ! .. intrinsic functions ..
@@ -13270,7 +13270,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kd, ldab, n
+           integer(ilp) :: info, kd, ldab, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *)
         ! =====================================================================
@@ -13279,7 +13279,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, kld, kn
+           integer(ilp) :: j, kld, kn
            real(dp) :: ajj
      
            ! .. intrinsic functions ..
@@ -13355,13 +13355,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kd, ldab, ldb, n, nrhs
+           integer(ilp) :: info, kd, ldab, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), b(ldb, *)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j
+           integer(ilp) :: j
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -13427,7 +13427,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            real(dp) :: amax, scond
            ! .. array arguments ..
            real(dp) :: a(lda, *), s(*)
@@ -13436,7 +13436,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: smin
      
            ! .. intrinsic functions ..
@@ -13508,7 +13508,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            real(dp) :: amax, scond
            ! .. array arguments ..
            real(dp) :: a(lda, *), s(*)
@@ -13517,7 +13517,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: smin, base, tmp
      
            ! .. intrinsic functions ..
@@ -13583,7 +13583,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, n, nrhs
+           integer(ilp) :: info, lda, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
@@ -13652,7 +13652,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            real(dp) :: amax, scond
            ! .. array arguments ..
            real(dp) :: ap(*), s(*)
@@ -13662,7 +13662,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, jj
+           integer(ilp) :: i, jj
            real(dp) :: smin
      
            ! .. intrinsic functions ..
@@ -13745,7 +13745,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: ap(*)
         ! =====================================================================
@@ -13754,7 +13754,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, jc, jj
+           integer(ilp) :: j, jc, jj
            real(dp) :: ajj
      
            ! .. intrinsic functions ..
@@ -13830,13 +13830,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: ap(*), b(ldb, *)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i
+           integer(ilp) :: i
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -13895,7 +13895,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
            real(dp) :: d(*), e(*), work(*)
@@ -13904,7 +13904,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, ix
+           integer(ilp) :: i, ix
            real(dp) :: ainvnm
      
            ! .. intrinsic functions ..
@@ -13965,7 +13965,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: d(*), e(*)
         ! =====================================================================
@@ -13973,7 +13973,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero
            parameter(zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, i4
+           integer(ilp) :: i, i4
            real(dp) :: ei
      
            ! .. intrinsic functions ..
@@ -14054,12 +14054,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ldb, n, nrhs
+           integer(ilp) :: ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: b(ldb, *), d(*), e(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
      
            ! .. executable statements ..
            ! quick return if possible
@@ -14093,7 +14093,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            real(dp) :: sa
            ! .. array arguments ..
            real(dp) :: sx(*)
@@ -14157,7 +14157,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo, vect
-           integer(int32) :: info, ka, kb, ldab, ldbb, ldx, n
+           integer(ilp) :: info, ka, kb, ldab, ldbb, ldx, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), bb(ldbb, *), work(*), x(ldx, *)
         ! =====================================================================
@@ -14166,7 +14166,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: update, upper, wantx
-           integer(int32) :: i, i0, i1, i2, inca, j, j1, j1t, j2, j2t, k, ka1, kb1, kbt, l, m, nr, &
+           integer(ilp) :: i, i0, i1, i2, inca, j, j1, j1t, j2, j2t, k, ka1, kb1, kbt, l, m, nr, &
                      nrt, nx
            real(dp) :: bii, ra, ra1, t
      
@@ -15066,7 +15066,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo, vect
-           integer(int32) :: info, kd, ldab, ldq, n
+           integer(ilp) :: info, kd, ldab, ldq, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), d(*), e(*), q(ldq, *), work(*)
         ! =====================================================================
@@ -15075,7 +15075,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: initq, upper, wantq
-           integer(int32) :: i, i2, ibl, inca, incx, iqaend, iqb, iqend, j, j1, j1end, j1inc, j2, &
+           integer(ilp) :: i, i2, ibl, inca, incx, iqaend, iqb, iqend, j, j1, j1end, j1inc, j2, &
                      jend, jin, jinc, k, kd1, kdm1, kdn, l, last, lend, nq, nr, nrt
            real(dp) :: temp
      
@@ -15405,7 +15405,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: k, lda, n
+           integer(ilp) :: k, lda, n
            character :: trans, transr, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(*)
@@ -15415,7 +15415,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lower, normaltransr, nisodd, notrans
-           integer(int32) :: info, nrowa, j, nk, n1, n2
+           integer(ilp) :: info, nrowa, j, nk, n1, n2
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -15663,7 +15663,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, itype, n
+           integer(ilp) :: info, itype, n
            ! .. array arguments ..
            real(dp) :: ap(*), bp(*)
         ! =====================================================================
@@ -15672,7 +15672,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0d0, half=0.5d0)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, j1, j1j1, jj, k, k1, k1k1, kk
+           integer(ilp) :: j, j1, j1j1, jj, k, k1, k1k1, kk
            real(dp) :: ajj, akk, bjj, bkk, ct
      
            ! .. executable statements ..
@@ -15786,9 +15786,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
@@ -15798,7 +15798,7 @@ module stdlib_linalg_lapack_d
            parameter(eight=8.0_dp, sevten=17.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, imax, j, jmax, k, kc, kk, knc, kp, kpc, kstep, kx, npp
+           integer(ilp) :: i, imax, j, jmax, k, kc, kk, knc, kp, kpc, kstep, kx, npp
            real(dp) :: absakk, alpha, colmax, d11, d12, d21, d22, r1, rowmax, t, wk, wkm1, &
                      wkp1
      
@@ -16108,9 +16108,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: ap(*), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -16118,7 +16118,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, k, kc, kcnext, kp, kpc, kstep, kx, npp
+           integer(ilp) :: j, k, kc, kcnext, kp, kpc, kstep, kx, npp
            real(dp) :: ak, akkp1, akp1, d, t, temp
      
            ! .. intrinsic functions ..
@@ -16321,9 +16321,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: ap(*), b(ldb, *)
         ! =====================================================================
            ! .. parameters ..
@@ -16331,7 +16331,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, k, kc, kp
+           integer(ilp) :: j, k, kc, kp
            real(dp) :: ak, akm1, akm1k, bk, bkm1, denom
      
            ! .. intrinsic functions ..
@@ -16551,10 +16551,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: order, range
-           integer(int32) :: il, info, iu, m, n, nsplit
+           integer(ilp) :: il, info, iu, m, n, nsplit
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: iblock(*), isplit(*), iwork(*)
+           integer(ilp) :: iblock(*), isplit(*), iwork(*)
            real(dp) :: d(*), e(*), w(*), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -16565,12 +16565,12 @@ module stdlib_linalg_lapack_d
            parameter(fudge=2.1d0, relfac=2.0d0)
            ! .. local scalars ..
            logical(lk) :: ncnvrg, toofew
-           integer(int32) :: ib, ibegin, idiscl, idiscu, ie, iend, iinfo, im, in, ioff, iorder, &
-                     iout, irange, itmax, itmp1, iw, iwoff, j, jb, jdisc, je, nb, nwl, nwu
+           integer(ilp) :: ib, ibegin, idiscl, idiscu, ie, iend, iinfo, im, in, ioff, iorder, iout, &
+                      irange, itmax, itmp1, iw, iwoff, j, jb, jdisc, je, nb, nwl, nwu
            real(dp) :: atoli, bnorm, gl, gu, pivmin, rtoli, safemn, tmp1, tmp2, tnorm, ulp, wkill, &
                      wl, wlu, wu, wul
            ! .. local arrays ..
-           integer(int32) :: idumma(1)
+           integer(ilp) :: idumma(1)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, int, log, max, min, sqrt
@@ -16936,9 +16936,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo, way
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), e(*)
         ! =====================================================================
            ! .. parameters ..
@@ -16946,7 +16946,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
      
            logical(lk) :: upper, convert
-           integer(int32) :: i, ip, j
+           integer(ilp) :: i, ip, j
            real(dp) :: temp
            ! .. executable statements ..
            info = 0
@@ -17154,9 +17154,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo, way
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), e(*)
         ! =====================================================================
            ! .. parameters ..
@@ -17164,7 +17164,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
      
            logical(lk) :: upper, convert
-           integer(int32) :: i, ip
+           integer(ilp) :: i, ip
            ! .. executable statements ..
            info = 0
            upper = stdlib_lsame(uplo, 'u')
@@ -17409,9 +17409,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo, way
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), e(*)
         ! =====================================================================
            ! .. parameters ..
@@ -17419,7 +17419,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
      
            logical(lk) :: upper, convert
-           integer(int32) :: i, ip, ip2
+           integer(ilp) :: i, ip, ip2
            ! .. executable statements ..
            info = 0
            upper = stdlib_lsame(uplo, 'u')
@@ -17657,7 +17657,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            real(dp) :: amax, scond
            character :: uplo
            ! .. array arguments ..
@@ -17666,10 +17666,10 @@ module stdlib_linalg_lapack_d
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0d0, zero=0.0d0)
-           integer(int32) :: max_iter
+           integer(ilp) :: max_iter
            parameter(max_iter=100)
            ! .. local scalars ..
-           integer(int32) :: i, j, iter
+           integer(ilp) :: i, j, iter
            real(dp) :: avg, std, tol, c0, c1, c2, t, u, si, d, base, smin, smax, smlnum, bignum, &
                      scale, sumsq
            logical(lk) :: up
@@ -17834,7 +17834,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, itype, lda, ldb, n
+           integer(ilp) :: info, itype, lda, ldb, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
@@ -17843,7 +17843,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0d0, half=0.5d0)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: k
+           integer(ilp) :: k
            real(dp) :: akk, bkk, ct
      
            ! .. intrinsic functions ..
@@ -17960,7 +17960,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, itype, lda, ldb, n
+           integer(ilp) :: info, itype, lda, ldb, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
@@ -17969,7 +17969,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0d0, half=0.5d0)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: k, kb, nb
+           integer(ilp) :: k, kb, nb
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -18097,13 +18097,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: i1, i2, lda, n
+           integer(ilp) :: i1, i2, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, n)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: tmp
      
            ! .. executable statements ..
@@ -18173,9 +18173,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), e(*)
         ! =====================================================================
            ! .. parameters ..
@@ -18185,7 +18185,7 @@ module stdlib_linalg_lapack_d
            parameter(eight=8.0_dp, sevten=17.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper, done
-           integer(int32) :: i, imax, j, jmax, itemp, k, kk, kp, kstep, p, ii
+           integer(ilp) :: i, imax, j, jmax, itemp, k, kk, kp, kstep, p, ii
            real(dp) :: absakk, alpha, colmax, d11, d12, d21, d22, rowmax, dtemp, t, wk, wkm1, wkp1, &
                       sfmin
      
@@ -18624,9 +18624,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
@@ -18636,7 +18636,7 @@ module stdlib_linalg_lapack_d
            parameter(eight=8.0_dp, sevten=17.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper, done
-           integer(int32) :: i, imax, j, jmax, itemp, k, kk, kp, kstep, p, ii
+           integer(ilp) :: i, imax, j, jmax, itemp, k, kk, kp, kstep, p, ii
            real(dp) :: absakk, alpha, colmax, d11, d12, d21, d22, rowmax, dtemp, t, wk, wkm1, wkp1, &
                       sfmin
      
@@ -19039,14 +19039,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, lwork, n
+           integer(ilp) :: info, lda, lwork, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), e(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery, upper
-           integer(int32) :: i, iinfo, ip, iws, k, kb, ldwork, lwkopt, nb, nbmin
+           integer(ilp) :: i, iinfo, ip, iws, k, kb, ldwork, lwkopt, nb, nbmin
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -19205,14 +19205,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, lwork, n
+           integer(ilp) :: info, lda, lwork, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery, upper
-           integer(int32) :: iinfo, iws, j, k, kb, ldwork, lwkopt, nb, nbmin
+           integer(ilp) :: iinfo, iws, j, k, kb, ldwork, lwkopt, nb, nbmin
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -19329,9 +19329,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -19339,7 +19339,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: k, kp, kstep
+           integer(ilp) :: k, kp, kstep
            real(dp) :: ak, akkp1, akp1, d, t, temp
      
            ! .. intrinsic functions ..
@@ -19519,9 +19519,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -19529,7 +19529,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: k, kp, kstep
+           integer(ilp) :: k, kp, kstep
            real(dp) :: ak, akkp1, akp1, d, t, temp
      
            ! .. intrinsic functions ..
@@ -19749,9 +19749,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, n, nrhs
+           integer(ilp) :: info, lda, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
            ! .. parameters ..
@@ -19759,7 +19759,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, k, kp
+           integer(ilp) :: j, k, kp
            real(dp) :: ak, akm1, akm1k, bk, bkm1, denom
      
            ! .. intrinsic functions ..
@@ -19961,9 +19961,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, n, nrhs
+           integer(ilp) :: info, lda, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -19971,7 +19971,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, iinfo, j, k, kp
+           integer(ilp) :: i, iinfo, j, k, kp
            real(dp) :: ak, akm1, akm1k, bk, bkm1, denom
      
            ! .. intrinsic functions ..
@@ -20147,9 +20147,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, n, nrhs
+           integer(ilp) :: info, lda, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *), e(*)
         ! =====================================================================
            ! .. parameters ..
@@ -20157,7 +20157,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, j, k, kp
+           integer(ilp) :: i, j, k, kp
            real(dp) :: ak, akm1, akm1k, bk, bkm1, denom
      
            ! .. intrinsic functions ..
@@ -20301,16 +20301,16 @@ module stdlib_linalg_lapack_d
      
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: n, nrhs, lda, ldb, lwork, info
+           integer(ilp) :: n, nrhs, lda, ldb, lwork, info
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, upper
-           integer(int32) :: k, kp, lwkopt
+           integer(ilp) :: k, kp, lwkopt
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -20420,9 +20420,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, n, nrhs
+           integer(ilp) :: info, lda, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
            ! .. parameters ..
@@ -20430,7 +20430,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, k, kp
+           integer(ilp) :: j, k, kp
            real(dp) :: ak, akm1, akm1k, bk, bkm1, denom
      
            ! .. intrinsic functions ..
@@ -20648,9 +20648,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, trans, uplo
-           integer(int32) :: info, kd, ldab, ldb, ldx, n, nrhs
+           integer(ilp) :: info, kd, ldab, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
                      
         ! =====================================================================
@@ -20662,10 +20662,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
            character :: transt
-           integer(int32) :: i, j, k, kase, nz
+           integer(ilp) :: i, j, k, kase, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min
@@ -20888,7 +20888,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, trans, uplo
-           integer(int32) :: info, kd, ldab, ldb, n, nrhs
+           integer(ilp) :: info, kd, ldab, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), b(ldb, *)
         ! =====================================================================
@@ -20897,7 +20897,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: nounit, upper
-           integer(int32) :: j
+           integer(ilp) :: j
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -20966,7 +20966,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: transr, diag, side, trans, uplo
-           integer(int32) :: ldb, m, n
+           integer(ilp) :: ldb, m, n
            real(dp) :: alpha
            ! .. array arguments ..
            real(dp) :: a(0:*), b(0:ldb - 1, 0:*)
@@ -20976,7 +20976,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lower, lside, misodd, nisodd, normaltransr, notrans
-           integer(int32) :: m1, m2, n1, n2, k, info, i, j
+           integer(ilp) :: m1, m2, n1, n2, k, info, i, j
      
            ! .. intrinsic functions ..
            intrinsic :: max, mod
@@ -21464,16 +21464,16 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: transr, uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: ap(0:*), arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
-           integer(int32) :: n1, n2, k, nt
-           integer(int32) :: i, j, ij
-           integer(int32) :: ijp, jp, lda, js
+           integer(ilp) :: n1, n2, k, nt
+           integer(ilp) :: i, j, ij
+           integer(ilp) :: ijp, jp, lda, js
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -21720,14 +21720,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: transr, uplo
-           integer(int32) :: info, n, lda
+           integer(ilp) :: info, n, lda
            ! .. array arguments ..
            real(dp) :: a(0:lda - 1, 0:*), arf(0:*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
-           integer(int32) :: n1, n2, k, nt, nx2, np1x2
-           integer(int32) :: i, j, l, ij
+           integer(ilp) :: n1, n2, k, nt, nx2, np1x2
+           integer(ilp) :: i, j, l, ij
      
            ! .. intrinsic functions ..
            intrinsic :: max, mod
@@ -21951,7 +21951,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: direct, side, storev, trans
-           integer(int32) :: k, l, lda, ldb, ldt, ldv, ldwork, m, n
+           integer(ilp) :: k, l, lda, ldb, ldt, ldv, ldwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *), v(ldv, *), work(ldwork, *)
                      
@@ -21960,7 +21960,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0, zero=0.0)
            ! .. local scalars ..
-           integer(int32) :: i, j, mp, np, kp
+           integer(ilp) :: i, j, mp, np, kp
            logical(lk) :: left, forward, column, right, backward, row
      
            ! .. executable statements ..
@@ -22375,9 +22375,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, trans, uplo
-           integer(int32) :: info, ldb, ldx, n, nrhs
+           integer(ilp) :: info, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ap(*), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
         ! =====================================================================
            ! .. parameters ..
@@ -22388,10 +22388,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
            character :: transt
-           integer(int32) :: i, j, k, kase, kc, nz
+           integer(ilp) :: i, j, k, kase, kc, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -22619,7 +22619,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: ap(*)
         ! =====================================================================
@@ -22628,7 +22628,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: nounit, upper
-           integer(int32) :: j, jc, jclast, jj
+           integer(ilp) :: j, jc, jclast, jj
            real(dp) :: ajj
      
            ! .. executable statements ..
@@ -22715,7 +22715,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, trans, uplo
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: ap(*), b(ldb, *)
         ! =====================================================================
@@ -22724,7 +22724,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: nounit, upper
-           integer(int32) :: j, jc
+           integer(ilp) :: j, jc
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -22787,16 +22787,16 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: transr, uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: ap(0:*), arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
-           integer(int32) :: n1, n2, k, nt
-           integer(int32) :: i, j, ij
-           integer(int32) :: ijp, jp, lda, js
+           integer(ilp) :: n1, n2, k, nt
+           integer(ilp) :: i, j, ij
+           integer(ilp) :: ijp, jp, lda, js
      
            ! .. intrinsic functions ..
            intrinsic :: mod
@@ -23029,14 +23029,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n, lda
+           integer(ilp) :: info, n, lda
            ! .. array arguments ..
            real(dp) :: a(lda, *), ap(*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
            logical(lk) :: lower
-           integer(int32) :: i, j, k
+           integer(ilp) :: i, j, k
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -23088,9 +23088,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, trans, uplo
-           integer(int32) :: info, lda, ldb, ldx, n, nrhs
+           integer(ilp) :: info, lda, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
                      
         ! =====================================================================
@@ -23102,10 +23102,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
            character :: transt
-           integer(int32) :: i, j, k, kase, nz
+           integer(ilp) :: i, j, k, kase, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -23324,7 +23324,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -23333,7 +23333,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: nounit, upper
-           integer(int32) :: j
+           integer(ilp) :: j
            real(dp) :: ajj
      
            ! .. intrinsic functions ..
@@ -23401,7 +23401,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -23410,7 +23410,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: nounit, upper
-           integer(int32) :: j, jb, nb, nn
+           integer(ilp) :: j, jb, nb, nn
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -23492,7 +23492,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, trans, uplo
-           integer(int32) :: info, lda, ldb, n, nrhs
+           integer(ilp) :: info, lda, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
@@ -23552,13 +23552,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: transr, uplo
-           integer(int32) :: info, n, lda
+           integer(ilp) :: info, n, lda
            ! .. array arguments ..
            real(dp) :: a(0:lda - 1, 0:*), arf(0:*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
-           integer(int32) :: i, ij, j, k, l, n1, n2, nt, nx2, np1x2
+           integer(ilp) :: i, ij, j, k, l, n1, n2, nt, nx2, np1x2
      
            ! .. intrinsic functions ..
            intrinsic :: max, mod
@@ -23780,14 +23780,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n, lda
+           integer(ilp) :: info, n, lda
            ! .. array arguments ..
            real(dp) :: a(lda, *), ap(*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
            logical(lk) :: lower
-           integer(int32) :: i, j, k
+           integer(ilp) :: i, j, k
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -23835,12 +23835,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            ! .. array arguments ..
            complex(dp) :: cx(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, nincx
+           integer(ilp) :: i, nincx
            real(dp) :: stemp
            ! .. intrinsic functions ..
            intrinsic :: abs
@@ -23898,14 +23898,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobu1, jobu2, jobv1t, jobv2t, trans
-           integer(int32) :: info, ldu1, ldu2, ldv1t, ldv2t, lwork, m, p, q
+           integer(ilp) :: info, ldu1, ldu2, ldv1t, ldv2t, lwork, m, p, q
            ! .. array arguments ..
            real(dp) :: b11d(*), b11e(*), b12d(*), b12e(*), b21d(*), b21e(*), b22d(*), &
                       b22e(*), phi(*), theta(*), work(*)
            real(dp) :: u1(ldu1, *), u2(ldu2, *), v1t(ldv1t, *), v2t(ldv2t, *)
         ! ===================================================================
            ! .. parameters ..
-           integer(int32) :: maxitr
+           integer(ilp) :: maxitr
            parameter(maxitr=6)
            real(dp) :: hundred, meighth, one, ten, zero
            parameter(hundred=100.0d0, meighth=-0.125d0, one=1.0d0, ten=10.0d0, &
@@ -23917,8 +23917,8 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: colmajor, lquery, restart11, restart12, restart21, restart22, wantu1, &
                      wantu2, wantv1t, wantv2t
-           integer(int32) :: i, imin, imax, iter, iu1cs, iu1sn, iu2cs, iu2sn, iv1tcs, iv1tsn, &
-                     iv2tcs, iv2tsn, j, lworkmin, lworkopt, maxit, mini
+           integer(ilp) :: i, imin, imax, iter, iu1cs, iu1sn, iu2cs, iu2sn, iv1tcs, iv1tsn, iv2tcs, &
+                      iv2tsn, j, lworkmin, lworkopt, maxit, mini
            real(dp) :: b11bulge, b12bulge, b21bulge, b22bulge, dummy, eps, mu, nu, r, sigma11, &
                      sigma21, temp, thetamax, thetamin, thresh, tol, tolmul, unfl, x1, x2, y1, y2
      
@@ -24497,7 +24497,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: job
-           integer(int32) :: info, m, n
+           integer(ilp) :: info, m, n
            ! .. array arguments ..
            real(dp) :: d(*), sep(*)
         ! =====================================================================
@@ -24506,7 +24506,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: decr, eigen, incr, left, right, sing
-           integer(int32) :: i, k
+           integer(ilp) :: i, k
            real(dp) :: anorm, eps, newgap, oldgap, safmin, thresh
      
            ! .. intrinsic functions ..
@@ -24597,7 +24597,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: vect
-           integer(int32) :: info, kl, ku, ldab, ldc, ldpt, ldq, m, n, ncc
+           integer(ilp) :: info, kl, ku, ldab, ldc, ldpt, ldq, m, n, ncc
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), c(ldc, *), d(*), e(*), pt(ldpt, *), q(ldq, *), &
                      work(*)
@@ -24607,8 +24607,8 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: wantb, wantc, wantpt, wantq
-           integer(int32) :: i, inca, j, j1, j2, kb, kb1, kk, klm, klu1, kun, l, minmn, ml, ml0, &
-                     mn, mu, mu0, nr, nrt
+           integer(ilp) :: i, inca, j, j1, j2, kb, kb1, kk, klm, klu1, kun, l, minmn, ml, ml0, mn, &
+                     mu, mu0, nr, nrt
            real(dp) :: ra, rb, rc, rs
      
            ! .. intrinsic functions ..
@@ -24860,10 +24860,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm
-           integer(int32) :: info, kl, ku, ldab, n
+           integer(ilp) :: info, kl, ku, ldab, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: ab(ldab, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -24872,10 +24872,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: lnoti, onenrm
            character :: normin
-           integer(int32) :: ix, j, jp, kase, kase1, kd, lm
+           integer(ilp) :: ix, j, jp, kase, kase1, kd, lm
            real(dp) :: ainvnm, scale, smlnum, t
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, min
@@ -24990,7 +24990,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, kl, ku, ldab, m, n
+           integer(ilp) :: info, kl, ku, ldab, m, n
            real(dp) :: amax, colcnd, rowcnd
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), c(*), r(*)
@@ -24999,7 +24999,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, kd
+           integer(ilp) :: i, j, kd
            real(dp) :: bignum, rcmax, rcmin, smlnum
      
            ! .. intrinsic functions ..
@@ -25127,7 +25127,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, kl, ku, ldab, m, n
+           integer(ilp) :: info, kl, ku, ldab, m, n
            real(dp) :: amax, colcnd, rowcnd
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), c(*), r(*)
@@ -25136,7 +25136,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, kd
+           integer(ilp) :: i, j, kd
            real(dp) :: bignum, rcmax, rcmin, smlnum, radix, logrdx
      
            ! .. intrinsic functions ..
@@ -25263,14 +25263,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: info, kl, ku, ldab, ldafb, ldb, ldx, n, nrhs
+           integer(ilp) :: info, kl, ku, ldab, ldafb, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: ab(ldab, *), afb(ldafb, *), b(ldb, *), berr(*), ferr(*), work(*) &
                      , x(ldx, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero
            parameter(zero=0.0_dp)
@@ -25283,10 +25283,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: notran
            character :: transt
-           integer(int32) :: count, i, j, k, kase, kk, nz
+           integer(ilp) :: count, i, j, k, kase, kk, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min
@@ -25466,18 +25466,18 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, kl, ku, ldab, m, n
+           integer(ilp) :: info, kl, ku, ldab, m, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: ab(ldab, *)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
-           integer(int32) :: nbmax, ldwork
+           integer(ilp) :: nbmax, ldwork
            parameter(nbmax=64, ldwork=nbmax + 1)
            ! .. local scalars ..
-           integer(int32) :: i, i2, i3, ii, ip, j, j2, j3, jb, jj, jm, jp, ju, k2, km, kv, nb, &
+           integer(ilp) :: i, i2, i3, ii, ip, j, j2, j3, jb, jj, jm, jp, ju, k2, km, kv, nb, &
                      nw
            real(dp) :: temp
            ! .. local arrays ..
@@ -25721,10 +25721,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -25733,10 +25733,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: onenrm
            character :: normin
-           integer(int32) :: ix, kase, kase1
+           integer(ilp) :: ix, kase, kase1
            real(dp) :: ainvnm, scale, sl, smlnum, su
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -25825,7 +25825,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            real(dp) :: amax, colcnd, rowcnd
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(*), r(*)
@@ -25834,7 +25834,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: bignum, rcmax, rcmin, smlnum
      
            ! .. intrinsic functions ..
@@ -25956,7 +25956,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            real(dp) :: amax, colcnd, rowcnd
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(*), r(*)
@@ -25965,7 +25965,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: bignum, rcmax, rcmin, smlnum, radix, logrdx
      
            ! .. intrinsic functions ..
@@ -26093,13 +26093,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, ldv, ldc, m, n, mb, ldt
+           integer(ilp) :: info, k, ldv, ldc, m, n, mb, ldt
            ! .. array arguments ..
            real(dp) :: v(ldv, *), c(ldc, *), t(ldt, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran
-           integer(int32) :: i, ib, ldwork, kf, q
+           integer(ilp) :: i, ib, ldwork, kf, q
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -26190,13 +26190,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, ldv, ldc, m, n, nb, ldt
+           integer(ilp) :: info, k, ldv, ldc, m, n, nb, ldt
            ! .. array arguments ..
            real(dp) :: v(ldv, *), c(ldc, *), t(ldt, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran
-           integer(int32) :: i, ib, ldwork, kf, q
+           integer(ilp) :: i, ib, ldwork, kf, q
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -26280,17 +26280,17 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: lda, n
+           integer(ilp) :: lda, n
            real(dp) :: scale
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), jpiv(*)
+           integer(ilp) :: ipiv(*), jpiv(*)
            real(dp) :: a(lda, *), rhs(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, two
            parameter(one=1.0_dp, two=2.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: bignum, eps, smlnum, temp
      
            ! .. intrinsic functions ..
@@ -26342,16 +26342,16 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), jpiv(*)
+           integer(ilp) :: ipiv(*), jpiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, ip, ipv, j, jp, jpv
+           integer(ilp) :: i, ip, ipv, j, jp, jpv
            real(dp) :: bignum, eps, smin, smlnum, xmax
      
            ! .. intrinsic functions ..
@@ -26432,9 +26432,9 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
@@ -26442,7 +26442,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: sfmin
-           integer(int32) :: i, j, jp
+           integer(ilp) :: i, j, jp
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -26519,9 +26519,9 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
@@ -26529,7 +26529,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: sfmin, temp
-           integer(int32) :: i, iinfo, n1, n2
+           integer(ilp) :: i, iinfo, n1, n2
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -26622,9 +26622,9 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, lwork, n
+           integer(ilp) :: info, lda, lwork, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -26632,7 +26632,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, iws, j, jb, jj, jp, ldwork, lwkopt, nb, nbmin, nn
+           integer(ilp) :: i, iws, j, jb, jj, jp, ldwork, lwkopt, nb, nbmin, nn
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -26727,9 +26727,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: info, lda, ldb, n, nrhs
+           integer(ilp) :: info, lda, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
            ! .. parameters ..
@@ -26804,7 +26804,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: job
-           integer(int32) :: ihi, ilo, info, lda, ldb, n
+           integer(ilp) :: ihi, ilo, info, lda, ldb, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), lscale(*), rscale(*), work(*)
         ! =====================================================================
@@ -26814,8 +26814,8 @@ module stdlib_linalg_lapack_d
            real(dp) :: three, sclfac
            parameter(three=3.0_dp, sclfac=1.0d+1)
            ! .. local scalars ..
-           integer(int32) :: i, icab, iflow, ip1, ir, irab, it, j, jc, jp1, k, kount, l, lcab, lm1, &
-                      lrab, lsfmax, lsfmin, m, nr, nrp2
+           integer(ilp) :: i, icab, iflow, ip1, ir, irab, it, j, jc, jp1, k, kount, l, lcab, lm1, &
+                     lrab, lsfmax, lsfmin, m, nr, nrp2
            real(dp) :: alpha, basl, beta, cab, cmax, coef, coef2, coef5, cor, ew, ewc, gamma, &
                      pgamma, rab, sfmax, sfmin, sum, t, ta, tb, tc
      
@@ -27113,7 +27113,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: compq, compz
-           integer(int32) :: ihi, ilo, info, lda, ldb, ldq, ldz, n
+           integer(ilp) :: ihi, ilo, info, lda, ldb, ldq, ldz, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *)
         ! =====================================================================
@@ -27122,7 +27122,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: ilq, ilz
-           integer(int32) :: icompq, icompz, jcol, jrow
+           integer(ilp) :: icompq, icompz, jcol, jrow
            real(dp) :: c, s, temp
      
            ! .. intrinsic functions ..
@@ -27226,14 +27226,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: b(ldb, *), d(*), dl(*), du(*), du2(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: notran
-           integer(int32) :: itrans, j, jb, nb
+           integer(ilp) :: itrans, j, jb, nb
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -27317,7 +27317,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: incx, incy, ldab, m, n, kl, ku, trans
+           integer(ilp) :: incx, incy, ldab, m, n, kl, ku, trans
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), x(*), y(*)
         ! =====================================================================
@@ -27327,7 +27327,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: symb_zero
            real(dp) :: temp, safe1
-           integer(int32) :: i, info, iy, j, jx, kx, ky, lenx, leny, kd, ke
+           integer(ilp) :: i, info, iy, j, jx, kx, ky, lenx, leny, kd, ke
      
            ! .. intrinsic functions ..
            intrinsic :: max, abs, sign
@@ -27502,17 +27502,17 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: n, ldab, ldafb, info, kl, ku, cmode
+           integer(ilp) :: n, ldab, ldafb, info, kl, ku, cmode
            ! .. array arguments ..
-           integer(int32) :: iwork(*), ipiv(*)
+           integer(ilp) :: iwork(*), ipiv(*)
            real(dp) :: ab(ldab, *), afb(ldafb, *), work(*), c(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: notrans
-           integer(int32) :: kase, i, j, kd, ke
+           integer(ilp) :: kase, i, j, kd, ke
            real(dp) :: ainvnm, tmp
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -27662,7 +27662,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: incx, incy, lda, m, n, trans
+           integer(ilp) :: incx, incy, lda, m, n, trans
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
@@ -27672,7 +27672,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: symb_zero
            real(dp) :: temp, safe1
-           integer(int32) :: i, info, iy, j, jx, kx, ky, lenx, leny
+           integer(ilp) :: i, info, iy, j, jx, kx, ky, lenx, leny
      
            ! .. intrinsic functions ..
            intrinsic :: max, abs, sign
@@ -27841,17 +27841,17 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: n, lda, ldaf, info, cmode
+           integer(ilp) :: n, lda, ldaf, info, cmode
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: a(lda, *), af(ldaf, *), work(*), c(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: notrans
-           integer(int32) :: kase, i, j
+           integer(ilp) :: kase, i, j
            real(dp) :: ainvnm, tmp
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -27984,14 +27984,14 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: n, nz, nrhs
+           integer(ilp) :: n, nz, nrhs
            ! .. array arguments ..
            real(dp) :: ayb(n, nrhs), berr(nrhs)
            real(dp) :: res(n, nrhs)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: tmp, safe1
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            ! .. intrinsic functions ..
            intrinsic :: abs, max
      
@@ -28032,17 +28032,17 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: n, lda, ldaf, info, cmode
+           integer(ilp) :: n, lda, ldaf, info, cmode
            real(dp) :: a(lda, *), af(ldaf, *), work(*), c(*)
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: kase, i, j
+           integer(ilp) :: kase, i, j
            real(dp) :: ainvnm, tmp
            logical(lk) :: up
            ! .. array arguments ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -28193,7 +28193,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: alpha, beta
-           integer(int32) :: incx, incy, lda, n, uplo
+           integer(ilp) :: incx, incy, lda, n, uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
@@ -28203,7 +28203,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: symb_zero
            real(dp) :: temp, safe1
-           integer(int32) :: i, info, iy, j, jx, kx, ky
+           integer(ilp) :: i, info, iy, j, jx, kx, ky
      
            ! .. intrinsic functions ..
            intrinsic :: max, abs, sign
@@ -28383,18 +28383,18 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: n, lda, ldaf, info, cmode
+           integer(ilp) :: n, lda, ldaf, info, cmode
            ! .. array arguments
-           integer(int32) :: iwork(*), ipiv(*)
+           integer(ilp) :: iwork(*), ipiv(*)
            real(dp) :: a(lda, *), af(ldaf, *), work(*), c(*)
         ! =====================================================================
            ! .. local scalars ..
            character :: normin
-           integer(int32) :: kase, i, j
+           integer(ilp) :: kase, i, j
            real(dp) :: ainvnm, smlnum, tmp
            logical(lk) :: up
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -28545,13 +28545,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character*1 uplo
-           integer(int32) :: n, info, lda, ldaf
+           integer(ilp) :: n, info, lda, ldaf
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), af(ldaf, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: ncols, i, j, k, kp
+           integer(ilp) :: ncols, i, j, k, kp
            real(dp) :: amax, umax, rpvgrw, tmp
            logical(lk) :: upper
            ! .. intrinsic functions ..
@@ -28758,13 +28758,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: orgati
-           integer(int32) :: info, kniter
+           integer(ilp) :: info, kniter
            real(dp) :: finit, rho, tau
            ! .. array arguments ..
            real(dp) :: d(3), z(3)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: maxit
+           integer(ilp) :: maxit
            parameter(maxit=40)
            real(dp) :: zero, one, two, three, four, eight
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0, three=3.0d0, four= &
@@ -28774,7 +28774,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: dscale(3), zscale(3)
            ! .. local scalars ..
            logical(lk) :: scale
-           integer(int32) :: i, iter, niter
+           integer(ilp) :: i, iter, niter
            real(dp) :: a, b, base, c, ddf, df, eps, erretm, eta, f, fc, sclfac, sclinv, small1, &
                      small2, sminv1, sminv2, temp, temp1, temp2, temp3, temp4, lbd, ubd
            ! .. intrinsic functions ..
@@ -29148,17 +29148,17 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            real(dp) :: lambda, tol
            ! .. array arguments ..
-           integer(int32) :: in(*)
+           integer(ilp) :: in(*)
            real(dp) :: a(*), b(*), c(*), d(*)
        ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero
            parameter(zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: k
+           integer(ilp) :: k
            real(dp) :: eps, mult, piv1, piv2, scale1, scale2, temp, tl
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -29238,17 +29238,17 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, job, n
+           integer(ilp) :: info, job, n
            real(dp) :: tol
            ! .. array arguments ..
-           integer(int32) :: in(*)
+           integer(ilp) :: in(*)
            real(dp) :: a(*), b(*), c(*), d(*), y(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: k
+           integer(ilp) :: k
            real(dp) :: absak, ak, bignum, eps, pert, sfmin, temp
            ! .. intrinsic functions ..
            intrinsic :: abs, max, sign
@@ -29448,7 +29448,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: j, job
+           integer(ilp) :: j, job
            real(dp) :: c, gamma, s, sest, sestpr
            ! .. array arguments ..
            real(dp) :: w(j), x(j)
@@ -29654,12 +29654,12 @@ module stdlib_linalg_lapack_d
      ! Scientific Computing, v28, n5, 2006.  DOI 10.1137/050641624
      ! (Tech report version in LAWN 172 with the same title.)
 
-     integer(int32) function stdlib_dlaneg(n, d, lld, sigma, pivmin, r)
+     integer(ilp) function stdlib_dlaneg(n, d, lld, sigma, pivmin, r)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: n, r
+           integer(ilp) :: n, r
            real(dp) :: pivmin, sigma
            ! .. array arguments ..
            real(dp) :: d(*), lld(*)
@@ -29672,10 +29672,10 @@ module stdlib_linalg_lapack_d
            ! propagate at most blklen columns before being detected.  this is
            ! not a general tuning parameter; it needs only to be just large
            ! enough that the overhead is tiny in common cases.
-           integer(int32) :: blklen
+           integer(ilp) :: blklen
            parameter(blklen=128)
            ! .. local scalars ..
-           integer(int32) :: bj, j, neg1, neg2, negcnt
+           integer(ilp) :: bj, j, neg1, neg2, negcnt
            real(dp) :: bsav, dminus, dplus, gamma, p, t, tmp
            logical(lk) :: sawnan
            ! .. intrinsic functions ..
@@ -29755,7 +29755,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm
-           integer(int32) :: kl, ku, ldab, n
+           integer(ilp) :: kl, ku, ldab, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), work(*)
        ! =====================================================================
@@ -29763,7 +29763,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, k, l
+           integer(ilp) :: i, j, k, l
            real(dp) :: scale, sum, value, temp
      
            ! .. intrinsic functions ..
@@ -29833,7 +29833,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm
-           integer(int32) :: lda, m, n
+           integer(ilp) :: lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*)
        ! =====================================================================
@@ -29841,7 +29841,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: scale, sum, value, temp
      
            ! .. intrinsic functions ..
@@ -29908,7 +29908,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm
-           integer(int32) :: n
+           integer(ilp) :: n
            ! .. array arguments ..
            real(dp) :: d(*), dl(*), du(*)
         ! =====================================================================
@@ -29916,7 +29916,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: anorm, scale, sum, temp
      
            ! .. intrinsic functions ..
@@ -29988,7 +29988,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm
-           integer(int32) :: lda, n
+           integer(ilp) :: lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*)
        ! =====================================================================
@@ -29996,7 +29996,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: scale, sum, value
      
            ! .. intrinsic functions ..
@@ -30063,7 +30063,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm, uplo
-           integer(int32) :: k, ldab, n
+           integer(ilp) :: k, ldab, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), work(*)
        ! =====================================================================
@@ -30071,7 +30071,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, l
+           integer(ilp) :: i, j, l
            real(dp) :: absa, scale, sum, value
      
            ! .. intrinsic functions ..
@@ -30171,7 +30171,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm, transr, uplo
-           integer(int32) :: n
+           integer(ilp) :: n
            ! .. array arguments ..
            real(dp) :: a(0:*), work(0:*)
         ! =====================================================================
@@ -30179,7 +30179,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, ifm, ilu, noe, n1, k, l, lda
+           integer(ilp) :: i, j, ifm, ilu, noe, n1, k, l, lda
            real(dp) :: scale, s, value, aa, temp
      
            ! .. intrinsic functions ..
@@ -30878,7 +30878,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm, uplo
-           integer(int32) :: n
+           integer(ilp) :: n
            ! .. array arguments ..
            real(dp) :: ap(*), work(*)
        ! =====================================================================
@@ -30886,7 +30886,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j, k
+           integer(ilp) :: i, j, k
            real(dp) :: absa, scale, sum, value
      
            ! .. intrinsic functions ..
@@ -31005,7 +31005,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm
-           integer(int32) :: n
+           integer(ilp) :: n
            ! .. array arguments ..
            real(dp) :: d(*), e(*)
         ! =====================================================================
@@ -31013,7 +31013,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: anorm, scale, sum
      
            ! .. intrinsic functions ..
@@ -31071,7 +31071,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm, uplo
-           integer(int32) :: lda, n
+           integer(ilp) :: lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*)
        ! =====================================================================
@@ -31079,7 +31079,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: absa, scale, sum, value
      
            ! .. intrinsic functions ..
@@ -31170,7 +31170,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, norm, uplo
-           integer(int32) :: k, ldab, n
+           integer(ilp) :: k, ldab, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), work(*)
        ! =====================================================================
@@ -31179,7 +31179,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: udiag
-           integer(int32) :: i, j, l
+           integer(ilp) :: i, j, l
            real(dp) :: scale, sum, value
      
            ! .. intrinsic functions ..
@@ -31366,7 +31366,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, norm, uplo
-           integer(int32) :: n
+           integer(ilp) :: n
            ! .. array arguments ..
            real(dp) :: ap(*), work(*)
        ! =====================================================================
@@ -31375,7 +31375,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: udiag
-           integer(int32) :: i, j, k
+           integer(ilp) :: i, j, k
            real(dp) :: scale, sum, value
      
            ! .. intrinsic functions ..
@@ -31575,7 +31575,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, norm, uplo
-           integer(int32) :: lda, m, n
+           integer(ilp) :: lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*)
        ! =====================================================================
@@ -31584,7 +31584,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: udiag
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: scale, sum, value
      
            ! .. intrinsic functions ..
@@ -31794,7 +31794,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*)
         ! =====================================================================
@@ -31802,7 +31802,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: iinfo, j, jb, nb
+           integer(ilp) :: iinfo, j, jb, nb
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -31906,7 +31906,7 @@ module stdlib_linalg_lapack_d
      subroutine stdlib_dlaqz1(a, lda, b, ldb, sr1, sr2, si, beta1, beta2, v)
      
            ! arguments
-           integer(int32), intent(in) :: lda, ldb
+           integer(ilp), intent(in) :: lda, ldb
            real(dp), intent(in) :: a(lda, *), b(ldb, *), sr1, sr2, si, beta1, beta2
            real(dp), intent(out) :: v(*)
            ! parameters
@@ -31960,7 +31960,7 @@ module stdlib_linalg_lapack_d
      
            ! arguments
            logical(lk), intent(in) :: ilq, ilz
-           integer(int32), intent(in) :: k, lda, ldb, ldq, ldz, istartm, istopm, nq, nz, qstart, &
+           integer(ilp), intent(in) :: k, lda, ldb, ldq, ldz, istartm, istopm, nq, nz, qstart, &
                      zstart, ihi
            real(dp) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *)
            ! parameters
@@ -32076,16 +32076,16 @@ module stdlib_linalg_lapack_d
      
            ! function arguments
            logical(lk), intent(in) :: ilschur, ilq, ilz
-           integer(int32), intent(in) :: n, ilo, ihi, lda, ldb, ldq, ldz, lwork, nshifts, &
+           integer(ilp), intent(in) :: n, ilo, ihi, lda, ldb, ldq, ldz, lwork, nshifts, &
                      nblock_desired, ldqc, ldzc
            real(dp), intent(inout) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *), qc( &
                      ldqc, *), zc(ldzc, *), work(*), sr(*), si(*), ss(*)
-           integer(int32), intent(out) :: info
+           integer(ilp), intent(out) :: info
            ! parameters
            real(dp) :: zero, one, half
            parameter(zero=0.0d0, one=1.0d0, half=0.5d0)
            ! local scalars
-           integer(int32) :: i, j, ns, istartm, istopm, sheight, swidth, k, np, istartb, istopb, &
+           integer(ilp) :: i, j, ns, istartm, istopm, sheight, swidth, k, np, istartb, istopb, &
                      ishift, nblock, npos
            real(dp) :: temp, v(3), c1, s1, c2, s2, swap
      
@@ -32353,10 +32353,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: wantnc
-           integer(int32) :: b1, bn, n, negcnt, r
+           integer(ilp) :: b1, bn, n, negcnt, r
            real(dp) :: gaptol, lambda, mingma, nrminv, pivmin, resid, rqcorr, ztz
            ! .. array arguments ..
-           integer(int32) :: isuppz(*)
+           integer(ilp) :: isuppz(*)
            real(dp) :: d(*), l(*), ld(*), lld(*), work(*)
            real(dp) :: z(*)
         ! =====================================================================
@@ -32365,7 +32365,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: sawnan1, sawnan2
-           integer(int32) :: i, indlpl, indp, inds, indumn, neg1, neg2, r1, r2
+           integer(ilp) :: i, indlpl, indp, inds, indumn, neg1, neg2, r1, r2
            real(dp) :: dminus, dplus, eps, s, tmp
      
            ! .. intrinsic functions ..
@@ -32571,7 +32571,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            real(dp) :: alpha, tau
            ! .. array arguments ..
            real(dp) :: x(*)
@@ -32580,7 +32580,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: j, knt
+           integer(ilp) :: j, knt
            real(dp) :: beta, rsafmn, safmin, xnorm
      
            ! .. intrinsic functions ..
@@ -32643,7 +32643,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, n
+           integer(ilp) :: incx, n
            real(dp) :: alpha, tau
            ! .. array arguments ..
            real(dp) :: x(*)
@@ -32652,7 +32652,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: two, one, zero
            parameter(two=2.0_dp, one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: j, knt
+           integer(ilp) :: j, knt
            real(dp) :: beta, bignum, savealpha, smlnum, xnorm
      
            ! .. intrinsic functions ..
@@ -32745,20 +32745,20 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: idist, n
+           integer(ilp) :: idist, n
            ! .. array arguments ..
-           integer(int32) :: iseed(4)
+           integer(ilp) :: iseed(4)
            real(dp) :: x(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, two
            parameter(one=1.0_dp, two=2.0_dp)
-           integer(int32) :: lv
+           integer(ilp) :: lv
            parameter(lv=128)
            real(dp) :: twopi
            parameter(twopi=6.28318530717958647692528676655900576839_dp)
            ! .. local scalars ..
-           integer(int32) :: i, il, il2, iv
+           integer(ilp) :: i, il, il2, iv
            ! .. local arrays ..
            real(dp) :: u(lv)
            ! .. intrinsic functions ..
@@ -32811,18 +32811,18 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ifirst, ilast, info, n, offset, twist
+           integer(ilp) :: ifirst, ilast, info, n, offset, twist
            real(dp) :: pivmin, rtol1, rtol2, spdiam
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: d(*), lld(*), w(*), werr(*), wgap(*), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, two, half
            parameter(zero=0.0d0, two=2.0d0, half=0.5d0)
-           integer(int32) :: maxitr
+           integer(ilp) :: maxitr
            ! .. local scalars ..
-           integer(int32) :: i, i1, ii, ip, iter, k, negcnt, next, nint, olnint, prev, r
+           integer(ilp) :: i, i1, ii, ip, iter, k, negcnt, next, nint, olnint, prev, r
            real(dp) :: back, cvrgd, gap, left, lgap, mid, mnwdth, rgap, right, tmp, width
      
            ! .. intrinsic functions ..
@@ -32990,25 +32990,25 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: order, range
-           integer(int32) :: il, info, iu, m, n, nsplit
+           integer(ilp) :: il, info, iu, m, n, nsplit
            real(dp) :: pivmin, reltol, vl, vu, wl, wu
            ! .. array arguments ..
-           integer(int32) :: iblock(*), indexw(*), isplit(*), iwork(*)
+           integer(ilp) :: iblock(*), indexw(*), isplit(*), iwork(*)
            real(dp) :: d(*), e(*), e2(*), gers(*), w(*), werr(*), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one, two, half, fudge
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0, half=one/two, fudge=two &
                      )
-           integer(int32) :: allrng, valrng, indrng
+           integer(ilp) :: allrng, valrng, indrng
            parameter(allrng=1, valrng=2, indrng=3)
            ! .. local scalars ..
            logical(lk) :: ncnvrg, toofew
-           integer(int32) :: i, ib, ibegin, idiscl, idiscu, ie, iend, iinfo, im, in, ioff, iout, &
+           integer(ilp) :: i, ib, ibegin, idiscl, idiscu, ie, iend, iinfo, im, in, ioff, iout, &
                      irange, itmax, itmp1, itmp2, iw, iwoff, j, jblk, jdisc, je, jee, nb, nwl, nwu
            real(dp) :: atoli, eps, gl, gu, rtoli, tmp1, tmp2, tnorm, uflow, wkill, wlu, wul
            ! .. local arrays ..
-           integer(int32) :: idumma(1)
+           integer(ilp) :: idumma(1)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, int, log, max, min
@@ -33448,7 +33448,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: clstrt, clend, info, n
+           integer(ilp) :: clstrt, clend, info, n
            real(dp) :: clgapl, clgapr, pivmin, sigma, spdiam
            ! .. array arguments ..
            real(dp) :: d(*), dplus(*), l(*), ld(*), lplus(*), w(*), wgap(*), werr(* &
@@ -33460,7 +33460,7 @@ module stdlib_linalg_lapack_d
                      =8.d0, maxgrowth2=8.d0)
            ! .. local scalars ..
            logical(lk) :: dorrr1, forcer, nofail, sawnan1, sawnan2, tryrrr1
-           integer(int32) :: i, indx, ktry, ktrymax, sleft, sright, shift
+           integer(ilp) :: i, indx, ktry, ktrymax, sleft, sright, shift
            parameter(ktrymax=1, sleft=1, sright=2)
            real(dp) :: avgap, bestshift, clwdth, eps, fact, fail, fail2, growthbound, ldelta, &
            ldmax, lsigma, max1, max2, mingap, oldp, prod, rdelta, rdmax, rrr1, rrr2, rsigma, s, &
@@ -33701,23 +33701,23 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: dol, dou, info, ldz, m, n
+           integer(ilp) :: dol, dou, info, ldz, m, n
            real(dp) :: minrgp, pivmin, rtol1, rtol2, vl, vu
            ! .. array arguments ..
-           integer(int32) :: iblock(*), indexw(*), isplit(*), isuppz(*), iwork(*)
+           integer(ilp) :: iblock(*), indexw(*), isplit(*), isuppz(*), iwork(*)
            real(dp) :: d(*), gers(*), l(*), w(*), werr(*), wgap(*), work(*)
            real(dp) :: z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: maxitr
+           integer(ilp) :: maxitr
            parameter(maxitr=10)
            real(dp) :: zero, one, two, three, four, half
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0, three=3.0d0, four=4.0d0, &
                       half=0.5d0)
            ! .. local scalars ..
            logical(lk) :: eskip, needbs, stp2ii, tryrqc, usedbs, usedrq
-           integer(int32) :: done, i, ibegin, idone, iend, ii, iindc1, iindc2, iindr, iindwk, &
-           iinfo, im, in, indeig, indld, indlld, indwrk, isupmn, isupmx, iter, itmp1, j, jblk, k, &
+           integer(ilp) :: done, i, ibegin, idone, iend, ii, iindc1, iindc2, iindr, iindwk, iinfo, &
+           im, in, indeig, indld, indlld, indwrk, isupmn, isupmx, iter, itmp1, j, jblk, k, &
            miniwsize, minwsize, nclus, ndepth, negcnt, newcls, newfst, newftt, newlst, newsiz, &
            offset, oldcls, oldfst, oldien, oldlst, oldncl, p, parity, q, wbegin, wend, windex, &
                      windmn, windpl, zfrom, zto, zusedl, zusedu, zusedw
@@ -34333,7 +34333,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: type
-           integer(int32) :: info, kl, ku, lda, m, n
+           integer(ilp) :: info, kl, ku, lda, m, n
            real(dp) :: cfrom, cto
            ! .. array arguments ..
            real(dp) :: a(lda, *)
@@ -34343,7 +34343,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: done
-           integer(int32) :: i, itype, j, k1, k2, k3, k4
+           integer(ilp) :: i, itype, j, k1, k2, k3, k4
            real(dp) :: bignum, cfrom1, cfromc, cto1, ctoc, mul, smlnum
      
            ! .. intrinsic functions ..
@@ -34512,20 +34512,20 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: i, info, n
+           integer(ilp) :: i, info, n
            real(dp) :: rho, sigma
            ! .. array arguments ..
            real(dp) :: d(*), delta(*), work(*), z(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: maxit
+           integer(ilp) :: maxit
            parameter(maxit=400)
            real(dp) :: zero, one, two, three, four, eight, ten
            parameter(zero=0.0_dp, one=1.0_dp, two=2.0_dp, three=3.0_dp, four= &
                      4.0_dp, eight=8.0_dp, ten=10.0_dp)
            ! .. local scalars ..
            logical(lk) :: orgati, swtch, swtch3, geomavg
-           integer(int32) :: ii, iim1, iip1, ip1, iter, j, niter
+           integer(ilp) :: ii, iim1, iip1, ip1, iter, j, niter
            real(dp) :: a, b, c, delsq, delsq2, sq2, dphi, dpsi, dtiim, dtiip, dtipsq, dtisq, dtnsq, &
             dtnsq1, dw, eps, erretm, eta, phi, prew, psi, rhoinv, sglb, sgub, tau, tau2, temp, &
                       temp1, temp2, w
@@ -35238,10 +35238,10 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: givptr, icompq, info, k, ldgcol, ldgnum, nl, nr, sqre
+           integer(ilp) :: givptr, icompq, info, k, ldgcol, ldgnum, nl, nr, sqre
            real(dp) :: alpha, beta, c, s
            ! .. array arguments ..
-           integer(int32) :: givcol(ldgcol, *), idx(*), idxp(*), idxq(*), perm(*)
+           integer(ilp) :: givcol(ldgcol, *), idx(*), idxp(*), idxq(*), perm(*)
            real(dp) :: d(*), dsigma(*), givnum(ldgnum, *), vf(*), vfw(*), vl(*), vlw( &
                      *), z(*), zw(*)
         ! =====================================================================
@@ -35249,7 +35249,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one, two, eight
            parameter(zero=0.0_dp, one=1.0_dp, two=2.0_dp, eight=8.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, idxi, idxj, idxjp, j, jp, jprev, k2, m, n, nlp1, nlp2
+           integer(ilp) :: i, idxi, idxj, idxjp, j, jp, jprev, k2, m, n, nlp1, nlp2
            real(dp) :: eps, hlftol, tau, tol, z1
      
            ! .. intrinsic functions ..
@@ -35476,7 +35476,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: icompq, info, k, lddifr
+           integer(ilp) :: icompq, info, k, lddifr
            ! .. array arguments ..
            real(dp) :: d(*), difl(*), difr(lddifr, *), dsigma(*), vf(*), vl(*), work( &
                      *), z(*)
@@ -35485,7 +35485,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, iwk1, iwk2, iwk2i, iwk3, iwk3i, j
+           integer(ilp) :: i, iwk1, iwk2, iwk2i, iwk3, iwk3i, j
            real(dp) :: diflj, difrj, dj, dsigj, dsigjp, rho, temp
      
            ! .. intrinsic functions ..
@@ -35612,7 +35612,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: ieee
-           integer(int32) :: i0, iter, n0, ndiv, nfail, pp
+           integer(ilp) :: i0, iter, n0, ndiv, nfail, pp
            real(dp) :: desig, dmin, dmin1, dmin2, dn, dn1, dn2, g, qmax, sigma, tau
            ! .. array arguments ..
            real(dp) :: z(*)
@@ -35624,7 +35624,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, qurtr=0.250d0, half=0.5d0, one=1.0d0, two= &
                      2.0d0, hundrd=100.0d0)
            ! .. local scalars ..
-           integer(int32) :: ipn4, j4, n0in, nn, ttype
+           integer(ilp) :: ipn4, j4, n0in, nn, ttype
            real(dp) :: eps, s, t, temp, tol, tol2
      
            ! .. intrinsic functions ..
@@ -35784,22 +35784,22 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ijob, ldz, n
+           integer(ilp) :: ijob, ldz, n
            real(dp) :: rdscal, rdsum
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), jpiv(*)
+           integer(ilp) :: ipiv(*), jpiv(*)
            real(dp) :: rhs(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: maxdim
+           integer(ilp) :: maxdim
            parameter(maxdim=8)
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, info, j, k
+           integer(ilp) :: i, info, j, k
            real(dp) :: bm, bp, pmone, sminu, splus, temp
            ! .. local arrays ..
-           integer(int32) :: iwork(maxdim)
+           integer(ilp) :: iwork(maxdim)
            real(dp) :: work(4*maxdim), xm(maxdim), xp(maxdim)
      
            ! .. intrinsic functions ..
@@ -35899,7 +35899,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: lda, ldw, n, nb
+           integer(ilp) :: lda, ldw, n, nb
            ! .. array arguments ..
            real(dp) :: a(lda, *), e(*), tau(*), w(ldw, *)
         ! =====================================================================
@@ -35907,7 +35907,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one, half
            parameter(zero=0.0_dp, one=1.0_dp, half=0.5_dp)
            ! .. local scalars ..
-           integer(int32) :: i, iw
+           integer(ilp) :: i, iw
            real(dp) :: alpha
      
            ! .. intrinsic functions ..
@@ -35998,7 +35998,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: l, lda, m, n
+           integer(ilp) :: l, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -36006,7 +36006,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero
            parameter(zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
      
            ! .. executable statements ..
            ! test the input arguments
@@ -36055,7 +36055,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: signs, trans
-           integer(int32) :: info, ldx11, ldx12, ldx21, ldx22, lwork, m, p, q
+           integer(ilp) :: info, ldx11, ldx12, ldx21, ldx22, lwork, m, p, q
            ! .. array arguments ..
            real(dp) :: phi(*), theta(*)
            real(dp) :: taup1(*), taup2(*), tauq1(*), tauq2(*), work(*), x11(ldx11, *), &
@@ -36068,7 +36068,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: colmajor, lquery
-           integer(int32) :: i, lworkmin, lworkopt
+           integer(ilp) :: i, lworkmin, lworkopt
            real(dp) :: z1, z2, z3, z4
      
            ! .. intrinsic functions
@@ -36378,7 +36378,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx1, incx2, info, ldq1, ldq2, lwork, m1, m2, n
+           integer(ilp) :: incx1, incx2, info, ldq1, ldq2, lwork, m1, m2, n
            ! .. array arguments ..
            real(dp) :: q1(ldq1, *), q2(ldq2, *), work(*), x1(*), x2(*)
         ! =====================================================================
@@ -36386,7 +36386,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0d0, zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: childinfo, i, j
+           integer(ilp) :: childinfo, i, j
      
            ! .. intrinsic function ..
            intrinsic :: max
@@ -36482,10 +36482,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobu1, jobu2, jobv1t, jobv2t, signs, trans
-           integer(int32) :: info, ldu1, ldu2, ldv1t, ldv2t, ldx11, ldx12, ldx21, ldx22, lwork, m, &
-                     p, q
+           integer(ilp) :: info, ldu1, ldu2, ldv1t, ldv2t, ldx11, ldx12, ldx21, ldx22, lwork, m, p, &
+                      q
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: theta(*)
            real(dp) :: u1(ldu1, *), u2(ldu2, *), v1t(ldv1t, *), v2t(ldv2t, *), work(*), &
                      x11(ldx11, *), x12(ldx12, *), x21(ldx21, *), x22(ldx22, *)
@@ -36495,7 +36495,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0d0, zero=0.0d0)
            ! .. local scalars ..
            character :: transt, signst
-           integer(int32) :: childinfo, i, ib11d, ib11e, ib12d, ib12e, ib21d, ib21e, ib22d, ib22e, &
+           integer(ilp) :: childinfo, i, ib11d, ib11e, ib12d, ib12e, ib21d, ib21e, ib22d, ib22e, &
            ibbcsd, iorbdb, iorglq, iorgqr, iphi, itaup1, itaup2, itauq1, itauq2, j, lbbcsdwork, &
            lbbcsdworkmin, lbbcsdworkopt, lorbdbwork, lorbdbworkmin, lorbdbworkopt, lorglqwork, &
            lorglqworkmin, lorglqworkopt, lorgqrwork, lorgqrworkmin, lorgqrworkopt, lworkmin, &
@@ -36745,7 +36745,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihi, ilo, info, lda, lwork, n
+           integer(ilp) :: ihi, ilo, info, lda, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -36754,7 +36754,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, iinfo, j, lwkopt, nb, nh
+           integer(ilp) :: i, iinfo, j, lwkopt, nb, nh
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -36842,7 +36842,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldt, m, n, nb
+           integer(ilp) :: info, lda, ldt, m, n, nb
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), t(ldt, *)
         ! =====================================================================
@@ -36850,7 +36850,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, iinfo, j, jb, jbtemp1, jbtemp2, jnb, nplusone
+           integer(ilp) :: i, iinfo, j, jb, jbtemp1, jbtemp2, jnb, nplusone
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -36982,13 +36982,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: ihi, ilo, info, lda, ldc, lwork, m, n
+           integer(ilp) :: ihi, ilo, info, lda, ldc, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, lquery
-           integer(int32) :: i1, i2, iinfo, lwkopt, mi, nb, nh, ni, nq, nw
+           integer(ilp) :: i1, i2, iinfo, lwkopt, mi, nb, nh, ni, nq, nw
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -37076,10 +37076,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kd, ldab, n
+           integer(ilp) :: info, kd, ldab, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -37088,10 +37088,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: upper
            character :: normin
-           integer(int32) :: ix, kase
+           integer(ilp) :: ix, kase
            real(dp) :: ainvnm, scale, scalel, scaleu, smlnum
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs
@@ -37174,14 +37174,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kd, ldab, ldafb, ldb, ldx, n, nrhs
+           integer(ilp) :: info, kd, ldab, ldafb, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), afb(ldafb, *), b(ldb, *), berr(*), ferr(*), work(*) &
                      , x(ldx, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero
            parameter(zero=0.0_dp)
@@ -37193,10 +37193,10 @@ module stdlib_linalg_lapack_d
            parameter(three=3.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: count, i, j, k, kase, l, nz
+           integer(ilp) :: count, i, j, k, kase, l, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min
@@ -37371,7 +37371,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: transr, uplo
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: a(0:*), b(ldb, *)
         ! =====================================================================
@@ -37429,10 +37429,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -37441,10 +37441,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: upper
            character :: normin
-           integer(int32) :: ix, kase
+           integer(ilp) :: ix, kase
            real(dp) :: ainvnm, scale, scalel, scaleu, smlnum
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -37525,14 +37525,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldaf, ldb, ldx, n, nrhs
+           integer(ilp) :: info, lda, ldaf, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), af(ldaf, *), b(ldb, *), berr(*), ferr(*), work(*), x( &
                       ldx, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero
            parameter(zero=0.0_dp)
@@ -37544,10 +37544,10 @@ module stdlib_linalg_lapack_d
            parameter(three=3.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: count, i, j, k, kase, nz
+           integer(ilp) :: count, i, j, k, kase, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -37721,7 +37721,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -37730,7 +37730,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j
+           integer(ilp) :: j
            real(dp) :: ajj
      
            ! .. intrinsic functions ..
@@ -37817,7 +37817,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -37826,7 +37826,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: n1, n2, iinfo
+           integer(ilp) :: n1, n2, iinfo
      
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
@@ -37908,7 +37908,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -37953,10 +37953,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ap(*), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -37965,10 +37965,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: upper
            character :: normin
-           integer(int32) :: ix, kase
+           integer(ilp) :: ix, kase
            real(dp) :: ainvnm, scale, scalel, scaleu, smlnum
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs
@@ -38047,14 +38047,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldb, ldx, n, nrhs
+           integer(ilp) :: info, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: afp(*), ap(*), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
                      
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero
            parameter(zero=0.0_dp)
@@ -38066,10 +38066,10 @@ module stdlib_linalg_lapack_d
            parameter(three=3.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: count, i, ik, j, k, kase, kk, nz
+           integer(ilp) :: count, i, ik, j, k, kase, kk, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -38249,7 +38249,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: ap(*), b(ldb, *)
         ! =====================================================================
@@ -38297,10 +38297,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed, fact, uplo
-           integer(int32) :: info, ldb, ldx, n, nrhs
+           integer(ilp) :: info, ldb, ldx, n, nrhs
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: afp(*), ap(*), b(ldb, *), berr(*), ferr(*), s(*), work(*), x( &
                      ldx, *)
         ! =====================================================================
@@ -38309,7 +38309,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: equil, nofact, rcequ
-           integer(int32) :: i, infequ, j
+           integer(ilp) :: i, infequ, j
            real(dp) :: amax, anorm, bignum, scond, smax, smin, smlnum
      
            ! .. intrinsic functions ..
@@ -38433,7 +38433,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: ap(*)
         ! =====================================================================
@@ -38442,7 +38442,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, jc, jj, jjn
+           integer(ilp) :: j, jc, jj, jjn
            real(dp) :: ajj
      
            ! .. executable statements ..
@@ -38504,18 +38504,18 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: tol
-           integer(int32) :: info, lda, n, rank
+           integer(ilp) :: info, lda, n, rank
            character :: uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(2*n)
-           integer(int32) :: piv(n)
+           integer(ilp) :: piv(n)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: ajj, dstop, dtemp
-           integer(int32) :: i, itemp, j, pvt
+           integer(ilp) :: i, itemp, j, pvt
            logical(lk) :: upper
      
            ! .. intrinsic functions ..
@@ -38681,12 +38681,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: b(ldb, *), d(*), e(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: j, jb, nb
+           integer(ilp) :: j, jb, nb
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -38736,7 +38736,7 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            character :: uplo
            logical(lk) :: wantz
-           integer(int32) :: ttype, st, ed, sweep, n, nb, ib, lda, ldvt
+           integer(ilp) :: ttype, st, ed, sweep, n, nb, ib, lda, ldvt
            ! .. array arguments ..
            real(dp) :: a(lda, *), v(*), tau(*), work(*)
         ! =====================================================================
@@ -38745,7 +38745,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, j1, j2, lm, ln, vpos, taupos, dpos, ofdpos, ajeter
+           integer(ilp) :: i, j1, j2, lm, ln, vpos, taupos, dpos, ofdpos, ajeter
            real(dp) :: ctmp
      
            ! .. intrinsic functions ..
@@ -38886,10 +38886,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: ap(*), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -38897,10 +38897,10 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, ip, kase
+           integer(ilp) :: i, ip, kase
            real(dp) :: ainvnm
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -38968,14 +38968,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldb, ldx, n, nrhs
+           integer(ilp) :: info, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: afp(*), ap(*), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
                      
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero
            parameter(zero=0.0_dp)
@@ -38987,10 +38987,10 @@ module stdlib_linalg_lapack_d
            parameter(three=3.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: count, i, ik, j, k, kase, kk, nz
+           integer(ilp) :: count, i, ik, j, k, kase, kk, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -39171,9 +39171,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: ap(*), b(ldb, *)
         ! =====================================================================
      
@@ -39219,10 +39219,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: fact, uplo
-           integer(int32) :: info, ldb, ldx, n, nrhs
+           integer(ilp) :: info, ldb, ldx, n, nrhs
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: afp(*), ap(*), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
                      
         ! =====================================================================
@@ -39294,7 +39294,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: ap(*), d(*), e(*), tau(*)
         ! =====================================================================
@@ -39303,7 +39303,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0d0, zero=0.0d0, half=1.0d0/2.0d0)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, i1, i1i1, ii
+           integer(ilp) :: i, i1, i1i1, ii
            real(dp) :: alpha, taui
      
            ! .. executable statements ..
@@ -39395,24 +39395,24 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, ldz, m, n
+           integer(ilp) :: info, ldz, m, n
            ! .. array arguments ..
-           integer(int32) :: iblock(*), ifail(*), isplit(*), iwork(*)
+           integer(ilp) :: iblock(*), ifail(*), isplit(*), iwork(*)
            real(dp) :: d(*), e(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one, ten, odm3, odm1
            parameter(zero=0.0_dp, one=1.0_dp, ten=1.0d+1, odm3=1.0d-3, odm1= &
                      1.0d-1)
-           integer(int32) :: maxits, extra
+           integer(ilp) :: maxits, extra
            parameter(maxits=5, extra=2)
            ! .. local scalars ..
-           integer(int32) :: b1, blksiz, bn, gpind, i, iinfo, indrv1, indrv2, indrv3, indrv4, &
-                     indrv5, its, j, j1, jblk, jmax, nblk, nrmchk
+           integer(ilp) :: b1, blksiz, bn, gpind, i, iinfo, indrv1, indrv2, indrv3, indrv4, indrv5, &
+                      its, j, j1, jblk, jmax, nblk, nrmchk
            real(dp) :: dtpcrt, eps, eps1, nrm, onenrm, ortol, pertol, scl, sep, tol, xj, xjm, &
                      ztr
            ! .. local arrays ..
-           integer(int32) :: iseed(4)
+           integer(ilp) :: iseed(4)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max, sqrt
@@ -39591,18 +39591,18 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: compz
-           integer(int32) :: info, ldz, n
+           integer(ilp) :: info, ldz, n
            ! .. array arguments ..
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one, two, three
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0, three=3.0d0)
-           integer(int32) :: maxit
+           integer(ilp) :: maxit
            parameter(maxit=30)
            ! .. local scalars ..
-           integer(int32) :: i, icompz, ii, iscale, j, jtot, k, l, l1, lend, lendm1, lendp1, &
-                     lendsv, lm1, lsv, m, mm, mm1, nm1, nmaxit
+           integer(ilp) :: i, icompz, ii, iscale, j, jtot, k, l, l1, lend, lendm1, lendp1, lendsv, &
+                     lm1, lsv, m, mm, mm1, nm1, nmaxit
            real(dp) :: anorm, b, c, eps, eps2, f, g, p, r, rt1, rt2, s, safmax, safmin, ssfmax, &
                      ssfmin, tst
      
@@ -39905,17 +39905,17 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: d(*), e(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one, two, three
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0, three=3.0d0)
-           integer(int32) :: maxit
+           integer(ilp) :: maxit
            parameter(maxit=30)
            ! .. local scalars ..
-           integer(int32) :: i, iscale, jtot, l, l1, lend, lendsv, lsv, m, nmaxit
+           integer(ilp) :: i, iscale, jtot, l, l1, lend, lendsv, lsv, m, nmaxit
            real(dp) :: alpha, anorm, bb, c, eps, eps2, gamma, oldc, oldgam, p, r, rt1, rt2, rte, s, &
                       safmax, safmin, sigma, ssfmax, ssfmin, rmax
      
@@ -40143,7 +40143,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz
-           integer(int32) :: info, ldz, n
+           integer(ilp) :: info, ldz, n
            ! .. array arguments ..
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
@@ -40152,7 +40152,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: wantz
-           integer(int32) :: imax, iscale
+           integer(ilp) :: imax, iscale
            real(dp) :: bignum, eps, rmax, rmin, safmin, sigma, smlnum, tnrm
      
            ! .. intrinsic functions ..
@@ -40231,10 +40231,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range
-           integer(int32) :: il, info, iu, ldz, m, n
+           integer(ilp) :: il, info, iu, ldz, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: ifail(*), iwork(*)
+           integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: d(*), e(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
@@ -40243,7 +40243,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, test, valeig, wantz
            character :: order
-           integer(int32) :: i, imax, indibl, indisp, indiwo, indwrk, iscale, itmp1, j, jj, &
+           integer(ilp) :: i, imax, indibl, indisp, indiwo, indwrk, iscale, itmp1, j, jj, &
                      nsplit
            real(dp) :: bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, tnrm, vll, vuu
      
@@ -40426,10 +40426,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -40437,10 +40437,10 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, kase
+           integer(ilp) :: i, kase
            real(dp) :: ainvnm
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -40509,10 +40509,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -40520,10 +40520,10 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, kase
+           integer(ilp) :: i, kase
            real(dp) :: ainvnm
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -40590,14 +40590,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldaf, ldb, ldx, n, nrhs
+           integer(ilp) :: info, lda, ldaf, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: a(lda, *), af(ldaf, *), b(ldb, *), berr(*), ferr(*), work(*), x( &
                       ldx, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero
            parameter(zero=0.0_dp)
@@ -40609,10 +40609,10 @@ module stdlib_linalg_lapack_d
            parameter(three=3.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: count, i, j, k, kase, nz
+           integer(ilp) :: count, i, j, k, kase, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -40794,14 +40794,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, lwork, n, nrhs
+           integer(ilp) :: info, lda, ldb, lwork, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *), e(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: lwkopt
+           integer(ilp) :: lwkopt
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -40872,14 +40872,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, lwork, n, nrhs
+           integer(ilp) :: info, lda, ldb, lwork, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: lwkopt
+           integer(ilp) :: lwkopt
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -40936,7 +40936,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), e(*), tau(*)
         ! =====================================================================
@@ -40945,7 +40945,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0d0, zero=0.0d0, half=1.0d0/2.0d0)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: alpha, taui
      
            ! .. intrinsic functions ..
@@ -41037,9 +41037,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
@@ -41049,7 +41049,7 @@ module stdlib_linalg_lapack_d
            parameter(eight=8.0_dp, sevten=17.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, imax, j, jmax, k, kk, kp, kstep
+           integer(ilp) :: i, imax, j, jmax, k, kk, kp, kstep
            real(dp) :: absakk, alpha, colmax, d11, d12, d21, d22, r1, rowmax, t, wk, wkm1, &
                      wkp1
      
@@ -41320,7 +41320,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, lwork, n
+           integer(ilp) :: info, lda, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), e(*), tau(*), work(*)
         ! =====================================================================
@@ -41329,7 +41329,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, upper
-           integer(int32) :: i, iinfo, iws, j, kk, ldwork, lwkopt, nb, nbmin, nx
+           integer(ilp) :: i, iinfo, iws, j, kk, ldwork, lwkopt, nb, nbmin, nx
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -41453,7 +41453,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: stage1, uplo, vect
-           integer(int32) :: n, kd, ldab, lhous, lwork, info
+           integer(ilp) :: n, kd, ldab, lhous, lwork, info
            ! .. array arguments ..
            real(dp) :: d(*), e(*)
            real(dp) :: ab(ldab, *), hous(*), work(*)
@@ -41464,7 +41464,7 @@ module stdlib_linalg_lapack_d
            parameter(rzero=0.0_dp, zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, wantq, upper, afters1
-           integer(int32) :: i, m, k, ib, sweepid, myid, shift, stt, st, ed, stind, edind, &
+           integer(ilp) :: i, m, k, ib, sweepid, myid, shift, stt, st, ed, stind, edind, &
            blklastind, colpt, thed, stepercol, grsiz, thgrsiz, thgrnb, thgrid, nbtiles, ttype, tid, &
            nthreads, debug, abdpos, abofdpos, dpos, ofdpos, awpos, inda, indw, apos, sizea, lda, &
                      indv, indtau, sidev, sizetau, ldv, lhmin, lwmin
@@ -41714,14 +41714,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, lwork, n
+           integer(ilp) :: info, lda, lwork, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery, upper
-           integer(int32) :: iinfo, iws, j, k, kb, ldwork, lwkopt, nb, nbmin
+           integer(ilp) :: iinfo, iws, j, k, kb, ldwork, lwkopt, nb, nbmin
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -41840,10 +41840,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, norm, uplo
-           integer(int32) :: info, kd, ldab, n
+           integer(ilp) :: info, kd, ldab, n
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -41852,10 +41852,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: nounit, onenrm, upper
            character :: normin
-           integer(int32) :: ix, kase, kase1
+           integer(ilp) :: ix, kase, kase1
            real(dp) :: ainvnm, anorm, scale, smlnum, xnorm
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, dble, max
@@ -41942,7 +41942,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: transr, uplo, diag
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: a(0:*)
         ! =====================================================================
@@ -41951,7 +41951,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
-           integer(int32) :: n1, n2, k
+           integer(ilp) :: n1, n2, k
      
            ! .. intrinsic functions ..
            intrinsic :: mod
@@ -42154,27 +42154,27 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: ijob, info, lda, ldb, ldc, ldd, lde, ldf, m, n, pq
+           integer(ilp) :: ijob, info, lda, ldb, ldc, ldd, lde, ldf, m, n, pq
            real(dp) :: rdscal, rdsum, scale
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), c(ldc, *), d(ldd, *), e(lde, *), f(ldf, *)
                      
         ! =====================================================================
         ! replaced various illegal calls to stdlib_dcopy by calls to stdlib_dlaset.
         ! sven hammarling, 27/5/02.
            ! .. parameters ..
-           integer(int32) :: ldz
+           integer(ilp) :: ldz
            parameter(ldz=8)
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: notran
-           integer(int32) :: i, ie, ierr, ii, is, isp1, j, je, jj, js, jsp1, k, mb, nb, p, q, &
+           integer(ilp) :: i, ie, ierr, ii, is, isp1, j, je, jj, js, jsp1, k, mb, nb, p, q, &
                      zdim
            real(dp) :: alpha, scaloc
            ! .. local arrays ..
-           integer(int32) :: ipiv(ldz), jpiv(ldz)
+           integer(ilp) :: ipiv(ldz), jpiv(ldz)
            real(dp) :: rhs(ldz), z(ldz, ldz)
      
            ! .. intrinsic functions ..
@@ -42795,10 +42795,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: ijob, info, lda, ldb, ldc, ldd, lde, ldf, lwork, m, n
+           integer(ilp) :: ijob, info, lda, ldb, ldc, ldd, lde, ldf, lwork, m, n
            real(dp) :: dif, scale
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), c(ldc, *), d(ldd, *), e(lde, *), f(ldf, *) &
                      , work(*)
         ! =====================================================================
@@ -42809,8 +42809,8 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, notran
-           integer(int32) :: i, ie, ifunc, iround, is, isolve, j, je, js, k, linfo, lwmin, mb, nb, &
-                     p, ppqq, pq, q
+           integer(ilp) :: i, ie, ifunc, iround, is, isolve, j, je, js, k, linfo, lwmin, mb, nb, p, &
+                      ppqq, pq, q
            real(dp) :: dscale, dsum, scale2, scaloc
      
            ! .. intrinsic functions ..
@@ -43103,10 +43103,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, norm, uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ap(*), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -43115,10 +43115,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: nounit, onenrm, upper
            character :: normin
-           integer(int32) :: ix, kase, kase1
+           integer(ilp) :: ix, kase, kase1
            real(dp) :: ainvnm, anorm, scale, smlnum, xnorm
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, dble, max
@@ -43200,7 +43200,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, ldt, n, m, l
+           integer(ilp) :: info, lda, ldb, ldt, n, m, l
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *)
         ! =====================================================================
@@ -43208,7 +43208,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0, zero=0.0)
            ! .. local scalars ..
-           integer(int32) :: i, j, p, mp, np
+           integer(ilp) :: i, j, p, mp, np
            real(dp) :: alpha
      
            ! .. intrinsic functions ..
@@ -43301,13 +43301,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, ldv, lda, ldb, m, n, l, mb, ldt
+           integer(ilp) :: info, k, ldv, lda, ldb, m, n, l, mb, ldt
            ! .. array arguments ..
            real(dp) :: v(ldv, *), a(lda, *), b(ldb, *), t(ldt, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran
-           integer(int32) :: i, ib, nb, lb, kf, ldaq
+           integer(ilp) :: i, ib, nb, lb, kf, ldaq
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -43418,13 +43418,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, k, ldv, lda, ldb, m, n, l, nb, ldt
+           integer(ilp) :: info, k, ldv, lda, ldb, m, n, l, nb, ldt
            ! .. array arguments ..
            real(dp) :: v(ldv, *), a(lda, *), b(ldb, *), t(ldt, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran
-           integer(int32) :: i, ib, mb, lb, kf, ldaq, ldvq
+           integer(ilp) :: i, ib, mb, lb, kf, ldaq, ldvq
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -43535,7 +43535,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, ldt, n, m, l
+           integer(ilp) :: info, lda, ldb, ldt, n, m, l
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *)
         ! =====================================================================
@@ -43543,7 +43543,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0, zero=0.0)
            ! .. local scalars ..
-           integer(int32) :: i, j, p, mp, np
+           integer(ilp) :: i, j, p, mp, np
            real(dp) :: alpha
      
            ! .. intrinsic functions ..
@@ -43632,10 +43632,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: diag, norm, uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -43644,10 +43644,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: nounit, onenrm, upper
            character :: normin
-           integer(int32) :: ix, kase, kase1
+           integer(ilp) :: ix, kase, kase1
            real(dp) :: ainvnm, anorm, scale, smlnum, xnorm
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, dble, max
@@ -43736,9 +43736,9 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, kl, ku, ldab, ldb, n, nrhs
+           integer(ilp) :: info, kl, ku, ldab, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: ab(ldab, *), b(ldb, *)
         ! =====================================================================
      
@@ -43789,10 +43789,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed, fact, trans
-           integer(int32) :: info, kl, ku, ldab, ldafb, ldb, ldx, n, nrhs
+           integer(ilp) :: info, kl, ku, ldab, ldafb, ldb, ldx, n, nrhs
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: ab(ldab, *), afb(ldafb, *), b(ldb, *), berr(*), c(*), ferr(*), &
                      r(*), work(*), x(ldx, *)
         ! =====================================================================
@@ -43802,7 +43802,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: colequ, equil, nofact, notran, rowequ
            character :: norm
-           integer(int32) :: i, infequ, j, j1, j2
+           integer(ilp) :: i, infequ, j, j1, j2
            real(dp) :: amax, anorm, bignum, colcnd, rcmax, rcmin, rowcnd, rpvgrw, smlnum
      
            ! .. intrinsic functions ..
@@ -44014,7 +44014,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: job
-           integer(int32) :: ihi, ilo, info, lda, n
+           integer(ilp) :: ihi, ilo, info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), scale(*)
         ! =====================================================================
@@ -44027,7 +44027,7 @@ module stdlib_linalg_lapack_d
            parameter(factor=0.95_dp)
            ! .. local scalars ..
            logical(lk) :: noconv
-           integer(int32) :: i, ica, iexc, ira, j, k, l, m
+           integer(ilp) :: i, ica, iexc, ira, j, k, l, m
            real(dp) :: c, ca, f, g, r, ra, s, sfmax1, sfmax2, sfmin1, sfmin2
      
            ! .. intrinsic functions ..
@@ -44177,7 +44177,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), e(*), taup(*), tauq(*), work(*)
         ! =====================================================================
@@ -44185,7 +44185,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -44270,7 +44270,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihi, ilo, info, lda, n
+           integer(ilp) :: ihi, ilo, info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -44278,7 +44278,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -44328,7 +44328,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -44336,7 +44336,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, k
+           integer(ilp) :: i, k
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -44384,13 +44384,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, lwork, m, n
+           integer(ilp) :: info, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iinfo, iws, k, ldwork, lwkopt, nb, nbmin, nx
+           integer(ilp) :: i, ib, iinfo, iws, k, ldwork, lwkopt, nb, nbmin, nx
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -44481,7 +44481,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n, ldt
+           integer(ilp) :: info, lda, m, n, ldt
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *)
         ! =====================================================================
@@ -44489,7 +44489,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, i1, j, j1, m1, m2, iinfo
+           integer(ilp) :: i, i1, j, j1, m1, m2, iinfo
      
            ! .. executable statements ..
            info = 0
@@ -44568,7 +44568,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -44576,7 +44576,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, k
+           integer(ilp) :: i, k
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -44619,13 +44619,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, lwork, m, n
+           integer(ilp) :: info, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iinfo, iws, k, ki, kk, ldwork, lwkopt, mu, nb, nbmin, nu, &
+           integer(ilp) :: i, ib, iinfo, iws, k, ki, kk, ldwork, lwkopt, mu, nb, nbmin, nu, &
                      nx
      
            ! .. intrinsic functions ..
@@ -44732,7 +44732,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -44740,7 +44740,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, k
+           integer(ilp) :: i, k
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -44790,7 +44790,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -44798,7 +44798,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, k
+           integer(ilp) :: i, k
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -44847,13 +44847,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, lwork, m, n
+           integer(ilp) :: info, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iinfo, iws, k, ldwork, lwkopt, nb, nbmin, nx
+           integer(ilp) :: i, ib, iinfo, iws, k, ldwork, lwkopt, nb, nbmin, nx
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -44952,13 +44952,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, lwork, m, n
+           integer(ilp) :: info, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iinfo, iws, k, ldwork, lwkopt, nb, nbmin, nx
+           integer(ilp) :: i, ib, iinfo, iws, k, ldwork, lwkopt, nb, nbmin, nx
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -45047,7 +45047,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldt, m, n
+           integer(ilp) :: info, lda, ldt, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *)
         ! =====================================================================
@@ -45055,7 +45055,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, k
+           integer(ilp) :: i, k
            real(dp) :: aii, alpha
      
            ! .. executable statements ..
@@ -45119,7 +45119,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n, ldt
+           integer(ilp) :: info, lda, m, n, ldt
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *)
         ! =====================================================================
@@ -45127,7 +45127,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, i1, j, j1, n1, n2, iinfo
+           integer(ilp) :: i, i1, j, j1, n1, n2, iinfo
      
            ! .. executable statements ..
            info = 0
@@ -45207,14 +45207,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: info, lda, ldaf, ldb, ldx, n, nrhs
+           integer(ilp) :: info, lda, ldaf, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: a(lda, *), af(ldaf, *), b(ldb, *), berr(*), ferr(*), work(*), x( &
                       ldx, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero
            parameter(zero=0.0_dp)
@@ -45227,10 +45227,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: notran
            character :: transt
-           integer(int32) :: count, i, j, k, kase, nz
+           integer(ilp) :: count, i, j, k, kase, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin, xk
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -45401,7 +45401,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -45409,7 +45409,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, k
+           integer(ilp) :: i, k
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -45452,13 +45452,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, lwork, m, n
+           integer(ilp) :: info, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iinfo, iws, k, ki, kk, ldwork, lwkopt, mu, nb, nbmin, nu, &
+           integer(ilp) :: i, ib, iinfo, iws, k, ki, kk, ldwork, lwkopt, mu, nb, nbmin, nu, &
                      nx
      
            ! .. intrinsic functions ..
@@ -45566,16 +45566,16 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n
+           integer(ilp) :: info, lda, m, n
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one
            parameter(one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, iinfo, j, jb, nb
+           integer(ilp) :: i, iinfo, j, jb, nb
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -45667,7 +45667,7 @@ module stdlib_linalg_lapack_d
      
            ! .. scalar arguments ..
            character :: compq, compz
-           integer(int32) :: ihi, ilo, info, lda, ldb, ldq, ldz, n, lwork
+           integer(ilp) :: ihi, ilo, info, lda, ldb, ldq, ldz, n, lwork
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *), work(*)
        ! =====================================================================
@@ -45677,8 +45677,8 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: blk22, initq, initz, lquery, wantq, wantz
            character*1 compq2, compz2
-           integer(int32) :: cola, i, ierr, j, j0, jcol, jj, jrow, k, kacc22, len, lwkopt, n2nb, &
-                     nb, nblst, nbmin, nh, nnb, nx, ppw, ppwo, pw, top, topq
+           integer(ilp) :: cola, i, ierr, j, j0, jcol, jj, jrow, k, kacc22, len, lwkopt, n2nb, nb, &
+                     nblst, nbmin, nh, nnb, nx, ppw, ppwo, pw, top, topq
            real(dp) :: c, c1, c2, s, s1, s2, temp, temp1, temp2, temp3
      
            ! .. intrinsic functions ..
@@ -46188,13 +46188,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, lwork, m, n, p
+           integer(ilp) :: info, lda, ldb, lwork, m, n, p
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), taua(*), taub(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: lopt, lwkopt, nb, nb1, nb2, nb3
+           integer(ilp) :: lopt, lwkopt, nb, nb1, nb2, nb3
      
            ! .. intrinsic functions ..
            intrinsic :: int, max, min
@@ -46265,13 +46265,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, lwork, m, n, p
+           integer(ilp) :: info, lda, ldb, lwork, m, n, p
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), taua(*), taub(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: lopt, lwkopt, nb, nb1, nb2, nb3
+           integer(ilp) :: lopt, lwkopt, nb, nb1, nb2, nb3
      
            ! .. intrinsic functions ..
            intrinsic :: int, max, min
@@ -46329,7 +46329,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldv, lwork, m, mv, n, nsweep
+           integer(ilp) :: info, lda, ldv, lwork, m, mv, n, nsweep
            real(dp) :: eps, sfmin, tol
            character*1 jobv
            ! .. array arguments ..
@@ -46341,8 +46341,8 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            real(dp) :: aapp, aapp0, aapq, aaqq, apoaq, aqoap, big, bigtheta, cs, mxaapq, mxsinj, &
                      rootbig, rooteps, rootsfmin, roottol, small, sn, t, temp1, theta, thsign
-           integer(int32) :: blskip, emptsw, i, ibr, ierr, igl, ijblsk, ir1, iswrot, jbc, jgl, kbl, &
-                      lkahead, mvl, nbl, notrot, p, pskipped, q, rowskip, swband
+           integer(ilp) :: blskip, emptsw, i, ibr, ierr, igl, ijblsk, ir1, iswrot, jbc, jgl, kbl, &
+                     lkahead, mvl, nbl, notrot, p, pskipped, q, rowskip, swband
            logical(lk) :: applv, rotok, rsvec
            ! .. local arrays ..
            real(dp) :: fastr(5)
@@ -47002,7 +47002,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: eps, sfmin, tol
-           integer(int32) :: info, lda, ldv, lwork, m, mv, n, n1, nsweep
+           integer(ilp) :: info, lda, ldv, lwork, m, mv, n, n1, nsweep
            character*1 jobv
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(n), sva(n), v(ldv, *), work(lwork)
@@ -47013,8 +47013,8 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            real(dp) :: aapp, aapp0, aapq, aaqq, apoaq, aqoap, big, bigtheta, cs, large, mxaapq, &
                      mxsinj, rootbig, rooteps, rootsfmin, roottol, small, sn, t, temp1, theta, thsign
-           integer(int32) :: blskip, emptsw, i, ibr, igl, ierr, ijblsk, iswrot, jbc, jgl, kbl, mvl, &
-                      notrot, nblc, nblr, p, pskipped, q, rowskip, swband
+           integer(ilp) :: blskip, emptsw, i, ibr, igl, ierr, ijblsk, iswrot, jbc, jgl, kbl, mvl, &
+                     notrot, nblc, nblr, p, pskipped, q, rowskip, swband
            logical(lk) :: applv, rotok, rsvec
            ! .. local arrays ..
            real(dp) :: fastr(5)
@@ -47417,10 +47417,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: norm
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            real(dp) :: anorm, rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: d(*), dl(*), du(*), du2(*), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -47428,10 +47428,10 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: onenrm
-           integer(int32) :: i, kase, kase1
+           integer(ilp) :: i, kase, kase1
            real(dp) :: ainvnm
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. executable statements ..
            ! test the input arguments.
@@ -47498,14 +47498,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: info, ldb, ldx, n, nrhs
+           integer(ilp) :: info, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: b(ldb, *), berr(*), d(*), df(*), dl(*), dlf(*), du(*), du2(* &
                      ), duf(*), ferr(*), work(*), x(ldx, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
@@ -47516,10 +47516,10 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: notran
            character :: transn, transt
-           integer(int32) :: count, i, j, kase, nz
+           integer(ilp) :: count, i, j, kase, nz
            real(dp) :: eps, lstres, s, safe1, safe2, safmin
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max
@@ -47705,10 +47705,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: fact, trans
-           integer(int32) :: info, ldb, ldx, n, nrhs
+           integer(ilp) :: info, ldb, ldx, n, nrhs
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: b(ldb, *), berr(*), d(*), df(*), dl(*), dlf(*), du(*), du2(* &
                      ), duf(*), ferr(*), work(*), x(ldx, *)
         ! =====================================================================
@@ -47832,7 +47832,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: compq, compz, job
-           integer(int32) :: ihi, ilo, info, ldh, ldq, ldt, ldz, lwork, n
+           integer(ilp) :: ihi, ilo, info, ldh, ldq, ldt, ldz, lwork, n
            ! .. array arguments ..
            real(dp) :: alphai(*), alphar(*), beta(*), h(ldh, *), q(ldq, *), t(ldt, *), &
                      work(*), z(ldz, *)
@@ -47844,7 +47844,7 @@ module stdlib_linalg_lapack_d
                      
            ! .. local scalars ..
            logical(lk) :: ilazr2, ilazro, ilpivt, ilq, ilschr, ilz, lquery
-           integer(int32) :: icompq, icompz, ifirst, ifrstm, iiter, ilast, ilastm, in, ischur, &
+           integer(ilp) :: icompq, icompz, ifirst, ifrstm, iiter, ilast, ilastm, in, ischur, &
                      istart, j, jc, jch, jiter, jr, maxit
            real(dp) :: a11, a12, a1i, a1r, a21, a22, a2i, a2r, ad11, ad11l, ad12, ad12l, ad21, &
            ad21l, ad22, ad22l, ad32l, an, anorm, ascale, atol, b11, b1a, b1i, b1r, b22, b2a, b2i, &
@@ -48671,7 +48671,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: lda, ldx, ldy, m, n, nb
+           integer(ilp) :: lda, ldx, ldy, m, n, nb
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), e(*), taup(*), tauq(*), x(ldx, *), y(ldy, *)
                      
@@ -48680,7 +48680,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
      
            ! .. intrinsic functions ..
            intrinsic :: min
@@ -48879,20 +48879,20 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: i, info, n
+           integer(ilp) :: i, info, n
            real(dp) :: dlam, rho
            ! .. array arguments ..
            real(dp) :: d(*), delta(*), z(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: maxit
+           integer(ilp) :: maxit
            parameter(maxit=30)
            real(dp) :: zero, one, two, three, four, eight, ten
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0, three=3.0d0, four= &
                      4.0d0, eight=8.0d0, ten=10.0d0)
            ! .. local scalars ..
            logical(lk) :: orgati, swtch, swtch3
-           integer(int32) :: ii, iim1, iip1, ip1, iter, j, niter
+           integer(ilp) :: ii, iim1, iip1, ip1, iter, j, niter
            real(dp) :: a, b, c, del, dltlb, dltub, dphi, dpsi, dw, eps, erretm, eta, midpt, phi, &
                      prew, psi, rhoinv, tau, temp, temp1, w
            ! .. local arrays ..
@@ -49482,10 +49482,10 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: cutpnt, givptr, icompq, info, k, ldq, ldq2, n, qsiz
+           integer(ilp) :: cutpnt, givptr, icompq, info, k, ldq, ldq2, n, qsiz
            real(dp) :: rho
            ! .. array arguments ..
-           integer(int32) :: givcol(2, *), indx(*), indxp(*), indxq(*), perm(*)
+           integer(ilp) :: givcol(2, *), indx(*), indxp(*), indxq(*), perm(*)
            real(dp) :: d(*), dlamda(*), givnum(2, *), q(ldq, *), q2(ldq2, *), w(*), z( &
                      *)
         ! =====================================================================
@@ -49494,7 +49494,7 @@ module stdlib_linalg_lapack_d
            parameter(mone=-1.0d0, zero=0.0d0, one=1.0d0, two=2.0d0, eight= &
                      8.0d0)
            ! .. local scalars ..
-           integer(int32) :: i, imax, j, jlam, jmax, jp, k2, n1, n1p1, n2
+           integer(ilp) :: i, imax, j, jlam, jmax, jp, k2, n1, n1p1, n2
            real(dp) :: c, eps, s, t, tau, tol
      
            ! .. intrinsic functions ..
@@ -49704,13 +49704,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, kstart, kstop, ldq, lds, n
+           integer(ilp) :: info, k, kstart, kstop, ldq, lds, n
            real(dp) :: rho
            ! .. array arguments ..
            real(dp) :: d(*), dlamda(*), q(ldq, *), s(lds, *), w(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: temp
      
            ! .. intrinsic functions ..
@@ -49810,7 +49810,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: noinit, rightv
-           integer(int32) :: info, ldb, ldh, n
+           integer(ilp) :: info, ldb, ldh, n
            real(dp) :: bignum, eps3, smlnum, wi, wr
            ! .. array arguments ..
            real(dp) :: b(ldb, *), h(ldh, *), vi(*), vr(*), work(*)
@@ -49820,7 +49820,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp, tenth=1.0d-1)
            ! .. local scalars ..
            character :: normin, trans
-           integer(int32) :: i, i1, i2, i3, ierr, its, j
+           integer(ilp) :: i, i1, i2, i3, ierr, its, j
            real(dp) :: absbii, absbjj, ei, ej, growto, norm, nrmsml, rec, rootn, scale, temp, &
                      vcrit, vmax, vnorm, w, w1, x, xi, xr, y
      
@@ -50167,7 +50167,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: lda, ldb
+           integer(ilp) :: lda, ldb
            real(dp) :: csl, csr, snl, snr
            ! .. array arguments ..
            real(dp) :: a(lda, *), alphai(2), alphar(2), b(ldb, *), beta(2)
@@ -50322,7 +50322,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: k, lda, ldt, ldy, n, nb
+           integer(ilp) :: k, lda, ldt, ldy, n, nb
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, nb), tau(nb), y(ldy, nb)
         ! =====================================================================
@@ -50330,7 +50330,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i
+           integer(ilp) :: i
            real(dp) :: ei
      
            ! .. intrinsic functions ..
@@ -50434,7 +50434,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: ltrans
-           integer(int32) :: info, lda, ldb, ldx, na, nw
+           integer(ilp) :: info, lda, ldb, ldx, na, nw
            real(dp) :: ca, d1, d2, scale, smin, wi, wr, xnorm
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), x(ldx, *)
@@ -50445,13 +50445,13 @@ module stdlib_linalg_lapack_d
            real(dp) :: two
            parameter(two=2.0d0)
            ! .. local scalars ..
-           integer(int32) :: icmax, j
+           integer(ilp) :: icmax, j
            real(dp) :: bbnd, bi1, bi2, bignum, bnorm, br1, br2, ci21, ci22, cmax, cnorm, cr21, &
            cr22, csi, csr, li21, lr21, smini, smlnum, temp, u22abs, ui11, ui11r, ui12, ui12s, ui22, &
                      ur11, ur11r, ur12, ur12s, ur22, xi1, xi2, xr1, xr2
            ! .. local arrays ..
            logical(lk) :: rswap(4), stdlib_zswap(4)
-           integer(int32) :: ipivot(4, 4)
+           integer(ilp) :: ipivot(4, 4)
            real(dp) :: ci(2, 2), civ(4), cr(2, 2), crv(4)
      
            ! .. intrinsic functions ..
@@ -50755,11 +50755,11 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: givptr, icompq, info, k, ldb, ldbx, ldgcol, ldgnum, nl, nr, nrhs, &
+           integer(ilp) :: givptr, icompq, info, k, ldb, ldbx, ldgcol, ldgnum, nl, nr, nrhs, &
                      sqre
            real(dp) :: c, s
            ! .. array arguments ..
-           integer(int32) :: givcol(ldgcol, *), perm(*)
+           integer(ilp) :: givcol(ldgcol, *), perm(*)
            real(dp) :: b(ldb, *), bx(ldbx, *), difl(*), difr(ldgnum, *), givnum(ldgnum, * &
                      ), poles(ldgnum, *), work(*), z(*)
         ! =====================================================================
@@ -50767,7 +50767,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero, negone
            parameter(one=1.0d0, zero=0.0d0, negone=-1.0d0)
            ! .. local scalars ..
-           integer(int32) :: i, j, m, n, nlp1
+           integer(ilp) :: i, j, m, n, nlp1
            real(dp) :: diflj, difrj, dj, dsigj, dsigjp, temp
      
            ! .. intrinsic functions ..
@@ -50941,13 +50941,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, lda, m, n, k, mb, nb, ldt, lwork, ldc
+           integer(ilp) :: info, lda, m, n, k, mb, nb, ldt, lwork, ldc
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*), c(ldc, *), t(ldt, *)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran, lquery
-           integer(int32) :: i, ii, kk, ctr, lw
+           integer(ilp) :: i, ii, kk, ctr, lw
      
            ! .. executable statements ..
            ! test the input arguments
@@ -51097,13 +51097,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, lda, m, n, k, mb, nb, ldt, lwork, ldc
+           integer(ilp) :: info, lda, m, n, k, mb, nb, ldt, lwork, ldc
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*), c(ldc, *), t(ldt, *)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran, lquery
-           integer(int32) :: i, ii, kk, lw, ctr, q
+           integer(ilp) :: i, ii, kk, lw, ctr, q
      
            ! .. executable statements ..
            ! test the input arguments
@@ -51266,7 +51266,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            real(dp) :: aa, bb, bcmax, bcmis, cc, cs1, dd, eps, p, sab, sac, scale, sigma, sn1, tau, &
                       temp, z, safmin, safmn2, safmx2
-           integer(int32) :: count
+           integer(ilp) :: count
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, sign, sqrt
@@ -51402,7 +51402,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: incx, incy, n
+           integer(ilp) :: incx, incy, n
            real(dp) :: ssmin
            ! .. array arguments ..
            real(dp) :: x(*), y(*)
@@ -51443,16 +51443,16 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: lda, m, n, offset
+           integer(ilp) :: lda, m, n, offset
            ! .. array arguments ..
-           integer(int32) :: jpvt(*)
+           integer(ilp) :: jpvt(*)
            real(dp) :: a(lda, *), tau(*), vn1(*), vn2(*), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, itemp, j, mn, offpi, pvt
+           integer(ilp) :: i, itemp, j, mn, offpi, pvt
            real(dp) :: aii, temp, temp2, tol3z
      
            ! .. intrinsic functions ..
@@ -51530,16 +51530,16 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: kb, lda, ldf, m, n, nb, offset
+           integer(ilp) :: kb, lda, ldf, m, n, nb, offset
            ! .. array arguments ..
-           integer(int32) :: jpvt(*)
+           integer(ilp) :: jpvt(*)
            real(dp) :: a(lda, *), auxv(*), f(ldf, *), tau(*), vn1(*), vn2(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: itemp, j, k, lastrk, lsticc, pvt, rk
+           integer(ilp) :: itemp, j, k, lastrk, lsticc, pvt, rk
            real(dp) :: akk, temp, temp2, tol3z
      
            ! .. intrinsic functions ..
@@ -51662,8 +51662,8 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihiz, iloz, kacc22, kbot, ktop, ldh, ldu, ldv, ldwh, ldwv, ldz, n, nh, &
-                      nshfts, nv
+           integer(ilp) :: ihiz, iloz, kacc22, kbot, ktop, ldh, ldu, ldv, ldwh, ldwv, ldz, n, nh, &
+                     nshfts, nv
            logical(lk) :: wantt, wantz
            ! .. array arguments ..
            real(dp) :: h(ldh, *), si(*), sr(*), u(ldu, *), v(ldv, *), wh(ldwh, *), wv( &
@@ -51675,7 +51675,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            real(dp) :: alpha, beta, h11, h12, h21, h22, refsum, safmax, safmin, scl, smlnum, swap, &
                      tst1, tst2, ulp
-           integer(int32) :: i, i2, i4, incol, j, jbot, jcol, jlen, jrow, jtop, k, k1, kdu, kms, &
+           integer(ilp) :: i, i2, i4, incol, j, jbot, jcol, jlen, jrow, jtop, k, k1, kdu, kms, &
                      krcol, m, m22, mbot, mtop, nbmps, ndcol, ns, nu
            logical(lk) :: accum, bmp22
      
@@ -52090,7 +52090,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: lreal, ltran
-           integer(int32) :: info, ldt, n
+           integer(ilp) :: info, ldt, n
            real(dp) :: scale, w
            ! .. array arguments ..
            real(dp) :: b(*), t(ldt, *), work(*), x(*)
@@ -52100,7 +52100,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: notran
-           integer(int32) :: i, ierr, j, j1, j2, jnext, k, n1, n2
+           integer(ilp) :: i, ierr, j, j1, j2, jnext, k, n1, n2
            real(dp) :: bignum, eps, rec, scaloc, si, smin, sminw, smlnum, sr, tjj, tmp, xj, xmax, &
                      xnorm, z
            ! .. local arrays ..
@@ -52529,9 +52529,9 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, ldq, ldu, ldu2, ldvt, ldvt2, nl, nr, sqre
+           integer(ilp) :: info, k, ldq, ldu, ldu2, ldvt, ldvt2, nl, nr, sqre
            ! .. array arguments ..
-           integer(int32) :: ctot(*), idxc(*)
+           integer(ilp) :: ctot(*), idxc(*)
            real(dp) :: d(*), dsigma(*), q(ldq, *), u(ldu, *), u2(ldu2, *), vt(ldvt, *), &
                       vt2(ldvt2, *), z(*)
         ! =====================================================================
@@ -52539,7 +52539,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero, negone
            parameter(one=1.0_dp, zero=0.0_dp, negone=-1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: ctemp, i, j, jc, ktemp, m, n, nlp1, nlp2, nrp1
+           integer(ilp) :: ctemp, i, j, jc, ktemp, m, n, nlp1, nlp2, nrp1
            real(dp) :: rho, temp
      
            ! .. intrinsic functions ..
@@ -52757,10 +52757,10 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: givptr, icompq, info, k, ldgcol, ldgnum, nl, nr, sqre
+           integer(ilp) :: givptr, icompq, info, k, ldgcol, ldgnum, nl, nr, sqre
            real(dp) :: alpha, beta, c, s
            ! .. array arguments ..
-           integer(int32) :: givcol(ldgcol, *), idxq(*), iwork(*), perm(*)
+           integer(ilp) :: givcol(ldgcol, *), idxq(*), iwork(*), perm(*)
            real(dp) :: d(*), difl(*), difr(*), givnum(ldgnum, *), poles(ldgnum, *), vf(* &
                      ), vl(*), work(*), z(*)
         ! =====================================================================
@@ -52768,7 +52768,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, idx, idxc, idxp, isigma, ivfw, ivlw, iw, m, n, n1, n2
+           integer(ilp) :: i, idx, idxc, idxp, isigma, ivfw, ivlw, iw, m, n, n1, n2
            real(dp) :: orgnrm
      
            ! .. intrinsic functions ..
@@ -52854,7 +52854,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldq, n
+           integer(ilp) :: info, ldq, n
            ! .. array arguments ..
            real(dp) :: ap(*), q(ldq, *), tau(*), work(*)
         ! =====================================================================
@@ -52863,7 +52863,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: i, iinfo, ij, j
+           integer(ilp) :: i, iinfo, ij, j
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -52948,7 +52948,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans, uplo
-           integer(int32) :: info, ldc, m, n
+           integer(ilp) :: info, ldc, m, n
            ! .. array arguments ..
            real(dp) :: ap(*), c(ldc, *), tau(*), work(*)
         ! =====================================================================
@@ -52957,7 +52957,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: forwrd, left, notran, upper
-           integer(int32) :: i, i1, i2, i3, ic, ii, jc, mi, ni, nq
+           integer(ilp) :: i, i1, i2, i3, ic, ii, jc, mi, ni, nq
            real(dp) :: aii
      
            ! .. intrinsic functions ..
@@ -53101,7 +53101,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lwork, m, p, q, ldx11, ldx21
+           integer(ilp) :: info, lwork, m, p, q, ldx11, ldx21
            ! .. array arguments ..
            real(dp) :: phi(*), theta(*)
            real(dp) :: taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, *)
@@ -53111,8 +53111,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0d0)
            ! .. local scalars ..
            real(dp) :: c, s
-           integer(int32) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5, lworkmin, &
-                     lworkopt
+           integer(ilp) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5, lworkmin, lworkopt
            logical(lk) :: lquery
      
            ! .. intrinsic function ..
@@ -53206,7 +53205,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lwork, m, p, q, ldx11, ldx21
+           integer(ilp) :: info, lwork, m, p, q, ldx11, ldx21
            ! .. array arguments ..
            real(dp) :: phi(*), theta(*)
            real(dp) :: taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, *)
@@ -53216,8 +53215,7 @@ module stdlib_linalg_lapack_d
            parameter(negone=-1.0d0, one=1.0d0)
            ! .. local scalars ..
            real(dp) :: c, s
-           integer(int32) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5, lworkmin, &
-                     lworkopt
+           integer(ilp) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5, lworkmin, lworkopt
            logical(lk) :: lquery
      
            ! .. intrinsic function ..
@@ -53321,7 +53319,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lwork, m, p, q, ldx11, ldx21
+           integer(ilp) :: info, lwork, m, p, q, ldx11, ldx21
            ! .. array arguments ..
            real(dp) :: phi(*), theta(*)
            real(dp) :: taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, *)
@@ -53331,8 +53329,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0d0)
            ! .. local scalars ..
            real(dp) :: c, s
-           integer(int32) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5, lworkmin, &
-                     lworkopt
+           integer(ilp) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5, lworkmin, lworkopt
            logical(lk) :: lquery
      
            ! .. intrinsic function ..
@@ -53435,7 +53432,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lwork, m, p, q, ldx11, ldx21
+           integer(ilp) :: info, lwork, m, p, q, ldx11, ldx21
            ! .. array arguments ..
            real(dp) :: phi(*), theta(*)
            real(dp) :: phantom(*), taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, &
@@ -53446,7 +53443,7 @@ module stdlib_linalg_lapack_d
            parameter(negone=-1.0d0, one=1.0d0, zero=0.0d0)
            ! .. local scalars ..
            real(dp) :: c, s
-           integer(int32) :: childinfo, i, ilarf, iorbdb5, j, llarf, lorbdb5, lworkmin, &
+           integer(ilp) :: childinfo, i, ilarf, iorbdb5, j, llarf, lorbdb5, lworkmin, &
                      lworkopt
            logical(lk) :: lquery
      
@@ -53581,18 +53578,18 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobu1, jobu2, jobv1t
-           integer(int32) :: info, ldu1, ldu2, ldv1t, lwork, ldx11, ldx21, m, p, q
+           integer(ilp) :: info, ldu1, ldu2, ldv1t, lwork, ldx11, ldx21, m, p, q
            ! .. array arguments ..
            real(dp) :: theta(*)
            real(dp) :: u1(ldu1, *), u2(ldu2, *), v1t(ldv1t, *), work(*), x11(ldx11, *), x21(ldx21, *)
                      
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0d0, zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: childinfo, i, ib11d, ib11e, ib12d, ib12e, ib21d, ib21e, ib22d, ib22e, &
+           integer(ilp) :: childinfo, i, ib11d, ib11e, ib12d, ib12e, ib21d, ib21e, ib22d, ib22e, &
            ibbcsd, iorbdb, iorglq, iorgqr, iphi, itaup1, itaup2, itauq1, j, lbbcsd, lorbdb, lorglq, &
                      lorglqmin, lorglqopt, lorgqr, lorgqrmin, lorgqropt, lworkmin, lworkopt, r
            logical(lk) :: lquery, wantu1, wantu2, wantv1t
@@ -53987,7 +53984,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, lwork, n
+           integer(ilp) :: info, lda, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -53996,7 +53993,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, upper
-           integer(int32) :: i, iinfo, j, lwkopt, nb
+           integer(ilp) :: i, iinfo, j, lwkopt, nb
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -54089,7 +54086,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldt, lwork, m, n, mb, nb
+           integer(ilp) :: info, lda, ldt, lwork, m, n, mb, nb
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *), work(*)
         ! =====================================================================
@@ -54098,7 +54095,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: iinfo, ldc, lworkopt, lc, lw, nblocal, j
+           integer(ilp) :: iinfo, ldc, lworkopt, lc, lw, nblocal, j
      
            ! .. intrinsic functions ..
            intrinsic :: dble, max, min
@@ -54194,13 +54191,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans, uplo
-           integer(int32) :: info, lda, ldc, lwork, m, n
+           integer(ilp) :: info, lda, ldc, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, lquery, upper
-           integer(int32) :: i1, i2, iinfo, lwkopt, mi, nb, ni, nq, nw
+           integer(ilp) :: i1, i2, iinfo, lwkopt, mi, nb, ni, nq, nw
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -54309,17 +54306,17 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kd, ldab, n
+           integer(ilp) :: info, kd, ldab, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
-           integer(int32) :: nbmax, ldwork
+           integer(ilp) :: nbmax, ldwork
            parameter(nbmax=32, ldwork=nbmax + 1)
            ! .. local scalars ..
-           integer(int32) :: i, i2, i3, ib, ii, j, jj, nb
+           integer(ilp) :: i, i2, i3, ib, ii, j, jj, nb
            ! .. local arrays ..
            real(dp) :: work(ldwork, nbmax)
      
@@ -54506,7 +54503,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: transr, uplo
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: a(0:*)
         ! =====================================================================
@@ -54515,7 +54512,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
-           integer(int32) :: n1, n2, k
+           integer(ilp) :: n1, n2, k
      
            ! .. intrinsic functions ..
            intrinsic :: mod
@@ -54671,7 +54668,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, n
+           integer(ilp) :: info, lda, n
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
@@ -54680,7 +54677,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: upper
-           integer(int32) :: j, jb, nb
+           integer(ilp) :: j, jb, nb
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -54770,18 +54767,18 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            real(dp) :: tol
-           integer(int32) :: info, lda, n, rank
+           integer(ilp) :: info, lda, n, rank
            character :: uplo
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(2*n)
-           integer(int32) :: piv(n)
+           integer(ilp) :: piv(n)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
            real(dp) :: ajj, dstop, dtemp
-           integer(int32) :: i, itemp, j, jb, k, nb, pvt
+           integer(ilp) :: i, itemp, j, jb, k, nb, pvt
            logical(lk) :: upper
      
            ! .. intrinsic functions ..
@@ -54978,13 +54975,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, ldb, ldx, n, nrhs
+           integer(ilp) :: info, ldb, ldx, n, nrhs
            ! .. array arguments ..
            real(dp) :: b(ldb, *), berr(*), d(*), df(*), e(*), ef(*), ferr(*), work( &
                      *), x(ldx, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: itmax
+           integer(ilp) :: itmax
            parameter(itmax=5)
            real(dp) :: zero
            parameter(zero=0.0_dp)
@@ -54995,7 +54992,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: three
            parameter(three=3.0_dp)
            ! .. local scalars ..
-           integer(int32) :: count, i, ix, j, nz
+           integer(ilp) :: count, i, ix, j, nz
            real(dp) :: bi, cx, dx, eps, ex, lstres, s, safe1, safe2, safmin
      
            ! .. intrinsic functions ..
@@ -55155,7 +55152,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, ldb, n, nrhs
+           integer(ilp) :: info, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: b(ldb, *), d(*), e(*)
         ! =====================================================================
@@ -55200,7 +55197,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: fact
-           integer(int32) :: info, ldb, ldx, n, nrhs
+           integer(ilp) :: info, ldb, ldx, n, nrhs
            real(dp) :: rcond
            ! .. array arguments ..
            real(dp) :: b(ldb, *), berr(*), d(*), df(*), e(*), ef(*), ferr(*), work( &
@@ -55271,7 +55268,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, kd, ldab, ldz, n
+           integer(ilp) :: info, kd, ldab, ldz, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), w(*), work(*), z(ldz, *)
         ! =====================================================================
@@ -55280,7 +55277,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: lower, wantz
-           integer(int32) :: iinfo, imax, inde, indwrk, iscale
+           integer(ilp) :: iinfo, imax, inde, indwrk, iscale
            real(dp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
      
            ! .. intrinsic functions ..
@@ -55378,10 +55375,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range, uplo
-           integer(int32) :: il, info, iu, kd, ldab, ldq, ldz, m, n
+           integer(ilp) :: il, info, iu, kd, ldab, ldq, ldz, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: ifail(*), iwork(*)
+           integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: ab(ldab, *), q(ldq, *), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
@@ -55390,7 +55387,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lower, test, valeig, wantz
            character :: order
-           integer(int32) :: i, iinfo, imax, indd, inde, indee, indibl, indisp, indiwo, indwrk, &
+           integer(ilp) :: i, iinfo, imax, indd, inde, indee, indibl, indisp, indiwo, indwrk, &
                      iscale, itmp1, j, jj, nsplit
            real(dp) :: abstll, anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, vll, &
                      vuu
@@ -55606,14 +55603,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, ka, kb, ldab, ldbb, ldz, n
+           integer(ilp) :: info, ka, kb, ldab, ldbb, ldz, n
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), bb(ldbb, *), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper, wantz
            character :: vect
-           integer(int32) :: iinfo, inde, indwrk
+           integer(ilp) :: iinfo, inde, indwrk
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -55686,10 +55683,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range, uplo
-           integer(int32) :: il, info, iu, ka, kb, ldab, ldbb, ldq, ldz, m, n
+           integer(ilp) :: il, info, iu, ka, kb, ldab, ldbb, ldq, ldz, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: ifail(*), iwork(*)
+           integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: ab(ldab, *), bb(ldbb, *), q(ldq, *), w(*), work(*), z(ldz, *)
                      
         ! =====================================================================
@@ -55699,8 +55696,8 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, test, upper, valeig, wantz
            character :: order, vect
-           integer(int32) :: i, iinfo, indd, inde, indee, indibl, indisp, indiwo, indwrk, itmp1, j, &
-                      jj, nsplit
+           integer(ilp) :: i, iinfo, indd, inde, indee, indibl, indisp, indiwo, indwrk, itmp1, j, &
+                     jj, nsplit
            real(dp) :: tmp1
      
            ! .. intrinsic functions ..
@@ -55894,23 +55891,23 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, iter, lda, ldb, ldx, n, nrhs
+           integer(ilp) :: info, iter, lda, ldb, ldx, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(sp) :: swork(*)
            real(dp) :: a(lda, *), b(ldb, *), work(n, *), x(ldx, *)
         ! =====================================================================
            ! .. parameters ..
            logical(lk) :: doitref
            parameter(doitref=.true.)
-           integer(int32) :: itermax
+           integer(ilp) :: itermax
            parameter(itermax=30)
            real(dp) :: bwdmax
            parameter(bwdmax=1.0_sp)
            real(dp) :: negone, one
            parameter(negone=-1.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, iiter, ptsa, ptsx
+           integer(ilp) :: i, iiter, ptsa, ptsx
            real(dp) :: anrm, cte, eps, rnrm, xnrm
      
            ! .. intrinsic functions ..
@@ -56049,7 +56046,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, ldz, n
+           integer(ilp) :: info, ldz, n
            ! .. array arguments ..
            real(dp) :: ap(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
@@ -56058,7 +56055,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: wantz
-           integer(int32) :: iinfo, imax, inde, indtau, indwrk, iscale
+           integer(ilp) :: iinfo, imax, inde, indtau, indwrk, iscale
            real(dp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
      
            ! .. intrinsic functions ..
@@ -56147,10 +56144,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range, uplo
-           integer(int32) :: il, info, iu, ldz, m, n
+           integer(ilp) :: il, info, iu, ldz, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: ifail(*), iwork(*)
+           integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: ap(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
@@ -56159,7 +56156,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, test, valeig, wantz
            character :: order
-           integer(int32) :: i, iinfo, imax, indd, inde, indee, indibl, indisp, indiwo, indtau, &
+           integer(ilp) :: i, iinfo, imax, indd, inde, indee, indibl, indisp, indiwo, indtau, &
                      indwrk, iscale, itmp1, j, jj, nsplit
            real(dp) :: abstll, anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, vll, &
                      vuu
@@ -56362,14 +56359,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, itype, ldz, n
+           integer(ilp) :: info, itype, ldz, n
            ! .. array arguments ..
            real(dp) :: ap(*), bp(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper, wantz
            character :: trans
-           integer(int32) :: j, neig
+           integer(ilp) :: j, neig
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -56449,16 +56446,16 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range, uplo
-           integer(int32) :: il, info, itype, iu, ldz, m, n
+           integer(ilp) :: il, info, itype, iu, ldz, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: ifail(*), iwork(*)
+           integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: ap(*), bp(*), w(*), work(*), z(ldz, *)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, upper, valeig, wantz
            character :: trans
-           integer(int32) :: j
+           integer(ilp) :: j
      
            ! .. intrinsic functions ..
            intrinsic :: min
@@ -56582,7 +56579,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, iter, lda, ldb, ldx, n, nrhs
+           integer(ilp) :: info, iter, lda, ldb, ldx, n, nrhs
            ! .. array arguments ..
            real(sp) :: swork(*)
            real(dp) :: a(lda, *), b(ldb, *), work(n, *), x(ldx, *)
@@ -56590,14 +56587,14 @@ module stdlib_linalg_lapack_d
            ! .. parameters ..
            logical(lk) :: doitref
            parameter(doitref=.true.)
-           integer(int32) :: itermax
+           integer(ilp) :: itermax
            parameter(itermax=30)
            real(dp) :: bwdmax
            parameter(bwdmax=1.0_sp)
            real(dp) :: negone, one
            parameter(negone=-1.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, iiter, ptsa, ptsx
+           integer(ilp) :: i, iiter, ptsa, ptsx
            real(dp) :: anrm, cte, eps, rnrm, xnrm
      
            ! .. intrinsic functions ..
@@ -56734,7 +56731,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, lda, lwork, n
+           integer(ilp) :: info, lda, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), w(*), work(*)
         ! =====================================================================
@@ -56743,7 +56740,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: lower, lquery, wantz
-           integer(int32) :: iinfo, imax, inde, indtau, indwrk, iscale, llwork, lwkopt, nb
+           integer(ilp) :: iinfo, imax, inde, indtau, indwrk, iscale, llwork, lwkopt, nb
            real(dp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
      
            ! .. intrinsic functions ..
@@ -56846,10 +56843,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range, uplo
-           integer(int32) :: il, info, iu, lda, ldz, lwork, m, n
+           integer(ilp) :: il, info, iu, lda, ldz, lwork, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: ifail(*), iwork(*)
+           integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: a(lda, *), w(*), work(*), z(ldz, *)
        ! =====================================================================
            ! .. parameters ..
@@ -56858,7 +56855,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lower, lquery, test, valeig, wantz
            character :: order
-           integer(int32) :: i, iinfo, imax, indd, inde, indee, indibl, indisp, indiwo, indtau, &
+           integer(ilp) :: i, iinfo, imax, indd, inde, indee, indibl, indisp, indiwo, indtau, &
                      indwkn, indwrk, iscale, itmp1, j, jj, llwork, llwrkn, lwkmin, lwkopt, nb, nsplit
            real(dp) :: abstll, anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, vll, &
                      vuu
@@ -57094,7 +57091,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, itype, lda, ldb, lwork, n
+           integer(ilp) :: info, itype, lda, ldb, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), w(*), work(*)
         ! =====================================================================
@@ -57104,7 +57101,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: lquery, upper, wantz
            character :: trans
-           integer(int32) :: lwkmin, lwkopt, nb, neig
+           integer(ilp) :: lwkmin, lwkopt, nb, neig
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -57198,10 +57195,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range, uplo
-           integer(int32) :: il, info, itype, iu, lda, ldb, ldz, lwork, m, n
+           integer(ilp) :: il, info, itype, iu, lda, ldb, ldz, lwork, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: ifail(*), iwork(*)
+           integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), w(*), work(*), z(ldz, *)
        ! =====================================================================
            ! .. parameters ..
@@ -57210,7 +57207,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lquery, upper, valeig, wantz
            character :: trans
-           integer(int32) :: lwkmin, lwkopt, nb
+           integer(ilp) :: lwkmin, lwkopt, nb
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -57332,14 +57329,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, lwork, n, nrhs
+           integer(ilp) :: info, lda, ldb, lwork, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: lwkopt
+           integer(ilp) :: lwkopt
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -57406,10 +57403,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: fact, uplo
-           integer(int32) :: info, lda, ldaf, ldb, ldx, lwork, n, nrhs
+           integer(ilp) :: info, lda, ldaf, ldb, ldx, lwork, n, nrhs
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: a(lda, *), af(ldaf, *), b(ldb, *), berr(*), ferr(*), work(*), x( &
                       ldx, *)
         ! =====================================================================
@@ -57418,7 +57415,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, nofact
-           integer(int32) :: lwkopt, nb
+           integer(ilp) :: lwkopt, nb
            real(dp) :: anorm
      
            ! .. intrinsic functions ..
@@ -57501,7 +57498,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldab, lwork, n, kd
+           integer(ilp) :: info, lda, ldab, lwork, n, kd
            ! .. array arguments ..
            real(dp) :: a(lda, *), ab(ldab, *), tau(*), work(*)
         ! =====================================================================
@@ -57511,7 +57508,7 @@ module stdlib_linalg_lapack_d
            parameter(rone=1.0_dp, zero=0.0_dp, one=1.0_dp, half=0.5_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, upper
-           integer(int32) :: i, j, iinfo, lwmin, pn, pk, lk, ldt, ldw, lds2, lds1, ls2, ls1, lw, lt, &
+           integer(ilp) :: i, j, iinfo, lwmin, pn, pk, lk, ldt, ldw, lds2, lds1, ls2, ls1, lw, lt, &
                      tpos, wpos, s2pos, s1pos
      
            ! .. intrinsic functions ..
@@ -57693,7 +57690,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: howmny, side
-           integer(int32) :: info, ldp, lds, ldvl, ldvr, m, mm, n
+           integer(ilp) :: info, ldp, lds, ldvl, ldvr, m, mm, n
            ! .. array arguments ..
            logical(lk) :: select(*)
            real(dp) :: p(ldp, *), s(lds, *), vl(ldvl, *), vr(ldvr, *), work(*)
@@ -57704,7 +57701,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: compl, compr, il2by2, ilabad, ilall, ilback, ilbbad, ilcomp, ilcplx, lsa, &
                       lsb
-           integer(int32) :: i, ibeg, ieig, iend, ihwmny, iinfo, im, iside, j, ja, jc, je, jr, jw, &
+           integer(ilp) :: i, ibeg, ieig, iend, ihwmny, iinfo, im, iside, j, ja, jc, je, jr, jw, &
                      na, nw
            real(dp) :: acoef, acoefa, anorm, ascale, bcoefa, bcoefi, bcoefr, big, bignum, bnorm, &
            bscale, cim2a, cim2b, cimaga, cimagb, cre2a, cre2b, creala, crealb, dmin, safmin, salfar, &
@@ -58414,7 +58411,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: wantq, wantz
-           integer(int32) :: info, j1, lda, ldb, ldq, ldz, lwork, n, n1, n2
+           integer(ilp) :: info, j1, lda, ldb, ldq, ldz, lwork, n, n1, n2
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), q(ldq, *), work(*), z(ldz, *)
         ! =====================================================================
@@ -58425,17 +58422,17 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            real(dp) :: twenty
            parameter(twenty=2.0e+01_dp)
-           integer(int32) :: ldst
+           integer(ilp) :: ldst
            parameter(ldst=4)
            logical(lk) :: wands
            parameter(wands=.true.)
            ! .. local scalars ..
            logical(lk) :: strong, weak
-           integer(int32) :: i, idum, linfo, m
+           integer(ilp) :: i, idum, linfo, m
            real(dp) :: bqra21, brqa21, ddum, dnorma, dnormb, dscale, dsum, eps, f, g, sa, sb, &
                      scale, smlnum, thresha, threshb
            ! .. local arrays ..
-           integer(int32) :: iwork(ldst)
+           integer(ilp) :: iwork(ldst)
            real(dp) :: ai(2), ar(2), be(2), ir(ldst, ldst), ircop(ldst, ldst), li(ldst, &
            ldst), licop(ldst, ldst), s(ldst, ldst), scpy(ldst, ldst), t(ldst, ldst), taul( &
                      ldst), taur(ldst), tcpy(ldst, ldst)
@@ -58782,7 +58779,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: wantq, wantz
-           integer(int32) :: ifst, ilst, info, lda, ldb, ldq, ldz, lwork, n
+           integer(ilp) :: ifst, ilst, info, lda, ldb, ldq, ldz, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), q(ldq, *), work(*), z(ldz, *)
         ! =====================================================================
@@ -58791,7 +58788,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: here, lwmin, nbf, nbl, nbnext
+           integer(ilp) :: here, lwmin, nbf, nbl, nbnext
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -59040,25 +59037,25 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: wantq, wantz
-           integer(int32) :: ijob, info, lda, ldb, ldq, ldz, liwork, lwork, m, n
+           integer(ilp) :: ijob, info, lda, ldb, ldq, ldz, liwork, lwork, m, n
            real(dp) :: pl, pr
            ! .. array arguments ..
            logical(lk) :: select(*)
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), dif(*), q( &
                      ldq, *), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: idifjb
+           integer(ilp) :: idifjb
            parameter(idifjb=3)
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, pair, swap, wantd, wantd1, wantd2, wantp
-           integer(int32) :: i, ierr, ijb, k, kase, kk, ks, liwmin, lwmin, mn2, n1, n2
+           integer(ilp) :: i, ierr, ijb, k, kase, kk, ks, liwmin, lwmin, mn2, n1, n2
            real(dp) :: dscale, dsum, eps, rdscal, smlnum
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: max, sign, sqrt
@@ -59409,20 +59406,20 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobq, jobu, jobv
-           integer(int32) :: info, k, l, lda, ldb, ldq, ldu, ldv, m, n, ncycle, p
+           integer(ilp) :: info, k, l, lda, ldb, ldq, ldu, ldv, m, n, ncycle, p
            real(dp) :: tola, tolb
            ! .. array arguments ..
            real(dp) :: a(lda, *), alpha(*), b(ldb, *), beta(*), q(ldq, *), u(ldu, *), v( &
                       ldv, *), work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: maxit
+           integer(ilp) :: maxit
            parameter(maxit=40)
            real(dp) :: zero, one, hugenum
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: initq, initu, initv, upper, wantq, wantu, wantv
-           integer(int32) :: i, j, kcycle
+           integer(ilp) :: i, j, kcycle
            real(dp) :: a1, a2, a3, b1, b2, b3, csq, csu, csv, error, gamma, rwk, snq, snu, snv, &
                      ssmin
      
@@ -59599,21 +59596,21 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: howmny, job
-           integer(int32) :: info, lda, ldb, ldvl, ldvr, lwork, m, mm, n
+           integer(ilp) :: info, lda, ldb, ldvl, ldvr, lwork, m, mm, n
            ! .. array arguments ..
            logical(lk) :: select(*)
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), dif(*), s(*), vl(ldvl, *), vr(ldvr, *), &
                      work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: difdri
+           integer(ilp) :: difdri
            parameter(difdri=3)
            real(dp) :: zero, one, two, four
            parameter(zero=0.0_dp, one=1.0_dp, two=2.0_dp, four=4.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, pair, somcon, wantbh, wantdf, wants
-           integer(int32) :: i, ierr, ifst, ilst, iz, k, ks, lwmin, n1, n2
+           integer(ilp) :: i, ierr, ifst, ilst, iz, k, ks, lwmin, n1, n2
            real(dp) :: alphai, alphar, alprqt, beta, c1, c2, cond, eps, lnrm, rnrm, root1, root2, &
                      scale, smlnum, tmpii, tmpir, tmpri, tmprr, uhav, uhavi, uhbv, uhbvi
            ! .. local arrays ..
@@ -59843,12 +59840,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, ldt, n, m, l, mb
+           integer(ilp) :: info, lda, ldb, ldt, n, m, l, mb
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *), work(*)
        ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ib, lb, nb, iinfo
+           integer(ilp) :: i, ib, lb, nb, iinfo
      
            ! .. executable statements ..
            ! test the input arguments
@@ -59905,12 +59902,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, ldt, n, m, l, nb
+           integer(ilp) :: info, lda, ldb, ldt, n, m, l, nb
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *), work(*)
        ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ib, lb, mb, iinfo
+           integer(ilp) :: i, ib, lb, mb, iinfo
      
            ! .. executable statements ..
            ! test the input arguments
@@ -59980,7 +59977,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: howmny, side
-           integer(int32) :: info, ldt, ldvl, ldvr, m, mm, n
+           integer(ilp) :: info, ldt, ldvl, ldvr, m, mm, n
            ! .. array arguments ..
            logical(lk) :: select(*)
            real(dp) :: t(ldt, *), vl(ldvl, *), vr(ldvr, *), work(*)
@@ -59990,7 +59987,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: allv, bothv, leftv, over, pair, rightv, somev
-           integer(int32) :: i, ierr, ii, ip, is, j, j1, j2, jnxt, k, ki, n2
+           integer(ilp) :: i, ierr, ii, ip, is, j, j1, j2, jnxt, k, ki, n2
            real(dp) :: beta, bignum, emax, ovfl, rec, remax, scale, smin, smlnum, ulp, unfl, vcrit, &
                       vmax, wi, wr, xnorm
      
@@ -60596,7 +60593,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: howmny, side
-           integer(int32) :: info, ldt, ldvl, ldvr, lwork, m, mm, n
+           integer(ilp) :: info, ldt, ldvl, ldvr, lwork, m, mm, n
            ! .. array arguments ..
            logical(lk) :: select(*)
            real(dp) :: t(ldt, *), vl(ldvl, *), vr(ldvr, *), work(*)
@@ -60604,12 +60601,11 @@ module stdlib_linalg_lapack_d
            ! .. parameters ..
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
-           integer(int32) :: nbmin, nbmax
+           integer(ilp) :: nbmin, nbmax
            parameter(nbmin=8, nbmax=128)
            ! .. local scalars ..
            logical(lk) :: allv, bothv, leftv, lquery, over, pair, rightv, somev
-           integer(int32) :: i, ierr, ii, ip, is, j, j1, j2, jnxt, k, ki, iv, maxwrk, nb, &
-                     ki2
+           integer(ilp) :: i, ierr, ii, ip, is, j, j1, j2, jnxt, k, ki, iv, maxwrk, nb, ki2
            real(dp) :: beta, bignum, emax, ovfl, rec, remax, scale, smin, smlnum, ulp, unfl, vcrit, &
                       vmax, wi, wr, xnorm
      
@@ -60617,7 +60613,7 @@ module stdlib_linalg_lapack_d
            intrinsic :: abs, max, sqrt
            ! .. local arrays ..
            real(dp) :: x(2, 2)
-           integer(int32) :: iscomplex(nbmax)
+           integer(ilp) :: iscomplex(nbmax)
            ! .. executable statements ..
            ! decode and test the input parameters
            bothv = stdlib_lsame(side, 'b')
@@ -61412,7 +61408,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trana, tranb
-           integer(int32) :: info, isgn, lda, ldb, ldc, m, n
+           integer(ilp) :: info, isgn, lda, ldb, ldc, m, n
            real(dp) :: scale
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
@@ -61422,7 +61418,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: notrna, notrnb
-           integer(int32) :: ierr, j, k, k1, k2, knext, l, l1, l2, lnext
+           integer(ilp) :: ierr, j, k, k1, k2, knext, l, l1, l2, lnext
            real(dp) :: a11, bignum, da11, db, eps, scaloc, sgn, smin, smlnum, suml, sumr, &
                      xnorm
            ! .. local arrays ..
@@ -62068,7 +62064,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, lwork, m, n
+           integer(ilp) :: info, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -62077,7 +62073,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iws, ki, kk, ldwork, lwkmin, lwkopt, m1, mu, nb, nbmin, &
+           integer(ilp) :: i, ib, iws, ki, kk, ldwork, lwkmin, lwkopt, m1, mu, nb, nbmin, &
                      nx
      
            ! .. intrinsic functions ..
@@ -62185,7 +62181,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, lwork, m, n
+           integer(ilp) :: info, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), e(*), taup(*), tauq(*), work(*)
         ! =====================================================================
@@ -62194,7 +62190,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, iinfo, j, ldwrkx, ldwrky, lwkopt, minmn, nb, nbmin, nx, ws
+           integer(ilp) :: i, iinfo, j, ldwrkx, ldwrky, lwkopt, minmn, nb, nbmin, nx, ws
      
            ! .. intrinsic functions ..
            intrinsic :: dble, max, min
@@ -62292,18 +62288,18 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihi, ilo, info, lda, lwork, n
+           integer(ilp) :: ihi, ilo, info, lda, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: nbmax, ldt, tsize
+           integer(ilp) :: nbmax, ldt, tsize
            parameter(nbmax=64, ldt=nbmax + 1, tsize=ldt*nbmax)
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ib, iinfo, iwt, j, ldwork, lwkopt, nb, nbmin, nh, nx
+           integer(ilp) :: i, ib, iinfo, iwt, j, ldwork, lwkopt, nb, nbmin, nh, nx
            real(dp) :: ei
      
            ! .. intrinsic functions ..
@@ -62422,12 +62418,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldt, m, n, mb
+           integer(ilp) :: info, lda, ldt, m, n, mb
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *), work(*)
        ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ib, iinfo, k
+           integer(ilp) :: i, ib, iinfo, k
      
            ! .. executable statements ..
            ! test the input arguments
@@ -62490,7 +62486,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: info, lda, ldb, lwork, m, n, nrhs
+           integer(ilp) :: info, lda, ldb, lwork, m, n, nrhs
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
@@ -62499,7 +62495,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: lquery, tpsd
-           integer(int32) :: brow, i, iascl, ibscl, j, mn, nb, scllen, wsize
+           integer(ilp) :: brow, i, iascl, ibscl, j, mn, nb, scllen, wsize
            real(dp) :: anrm, bignum, bnrm, smlnum
            ! .. local arrays ..
            real(dp) :: rwork(1)
@@ -62703,13 +62699,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, lda, m, n, k, tsize, lwork, ldc
+           integer(ilp) :: info, lda, m, n, k, tsize, lwork, ldc
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(*), c(ldc, *), work(*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran, lquery
-           integer(int32) :: mb, nb, lw, nblcks, mn
+           integer(ilp) :: mb, nb, lw, nblcks, mn
      
            ! .. intrinsic functions ..
            intrinsic :: int, max, min, mod
@@ -62799,13 +62795,13 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans
-           integer(int32) :: info, lda, m, n, k, tsize, lwork, ldc
+           integer(ilp) :: info, lda, m, n, k, tsize, lwork, ldc
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(*), c(ldc, *), work(*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran, lquery
-           integer(int32) :: mb, nb, lw, nblcks, mn
+           integer(ilp) :: mb, nb, lw, nblcks, mn
      
            ! .. intrinsic functions ..
            intrinsic :: int, max, min, mod
@@ -62888,17 +62884,17 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, lwork, m, n
+           integer(ilp) :: info, lda, lwork, m, n
            ! .. array arguments ..
-           integer(int32) :: jpvt(*)
+           integer(ilp) :: jpvt(*)
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: inb, inbmin, ixover
+           integer(ilp) :: inb, inbmin, ixover
            parameter(inb=1, inbmin=2, ixover=3)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: fjb, iws, j, jb, lwkopt, minmn, minws, na, nb, nbmin, nfxd, nx, sm, &
+           integer(ilp) :: fjb, iws, j, jb, lwkopt, minmn, minws, na, nb, nbmin, nfxd, nx, sm, &
                      sminmn, sn, topbmn
      
            ! .. intrinsic functions ..
@@ -63037,12 +63033,12 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldt, m, n, nb
+           integer(ilp) :: info, lda, ldt, m, n, nb
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *), work(*)
        ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, ib, iinfo, k
+           integer(ilp) :: i, ib, iinfo, k
            logical(lk) :: use_recursive_qr
            parameter(use_recursive_qr=.true.)
      
@@ -63101,9 +63097,9 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, n, nrhs
+           integer(ilp) :: info, lda, ldb, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
      
@@ -63153,7 +63149,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldv, lwork, m, mv, n
+           integer(ilp) :: info, lda, ldv, lwork, m, mv, n
            character*1 joba, jobu, jobv
            ! .. array arguments ..
            real(dp) :: a(lda, *), sva(n), v(ldv, *), work(lwork)
@@ -63161,14 +63157,14 @@ module stdlib_linalg_lapack_d
            ! .. local parameters ..
            real(dp) :: zero, half, one
            parameter(zero=0.0d0, half=0.5d0, one=1.0d0)
-           integer(int32) :: nsweep
+           integer(ilp) :: nsweep
            parameter(nsweep=30)
            ! .. local scalars ..
            real(dp) :: aapp, aapp0, aapq, aaqq, apoaq, aqoap, big, bigtheta, cs, ctol, epsln, &
            large, mxaapq, mxsinj, rootbig, rooteps, rootsfmin, roottol, skl, sfmin, small, sn, t, &
                      temp1, theta, thsign, tol
-           integer(int32) :: blskip, emptsw, i, ibr, ierr, igl, ijblsk, ir1, iswrot, jbc, jgl, kbl, &
-                      lkahead, mvl, n2, n34, n4, nbl, notrot, p, pskipped, q, rowskip, swband
+           integer(ilp) :: blskip, emptsw, i, ibr, ierr, igl, ijblsk, ir1, iswrot, jbc, jgl, kbl, &
+                     lkahead, mvl, n2, n34, n4, nbl, notrot, p, pskipped, q, rowskip, swband
            logical(lk) :: applv, goscale, lower, lsvec, noscale, rotok, rsvec, uctol, upper
            ! .. local arrays ..
            real(dp) :: fastr(5)
@@ -64128,10 +64124,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed, fact, trans
-           integer(int32) :: info, lda, ldaf, ldb, ldx, n, nrhs
+           integer(ilp) :: info, lda, ldaf, ldb, ldx, n, nrhs
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: ipiv(*), iwork(*)
+           integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: a(lda, *), af(ldaf, *), b(ldb, *), berr(*), c(*), ferr(*), r(* &
                      ), work(*), x(ldx, *)
         ! =====================================================================
@@ -64141,7 +64137,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: colequ, equil, nofact, notran, rowequ
            character :: norm
-           integer(int32) :: i, infequ, j
+           integer(ilp) :: i, infequ, j
            real(dp) :: amax, anorm, bignum, colcnd, rcmax, rcmin, rowcnd, rpvgrw, smlnum
      
            ! .. intrinsic functions ..
@@ -64353,7 +64349,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobvsl, jobvsr, sort
-           integer(int32) :: info, lda, ldb, ldvsl, ldvsr, lwork, n, sdim
+           integer(ilp) :: info, lda, ldb, ldvsl, ldvsr, lwork, n, sdim
            ! .. array arguments ..
            logical(lk) :: bwork(*)
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), vsl(ldvsl, &
@@ -64368,12 +64364,12 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: cursl, ilascl, ilbscl, ilvsl, ilvsr, lastsl, lquery, lst2sl, &
                      wantst
-           integer(int32) :: i, icols, ierr, ihi, ijobvl, ijobvr, ileft, ilo, ip, iright, irows, &
+           integer(ilp) :: i, icols, ierr, ihi, ijobvl, ijobvr, ileft, ilo, ip, iright, irows, &
                      itau, iwrk, maxwrk, minwrk
            real(dp) :: anrm, anrmto, bignum, bnrm, bnrmto, eps, pvsl, pvsr, safmax, safmin, &
                      smlnum
            ! .. local arrays ..
-           integer(int32) :: idum(1)
+           integer(ilp) :: idum(1)
            real(dp) :: dif(2)
      
            ! .. intrinsic functions ..
@@ -64679,10 +64675,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobvsl, jobvsr, sense, sort
-           integer(int32) :: info, lda, ldb, ldvsl, ldvsr, liwork, lwork, n, sdim
+           integer(ilp) :: info, lda, ldb, ldvsl, ldvsr, liwork, lwork, n, sdim
            ! .. array arguments ..
            logical(lk) :: bwork(*)
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), rconde(2), &
                      rcondv(2), vsl(ldvsl, *), vsr(ldvsr, *), work(*)
            ! .. function arguments ..
@@ -64695,7 +64691,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: cursl, ilascl, ilbscl, ilvsl, ilvsr, lastsl, lquery, lst2sl, wantsb, &
                      wantse, wantsn, wantst, wantsv
-           integer(int32) :: i, icols, ierr, ihi, ijob, ijobvl, ijobvr, ileft, ilo, ip, iright, &
+           integer(ilp) :: i, icols, ierr, ihi, ijob, ijobvl, ijobvr, ileft, ilo, ip, iright, &
                      irows, itau, iwrk, liwmin, lwrk, maxwrk, minwrk
            real(dp) :: anrm, anrmto, bignum, bnrm, bnrmto, eps, pl, pr, safmax, safmin, &
                      smlnum
@@ -65039,7 +65035,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobvl, jobvr
-           integer(int32) :: info, lda, ldb, ldvl, ldvr, lwork, n
+           integer(ilp) :: info, lda, ldb, ldvl, ldvr, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), vl(ldvl, *) &
                      , vr(ldvr, *), work(*)
@@ -65050,8 +65046,8 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: ilascl, ilbscl, ilv, ilvl, ilvr, lquery
            character :: chtemp
-           integer(int32) :: icols, ierr, ihi, ijobvl, ijobvr, ileft, ilo, in, iright, irows, itau, &
-                      iwrk, jc, jr, maxwrk, minwrk
+           integer(ilp) :: icols, ierr, ihi, ijobvl, ijobvr, ileft, ilo, in, iright, irows, itau, &
+                     iwrk, jc, jr, maxwrk, minwrk
            real(dp) :: anrm, anrmto, bignum, bnrm, bnrmto, eps, smlnum, temp
            ! .. local arrays ..
            logical(lk) :: ldumma(1)
@@ -65346,11 +65342,11 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: balanc, jobvl, jobvr, sense
-           integer(int32) :: ihi, ilo, info, lda, ldb, ldvl, ldvr, lwork, n
+           integer(ilp) :: ihi, ilo, info, lda, ldb, ldvl, ldvr, lwork, n
            real(dp) :: abnrm, bbnrm
            ! .. array arguments ..
            logical(lk) :: bwork(*)
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), lscale(*), &
                      rconde(*), rcondv(*), rscale(*), vl(ldvl, *), vr(ldvr, *), work(*)
         ! =====================================================================
@@ -65361,8 +65357,8 @@ module stdlib_linalg_lapack_d
            logical(lk) :: ilascl, ilbscl, ilv, ilvl, ilvr, lquery, noscl, pair, wantsb, wantse, &
                      wantsn, wantsv
            character :: chtemp
-           integer(int32) :: i, icols, ierr, ijobvl, ijobvr, in, irows, itau, iwrk, iwrk1, j, jc, &
-                     jr, m, maxwrk, minwrk, mm
+           integer(ilp) :: i, icols, ierr, ijobvl, ijobvr, in, irows, itau, iwrk, iwrk1, j, jc, jr, &
+                      m, maxwrk, minwrk, mm
            real(dp) :: anrm, anrmto, bignum, bnrm, bnrmto, eps, smlnum, temp
            ! .. local arrays ..
            logical(lk) :: ldumma(1)
@@ -65738,7 +65734,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, lwork, m, n, p
+           integer(ilp) :: info, lda, ldb, lwork, m, n, p
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), d(*), work(*), x(*), y(*)
         ! ===================================================================
@@ -65747,7 +65743,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, lopt, lwkmin, lwkopt, nb, nb1, nb2, nb3, nb4, np
+           integer(ilp) :: i, lopt, lwkmin, lwkopt, nb, nb1, nb2, nb3, nb4, np
      
            ! .. intrinsic functions ..
            intrinsic :: int, max, min
@@ -65870,7 +65866,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, lwork, m, n, p
+           integer(ilp) :: info, lda, ldb, lwork, m, n, p
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), c(*), d(*), work(*), x(*)
         ! =====================================================================
@@ -65879,7 +65875,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: lopt, lwkmin, lwkopt, mn, nb, nb1, nb2, nb3, nb4, nr
+           integer(ilp) :: lopt, lwkmin, lwkopt, mn, nb, nb1, nb2, nb3, nb4, nr
      
            ! .. intrinsic functions ..
            intrinsic :: int, max, min
@@ -66000,10 +65996,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: eigsrc, initv, side
-           integer(int32) :: info, ldh, ldvl, ldvr, m, mm, n
+           integer(ilp) :: info, ldh, ldvl, ldvr, m, mm, n
            ! .. array arguments ..
            logical(lk) :: select(*)
-           integer(int32) :: ifaill(*), ifailr(*)
+           integer(ilp) :: ifaill(*), ifailr(*)
            real(dp) :: h(ldh, *), vl(ldvl, *), vr(ldvr, *), wi(*), work(*), wr(*)
                      
         ! =====================================================================
@@ -66012,7 +66008,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: bothv, fromqr, leftv, noinit, pair, rightv
-           integer(int32) :: i, iinfo, k, kl, kln, kr, ksi, ksr, ldwork
+           integer(ilp) :: i, iinfo, k, kl, kln, kr, ksi, ksr, ldwork
            real(dp) :: bignum, eps3, hnorm, smlnum, ulp, unfl, wki, wkr
      
            ! .. intrinsic functions ..
@@ -66216,12 +66212,12 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character*1 uplo
-           integer(int32) :: ncols, lda, ldaf
+           integer(ilp) :: ncols, lda, ldaf
            ! .. array arguments ..
            real(dp) :: a(lda, *), af(ldaf, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, j
+           integer(ilp) :: i, j
            real(dp) :: amax, umax, rpvgrw
            logical(lk) :: upper
            ! .. intrinsic functions ..
@@ -66311,17 +66307,17 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, ldq, n, n1
+           integer(ilp) :: info, k, ldq, n, n1
            real(dp) :: rho
            ! .. array arguments ..
-           integer(int32) :: ctot(*), indx(*)
+           integer(ilp) :: ctot(*), indx(*)
            real(dp) :: d(*), dlamda(*), q(ldq, *), q2(*), s(*), w(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0d0, zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: i, ii, iq2, j, n12, n2, n23
+           integer(ilp) :: i, ii, iq2, j, n12, n2, n23
            real(dp) :: temp
      
            ! .. intrinsic functions ..
@@ -66461,19 +66457,19 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: curlvl, curpbm, cutpnt, icompq, info, ldq, n, qsiz, tlvls
+           integer(ilp) :: curlvl, curpbm, cutpnt, icompq, info, ldq, n, qsiz, tlvls
            real(dp) :: rho
            ! .. array arguments ..
-           integer(int32) :: givcol(2, *), givptr(*), indxq(*), iwork(*), perm(*), &
-                     prmptr(*), qptr(*)
+           integer(ilp) :: givcol(2, *), givptr(*), indxq(*), iwork(*), perm(*), prmptr( &
+                     *), qptr(*)
            real(dp) :: d(*), givnum(2, *), q(ldq, *), qstore(*), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0d0, zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: coltyp, curr, i, idlmda, indx, indxc, indxp, iq2, is, iw, iz, k, ldq2, &
-                      n1, n2, ptr
+           integer(ilp) :: coltyp, curr, i, idlmda, indx, indxc, indxp, iq2, is, iw, iz, k, ldq2, &
+                     n1, n2, ptr
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -66577,7 +66573,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            logical(lk) :: wantq
-           integer(int32) :: info, j1, ldq, ldt, n, n1, n2
+           integer(ilp) :: info, j1, ldq, ldt, n, n1, n2
            ! .. array arguments ..
            real(dp) :: q(ldq, *), t(ldt, *), work(*)
         ! =====================================================================
@@ -66586,10 +66582,10 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            real(dp) :: ten
            parameter(ten=1.0d+1)
-           integer(int32) :: ldd, ldx
+           integer(ilp) :: ldd, ldx
            parameter(ldd=4, ldx=2)
            ! .. local scalars ..
-           integer(int32) :: ierr, j2, j3, j4, k, nd
+           integer(ilp) :: ierr, j2, j3, j4, k, nd
            real(dp) :: cs, dnorm, eps, scale, smlnum, sn, t11, t22, t33, tau, tau1, tau2, temp, &
                      thresh, wi1, wi2, wr1, wr2, xnorm
            ! .. local arrays ..
@@ -66774,7 +66770,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihi, ihiz, ilo, iloz, info, ldh, ldz, n
+           integer(ilp) :: ihi, ihiz, ilo, iloz, info, ldh, ldz, n
            logical(lk) :: wantt, wantz
            ! .. array arguments ..
            real(dp) :: h(ldh, *), wi(*), wr(*), z(ldz, *)
@@ -66784,12 +66780,12 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0d0, two=2.0d0)
            real(dp) :: dat1, dat2
            parameter(dat1=3.0d0/4.0d0, dat2=-0.4375d0)
-           integer(int32) :: kexsh
+           integer(ilp) :: kexsh
            parameter(kexsh=10)
            ! .. local scalars ..
            real(dp) :: aa, ab, ba, bb, cs, det, h11, h12, h21, h21s, h22, rt1i, rt1r, rt2i, rt2r, &
                      rtdisc, s, safmax, safmin, smlnum, sn, sum, t1, t2, t3, tr, tst, ulp, v2, v3
-           integer(int32) :: i, i1, i2, its, itmax, j, k, l, m, nh, nr, nz, kdefl
+           integer(ilp) :: i, i1, i2, its, itmax, j, k, l, m, nh, nr, nz, kdefl
            ! .. local arrays ..
            real(dp) :: v(3)
      
@@ -67086,10 +67082,10 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, ldu, ldu2, ldvt, ldvt2, nl, nr, sqre
+           integer(ilp) :: info, k, ldu, ldu2, ldvt, ldvt2, nl, nr, sqre
            real(dp) :: alpha, beta
            ! .. array arguments ..
-           integer(int32) :: coltyp(*), idx(*), idxc(*), idxp(*), idxq(*)
+           integer(ilp) :: coltyp(*), idx(*), idxc(*), idxp(*), idxq(*)
            real(dp) :: d(*), dsigma(*), u(ldu, *), u2(ldu2, *), vt(ldvt, *), vt2(ldvt2, &
                      *), z(*)
         ! =====================================================================
@@ -67097,9 +67093,9 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one, two, eight
            parameter(zero=0.0_dp, one=1.0_dp, two=2.0_dp, eight=8.0_dp)
            ! .. local arrays ..
-           integer(int32) :: ctot(4), psm(4)
+           integer(ilp) :: ctot(4), psm(4)
            ! .. local scalars ..
-           integer(int32) :: ct, i, idxi, idxj, idxjp, j, jp, jprev, k2, m, n, nlp1, nlp2
+           integer(ilp) :: ct, i, idxi, idxj, idxjp, j, jp, jprev, k2, m, n, nlp1, nlp2
            real(dp) :: c, eps, hlftol, s, tau, tol, z1
      
            ! .. intrinsic functions ..
@@ -67375,13 +67371,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n, mb, nb, lwork, ldt
+           integer(ilp) :: info, lda, m, n, mb, nb, lwork, ldt
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*), t(ldt, *)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ii, kk, ctr
+           integer(ilp) :: i, ii, kk, ctr
      
            ! .. intrinsic functions ..
            intrinsic :: max, min, mod
@@ -67460,13 +67456,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n, mb, nb, ldt, lwork
+           integer(ilp) :: info, lda, m, n, mb, nb, ldt, lwork
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*), t(ldt, *)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, ii, kk, ctr
+           integer(ilp) :: i, ii, kk, ctr
      
            ! .. intrinsic functions ..
            intrinsic :: max, min, mod
@@ -67551,7 +67547,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: vect
-           integer(int32) :: info, k, lda, lwork, m, n
+           integer(ilp) :: info, k, lda, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
@@ -67560,7 +67556,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, wantq
-           integer(int32) :: i, iinfo, j, lwkopt, mn
+           integer(ilp) :: i, iinfo, j, lwkopt, mn
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -67708,14 +67704,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: side, trans, vect
-           integer(int32) :: info, k, lda, ldc, lwork, m, n
+           integer(ilp) :: info, k, lda, ldc, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: applyq, left, lquery, notran
            character :: transt
-           integer(int32) :: i1, i2, iinfo, lwkopt, mi, nb, ni, nq, nw
+           integer(ilp) :: i1, i2, iinfo, lwkopt, mi, nb, ni, nq, nw
      
            ! .. intrinsic functions ..
            intrinsic :: max, min
@@ -67857,7 +67853,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, kd, ldab, ldb, n, nrhs
+           integer(ilp) :: info, kd, ldab, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), b(ldb, *)
         ! =====================================================================
@@ -67909,10 +67905,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed, fact, uplo
-           integer(int32) :: info, kd, ldab, ldafb, ldb, ldx, n, nrhs
+           integer(ilp) :: info, kd, ldab, ldafb, ldb, ldx, n, nrhs
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), afb(ldafb, *), b(ldb, *), berr(*), ferr(*), s(*), &
                      work(*), x(ldx, *)
         ! =====================================================================
@@ -67921,7 +67917,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: equil, nofact, rcequ, upper
-           integer(int32) :: i, infequ, j, j1, j2
+           integer(ilp) :: i, infequ, j, j1, j2
            real(dp) :: amax, anorm, bignum, scond, smax, smin, smlnum
      
            ! .. intrinsic functions ..
@@ -68066,7 +68062,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: transr, uplo
-           integer(int32) :: n, info
+           integer(ilp) :: n, info
            ! .. array arguments ..
            real(dp) :: a(0:*)
         ! =====================================================================
@@ -68075,7 +68071,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
-           integer(int32) :: n1, n2, k
+           integer(ilp) :: n1, n2, k
      
            ! .. intrinsic functions ..
            intrinsic :: mod
@@ -68247,7 +68243,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, n, nrhs
+           integer(ilp) :: info, lda, ldb, n, nrhs
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
@@ -68297,10 +68293,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: equed, fact, uplo
-           integer(int32) :: info, lda, ldaf, ldb, ldx, n, nrhs
+           integer(ilp) :: info, lda, ldaf, ldb, ldx, n, nrhs
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), af(ldaf, *), b(ldb, *), berr(*), ferr(*), s(*), work( &
                       *), x(ldx, *)
         ! =====================================================================
@@ -68309,7 +68305,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: equil, nofact, rcequ
-           integer(int32) :: i, infequ, j
+           integer(ilp) :: i, infequ, j
            real(dp) :: amax, anorm, bignum, scond, smax, smin, smlnum
      
            ! .. intrinsic functions ..
@@ -68444,7 +68440,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: compq
-           integer(int32) :: ifst, ilst, info, ldq, ldt, n
+           integer(ilp) :: ifst, ilst, info, ldq, ldt, n
            ! .. array arguments ..
            real(dp) :: q(ldq, *), t(ldt, *), work(*)
         ! =====================================================================
@@ -68453,7 +68449,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: wantq
-           integer(int32) :: here, nbf, nbl, nbnext
+           integer(ilp) :: here, nbf, nbl, nbnext
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -68651,11 +68647,11 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: compq, job
-           integer(int32) :: info, ldq, ldt, liwork, lwork, m, n
+           integer(ilp) :: info, ldq, ldt, liwork, lwork, m, n
            real(dp) :: s, sep
            ! .. array arguments ..
            logical(lk) :: select(*)
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: q(ldq, *), t(ldt, *), wi(*), work(*), wr(*)
         ! =====================================================================
            ! .. parameters ..
@@ -68663,10 +68659,10 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, pair, swap, wantbh, wantq, wants, wantsp
-           integer(int32) :: ierr, k, kase, kk, ks, liwmin, lwmin, n1, n2, nn
+           integer(ilp) :: ierr, k, kase, kk, ks, liwmin, lwmin, n1, n2, nn
            real(dp) :: est, rnorm, scale
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max, sqrt
@@ -68845,10 +68841,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: howmny, job
-           integer(int32) :: info, ldt, ldvl, ldvr, ldwork, m, mm, n
+           integer(ilp) :: info, ldt, ldvl, ldvr, ldwork, m, mm, n
            ! .. array arguments ..
            logical(lk) :: select(*)
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: s(*), sep(*), t(ldt, *), vl(ldvl, *), vr(ldvr, *), work(ldwork, &
                      *)
         ! =====================================================================
@@ -68857,11 +68853,11 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp, two=2.0_dp)
            ! .. local scalars ..
            logical(lk) :: pair, somcon, wantbh, wants, wantsp
-           integer(int32) :: i, ierr, ifst, ilst, j, k, kase, ks, n2, nn
+           integer(ilp) :: i, ierr, ifst, ilst, j, k, kase, ks, n2, nn
            real(dp) :: bignum, cond, cs, delta, dumm, eps, est, lnrm, mu, prod, prod1, prod2, rnrm, &
                       scale, smlnum, sn
            ! .. local arrays ..
-           integer(int32) :: isave(3)
+           integer(ilp) :: isave(3)
            real(dp) :: dummy(1)
      
            ! .. intrinsic functions ..
@@ -69097,10 +69093,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
      
-           integer(int32) :: info, lda, ldu, ldv, lwork, m, n
+           integer(ilp) :: info, lda, ldu, ldv, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), sva(n), u(ldu, *), v(ldv, *), work(lwork)
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            character*1 joba, jobp, jobr, jobt, jobu, jobv
         ! ===========================================================================
            ! .. local parameters ..
@@ -69110,7 +69106,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: aapp, aaqq, aatmax, aatmin, big, big1, cond_ok, condr1, condr2, entra, &
            entrat, epsln, maxprj, scalem, sconda, sfmin, small, temp1, uscal1, uscal2, &
                      xsc
-           integer(int32) :: ierr, n1, nr, numrank, p, q, warning
+           integer(ilp) :: ierr, n1, nr, numrank, p, q, warning
            logical(lk) :: almort, defr, errest, goscal, jracc, kill, lsvec, l2aber, l2kill, &
                      l2pert, l2rank, l2tran, noscal, rowpiv, rsvec, transp
            ! .. intrinsic functions ..
@@ -70183,13 +70179,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n, tsize, lwork
+           integer(ilp) :: info, lda, m, n, tsize, lwork
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery, lminws, mint, minw
-           integer(int32) :: mb, nb, mintsz, nblcks, lwmin, lwopt, lwreq
+           integer(ilp) :: mb, nb, mintsz, nblcks, lwmin, lwopt, lwreq
      
            ! .. intrinsic functions ..
            intrinsic :: max, min, mod
@@ -70336,21 +70332,21 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, lwork, m, n, nrhs, rank
+           integer(ilp) :: info, lda, ldb, lwork, m, n, nrhs, rank
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: jpvt(*)
+           integer(ilp) :: jpvt(*)
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
            ! .. parameters ..
-           integer(int32) :: imax, imin
+           integer(ilp) :: imax, imin
            parameter(imax=1, imin=2)
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, iascl, ibscl, ismax, ismin, j, lwkmin, lwkopt, mn, nb, nb1, nb2, &
-                     nb3, nb4
+           integer(ilp) :: i, iascl, ibscl, ismax, ismin, j, lwkmin, lwkopt, mn, nb, nb1, nb2, nb3, &
+                      nb4
            real(dp) :: anrm, bignum, bnrm, c1, c2, s1, s2, smax, smaxpr, smin, sminpr, smlnum, &
                      wsize
      
@@ -70543,13 +70539,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, m, n, tsize, lwork
+           integer(ilp) :: info, lda, m, n, tsize, lwork
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(*), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery, lminws, mint, minw
-           integer(int32) :: mb, nb, mintsz, nblcks
+           integer(ilp) :: mb, nb, mintsz, nblcks
      
            ! .. intrinsic functions ..
            intrinsic :: max, min, mod
@@ -70671,7 +70667,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: trans
-           integer(int32) :: info, lda, ldb, lwork, m, n, nrhs
+           integer(ilp) :: info, lda, ldb, lwork, m, n, nrhs
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
@@ -70680,8 +70676,8 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: lquery, tran
-           integer(int32) :: i, iascl, ibscl, j, maxmn, brow, scllen, tszo, tszm, lwo, lwm, lw1, &
-                     lw2, wsizeo, wsizem, info2
+           integer(ilp) :: i, iascl, ibscl, j, maxmn, brow, scllen, tszo, tszm, lwo, lwm, lw1, lw2, &
+                     wsizeo, wsizem, info2
            real(dp) :: anrm, bignum, bnrm, smlnum, tq(5), workq(1)
      
            ! .. intrinsic functions ..
@@ -70903,7 +70899,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldt, lwork, m, n, nb1, nb2, mb1
+           integer(ilp) :: info, lda, ldt, lwork, m, n, nb1, nb2, mb1
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *), work(*)
         ! =====================================================================
@@ -70912,7 +70908,7 @@ module stdlib_linalg_lapack_d
            parameter(one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: i, iinfo, j, lw1, lw2, lwt, ldwt, lworkopt, nb1local, nb2local, &
+           integer(ilp) :: i, iinfo, j, lw1, lw2, lwt, ldwt, lworkopt, nb1local, nb2local, &
                      num_all_row_blocks
      
            ! .. intrinsic functions ..
@@ -71031,10 +71027,10 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, k, ldq, n, n1
+           integer(ilp) :: info, k, ldq, n, n1
            real(dp) :: rho
            ! .. array arguments ..
-           integer(int32) :: coltyp(*), indx(*), indxc(*), indxp(*), indxq(*)
+           integer(ilp) :: coltyp(*), indx(*), indxc(*), indxp(*), indxq(*)
            real(dp) :: d(*), dlamda(*), q(ldq, *), q2(*), w(*), z(*)
         ! =====================================================================
            ! .. parameters ..
@@ -71042,9 +71038,9 @@ module stdlib_linalg_lapack_d
            parameter(mone=-1.0d0, zero=0.0d0, one=1.0d0, two=2.0d0, eight= &
                      8.0d0)
            ! .. local arrays ..
-           integer(int32) :: ctot(4), psm(4)
+           integer(ilp) :: ctot(4), psm(4)
            ! .. local scalars ..
-           integer(int32) :: ct, i, imax, iq1, iq2, j, jmax, js, k2, n1p1, n2, nj, pj
+           integer(ilp) :: ct, i, imax, iq1, iq2, j, jmax, js, k2, n1p1, n2, nj, pj
            real(dp) :: c, eps, s, t, tau, tol
      
            ! .. intrinsic functions ..
@@ -71293,8 +71289,8 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihiz, iloz, kbot, ktop, ldh, ldt, ldv, ldwv, ldz, lwork, n, nd, nh, &
-                     ns, nv, nw
+           integer(ilp) :: ihiz, iloz, kbot, ktop, ldh, ldt, ldv, ldwv, ldz, lwork, n, nd, nh, ns, &
+                     nv, nw
            logical(lk) :: wantt, wantz
            ! .. array arguments ..
            real(dp) :: h(ldh, *), si(*), sr(*), t(ldt, *), v(ldv, *), work(*), wv( &
@@ -71306,7 +71302,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            real(dp) :: aa, bb, beta, cc, cs, dd, evi, evk, foo, s, safmax, safmin, smlnum, sn, tau, &
                       ulp
-           integer(int32) :: i, ifst, ilst, info, infqr, j, jw, k, kcol, kend, kln, krow, kwtop, &
+           integer(ilp) :: i, ifst, ilst, info, infqr, j, jw, k, kcol, kend, kln, krow, kwtop, &
                      ltop, lwk1, lwk2, lwkopt
            logical(lk) :: bulge, sorted
      
@@ -71617,17 +71613,17 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, ldu, ldvt, nl, nr, sqre
+           integer(ilp) :: info, ldu, ldvt, nl, nr, sqre
            real(dp) :: alpha, beta
            ! .. array arguments ..
-           integer(int32) :: idxq(*), iwork(*)
+           integer(ilp) :: idxq(*), iwork(*)
            real(dp) :: d(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: one, zero
            parameter(one=1.0_dp, zero=0.0_dp)
            ! .. local scalars ..
-           integer(int32) :: coltyp, i, idx, idxc, idxp, iq, isigma, iu2, ivt2, iz, k, ldq, ldu2, &
+           integer(ilp) :: coltyp, i, idx, idxc, idxp, iq, isigma, iu2, ivt2, iz, k, ldq, ldu2, &
                      ldvt2, m, n, n1, n2
            real(dp) :: orgnrm
      
@@ -71729,14 +71725,14 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: cutpnt, info, ldq, n
+           integer(ilp) :: cutpnt, info, ldq, n
            real(dp) :: rho
            ! .. array arguments ..
-           integer(int32) :: indxq(*), iwork(*)
+           integer(ilp) :: indxq(*), iwork(*)
            real(dp) :: d(*), q(ldq, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: coltyp, i, idlmda, indx, indxc, indxp, iq2, is, iw, iz, k, n1, n2, &
+           integer(ilp) :: coltyp, i, idlmda, indx, indxc, indxp, iq2, is, iw, iz, k, n1, n2, &
                      zpp1
      
            ! .. intrinsic functions ..
@@ -71808,18 +71804,18 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: icompq, info, ldq, ldqs, n, qsiz
+           integer(ilp) :: icompq, info, ldq, ldqs, n, qsiz
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: d(*), e(*), q(ldq, *), qstore(ldqs, *), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one, two
            parameter(zero=0.d0, one=1.d0, two=2.d0)
            ! .. local scalars ..
-           integer(int32) :: curlvl, curprb, curr, i, igivcl, igivnm, igivpt, indxq, iperm, iprmpt, &
-            iq, iqptr, iwrem, j, k, lgn, matsiz, msd2, smlsiz, smm1, spm1, spm2, submat, subpbs, &
-                      tlvls
+           integer(ilp) :: curlvl, curprb, curr, i, igivcl, igivnm, igivpt, indxq, iperm, iprmpt, &
+           iq, iqptr, iwrem, j, k, lgn, matsiz, msd2, smlsiz, smm1, spm1, spm2, submat, subpbs, &
+                     tlvls
            real(dp) :: temp
      
            ! .. intrinsic functions ..
@@ -72023,9 +72019,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: compz
-           integer(int32) :: info, ldz, liwork, lwork, n
+           integer(ilp) :: info, ldz, liwork, lwork, n
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
@@ -72033,7 +72029,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: finish, i, icompz, ii, j, k, lgn, liwmin, lwmin, m, smlsiz, start, &
+           integer(ilp) :: finish, i, icompz, ii, j, k, lgn, liwmin, lwmin, m, smlsiz, start, &
                      storez, strtrw
            real(dp) :: eps, orgnrm, p, tiny
      
@@ -72248,9 +72244,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz
-           integer(int32) :: info, ldz, liwork, lwork, n
+           integer(ilp) :: info, ldz, liwork, lwork, n
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
@@ -72258,7 +72254,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: lquery, wantz
-           integer(int32) :: iscale, liwmin, lwmin
+           integer(ilp) :: iscale, liwmin, lwmin
            real(dp) :: bignum, eps, rmax, rmin, safmin, sigma, smlnum, tnrm
      
            ! .. intrinsic functions ..
@@ -72356,9 +72352,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, lda, liwork, lwork, n
+           integer(ilp) :: info, lda, liwork, lwork, n
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), w(*), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -72366,7 +72362,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lower, lquery, wantz
-           integer(int32) :: iinfo, inde, indtau, indwk2, indwrk, iscale, liopt, liwmin, llwork, &
+           integer(ilp) :: iinfo, inde, indtau, indwk2, indwrk, iscale, liopt, liwmin, llwork, &
                      llwrk2, lopt, lwmin
            real(dp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
      
@@ -72493,9 +72489,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, itype, lda, ldb, liwork, lwork, n
+           integer(ilp) :: info, itype, lda, ldb, liwork, lwork, n
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), w(*), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -72504,7 +72500,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: lquery, upper, wantz
            character :: trans
-           integer(int32) :: liopt, liwmin, lopt, lwmin
+           integer(ilp) :: liopt, liwmin, lopt, lwmin
      
            ! .. intrinsic functions ..
            intrinsic :: dble, max
@@ -72614,9 +72610,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, kd, ldab, ldz, liwork, lwork, n
+           integer(ilp) :: info, kd, ldab, ldz, liwork, lwork, n
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
@@ -72624,7 +72620,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lower, lquery, wantz
-           integer(int32) :: iinfo, inde, indwk2, indwrk, iscale, liwmin, llwrk2, lwmin
+           integer(ilp) :: iinfo, inde, indwk2, indwrk, iscale, liwmin, llwrk2, lwmin
            real(dp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
      
            ! .. intrinsic functions ..
@@ -72750,9 +72746,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, ka, kb, ldab, ldbb, ldz, liwork, lwork, n
+           integer(ilp) :: info, ka, kb, ldab, ldbb, ldz, liwork, lwork, n
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), bb(ldbb, *), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
@@ -72761,7 +72757,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: lquery, upper, wantz
            character :: vect
-           integer(int32) :: iinfo, inde, indwk2, indwrk, liwmin, llwrk2, lwmin
+           integer(ilp) :: iinfo, inde, indwk2, indwrk, liwmin, llwrk2, lwmin
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -72867,9 +72863,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, ldz, liwork, lwork, n
+           integer(ilp) :: info, ldz, liwork, lwork, n
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ap(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
@@ -72877,7 +72873,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, wantz
-           integer(int32) :: iinfo, inde, indtau, indwrk, iscale, liwmin, llwork, lwmin
+           integer(ilp) :: iinfo, inde, indtau, indwrk, iscale, liwmin, llwork, lwmin
            real(dp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
      
            ! .. intrinsic functions ..
@@ -72997,15 +72993,15 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, uplo
-           integer(int32) :: info, itype, ldz, liwork, lwork, n
+           integer(ilp) :: info, itype, ldz, liwork, lwork, n
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: ap(*), bp(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery, upper, wantz
            character :: trans
-           integer(int32) :: j, liwmin, lwmin, neig
+           integer(ilp) :: j, liwmin, lwmin, neig
      
            ! .. intrinsic functions ..
            intrinsic :: dble, max
@@ -73125,9 +73121,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: compq, uplo
-           integer(int32) :: info, ldu, ldvt, n
+           integer(ilp) :: info, ldu, ldvt, n
            ! .. array arguments ..
-           integer(int32) :: iq(*), iwork(*)
+           integer(ilp) :: iq(*), iwork(*)
            real(dp) :: d(*), e(*), q(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
         ! changed dimension statement in comment describing e from (n) to
@@ -73137,7 +73133,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one, two
            parameter(zero=0.0_dp, one=1.0_dp, two=2.0_dp)
            ! .. local scalars ..
-           integer(int32) :: difl, difr, givcol, givnum, givptr, i, ic, icompq, ierr, ii, is, iu, &
+           integer(ilp) :: difl, difr, givcol, givnum, givptr, i, ic, icompq, ierr, ii, is, iu, &
            iuplo, ivt, j, k, kk, mlvl, nm1, nsize, perm, poles, qstart, smlsiz, smlszp, sqre, start, &
                       wstart, z
            real(dp) :: cs, eps, orgnrm, p, r, sn
@@ -73392,7 +73388,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldc, ldu, ldvt, n, ncc, ncvt, nru
+           integer(ilp) :: info, ldc, ldu, ldvt, n, ncc, ncvt, nru
            ! .. array arguments ..
            real(dp) :: c(ldc, *), d(*), e(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
@@ -73411,11 +73407,11 @@ module stdlib_linalg_lapack_d
            parameter(hndrd=100.0d0)
            real(dp) :: meigth
            parameter(meigth=-0.125d0)
-           integer(int32) :: maxitr
+           integer(ilp) :: maxitr
            parameter(maxitr=6)
            ! .. local scalars ..
            logical(lk) :: lower, rotate
-           integer(int32) :: i, idir, isub, iter, iterdivn, j, ll, lll, m, maxitdivn, nm1, nm12, &
+           integer(ilp) :: i, idir, isub, iter, iterdivn, j, ll, lll, m, maxitdivn, nm1, nm12, &
                      nm13, oldll, oldm
            real(dp) :: abse, abss, cosl, cosr, cs, eps, f, g, h, mu, oldcs, oldsn, r, shift, sigmn, &
                       sigmx, sinl, sinr, sll, smax, smin, sminl, sminoa, sn, thresh, tol, tolmul, unfl
@@ -73850,7 +73846,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobvs, sort
-           integer(int32) :: info, lda, ldvs, lwork, n, sdim
+           integer(ilp) :: info, lda, ldvs, lwork, n, sdim
            ! .. array arguments ..
            logical(lk) :: bwork(*)
            real(dp) :: a(lda, *), vs(ldvs, *), wi(*), work(*), wr(*)
@@ -73863,11 +73859,11 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: cursl, lastsl, lquery, lst2sl, scalea, wantst, wantvs
-           integer(int32) :: hswork, i, i1, i2, ibal, icond, ierr, ieval, ihi, ilo, inxt, ip, itau, &
-                      iwrk, maxwrk, minwrk
+           integer(ilp) :: hswork, i, i1, i2, ibal, icond, ierr, ieval, ihi, ilo, inxt, ip, itau, &
+                     iwrk, maxwrk, minwrk
            real(dp) :: anrm, bignum, cscale, eps, s, sep, smlnum
            ! .. local arrays ..
-           integer(int32) :: idum(1)
+           integer(ilp) :: idum(1)
            real(dp) :: dum(1)
      
            ! .. intrinsic functions ..
@@ -74105,11 +74101,11 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobvs, sense, sort
-           integer(int32) :: info, lda, ldvs, liwork, lwork, n, sdim
+           integer(ilp) :: info, lda, ldvs, liwork, lwork, n, sdim
            real(dp) :: rconde, rcondv
            ! .. array arguments ..
            logical(lk) :: bwork(*)
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), vs(ldvs, *), wi(*), work(*), wr(*)
            ! .. function arguments ..
            procedure(stdlib_select_d) :: select
@@ -74121,8 +74117,8 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: cursl, lastsl, lquery, lst2sl, scalea, wantsb, wantse, wantsn, wantst, &
                      wantsv, wantvs
-           integer(int32) :: hswork, i, i1, i2, ibal, icond, ierr, ieval, ihi, ilo, inxt, ip, itau, &
-                      iwrk, liwrk, lwrk, maxwrk, minwrk
+           integer(ilp) :: hswork, i, i1, i2, ibal, icond, ierr, ieval, ihi, ilo, inxt, ip, itau, &
+                     iwrk, liwrk, lwrk, maxwrk, minwrk
            real(dp) :: anrm, bignum, cscale, eps, smlnum
            ! .. local arrays ..
            real(dp) :: dum(1)
@@ -74394,7 +74390,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobvl, jobvr
-           integer(int32) :: info, lda, ldvl, ldvr, lwork, n
+           integer(ilp) :: info, lda, ldvl, ldvr, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), vl(ldvl, *), vr(ldvr, *), wi(*), work(*), wr(*)
                      
@@ -74405,7 +74401,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: lquery, scalea, wantvl, wantvr
            character :: side
-           integer(int32) :: hswork, i, ibal, ierr, ihi, ilo, itau, iwrk, k, lwork_trevc, maxwrk, &
+           integer(ilp) :: hswork, i, ibal, ierr, ihi, ilo, itau, iwrk, k, lwork_trevc, maxwrk, &
                      minwrk, nout
            real(dp) :: anrm, bignum, cs, cscale, eps, r, scl, smlnum, sn
            ! .. local arrays ..
@@ -74672,10 +74668,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: balanc, jobvl, jobvr, sense
-           integer(int32) :: ihi, ilo, info, lda, ldvl, ldvr, lwork, n
+           integer(ilp) :: ihi, ilo, info, lda, ldvl, ldvr, lwork, n
            real(dp) :: abnrm
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), rconde(*), rcondv(*), scale(*), vl(ldvl, *), vr(ldvr, &
                      *), wi(*), work(*), wr(*)
         ! =====================================================================
@@ -74685,7 +74681,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: lquery, scalea, wantvl, wantvr, wntsnb, wntsne, wntsnn, wntsnv
            character :: job, side
-           integer(int32) :: hswork, i, icond, ierr, itau, iwrk, k, lwork_trevc, maxwrk, minwrk, &
+           integer(ilp) :: hswork, i, icond, ierr, itau, iwrk, k, lwork_trevc, maxwrk, minwrk, &
                      nout
            real(dp) :: anrm, bignum, cs, cscale, eps, r, scl, smlnum, sn
            ! .. local arrays ..
@@ -74985,10 +74981,10 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, lwork, m, n, nrhs, rank
+           integer(ilp) :: info, lda, ldb, lwork, m, n, nrhs, rank
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), s(*), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -74996,8 +74992,8 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: iascl, ibscl, ie, il, itau, itaup, itauq, ldwork, liwork, maxmn, &
-                     maxwrk, minmn, minwrk, mm, mnthr, nlvl, nwork, smlsiz, wlalsd
+           integer(ilp) :: iascl, ibscl, ie, il, itau, itaup, itauq, ldwork, liwork, maxmn, maxwrk, &
+                      minmn, minwrk, mm, mnthr, nlvl, nwork, smlsiz, wlalsd
            real(dp) :: anrm, bignum, bnrm, eps, sfmin, smlnum
      
            ! .. intrinsic functions ..
@@ -75297,7 +75293,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, lda, ldb, lwork, m, n, nrhs, rank
+           integer(ilp) :: info, lda, ldb, lwork, m, n, nrhs, rank
            real(dp) :: rcond
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), s(*), work(*)
@@ -75307,9 +75303,9 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: bdspac, bl, chunk, i, iascl, ibscl, ie, il, itau, itaup, itauq, iwork, &
-                      ldwork, maxmn, maxwrk, minmn, minwrk, mm, mnthr
-           integer(int32) :: lwork_dgeqrf, lwork_dormqr, lwork_dgebrd, lwork_dormbr, lwork_dorgbr, &
+           integer(ilp) :: bdspac, bl, chunk, i, iascl, ibscl, ie, il, itau, itaup, itauq, iwork, &
+                     ldwork, maxmn, maxwrk, minmn, minwrk, mm, mnthr
+           integer(ilp) :: lwork_dgeqrf, lwork_dormqr, lwork_dgebrd, lwork_dormbr, lwork_dorgbr, &
                      lwork_dormlq, lwork_dgelqf
            real(dp) :: anrm, bignum, bnrm, eps, sfmin, smlnum, thr
            ! .. local arrays ..
@@ -75749,9 +75745,9 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz
-           integer(int32) :: info, lda, ldu, ldvt, lwork, m, n
+           integer(ilp) :: info, lda, ldu, ldvt, lwork, m, n
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), s(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -75759,16 +75755,16 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
            logical(lk) :: lquery, wntqa, wntqas, wntqn, wntqo, wntqs
-           integer(int32) :: bdspac, blk, chunk, i, ie, ierr, il, ir, iscl, itau, itaup, itauq, iu, &
-                      ivt, ldwkvt, ldwrkl, ldwrkr, ldwrku, maxwrk, minmn, minwrk, mnthr, nwork, wrkbl
-           integer(int32) :: lwork_dgebrd_mn, lwork_dgebrd_mm, lwork_dgebrd_nn, lwork_dgelqf_mn, &
+           integer(ilp) :: bdspac, blk, chunk, i, ie, ierr, il, ir, iscl, itau, itaup, itauq, iu, &
+                     ivt, ldwkvt, ldwrkl, ldwrkr, ldwrku, maxwrk, minmn, minwrk, mnthr, nwork, wrkbl
+           integer(ilp) :: lwork_dgebrd_mn, lwork_dgebrd_mm, lwork_dgebrd_nn, lwork_dgelqf_mn, &
            lwork_dgeqrf_mn, lwork_dorgbr_p_mm, lwork_dorgbr_q_nn, lwork_dorglq_mn, lwork_dorglq_nn, &
            lwork_dorgqr_mm, lwork_dorgqr_mn, lwork_dormbr_prt_mm, lwork_dormbr_qln_mm, &
            lwork_dormbr_prt_mn, lwork_dormbr_qln_mn, lwork_dormbr_prt_nn, &
                      lwork_dormbr_qln_nn
            real(dp) :: anrm, bignum, eps, smlnum
            ! .. local arrays ..
-           integer(int32) :: idum(1)
+           integer(ilp) :: idum(1)
            real(dp) :: dum(1)
      
            ! .. intrinsic functions ..
@@ -76714,7 +76710,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobu, jobvt
-           integer(int32) :: info, lda, ldu, ldvt, lwork, m, n
+           integer(ilp) :: info, lda, ldu, ldvt, lwork, m, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), s(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
@@ -76724,9 +76720,9 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: lquery, wntua, wntuas, wntun, wntuo, wntus, wntva, wntvas, wntvn, wntvo, &
                      wntvs
-           integer(int32) :: bdspac, blk, chunk, i, ie, ierr, ir, iscl, itau, itaup, itauq, iu, &
+           integer(ilp) :: bdspac, blk, chunk, i, ie, ierr, ir, iscl, itau, itaup, itauq, iu, &
                      iwork, ldwrkr, ldwrku, maxwrk, minmn, minwrk, mnthr, ncu, ncvt, nru, nrvt, wrkbl
-           integer(int32) :: lwork_dgeqrf, lwork_dorgqr_n, lwork_dorgqr_m, lwork_dgebrd, &
+           integer(ilp) :: lwork_dgeqrf, lwork_dorgqr_n, lwork_dorgqr_m, lwork_dgebrd, &
                      lwork_dorgbr_p, lwork_dorgbr_q, lwork_dgelqf, lwork_dorglq_n, lwork_dorglq_m
            real(dp) :: anrm, bignum, eps, smlnum
            ! .. local arrays ..
@@ -78970,18 +78966,18 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
      
            character :: joba, jobp, jobr, jobu, jobv
-           integer(int32) :: m, n, lda, ldu, ldv, numrank, liwork, lwork, lrwork, info
+           integer(ilp) :: m, n, lda, ldu, ldv, numrank, liwork, lwork, lrwork, info
            ! .. array arguments ..
            real(dp) :: a(lda, *), u(ldu, *), v(ldv, *), work(*)
            real(dp) :: s(*), rwork(*)
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
-           integer(int32) :: ierr, iwoff, nr, n1, optratio, p, q
-           integer(int32) :: lwcon, lwqp3, lwrk_dgelqf, lwrk_dgesvd, lwrk_dgesvd2, lwrk_dgeqp3, &
+           integer(ilp) :: ierr, iwoff, nr, n1, optratio, p, q
+           integer(ilp) :: lwcon, lwqp3, lwrk_dgelqf, lwrk_dgesvd, lwrk_dgesvd2, lwrk_dgeqp3, &
            lwrk_dgeqrf, lwrk_dormlq, lwrk_dormqr, lwrk_dormqr2, lwlqf, lwqrf, lwsvd, lwsvd2, lworq, &
                      lworq2, lworlq, minwrk, minwrk2, optwrk, optwrk2, iminwrk, rminwrk
            logical(lk) :: accla, acclm, acclh, ascaled, conda, dntwu, dntwv, lquery, lsvc0, &
@@ -79854,7 +79850,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobvsl, jobvsr, sort
-           integer(int32) :: info, lda, ldb, ldvsl, ldvsr, lwork, n, sdim
+           integer(ilp) :: info, lda, ldb, ldvsl, ldvsr, lwork, n, sdim
            ! .. array arguments ..
            logical(lk) :: bwork(*)
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), vsl(ldvsl, &
@@ -79869,12 +79865,12 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: cursl, ilascl, ilbscl, ilvsl, ilvsr, lastsl, lquery, lst2sl, &
                      wantst
-           integer(int32) :: i, icols, ierr, ihi, ijobvl, ijobvr, ileft, ilo, ip, iright, irows, &
+           integer(ilp) :: i, icols, ierr, ihi, ijobvl, ijobvr, ileft, ilo, ip, iright, irows, &
                      itau, iwrk, lwkopt
            real(dp) :: anrm, anrmto, bignum, bnrm, bnrmto, eps, pvsl, pvsr, safmax, safmin, &
                      smlnum
            ! .. local arrays ..
-           integer(int32) :: idum(1)
+           integer(ilp) :: idum(1)
            real(dp) :: dif(2)
      
            ! .. intrinsic functions ..
@@ -80160,7 +80156,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobvl, jobvr
-           integer(int32) :: info, lda, ldb, ldvl, ldvr, lwork, n
+           integer(ilp) :: info, lda, ldb, ldvl, ldvr, lwork, n
            ! .. array arguments ..
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), vl(ldvl, *) &
                      , vr(ldvr, *), work(*)
@@ -80171,8 +80167,8 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: ilascl, ilbscl, ilv, ilvl, ilvr, lquery
            character :: chtemp
-           integer(int32) :: icols, ierr, ihi, ijobvl, ijobvr, ileft, ilo, in, iright, irows, itau, &
-                      iwrk, jc, jr, lwkopt
+           integer(ilp) :: icols, ierr, ihi, ijobvl, ijobvr, ileft, ilo, in, iright, irows, itau, &
+                     iwrk, jc, jr, lwkopt
            real(dp) :: anrm, anrmto, bignum, bnrm, bnrmto, eps, smlnum, temp
            ! .. local arrays ..
            logical(lk) :: ldumma(1)
@@ -80454,7 +80450,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihi, ilo, info, ldh, ldz, lwork, n
+           integer(ilp) :: ihi, ilo, info, ldh, ldz, lwork, n
            character :: compz, job
            ! .. array arguments ..
            real(dp) :: h(ldh, *), wi(*), work(*), wr(*), z(ldz, *)
@@ -80463,7 +80459,7 @@ module stdlib_linalg_lapack_d
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_dlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
-           integer(int32) :: ntiny
+           integer(ilp) :: ntiny
            parameter(ntiny=15)
            ! ==== nl allocates some local workspace to help small matrices
            ! .    through a rare stdlib_dlahqr failure.  nl > ntiny = 15 is
@@ -80471,14 +80467,14 @@ module stdlib_linalg_lapack_d
            ! .    mended.  (the default value of nmin is 75.)  using nl = 49
            ! .    allows up to six simultaneous shifts and a 16-by-16
            ! .    deflation window.  ====
-           integer(int32) :: nl
+           integer(ilp) :: nl
            parameter(nl=49)
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0d0)
            ! .. local arrays ..
            real(dp) :: hl(nl, nl), workl(nl)
            ! .. local scalars ..
-           integer(int32) :: i, kbot, nmin
+           integer(ilp) :: i, kbot, nmin
            logical(lk) :: initz, lquery, wantt, wantz
      
            ! .. intrinsic functions ..
@@ -80603,10 +80599,10 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: icompq, info, ldb, ldbx, ldgcol, ldu, n, nrhs, smlsiz
+           integer(ilp) :: icompq, info, ldb, ldbx, ldgcol, ldu, n, nrhs, smlsiz
            ! .. array arguments ..
-           integer(int32) :: givcol(ldgcol, *), givptr(*), iwork(*), k(*), perm(ldgcol, * &
-                     )
+           integer(ilp) :: givcol(ldgcol, *), givptr(*), iwork(*), k(*), perm(ldgcol, *)
+                     
            real(dp) :: b(ldb, *), bx(ldbx, *), c(*), difl(ldu, *), difr(ldu, *), givnum( &
            ldu, *), poles(ldu, *), s(*), u(ldu, *), vt(ldu, *), work(*), z(ldu, *)
                      
@@ -80615,8 +80611,8 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one
            parameter(zero=0.0d0, one=1.0d0)
            ! .. local scalars ..
-           integer(int32) :: i, i1, ic, im1, inode, j, lf, ll, lvl, lvl2, nd, ndb1, ndiml, ndimr, &
-                     nl, nlf, nlp1, nlvl, nr, nrf, nrp1, sqre
+           integer(ilp) :: i, i1, ic, im1, inode, j, lf, ll, lvl, lvl2, nd, ndb1, ndiml, ndimr, nl, &
+                      nlf, nlp1, nlvl, nr, nrf, nrp1, sqre
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -80795,19 +80791,19 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldb, n, nrhs, rank, smlsiz
+           integer(ilp) :: info, ldb, n, nrhs, rank, smlsiz
            real(dp) :: rcond
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: b(ldb, *), d(*), e(*), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one, two
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0)
            ! .. local scalars ..
-           integer(int32) :: bx, bxst, c, difl, difr, givcol, givnum, givptr, i, icmpq1, icmpq2, &
-           iwk, j, k, nlvl, nm1, nsize, nsub, nwork, perm, poles, s, sizei, smlszp, sqre, st, st1, &
-                     u, vt, z
+           integer(ilp) :: bx, bxst, c, difl, difr, givcol, givnum, givptr, i, icmpq1, icmpq2, iwk, &
+            j, k, nlvl, nm1, nsize, nsub, nwork, perm, poles, s, sizei, smlszp, sqre, st, st1, u, &
+                      vt, z
            real(dp) :: cs, eps, orgnrm, r, rcnd, sn, tol
      
            ! .. intrinsic functions ..
@@ -81062,7 +81058,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihi, ihiz, ilo, iloz, info, ldh, ldz, lwork, n
+           integer(ilp) :: ihi, ihiz, ilo, iloz, info, ldh, ldz, lwork, n
            logical(lk) :: wantt, wantz
            ! .. array arguments ..
            real(dp) :: h(ldh, *), wi(*), work(*), wr(*), z(ldz, *)
@@ -81071,17 +81067,17 @@ module stdlib_linalg_lapack_d
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_dlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
-           integer(int32) :: ntiny
+           integer(ilp) :: ntiny
            parameter(ntiny=15)
            ! ==== exceptional deflation windows:  try to cure rare
            ! .    slow convergence by varying the size of the
            ! .    deflation window after kexnw iterations. ====
-           integer(int32) :: kexnw
+           integer(ilp) :: kexnw
            parameter(kexnw=5)
            ! ==== exceptional shifts: try to cure rare slow convergence
            ! .    with ad-hoc exceptional shifts every kexsh iterations.
            ! .    ====
-           integer(int32) :: kexsh
+           integer(ilp) :: kexsh
            parameter(kexsh=6)
            ! ==== the constants wilk1 and wilk2 are used to form the
            ! .    exceptional shifts. ====
@@ -81091,7 +81087,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0d0)
            ! .. local scalars ..
            real(dp) :: aa, bb, cc, cs, dd, sn, ss, swap
-           integer(int32) :: i, inf, it, itmax, k, kacc22, kbot, kdu, ks, kt, ktop, ku, kv, kwh, &
+           integer(ilp) :: i, inf, it, itmax, k, kacc22, kbot, kdu, ks, kt, ktop, ku, kv, kwh, &
            kwtop, kwv, ld, ls, lwkopt, ndec, ndfl, nh, nho, nibble, nmin, ns, nsmax, nsr, nve, nw, &
                      nwmax, nwr, nwupbd
            logical(lk) :: sorted
@@ -81434,8 +81430,8 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihiz, iloz, kbot, ktop, ldh, ldt, ldv, ldwv, ldz, lwork, n, nd, nh, &
-                     ns, nv, nw
+           integer(ilp) :: ihiz, iloz, kbot, ktop, ldh, ldt, ldv, ldwv, ldz, lwork, n, nd, nh, ns, &
+                     nv, nw
            logical(lk) :: wantt, wantz
            ! .. array arguments ..
            real(dp) :: h(ldh, *), si(*), sr(*), t(ldt, *), v(ldv, *), work(*), wv( &
@@ -81447,7 +81443,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            real(dp) :: aa, bb, beta, cc, cs, dd, evi, evk, foo, s, safmax, safmin, smlnum, sn, tau, &
                       ulp
-           integer(int32) :: i, ifst, ilst, info, infqr, j, jw, k, kcol, kend, kln, krow, kwtop, &
+           integer(ilp) :: i, ifst, ilst, info, infqr, j, jw, k, kcol, kend, kln, krow, kwtop, &
                      ltop, lwk1, lwk2, lwk3, lwkopt, nmin
            logical(lk) :: bulge, sorted
      
@@ -81753,7 +81749,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: ihi, ihiz, ilo, iloz, info, ldh, ldz, lwork, n
+           integer(ilp) :: ihi, ihiz, ilo, iloz, info, ldh, ldz, lwork, n
            logical(lk) :: wantt, wantz
            ! .. array arguments ..
            real(dp) :: h(ldh, *), wi(*), work(*), wr(*), z(ldz, *)
@@ -81762,17 +81758,17 @@ module stdlib_linalg_lapack_d
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_dlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
-           integer(int32) :: ntiny
+           integer(ilp) :: ntiny
            parameter(ntiny=15)
            ! ==== exceptional deflation windows:  try to cure rare
            ! .    slow convergence by varying the size of the
            ! .    deflation window after kexnw iterations. ====
-           integer(int32) :: kexnw
+           integer(ilp) :: kexnw
            parameter(kexnw=5)
            ! ==== exceptional shifts: try to cure rare slow convergence
            ! .    with ad-hoc exceptional shifts every kexsh iterations.
            ! .    ====
-           integer(int32) :: kexsh
+           integer(ilp) :: kexsh
            parameter(kexsh=6)
            ! ==== the constants wilk1 and wilk2 are used to form the
            ! .    exceptional shifts. ====
@@ -81782,7 +81778,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0d0)
            ! .. local scalars ..
            real(dp) :: aa, bb, cc, cs, dd, sn, ss, swap
-           integer(int32) :: i, inf, it, itmax, k, kacc22, kbot, kdu, ks, kt, ktop, ku, kv, kwh, &
+           integer(ilp) :: i, inf, it, itmax, k, kacc22, kbot, kdu, ks, kt, ktop, ku, kv, kwh, &
            kwtop, kwv, ld, ls, lwkopt, ndec, ndfl, nh, nho, nibble, nmin, ns, nsmax, nsr, nve, nw, &
                      nwmax, nwr, nwupbd
            logical(lk) :: sorted
@@ -82158,8 +82154,8 @@ module stdlib_linalg_lapack_d
      
            ! arguments
            character, intent(in) :: wants, wantq, wantz
-           integer(int32), intent(in) :: n, ilo, ihi, lda, ldb, ldq, ldz, lwork, rec
-           integer(int32), intent(out) :: info
+           integer(ilp), intent(in) :: n, ilo, ihi, lda, ldb, ldq, ldz, lwork, rec
+           integer(ilp), intent(out) :: info
            real(dp), intent(inout) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *), alphar( &
                       *), alphai(*), beta(*), work(*)
            ! parameters
@@ -82167,8 +82163,8 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0, half=0.5d0)
            ! local scalars
            real(dp) :: smlnum, ulp, eshift, safmin, safmax, c1, s1, temp, swap
-           integer(int32) :: istart, istop, iiter, maxit, istart2, k, ld, nshifts, nblock, nw, &
-           nmin, nibble, n_undeflated, n_deflated, ns, sweep_info, shiftpos, lworkreq, k2, istartm, &
+           integer(ilp) :: istart, istop, iiter, maxit, istart2, k, ld, nshifts, nblock, nw, nmin, &
+           nibble, n_undeflated, n_deflated, ns, sweep_info, shiftpos, lworkreq, k2, istartm, &
            istopm, iwants, iwantq, iwantz, norm_info, aed_info, nwr, nbr, nsr, itemp1, itemp2, &
                      rcost, i
            logical(lk) :: ilschur, ilq, ilz
@@ -82508,18 +82504,18 @@ module stdlib_linalg_lapack_d
      
            ! arguments
            logical(lk), intent(in) :: ilschur, ilq, ilz
-           integer(int32), intent(in) :: n, ilo, ihi, nw, lda, ldb, ldq, ldz, ldqc, ldzc, lwork, &
+           integer(ilp), intent(in) :: n, ilo, ihi, nw, lda, ldb, ldq, ldz, ldqc, ldzc, lwork, &
                      rec
            real(dp), intent(inout) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *), alphar( &
                       *), alphai(*), beta(*)
-           integer(int32), intent(out) :: ns, nd, info
+           integer(ilp), intent(out) :: ns, nd, info
            real(dp) :: qc(ldqc, *), zc(ldzc, *), work(*)
            ! parameters
            real(dp) :: zero, one, half
            parameter(zero=0.0d0, one=1.0d0, half=0.5d0)
            ! local scalars
            logical(lk) :: bulge
-           integer(int32) :: jw, kwtop, kwbot, istopm, istartm, k, k2, dtgexc_info, ifst, ilst, &
+           integer(ilp) :: jw, kwtop, kwbot, istopm, istartm, k, k2, dtgexc_info, ifst, ilst, &
                      lworkreq, qz_small_info
            real(dp) :: s, smlnum, ulp, safmin, safmax, c1, s1, temp
      
@@ -82797,10 +82793,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: range
-           integer(int32) :: il, info, iu, m, n, nsplit
+           integer(ilp) :: il, info, iu, m, n, nsplit
            real(dp) :: pivmin, rtol1, rtol2, spltol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: iblock(*), isplit(*), iwork(*), indexw(*)
+           integer(ilp) :: iblock(*), isplit(*), iwork(*), indexw(*)
            real(dp) :: d(*), e(*), e2(*), gers(*), w(*), werr(*), wgap(*), work(*)
                      
         ! =====================================================================
@@ -82810,16 +82806,16 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0, two=2.0d0, four=4.0d0, hndrd=100.0d0, &
            pert=8.0d0, half=one/two, fourth=one/four, fac=half, maxgrowth=64.0d0, fudge= &
                      2.0d0)
-           integer(int32) :: maxtry, allrng, indrng, valrng
+           integer(ilp) :: maxtry, allrng, indrng, valrng
            parameter(maxtry=6, allrng=1, indrng=2, valrng=3)
            ! .. local scalars ..
            logical(lk) :: forceb, norep, usedqd
-           integer(int32) :: cnt, cnt1, cnt2, i, ibegin, idum, iend, iinfo, in, indl, indu, irange, &
-                      j, jblk, mb, mm, wbegin, wend
+           integer(ilp) :: cnt, cnt1, cnt2, i, ibegin, idum, iend, iinfo, in, indl, indu, irange, &
+                     j, jblk, mb, mm, wbegin, wend
            real(dp) :: avgap, bsrtol, clwdth, dmax, dpivot, eabs, emax, eold, eps, gl, gu, isleft, &
                      isrght, rtl, rtol, s1, s2, safmin, sgndef, sigma, spdiam, tau, tmp, tmp1
            ! .. local arrays ..
-           integer(int32) :: iseed(4)
+           integer(ilp) :: iseed(4)
      
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min
@@ -83309,14 +83305,14 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, ldu, ldvt, n, smlsiz, sqre
+           integer(ilp) :: info, ldu, ldvt, n, smlsiz, sqre
            ! .. array arguments ..
-           integer(int32) :: iwork(*)
+           integer(ilp) :: iwork(*)
            real(dp) :: d(*), e(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(int32) :: i, i1, ic, idxq, idxqc, im1, inode, itemp, iwk, j, lf, ll, lvl, m, &
-                     ncc, nd, ndb1, ndiml, ndimr, nl, nlf, nlp1, nlvl, nr, nrf, nrp1, sqrei
+           integer(ilp) :: i, i1, ic, idxq, idxqc, im1, inode, itemp, iwk, j, lf, ll, lvl, m, ncc, &
+                     nd, ndb1, ndiml, ndimr, nl, nlf, nlp1, nlvl, nr, nrf, nrp1, sqrei
            real(dp) :: alpha, beta
      
            ! .. executable statements ..
@@ -83449,10 +83445,10 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: icompq, info, ldgcol, ldu, n, smlsiz, sqre
+           integer(ilp) :: icompq, info, ldgcol, ldu, n, smlsiz, sqre
            ! .. array arguments ..
-           integer(int32) :: givcol(ldgcol, *), givptr(*), iwork(*), k(*), perm(ldgcol, * &
-                     )
+           integer(ilp) :: givcol(ldgcol, *), givptr(*), iwork(*), k(*), perm(ldgcol, *)
+                     
            real(dp) :: c(*), d(*), difl(ldu, *), difr(ldu, *), e(*), givnum(ldu, *), &
                      poles(ldu, *), s(*), u(ldu, *), vt(ldu, *), work(*), z(ldu, *)
         ! =====================================================================
@@ -83460,9 +83456,9 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: i, i1, ic, idxq, idxqi, im1, inode, itemp, iwk, j, lf, ll, lvl, lvl2, &
-           m, ncc, nd, ndb1, ndiml, ndimr, nl, nlf, nlp1, nlvl, nr, nrf, nrp1, nru, nwork1, nwork2, &
-                     smlszp, sqrei, vf, vfi, vl, vli
+           integer(ilp) :: i, i1, ic, idxq, idxqi, im1, inode, itemp, iwk, j, lf, ll, lvl, lvl2, m, &
+            ncc, nd, ndb1, ndiml, ndimr, nl, nlf, nlp1, nlvl, nr, nrf, nrp1, nru, nwork1, nwork2, &
+                      smlszp, sqrei, vf, vfi, vl, vli
            real(dp) :: alpha, beta
      
            ! .. executable statements ..
@@ -83658,7 +83654,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, ldc, ldu, ldvt, n, ncc, ncvt, nru, sqre
+           integer(ilp) :: info, ldc, ldu, ldvt, n, ncc, ncvt, nru, sqre
            ! .. array arguments ..
            real(dp) :: c(ldc, *), d(*), e(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
@@ -83667,7 +83663,7 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp)
            ! .. local scalars ..
            logical(lk) :: rotate
-           integer(int32) :: i, isub, iuplo, j, np1, sqre1
+           integer(ilp) :: i, isub, iuplo, j, np1, sqre1
            real(dp) :: cs, r, smin, sn
      
            ! .. intrinsic functions ..
@@ -83821,7 +83817,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: d(*), e(*), work(*)
         ! =====================================================================
@@ -83829,7 +83825,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: zero
            parameter(zero=0.0d0)
            ! .. local scalars ..
-           integer(int32) :: i, iinfo
+           integer(ilp) :: i, iinfo
            real(dp) :: eps, scale, safmin, sigmn, sigmx
      
            ! .. intrinsic functions ..
@@ -83918,7 +83914,7 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(int32) :: info, n
+           integer(ilp) :: info, n
            ! .. array arguments ..
            real(dp) :: z(*)
         ! =====================================================================
@@ -83930,7 +83926,7 @@ module stdlib_linalg_lapack_d
                       hundrd=100.0d0)
            ! .. local scalars ..
            logical(lk) :: ieee
-           integer(int32) :: i0, i1, i4, iinfo, ipn4, iter, iwhila, iwhilb, k, kmin, n0, n1, nbig, &
+           integer(ilp) :: i0, i1, i4, iinfo, ipn4, iter, iwhila, iwhilb, k, kmin, n0, n1, nbig, &
                      ndiv, nfail, pp, splt, ttype
            real(dp) :: d, dee, deemin, desig, dmin, dmin1, dmin2, dn, dn1, dn2, e, emax, emin, eps, &
             g, oldemn, qmax, qmin, s, safmin, sigma, t, tau, temp, tol, tol2, trace, zmax, tempe, &
@@ -84307,16 +84303,16 @@ module stdlib_linalg_lapack_d
      
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: m, nb, j1, lda, ldh
+           integer(ilp) :: m, nb, j1, lda, ldh
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), h(ldh, *), work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp) :: zero, one
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
-           integer(int32) :: j, k, k1, i1, i2, mj
+           integer(ilp) :: j, k, k1, i1, i2, mj
            real(dp) :: piv, alpha
      
            ! .. intrinsic functions ..
@@ -84549,7 +84545,7 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: compz
-           integer(int32) :: info, ldz, n
+           integer(ilp) :: info, ldz, n
            ! .. array arguments ..
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
@@ -84560,7 +84556,7 @@ module stdlib_linalg_lapack_d
            ! .. local arrays ..
            real(dp) :: c(1, 1), vt(1, 1)
            ! .. local scalars ..
-           integer(int32) :: i, icompz, nru
+           integer(ilp) :: i, icompz, nru
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
            ! .. executable statements ..
@@ -84647,10 +84643,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range
-           integer(int32) :: il, info, iu, ldz, liwork, lwork, m, n
+           integer(ilp) :: il, info, iu, ldz, liwork, lwork, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: isuppz(*), iwork(*)
+           integer(ilp) :: isuppz(*), iwork(*)
            real(dp) :: d(*), e(*), w(*), work(*)
            real(dp) :: z(ldz, *)
         ! =====================================================================
@@ -84719,10 +84715,10 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            character :: jobz, range
            logical(lk) :: tryrac
-           integer(int32) :: il, info, iu, ldz, nzc, liwork, lwork, m, n
+           integer(ilp) :: il, info, iu, ldz, nzc, liwork, lwork, m, n
            real(dp) :: vl, vu
            ! .. array arguments ..
-           integer(int32) :: isuppz(*), iwork(*)
+           integer(ilp) :: isuppz(*), iwork(*)
            real(dp) :: d(*), e(*), w(*), work(*)
            real(dp) :: z(ldz, *)
         ! =====================================================================
@@ -84731,9 +84727,9 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0d0, one=1.0d0, four=4.0d0, minrgp=1.0d-3)
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lquery, valeig, wantz, zquery
-           integer(int32) :: i, ibegin, iend, ifirst, iil, iindbl, iindw, iindwk, iinfo, iinspl, &
-           iiu, ilast, in, indd, inde2, inderr, indgp, indgrs, indwrk, itmp, itmp2, j, jblk, jj, &
-                     liwmin, lwmin, nsplit, nzcmin, offset, wbegin, wend
+           integer(ilp) :: i, ibegin, iend, ifirst, iil, iindbl, iindw, iindwk, iinfo, iinspl, iiu, &
+            ilast, in, indd, inde2, inderr, indgp, indgrs, indwrk, itmp, itmp2, j, jblk, jj, liwmin, &
+                       lwmin, nsplit, nzcmin, offset, wbegin, wend
            real(dp) :: bignum, cs, eps, pivmin, r1, r2, rmax, rmin, rtol1, rtol2, safmin, scale, &
                      smlnum, sn, thresh, tmp, tnrm, wl, wu
      
@@ -85128,10 +85124,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range
-           integer(int32) :: il, info, iu, ldz, liwork, lwork, m, n
+           integer(ilp) :: il, info, iu, ldz, liwork, lwork, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: isuppz(*), iwork(*)
+           integer(ilp) :: isuppz(*), iwork(*)
            real(dp) :: d(*), e(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
@@ -85140,8 +85136,8 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, test, lquery, valeig, wantz, tryrac
            character :: order
-           integer(int32) :: i, ieeeok, imax, indibl, indifl, indisp, indiwo, iscale, itmp1, j, jj, &
-                      liwmin, lwmin, nsplit
+           integer(ilp) :: i, ieeeok, imax, indibl, indifl, indisp, indiwo, iscale, itmp1, j, jj, &
+                     liwmin, lwmin, nsplit
            real(dp) :: bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, tnrm, vll, vuu
      
            ! .. intrinsic functions ..
@@ -85394,10 +85390,10 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: jobz, range, uplo
-           integer(int32) :: il, info, iu, lda, ldz, liwork, lwork, m, n
+           integer(ilp) :: il, info, iu, lda, ldz, liwork, lwork, m, n
            real(dp) :: abstol, vl, vu
            ! .. array arguments ..
-           integer(int32) :: isuppz(*), iwork(*)
+           integer(ilp) :: isuppz(*), iwork(*)
            real(dp) :: a(lda, *), w(*), work(*), z(ldz, *)
        ! =====================================================================
            ! .. parameters ..
@@ -85406,7 +85402,7 @@ module stdlib_linalg_lapack_d
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lower, lquery, valeig, wantz, tryrac
            character :: order
-           integer(int32) :: i, ieeeok, iinfo, imax, indd, inddd, inde, indee, indibl, indifl, &
+           integer(ilp) :: i, ieeeok, iinfo, imax, indd, inddd, inde, indee, indibl, indifl, &
            indisp, indiwo, indtau, indwk, indwkn, iscale, j, jj, liwmin, llwork, llwrkn, lwkopt, &
                      lwmin, nb, nsplit
            real(dp) :: abstll, anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, vll, &
@@ -85677,14 +85673,14 @@ module stdlib_linalg_lapack_d
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: info, lda, ldb, lwork, n, nrhs
+           integer(ilp) :: info, lda, ldb, lwork, n, nrhs
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(int32) :: lwkopt, lwkopt_sytrf, lwkopt_sytrs
+           integer(ilp) :: lwkopt, lwkopt_sytrf, lwkopt_sytrs
      
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -85745,9 +85741,9 @@ module stdlib_linalg_lapack_d
      
            ! .. scalar arguments ..
            character :: uplo
-           integer(int32) :: n, lda, lwork, info
+           integer(ilp) :: n, lda, lwork, info
            ! .. array arguments ..
-           integer(int32) :: ipiv(*)
+           integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -85755,8 +85751,8 @@ module stdlib_linalg_lapack_d
            parameter(zero=0.0_dp, one=1.0_dp)
            ! .. local scalars ..
            logical(lk) :: lquery, upper
-           integer(int32) :: j, lwkopt
-           integer(int32) :: nb, mj, nj, k1, k2, j1, j2, j3, jb
+           integer(ilp) :: j, lwkopt
+           integer(ilp) :: nb, mj, nj, k1, k2, j1, j2, j3, jb
            real(dp) :: alpha
      
            ! .. intrinsic functions ..
