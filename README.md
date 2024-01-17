@@ -48,5 +48,11 @@ end interface
 #endif
 ```
 
+# Licensing
+
+LAPACK is a freely-available software package. It is available from [netlib](https://www.netlib.org/lapack/) via anonymous ftp and the World Wide Web. Thus, it can be included in commercial software packages (and has been). Credit for the library should be given to the [LAPACK authors](https://www.netlib.org/lapack/contributor-list.html).
+The license used for the software is the [modified BSD license](https://www.netlib.org/lapack/LICENSE.txt).
+According to the original license, we changed the name of the routines and commented the changes made to the original.
+
 # Acknowledgments
 The development of this package is supported by the [Sovereign Tech Fund](https://www.sovereigntechfund.de).
