@@ -475,7 +475,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
@@ -646,7 +646,7 @@ module stdlib_linalg_blas_s
            logical(lk) :: nota,notb
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! transposed and set  nrowa and nrowb  as the number of rows of  a
            ! and  b  respectively.
@@ -803,7 +803,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
@@ -951,7 +951,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jy,kx
@@ -1510,7 +1510,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
@@ -1724,7 +1724,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
@@ -1885,7 +1885,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
@@ -1997,7 +1997,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
@@ -2201,7 +2201,7 @@ module stdlib_linalg_blas_s
            logical(lk) :: upper
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side,'l')) then
                nrowa = m
@@ -2342,7 +2342,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
@@ -2499,7 +2499,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
@@ -2607,7 +2607,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
@@ -2747,7 +2747,7 @@ module stdlib_linalg_blas_s
            logical(lk) :: upper
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! test the input parameters.
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
@@ -2927,7 +2927,7 @@ module stdlib_linalg_blas_s
            logical(lk) :: upper
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! test the input parameters.
            if (stdlib_lsame(trans,'n')) then
                nrowa = n
@@ -3086,7 +3086,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
@@ -3277,7 +3277,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
@@ -3465,7 +3465,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
@@ -3654,7 +3654,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
@@ -3852,7 +3852,7 @@ module stdlib_linalg_blas_s
            logical(lk) :: lside,nounit,upper
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! test the input parameters.
            lside = stdlib_lsame(side,'l')
            if (lside) then
@@ -4052,7 +4052,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
@@ -4235,7 +4235,7 @@ module stdlib_linalg_blas_s
            logical(lk) :: lside,nounit,upper
            ! .. parameters ..
            real(sp) :: one,zero
-           parameter (one=1.0_sp,zero=0.0_sp)
+     
            ! test the input parameters.
            lside = stdlib_lsame(side,'l')
            if (lside) then
@@ -4461,7 +4461,7 @@ module stdlib_linalg_blas_s
         ! =====================================================================
            ! .. parameters ..
            real(sp) :: zero
-           parameter (zero=0.0_sp)
+     
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx

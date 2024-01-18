@@ -163,8 +163,8 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     # Rename all procedures
     for function in fortran_functions:
-        function.body,function.deps = rename_source_body(function.old_name,function.body,function.decl,\
-                                                         fortran_functions,ext_functions,prefix)
+        function.decl = rename_source_declaration(function,fortran_functions,ext_functions,prefix)
+        function.body,function.deps = rename_source_body(function,fortran_functions,ext_functions,prefix)
 
     # Create modules
     for m in range(len(modules)):
@@ -889,12 +889,34 @@ def function_namelists(Sources,external_funs,prefix):
 
     return old_names,new_names
 
+# Given the list of all variables, extract those that are module constants
+def rename_source_declaration(Source,Sources,external_funs,prefix):
+
+    import re
+
+    whole = Source.decl
+
+    for i in range(len(whole)):
+        for j in range(len(Source.pname)):
+            parameter = Source.pname[j]
+            if bool(re.search(r"\b"+parameter+r"\b",whole[i])):
+                print("parameter " + parameter + "found")
+                print(whole[i])
+                exit(1)
+
+    return whole
+
+
 # Given the list of all sources, rename all matching names in the current source body
-def rename_source_body(name,lines,decl,Sources,external_funs,prefix):
+def rename_source_body(Source,Sources,external_funs,prefix):
 
     import re
     la_names = ['zero','one','two','rtmin','rtmax','safmin','safmax','sbig','ssml','tbig','tsml','half']
     la_repl = []
+
+    name  = Source.old_name
+    lines = Source.body
+    decl  = Source.decl
 
     initial = name[0]
     if initial=='c' or initial=='s':
@@ -1169,8 +1191,10 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                                # If parameters were found, strip them off the declaration for now
                                if len(pname)>0:
-                                  Source.pname.append(pname)
-                                  Source.pvalue.append(pval)
+                                  for k in range(len(pname)):
+                                      Source.pname.append(pname[k])
+                                      Source.pvalue.append(pval[k])
+                                  line = ""
                                else:
                                   Source.decl.append(line)
                        else:
@@ -1337,12 +1361,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
