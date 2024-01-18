@@ -308,9 +308,9 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*),y(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -496,9 +496,9 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i,info,j,l,nrowa,nrowb
            logical(lk) :: conja,conjb,nota,notb
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! conjugated or transposed, set  conja and conjb  as true if  a  and
@@ -741,9 +741,9 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*),y(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -906,7 +906,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*),y(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -988,7 +988,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*),y(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -1071,9 +1071,9 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*),y(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp1,temp2
@@ -1251,9 +1251,9 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: upper
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side,'l')) then
@@ -1394,9 +1394,9 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*),y(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp1,temp2
@@ -1553,7 +1553,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -1673,7 +1673,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*),y(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp1,temp2
@@ -1826,9 +1826,9 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
            ! .. parameters ..
-           real(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! test the input parameters.
            if (stdlib_lsame(trans,'n')) then
@@ -2039,7 +2039,7 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
            ! .. parameters ..
-           real(dp) :: one,zero
+           
      
            ! test the input parameters.
            if (stdlib_lsame(trans,'n')) then
@@ -2227,9 +2227,9 @@ module stdlib_linalg_blas_z
            complex(dp) :: ap(*),x(*),y(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp1,temp2
@@ -2392,7 +2392,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: ap(*),x(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -2518,7 +2518,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: ap(*),x(*),y(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp1,temp2
@@ -2872,9 +2872,9 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: upper
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side,'l')) then
@@ -3027,9 +3027,9 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! test the input parameters.
            if (stdlib_lsame(trans,'n')) then
@@ -3209,9 +3209,9 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! test the input parameters.
            if (stdlib_lsame(trans,'n')) then
@@ -3370,7 +3370,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -3592,7 +3592,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -3811,7 +3811,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: ap(*),x(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -4035,7 +4035,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: ap(*),x(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -4268,9 +4268,9 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: lside,noconj,nounit,upper
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! test the input parameters.
            lside = stdlib_lsame(side,'l')
@@ -4505,7 +4505,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp
@@ -4719,9 +4719,9 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: lside,noconj,nounit,upper
            ! .. parameters ..
-           complex(dp) :: one
+           
      
-           complex(dp) :: zero
+           
      
            ! test the input parameters.
            lside = stdlib_lsame(side,'l')
@@ -4980,7 +4980,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda,*),x(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp) :: zero
+           
      
            ! .. local scalars ..
            complex(dp) :: temp

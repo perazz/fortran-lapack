@@ -163,7 +163,6 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     # Rename all procedures
     for function in fortran_functions:
-        function.decl = rename_source_declaration(function,fortran_functions,ext_functions,prefix)
         function.body,function.deps = rename_source_body(function,fortran_functions,ext_functions,prefix)
 
     # Create modules
@@ -660,6 +659,9 @@ class Fortran_Source:
         self.ideps         = []
         self.decl          = []
         self.printed       = False
+        self.pname = []
+        self.pvalue = []
+        self.header = []
 
 class Fortran_Line:
     def __init(self):
@@ -890,21 +892,64 @@ def function_namelists(Sources,external_funs,prefix):
     return old_names,new_names
 
 # Given the list of all variables, extract those that are module constants
-def rename_source_declaration(Source,Sources,external_funs,prefix):
+def rename_parameter_line(line,Source,prefix):
 
     import re
 
-    whole = Source.decl
+    datatypes = ['real(sp)','real(dp)','complex(sp)','complex(dp)','integer(ilp)','logical(lk)']
+    dataregex = ['real\(sp\)','real\(dp\)','complex\(sp\)','complex\(dp\)','integer\(ilp\)','logical\(lk\)']
 
-    for i in range(len(whole)):
+    ll = line.lower().strip()
+
+    # If line does not contain a type declaration, return
+    is_decl = False
+    for d in range(len(dataregex)):
+       if (ll.startswith(datatypes[d])):
+           is_decl = True
+           break
+    if not is_decl: return line
+
+    print(ll)
+
+    parameter_found = [False for i in range(len(Source.pname))]
+    parameter_type  = [" " for i in range(len(Source.pname))]
+
+    # Comment line: skip
+    if bool(re.match(r"\!+",ll)):
+        return line
+    else:
+        has_params = False
         for j in range(len(Source.pname)):
             parameter = Source.pname[j]
-            if bool(re.search(r"\b"+parameter+r"\b",whole[i])):
-                print("parameter " + parameter + "found")
-                print(whole[i])
-                exit(1)
+            if bool(re.search(r"\b"+parameter+r"\b",ll)):
+                parameter_found[j] = True
+                has_params = True
 
-    return whole
+                # Retrieve parameter type
+                for k in range(len(datatypes)):
+                   if (ll.startswith(datatypes[k])):
+                       parameter_type[j] = datatypes[k]
+                       break
+
+                if parameter_type[j]==" " or len(parameter_type[j])<=0:
+                    print("cannot find parameter type")
+                    print(ll)
+                    exit(1)
+
+        # Remove parameter declarations from this line
+        if has_params:
+            print(ll)
+            for j in range(len(Source.pname)):
+                if parameter_found[j]: ll = re.sub(r"\b"+Source.pname[j]+r"\b\,*","",ll)
+
+            # If only the type declaration is left (no more variables on this line), remove it altogether
+            for d in range(len(dataregex)):
+               ll = re.sub(r'^\s*'+dataregex[d]+r'\s*\:{0,2}\s*$',"",ll)
+
+    nspaces = len(line)-len(line.strip(' '))
+    ll = nspaces*" " + ll.lstrip()
+
+    return ll
 
 
 # Given the list of all sources, rename all matching names in the current source body
@@ -972,7 +1017,10 @@ def rename_source_body(Source,Sources,external_funs,prefix):
 
     # Restore directive lines cases
     for j in range(len(body)):
-       if is_directive_line(body[j]): body[j] = lines[j]
+       if is_directive_line(body[j]):
+           body[j] = lines[j]
+       else:
+           body[j] = rename_parameter_line(body[j],Source,prefix)
 
     # Build dependency list
     dependency_list = []
@@ -1005,11 +1053,6 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     Source  = Fortran_Source()
     whereAt = Section.HEADER
     Source.is_free_form = free_form
-    Source.body = []
-    Source.pname = []
-    Source.pvalue = []
-    Source.decl = []
-    Source.header = []
     open_loops = []  # Label of the open loop
     loop_lines  = [] # Starting line where the loop is opened
     loop_spaces = [] # Heading spaces of an open loop label
@@ -1144,6 +1187,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            if DEBUG: print("Subroutine name found: " + str(name))
 
                            whereAt = Section.DECLARATION
+
                        elif fun_found:
                            Source.is_function = True
                            Source.is_subroutine = False
@@ -1194,9 +1238,12 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                   for k in range(len(pname)):
                                       Source.pname.append(pname[k])
                                       Source.pvalue.append(pval[k])
+
+                                  # Do not include "parameter" line in the body
                                   line = ""
-                               else:
-                                  Source.decl.append(line)
+
+                           if len(line)>0: Source.decl.append(line)
+
                        else:
                            # Start body section
                            if DEBUG: print("start body: " + line)
@@ -1315,11 +1362,6 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   Source  = Fortran_Source()
                   whereAt = Section.HEADER
                   Source.is_free_form = free_form
-                  Source.body     = []
-                  Source.decl     = []
-                  Source.header   = []
-                  Source.pname    = []
-                  Source.pvalue   = []
                   open_loops      = []
                   loop_lines      = []
                   loop_spaces     = []
