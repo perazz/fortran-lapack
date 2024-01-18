@@ -1175,7 +1175,7 @@ def add_parameter_lines(Source,prefix,body):
                c2r = False
            elif cfound:
                # only complex name found: does it hold the right type?
-               idx = Source.pname.index(pr)
+               idx = Source.pname.index(pc)
                c2r = Source.ptype[idx] != ctyp
                r2c = False
 

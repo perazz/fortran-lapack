@@ -523,15 +523,15 @@ module stdlib_linalg_lapack_z
            if (n <= 0) return
            ! get machine parameters
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            ! initialize the denominator to sa and the numerator to 1.
            cden = sa
-           cnum = cone
+           cnum = one
 10      continue
            cden1 = cden*smlnum
            cnum1 = cnum/bignum
-           if (abs(cden1) > abs(cnum) .and. cnum /= czero) then
+           if (abs(cden1) > abs(cnum) .and. cnum /= zero) then
               ! pre-multiply x by smlnum if cden is large compared to cnum.
               mul = smlnum
               done = .false.
@@ -606,17 +606,17 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible
            if (m == 0 .or. n == 0) then
-              rowcnd = cone
-              colcnd = cone
-              amax = czero
+              rowcnd = one
+              colcnd = one
+              amax = zero
               return
            end if
            ! get machine constants.
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            ! compute row scale factors.
            do i = 1, m
-              r(i) = czero
+              r(i) = zero
            end do
            ! find the maximum element in each row.
            kd = ku + 1
@@ -627,16 +627,16 @@ module stdlib_linalg_lapack_z
            end do
            ! find the maximum and minimum scale factors.
            rcmin = bignum
-           rcmax = czero
+           rcmax = zero
            do i = 1, m
               rcmax = max(rcmax, r(i))
               rcmin = min(rcmin, r(i))
            end do
            amax = rcmax
-           if (rcmin == czero) then
-              ! find the first czero scale factor and return an error code.
+           if (rcmin == zero) then
+              ! find the first zero scale factor and return an error code.
               do i = 1, m
-                 if (r(i) == czero) then
+                 if (r(i) == zero) then
                     info = i
                     return
                  end if
@@ -644,14 +644,14 @@ module stdlib_linalg_lapack_z
            else
               ! invert the scale factors.
               do i = 1, m
-                 r(i) = cone/min(max(r(i), smlnum), bignum)
+                 r(i) = one/min(max(r(i), smlnum), bignum)
               end do
               ! compute rowcnd = min(r(i)) / max(r(i))
               rowcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            ! compute column scale factors
            do j = 1, n
-              c(j) = czero
+              c(j) = zero
            end do
            ! find the maximum element in each column,
            ! assuming the row scaling computed above.
@@ -663,15 +663,15 @@ module stdlib_linalg_lapack_z
            end do
            ! find the maximum and minimum scale factors.
            rcmin = bignum
-           rcmax = czero
+           rcmax = zero
            do j = 1, n
               rcmin = min(rcmin, c(j))
               rcmax = max(rcmax, c(j))
            end do
-           if (rcmin == czero) then
-              ! find the first czero scale factor and return an error code.
+           if (rcmin == zero) then
+              ! find the first zero scale factor and return an error code.
               do j = 1, n
-                 if (c(j) == czero) then
+                 if (c(j) == zero) then
                     info = m + j
                     return
                  end if
@@ -679,7 +679,7 @@ module stdlib_linalg_lapack_z
            else
               ! invert the scale factors.
               do j = 1, n
-                 c(j) = cone/min(max(c(j), smlnum), bignum)
+                 c(j) = one/min(max(c(j), smlnum), bignum)
               end do
               ! compute colcnd = min(c(j)) / max(c(j))
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
@@ -747,19 +747,19 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible.
            if (m == 0 .or. n == 0) then
-              rowcnd = cone
-              colcnd = cone
-              amax = czero
+              rowcnd = one
+              colcnd = one
+              amax = zero
               return
            end if
            ! get machine constants.  assume smlnum is a power of the radix.
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            radix = stdlib_dlamch('b')
            logrdx = log(radix)
            ! compute row scale factors.
            do i = 1, m
-              r(i) = czero
+              r(i) = zero
            end do
            ! find the maximum element in each row.
            kd = ku + 1
@@ -769,22 +769,22 @@ module stdlib_linalg_lapack_z
               end do
            end do
            do i = 1, m
-              if (r(i) > czero) then
+              if (r(i) > zero) then
                  r(i) = radix**int(log(r(i))/logrdx)
               end if
            end do
            ! find the maximum and minimum scale factors.
            rcmin = bignum
-           rcmax = czero
+           rcmax = zero
            do i = 1, m
               rcmax = max(rcmax, r(i))
               rcmin = min(rcmin, r(i))
            end do
            amax = rcmax
-           if (rcmin == czero) then
-              ! find the first czero scale factor and return an error code.
+           if (rcmin == zero) then
+              ! find the first zero scale factor and return an error code.
               do i = 1, m
-                 if (r(i) == czero) then
+                 if (r(i) == zero) then
                     info = i
                     return
                  end if
@@ -792,14 +792,14 @@ module stdlib_linalg_lapack_z
            else
               ! invert the scale factors.
               do i = 1, m
-                 r(i) = cone/min(max(r(i), smlnum), bignum)
+                 r(i) = one/min(max(r(i), smlnum), bignum)
               end do
               ! compute rowcnd = min(r(i)) / max(r(i)).
               rowcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            ! compute column scale factors.
            do j = 1, n
-              c(j) = czero
+              c(j) = zero
            end do
            ! find the maximum element in each column,
            ! assuming the row scaling computed above.
@@ -807,21 +807,21 @@ module stdlib_linalg_lapack_z
               do i = max(j - ku, 1), min(j + kl, m)
                  c(j) = max(c(j), cabs1(ab(kd + i - j, j))*r(i))
               end do
-              if (c(j) > czero) then
+              if (c(j) > zero) then
                  c(j) = radix**int(log(c(j))/logrdx)
               end if
            end do
            ! find the maximum and minimum scale factors.
            rcmin = bignum
-           rcmax = czero
+           rcmax = zero
            do j = 1, n
               rcmin = min(rcmin, c(j))
               rcmax = max(rcmax, c(j))
            end do
-           if (rcmin == czero) then
-              ! find the first czero scale factor and return an error code.
+           if (rcmin == zero) then
+              ! find the first zero scale factor and return an error code.
               do j = 1, n
-                 if (c(j) == czero) then
+                 if (c(j) == zero) then
                     info = m + j
                     return
                  end if
@@ -829,7 +829,7 @@ module stdlib_linalg_lapack_z
            else
               ! invert the scale factors.
               do j = 1, n
-                 c(j) = cone/min(max(c(j), smlnum), bignum)
+                 c(j) = one/min(max(c(j), smlnum), bignum)
               end do
               ! compute colcnd = min(c(j)) / max(c(j)).
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
@@ -988,7 +988,7 @@ module stdlib_linalg_lapack_z
               end if
               if (leftv) then
                  do i = ilo, ihi
-                    s = cone/scale(i)
+                    s = one/scale(i)
                     call stdlib_zdscal(m, s, v(i, 1), ldv)
                  end do
               end if
@@ -1073,7 +1073,7 @@ module stdlib_linalg_lapack_z
            if (n == 0) go to 210
            if (stdlib_lsame(job, 'n')) then
               do i = 1, n
-                 scale(i) = cone
+                 scale(i) = one
               end do
               go to 210
            end if
@@ -1096,8 +1096,7 @@ module stdlib_linalg_lapack_z
            loop_70: do j = l, 1, -1
               loop_60: do i = 1, l
                  if (i == j) cycle loop_60
-                 if (dble(a(j, i)) /= czero .or. dimag(a(j, i)) /= czero) cycle &
-                           loop_70
+                 if (dble(a(j, i)) /= zero .or. dimag(a(j, i)) /= zero) cycle loop_70
               end do loop_60
               m = l
               iexc = 1
@@ -1111,8 +1110,7 @@ module stdlib_linalg_lapack_z
            loop_110: do j = k, l
               loop_100: do i = k, l
                  if (i == j) cycle loop_100
-                 if (dble(a(i, j)) /= czero .or. dimag(a(i, j)) /= czero) cycle &
-                           loop_110
+                 if (dble(a(i, j)) /= zero .or. dimag(a(i, j)) /= zero) cycle loop_110
               end do loop_100
               m = k
               iexc = 2
@@ -1120,15 +1118,15 @@ module stdlib_linalg_lapack_z
            end do loop_110
 120    continue
            do i = k, l
-              scale(i) = cone
+              scale(i) = one
            end do
            if (stdlib_lsame(job, 'p')) go to 210
            ! balance the submatrix in rows k to l.
            ! iterative loop for norm reduction
            sfmin1 = stdlib_dlamch('s')/stdlib_dlamch('p')
-           sfmax1 = cone/sfmin1
+           sfmax1 = one/sfmin1
            sfmin2 = sfmin1*sclfac
-           sfmax2 = cone/sfmin2
+           sfmax2 = one/sfmin2
 140    continue
            noconv = .false.
            loop_200: do i = k, l
@@ -1138,10 +1136,10 @@ module stdlib_linalg_lapack_z
               ca = abs(a(ica, i))
               ira = stdlib_izamax(n - k + 1, a(i, k), lda)
               ra = abs(a(i, ira + k - 1))
-              ! guard against czero c or r due to underflow.
-              if (c == czero .or. r == czero) cycle loop_200
+              ! guard against zero c or r due to underflow.
+              if (c == zero .or. r == zero) cycle loop_200
               g = r/sclfac
-              f = cone
+              f = one
               s = c + r
 160    continue
               if (c >= g .or. max(f, c, ca) >= sfmax2 .or. min(r, g, ra) <= sfmin2) go to 170
@@ -1172,13 +1170,13 @@ module stdlib_linalg_lapack_z
               ! now balance.
 190    continue
               if ((c + r) >= factor*s) cycle loop_200
-              if (f < cone .and. scale(i) < cone) then
+              if (f < one .and. scale(i) < one) then
                  if (f*scale(i) <= sfmin1) cycle loop_200
               end if
-              if (f > cone .and. scale(i) > cone) then
+              if (f > one .and. scale(i) > one) then
                  if (scale(i) >= sfmax1/f) cycle loop_200
               end if
-              g = cone/f
+              g = one/f
               scale(i) = scale(i)*f
               noconv = .true.
               call stdlib_zdscal(n - k + 1, g, a(i, k), lda)
@@ -1241,17 +1239,17 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible
            if (m == 0 .or. n == 0) then
-              rowcnd = cone
-              colcnd = cone
-              amax = czero
+              rowcnd = one
+              colcnd = one
+              amax = zero
               return
            end if
            ! get machine constants.
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            ! compute row scale factors.
            do i = 1, m
-              r(i) = czero
+              r(i) = zero
            end do
            ! find the maximum element in each row.
            do j = 1, n
@@ -1261,16 +1259,16 @@ module stdlib_linalg_lapack_z
            end do
            ! find the maximum and minimum scale factors.
            rcmin = bignum
-           rcmax = czero
+           rcmax = zero
            do i = 1, m
               rcmax = max(rcmax, r(i))
               rcmin = min(rcmin, r(i))
            end do
            amax = rcmax
-           if (rcmin == czero) then
-              ! find the first czero scale factor and return an error code.
+           if (rcmin == zero) then
+              ! find the first zero scale factor and return an error code.
               do i = 1, m
-                 if (r(i) == czero) then
+                 if (r(i) == zero) then
                     info = i
                     return
                  end if
@@ -1278,14 +1276,14 @@ module stdlib_linalg_lapack_z
            else
               ! invert the scale factors.
               do i = 1, m
-                 r(i) = cone/min(max(r(i), smlnum), bignum)
+                 r(i) = one/min(max(r(i), smlnum), bignum)
               end do
               ! compute rowcnd = min(r(i)) / max(r(i))
               rowcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            ! compute column scale factors
            do j = 1, n
-              c(j) = czero
+              c(j) = zero
            end do
            ! find the maximum element in each column,
            ! assuming the row scaling computed above.
@@ -1296,15 +1294,15 @@ module stdlib_linalg_lapack_z
            end do
            ! find the maximum and minimum scale factors.
            rcmin = bignum
-           rcmax = czero
+           rcmax = zero
            do j = 1, n
               rcmin = min(rcmin, c(j))
               rcmax = max(rcmax, c(j))
            end do
-           if (rcmin == czero) then
-              ! find the first czero scale factor and return an error code.
+           if (rcmin == zero) then
+              ! find the first zero scale factor and return an error code.
               do j = 1, n
-                 if (c(j) == czero) then
+                 if (c(j) == zero) then
                     info = m + j
                     return
                  end if
@@ -1312,7 +1310,7 @@ module stdlib_linalg_lapack_z
            else
               ! invert the scale factors.
               do j = 1, n
-                 c(j) = cone/min(max(c(j), smlnum), bignum)
+                 c(j) = one/min(max(c(j), smlnum), bignum)
               end do
               ! compute colcnd = min(c(j)) / max(c(j))
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
@@ -1376,19 +1374,19 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible.
            if (m == 0 .or. n == 0) then
-              rowcnd = cone
-              colcnd = cone
-              amax = czero
+              rowcnd = one
+              colcnd = one
+              amax = zero
               return
            end if
            ! get machine constants.  assume smlnum is a power of the radix.
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            radix = stdlib_dlamch('b')
            logrdx = log(radix)
            ! compute row scale factors.
            do i = 1, m
-              r(i) = czero
+              r(i) = zero
            end do
            ! find the maximum element in each row.
            do j = 1, n
@@ -1397,22 +1395,22 @@ module stdlib_linalg_lapack_z
               end do
            end do
            do i = 1, m
-              if (r(i) > czero) then
+              if (r(i) > zero) then
                  r(i) = radix**int(log(r(i))/logrdx)
               end if
            end do
            ! find the maximum and minimum scale factors.
            rcmin = bignum
-           rcmax = czero
+           rcmax = zero
            do i = 1, m
               rcmax = max(rcmax, r(i))
               rcmin = min(rcmin, r(i))
            end do
            amax = rcmax
-           if (rcmin == czero) then
-              ! find the first czero scale factor and return an error code.
+           if (rcmin == zero) then
+              ! find the first zero scale factor and return an error code.
               do i = 1, m
-                 if (r(i) == czero) then
+                 if (r(i) == zero) then
                     info = i
                     return
                  end if
@@ -1420,14 +1418,14 @@ module stdlib_linalg_lapack_z
            else
               ! invert the scale factors.
               do i = 1, m
-                 r(i) = cone/min(max(r(i), smlnum), bignum)
+                 r(i) = one/min(max(r(i), smlnum), bignum)
               end do
               ! compute rowcnd = min(r(i)) / max(r(i)).
               rowcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            ! compute column scale factors.
            do j = 1, n
-              c(j) = czero
+              c(j) = zero
            end do
            ! find the maximum element in each column,
            ! assuming the row scaling computed above.
@@ -1435,21 +1433,21 @@ module stdlib_linalg_lapack_z
               do i = 1, m
                  c(j) = max(c(j), cabs1(a(i, j))*r(i))
               end do
-              if (c(j) > czero) then
+              if (c(j) > zero) then
                  c(j) = radix**int(log(c(j))/logrdx)
               end if
            end do
            ! find the maximum and minimum scale factors.
            rcmin = bignum
-           rcmax = czero
+           rcmax = zero
            do j = 1, n
               rcmin = min(rcmin, c(j))
               rcmax = max(rcmax, c(j))
            end do
-           if (rcmin == czero) then
-              ! find the first czero scale factor and return an error code.
+           if (rcmin == zero) then
+              ! find the first zero scale factor and return an error code.
               do j = 1, n
-                 if (c(j) == czero) then
+                 if (c(j) == zero) then
                     info = m + j
                     return
                  end if
@@ -1457,7 +1455,7 @@ module stdlib_linalg_lapack_z
            else
               ! invert the scale factors.
               do j = 1, n
-                 c(j) = cone/min(max(c(j), smlnum), bignum)
+                 c(j) = one/min(max(c(j), smlnum), bignum)
               end do
               ! compute colcnd = min(c(j)) / max(c(j)).
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
@@ -1496,7 +1494,7 @@ module stdlib_linalg_lapack_z
            ! set constants to control overflow
            eps = stdlib_dlamch('p')
            smlnum = stdlib_dlamch('s')/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            ! handle the case n=1 by itself
            if (n == 1) then
@@ -1504,7 +1502,7 @@ module stdlib_linalg_lapack_z
               jpiv(1) = 1
               if (abs(a(1, 1)) < smlnum) then
                  info = 1
-                 a(1, 1) = dcmplx(smlnum, czero)
+                 a(1, 1) = dcmplx(smlnum, zero)
               end if
               return
            end if
@@ -1512,7 +1510,7 @@ module stdlib_linalg_lapack_z
            ! set pivots less than smin to smin
            loop_40: do i = 1, n - 1
               ! find max element in matrix a
-              xmax = czero
+              xmax = zero
               do ip = i, n
                  do jp = i, n
                     if (abs(a(ip, jp)) >= xmax) then
@@ -1532,17 +1530,17 @@ module stdlib_linalg_lapack_z
               ! check for singularity
               if (abs(a(i, i)) < smin) then
                  info = i
-                 a(i, i) = dcmplx(smin, czero)
+                 a(i, i) = dcmplx(smin, zero)
               end if
               do j = i + 1, n
                  a(j, i) = a(j, i)/a(i, i)
               end do
-              call stdlib_zgeru(n - i, n - i, -dcmplx(cone), a(i + 1, i), 1, a(i, i + 1), lda, a(i + &
+              call stdlib_zgeru(n - i, n - i, -dcmplx(one), a(i + 1, i), 1, a(i, i + 1), lda, a(i + &
                         1, i + 1), lda)
            end do loop_40
            if (abs(a(n, n)) < smin) then
               info = n
-              a(n, n) = dcmplx(smin, czero)
+              a(n, n) = dcmplx(smin, zero)
            end if
            ! set last pivots to n
            ipiv(n) = n
@@ -1802,16 +1800,16 @@ module stdlib_linalg_lapack_z
            if (n == 1) then
               ilo = 1
               ihi = n
-              lscale(1) = cone
-              rscale(1) = cone
+              lscale(1) = one
+              rscale(1) = one
               return
            end if
            if (stdlib_lsame(job, 'n')) then
               ilo = 1
               ihi = n
               do i = 1, n
-                 lscale(i) = cone
-                 rscale(i) = cone
+                 lscale(i) = one
+                 rscale(i) = one
               end do
               return
            end if
@@ -1820,7 +1818,7 @@ module stdlib_linalg_lapack_z
            if (stdlib_lsame(job, 's')) go to 190
            go to 30
            ! permute the matrices a and b to isolate the eigenvalues.
-           ! find row with cone nonzero in columns 1 through l
+           ! find row with one nonzero in columns 1 through l
 20      continue
            l = lm1
            if (l /= 1) go to 30
@@ -1847,7 +1845,7 @@ module stdlib_linalg_lapack_z
               go to 160
            end do loop_80
            go to 100
-           ! find column with cone nonzero in rows k through n
+           ! find column with one nonzero in rows k through n
 90      continue
            k = k + 1
 100    continue
@@ -1888,8 +1886,8 @@ module stdlib_linalg_lapack_z
            ihi = l
            if (stdlib_lsame(job, 'p')) then
               do i = ilo, ihi
-                 lscale(i) = cone
-                 rscale(i) = cone
+                 lscale(i) = one
+                 rscale(i) = one
               end do
               return
            end if
@@ -1926,9 +1924,9 @@ module stdlib_linalg_lapack_z
                  work(j + 5*n) = work(j + 5*n) - ta - tb
               end do
            end do
-           coef = cone/dble(2*nr)
+           coef = one/dble(2*nr)
            coef2 = coef*coef
-           coef5 = chalf*coef2
+           coef5 = half*coef2
            nrp2 = nr + 2
            beta = zero
            it = 1
@@ -1997,7 +1995,7 @@ module stdlib_linalg_lapack_z
               if (abs(cor) > cmax) cmax = abs(cor)
               rscale(i) = rscale(i) + cor
            end do
-           if (cmax < chalf) go to 350
+           if (cmax < half) go to 350
            call stdlib_daxpy(nr, -alpha, work(ilo + 2*n), 1, work(ilo + 4*n), 1)
            call stdlib_daxpy(nr, -alpha, work(ilo + 3*n), 1, work(ilo + 5*n), 1)
            pgamma = gamma
@@ -2006,24 +2004,24 @@ module stdlib_linalg_lapack_z
            ! end generalized conjugate gradient iteration
 350    continue
            sfmin = stdlib_dlamch('s')
-           sfmax = cone/sfmin
-           lsfmin = int(log10(sfmin)/basl + cone)
+           sfmax = one/sfmin
+           lsfmin = int(log10(sfmin)/basl + one)
            lsfmax = int(log10(sfmax)/basl)
            do i = ilo, ihi
               irab = stdlib_izamax(n - ilo + 1, a(i, ilo), lda)
               rab = abs(a(i, irab + ilo - 1))
               irab = stdlib_izamax(n - ilo + 1, b(i, ilo), ldb)
               rab = max(rab, abs(b(i, irab + ilo - 1)))
-              lrab = int(log10(rab + sfmin)/basl + cone)
-              ir = int(lscale(i) + sign(chalf, lscale(i)))
+              lrab = int(log10(rab + sfmin)/basl + one)
+              ir = int(lscale(i) + sign(half, lscale(i)))
               ir = min(max(ir, lsfmin), lsfmax, lsfmax - lrab)
               lscale(i) = sclfac**ir
               icab = stdlib_izamax(ihi, a(1, i), 1)
               cab = abs(a(icab, i))
               icab = stdlib_izamax(ihi, b(1, i), 1)
               cab = max(cab, abs(b(icab, i)))
-              lcab = int(log10(cab + sfmin)/basl + cone)
-              jc = int(rscale(i) + sign(chalf, rscale(i)))
+              lcab = int(log10(cab + sfmin)/basl + one)
+              jc = int(rscale(i) + sign(half, rscale(i)))
               jc = min(max(jc, lsfmin), lsfmax, lsfmax - lcab)
               rscale(i) = sclfac**jc
            end do
@@ -2177,12 +2175,12 @@ module stdlib_linalg_lapack_z
               ipiv(i) = i
            end do
            do i = 1, n - 2
-              du2(i) = czero
+              du2(i) = zero
            end do
            do i = 1, n - 2
               if (cabs1(d(i)) >= cabs1(dl(i))) then
                  ! no row interchange required, eliminate dl(i)
-                 if (cabs1(d(i)) /= czero) then
+                 if (cabs1(d(i)) /= zero) then
                     fact = dl(i)/d(i)
                     dl(i) = fact
                     d(i + 1) = d(i + 1) - fact*du(i)
@@ -2203,7 +2201,7 @@ module stdlib_linalg_lapack_z
            if (n > 1) then
               i = n - 1
               if (cabs1(d(i)) >= cabs1(dl(i))) then
-                 if (cabs1(d(i)) /= czero) then
+                 if (cabs1(d(i)) /= zero) then
                     fact = dl(i)/d(i)
                     dl(i) = fact
                     d(i + 1) = d(i + 1) - fact*du(i)
@@ -2218,9 +2216,9 @@ module stdlib_linalg_lapack_z
                  ipiv(i) = i + 1
               end if
            end if
-           ! check for a czero on the diagonal of u.
+           ! check for a zero on the diagonal of u.
            do i = 1, n
-              if (cabs1(d(i)) == czero) then
+              if (cabs1(d(i)) == zero) then
                  info = i
                  go to 50
               end if
@@ -2524,7 +2522,7 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! initialize alpha for use in choosing pivot block size.
-           alpha = (cone + sqrt(sevten))/eight
+           alpha = (one + sqrt(sevten))/eight
            if (upper) then
               ! factorize a as u*d*u**h using the upper triangle of a
               ! k is the main loop index, decreasing from n to 1 in steps of
@@ -2544,10 +2542,10 @@ module stdlib_linalg_lapack_z
                  imax = stdlib_izamax(k - 1, a(1, k), 1)
                  colmax = cabs1(a(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if ((max(absakk, colmax) == czero) .or. stdlib_disnan(absakk)) then
-                 ! column k is czero or underflow, or contains a nan:
+              if ((max(absakk, colmax) == zero) .or. stdlib_disnan(absakk)) then
+                 ! column k is zero or underflow, or contains a nan:
                  ! set info and continue
                  if (info == 0) info = k
                  kp = k
@@ -2614,7 +2612,7 @@ module stdlib_linalg_lapack_z
                     ! where u(k) is the k-th column of u
                     ! perform a rank-1 update of a(1:k-1,1:k-1) as
                     ! a := a - u(k)*d(k)*u(k)**h = a - w(k)*1/d(k)*w(k)**h
-                    r1 = cone/dble(a(k, k))
+                    r1 = one/dble(a(k, k))
                     call stdlib_zher(uplo, k - 1, -r1, a(1, k), 1, a, lda)
                     ! store u(k) in column k
                     call stdlib_zdscal(k - 1, r1, a(1, k), 1)
@@ -2630,7 +2628,7 @@ module stdlib_linalg_lapack_z
                        d = stdlib_dlapy2(dble(a(k - 1, k)), dimag(a(k - 1, k)))
                        d22 = dble(a(k - 1, k - 1))/d
                        d11 = dble(a(k, k))/d
-                       tt = cone/(d11*d22 - cone)
+                       tt = one/(d11*d22 - one)
                        d12 = a(k - 1, k)/d
                        d = tt/d
                        do j = k - 2, 1, -1
@@ -2676,10 +2674,10 @@ module stdlib_linalg_lapack_z
                  imax = k + stdlib_izamax(n - k, a(k + 1, k), 1)
                  colmax = cabs1(a(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if ((max(absakk, colmax) == czero) .or. stdlib_disnan(absakk)) then
-                 ! column k is czero or underflow, or contains a nan:
+              if ((max(absakk, colmax) == zero) .or. stdlib_disnan(absakk)) then
+                 ! column k is zero or underflow, or contains a nan:
                  ! set info and continue
                  if (info == 0) info = k
                  kp = k
@@ -2748,7 +2746,7 @@ module stdlib_linalg_lapack_z
                     if (k < n) then
                        ! perform a rank-1 update of a(k+1:n,k+1:n) as
                        ! a := a - l(k)*d(k)*l(k)**h = a - w(k)*(1/d(k))*w(k)**h
-                       r1 = cone/dble(a(k, k))
+                       r1 = one/dble(a(k, k))
                        call stdlib_zher(uplo, n - k, -r1, a(k + 1, k), 1, a(k + 1, k + 1), lda)
                                  
                        ! store l(k) in column k
@@ -2765,7 +2763,7 @@ module stdlib_linalg_lapack_z
                        d = stdlib_dlapy2(dble(a(k + 1, k)), dimag(a(k + 1, k)))
                        d11 = dble(a(k + 1, k + 1))/d
                        d22 = dble(a(k, k))/d
-                       tt = cone/(d11*d22 - cone)
+                       tt = one/(d11*d22 - one)
                        d21 = a(k + 1, k)/d
                        d = tt/d
                        do j = k + 2, n
@@ -2850,7 +2848,7 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! initialize alpha for use in choosing pivot block size.
-           alpha = (cone + sqrt(sevten))/eight
+           alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
            sfmin = stdlib_dlamch('s')
            if (upper) then
@@ -3014,7 +3012,7 @@ module stdlib_linalg_lapack_z
                           ! perform a rank-1 update of a(1:k-1,1:k-1) as
                           ! a := a - u(k)*d(k)*u(k)**t
                              ! = a - w(k)*1/d(k)*w(k)**t
-                          d11 = cone/dble(a(k, k))
+                          d11 = one/dble(a(k, k))
                           call stdlib_zher(uplo, k - 1, -d11, a(1, k), 1, a, lda)
                           ! store u(k) in column k
                           call stdlib_zdscal(k - 1, d11, a(1, k), 1)
@@ -3048,7 +3046,7 @@ module stdlib_linalg_lapack_z
                        d11 = dble(a(k, k)/d)
                        d22 = dble(a(k - 1, k - 1)/d)
                        d12 = a(k - 1, k)/d
-                       tt = cone/(d11*d22 - cone)
+                       tt = one/(d11*d22 - one)
                        do j = k - 2, 1, -1
                           ! compute  d21 * ( w(k)w(k+1) ) * inv(d(k)) for row j
                           wkm1 = tt*(d11*a(j, k - 1) - dconjg(d12)*a(j, k))
@@ -3246,7 +3244,7 @@ module stdlib_linalg_lapack_z
                           ! perform a rank-1 update of a(k+1:n,k+1:n) as
                           ! a := a - l(k)*d(k)*l(k)**t
                              ! = a - w(k)*(1/d(k))*w(k)**t
-                          d11 = cone/dble(a(k, k))
+                          d11 = one/dble(a(k, k))
                           call stdlib_zher(uplo, n - k, -d11, a(k + 1, k), 1, a(k + 1, k + 1), lda)
                                     
                           ! store l(k) in column k
@@ -3282,7 +3280,7 @@ module stdlib_linalg_lapack_z
                        d11 = dble(a(k + 1, k + 1))/d
                        d22 = dble(a(k, k))/d
                        d21 = a(k + 1, k)/d
-                       tt = cone/(d11*d22 - cone)
+                       tt = one/(d11*d22 - one)
                        do j = k + 2, n
                           ! compute  d21 * ( w(k)w(k+1) ) * inv(d(k)) for row j
                           wk = tt*(d11*a(j, k) - d21*a(j, k + 1))
@@ -3373,7 +3371,7 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! initialize alpha for use in choosing pivot block size.
-           alpha = (cone + sqrt(sevten))/eight
+           alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
            sfmin = stdlib_dlamch('s')
            if (upper) then
@@ -3396,10 +3394,10 @@ module stdlib_linalg_lapack_z
                  imax = stdlib_izamax(k - 1, a(1, k), 1)
                  colmax = cabs1(a(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if ((max(absakk, colmax) == czero)) then
-                 ! column k is czero or underflow: set info and continue
+              if ((max(absakk, colmax) == zero)) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
                  a(k, k) = dble(a(k, k))
@@ -3424,7 +3422,7 @@ module stdlib_linalg_lapack_z
                           jmax = imax + stdlib_izamax(k - imax, a(imax, imax + 1), lda)
                           rowmax = cabs1(a(imax, jmax))
                        else
-                          rowmax = czero
+                          rowmax = zero
                        end if
                        if (imax > 1) then
                           itemp = stdlib_izamax(imax - 1, a(1, imax), 1)
@@ -3526,7 +3524,7 @@ module stdlib_linalg_lapack_z
                           ! perform a rank-1 update of a(1:k-1,1:k-1) as
                           ! a := a - u(k)*d(k)*u(k)**t
                              ! = a - w(k)*1/d(k)*w(k)**t
-                          d11 = cone/dble(a(k, k))
+                          d11 = one/dble(a(k, k))
                           call stdlib_zher(uplo, k - 1, -d11, a(1, k), 1, a, lda)
                           ! store u(k) in column k
                           call stdlib_zdscal(k - 1, d11, a(1, k), 1)
@@ -3558,7 +3556,7 @@ module stdlib_linalg_lapack_z
                        d11 = dble(a(k, k)/d)
                        d22 = dble(a(k - 1, k - 1)/d)
                        d12 = a(k - 1, k)/d
-                       tt = cone/(d11*d22 - cone)
+                       tt = one/(d11*d22 - one)
                        do j = k - 2, 1, -1
                           ! compute  d21 * ( w(k)w(k+1) ) * inv(d(k)) for row j
                           wkm1 = tt*(d11*a(j, k - 1) - dconjg(d12)*a(j, k))
@@ -3572,7 +3570,7 @@ module stdlib_linalg_lapack_z
                           a(j, k) = wk/d
                           a(j, k - 1) = wkm1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = dcmplx(dble(a(j, j)), czero)
+                          a(j, j) = dcmplx(dble(a(j, j)), zero)
                        end do
                     end if
                  end if
@@ -3607,10 +3605,10 @@ module stdlib_linalg_lapack_z
                  imax = k + stdlib_izamax(n - k, a(k + 1, k), 1)
                  colmax = cabs1(a(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero or underflow: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
                  a(k, k) = dble(a(k, k))
@@ -3635,7 +3633,7 @@ module stdlib_linalg_lapack_z
                           jmax = k - 1 + stdlib_izamax(imax - k, a(imax, k), lda)
                           rowmax = cabs1(a(imax, jmax))
                        else
-                          rowmax = czero
+                          rowmax = zero
                        end if
                        if (imax < n) then
                           itemp = imax + stdlib_izamax(n - imax, a(imax + 1, imax), 1)
@@ -3739,7 +3737,7 @@ module stdlib_linalg_lapack_z
                           ! perform a rank-1 update of a(k+1:n,k+1:n) as
                           ! a := a - l(k)*d(k)*l(k)**t
                              ! = a - w(k)*(1/d(k))*w(k)**t
-                          d11 = cone/dble(a(k, k))
+                          d11 = one/dble(a(k, k))
                           call stdlib_zher(uplo, n - k, -d11, a(k + 1, k), 1, a(k + 1, k + 1), lda)
                                     
                           ! store l(k) in column k
@@ -3773,7 +3771,7 @@ module stdlib_linalg_lapack_z
                        d11 = dble(a(k + 1, k + 1))/d
                        d22 = dble(a(k, k))/d
                        d21 = a(k + 1, k)/d
-                       tt = cone/(d11*d22 - cone)
+                       tt = one/(d11*d22 - one)
                        do j = k + 2, n
                           ! compute  d21 * ( w(k)w(k+1) ) * inv(d(k)) for row j
                           wk = tt*(d11*a(j, k) - d21*a(j, k + 1))
@@ -3787,7 +3785,7 @@ module stdlib_linalg_lapack_z
                           a(j, k) = wk/d
                           a(j, k + 1) = wkp1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = dcmplx(dble(a(j, j)), czero)
+                          a(j, j) = dcmplx(dble(a(j, j)), zero)
                        end do
                     end if
                  end if
@@ -4497,7 +4495,7 @@ module stdlib_linalg_lapack_z
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in stdlib_zherk for example) and left in the general case.
-           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == cone))) &
+           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) &
                      return
            if ((alpha == zero) .and. (beta == zero)) then
               do j = 1, ((n*(n + 1))/2)
@@ -4773,7 +4771,7 @@ module stdlib_linalg_lapack_z
                     ap(kk) = akk
                     if (k < n) then
                        call stdlib_zdscal(n - k, one/bkk, ap(kk + 1), 1)
-                       ct = -chalf*akk
+                       ct = -half*akk
                        call stdlib_zaxpy(n - k, ct, bp(kk + 1), 1, ap(kk + 1), 1)
                        call stdlib_zhpr2(uplo, n - k, -cone, ap(kk + 1), 1, bp(kk + 1), 1, ap(k1k1 &
                                  ))
@@ -4797,7 +4795,7 @@ module stdlib_linalg_lapack_z
                     bkk = dble(bp(kk))
                     call stdlib_ztpmv(uplo, 'no transpose', 'non-unit', k - 1, bp, ap(k1), 1)
                               
-                    ct = chalf*akk
+                    ct = half*akk
                     call stdlib_zaxpy(k - 1, ct, bp(k1), 1, ap(k1), 1)
                     call stdlib_zhpr2(uplo, k - 1, cone, ap(k1), 1, bp(k1), 1, ap)
                     call stdlib_zaxpy(k - 1, ct, bp(k1), 1, ap(k1), 1)
@@ -4874,7 +4872,7 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! initialize alpha for use in choosing pivot block size.
-           alpha = (cone + sqrt(sevten))/eight
+           alpha = (one + sqrt(sevten))/eight
            if (upper) then
               ! factorize a as u*d*u**h using the upper triangle of a
               ! k is the main loop index, decreasing from n to 1 in steps of
@@ -4895,10 +4893,10 @@ module stdlib_linalg_lapack_z
                  imax = stdlib_izamax(k - 1, ap(kc), 1)
                  colmax = cabs1(ap(kc + imax - 1))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero: set info and continue
                  if (info == 0) info = k
                  kp = k
                  ap(kc + k - 1) = dble(ap(kc + k - 1))
@@ -4909,7 +4907,7 @@ module stdlib_linalg_lapack_z
                  else
                     ! jmax is the column-index of the largest off-diagonal
                     ! element in row imax, and rowmax is its absolute value
-                    rowmax = czero
+                    rowmax = zero
                     jmax = imax
                     kx = imax*(imax + 1)/2 + imax
                     do j = imax + 1, k
@@ -4972,7 +4970,7 @@ module stdlib_linalg_lapack_z
                     ! where u(k) is the k-th column of u
                     ! perform a rank-1 update of a(1:k-1,1:k-1) as
                     ! a := a - u(k)*d(k)*u(k)**h = a - w(k)*1/d(k)*w(k)**h
-                    r1 = cone/dble(ap(kc + k - 1))
+                    r1 = one/dble(ap(kc + k - 1))
                     call stdlib_zhpr(uplo, k - 1, -r1, ap(kc), 1, ap)
                     ! store u(k) in column k
                     call stdlib_zdscal(k - 1, r1, ap(kc), 1)
@@ -4989,7 +4987,7 @@ module stdlib_linalg_lapack_z
                                  *k/2)))
                        d22 = dble(ap(k - 1 + (k - 2)*(k - 1)/2))/d
                        d11 = dble(ap(k + (k - 1)*k/2))/d
-                       tt = cone/(d11*d22 - cone)
+                       tt = one/(d11*d22 - one)
                        d12 = ap(k - 1 + (k - 1)*k/2)/d
                        d = tt/d
                        do j = k - 2, 1, -1
@@ -5041,10 +5039,10 @@ module stdlib_linalg_lapack_z
                  imax = k + stdlib_izamax(n - k, ap(kc + 1), 1)
                  colmax = cabs1(ap(kc + imax - k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero: set info and continue
                  if (info == 0) info = k
                  kp = k
                  ap(kc) = dble(ap(kc))
@@ -5055,7 +5053,7 @@ module stdlib_linalg_lapack_z
                  else
                     ! jmax is the column-index of the largest off-diagonal
                     ! element in row imax, and rowmax is its absolute value
-                    rowmax = czero
+                    rowmax = zero
                     kx = kc + imax - k
                     do j = k, imax - 1
                        if (cabs1(ap(kx)) > rowmax) then
@@ -5119,7 +5117,7 @@ module stdlib_linalg_lapack_z
                     if (k < n) then
                        ! perform a rank-1 update of a(k+1:n,k+1:n) as
                        ! a := a - l(k)*d(k)*l(k)**h = a - w(k)*(1/d(k))*w(k)**h
-                       r1 = cone/dble(ap(kc))
+                       r1 = one/dble(ap(kc))
                        call stdlib_zhpr(uplo, n - k, -r1, ap(kc + 1), 1, ap(kc + n - k + 1))
                        ! store l(k) in column k
                        call stdlib_zdscal(n - k, r1, ap(kc + 1), 1)
@@ -5139,7 +5137,7 @@ module stdlib_linalg_lapack_z
                                   k - 1)*(2*n - k)/2)))
                        d11 = dble(ap(k + 1 + k*(2*n - k - 1)/2))/d
                        d22 = dble(ap(k + (k - 1)*(2*n - k)/2))/d
-                       tt = cone/(d11*d22 - cone)
+                       tt = one/(d11*d22 - one)
                        d21 = ap(k + 1 + (k - 1)*(2*n - k)/2)/d
                        d = tt/d
                        do j = k + 2, n
@@ -5930,7 +5928,7 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
            if (incx > 0) then
               kx = 1
@@ -5954,26 +5952,24 @@ module stdlib_linalg_lapack_z
            if (incx == 1) then
               if (uplo == stdlib_ilauplo('u')) then
                  do i = 1, n
-                    if (beta == czero) then
+                    if (beta == zero) then
                        symb_zero = .true.
                        y(iy) = 0.0_dp
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= zero) then
                        do j = 1, i
                           temp = cabs1(a(j, i))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                        do j = i + 1, n
                           temp = cabs1(a(i, j))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -5982,26 +5978,24 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    if (beta == czero) then
+                    if (beta == zero) then
                        symb_zero = .true.
                        y(iy) = 0.0_dp
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= zero) then
                        do j = 1, i
                           temp = cabs1(a(i, j))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                        do j = i + 1, n
                           temp = cabs1(a(j, i))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -6012,28 +6006,26 @@ module stdlib_linalg_lapack_z
            else
               if (uplo == stdlib_ilauplo('u')) then
                  do i = 1, n
-                    if (beta == czero) then
+                    if (beta == zero) then
                        symb_zero = .true.
                        y(iy) = 0.0_dp
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
                     jx = kx
-                    if (alpha /= czero) then
+                    if (alpha /= zero) then
                        do j = 1, i
                           temp = cabs1(a(j, i))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
                        do j = i + 1, n
                           temp = cabs1(a(i, j))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -6043,28 +6035,26 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    if (beta == czero) then
+                    if (beta == zero) then
                        symb_zero = .true.
                        y(iy) = 0.0_dp
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
                     jx = kx
-                    if (alpha /= czero) then
+                    if (alpha /= zero) then
                        do j = 1, i
                           temp = cabs1(a(i, j))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
                        do j = i + 1, n
                           temp = cabs1(a(j, i))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -6095,7 +6085,7 @@ module stdlib_linalg_lapack_z
            complex(dp) :: res(n, nrhs)
         ! =====================================================================
            ! .. local scalars ..
-           real(dp) :: tmp
+           real(dp) :: tmp, safe1
            integer(ilp) :: i, j
            complex(dp) :: cdum
            ! .. intrinsic functions ..
@@ -6277,7 +6267,7 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
            if (incx > 0) then
               kx = 1
@@ -6301,26 +6291,24 @@ module stdlib_linalg_lapack_z
            if (incx == 1) then
               if (uplo == stdlib_ilauplo('u')) then
                  do i = 1, n
-                    if (beta == czero) then
+                    if (beta == zero) then
                        symb_zero = .true.
                        y(iy) = 0.0_dp
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= zero) then
                        do j = 1, i
                           temp = cabs1(a(j, i))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                        do j = i + 1, n
                           temp = cabs1(a(i, j))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -6329,26 +6317,24 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    if (beta == czero) then
+                    if (beta == zero) then
                        symb_zero = .true.
                        y(iy) = 0.0_dp
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= zero) then
                        do j = 1, i
                           temp = cabs1(a(i, j))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                        do j = i + 1, n
                           temp = cabs1(a(j, i))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -6359,28 +6345,26 @@ module stdlib_linalg_lapack_z
            else
               if (uplo == stdlib_ilauplo('u')) then
                  do i = 1, n
-                    if (beta == czero) then
+                    if (beta == zero) then
                        symb_zero = .true.
                        y(iy) = 0.0_dp
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
                     jx = kx
-                    if (alpha /= czero) then
+                    if (alpha /= zero) then
                        do j = 1, i
                           temp = cabs1(a(j, i))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
                        do j = i + 1, n
                           temp = cabs1(a(i, j))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -6390,28 +6374,26 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    if (beta == czero) then
+                    if (beta == zero) then
                        symb_zero = .true.
                        y(iy) = 0.0_dp
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
                     jx = kx
-                    if (alpha /= czero) then
+                    if (alpha /= zero) then
                        do j = 1, i
                           temp = cabs1(a(i, j))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
                        do j = i + 1, n
                           temp = cabs1(a(j, i))
-                          symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-                                    
+                          symb_zero = symb_zero .and. (x(j) == zero .or. temp == zero)
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -6843,7 +6825,7 @@ module stdlib_linalg_lapack_z
               end do
            end do
            l = m*n + 1
-           call stdlib_dgemm('n', 'n', m, n, n, cone, rwork, m, b, ldb, czero, rwork(l), m)
+           call stdlib_dgemm('n', 'n', m, n, n, one, rwork, m, b, ldb, zero, rwork(l), m)
                      
            do j = 1, n
               do i = 1, m
@@ -6855,7 +6837,7 @@ module stdlib_linalg_lapack_z
                  rwork((j - 1)*m + i) = dimag(a(i, j))
               end do
            end do
-           call stdlib_dgemm('n', 'n', m, n, n, cone, rwork, m, b, ldb, czero, rwork(l), m)
+           call stdlib_dgemm('n', 'n', m, n, n, one, rwork, m, b, ldb, zero, rwork(l), m)
                      
            do j = 1, n
               do i = 1, m
@@ -6990,11 +6972,11 @@ module stdlib_linalg_lapack_z
            n1 = cutpnt
            n2 = n - n1
            n1p1 = n1 + 1
-           if (rho < czero) then
+           if (rho < zero) then
               call stdlib_dscal(n2, mone, z(n1p1), 1)
            end if
            ! normalize z so that norm(z) = 1
-           t = cone/sqrt(two)
+           t = one/sqrt(two)
            do j = 1, n
               indx(j) = j
            end do
@@ -7036,7 +7018,7 @@ module stdlib_linalg_lapack_z
            ! the number of equal eigenvalues are found.  as each equal
            ! eigenvalue is found, an elementary reflector is computed to rotate
            ! the corresponding eigensubspace so that the corresponding
-           ! components of z are czero in this new basis.
+           ! components of z are zero in this new basis.
            k = 0
            k2 = n + 1
            do j = 1, n
@@ -7070,7 +7052,7 @@ module stdlib_linalg_lapack_z
               if (abs(t*c*s) <= tol) then
                  ! deflation is possible.
                  z(j) = tau
-                 z(jlam) = czero
+                 z(jlam) = zero
                  ! record the appropriate givens rotation
                  givptr = givptr + 1
                  givcol(1, givptr) = indxq(indx(jlam))
@@ -7161,32 +7143,32 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, max, sqrt
            ! .. executable statements ..
            ! special case:  the matrix is actually diagonal.
-           ! to avoid divide by czero later, we treat this case separately.
-           if (abs(b) == czero) then
+           ! to avoid divide by zero later, we treat this case separately.
+           if (abs(b) == zero) then
               rt1 = a
               rt2 = c
               if (abs(rt1) < abs(rt2)) then
                  tmp = rt1
                  rt1 = rt2
                  rt2 = tmp
-                 cs1 = czero
+                 cs1 = zero
                  sn1 = one
               else
                  cs1 = one
-                 sn1 = czero
+                 sn1 = zero
               end if
            else
               ! compute the eigenvalues and eigenvectors.
               ! the characteristic equation is
                  ! lambda **2 - (a+c) lambda + (a*c - b*b)
               ! and we solve it using the quadratic formula.
-              s = (a + c)*chalf
-              t = (a - c)*chalf
+              s = (a + c)*half
+              t = (a - c)*half
               ! take the square root carefully to avoid over/under flow.
               babs = abs(b)
               tabs = abs(t)
               z = max(babs, tabs)
-              if (z > czero) t = z*sqrt((t/z)**2 + (b/z)**2)
+              if (z > zero) t = z*sqrt((t/z)**2 + (b/z)**2)
               ! compute the two eigenvalues.  rt1 and rt2 are exchanged
               ! if necessary so that rt1 will have the greater magnitude.
               rt1 = s + t
@@ -7213,7 +7195,7 @@ module stdlib_linalg_lapack_z
                  cs1 = evscal
                  sn1 = sn1*evscal
               else
-                 evscal = czero
+                 evscal = zero
               end if
            end if
            return
@@ -7245,8 +7227,8 @@ module stdlib_linalg_lapack_z
            ! .. intrinsic functions ..
            intrinsic :: abs, dble, dconjg
            ! .. executable statements ..
-           if (abs(b) == czero) then
-              w = cone
+           if (abs(b) == zero) then
+              w = one
            else
               w = dconjg(b)/abs(b)
            end if
@@ -7322,20 +7304,20 @@ module stdlib_linalg_lapack_z
            ! .. executable statements ..
            if (n == 0) return
            ! multiply b by beta if beta/=1.
-           if (beta == czero) then
+           if (beta == zero) then
               do j = 1, nrhs
                  do i = 1, n
-                    b(i, j) = czero
+                    b(i, j) = zero
                  end do
               end do
-           else if (beta == -cone) then
+           else if (beta == -one) then
               do j = 1, nrhs
                  do i = 1, n
                     b(i, j) = -b(i, j)
                  end do
               end do
            end if
-           if (alpha == cone) then
+           if (alpha == one) then
               if (stdlib_lsame(trans, 'n')) then
                  ! compute b := b + a*x
                  do j = 1, nrhs
@@ -7381,7 +7363,7 @@ module stdlib_linalg_lapack_z
                     end if
                  end do
               end if
-           else if (alpha == -cone) then
+           else if (alpha == -one) then
               if (stdlib_lsame(trans, 'n')) then
                  ! compute b := b - a*x
                  do j = 1, nrhs
@@ -7505,10 +7487,10 @@ module stdlib_linalg_lapack_z
                  imax = stdlib_izamax(k - 1, w(1, kw), 1)
                  colmax = cabs1(w(imax, kw))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero or underflow: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
                  a(k, k) = dble(a(k, k))
@@ -7600,7 +7582,7 @@ module stdlib_linalg_lapack_z
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_zcopy(k, w(1, kw), 1, a(1, k), 1)
                     if (k > 1) then
-                       ! (note: no need to check if a(k,k) is not czero,
+                       ! (note: no need to check if a(k,k) is not zero,
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(4))
                        r1 = one/dble(a(k, k))
@@ -7645,7 +7627,7 @@ module stdlib_linalg_lapack_z
                              ! d22 = d11/conj(d21),
                              ! d21 = t/d21,
                              ! t = 1/(d22*d11-1).
-                       ! (note: no need to check for division by czero,
+                       ! (note: no need to check for division by zero,
                         ! since that was ensured earlier in pivot search:
                         ! (a) d21 != 0, since in 2x2 pivot case(4)
                             ! |d21| should be larger than |d11| and |d22|;
@@ -7749,10 +7731,10 @@ module stdlib_linalg_lapack_z
                  imax = k + stdlib_izamax(n - k, w(k + 1, k), 1)
                  colmax = cabs1(w(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero or underflow: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
                  a(k, k) = dble(a(k, k))
@@ -7841,7 +7823,7 @@ module stdlib_linalg_lapack_z
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_zcopy(n - k + 1, w(k, k), 1, a(k, k), 1)
                     if (k < n) then
-                       ! (note: no need to check if a(k,k) is not czero,
+                       ! (note: no need to check if a(k,k) is not zero,
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(4))
                        r1 = one/dble(a(k, k))
@@ -7886,7 +7868,7 @@ module stdlib_linalg_lapack_z
                              ! d22 = d11/conj(d21),
                              ! d21 = t/d21,
                              ! t = 1/(d22*d11-1).
-                       ! (note: no need to check for division by czero,
+                       ! (note: no need to check for division by zero,
                         ! since that was ensured earlier in pivot search:
                         ! (a) d21 != 0, since in 2x2 pivot case(4)
                             ! |d21| should be larger than |d11| and |d22|;
@@ -8682,10 +8664,10 @@ module stdlib_linalg_lapack_z
                  imax = stdlib_izamax(k - 1, w(1, kw), 1)
                  colmax = cabs1(w(imax, kw))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero or underflow: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
                  a(k, k) = dble(w(k, kw))
@@ -8723,7 +8705,7 @@ module stdlib_linalg_lapack_z
                           jmax = imax + stdlib_izamax(k - imax, w(imax + 1, kw - 1), 1)
                           rowmax = cabs1(w(jmax, kw - 1))
                        else
-                          rowmax = czero
+                          rowmax = zero
                        end if
                        if (imax > 1) then
                           itemp = stdlib_izamax(imax - 1, w(1, kw - 1), 1)
@@ -8822,7 +8804,7 @@ module stdlib_linalg_lapack_z
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_zcopy(k, w(1, kw), 1, a(1, k), 1)
                     if (k > 1) then
-                       ! (note: no need to check if a(k,k) is not czero,
+                       ! (note: no need to check if a(k,k) is not zero,
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(3))
                        ! handle division by a small number
@@ -8877,7 +8859,7 @@ module stdlib_linalg_lapack_z
                              ! d22 = d11/conj(d21),
                              ! d21 = d21,
                              ! t = 1/(d22*d11-1).
-                       ! (note: no need to check for division by czero,
+                       ! (note: no need to check for division by zero,
                         ! since that was ensured earlier in pivot search:
                         ! (a) d21 != 0 in 2x2 pivot case(4),
                             ! since |d21| should be larger than |d11| and |d22|;
@@ -8990,10 +8972,10 @@ module stdlib_linalg_lapack_z
                  imax = k + stdlib_izamax(n - k, w(k + 1, k), 1)
                  colmax = cabs1(w(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero or underflow: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
                  a(k, k) = dble(w(k, k))
@@ -9030,7 +9012,7 @@ module stdlib_linalg_lapack_z
                           jmax = k - 1 + stdlib_izamax(imax - k, w(k, k + 1), 1)
                           rowmax = cabs1(w(jmax, k + 1))
                        else
-                          rowmax = czero
+                          rowmax = zero
                        end if
                        if (imax < n) then
                           itemp = imax + stdlib_izamax(n - imax, w(imax + 1, k + 1), 1)
@@ -9128,7 +9110,7 @@ module stdlib_linalg_lapack_z
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_zcopy(n - k + 1, w(k, k), 1, a(k, k), 1)
                     if (k < n) then
-                       ! (note: no need to check if a(k,k) is not czero,
+                       ! (note: no need to check if a(k,k) is not zero,
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(3))
                        ! handle division by a small number
@@ -9183,7 +9165,7 @@ module stdlib_linalg_lapack_z
                              ! d22 = d11/conj(d21),
                              ! d21 = d21,
                              ! t = 1/(d22*d11-1).
-                       ! (note: no need to check for division by czero,
+                       ! (note: no need to check for division by zero,
                         ! since that was ensured earlier in pivot search:
                         ! (a) d21 != 0 in 2x2 pivot case(4),
                             ! since |d21| should be larger than |d11| and |d22|;
@@ -9321,12 +9303,12 @@ module stdlib_linalg_lapack_z
            if (job == 1) then
               ! estimating largest singular value
               ! special cases
-              if (sest == czero) then
+              if (sest == zero) then
                  s1 = max(absgam, absalp)
-                 if (s1 == czero) then
-                    s = czero
-                    c = cone
-                    sestpr = czero
+                 if (s1 == zero) then
+                    s = zero
+                    c = one
+                    sestpr = zero
                  else
                     s = alpha/s1
                     c = gamma/s1
@@ -9337,8 +9319,8 @@ module stdlib_linalg_lapack_z
                  end if
                  return
               else if (absgam <= eps*absest) then
-                 s = cone
-                 c = czero
+                 s = one
+                 c = zero
                  tmp = max(absest, absalp)
                  s1 = absest/tmp
                  s2 = absalp/tmp
@@ -9348,12 +9330,12 @@ module stdlib_linalg_lapack_z
                  s1 = absgam
                  s2 = absest
                  if (s1 <= s2) then
-                    s = cone
-                    c = czero
+                    s = one
+                    c = zero
                     sestpr = s2
                  else
-                    s = czero
-                    c = cone
+                    s = zero
+                    c = one
                     sestpr = s1
                  end if
                  return
@@ -9362,13 +9344,13 @@ module stdlib_linalg_lapack_z
                  s2 = absalp
                  if (s1 <= s2) then
                     tmp = s1/s2
-                    scl = sqrt(cone + tmp*tmp)
+                    scl = sqrt(one + tmp*tmp)
                     sestpr = s2*scl
                     s = (alpha/s2)/scl
                     c = (gamma/s2)/scl
                  else
                     tmp = s2/s1
-                    scl = sqrt(cone + tmp*tmp)
+                    scl = sqrt(one + tmp*tmp)
                     sestpr = s1*scl
                     s = (alpha/s1)/scl
                     c = (gamma/s1)/scl
@@ -9378,29 +9360,29 @@ module stdlib_linalg_lapack_z
                  ! normal case
                  zeta1 = absalp/absest
                  zeta2 = absgam/absest
-                 b = (cone - zeta1*zeta1 - zeta2*zeta2)*chalf
+                 b = (one - zeta1*zeta1 - zeta2*zeta2)*half
                  c = zeta1*zeta1
-                 if (b > czero) then
+                 if (b > zero) then
                     t = dble(c/(b + sqrt(b*b + c)))
                  else
                     t = dble(sqrt(b*b + c) - b)
                  end if
                  sine = -(alpha/absest)/t
-                 cosine = -(gamma/absest)/(cone + t)
+                 cosine = -(gamma/absest)/(one + t)
                  tmp = dble(sqrt(sine*dconjg(sine) + cosine*dconjg(cosine)))
                  s = sine/tmp
                  c = cosine/tmp
-                 sestpr = sqrt(t + cone)*absest
+                 sestpr = sqrt(t + one)*absest
                  return
               end if
            else if (job == 2) then
               ! estimating smallest singular value
               ! special cases
-              if (sest == czero) then
-                 sestpr = czero
-                 if (max(absgam, absalp) == czero) then
-                    sine = cone
-                    cosine = czero
+              if (sest == zero) then
+                 sestpr = zero
+                 if (max(absgam, absalp) == zero) then
+                    sine = one
+                    cosine = zero
                  else
                     sine = -dconjg(gamma)
                     cosine = dconjg(alpha)
@@ -9413,20 +9395,20 @@ module stdlib_linalg_lapack_z
                  c = c/tmp
                  return
               else if (absgam <= eps*absest) then
-                 s = czero
-                 c = cone
+                 s = zero
+                 c = one
                  sestpr = absgam
                  return
               else if (absalp <= eps*absest) then
                  s1 = absgam
                  s2 = absest
                  if (s1 <= s2) then
-                    s = czero
-                    c = cone
+                    s = zero
+                    c = one
                     sestpr = s1
                  else
-                    s = cone
-                    c = czero
+                    s = one
+                    c = zero
                     sestpr = s2
                  end if
                  return
@@ -9435,13 +9417,13 @@ module stdlib_linalg_lapack_z
                  s2 = absalp
                  if (s1 <= s2) then
                     tmp = s1/s2
-                    scl = sqrt(cone + tmp*tmp)
+                    scl = sqrt(one + tmp*tmp)
                     sestpr = absest*(tmp/scl)
                     s = -(dconjg(gamma)/s2)/scl
                     c = (dconjg(alpha)/s2)/scl
                  else
                     tmp = s2/s1
-                    scl = sqrt(cone + tmp*tmp)
+                    scl = sqrt(one + tmp*tmp)
                     sestpr = absest/scl
                     s = -(dconjg(gamma)/s1)/scl
                     c = (dconjg(alpha)/s1)/scl
@@ -9451,29 +9433,29 @@ module stdlib_linalg_lapack_z
                  ! normal case
                  zeta1 = absalp/absest
                  zeta2 = absgam/absest
-                 norma = max(cone + zeta1*zeta1 + zeta1*zeta2, zeta1*zeta2 + zeta2*zeta2)
-                 ! see if root is closer to czero or to cone
-                 test = cone + two*(zeta1 - zeta2)*(zeta1 + zeta2)
-                 if (test >= czero) then
-                    ! root is close to czero, compute directly
-                    b = (zeta1*zeta1 + zeta2*zeta2 + cone)*chalf
+                 norma = max(one + zeta1*zeta1 + zeta1*zeta2, zeta1*zeta2 + zeta2*zeta2)
+                 ! see if root is closer to zero or to one
+                 test = one + two*(zeta1 - zeta2)*(zeta1 + zeta2)
+                 if (test >= zero) then
+                    ! root is close to zero, compute directly
+                    b = (zeta1*zeta1 + zeta2*zeta2 + one)*half
                     c = zeta2*zeta2
                     t = dble(c/(b + sqrt(abs(b*b - c))))
-                    sine = (alpha/absest)/(cone - t)
+                    sine = (alpha/absest)/(one - t)
                     cosine = -(gamma/absest)/t
                     sestpr = sqrt(t + four*eps*eps*norma)*absest
                  else
-                    ! root is closer to cone, shift by that amount
-                    b = (zeta2*zeta2 + zeta1*zeta1 - cone)*chalf
+                    ! root is closer to one, shift by that amount
+                    b = (zeta2*zeta2 + zeta1*zeta1 - one)*half
                     c = zeta1*zeta1
-                    if (b >= czero) then
+                    if (b >= zero) then
                        t = -c/(b + sqrt(b*b + c))
                     else
                        t = b - sqrt(b*b + c)
                     end if
                     sine = -(alpha/absest)/t
-                    cosine = -(gamma/absest)/(cone + t)
-                    sestpr = sqrt(cone + t + four*eps*eps*norma)*absest
+                    cosine = -(gamma/absest)/(one + t)
+                    sestpr = sqrt(one + t + four*eps*eps*norma)*absest
                  end if
                  tmp = dble(sqrt(sine*dconjg(sine) + cosine*dconjg(cosine)))
                  s = sine/tmp
@@ -9656,7 +9638,7 @@ module stdlib_linalg_lapack_z
            end if
            ! initialize large and small.
            small = stdlib_dlamch('safe minimum')/stdlib_dlamch('precision')
-           large = cone/small
+           large = one/small
            if (rowcnd >= thresh .and. amax >= small .and. amax <= large) then
               ! no row scaling
               if (colcnd >= thresh) then
@@ -9724,7 +9706,7 @@ module stdlib_linalg_lapack_z
            end if
            ! initialize large and small.
            small = stdlib_dlamch('safe minimum')/stdlib_dlamch('precision')
-           large = cone/small
+           large = one/small
            if (rowcnd >= thresh .and. amax >= small .and. amax <= large) then
               ! no row scaling
               if (colcnd >= thresh) then
@@ -9794,7 +9776,7 @@ module stdlib_linalg_lapack_z
            end if
            ! initialize large and small.
            small = stdlib_dlamch('safe minimum')/stdlib_dlamch('precision')
-           large = cone/small
+           large = one/small
            if (scond >= thresh .and. amax >= small .and. amax <= large) then
               ! no equilibration
               equed = 'n'
@@ -9857,7 +9839,7 @@ module stdlib_linalg_lapack_z
            end if
            ! initialize large and small.
            small = stdlib_dlamch('safe minimum')/stdlib_dlamch('precision')
-           large = cone/small
+           large = one/small
            if (scond >= thresh .and. amax >= small .and. amax <= large) then
               ! no equilibration
               equed = 'n'
@@ -9920,7 +9902,7 @@ module stdlib_linalg_lapack_z
            end if
            ! initialize large and small.
            small = stdlib_dlamch('safe minimum')/stdlib_dlamch('precision')
-           large = cone/small
+           large = one/small
            if (scond >= thresh .and. amax >= small .and. amax <= large) then
               ! no equilibration
               equed = 'n'
@@ -10048,7 +10030,7 @@ module stdlib_linalg_lapack_z
            end if
            ! initialize large and small.
            small = stdlib_dlamch('safe minimum')/stdlib_dlamch('precision')
-           large = cone/small
+           large = one/small
            if (scond >= thresh .and. amax >= small .and. amax <= large) then
               ! no equilibration
               equed = 'n'
@@ -10107,7 +10089,7 @@ module stdlib_linalg_lapack_z
            end if
            ! initialize large and small.
            small = stdlib_dlamch('safe minimum')/stdlib_dlamch('precision')
-           large = cone/small
+           large = one/small
            if (scond >= thresh .and. amax >= small .and. amax <= large) then
               ! no equilibration
               equed = 'n'
@@ -10170,7 +10152,7 @@ module stdlib_linalg_lapack_z
            end if
            ! initialize large and small.
            small = stdlib_dlamch('safe minimum')/stdlib_dlamch('precision')
-           large = cone/small
+           large = one/small
            if (scond >= thresh .and. amax >= small .and. amax <= large) then
               ! no equilibration
               equed = 'n'
@@ -10253,7 +10235,7 @@ module stdlib_linalg_lapack_z
            inds = 2*n + 1
            indp = 3*n + 1
            if (b1 == 1) then
-              work(inds) = czero
+              work(inds) = zero
            else
               work(inds + b1 - 1) = lld(b1 - 1)
            end if
@@ -10265,7 +10247,7 @@ module stdlib_linalg_lapack_z
            do i = b1, r1 - 1
               dplus = d(i) + s
               work(indlpl + i) = ld(i)/dplus
-              if (dplus < czero) neg1 = neg1 + 1
+              if (dplus < zero) neg1 = neg1 + 1
               work(inds + i) = s*work(indlpl + i)*l(i)
               s = work(inds + i) - lambda
            end do
@@ -10287,9 +10269,9 @@ module stdlib_linalg_lapack_z
                  dplus = d(i) + s
                  if (abs(dplus) < pivmin) dplus = -pivmin
                  work(indlpl + i) = ld(i)/dplus
-                 if (dplus < czero) neg1 = neg1 + 1
+                 if (dplus < zero) neg1 = neg1 + 1
                  work(inds + i) = s*work(indlpl + i)*l(i)
-                 if (work(indlpl + i) == czero) work(inds + i) = lld(i)
+                 if (work(indlpl + i) == zero) work(inds + i) = lld(i)
                  s = work(inds + i) - lambda
               end do
               do i = r1, r2 - 1
@@ -10297,7 +10279,7 @@ module stdlib_linalg_lapack_z
                  if (abs(dplus) < pivmin) dplus = -pivmin
                  work(indlpl + i) = ld(i)/dplus
                  work(inds + i) = s*work(indlpl + i)*l(i)
-                 if (work(indlpl + i) == czero) work(inds + i) = lld(i)
+                 if (work(indlpl + i) == zero) work(inds + i) = lld(i)
                  s = work(inds + i) - lambda
               end do
            end if
@@ -10309,7 +10291,7 @@ module stdlib_linalg_lapack_z
            do i = bn - 1, r1, -1
               dminus = lld(i) + work(indp + i)
               tmp = d(i)/dminus
-              if (dminus < czero) neg2 = neg2 + 1
+              if (dminus < zero) neg2 = neg2 + 1
               work(indumn + i) = l(i)*tmp
               work(indp + i - 1) = work(indp + i)*tmp - lambda
            end do
@@ -10322,26 +10304,26 @@ module stdlib_linalg_lapack_z
                  dminus = lld(i) + work(indp + i)
                  if (abs(dminus) < pivmin) dminus = -pivmin
                  tmp = d(i)/dminus
-                 if (dminus < czero) neg2 = neg2 + 1
+                 if (dminus < zero) neg2 = neg2 + 1
                  work(indumn + i) = l(i)*tmp
                  work(indp + i - 1) = work(indp + i)*tmp - lambda
-                 if (tmp == czero) work(indp + i - 1) = d(i) - lambda
+                 if (tmp == zero) work(indp + i - 1) = d(i) - lambda
               end do
            end if
            ! find the index (from r1 to r2) of the largest (in magnitude)
            ! diagonal element of the inverse
            mingma = work(inds + r1 - 1) + work(indp + r1 - 1)
-           if (mingma < czero) neg1 = neg1 + 1
+           if (mingma < zero) neg1 = neg1 + 1
            if (wantnc) then
               negcnt = neg1 + neg2
            else
               negcnt = -1
            end if
-           if (abs(mingma) == czero) mingma = eps*work(inds + r1 - 1)
+           if (abs(mingma) == zero) mingma = eps*work(inds + r1 - 1)
            r = r1
            do i = r1, r2 - 1
               tmp = work(inds + i) + work(indp + i)
-              if (tmp == czero) tmp = eps*work(inds + i)
+              if (tmp == zero) tmp = eps*work(inds + i)
               if (abs(tmp) <= abs(mingma)) then
                  mingma = tmp
                  r = i + 1
@@ -10357,7 +10339,7 @@ module stdlib_linalg_lapack_z
               do i = r - 1, b1, -1
                  z(i) = -(work(indlpl + i)*z(i + 1))
                  if ((abs(z(i)) + abs(z(i + 1)))*abs(ld(i)) < gaptol) then
-                    z(i) = czero
+                    z(i) = zero
                     isuppz(1) = i + 1
                     goto 220
                  end if
@@ -10367,13 +10349,13 @@ module stdlib_linalg_lapack_z
            else
               ! run slower loop if nan occurred.
               do i = r - 1, b1, -1
-                 if (z(i + 1) == czero) then
+                 if (z(i + 1) == zero) then
                     z(i) = -(ld(i + 1)/ld(i))*z(i + 2)
                  else
                     z(i) = -(work(indlpl + i)*z(i + 1))
                  end if
                  if ((abs(z(i)) + abs(z(i + 1)))*abs(ld(i)) < gaptol) then
-                    z(i) = czero
+                    z(i) = zero
                     isuppz(1) = i + 1
                     go to 240
                  end if
@@ -10386,7 +10368,7 @@ module stdlib_linalg_lapack_z
               do i = r, bn - 1
                  z(i + 1) = -(work(indumn + i)*z(i))
                  if ((abs(z(i)) + abs(z(i + 1)))*abs(ld(i)) < gaptol) then
-                    z(i + 1) = czero
+                    z(i + 1) = zero
                     isuppz(2) = i
                     go to 260
                  end if
@@ -10396,13 +10378,13 @@ module stdlib_linalg_lapack_z
            else
               ! run slower loop if nan occurred.
               do i = r, bn - 1
-                 if (z(i) == czero) then
+                 if (z(i) == zero) then
                     z(i + 1) = -(ld(i - 1)/ld(i))*z(i - 1)
                  else
                     z(i + 1) = -(work(indumn + i)*z(i))
                  end if
                  if ((abs(z(i)) + abs(z(i + 1)))*abs(ld(i)) < gaptol) then
-                    z(i + 1) = czero
+                    z(i + 1) = zero
                     isuppz(2) = i
                     go to 280
                  end if
@@ -10503,7 +10485,7 @@ module stdlib_linalg_lapack_z
               end do
            end do
            l = m*n + 1
-           call stdlib_dgemm('n', 'n', m, n, m, cone, a, lda, rwork, m, czero, rwork(l), m)
+           call stdlib_dgemm('n', 'n', m, n, m, one, a, lda, rwork, m, zero, rwork(l), m)
                      
            do j = 1, n
               do i = 1, m
@@ -10515,7 +10497,7 @@ module stdlib_linalg_lapack_z
                  rwork((j - 1)*m + i) = dimag(b(i, j))
               end do
            end do
-           call stdlib_dgemm('n', 'n', m, n, m, cone, a, lda, rwork, m, czero, rwork(l), m)
+           call stdlib_dgemm('n', 'n', m, n, m, one, a, lda, rwork, m, zero, rwork(l), m)
                      
            do j = 1, n
               do i = 1, m
@@ -11022,7 +11004,7 @@ module stdlib_linalg_lapack_z
            do j = 1, k
               call stdlib_zcopy(j, a(1, j), 1, work(1, j), 1)
            end do
-           ! set the subdiagonal elements of w1 to czero column-by-column.
+           ! set the subdiagonal elements of w1 to zero column-by-column.
            do j = 1, k - 1
               do i = j + 1, k
                  work(i, j) = czero
@@ -11107,20 +11089,20 @@ module stdlib_linalg_lapack_z
      
            ! .. executable statements ..
            if (n <= 0) then
-              tau = czero
+              tau = zero
               return
            end if
            xnorm = stdlib_dznrm2(n - 1, x, incx)
            alphr = dble(alpha)
            alphi = dimag(alpha)
-           if (xnorm == czero .and. alphi == czero) then
+           if (xnorm == zero .and. alphi == zero) then
               ! h  =  i
-              tau = czero
+              tau = zero
            else
               ! general case
               beta = -sign(stdlib_dlapy3(alphr, alphi, xnorm), alphr)
               safmin = stdlib_dlamch('s')/stdlib_dlamch('e')
-              rsafmn = cone/safmin
+              rsafmn = one/safmin
               knt = 0
               if (abs(beta) < safmin) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
@@ -11137,7 +11119,7 @@ module stdlib_linalg_lapack_z
                  beta = -sign(stdlib_dlapy3(alphr, alphi, xnorm), alphr)
               end if
               tau = dcmplx((beta - alphr)/beta, -alphi/beta)
-              alpha = stdlib_zladiv(dcmplx(cone), alpha - beta)
+              alpha = stdlib_zladiv(dcmplx(one), alpha - beta)
               call stdlib_zscal(n - 1, alpha, x, incx)
               ! if alpha is subnormal, it may lose relative accuracy
               do j = 1, knt
@@ -11183,35 +11165,35 @@ module stdlib_linalg_lapack_z
      
            ! .. executable statements ..
            if (n <= 0) then
-              tau = czero
+              tau = zero
               return
            end if
            xnorm = stdlib_dznrm2(n - 1, x, incx)
            alphr = dble(alpha)
            alphi = dimag(alpha)
-           if (xnorm == czero) then
+           if (xnorm == zero) then
               ! h  =  [1-alpha/abs(alpha) 0; 0 i], sign chosen so alpha >= 0.
-              if (alphi == czero) then
-                 if (alphr >= czero) then
-                    ! when tau.eq.czero, the vector is special-cased to be
+              if (alphi == zero) then
+                 if (alphr >= zero) then
+                    ! when tau.eq.zero, the vector is special-cased to be
                     ! all zeros in the application routines.  we do not need
                     ! to clear it.
-                    tau = czero
+                    tau = zero
                  else
                     ! however, the application routines rely on explicit
-                    ! czero checks when tau.ne.czero, and we must clear x.
+                    ! zero checks when tau.ne.zero, and we must clear x.
                     tau = two
                     do j = 1, n - 1
-                       x(1 + (j - 1)*incx) = czero
+                       x(1 + (j - 1)*incx) = zero
                     end do
                     alpha = -alpha
                  end if
               else
                  ! only "reflecting" the diagonal entry to be real and non-negative.
                  xnorm = stdlib_dlapy2(alphr, alphi)
-                 tau = dcmplx(cone - alphr/xnorm, -alphi/xnorm)
+                 tau = dcmplx(one - alphr/xnorm, -alphi/xnorm)
                  do j = 1, n - 1
-                    x(1 + (j - 1)*incx) = czero
+                    x(1 + (j - 1)*incx) = zero
                  end do
                  alpha = xnorm
               end if
@@ -11219,7 +11201,7 @@ module stdlib_linalg_lapack_z
               ! general case
               beta = sign(stdlib_dlapy3(alphr, alphi, xnorm), alphr)
               smlnum = stdlib_dlamch('s')/stdlib_dlamch('e')
-              bignum = cone/smlnum
+              bignum = one/smlnum
               knt = 0
               if (abs(beta) < smlnum) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
@@ -11237,7 +11219,7 @@ module stdlib_linalg_lapack_z
               end if
               savealpha = alpha
               alpha = alpha + beta
-              if (beta < czero) then
+              if (beta < zero) then
                  beta = -beta
                  tau = -alpha/beta
               else
@@ -11246,30 +11228,30 @@ module stdlib_linalg_lapack_z
                  tau = dcmplx(alphr/beta, -alphi/beta)
                  alpha = dcmplx(-alphr, alphi)
               end if
-              alpha = stdlib_zladiv(dcmplx(cone), alpha)
+              alpha = stdlib_zladiv(dcmplx(one), alpha)
               if (abs(tau) <= smlnum) then
                  ! in the case where the computed tau ends up being a denormalized number,
                  ! it loses relative accuracy. this is a big problem. solution: flush tau
-                 ! to czero (or two or whatever makes a nonnegative real number for beta).
+                 ! to zero (or two or whatever makes a nonnegative real number for beta).
                  ! (bug report provided by pat quillen from mathworks on jul 29, 2009.)
                  ! (thanks pat. thanks mathworks.)
                  alphr = dble(savealpha)
                  alphi = dimag(savealpha)
-                 if (alphi == czero) then
-                    if (alphr >= czero) then
-                       tau = czero
+                 if (alphi == zero) then
+                    if (alphr >= zero) then
+                       tau = zero
                     else
                        tau = two
                        do j = 1, n - 1
-                          x(1 + (j - 1)*incx) = czero
+                          x(1 + (j - 1)*incx) = zero
                        end do
                        beta = dble(-savealpha)
                     end if
                  else
                     xnorm = stdlib_dlapy2(alphr, alphi)
-                    tau = dcmplx(cone - alphr/xnorm, -alphi/xnorm)
+                    tau = dcmplx(one - alphr/xnorm, -alphi/xnorm)
                     do j = 1, n - 1
-                       x(1 + (j - 1)*incx) = czero
+                       x(1 + (j - 1)*incx) = zero
                     end do
                     beta = xnorm
                  end if
@@ -11992,26 +11974,25 @@ module stdlib_linalg_lapack_z
               else if (idist == 2) then
                  ! convert generated numbers to uniform (-1,1) distribution
                  do i = 1, il
-                    x(iv + i - 1) = dcmplx(two*u(2*i - 1) - cone, two*u(2*i) - cone)
+                    x(iv + i - 1) = dcmplx(two*u(2*i - 1) - one, two*u(2*i) - one)
                  end do
               else if (idist == 3) then
                  ! convert generated numbers to normal (0,1) distribution
                  do i = 1, il
-                    x(iv + i - 1) = sqrt(-two*log(u(2*i - 1)))*exp(dcmplx(czero, twopi*u(2*i &
-                              )))
+                    x(iv + i - 1) = sqrt(-two*log(u(2*i - 1)))*exp(dcmplx(zero, twopi*u(2*i) &
+                               ))
                  end do
               else if (idist == 4) then
                  ! convert generated numbers to complex numbers uniformly
                  ! distributed on the unit disk
                  do i = 1, il
-                    x(iv + i - 1) = sqrt(u(2*i - 1))*exp(dcmplx(czero, twopi*u(2*i)))
-                              
+                    x(iv + i - 1) = sqrt(u(2*i - 1))*exp(dcmplx(zero, twopi*u(2*i)))
                  end do
               else if (idist == 5) then
                  ! convert generated numbers to complex numbers uniformly
                  ! distributed on the unit circle
                  do i = 1, il
-                    x(iv + i - 1) = exp(dcmplx(czero, twopi*u(2*i)))
+                    x(iv + i - 1) = exp(dcmplx(zero, twopi*u(2*i)))
                  end do
               end if
 60      continue
@@ -12447,7 +12428,7 @@ module stdlib_linalg_lapack_z
            end if
            if (itype == -1) then
               info = -1
-           else if (cfrom == czero .or. stdlib_disnan(cfrom)) then
+           else if (cfrom == zero .or. stdlib_disnan(cfrom)) then
               info = -4
            else if (stdlib_disnan(cto)) then
               info = -5
@@ -12476,13 +12457,13 @@ module stdlib_linalg_lapack_z
            if (n == 0 .or. m == 0) return
            ! get machine parameters
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            cfromc = cfrom
            ctoc = cto
 10      continue
            cfrom1 = cfromc*smlnum
            if (cfrom1 == cfromc) then
-              ! cfromc is an inf.  multiply by a correctly signed czero for
+              ! cfromc is an inf.  multiply by a correctly signed zero for
               ! finite ctoc, or a nan if ctoc is infinite.
               mul = ctoc/cfromc
               done = .true.
@@ -12494,8 +12475,8 @@ module stdlib_linalg_lapack_z
                  ! serves as the correct multiplication factor.
                  mul = ctoc
                  done = .true.
-                 cfromc = cone
-              else if (abs(cfrom1) > abs(ctoc) .and. ctoc /= czero) then
+                 cfromc = one
+              else if (abs(cfrom1) > abs(ctoc) .and. ctoc /= zero) then
                  mul = smlnum
                  done = .false.
                  cfromc = cfrom1
@@ -12731,7 +12712,7 @@ module stdlib_linalg_lapack_z
                     do j = 1, m - 1
                        ctemp = c(j)
                        stemp = s(j)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, n
                              temp = a(j + 1, i)
                              a(j + 1, i) = ctemp*temp - stemp*a(j, i)
@@ -12743,7 +12724,7 @@ module stdlib_linalg_lapack_z
                     do j = m - 1, 1, -1
                        ctemp = c(j)
                        stemp = s(j)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, n
                              temp = a(j + 1, i)
                              a(j + 1, i) = ctemp*temp - stemp*a(j, i)
@@ -12757,7 +12738,7 @@ module stdlib_linalg_lapack_z
                     do j = 2, m
                        ctemp = c(j - 1)
                        stemp = s(j - 1)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, n
                              temp = a(j, i)
                              a(j, i) = ctemp*temp - stemp*a(1, i)
@@ -12769,7 +12750,7 @@ module stdlib_linalg_lapack_z
                     do j = m, 2, -1
                        ctemp = c(j - 1)
                        stemp = s(j - 1)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, n
                              temp = a(j, i)
                              a(j, i) = ctemp*temp - stemp*a(1, i)
@@ -12783,7 +12764,7 @@ module stdlib_linalg_lapack_z
                     do j = 1, m - 1
                        ctemp = c(j)
                        stemp = s(j)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, n
                              temp = a(j, i)
                              a(j, i) = stemp*a(m, i) + ctemp*temp
@@ -12795,7 +12776,7 @@ module stdlib_linalg_lapack_z
                     do j = m - 1, 1, -1
                        ctemp = c(j)
                        stemp = s(j)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, n
                              temp = a(j, i)
                              a(j, i) = stemp*a(m, i) + ctemp*temp
@@ -12812,7 +12793,7 @@ module stdlib_linalg_lapack_z
                     do j = 1, n - 1
                        ctemp = c(j)
                        stemp = s(j)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, m
                              temp = a(i, j + 1)
                              a(i, j + 1) = ctemp*temp - stemp*a(i, j)
@@ -12824,7 +12805,7 @@ module stdlib_linalg_lapack_z
                     do j = n - 1, 1, -1
                        ctemp = c(j)
                        stemp = s(j)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, m
                              temp = a(i, j + 1)
                              a(i, j + 1) = ctemp*temp - stemp*a(i, j)
@@ -12838,7 +12819,7 @@ module stdlib_linalg_lapack_z
                     do j = 2, n
                        ctemp = c(j - 1)
                        stemp = s(j - 1)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, m
                              temp = a(i, j)
                              a(i, j) = ctemp*temp - stemp*a(i, 1)
@@ -12850,7 +12831,7 @@ module stdlib_linalg_lapack_z
                     do j = n, 2, -1
                        ctemp = c(j - 1)
                        stemp = s(j - 1)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, m
                              temp = a(i, j)
                              a(i, j) = ctemp*temp - stemp*a(i, 1)
@@ -12864,7 +12845,7 @@ module stdlib_linalg_lapack_z
                     do j = 1, n - 1
                        ctemp = c(j)
                        stemp = s(j)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, m
                              temp = a(i, j)
                              a(i, j) = stemp*a(i, n) + ctemp*temp
@@ -12876,7 +12857,7 @@ module stdlib_linalg_lapack_z
                     do j = n - 1, 1, -1
                        ctemp = c(j)
                        stemp = s(j)
-                       if ((ctemp /= cone) .or. (stemp /= czero)) then
+                       if ((ctemp /= one) .or. (stemp /= zero)) then
                           do i = 1, m
                              temp = a(i, j)
                              a(i, j) = stemp*a(i, n) + ctemp*temp
@@ -13151,10 +13132,10 @@ module stdlib_linalg_lapack_z
                  imax = stdlib_izamax(k - 1, w(1, kw), 1)
                  colmax = cabs1(w(imax, kw))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero or underflow: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
               else
@@ -13345,10 +13326,10 @@ module stdlib_linalg_lapack_z
                  imax = k + stdlib_izamax(n - k, w(k + 1, k), 1)
                  colmax = cabs1(w(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero or underflow: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
               else
@@ -14555,11 +14536,11 @@ module stdlib_linalg_lapack_z
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
            smlnum = stdlib_dlamch('safe minimum')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            smlnum = smlnum/stdlib_dlamch('precision')
-           bignum = cone/smlnum
-           scale = cone
+           bignum = one/smlnum
+           scale = one
            if (stdlib_lsame(normin, 'n')) then
               ! compute the 1-norm of each column, not including the diagonal.
               if (upper) then
@@ -14575,7 +14556,7 @@ module stdlib_linalg_lapack_z
                     if (jlen > 0) then
                        cnorm(j) = stdlib_dzasum(jlen, ab(2, j), 1)
                     else
-                       cnorm(j) = czero
+                       cnorm(j) = zero
                     end if
                  end do
               end if
@@ -14584,15 +14565,15 @@ module stdlib_linalg_lapack_z
            ! greater than bignum/2.
            imax = stdlib_idamax(n, cnorm, 1)
            tmax = cnorm(imax)
-           if (tmax <= bignum*chalf) then
-              tscal = cone
+           if (tmax <= bignum*half) then
+              tscal = one
            else
-              tscal = chalf/(smlnum*tmax)
+              tscal = half/(smlnum*tmax)
               call stdlib_dscal(n, tscal, cnorm, 1)
            end if
            ! compute a bound on the computed solution vector to see if the
            ! level 2 blas routine stdlib_ztbsv can be used.
-           xmax = czero
+           xmax = zero
            do j = 1, n
               xmax = max(xmax, cabs2(x(j)))
            end do
@@ -14610,15 +14591,15 @@ module stdlib_linalg_lapack_z
                  jinc = 1
                  maind = 1
               end if
-              if (tscal /= cone) then
-                 grow = czero
+              if (tscal /= one) then
+                 grow = zero
                  go to 60
               end if
               if (nounit) then
                  ! a is non-unit triangular.
                  ! compute grow = 1/g(j) and xbnd = 1/m(j).
                  ! initially, g(0) = max{x(i), i=1,...,n}.
-                 grow = chalf/max(xbnd, smlnum)
+                 grow = half/max(xbnd, smlnum)
                  xbnd = grow
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
@@ -14627,29 +14608,29 @@ module stdlib_linalg_lapack_z
                     tjj = cabs1(tjjs)
                     if (tjj >= smlnum) then
                        ! m(j) = g(j-1) / abs(a(j,j))
-                       xbnd = min(xbnd, min(cone, tjj)*grow)
+                       xbnd = min(xbnd, min(one, tjj)*grow)
                     else
                        ! m(j) could overflow, set xbnd to 0.
-                       xbnd = czero
+                       xbnd = zero
                     end if
                     if (tjj + cnorm(j) >= smlnum) then
                        ! g(j) = g(j-1)*( 1 + cnorm(j) / abs(a(j,j)) )
                        grow = grow*(tjj/(tjj + cnorm(j)))
                     else
                        ! g(j) could overflow, set grow to 0.
-                       grow = czero
+                       grow = zero
                     end if
                  end do
                  grow = xbnd
               else
                  ! a is unit triangular.
                  ! compute grow = 1/g(j), where g(0) = max{x(i), i=1,...,n}.
-                 grow = min(cone, chalf/max(xbnd, smlnum))
+                 grow = min(one, half/max(xbnd, smlnum))
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
                     if (grow <= smlnum) go to 60
                     ! g(j) = g(j-1)*( 1 + cnorm(j) )
-                    grow = grow*(cone/(cone + cnorm(j)))
+                    grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
 60      continue
@@ -14666,21 +14647,21 @@ module stdlib_linalg_lapack_z
                  jinc = -1
                  maind = 1
               end if
-              if (tscal /= cone) then
-                 grow = czero
+              if (tscal /= one) then
+                 grow = zero
                  go to 90
               end if
               if (nounit) then
                  ! a is non-unit triangular.
                  ! compute grow = 1/g(j) and xbnd = 1/m(j).
                  ! initially, m(0) = max{x(i), i=1,...,n}.
-                 grow = chalf/max(xbnd, smlnum)
+                 grow = half/max(xbnd, smlnum)
                  xbnd = grow
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
                     if (grow <= smlnum) go to 90
                     ! g(j) = max( g(j-1), m(j-1)*( 1 + cnorm(j) ) )
-                    xj = cone + cnorm(j)
+                    xj = one + cnorm(j)
                     grow = min(grow, xbnd/xj)
                     tjjs = ab(maind, j)
                     tjj = cabs1(tjjs)
@@ -14689,19 +14670,19 @@ module stdlib_linalg_lapack_z
                        if (xj > tjj) xbnd = xbnd*(tjj/xj)
                     else
                        ! m(j) could overflow, set xbnd to 0.
-                       xbnd = czero
+                       xbnd = zero
                     end if
                  end do
                  grow = min(grow, xbnd)
               else
                  ! a is unit triangular.
                  ! compute grow = 1/g(j), where g(0) = max{x(i), i=1,...,n}.
-                 grow = min(cone, chalf/max(xbnd, smlnum))
+                 grow = min(one, half/max(xbnd, smlnum))
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
                     if (grow <= smlnum) go to 90
                     ! g(j) = ( 1 + cnorm(j) )*g(j-1)
-                    xj = cone + cnorm(j)
+                    xj = one + cnorm(j)
                     grow = grow/xj
                  end do
               end if
@@ -14713,10 +14694,10 @@ module stdlib_linalg_lapack_z
               call stdlib_ztbsv(uplo, trans, diag, n, kd, ab, ldab, x, 1)
            else
               ! use a level 1 blas solve, scaling intermediate results.
-              if (xmax > bignum*chalf) then
+              if (xmax > bignum*half) then
                  ! scale x so that its components are less than or equal to
                  ! bignum in absolute value.
-                 scale = (bignum*chalf)/xmax
+                 scale = (bignum*half)/xmax
                  call stdlib_zdscal(n, scale, x, 1)
                  xmax = bignum
               else
@@ -14731,15 +14712,15 @@ module stdlib_linalg_lapack_z
                        tjjs = ab(maind, j)*tscal
                     else
                        tjjs = tscal
-                       if (tscal == cone) go to 110
+                       if (tscal == one) go to 110
                     end if
                     tjj = cabs1(tjjs)
                     if (tjj > smlnum) then
                           ! abs(a(j,j)) > smlnum:
-                       if (tjj < cone) then
+                       if (tjj < one) then
                           if (xj > tjj*bignum) then
                                 ! scale x by 1/b(j).
-                             rec = cone/xj
+                             rec = one/xj
                              call stdlib_zdscal(n, rec, x, 1)
                              scale = scale*rec
                              xmax = xmax*rec
@@ -14747,13 +14728,13 @@ module stdlib_linalg_lapack_z
                        end if
                        x(j) = stdlib_zladiv(x(j), tjjs)
                        xj = cabs1(x(j))
-                    else if (tjj > czero) then
+                    else if (tjj > zero) then
                           ! 0 < abs(a(j,j)) <= smlnum:
                        if (xj > tjj*bignum) then
                              ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum
                              ! to avoid overflow when dividing by a(j,j).
                           rec = (tjj*bignum)/xj
-                          if (cnorm(j) > cone) then
+                          if (cnorm(j) > one) then
                                 ! scale by 1/cnorm(j) to avoid overflow when
                                 ! multiplying x(j) times column j.
                              rec = rec/cnorm(j)
@@ -14768,28 +14749,28 @@ module stdlib_linalg_lapack_z
                           ! a(j,j) = 0:  set x(1:n) = 0, x(j) = 1, and
                           ! scale = 0, and compute a solution to a*x = 0.
                        do i = 1, n
-                          x(i) = czero
+                          x(i) = zero
                        end do
-                       x(j) = cone
-                       xj = cone
-                       scale = czero
-                       xmax = czero
+                       x(j) = one
+                       xj = one
+                       scale = zero
+                       xmax = zero
                     end if
 110    continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
-                    if (xj > cone) then
-                       rec = cone/xj
+                    if (xj > one) then
+                       rec = one/xj
                        if (cnorm(j) > (bignum - xmax)*rec) then
                           ! scale x by 1/(2*abs(x(j))).
-                          rec = rec*chalf
+                          rec = rec*half
                           call stdlib_zdscal(n, rec, x, 1)
                           scale = scale*rec
                        end if
                     else if (xj*cnorm(j) > (bignum - xmax)) then
                        ! scale x by 1/2.
-                       call stdlib_zdscal(n, chalf, x, 1)
-                       scale = scale*chalf
+                       call stdlib_zdscal(n, half, x, 1)
+                       scale = scale*half
                     end if
                     if (upper) then
                        if (j > 1) then
@@ -14820,29 +14801,29 @@ module stdlib_linalg_lapack_z
                                           ! k<>j
                     xj = cabs1(x(j))
                     uscal = tscal
-                    rec = cone/max(xmax, cone)
+                    rec = one/max(xmax, one)
                     if (cnorm(j) > (bignum - xj)*rec) then
                        ! if x(j) could overflow, scale x by 1/(2*xmax).
-                       rec = rec*chalf
+                       rec = rec*half
                        if (nounit) then
                           tjjs = ab(maind, j)*tscal
                        else
                           tjjs = tscal
                        end if
                        tjj = cabs1(tjjs)
-                       if (tjj > cone) then
+                       if (tjj > one) then
                              ! divide by a(j,j) when scaling x if a(j,j) > 1.
-                          rec = min(cone, rec*tjj)
+                          rec = min(one, rec*tjj)
                           uscal = stdlib_zladiv(uscal, tjjs)
                        end if
-                       if (rec < cone) then
+                       if (rec < one) then
                           call stdlib_zdscal(n, rec, x, 1)
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
                     end if
-                    csumj = czero
-                    if (uscal == dcmplx(cone)) then
+                    csumj = zero
+                    if (uscal == dcmplx(one)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_zdotu to perform the dot product.
                        if (upper) then
@@ -14878,22 +14859,22 @@ module stdlib_linalg_lapack_z
                           tjjs = ab(maind, j)*tscal
                        else
                           tjjs = tscal
-                          if (tscal == cone) go to 160
+                          if (tscal == one) go to 160
                        end if
                        tjj = cabs1(tjjs)
                        if (tjj > smlnum) then
                              ! abs(a(j,j)) > smlnum:
-                          if (tjj < cone) then
+                          if (tjj < one) then
                              if (xj > tjj*bignum) then
                                    ! scale x by 1/abs(x(j)).
-                                rec = cone/xj
+                                rec = one/xj
                                 call stdlib_zdscal(n, rec, x, 1)
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
                           end if
                           x(j) = stdlib_zladiv(x(j), tjjs)
-                       else if (tjj > czero) then
+                       else if (tjj > zero) then
                              ! 0 < abs(a(j,j)) <= smlnum:
                           if (xj > tjj*bignum) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
@@ -14907,11 +14888,11 @@ module stdlib_linalg_lapack_z
                              ! a(j,j) = 0:  set x(1:n) = 0, x(j) = 1, and
                              ! scale = 0 and compute a solution to a**t *x = 0.
                           do i = 1, n
-                             x(i) = czero
+                             x(i) = zero
                           end do
-                          x(j) = cone
-                          scale = czero
-                          xmax = czero
+                          x(j) = one
+                          scale = zero
+                          xmax = zero
                        end if
 160    continue
                     else
@@ -14928,29 +14909,29 @@ module stdlib_linalg_lapack_z
                                           ! k<>j
                     xj = cabs1(x(j))
                     uscal = tscal
-                    rec = cone/max(xmax, cone)
+                    rec = one/max(xmax, one)
                     if (cnorm(j) > (bignum - xj)*rec) then
                        ! if x(j) could overflow, scale x by 1/(2*xmax).
-                       rec = rec*chalf
+                       rec = rec*half
                        if (nounit) then
                           tjjs = dconjg(ab(maind, j))*tscal
                        else
                           tjjs = tscal
                        end if
                        tjj = cabs1(tjjs)
-                       if (tjj > cone) then
+                       if (tjj > one) then
                              ! divide by a(j,j) when scaling x if a(j,j) > 1.
-                          rec = min(cone, rec*tjj)
+                          rec = min(one, rec*tjj)
                           uscal = stdlib_zladiv(uscal, tjjs)
                        end if
-                       if (rec < cone) then
+                       if (rec < one) then
                           call stdlib_zdscal(n, rec, x, 1)
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
                     end if
-                    csumj = czero
-                    if (uscal == dcmplx(cone)) then
+                    csumj = zero
+                    if (uscal == dcmplx(one)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_zdotc to perform the dot product.
                        if (upper) then
@@ -14987,22 +14968,22 @@ module stdlib_linalg_lapack_z
                           tjjs = dconjg(ab(maind, j))*tscal
                        else
                           tjjs = tscal
-                          if (tscal == cone) go to 210
+                          if (tscal == one) go to 210
                        end if
                        tjj = cabs1(tjjs)
                        if (tjj > smlnum) then
                              ! abs(a(j,j)) > smlnum:
-                          if (tjj < cone) then
+                          if (tjj < one) then
                              if (xj > tjj*bignum) then
                                    ! scale x by 1/abs(x(j)).
-                                rec = cone/xj
+                                rec = one/xj
                                 call stdlib_zdscal(n, rec, x, 1)
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
                           end if
                           x(j) = stdlib_zladiv(x(j), tjjs)
-                       else if (tjj > czero) then
+                       else if (tjj > zero) then
                              ! 0 < abs(a(j,j)) <= smlnum:
                           if (xj > tjj*bignum) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
@@ -15016,11 +14997,11 @@ module stdlib_linalg_lapack_z
                              ! a(j,j) = 0:  set x(1:n) = 0, x(j) = 1, and
                              ! scale = 0 and compute a solution to a**h *x = 0.
                           do i = 1, n
-                             x(i) = czero
+                             x(i) = zero
                           end do
-                          x(j) = cone
-                          scale = czero
-                          xmax = czero
+                          x(j) = one
+                          scale = zero
+                          xmax = zero
                        end if
 210    continue
                     else
@@ -15034,8 +15015,8 @@ module stdlib_linalg_lapack_z
               scale = scale/tscal
            end if
            ! scale the column norms by 1/tscal for return.
-           if (tscal /= cone) then
-              call stdlib_dscal(n, cone/tscal, cnorm, 1)
+           if (tscal /= one) then
+              call stdlib_dscal(n, one/tscal, cnorm, 1)
            end if
            return
            ! end of stdlib_zlatbs
@@ -15106,11 +15087,11 @@ module stdlib_linalg_lapack_z
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
            smlnum = stdlib_dlamch('safe minimum')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            smlnum = smlnum/stdlib_dlamch('precision')
-           bignum = cone/smlnum
-           scale = cone
+           bignum = one/smlnum
+           scale = one
            if (stdlib_lsame(normin, 'n')) then
               ! compute the 1-norm of each column, not including the diagonal.
               if (upper) then
@@ -15127,22 +15108,22 @@ module stdlib_linalg_lapack_z
                     cnorm(j) = stdlib_dzasum(n - j, ap(ip + 1), 1)
                     ip = ip + n - j + 1
                  end do
-                 cnorm(n) = czero
+                 cnorm(n) = zero
               end if
            end if
            ! scale the column norms by tscal if the maximum element in cnorm is
            ! greater than bignum/2.
            imax = stdlib_idamax(n, cnorm, 1)
            tmax = cnorm(imax)
-           if (tmax <= bignum*chalf) then
-              tscal = cone
+           if (tmax <= bignum*half) then
+              tscal = one
            else
-              tscal = chalf/(smlnum*tmax)
+              tscal = half/(smlnum*tmax)
               call stdlib_dscal(n, tscal, cnorm, 1)
            end if
            ! compute a bound on the computed solution vector to see if the
            ! level 2 blas routine stdlib_ztpsv can be used.
-           xmax = czero
+           xmax = zero
            do j = 1, n
               xmax = max(xmax, cabs2(x(j)))
            end do
@@ -15158,15 +15139,15 @@ module stdlib_linalg_lapack_z
                  jlast = n
                  jinc = 1
               end if
-              if (tscal /= cone) then
-                 grow = czero
+              if (tscal /= one) then
+                 grow = zero
                  go to 60
               end if
               if (nounit) then
                  ! a is non-unit triangular.
                  ! compute grow = 1/g(j) and xbnd = 1/m(j).
                  ! initially, g(0) = max{x(i), i=1,...,n}.
-                 grow = chalf/max(xbnd, smlnum)
+                 grow = half/max(xbnd, smlnum)
                  xbnd = grow
                  ip = jfirst*(jfirst + 1)/2
                  jlen = n
@@ -15177,17 +15158,17 @@ module stdlib_linalg_lapack_z
                     tjj = cabs1(tjjs)
                     if (tjj >= smlnum) then
                        ! m(j) = g(j-1) / abs(a(j,j))
-                       xbnd = min(xbnd, min(cone, tjj)*grow)
+                       xbnd = min(xbnd, min(one, tjj)*grow)
                     else
                        ! m(j) could overflow, set xbnd to 0.
-                       xbnd = czero
+                       xbnd = zero
                     end if
                     if (tjj + cnorm(j) >= smlnum) then
                        ! g(j) = g(j-1)*( 1 + cnorm(j) / abs(a(j,j)) )
                        grow = grow*(tjj/(tjj + cnorm(j)))
                     else
                        ! g(j) could overflow, set grow to 0.
-                       grow = czero
+                       grow = zero
                     end if
                     ip = ip + jinc*jlen
                     jlen = jlen - 1
@@ -15196,12 +15177,12 @@ module stdlib_linalg_lapack_z
               else
                  ! a is unit triangular.
                  ! compute grow = 1/g(j), where g(0) = max{x(i), i=1,...,n}.
-                 grow = min(cone, chalf/max(xbnd, smlnum))
+                 grow = min(one, half/max(xbnd, smlnum))
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
                     if (grow <= smlnum) go to 60
                     ! g(j) = g(j-1)*( 1 + cnorm(j) )
-                    grow = grow*(cone/(cone + cnorm(j)))
+                    grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
 60      continue
@@ -15216,15 +15197,15 @@ module stdlib_linalg_lapack_z
                  jlast = 1
                  jinc = -1
               end if
-              if (tscal /= cone) then
-                 grow = czero
+              if (tscal /= one) then
+                 grow = zero
                  go to 90
               end if
               if (nounit) then
                  ! a is non-unit triangular.
                  ! compute grow = 1/g(j) and xbnd = 1/m(j).
                  ! initially, m(0) = max{x(i), i=1,...,n}.
-                 grow = chalf/max(xbnd, smlnum)
+                 grow = half/max(xbnd, smlnum)
                  xbnd = grow
                  ip = jfirst*(jfirst + 1)/2
                  jlen = 1
@@ -15232,7 +15213,7 @@ module stdlib_linalg_lapack_z
                     ! exit the loop if the growth factor is too small.
                     if (grow <= smlnum) go to 90
                     ! g(j) = max( g(j-1), m(j-1)*( 1 + cnorm(j) ) )
-                    xj = cone + cnorm(j)
+                    xj = one + cnorm(j)
                     grow = min(grow, xbnd/xj)
                     tjjs = ap(ip)
                     tjj = cabs1(tjjs)
@@ -15241,7 +15222,7 @@ module stdlib_linalg_lapack_z
                        if (xj > tjj) xbnd = xbnd*(tjj/xj)
                     else
                        ! m(j) could overflow, set xbnd to 0.
-                       xbnd = czero
+                       xbnd = zero
                     end if
                     jlen = jlen + 1
                     ip = ip + jinc*jlen
@@ -15250,12 +15231,12 @@ module stdlib_linalg_lapack_z
               else
                  ! a is unit triangular.
                  ! compute grow = 1/g(j), where g(0) = max{x(i), i=1,...,n}.
-                 grow = min(cone, chalf/max(xbnd, smlnum))
+                 grow = min(one, half/max(xbnd, smlnum))
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
                     if (grow <= smlnum) go to 90
                     ! g(j) = ( 1 + cnorm(j) )*g(j-1)
-                    xj = cone + cnorm(j)
+                    xj = one + cnorm(j)
                     grow = grow/xj
                  end do
               end if
@@ -15267,10 +15248,10 @@ module stdlib_linalg_lapack_z
               call stdlib_ztpsv(uplo, trans, diag, n, ap, x, 1)
            else
               ! use a level 1 blas solve, scaling intermediate results.
-              if (xmax > bignum*chalf) then
+              if (xmax > bignum*half) then
                  ! scale x so that its components are less than or equal to
                  ! bignum in absolute value.
-                 scale = (bignum*chalf)/xmax
+                 scale = (bignum*half)/xmax
                  call stdlib_zdscal(n, scale, x, 1)
                  xmax = bignum
               else
@@ -15286,15 +15267,15 @@ module stdlib_linalg_lapack_z
                        tjjs = ap(ip)*tscal
                     else
                        tjjs = tscal
-                       if (tscal == cone) go to 110
+                       if (tscal == one) go to 110
                     end if
                     tjj = cabs1(tjjs)
                     if (tjj > smlnum) then
                           ! abs(a(j,j)) > smlnum:
-                       if (tjj < cone) then
+                       if (tjj < one) then
                           if (xj > tjj*bignum) then
                                 ! scale x by 1/b(j).
-                             rec = cone/xj
+                             rec = one/xj
                              call stdlib_zdscal(n, rec, x, 1)
                              scale = scale*rec
                              xmax = xmax*rec
@@ -15302,13 +15283,13 @@ module stdlib_linalg_lapack_z
                        end if
                        x(j) = stdlib_zladiv(x(j), tjjs)
                        xj = cabs1(x(j))
-                    else if (tjj > czero) then
+                    else if (tjj > zero) then
                           ! 0 < abs(a(j,j)) <= smlnum:
                        if (xj > tjj*bignum) then
                              ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum
                              ! to avoid overflow when dividing by a(j,j).
                           rec = (tjj*bignum)/xj
-                          if (cnorm(j) > cone) then
+                          if (cnorm(j) > one) then
                                 ! scale by 1/cnorm(j) to avoid overflow when
                                 ! multiplying x(j) times column j.
                              rec = rec/cnorm(j)
@@ -15323,28 +15304,28 @@ module stdlib_linalg_lapack_z
                           ! a(j,j) = 0:  set x(1:n) = 0, x(j) = 1, and
                           ! scale = 0, and compute a solution to a*x = 0.
                        do i = 1, n
-                          x(i) = czero
+                          x(i) = zero
                        end do
-                       x(j) = cone
-                       xj = cone
-                       scale = czero
-                       xmax = czero
+                       x(j) = one
+                       xj = one
+                       scale = zero
+                       xmax = zero
                     end if
 110    continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
-                    if (xj > cone) then
-                       rec = cone/xj
+                    if (xj > one) then
+                       rec = one/xj
                        if (cnorm(j) > (bignum - xmax)*rec) then
                           ! scale x by 1/(2*abs(x(j))).
-                          rec = rec*chalf
+                          rec = rec*half
                           call stdlib_zdscal(n, rec, x, 1)
                           scale = scale*rec
                        end if
                     else if (xj*cnorm(j) > (bignum - xmax)) then
                        ! scale x by 1/2.
-                       call stdlib_zdscal(n, chalf, x, 1)
-                       scale = scale*chalf
+                       call stdlib_zdscal(n, half, x, 1)
+                       scale = scale*half
                     end if
                     if (upper) then
                        if (j > 1) then
@@ -15376,29 +15357,29 @@ module stdlib_linalg_lapack_z
                                           ! k<>j
                     xj = cabs1(x(j))
                     uscal = tscal
-                    rec = cone/max(xmax, cone)
+                    rec = one/max(xmax, one)
                     if (cnorm(j) > (bignum - xj)*rec) then
                        ! if x(j) could overflow, scale x by 1/(2*xmax).
-                       rec = rec*chalf
+                       rec = rec*half
                        if (nounit) then
                           tjjs = ap(ip)*tscal
                        else
                           tjjs = tscal
                        end if
                        tjj = cabs1(tjjs)
-                       if (tjj > cone) then
+                       if (tjj > one) then
                              ! divide by a(j,j) when scaling x if a(j,j) > 1.
-                          rec = min(cone, rec*tjj)
+                          rec = min(one, rec*tjj)
                           uscal = stdlib_zladiv(uscal, tjjs)
                        end if
-                       if (rec < cone) then
+                       if (rec < one) then
                           call stdlib_zdscal(n, rec, x, 1)
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
                     end if
-                    csumj = czero
-                    if (uscal == dcmplx(cone)) then
+                    csumj = zero
+                    if (uscal == dcmplx(one)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_zdotu to perform the dot product.
                        if (upper) then
@@ -15428,22 +15409,22 @@ module stdlib_linalg_lapack_z
                           tjjs = ap(ip)*tscal
                        else
                           tjjs = tscal
-                          if (tscal == cone) go to 160
+                          if (tscal == one) go to 160
                        end if
                        tjj = cabs1(tjjs)
                        if (tjj > smlnum) then
                              ! abs(a(j,j)) > smlnum:
-                          if (tjj < cone) then
+                          if (tjj < one) then
                              if (xj > tjj*bignum) then
                                    ! scale x by 1/abs(x(j)).
-                                rec = cone/xj
+                                rec = one/xj
                                 call stdlib_zdscal(n, rec, x, 1)
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
                           end if
                           x(j) = stdlib_zladiv(x(j), tjjs)
-                       else if (tjj > czero) then
+                       else if (tjj > zero) then
                              ! 0 < abs(a(j,j)) <= smlnum:
                           if (xj > tjj*bignum) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
@@ -15457,11 +15438,11 @@ module stdlib_linalg_lapack_z
                              ! a(j,j) = 0:  set x(1:n) = 0, x(j) = 1, and
                              ! scale = 0 and compute a solution to a**t *x = 0.
                           do i = 1, n
-                             x(i) = czero
+                             x(i) = zero
                           end do
-                          x(j) = cone
-                          scale = czero
-                          xmax = czero
+                          x(j) = one
+                          scale = zero
+                          xmax = zero
                        end if
 160    continue
                     else
@@ -15482,29 +15463,29 @@ module stdlib_linalg_lapack_z
                                           ! k<>j
                     xj = cabs1(x(j))
                     uscal = tscal
-                    rec = cone/max(xmax, cone)
+                    rec = one/max(xmax, one)
                     if (cnorm(j) > (bignum - xj)*rec) then
                        ! if x(j) could overflow, scale x by 1/(2*xmax).
-                       rec = rec*chalf
+                       rec = rec*half
                        if (nounit) then
                           tjjs = dconjg(ap(ip))*tscal
                        else
                           tjjs = tscal
                        end if
                        tjj = cabs1(tjjs)
-                       if (tjj > cone) then
+                       if (tjj > one) then
                              ! divide by a(j,j) when scaling x if a(j,j) > 1.
-                          rec = min(cone, rec*tjj)
+                          rec = min(one, rec*tjj)
                           uscal = stdlib_zladiv(uscal, tjjs)
                        end if
-                       if (rec < cone) then
+                       if (rec < one) then
                           call stdlib_zdscal(n, rec, x, 1)
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
                     end if
-                    csumj = czero
-                    if (uscal == dcmplx(cone)) then
+                    csumj = zero
+                    if (uscal == dcmplx(one)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_zdotc to perform the dot product.
                        if (upper) then
@@ -15534,22 +15515,22 @@ module stdlib_linalg_lapack_z
                           tjjs = dconjg(ap(ip))*tscal
                        else
                           tjjs = tscal
-                          if (tscal == cone) go to 210
+                          if (tscal == one) go to 210
                        end if
                        tjj = cabs1(tjjs)
                        if (tjj > smlnum) then
                              ! abs(a(j,j)) > smlnum:
-                          if (tjj < cone) then
+                          if (tjj < one) then
                              if (xj > tjj*bignum) then
                                    ! scale x by 1/abs(x(j)).
-                                rec = cone/xj
+                                rec = one/xj
                                 call stdlib_zdscal(n, rec, x, 1)
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
                           end if
                           x(j) = stdlib_zladiv(x(j), tjjs)
-                       else if (tjj > czero) then
+                       else if (tjj > zero) then
                              ! 0 < abs(a(j,j)) <= smlnum:
                           if (xj > tjj*bignum) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
@@ -15563,11 +15544,11 @@ module stdlib_linalg_lapack_z
                              ! a(j,j) = 0:  set x(1:n) = 0, x(j) = 1, and
                              ! scale = 0 and compute a solution to a**h *x = 0.
                           do i = 1, n
-                             x(i) = czero
+                             x(i) = zero
                           end do
-                          x(j) = cone
-                          scale = czero
-                          xmax = czero
+                          x(j) = one
+                          scale = zero
+                          xmax = zero
                        end if
 210    continue
                     else
@@ -15583,8 +15564,8 @@ module stdlib_linalg_lapack_z
               scale = scale/tscal
            end if
            ! scale the column norms by 1/tscal for return.
-           if (tscal /= cone) then
-              call stdlib_dscal(n, cone/tscal, cnorm, 1)
+           if (tscal /= one) then
+              call stdlib_dscal(n, one/tscal, cnorm, 1)
            end if
            return
            ! end of stdlib_zlatps
@@ -15774,11 +15755,11 @@ module stdlib_linalg_lapack_z
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
            smlnum = stdlib_dlamch('safe minimum')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            smlnum = smlnum/stdlib_dlamch('precision')
-           bignum = cone/smlnum
-           scale = cone
+           bignum = one/smlnum
+           scale = one
            if (stdlib_lsame(normin, 'n')) then
               ! compute the 1-norm of each column, not including the diagonal.
               if (upper) then
@@ -15791,22 +15772,22 @@ module stdlib_linalg_lapack_z
                  do j = 1, n - 1
                     cnorm(j) = stdlib_dzasum(n - j, a(j + 1, j), 1)
                  end do
-                 cnorm(n) = czero
+                 cnorm(n) = zero
               end if
            end if
            ! scale the column norms by tscal if the maximum element in cnorm is
            ! greater than bignum/2.
            imax = stdlib_idamax(n, cnorm, 1)
            tmax = cnorm(imax)
-           if (tmax <= bignum*chalf) then
-              tscal = cone
+           if (tmax <= bignum*half) then
+              tscal = one
            else
-              tscal = chalf/(smlnum*tmax)
+              tscal = half/(smlnum*tmax)
               call stdlib_dscal(n, tscal, cnorm, 1)
            end if
            ! compute a bound on the computed solution vector to see if the
            ! level 2 blas routine stdlib_ztrsv can be used.
-           xmax = czero
+           xmax = zero
            do j = 1, n
               xmax = max(xmax, cabs2(x(j)))
            end do
@@ -15822,15 +15803,15 @@ module stdlib_linalg_lapack_z
                  jlast = n
                  jinc = 1
               end if
-              if (tscal /= cone) then
-                 grow = czero
+              if (tscal /= one) then
+                 grow = zero
                  go to 60
               end if
               if (nounit) then
                  ! a is non-unit triangular.
                  ! compute grow = 1/g(j) and xbnd = 1/m(j).
                  ! initially, g(0) = max{x(i), i=1,...,n}.
-                 grow = chalf/max(xbnd, smlnum)
+                 grow = half/max(xbnd, smlnum)
                  xbnd = grow
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
@@ -15839,29 +15820,29 @@ module stdlib_linalg_lapack_z
                     tjj = cabs1(tjjs)
                     if (tjj >= smlnum) then
                        ! m(j) = g(j-1) / abs(a(j,j))
-                       xbnd = min(xbnd, min(cone, tjj)*grow)
+                       xbnd = min(xbnd, min(one, tjj)*grow)
                     else
                        ! m(j) could overflow, set xbnd to 0.
-                       xbnd = czero
+                       xbnd = zero
                     end if
                     if (tjj + cnorm(j) >= smlnum) then
                        ! g(j) = g(j-1)*( 1 + cnorm(j) / abs(a(j,j)) )
                        grow = grow*(tjj/(tjj + cnorm(j)))
                     else
                        ! g(j) could overflow, set grow to 0.
-                       grow = czero
+                       grow = zero
                     end if
                  end do
                  grow = xbnd
               else
                  ! a is unit triangular.
                  ! compute grow = 1/g(j), where g(0) = max{x(i), i=1,...,n}.
-                 grow = min(cone, chalf/max(xbnd, smlnum))
+                 grow = min(one, half/max(xbnd, smlnum))
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
                     if (grow <= smlnum) go to 60
                     ! g(j) = g(j-1)*( 1 + cnorm(j) )
-                    grow = grow*(cone/(cone + cnorm(j)))
+                    grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
 60      continue
@@ -15876,21 +15857,21 @@ module stdlib_linalg_lapack_z
                  jlast = 1
                  jinc = -1
               end if
-              if (tscal /= cone) then
-                 grow = czero
+              if (tscal /= one) then
+                 grow = zero
                  go to 90
               end if
               if (nounit) then
                  ! a is non-unit triangular.
                  ! compute grow = 1/g(j) and xbnd = 1/m(j).
                  ! initially, m(0) = max{x(i), i=1,...,n}.
-                 grow = chalf/max(xbnd, smlnum)
+                 grow = half/max(xbnd, smlnum)
                  xbnd = grow
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
                     if (grow <= smlnum) go to 90
                     ! g(j) = max( g(j-1), m(j-1)*( 1 + cnorm(j) ) )
-                    xj = cone + cnorm(j)
+                    xj = one + cnorm(j)
                     grow = min(grow, xbnd/xj)
                     tjjs = a(j, j)
                     tjj = cabs1(tjjs)
@@ -15899,19 +15880,19 @@ module stdlib_linalg_lapack_z
                        if (xj > tjj) xbnd = xbnd*(tjj/xj)
                     else
                        ! m(j) could overflow, set xbnd to 0.
-                       xbnd = czero
+                       xbnd = zero
                     end if
                  end do
                  grow = min(grow, xbnd)
               else
                  ! a is unit triangular.
                  ! compute grow = 1/g(j), where g(0) = max{x(i), i=1,...,n}.
-                 grow = min(cone, chalf/max(xbnd, smlnum))
+                 grow = min(one, half/max(xbnd, smlnum))
                  do j = jfirst, jlast, jinc
                     ! exit the loop if the growth factor is too small.
                     if (grow <= smlnum) go to 90
                     ! g(j) = ( 1 + cnorm(j) )*g(j-1)
-                    xj = cone + cnorm(j)
+                    xj = one + cnorm(j)
                     grow = grow/xj
                  end do
               end if
@@ -15923,10 +15904,10 @@ module stdlib_linalg_lapack_z
               call stdlib_ztrsv(uplo, trans, diag, n, a, lda, x, 1)
            else
               ! use a level 1 blas solve, scaling intermediate results.
-              if (xmax > bignum*chalf) then
+              if (xmax > bignum*half) then
                  ! scale x so that its components are less than or equal to
                  ! bignum in absolute value.
-                 scale = (bignum*chalf)/xmax
+                 scale = (bignum*half)/xmax
                  call stdlib_zdscal(n, scale, x, 1)
                  xmax = bignum
               else
@@ -15941,15 +15922,15 @@ module stdlib_linalg_lapack_z
                        tjjs = a(j, j)*tscal
                     else
                        tjjs = tscal
-                       if (tscal == cone) go to 110
+                       if (tscal == one) go to 110
                     end if
                     tjj = cabs1(tjjs)
                     if (tjj > smlnum) then
                           ! abs(a(j,j)) > smlnum:
-                       if (tjj < cone) then
+                       if (tjj < one) then
                           if (xj > tjj*bignum) then
                                 ! scale x by 1/b(j).
-                             rec = cone/xj
+                             rec = one/xj
                              call stdlib_zdscal(n, rec, x, 1)
                              scale = scale*rec
                              xmax = xmax*rec
@@ -15957,13 +15938,13 @@ module stdlib_linalg_lapack_z
                        end if
                        x(j) = stdlib_zladiv(x(j), tjjs)
                        xj = cabs1(x(j))
-                    else if (tjj > czero) then
+                    else if (tjj > zero) then
                           ! 0 < abs(a(j,j)) <= smlnum:
                        if (xj > tjj*bignum) then
                              ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum
                              ! to avoid overflow when dividing by a(j,j).
                           rec = (tjj*bignum)/xj
-                          if (cnorm(j) > cone) then
+                          if (cnorm(j) > one) then
                                 ! scale by 1/cnorm(j) to avoid overflow when
                                 ! multiplying x(j) times column j.
                              rec = rec/cnorm(j)
@@ -15978,28 +15959,28 @@ module stdlib_linalg_lapack_z
                           ! a(j,j) = 0:  set x(1:n) = 0, x(j) = 1, and
                           ! scale = 0, and compute a solution to a*x = 0.
                        do i = 1, n
-                          x(i) = czero
+                          x(i) = zero
                        end do
-                       x(j) = cone
-                       xj = cone
-                       scale = czero
-                       xmax = czero
+                       x(j) = one
+                       xj = one
+                       scale = zero
+                       xmax = zero
                     end if
 110    continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
-                    if (xj > cone) then
-                       rec = cone/xj
+                    if (xj > one) then
+                       rec = one/xj
                        if (cnorm(j) > (bignum - xmax)*rec) then
                           ! scale x by 1/(2*abs(x(j))).
-                          rec = rec*chalf
+                          rec = rec*half
                           call stdlib_zdscal(n, rec, x, 1)
                           scale = scale*rec
                        end if
                     else if (xj*cnorm(j) > (bignum - xmax)) then
                        ! scale x by 1/2.
-                       call stdlib_zdscal(n, chalf, x, 1)
-                       scale = scale*chalf
+                       call stdlib_zdscal(n, half, x, 1)
+                       scale = scale*half
                     end if
                     if (upper) then
                        if (j > 1) then
@@ -16027,29 +16008,29 @@ module stdlib_linalg_lapack_z
                                           ! k<>j
                     xj = cabs1(x(j))
                     uscal = tscal
-                    rec = cone/max(xmax, cone)
+                    rec = one/max(xmax, one)
                     if (cnorm(j) > (bignum - xj)*rec) then
                        ! if x(j) could overflow, scale x by 1/(2*xmax).
-                       rec = rec*chalf
+                       rec = rec*half
                        if (nounit) then
                           tjjs = a(j, j)*tscal
                        else
                           tjjs = tscal
                        end if
                        tjj = cabs1(tjjs)
-                       if (tjj > cone) then
+                       if (tjj > one) then
                              ! divide by a(j,j) when scaling x if a(j,j) > 1.
-                          rec = min(cone, rec*tjj)
+                          rec = min(one, rec*tjj)
                           uscal = stdlib_zladiv(uscal, tjjs)
                        end if
-                       if (rec < cone) then
+                       if (rec < one) then
                           call stdlib_zdscal(n, rec, x, 1)
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
                     end if
-                    csumj = czero
-                    if (uscal == dcmplx(cone)) then
+                    csumj = zero
+                    if (uscal == dcmplx(one)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_zdotu to perform the dot product.
                        if (upper) then
@@ -16078,23 +16059,23 @@ module stdlib_linalg_lapack_z
                           tjjs = a(j, j)*tscal
                        else
                           tjjs = tscal
-                          if (tscal == cone) go to 160
+                          if (tscal == one) go to 160
                        end if
                           ! compute x(j) = x(j) / a(j,j), scaling if necessary.
                        tjj = cabs1(tjjs)
                        if (tjj > smlnum) then
                              ! abs(a(j,j)) > smlnum:
-                          if (tjj < cone) then
+                          if (tjj < one) then
                              if (xj > tjj*bignum) then
                                    ! scale x by 1/abs(x(j)).
-                                rec = cone/xj
+                                rec = one/xj
                                 call stdlib_zdscal(n, rec, x, 1)
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
                           end if
                           x(j) = stdlib_zladiv(x(j), tjjs)
-                       else if (tjj > czero) then
+                       else if (tjj > zero) then
                              ! 0 < abs(a(j,j)) <= smlnum:
                           if (xj > tjj*bignum) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
@@ -16108,11 +16089,11 @@ module stdlib_linalg_lapack_z
                              ! a(j,j) = 0:  set x(1:n) = 0, x(j) = 1, and
                              ! scale = 0 and compute a solution to a**t *x = 0.
                           do i = 1, n
-                             x(i) = czero
+                             x(i) = zero
                           end do
-                          x(j) = cone
-                          scale = czero
-                          xmax = czero
+                          x(j) = one
+                          scale = zero
+                          xmax = zero
                        end if
 160    continue
                     else
@@ -16129,29 +16110,29 @@ module stdlib_linalg_lapack_z
                                           ! k<>j
                     xj = cabs1(x(j))
                     uscal = tscal
-                    rec = cone/max(xmax, cone)
+                    rec = one/max(xmax, one)
                     if (cnorm(j) > (bignum - xj)*rec) then
                        ! if x(j) could overflow, scale x by 1/(2*xmax).
-                       rec = rec*chalf
+                       rec = rec*half
                        if (nounit) then
                           tjjs = dconjg(a(j, j))*tscal
                        else
                           tjjs = tscal
                        end if
                        tjj = cabs1(tjjs)
-                       if (tjj > cone) then
+                       if (tjj > one) then
                              ! divide by a(j,j) when scaling x if a(j,j) > 1.
-                          rec = min(cone, rec*tjj)
+                          rec = min(one, rec*tjj)
                           uscal = stdlib_zladiv(uscal, tjjs)
                        end if
-                       if (rec < cone) then
+                       if (rec < one) then
                           call stdlib_zdscal(n, rec, x, 1)
                           scale = scale*rec
                           xmax = xmax*rec
                        end if
                     end if
-                    csumj = czero
-                    if (uscal == dcmplx(cone)) then
+                    csumj = zero
+                    if (uscal == dcmplx(one)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_zdotc to perform the dot product.
                        if (upper) then
@@ -16180,23 +16161,23 @@ module stdlib_linalg_lapack_z
                           tjjs = dconjg(a(j, j))*tscal
                        else
                           tjjs = tscal
-                          if (tscal == cone) go to 210
+                          if (tscal == one) go to 210
                        end if
                           ! compute x(j) = x(j) / a(j,j), scaling if necessary.
                        tjj = cabs1(tjjs)
                        if (tjj > smlnum) then
                              ! abs(a(j,j)) > smlnum:
-                          if (tjj < cone) then
+                          if (tjj < one) then
                              if (xj > tjj*bignum) then
                                    ! scale x by 1/abs(x(j)).
-                                rec = cone/xj
+                                rec = one/xj
                                 call stdlib_zdscal(n, rec, x, 1)
                                 scale = scale*rec
                                 xmax = xmax*rec
                              end if
                           end if
                           x(j) = stdlib_zladiv(x(j), tjjs)
-                       else if (tjj > czero) then
+                       else if (tjj > zero) then
                              ! 0 < abs(a(j,j)) <= smlnum:
                           if (xj > tjj*bignum) then
                                 ! scale x by (1/abs(x(j)))*abs(a(j,j))*bignum.
@@ -16210,11 +16191,11 @@ module stdlib_linalg_lapack_z
                              ! a(j,j) = 0:  set x(1:n) = 0, x(j) = 1, and
                              ! scale = 0 and compute a solution to a**h *x = 0.
                           do i = 1, n
-                             x(i) = czero
+                             x(i) = zero
                           end do
-                          x(j) = cone
-                          scale = czero
-                          xmax = czero
+                          x(j) = one
+                          scale = zero
+                          xmax = zero
                        end if
 210    continue
                     else
@@ -16228,8 +16209,8 @@ module stdlib_linalg_lapack_z
               scale = scale/tscal
            end if
            ! scale the column norms by 1/tscal for return.
-           if (tscal /= cone) then
-              call stdlib_dscal(n, cone/tscal, cnorm, 1)
+           if (tscal /= one) then
+              call stdlib_dscal(n, one/tscal, cnorm, 1)
            end if
            return
            ! end of stdlib_zlatrs
@@ -16628,7 +16609,7 @@ module stdlib_linalg_lapack_z
               info = -3
            else if (ldab < kd + 1) then
               info = -5
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -6
            end if
            if (info /= 0) then
@@ -16636,11 +16617,11 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm == czero) then
+           else if (anorm == zero) then
               return
            end if
            smlnum = stdlib_dlamch('safe minimum')
@@ -16669,15 +16650,15 @@ module stdlib_linalg_lapack_z
               end if
               ! multiply by 1/scale if doing so will not cause overflow.
               scale = scalel*scaleu
-              if (scale /= cone) then
+              if (scale /= one) then
                  ix = stdlib_izamax(n, work, 1)
-                 if (scale < cabs1(work(ix))*smlnum .or. scale == czero) go to 20
+                 if (scale < cabs1(work(ix))*smlnum .or. scale == zero) go to 20
                  call stdlib_zdrscl(n, scale, work, 1)
               end if
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
 20      continue
            return
            ! end of stdlib_zpbcon
@@ -16731,8 +16712,8 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible
            if (n == 0) then
-              scond = cone
-              amax = czero
+              scond = one
+              amax = zero
               return
            end if
            if (upper) then
@@ -16750,10 +16731,10 @@ module stdlib_linalg_lapack_z
               smin = min(smin, s(i))
               amax = max(amax, s(i))
            end do
-           if (smin <= czero) then
+           if (smin <= zero) then
               ! find the first non-positive diagonal element and return.
               do i = 1, n
-                 if (s(i) <= czero) then
+                 if (s(i) <= zero) then
                     info = i
                     return
                  end if
@@ -16762,7 +16743,7 @@ module stdlib_linalg_lapack_z
               ! set the scale factors to the reciprocals
               ! of the diagonal elements.
               do i = 1, n
-                 s(i) = cone/sqrt(s(i))
+                 s(i) = one/sqrt(s(i))
               end do
               ! compute scond = min(s(i)) / max(s(i))
               scond = sqrt(smin)/sqrt(amax)
@@ -16826,7 +16807,7 @@ module stdlib_linalg_lapack_z
               do j = n, m + 1, -1
                  ! compute s(j,j) and test for non-positive-definiteness.
                  ajj = dble(ab(kd + 1, j))
-                 if (ajj <= czero) then
+                 if (ajj <= zero) then
                     ab(kd + 1, j) = ajj
                     go to 50
                  end if
@@ -16835,15 +16816,15 @@ module stdlib_linalg_lapack_z
                  km = min(j - 1, kd)
                  ! compute elements j-km:j-1 of the j-th column and update the
                  ! the leading submatrix within the band.
-                 call stdlib_zdscal(km, cone/ajj, ab(kd + 1 - km, j), 1)
-                 call stdlib_zher('upper', km, -cone, ab(kd + 1 - km, j), 1, ab(kd + 1, j - km), kld)
+                 call stdlib_zdscal(km, one/ajj, ab(kd + 1 - km, j), 1)
+                 call stdlib_zher('upper', km, -one, ab(kd + 1 - km, j), 1, ab(kd + 1, j - km), kld)
                            
               end do
               ! factorize the updated submatrix a(1:m,1:m) as u**h*u.
               do j = 1, m
                  ! compute s(j,j) and test for non-positive-definiteness.
                  ajj = dble(ab(kd + 1, j))
-                 if (ajj <= czero) then
+                 if (ajj <= zero) then
                     ab(kd + 1, j) = ajj
                     go to 50
                  end if
@@ -16853,10 +16834,10 @@ module stdlib_linalg_lapack_z
                  ! compute elements j+1:j+km of the j-th row and update the
                  ! trailing submatrix within the band.
                  if (km > 0) then
-                    call stdlib_zdscal(km, cone/ajj, ab(kd, j + 1), kld)
+                    call stdlib_zdscal(km, one/ajj, ab(kd, j + 1), kld)
                     call stdlib_zlacgv(km, ab(kd, j + 1), kld)
-                    call stdlib_zher('upper', km, -cone, ab(kd, j + 1), kld, ab(kd + 1, j + 1), kld &
-                              )
+                    call stdlib_zher('upper', km, -one, ab(kd, j + 1), kld, ab(kd + 1, j + 1), kld)
+                              
                     call stdlib_zlacgv(km, ab(kd, j + 1), kld)
                  end if
               end do
@@ -16865,7 +16846,7 @@ module stdlib_linalg_lapack_z
               do j = n, m + 1, -1
                  ! compute s(j,j) and test for non-positive-definiteness.
                  ajj = dble(ab(1, j))
-                 if (ajj <= czero) then
+                 if (ajj <= zero) then
                     ab(1, j) = ajj
                     go to 50
                  end if
@@ -16874,9 +16855,9 @@ module stdlib_linalg_lapack_z
                  km = min(j - 1, kd)
                  ! compute elements j-km:j-1 of the j-th row and update the
                  ! trailing submatrix within the band.
-                 call stdlib_zdscal(km, cone/ajj, ab(km + 1, j - km), kld)
+                 call stdlib_zdscal(km, one/ajj, ab(km + 1, j - km), kld)
                  call stdlib_zlacgv(km, ab(km + 1, j - km), kld)
-                 call stdlib_zher('lower', km, -cone, ab(km + 1, j - km), kld, ab(1, j - km), kld)
+                 call stdlib_zher('lower', km, -one, ab(km + 1, j - km), kld, ab(1, j - km), kld)
                            
                  call stdlib_zlacgv(km, ab(km + 1, j - km), kld)
               end do
@@ -16884,7 +16865,7 @@ module stdlib_linalg_lapack_z
               do j = 1, m
                  ! compute s(j,j) and test for non-positive-definiteness.
                  ajj = dble(ab(1, j))
-                 if (ajj <= czero) then
+                 if (ajj <= zero) then
                     ab(1, j) = ajj
                     go to 50
                  end if
@@ -16894,9 +16875,8 @@ module stdlib_linalg_lapack_z
                  ! compute elements j+1:j+km of the j-th column and update the
                  ! trailing submatrix within the band.
                  if (km > 0) then
-                    call stdlib_zdscal(km, cone/ajj, ab(2, j), 1)
-                    call stdlib_zher('lower', km, -cone, ab(2, j), 1, ab(1, j + 1), kld)
-                              
+                    call stdlib_zdscal(km, one/ajj, ab(2, j), 1)
+                    call stdlib_zher('lower', km, -one, ab(2, j), 1, ab(1, j + 1), kld)
                  end if
               end do
            end if
@@ -16959,7 +16939,7 @@ module stdlib_linalg_lapack_z
               do j = 1, n
                  ! compute u(j,j) and test for non-positive-definiteness.
                  ajj = dble(ab(kd + 1, j))
-                 if (ajj <= czero) then
+                 if (ajj <= zero) then
                     ab(kd + 1, j) = ajj
                     go to 30
                  end if
@@ -16969,10 +16949,10 @@ module stdlib_linalg_lapack_z
                  ! trailing submatrix within the band.
                  kn = min(kd, n - j)
                  if (kn > 0) then
-                    call stdlib_zdscal(kn, cone/ajj, ab(kd, j + 1), kld)
+                    call stdlib_zdscal(kn, one/ajj, ab(kd, j + 1), kld)
                     call stdlib_zlacgv(kn, ab(kd, j + 1), kld)
-                    call stdlib_zher('upper', kn, -cone, ab(kd, j + 1), kld, ab(kd + 1, j + 1), kld &
-                              )
+                    call stdlib_zher('upper', kn, -one, ab(kd, j + 1), kld, ab(kd + 1, j + 1), kld)
+                              
                     call stdlib_zlacgv(kn, ab(kd, j + 1), kld)
                  end if
               end do
@@ -16981,7 +16961,7 @@ module stdlib_linalg_lapack_z
               do j = 1, n
                  ! compute l(j,j) and test for non-positive-definiteness.
                  ajj = dble(ab(1, j))
-                 if (ajj <= czero) then
+                 if (ajj <= zero) then
                     ab(1, j) = ajj
                     go to 30
                  end if
@@ -16991,9 +16971,8 @@ module stdlib_linalg_lapack_z
                  ! trailing submatrix within the band.
                  kn = min(kd, n - j)
                  if (kn > 0) then
-                    call stdlib_zdscal(kn, cone/ajj, ab(2, j), 1)
-                    call stdlib_zher('lower', kn, -cone, ab(2, j), 1, ab(1, j + 1), kld)
-                              
+                    call stdlib_zdscal(kn, one/ajj, ab(2, j), 1)
+                    call stdlib_zher('lower', kn, -one, ab(2, j), 1, ab(1, j + 1), kld)
                  end if
               end do
            end if
@@ -17116,7 +17095,7 @@ module stdlib_linalg_lapack_z
               info = -2
            else if (lda < max(1, n)) then
               info = -4
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -5
            end if
            if (info /= 0) then
@@ -17124,11 +17103,11 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm == czero) then
+           else if (anorm == zero) then
               return
            end if
            smlnum = stdlib_dlamch('safe minimum')
@@ -17157,15 +17136,15 @@ module stdlib_linalg_lapack_z
               end if
               ! multiply by 1/scale if doing so will not cause overflow.
               scale = scalel*scaleu
-              if (scale /= cone) then
+              if (scale /= one) then
                  ix = stdlib_izamax(n, work, 1)
-                 if (scale < cabs1(work(ix))*smlnum .or. scale == czero) go to 20
+                 if (scale < cabs1(work(ix))*smlnum .or. scale == zero) go to 20
                  call stdlib_zdrscl(n, scale, work, 1)
               end if
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
 20      continue
            return
            ! end of stdlib_zpocon
@@ -17212,8 +17191,8 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible
            if (n == 0) then
-              scond = cone
-              amax = czero
+              scond = one
+              amax = zero
               return
            end if
            ! find the minimum and maximum diagonal elements.
@@ -17225,10 +17204,10 @@ module stdlib_linalg_lapack_z
               smin = min(smin, s(i))
               amax = max(amax, s(i))
            end do
-           if (smin <= czero) then
+           if (smin <= zero) then
               ! find the first non-positive diagonal element and return.
               do i = 1, n
-                 if (s(i) <= czero) then
+                 if (s(i) <= zero) then
                     info = i
                     return
                  end if
@@ -17237,7 +17216,7 @@ module stdlib_linalg_lapack_z
               ! set the scale factors to the reciprocals
               ! of the diagonal elements.
               do i = 1, n
-                 s(i) = cone/sqrt(s(i))
+                 s(i) = one/sqrt(s(i))
               end do
               ! compute scond = min(s(i)) / max(s(i))
               scond = sqrt(smin)/sqrt(amax)
@@ -17293,8 +17272,8 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible.
            if (n == 0) then
-              scond = cone
-              amax = czero
+              scond = one
+              amax = zero
               return
            end if
            base = stdlib_dlamch('b')
@@ -17308,10 +17287,10 @@ module stdlib_linalg_lapack_z
               smin = min(smin, s(i))
               amax = max(amax, s(i))
            end do
-           if (smin <= czero) then
+           if (smin <= zero) then
               ! find the first non-positive diagonal element and return.
               do i = 1, n
-                 if (s(i) <= czero) then
+                 if (s(i) <= zero) then
                     info = i
                     return
                  end if
@@ -17378,7 +17357,7 @@ module stdlib_linalg_lapack_z
                  ! compute u(j,j) and test for non-positive-definiteness.
                  ajj = dble(a(j, j)) - dble(stdlib_zdotc(j - 1, a(1, j), 1, a(1, j), 1))
                            
-                 if (ajj <= czero .or. stdlib_disnan(ajj)) then
+                 if (ajj <= zero .or. stdlib_disnan(ajj)) then
                     a(j, j) = ajj
                     go to 30
                  end if
@@ -17399,7 +17378,7 @@ module stdlib_linalg_lapack_z
                  ! compute l(j,j) and test for non-positive-definiteness.
                  ajj = dble(a(j, j)) - dble(stdlib_zdotc(j - 1, a(j, 1), lda, a(j, 1), lda &
                            ))
-                 if (ajj <= czero .or. stdlib_disnan(ajj)) then
+                 if (ajj <= zero .or. stdlib_disnan(ajj)) then
                     a(j, j) = ajj
                     go to 30
                  end if
@@ -17476,7 +17455,7 @@ module stdlib_linalg_lapack_z
            if (n == 1) then
               ! test for non-positive-definiteness
               ajj = dble(a(1, 1))
-              if (ajj <= czero .or. stdlib_disnan(ajj)) then
+              if (ajj <= zero .or. stdlib_disnan(ajj)) then
                  info = 1
                  return
               end if
@@ -17629,7 +17608,7 @@ module stdlib_linalg_lapack_z
               info = -1
            else if (n < 0) then
               info = -2
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -4
            end if
            if (info /= 0) then
@@ -17637,11 +17616,11 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm == czero) then
+           else if (anorm == zero) then
               return
            end if
            smlnum = stdlib_dlamch('safe minimum')
@@ -17670,15 +17649,15 @@ module stdlib_linalg_lapack_z
               end if
               ! multiply by 1/scale if doing so will not cause overflow.
               scale = scalel*scaleu
-              if (scale /= cone) then
+              if (scale /= one) then
                  ix = stdlib_izamax(n, work, 1)
-                 if (scale < cabs1(work(ix))*smlnum .or. scale == czero) go to 20
+                 if (scale < cabs1(work(ix))*smlnum .or. scale == zero) go to 20
                  call stdlib_zdrscl(n, scale, work, 1)
               end if
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
 20      continue
            return
            ! end of stdlib_zppcon
@@ -17728,8 +17707,8 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible
            if (n == 0) then
-              scond = cone
-              amax = czero
+              scond = one
+              amax = zero
               return
            end if
            ! initialize smin and amax.
@@ -17757,10 +17736,10 @@ module stdlib_linalg_lapack_z
                  amax = max(amax, s(i))
               end do
            end if
-           if (smin <= czero) then
+           if (smin <= zero) then
               ! find the first non-positive diagonal element and return.
               do i = 1, n
-                 if (s(i) <= czero) then
+                 if (s(i) <= zero) then
                     info = i
                     return
                  end if
@@ -17769,7 +17748,7 @@ module stdlib_linalg_lapack_z
               ! set the scale factors to the reciprocals
               ! of the diagonal elements.
               do i = 1, n
-                 s(i) = cone/sqrt(s(i))
+                 s(i) = one/sqrt(s(i))
               end do
               ! compute scond = min(s(i)) / max(s(i))
               scond = sqrt(smin)/sqrt(amax)
@@ -17830,7 +17809,7 @@ module stdlib_linalg_lapack_z
                  ! compute u(j,j) and test for non-positive-definiteness.
                  ajj = dble(ap(jj)) - dble(stdlib_zdotc(j - 1, ap(jc), 1, ap(jc), 1))
                            
-                 if (ajj <= czero) then
+                 if (ajj <= zero) then
                     ap(jj) = ajj
                     go to 30
                  end if
@@ -17842,7 +17821,7 @@ module stdlib_linalg_lapack_z
               do j = 1, n
                  ! compute l(j,j) and test for non-positive-definiteness.
                  ajj = dble(ap(jj))
-                 if (ajj <= czero) then
+                 if (ajj <= zero) then
                     ap(jj) = ajj
                     go to 30
                  end if
@@ -17851,8 +17830,8 @@ module stdlib_linalg_lapack_z
                  ! compute elements j+1:n of column j and update the trailing
                  ! submatrix.
                  if (j < n) then
-                    call stdlib_zdscal(n - j, cone/ajj, ap(jj + 1), 1)
-                    call stdlib_zhpr('lower', n - j, -cone, ap(jj + 1), 1, ap(jj + n - j + 1))
+                    call stdlib_zdscal(n - j, one/ajj, ap(jj + 1), 1)
+                    call stdlib_zhpr('lower', n - j, -one, ap(jj + 1), 1, ap(jj + n - j + 1))
                     jj = jj + n - j + 1
                  end if
               end do
@@ -17988,18 +17967,18 @@ module stdlib_linalg_lapack_z
            end do
            pvt = maxloc(work(1:n), 1)
            ajj = dble(a(pvt, pvt))
-           if (ajj <= czero .or. stdlib_disnan(ajj)) then
+           if (ajj <= zero .or. stdlib_disnan(ajj)) then
               rank = 0
               info = 1
               go to 200
            end if
            ! compute stopping value if not supplied
-           if (tol < czero) then
+           if (tol < zero) then
               dstop = n*stdlib_dlamch('epsilon')*ajj
            else
               dstop = tol
            end if
-           ! set first chalf of work to czero, holds dot products
+           ! set first chalf of work to zero, holds dot products
            do i = 1, n
               work(i) = 0
            end do
@@ -18152,7 +18131,7 @@ module stdlib_linalg_lapack_z
            info = 0
            if (n < 0) then
               info = -1
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -4
            end if
            if (info /= 0) then
@@ -18160,25 +18139,25 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm == czero) then
+           else if (anorm == zero) then
               return
            end if
            ! check that d(1:n) is positive.
            do i = 1, n
-              if (d(i) <= czero) return
+              if (d(i) <= zero) return
            end do
            ! solve m(a) * x = e, where m(a) = (m(i,j)) is given by
               ! m(i,j) =  abs(a(i,j)), i = j,
               ! m(i,j) = -abs(a(i,j)), i .ne. j,
            ! and e = [ 1, 1, ..., 1 ]**t.  note m(a) = m(l)*d*m(l)**h.
            ! solve m(l) * x = e.
-           rwork(1) = cone
+           rwork(1) = one
            do i = 2, n
-              rwork(i) = cone + rwork(i - 1)*abs(e(i - 1))
+              rwork(i) = one + rwork(i - 1)*abs(e(i - 1))
            end do
            ! solve d * m(l)**h * x = b.
            rwork(n) = rwork(n)/d(n)
@@ -18189,7 +18168,7 @@ module stdlib_linalg_lapack_z
            ix = stdlib_idamax(n, rwork, 1)
            ainvnm = abs(rwork(ix))
            ! compute the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
            ! end of stdlib_zptcon
      end subroutine stdlib_zptcon
@@ -18228,7 +18207,7 @@ module stdlib_linalg_lapack_z
            ! compute the l*d*l**h (or u**h *d*u) factorization of a.
            i4 = mod(n - 1, 4)
            do i = 1, i4
-              if (d(i) <= czero) then
+              if (d(i) <= zero) then
                  info = i
                  go to 30
               end if
@@ -18242,7 +18221,7 @@ module stdlib_linalg_lapack_z
            loop_20: do i = i4 + 1, n - 4, 4
               ! drop out of the loop if d(i) <= 0: the matrix is not positive
               ! definite.
-              if (d(i) <= czero) then
+              if (d(i) <= zero) then
                  info = i
                  go to 30
               end if
@@ -18253,7 +18232,7 @@ module stdlib_linalg_lapack_z
               g = eii/d(i)
               e(i) = dcmplx(f, g)
               d(i + 1) = d(i + 1) - f*eir - g*eii
-              if (d(i + 1) <= czero) then
+              if (d(i + 1) <= zero) then
                  info = i + 1
                  go to 30
               end if
@@ -18264,7 +18243,7 @@ module stdlib_linalg_lapack_z
               g = eii/d(i + 1)
               e(i + 1) = dcmplx(f, g)
               d(i + 2) = d(i + 2) - f*eir - g*eii
-              if (d(i + 2) <= czero) then
+              if (d(i + 2) <= zero) then
                  info = i + 2
                  go to 30
               end if
@@ -18275,7 +18254,7 @@ module stdlib_linalg_lapack_z
               g = eii/d(i + 2)
               e(i + 2) = dcmplx(f, g)
               d(i + 3) = d(i + 3) - f*eir - g*eii
-              if (d(i + 3) <= czero) then
+              if (d(i + 3) <= zero) then
                  info = i + 3
                  go to 30
               end if
@@ -18288,7 +18267,7 @@ module stdlib_linalg_lapack_z
               d(i + 4) = d(i + 4) - f*eir - g*eii
            end do loop_20
            ! check d(n) for positive definiteness.
-           if (d(n) <= czero) info = n
+           if (d(n) <= zero) info = n
 30      continue
            return
            ! end of stdlib_zpttrf
@@ -18788,10 +18767,10 @@ module stdlib_linalg_lapack_z
                  imax = stdlib_izamax(k - 1, ap(kc), 1)
                  colmax = cabs1(ap(kc + imax - 1))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero: set info and continue
                  if (info == 0) info = k
                  kp = k
               else
@@ -18799,7 +18778,7 @@ module stdlib_linalg_lapack_z
                     ! no interchange, use 1-by-1 pivot block
                     kp = k
                  else
-                    rowmax = czero
+                    rowmax = zero
                     jmax = imax
                     kx = imax*(imax + 1)/2 + imax
                     do j = imax + 1, k
@@ -18922,10 +18901,10 @@ module stdlib_linalg_lapack_z
                  imax = k + stdlib_izamax(n - k, ap(kc + 1), 1)
                  colmax = cabs1(ap(kc + imax - k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero) then
-                 ! column k is czero: set info and continue
+              if (max(absakk, colmax) == zero) then
+                 ! column k is zero: set info and continue
                  if (info == 0) info = k
                  kp = k
               else
@@ -18935,7 +18914,7 @@ module stdlib_linalg_lapack_z
                  else
                     ! jmax is the column-index of the largest off-diagonal
                     ! element in row imax, and rowmax is its absolute value
-                    rowmax = czero
+                    rowmax = zero
                     kx = kc + imax - k
                     do j = k, imax - 1
                        if (cabs1(ap(kx)) > rowmax) then
@@ -20773,16 +20752,16 @@ module stdlib_linalg_lapack_z
               return
            end if
            up = stdlib_lsame(uplo, 'u')
-           amax = czero
+           amax = zero
            ! quick return if possible.
            if (n == 0) then
-              scond = cone
+              scond = one
               return
            end if
            do i = 1, n
-              s(i) = czero
+              s(i) = zero
            end do
-           amax = czero
+           amax = zero
            if (up) then
               do j = 1, n
                  do i = 1, j - 1
@@ -20807,13 +20786,13 @@ module stdlib_linalg_lapack_z
            do j = 1, n
               s(j) = 1.0d0/s(j)
            end do
-           tol = cone/sqrt(2.0d0*n)
+           tol = one/sqrt(2.0d0*n)
            do iter = 1, max_iter
               scale = 0.0d0
               sumsq = 0.0d0
               ! beta = |a|s
               do i = 1, n
-                 work(i) = czero
+                 work(i) = zero
               end do
               if (up) then
                  do j = 1, n
@@ -20858,7 +20837,7 @@ module stdlib_linalg_lapack_z
                  end if
                  si = -2*c0/(c1 + sqrt(d))
                  d = si - s(i)
-                 u = czero
+                 u = zero
                  if (up) then
                     do j = 1, i
                        t = cabs1(a(j, i))
@@ -20888,12 +20867,12 @@ module stdlib_linalg_lapack_z
            end do
 999   continue
            smlnum = stdlib_dlamch('safemin')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            smin = bignum
-           smax = czero
-           t = cone/sqrt(avg)
+           smax = zero
+           t = one/sqrt(avg)
            base = stdlib_dlamch('b')
-           u = cone/log(base)
+           u = one/log(base)
            do i = 1, n
               s(i) = base**int(u*log(s(i)*t))
               smin = min(smin, s(i))
@@ -21300,10 +21279,10 @@ module stdlib_linalg_lapack_z
                  imax = stdlib_izamax(k - 1, a(1, k), 1)
                  colmax = cabs1(a(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero .or. stdlib_disnan(absakk)) then
-                 ! column k is czero or underflow, or contains a nan:
+              if (max(absakk, colmax) == zero .or. stdlib_disnan(absakk)) then
+                 ! column k is zero or underflow, or contains a nan:
                  ! set info and continue
                  if (info == 0) info = k
                  kp = k
@@ -21415,10 +21394,10 @@ module stdlib_linalg_lapack_z
                  imax = k + stdlib_izamax(n - k, a(k + 1, k), 1)
                  colmax = cabs1(a(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if (max(absakk, colmax) == czero .or. stdlib_disnan(absakk)) then
-                 ! column k is czero or underflow, or contains a nan:
+              if (max(absakk, colmax) == zero .or. stdlib_disnan(absakk)) then
+                 ! column k is zero or underflow, or contains a nan:
                  ! set info and continue
                  if (info == 0) info = k
                  kp = k
@@ -22048,10 +22027,10 @@ module stdlib_linalg_lapack_z
                  imax = stdlib_izamax(k - 1, a(1, k), 1)
                  colmax = cabs1(a(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if ((max(absakk, colmax) == czero)) then
-                 ! column k is czero or underflow: set info and continue
+              if ((max(absakk, colmax) == zero)) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
               else
@@ -22074,7 +22053,7 @@ module stdlib_linalg_lapack_z
                           jmax = imax + stdlib_izamax(k - imax, a(imax, imax + 1), lda)
                           rowmax = cabs1(a(imax, jmax))
                        else
-                          rowmax = czero
+                          rowmax = zero
                        end if
                        if (imax > 1) then
                           itemp = stdlib_izamax(imax - 1, a(1, imax), 1)
@@ -22224,10 +22203,10 @@ module stdlib_linalg_lapack_z
                  imax = k + stdlib_izamax(n - k, a(k + 1, k), 1)
                  colmax = cabs1(a(imax, k))
               else
-                 colmax = czero
+                 colmax = zero
               end if
-              if ((max(absakk, colmax) == czero)) then
-                 ! column k is czero or underflow: set info and continue
+              if ((max(absakk, colmax) == zero)) then
+                 ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
               else
@@ -22249,7 +22228,7 @@ module stdlib_linalg_lapack_z
                           jmax = k - 1 + stdlib_izamax(imax - k, a(imax, k), lda)
                           rowmax = cabs1(a(imax, jmax))
                        else
-                          rowmax = czero
+                          rowmax = zero
                        end if
                        if (imax < n) then
                           itemp = imax + stdlib_izamax(n - imax, a(imax + 1, imax), 1)
@@ -24183,8 +24162,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -24259,7 +24238,7 @@ module stdlib_linalg_lapack_z
                  if (upper) then
                     if (nounit) then
                        do k = 1, n
-                          s = czero
+                          s = zero
                           do i = max(1, k - kd), k
                              s = s + cabs1(ab(kd + 1 + i - k, k))*cabs1(x(i, j))
                           end do
@@ -24277,7 +24256,7 @@ module stdlib_linalg_lapack_z
                  else
                     if (nounit) then
                        do k = 1, n
-                          s = czero
+                          s = zero
                           do i = k, min(n, k + kd)
                              s = s + cabs1(ab(1 + i - k, k))*cabs1(x(i, j))
                           end do
@@ -24294,7 +24273,7 @@ module stdlib_linalg_lapack_z
                     end if
                  end if
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -24347,11 +24326,11 @@ module stdlib_linalg_lapack_z
                  go to 210
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_250
            return
            ! end of stdlib_ztbrfs
@@ -26767,8 +26746,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -26850,7 +26829,7 @@ module stdlib_linalg_lapack_z
                     kc = 1
                     if (nounit) then
                        do k = 1, n
-                          s = czero
+                          s = zero
                           do i = 1, k
                              s = s + cabs1(ap(kc + i - 1))*cabs1(x(i, j))
                           end do
@@ -26871,7 +26850,7 @@ module stdlib_linalg_lapack_z
                     kc = 1
                     if (nounit) then
                        do k = 1, n
-                          s = czero
+                          s = zero
                           do i = k, n
                              s = s + cabs1(ap(kc + i - k))*cabs1(x(i, j))
                           end do
@@ -26890,7 +26869,7 @@ module stdlib_linalg_lapack_z
                     end if
                  end if
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -26943,11 +26922,11 @@ module stdlib_linalg_lapack_z
                  go to 210
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_250
            return
            ! end of stdlib_ztprfs
@@ -27516,7 +27495,7 @@ module stdlib_linalg_lapack_z
            if (n == 0) return
            ! set the constants to control overflow.
            unfl = stdlib_dlamch('safe minimum')
-           ovfl = cone/unfl
+           ovfl = one/unfl
            call stdlib_dlabad(unfl, ovfl)
            ulp = stdlib_dlamch('precision')
            smlnum = unfl*(n/ulp)
@@ -27526,7 +27505,7 @@ module stdlib_linalg_lapack_z
            end do
            ! compute 1-norm of each column of strictly upper triangular
            ! part of t to control overflow in triangular solver.
-           rwork(1) = czero
+           rwork(1) = zero
            do j = 2, n
               rwork(j) = stdlib_dzasum(j - 1, t(1, j), 1)
            end do
@@ -27558,7 +27537,7 @@ module stdlib_linalg_lapack_z
                  if (.not. over) then
                     call stdlib_zcopy(ki, work(1), 1, vr(1, is), 1)
                     ii = stdlib_izamax(ki, vr(1, is), 1)
-                    remax = cone/cabs1(vr(ii, is))
+                    remax = one/cabs1(vr(ii, is))
                     call stdlib_zdscal(ki, remax, vr(1, is), 1)
                     do k = ki + 1, n
                        vr(k, is) = cmzero
@@ -27567,7 +27546,7 @@ module stdlib_linalg_lapack_z
                     if (ki > 1) call stdlib_zgemv('n', n, ki - 1, cmone, vr, ldvr, work(1), 1, &
                               dcmplx(scale), vr(1, ki), 1)
                     ii = stdlib_izamax(n, vr(1, ki), 1)
-                    remax = cone/cabs1(vr(ii, ki))
+                    remax = one/cabs1(vr(ii, ki))
                     call stdlib_zdscal(n, remax, vr(1, ki), 1)
                  end if
                  ! set back the original diagonal elements of t.
@@ -27605,7 +27584,7 @@ module stdlib_linalg_lapack_z
                  if (.not. over) then
                     call stdlib_zcopy(n - ki + 1, work(ki), 1, vl(ki, is), 1)
                     ii = stdlib_izamax(n - ki + 1, vl(ki, is), 1) + ki - 1
-                    remax = cone/cabs1(vl(ii, is))
+                    remax = one/cabs1(vl(ii, is))
                     call stdlib_zdscal(n - ki + 1, remax, vl(ki, is), 1)
                     do k = 1, ki - 1
                        vl(k, is) = cmzero
@@ -27614,7 +27593,7 @@ module stdlib_linalg_lapack_z
                     if (ki < n) call stdlib_zgemv('n', n, n - ki, cmone, vl(1, ki + 1), ldvl, work( &
                               ki + 1), 1, dcmplx(scale), vl(1, ki), 1)
                     ii = stdlib_izamax(n, vl(1, ki), 1)
-                    remax = cone/cabs1(vl(ii, ki))
+                    remax = one/cabs1(vl(ii, ki))
                     call stdlib_zdscal(n, remax, vl(1, ki), 1)
                  end if
                  ! set back the original diagonal elements of t.
@@ -28071,8 +28050,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -28147,7 +28126,7 @@ module stdlib_linalg_lapack_z
                  if (upper) then
                     if (nounit) then
                        do k = 1, n
-                          s = czero
+                          s = zero
                           do i = 1, k
                              s = s + cabs1(a(i, k))*cabs1(x(i, j))
                           end do
@@ -28165,7 +28144,7 @@ module stdlib_linalg_lapack_z
                  else
                     if (nounit) then
                        do k = 1, n
-                          s = czero
+                          s = zero
                           do i = k, n
                              s = s + cabs1(a(i, k))*cabs1(x(i, j))
                           end do
@@ -28182,7 +28161,7 @@ module stdlib_linalg_lapack_z
                     end if
                  end if
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -28235,11 +28214,11 @@ module stdlib_linalg_lapack_z
                  go to 210
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_250
            return
            ! end of stdlib_ztrrfs
@@ -28323,14 +28302,14 @@ module stdlib_linalg_lapack_z
               if (somcon) then
                  if (.not. select(1)) return
               end if
-              if (wants) s(1) = cone
+              if (wants) s(1) = one
               if (wantsp) sep(1) = abs(t(1, 1))
               return
            end if
            ! get machine constants
            eps = stdlib_dlamch('p')
            smlnum = stdlib_dlamch('s')/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            ks = 1
            loop_50: do k = 1, n
@@ -28358,8 +28337,8 @@ module stdlib_linalg_lapack_z
                  end do
                  ! estimate a lower bound for the 1-norm of inv(c**h). the 1st
                  ! and (n+1)th columns of work are used to store work vectors.
-                 sep(ks) = czero
-                 est = czero
+                 sep(ks) = zero
+                 est = zero
                  kase = 0
                  normin = 'n'
 30      continue
@@ -28375,17 +28354,17 @@ module stdlib_linalg_lapack_z
                                  2, 2), ldwork, work, scale, rwork, ierr)
                     end if
                     normin = 'y'
-                    if (scale /= cone) then
+                    if (scale /= one) then
                        ! multiply by 1/scale if doing so will not cause
                        ! overflow.
                        ix = stdlib_izamax(n - 1, work, 1)
                        xnorm = cabs1(work(ix, 1))
-                       if (scale < xnorm*smlnum .or. scale == czero) go to 40
+                       if (scale < xnorm*smlnum .or. scale == zero) go to 40
                        call stdlib_zdrscl(n, scale, work, 1)
                     end if
                     go to 30
                  end if
-                 sep(ks) = cone/max(est, smlnum)
+                 sep(ks) = one/max(est, smlnum)
               end if
 40      continue
               ks = ks + 1
@@ -30182,8 +30161,8 @@ module stdlib_linalg_lapack_z
               work(1) = dcmplx(lworkopt)
               return
            end if
-           ! (0) set the upper-triangular part of the matrix a to czero and
-           ! its diagonal elements to cone.
+           ! (0) set the upper-triangular part of the matrix a to zero and
+           ! its diagonal elements to one.
            call stdlib_zlaset('u', m, n, czero, cone, a, lda)
            ! kb_last is the column index of the last column block reflector
            ! in the matrices t and v.
@@ -30226,7 +30205,7 @@ module stdlib_linalg_lapack_z
               end do
            end if
            ! (2) top row block of a.
-           ! note: if mb>=m, then we have only cone row block of a of size m
+           ! note: if mb>=m, then we have only one row block of a of size m
            ! and we work on the entire matrix a.
            mb1 = min(mb, m)
            ! apply column blocks of h in the top row block from right to left.
@@ -31776,14 +31755,14 @@ module stdlib_linalg_lapack_z
            ! test for negligible sines or cosines
            do i = 1, q
               if (theta(i) < thresh) then
-                 theta(i) = czero
+                 theta(i) = zero
               else if (theta(i) > piover2 - thresh) then
                  theta(i) = piover2
               end if
            end do
            do i = 1, q - 1
               if (phi(i) < thresh) then
-                 phi(i) = czero
+                 phi(i) = zero
               else if (phi(i) > piover2 - thresh) then
                  phi(i) = piover2
               end if
@@ -31791,14 +31770,14 @@ module stdlib_linalg_lapack_z
            ! initial deflation
            imax = q
            do while (imax > 1)
-              if (phi(imax - 1) /= czero) then
+              if (phi(imax - 1) /= zero) then
                  exit
               end if
               imax = imax - 1
            end do
            imin = imax - 1
            if (imin > 1) then
-              do while (phi(imin - 1) /= czero)
+              do while (phi(imin - 1) /= zero)
                  imin = imin - 1
                  if (imin <= 1) exit
               end do
@@ -31827,7 +31806,7 @@ module stdlib_linalg_lapack_z
               if (iter > maxit) then
                  info = 0
                  do i = 1, q
-                    if (phi(i) /= czero) info = info + 1
+                    if (phi(i) /= zero) info = info + 1
                  end do
                  return
               end if
@@ -31840,15 +31819,15 @@ module stdlib_linalg_lapack_z
                  if (theta(i) < thetamin) thetamin = theta(i)
               end do
               if (thetamax > piover2 - thresh) then
-                 ! czero on diagonals of b11 and b22; induce deflation with a
-                 ! czero shift
-                 mu = czero
-                 nu = cone
+                 ! zero on diagonals of b11 and b22; induce deflation with a
+                 ! zero shift
+                 mu = zero
+                 nu = one
               else if (thetamin < thresh) then
-                 ! czero on diagonals of b12 and b22; induce deflation with a
-                 ! czero shift
-                 mu = cone
-                 nu = czero
+                 ! zero on diagonals of b12 and b22; induce deflation with a
+                 ! zero shift
+                 mu = one
+                 nu = zero
               else
                  ! compute shifts for b11 and b21 and use the lesser
                  call stdlib_dlas2(b11d(imax - 1), b11e(imax - 1), b11d(imax), sigma11, dummy)
@@ -31857,17 +31836,17 @@ module stdlib_linalg_lapack_z
                            
                  if (sigma11 <= sigma21) then
                     mu = sigma11
-                    nu = sqrt(cone - mu**2)
+                    nu = sqrt(one - mu**2)
                     if (mu < thresh) then
-                       mu = czero
-                       nu = cone
+                       mu = zero
+                       nu = one
                     end if
                  else
                     nu = sigma21
                     mu = sqrt(1.0 - nu**2)
                     if (nu < thresh) then
-                       mu = cone
-                       nu = czero
+                       mu = one
+                       nu = zero
                     end if
                  end if
               end if
@@ -32209,28 +32188,28 @@ module stdlib_linalg_lapack_z
               ! test for negligible sines or cosines
               do i = imin, imax
                  if (theta(i) < thresh) then
-                    theta(i) = czero
+                    theta(i) = zero
                  else if (theta(i) > piover2 - thresh) then
                     theta(i) = piover2
                  end if
               end do
               do i = imin, imax - 1
                  if (phi(i) < thresh) then
-                    phi(i) = czero
+                    phi(i) = zero
                  else if (phi(i) > piover2 - thresh) then
                     phi(i) = piover2
                  end if
               end do
               ! deflate
               if (imax > 1) then
-                 do while (phi(imax - 1) == czero)
+                 do while (phi(imax - 1) == zero)
                     imax = imax - 1
                     if (imax <= 1) exit
                  end do
               end if
               if (imin > imax - 1) imin = imax - 1
               if (imin > 1) then
-                 do while (phi(imin - 1) /= czero)
+                 do while (phi(imin - 1) /= zero)
                      imin = imin - 1
                      if (imin <= 1) exit
                  end do
@@ -32388,23 +32367,23 @@ module stdlib_linalg_lapack_z
            tolmul = max(ten, min(hndrd, eps**meigth))
            tol = tolmul*eps
            ! compute approximate maximum, minimum singular values
-           smax = czero
+           smax = zero
            do i = 1, n
               smax = max(smax, abs(d(i)))
            end do
            do i = 1, n - 1
               smax = max(smax, abs(e(i)))
            end do
-           sminl = czero
-           if (tol >= czero) then
+           sminl = zero
+           if (tol >= zero) then
               ! relative accuracy desired
               sminoa = abs(d(1))
-              if (sminoa == czero) go to 50
+              if (sminoa == zero) go to 50
               mu = sminoa
               do i = 2, n
                  mu = abs(d(i))*(mu/(mu + abs(e(i - 1))))
                  sminoa = min(sminoa, mu)
-                 if (sminoa == czero) go to 50
+                 if (sminoa == zero) go to 50
               end do
 50      continue
               sminoa = sminoa/sqrt(dble(n))
@@ -32428,14 +32407,14 @@ module stdlib_linalg_lapack_z
            if (m <= 1) go to 160
            if (iter > maxit) go to 200
            ! find diagonal block of matrix to work on
-           if (tol < czero .and. abs(d(m)) <= thresh) d(m) = czero
+           if (tol < zero .and. abs(d(m)) <= thresh) d(m) = zero
            smax = abs(d(m))
            smin = smax
            do lll = 1, m - 1
               ll = m - lll
               abss = abs(d(ll))
               abse = abs(e(ll))
-              if (tol < czero .and. abss <= thresh) d(ll) = czero
+              if (tol < zero .and. abss <= thresh) d(ll) = zero
               if (abse <= thresh) go to 80
               smin = min(smin, abss)
               smax = max(smax, abss, abse)
@@ -32443,7 +32422,7 @@ module stdlib_linalg_lapack_z
            ll = 0
            go to 90
 80      continue
-           e(ll) = czero
+           e(ll) = zero
            ! matrix splits since e(ll) = 0
            if (ll == m - 1) then
               ! convergence of bottom singular value, return to top of loop
@@ -32452,13 +32431,13 @@ module stdlib_linalg_lapack_z
            end if
 90      continue
            ll = ll + 1
-           ! e(ll) through e(m-1) are nonzero, e(ll-1) is czero
+           ! e(ll) through e(m-1) are nonzero, e(ll-1) is zero
            if (ll == m - 1) then
               ! 2 by 2 block, handle separately
               call stdlib_dlasv2(d(m - 1), e(m - 1), d(m), sigmn, sigmx, sinr, cosr, sinl, cosl &
                         )
               d(m - 1) = sigmx
-              e(m - 1) = czero
+              e(m - 1) = zero
               d(m) = sigmn
               ! compute singular vectors, if desired
               if (ncvt > 0) call stdlib_zdrot(ncvt, vt(m - 1, 1), ldvt, vt(m, 1), ldvt, cosr, &
@@ -32485,19 +32464,19 @@ module stdlib_linalg_lapack_z
            if (idir == 1) then
               ! run convergence test in forward direction
               ! first apply standard test to bottom of matrix
-              if (abs(e(m - 1)) <= abs(tol)*abs(d(m)) .or. (tol < czero .and. abs(e(m - 1)) &
+              if (abs(e(m - 1)) <= abs(tol)*abs(d(m)) .or. (tol < zero .and. abs(e(m - 1)) &
                         <= thresh)) then
-                 e(m - 1) = czero
+                 e(m - 1) = zero
                  go to 60
               end if
-              if (tol >= czero) then
+              if (tol >= zero) then
                  ! if relative accuracy desired,
                  ! apply convergence criterion forward
                  mu = abs(d(ll))
                  sminl = mu
                  do lll = ll, m - 1
                     if (abs(e(lll)) <= tol*mu) then
-                       e(lll) = czero
+                       e(lll) = zero
                        go to 60
                     end if
                     mu = abs(d(lll + 1))*(mu/(mu + abs(e(lll))))
@@ -32507,19 +32486,19 @@ module stdlib_linalg_lapack_z
            else
               ! run convergence test in backward direction
               ! first apply standard test to top of matrix
-              if (abs(e(ll)) <= abs(tol)*abs(d(ll)) .or. (tol < czero .and. abs(e(ll)) &
+              if (abs(e(ll)) <= abs(tol)*abs(d(ll)) .or. (tol < zero .and. abs(e(ll)) &
                         <= thresh)) then
-                 e(ll) = czero
+                 e(ll) = zero
                  go to 60
               end if
-              if (tol >= czero) then
+              if (tol >= zero) then
                  ! if relative accuracy desired,
                  ! apply convergence criterion backward
                  mu = abs(d(m))
                  sminl = mu
                  do lll = m - 1, ll, -1
                     if (abs(e(lll)) <= tol*mu) then
-                       e(lll) = czero
+                       e(lll) = zero
                        go to 60
                     end if
                     mu = abs(d(lll))*(mu/(mu + abs(e(lll))))
@@ -32530,10 +32509,10 @@ module stdlib_linalg_lapack_z
            oldll = ll
            oldm = m
            ! compute shift.  first, test if shifting would ruin relative
-           ! accuracy, and if so set the shift to czero.
-           if (tol >= czero .and. n*tol*(sminl/smax) <= max(eps, hndrth*tol)) then
-              ! use a czero shift to avoid loss of relative accuracy
-              shift = czero
+           ! accuracy, and if so set the shift to zero.
+           if (tol >= zero .and. n*tol*(sminl/smax) <= max(eps, hndrth*tol)) then
+              ! use a zero shift to avoid loss of relative accuracy
+              shift = zero
            else
               ! compute the shift from 2-by-2 block at end of matrix
               if (idir == 1) then
@@ -32543,20 +32522,20 @@ module stdlib_linalg_lapack_z
                  sll = abs(d(m))
                  call stdlib_dlas2(d(ll), e(ll), d(ll + 1), shift, r)
               end if
-              ! test if shift negligible, and if so set to czero
-              if (sll > czero) then
-                 if ((shift/sll)**2 < eps) shift = czero
+              ! test if shift negligible, and if so set to zero
+              if (sll > zero) then
+                 if ((shift/sll)**2 < eps) shift = zero
               end if
            end if
            ! increment iteration count
            iter = iter + m - ll
            ! if shift = 0, do simplified qr iteration
-           if (shift == czero) then
+           if (shift == zero) then
               if (idir == 1) then
                  ! chase bulge from top to bottom
                  ! save cosines and sines for later singular vector updates
-                 cs = cone
-                 oldcs = cone
+                 cs = one
+                 oldcs = one
                  do i = ll, m - 1
                     call stdlib_dlartg(d(i)*cs, e(i), cs, sn, r)
                     if (i > ll) e(i - 1) = oldsn*r
@@ -32577,12 +32556,12 @@ module stdlib_linalg_lapack_z
                  if (ncc > 0) call stdlib_zlasr('l', 'v', 'f', m - ll + 1, ncc, rwork(nm12 + 1), rwork( &
                            nm13 + 1), c(ll, 1), ldc)
                  ! test convergence
-                 if (abs(e(m - 1)) <= thresh) e(m - 1) = czero
+                 if (abs(e(m - 1)) <= thresh) e(m - 1) = zero
               else
                  ! chase bulge from bottom to top
                  ! save cosines and sines for later singular vector updates
-                 cs = cone
-                 oldcs = cone
+                 cs = one
+                 oldcs = one
                  do i = m, ll + 1, -1
                     call stdlib_dlartg(d(i)*cs, e(i - 1), cs, sn, r)
                     if (i < m) e(i) = oldsn*r
@@ -32603,14 +32582,14 @@ module stdlib_linalg_lapack_z
                  if (ncc > 0) call stdlib_zlasr('l', 'v', 'b', m - ll + 1, ncc, rwork(1), rwork(n), &
                            c(ll, 1), ldc)
                  ! test convergence
-                 if (abs(e(ll)) <= thresh) e(ll) = czero
+                 if (abs(e(ll)) <= thresh) e(ll) = zero
               end if
            else
               ! use nonzero shift
               if (idir == 1) then
                  ! chase bulge from top to bottom
                  ! save cosines and sines for later singular vector updates
-                 f = (abs(d(ll)) - shift)*(sign(cone, d(ll)) + shift/d(ll))
+                 f = (abs(d(ll)) - shift)*(sign(one, d(ll)) + shift/d(ll))
                  g = e(ll)
                  do i = ll, m - 1
                     call stdlib_dlartg(f, g, cosr, sinr, r)
@@ -32641,11 +32620,11 @@ module stdlib_linalg_lapack_z
                  if (ncc > 0) call stdlib_zlasr('l', 'v', 'f', m - ll + 1, ncc, rwork(nm12 + 1), rwork( &
                            nm13 + 1), c(ll, 1), ldc)
                  ! test convergence
-                 if (abs(e(m - 1)) <= thresh) e(m - 1) = czero
+                 if (abs(e(m - 1)) <= thresh) e(m - 1) = zero
               else
                  ! chase bulge from bottom to top
                  ! save cosines and sines for later singular vector updates
-                 f = (abs(d(m)) - shift)*(sign(cone, d(m)) + shift/d(m))
+                 f = (abs(d(m)) - shift)*(sign(one, d(m)) + shift/d(m))
                  g = e(m - 1)
                  do i = m, ll + 1, -1
                     call stdlib_dlartg(f, g, cosr, sinr, r)
@@ -32669,7 +32648,7 @@ module stdlib_linalg_lapack_z
                  end do
                  e(ll) = f
                  ! test convergence
-                 if (abs(e(ll)) <= thresh) e(ll) = czero
+                 if (abs(e(ll)) <= thresh) e(ll) = zero
                  ! update singular vectors if desired
                  if (ncvt > 0) call stdlib_zlasr('l', 'v', 'b', m - ll + 1, ncvt, rwork(nm12 + 1), &
                            rwork(nm13 + 1), vt(ll, 1), ldvt)
@@ -32684,14 +32663,14 @@ module stdlib_linalg_lapack_z
            ! all singular values converged, so make them positive
 160    continue
            do i = 1, n
-              if (d(i) < czero) then
+              if (d(i) < zero) then
                  d(i) = -d(i)
                  ! change sign of singular vectors, if desired
                  if (ncvt > 0) call stdlib_zdscal(ncvt, negone, vt(i, 1), ldvt)
               end if
            end do
            ! sort the singular values into decreasing order (insertion sort on
-           ! singular values, but only cone transposition per singular vector)
+           ! singular values, but only one transposition per singular vector)
            do i = 1, n - 1
               ! scan for smallest d(i)
               isub = 1
@@ -32718,7 +32697,7 @@ module stdlib_linalg_lapack_z
 200    continue
            info = 0
            do i = 1, n - 1
-              if (e(i) /= czero) info = info + 1
+              if (e(i) /= zero) info = info + 1
            end do
 220    continue
            return
@@ -32776,7 +32755,7 @@ module stdlib_linalg_lapack_z
               info = -4
            else if (ldab < 2*kl + ku + 1) then
               info = -6
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -8
            end if
            if (info /= 0) then
@@ -32784,16 +32763,16 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm == czero) then
+           else if (anorm == zero) then
               return
            end if
            smlnum = stdlib_dlamch('safe minimum')
            ! estimate the norm of inv(a).
-           ainvnm = czero
+           ainvnm = zero
            normin = 'n'
            if (onenrm) then
               kase1 = 1
@@ -32844,15 +32823,15 @@ module stdlib_linalg_lapack_z
               end if
               ! divide x by 1/scale if doing so will not cause overflow.
               normin = 'y'
-              if (scale /= cone) then
+              if (scale /= one) then
                  ix = stdlib_izamax(n, work, 1)
-                 if (scale < cabs1(work(ix))*smlnum .or. scale == czero) go to 40
+                 if (scale < cabs1(work(ix))*smlnum .or. scale == zero) go to 40
                  call stdlib_zdrscl(n, scale, work, 1)
               end if
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
 40      continue
            return
            ! end of stdlib_zgbcon
@@ -33364,7 +33343,7 @@ module stdlib_linalg_lapack_z
               info = -2
            else if (lda < max(1, n)) then
               info = -4
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -5
            end if
            if (info /= 0) then
@@ -33372,16 +33351,16 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm == czero) then
+           else if (anorm == zero) then
               return
            end if
            smlnum = stdlib_dlamch('safe minimum')
            ! estimate the norm of inv(a).
-           ainvnm = czero
+           ainvnm = zero
            normin = 'n'
            if (onenrm) then
               kase1 = 1
@@ -33410,15 +33389,15 @@ module stdlib_linalg_lapack_z
               ! divide x by 1/(sl*su) if doing so will not cause overflow.
               scale = sl*su
               normin = 'y'
-              if (scale /= cone) then
+              if (scale /= one) then
                  ix = stdlib_izamax(n, work, 1)
-                 if (scale < cabs1(work(ix))*smlnum .or. scale == czero) go to 20
+                 if (scale < cabs1(work(ix))*smlnum .or. scale == zero) go to 20
                  call stdlib_zdrscl(n, scale, work, 1)
               end if
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
 20      continue
            return
            ! end of stdlib_zgecon
@@ -34731,7 +34710,7 @@ module stdlib_linalg_lapack_z
            ! set constant to control overflow
            eps = stdlib_dlamch('p')
            smlnum = stdlib_dlamch('s')/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            ! apply permutations ipiv to rhs
            call stdlib_zlaswp(1, rhs, lda, 1, n - 1, ipiv, 1)
@@ -34742,16 +34721,16 @@ module stdlib_linalg_lapack_z
               end do
            end do
            ! solve for u part
-           scale = cone
+           scale = one
            ! check for scaling
            i = stdlib_izamax(n, rhs, 1)
            if (two*smlnum*abs(rhs(i)) > abs(a(n, n))) then
-              temp = dcmplx(cone/two, czero)/abs(rhs(i))
+              temp = dcmplx(one/two, zero)/abs(rhs(i))
               call stdlib_zscal(n, temp, rhs(1), 1)
               scale = scale*dble(temp)
            end if
            do i = n, 1, -1
-              temp = dcmplx(cone, czero)/a(i, i)
+              temp = dcmplx(one, zero)/a(i, i)
               rhs(i) = rhs(i)*temp
               do j = i + 1, n
                  rhs(i) = rhs(i) - rhs(j)*(a(i, j)*temp)
@@ -35152,7 +35131,7 @@ module stdlib_linalg_lapack_z
            if (icompz == 3) call stdlib_zlaset('full', n, n, czero, cone, z, ldz)
            ! quick return if possible
            if (n <= 1) return
-           ! czero out lower triangle of b
+           ! zero out lower triangle of b
            do jcol = 1, n - 1
               do jrow = jcol + 1, n
                  b(jrow, jcol) = czero
@@ -35603,16 +35582,16 @@ module stdlib_linalg_lapack_z
               return
            end if
            up = stdlib_lsame(uplo, 'u')
-           amax = czero
+           amax = zero
            ! quick return if possible.
            if (n == 0) then
-              scond = cone
+              scond = one
               return
            end if
            do i = 1, n
-              s(i) = czero
+              s(i) = zero
            end do
-           amax = czero
+           amax = zero
            if (up) then
               do j = 1, n
                  do i = 1, j - 1
@@ -35637,13 +35616,13 @@ module stdlib_linalg_lapack_z
            do j = 1, n
               s(j) = 1.0d0/s(j)
            end do
-           tol = cone/sqrt(2.0d0*n)
+           tol = one/sqrt(2.0d0*n)
            do iter = 1, max_iter
               scale = 0.0d0
               sumsq = 0.0d0
               ! beta = |a|s
               do i = 1, n
-                 work(i) = czero
+                 work(i) = zero
               end do
               if (up) then
                  do j = 1, n
@@ -35688,7 +35667,7 @@ module stdlib_linalg_lapack_z
                  end if
                  si = -2*c0/(c1 + sqrt(d))
                  d = si - s(i)
-                 u = czero
+                 u = zero
                  if (up) then
                     do j = 1, i
                        t = cabs1(a(j, i))
@@ -35718,12 +35697,12 @@ module stdlib_linalg_lapack_z
            end do
 999   continue
            smlnum = stdlib_dlamch('safemin')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            smin = bignum
-           smax = czero
-           t = cone/sqrt(avg)
+           smax = zero
+           t = one/sqrt(avg)
            base = stdlib_dlamch('b')
-           u = cone/log(base)
+           u = one/log(base)
            do i = 1, n
               s(i) = base**int(u*log(s(i)*t))
               smin = min(smin, s(i))
@@ -35790,7 +35769,7 @@ module stdlib_linalg_lapack_z
                     a(k, k) = akk
                     if (k < n) then
                        call stdlib_zdscal(n - k, one/bkk, a(k, k + 1), lda)
-                       ct = -chalf*akk
+                       ct = -half*akk
                        call stdlib_zlacgv(n - k, a(k, k + 1), lda)
                        call stdlib_zlacgv(n - k, b(k, k + 1), ldb)
                        call stdlib_zaxpy(n - k, ct, b(k, k + 1), ldb, a(k, k + 1), lda)
@@ -35813,7 +35792,7 @@ module stdlib_linalg_lapack_z
                     a(k, k) = akk
                     if (k < n) then
                        call stdlib_zdscal(n - k, one/bkk, a(k + 1, k), 1)
-                       ct = -chalf*akk
+                       ct = -half*akk
                        call stdlib_zaxpy(n - k, ct, b(k + 1, k), 1, a(k + 1, k), 1)
                        call stdlib_zher2(uplo, n - k, -cone, a(k + 1, k), 1, b(k + 1, k), 1, a(k + 1, &
                                   k + 1), lda)
@@ -35832,7 +35811,7 @@ module stdlib_linalg_lapack_z
                     bkk = dble(b(k, k))
                     call stdlib_ztrmv(uplo, 'no transpose', 'non-unit', k - 1, b, ldb, a(1, k), 1 &
                               )
-                    ct = chalf*akk
+                    ct = half*akk
                     call stdlib_zaxpy(k - 1, ct, b(1, k), 1, a(1, k), 1)
                     call stdlib_zher2(uplo, k - 1, cone, a(1, k), 1, b(1, k), 1, a, lda)
                               
@@ -35849,7 +35828,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zlacgv(k - 1, a(k, 1), lda)
                     call stdlib_ztrmv(uplo, 'conjugate transpose', 'non-unit', k - 1, b, ldb, a(k, &
                               1), lda)
-                    ct = chalf*akk
+                    ct = half*akk
                     call stdlib_zlacgv(k - 1, b(k, 1), ldb)
                     call stdlib_zaxpy(k - 1, ct, b(k, 1), ldb, a(k, 1), lda)
                     call stdlib_zher2(uplo, k - 1, cone, a(k, 1), lda, b(k, 1), ldb, a, lda)
@@ -38696,7 +38675,7 @@ module stdlib_linalg_lapack_z
            ! .. local scalars ..
            integer(ilp) :: ncols, i, j, k, kp
            real(dp) :: amax, umax, rpvgrw, tmp
-           logical(lk) :: upper, lsame
+           logical(lk) :: upper
            complex(dp) :: zdum
      
            ! .. intrinsic functions ..
@@ -38706,7 +38685,7 @@ module stdlib_linalg_lapack_z
            ! .. statement function definitions ..
            cabs1(zdum) = abs(dble(zdum)) + abs(dimag(zdum))
            ! .. executable statements ..
-           upper = lsame('upper', uplo)
+           upper = stdlib_lsame('upper', uplo)
            if (info == 0) then
               if (upper) then
                  ncols = 1
@@ -39670,7 +39649,7 @@ module stdlib_linalg_lapack_z
            ! eigenvector.
            rootn = sqrt(dble(n))
            growto = tenth/rootn
-           nrmsml = max(cone, eps3*rootn)*smlnum
+           nrmsml = max(one, eps3*rootn)*smlnum
            ! form b = h - w*i (except that the subdiagonal elements are not
            ! stored).
            do j = 1, n
@@ -39756,7 +39735,7 @@ module stdlib_linalg_lapack_z
               vnorm = stdlib_dzasum(n, v, 1)
               if (vnorm >= growto*scale) go to 120
               ! choose new orthogonal starting vector and try again.
-              rtemp = eps3/(rootn + cone)
+              rtemp = eps3/(rootn + one)
               v(1) = eps3
               do i = 2, n
                  v(i) = rtemp
@@ -39768,7 +39747,7 @@ module stdlib_linalg_lapack_z
 120    continue
            ! normalize eigenvector.
            i = stdlib_izamax(n, v, 1)
-           call stdlib_zdscal(n, cone/cabs1(v(i)), v, 1)
+           call stdlib_zdscal(n, one/cabs1(v(i)), v, 1)
            return
            ! end of stdlib_zlaein
      end subroutine stdlib_zlaein
@@ -39831,8 +39810,8 @@ module stdlib_linalg_lapack_z
               fb = abs(b)
               ! transform complex 2-by-2 matrix c to real matrix by unitary
               ! diagonal matrix diag(1,d1).
-              d1 = cone
-              if (fb /= czero) d1 = b/fb
+              d1 = one
+              if (fb /= zero) d1 = b/fb
               ! the svd of real 2 by 2 triangular c
                ! ( csl -snl )*( a b )*(  csr  snr ) = ( r 0 )
                ! ( snl  csl ) ( 0 d ) ( -snr  csr )   ( 0 t )
@@ -39846,10 +39825,10 @@ module stdlib_linalg_lapack_z
                  vb12 = csr*b2 + d1*snr*b3
                  aua12 = abs(csl)*abs1(a2) + abs(snl)*abs(a3)
                  avb12 = abs(csr)*abs1(b2) + abs(snr)*abs(b3)
-                 ! czero (1,2) elements of u**h *a and v**h *b
-                 if ((abs(ua11r) + abs1(ua12)) == czero) then
+                 ! zero (1,2) elements of u**h *a and v**h *b
+                 if ((abs(ua11r) + abs1(ua12)) == zero) then
                     call stdlib_zlartg(-dcmplx(vb11r), dconjg(vb12), csq, snq, r)
-                 else if ((abs(vb11r) + abs1(vb12)) == czero) then
+                 else if ((abs(vb11r) + abs1(vb12)) == zero) then
                     call stdlib_zlartg(-dcmplx(ua11r), dconjg(ua12), csq, snq, r)
                  else if (aua12/(abs(ua11r) + abs1(ua12)) <= avb12/(abs(vb11r) + abs1(vb12 &
                            ))) then
@@ -39870,10 +39849,10 @@ module stdlib_linalg_lapack_z
                  vb22 = -dconjg(d1)*snr*b2 + csr*b3
                  aua22 = abs(snl)*abs1(a2) + abs(csl)*abs(a3)
                  avb22 = abs(snr)*abs1(b2) + abs(csr)*abs(b3)
-                 ! czero (2,2) elements of u**h *a and v**h *b, and then swap.
-                 if ((abs1(ua21) + abs1(ua22)) == czero) then
+                 ! zero (2,2) elements of u**h *a and v**h *b, and then swap.
+                 if ((abs1(ua21) + abs1(ua22)) == zero) then
                     call stdlib_zlartg(-dconjg(vb21), dconjg(vb22), csq, snq, r)
-                 else if ((abs1(vb21) + abs(vb22)) == czero) then
+                 else if ((abs1(vb21) + abs(vb22)) == zero) then
                     call stdlib_zlartg(-dconjg(ua21), dconjg(ua22), csq, snq, r)
                  else if (aua22/(abs1(ua21) + abs1(ua22)) <= avb22/(abs1(vb21) + abs1(vb22 &
                            ))) then
@@ -39896,8 +39875,8 @@ module stdlib_linalg_lapack_z
               fc = abs(c)
               ! transform complex 2-by-2 matrix c to real matrix by unitary
               ! diagonal matrix diag(d1,1).
-              d1 = cone
-              if (fc /= czero) d1 = c/fc
+              d1 = one
+              if (fc /= zero) d1 = c/fc
               ! the svd of real 2 by 2 triangular c
                ! ( csl -snl )*( a 0 )*(  csr  snr ) = ( r 0 )
                ! ( snl  csl ) ( c d ) ( -snr  csr )   ( 0 t )
@@ -39911,10 +39890,10 @@ module stdlib_linalg_lapack_z
                  vb22r = csl*b3
                  aua21 = abs(snr)*abs(a1) + abs(csr)*abs1(a2)
                  avb21 = abs(snl)*abs(b1) + abs(csl)*abs1(b2)
-                 ! czero (2,1) elements of u**h *a and v**h *b.
-                 if ((abs1(ua21) + abs(ua22r)) == czero) then
+                 ! zero (2,1) elements of u**h *a and v**h *b.
+                 if ((abs1(ua21) + abs(ua22r)) == zero) then
                     call stdlib_zlartg(dcmplx(vb22r), vb21, csq, snq, r)
-                 else if ((abs1(vb21) + abs(vb22r)) == czero) then
+                 else if ((abs1(vb21) + abs(vb22r)) == zero) then
                     call stdlib_zlartg(dcmplx(ua22r), ua21, csq, snq, r)
                  else if (aua21/(abs1(ua21) + abs(ua22r)) <= avb21/(abs1(vb21) + abs(vb22r &
                            ))) then
@@ -39935,10 +39914,10 @@ module stdlib_linalg_lapack_z
                  vb12 = dconjg(d1)*snl*b3
                  aua11 = abs(csr)*abs(a1) + abs(snr)*abs1(a2)
                  avb11 = abs(csl)*abs(b1) + abs(snl)*abs1(b2)
-                 ! czero (1,1) elements of u**h *a and v**h *b, and then swap.
-                 if ((abs1(ua11) + abs1(ua12)) == czero) then
+                 ! zero (1,1) elements of u**h *a and v**h *b, and then swap.
+                 if ((abs1(ua11) + abs1(ua12)) == zero) then
                     call stdlib_zlartg(vb12, vb11, csq, snq, r)
-                 else if ((abs1(vb11) + abs1(vb12)) == czero) then
+                 else if ((abs1(vb11) + abs1(vb12)) == zero) then
                     call stdlib_zlartg(ua12, ua11, csq, snq, r)
                  else if (aua11/(abs1(ua11) + abs1(ua12)) <= avb11/(abs1(vb11) + abs1(vb12 &
                            ))) then
@@ -40111,7 +40090,7 @@ module stdlib_linalg_lapack_z
                  u = sqrt(h(i - 1, i))*sqrt(h(i, i - 1))
                  s = cabs1(u)
                  if (s /= rzero) then
-                    x = chalf*(h(i - 1, i - 1) - t)
+                    x = half*(h(i - 1, i - 1) - t)
                     sx = cabs1(x)
                     s = max(s, cabs1(x))
                     y = s*sqrt((x/s)**2 + (u/s)**2)
@@ -40425,7 +40404,7 @@ module stdlib_linalg_lapack_z
               ! matrix to bx.
               if (k == 1) then
                  call stdlib_zcopy(nrhs, bx, ldbx, b, ldb)
-                 if (z(1) < czero) then
+                 if (z(1) < zero) then
                     call stdlib_zdscal(nrhs, negone, b, ldb)
                  end if
               else
@@ -40437,22 +40416,22 @@ module stdlib_linalg_lapack_z
                        difrj = -difr(j, 1)
                        dsigjp = -poles(j + 1, 2)
                     end if
-                    if ((z(j) == czero) .or. (poles(j, 2) == czero)) then
-                       rwork(j) = czero
+                    if ((z(j) == zero) .or. (poles(j, 2) == zero)) then
+                       rwork(j) = zero
                     else
                        rwork(j) = -poles(j, 2)*z(j)/diflj/(poles(j, 2) + dj)
                     end if
                     do i = 1, j - 1
-                       if ((z(i) == czero) .or. (poles(i, 2) == czero)) then
-                          rwork(i) = czero
+                       if ((z(i) == zero) .or. (poles(i, 2) == zero)) then
+                          rwork(i) = zero
                        else
                           rwork(i) = poles(i, 2)*z(i)/(stdlib_dlamc3(poles(i, 2), &
                                     dsigj) - diflj)/(poles(i, 2) + dj)
                        end if
                     end do
                     do i = j + 1, k
-                       if ((z(i) == czero) .or. (poles(i, 2) == czero)) then
-                          rwork(i) = czero
+                       if ((z(i) == zero) .or. (poles(i, 2) == zero)) then
+                          rwork(i) = zero
                        else
                           rwork(i) = poles(i, 2)*z(i)/(stdlib_dlamc3(poles(i, 2), &
                                     dsigjp) + difrj)/(poles(i, 2) + dj)
@@ -40462,7 +40441,7 @@ module stdlib_linalg_lapack_z
                     temp = stdlib_dnrm2(k, rwork, 1)
                     ! since b and bx are complex, the following call to stdlib_dgemv
                     ! is performed in two steps (real and imaginary parts).
-                    ! call stdlib_dgemv( 't', k, nrhs, cone, bx, ldbx, work, 1, czero,
+                    ! call stdlib_dgemv( 't', k, nrhs, one, bx, ldbx, work, 1, zero,
           ! $                     b( j, 1 ), ldb )
                     i = k + nrhs*2
                     do jcol = 1, nrhs
@@ -40471,8 +40450,8 @@ module stdlib_linalg_lapack_z
                           rwork(i) = dble(bx(jrow, jcol))
                        end do
                     end do
-                    call stdlib_dgemv('t', k, nrhs, cone, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
-                              czero, rwork(1 + k), 1)
+                    call stdlib_dgemv('t', k, nrhs, one, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
+                              zero, rwork(1 + k), 1)
                     i = k + nrhs*2
                     do jcol = 1, nrhs
                        do jrow = 1, k
@@ -40480,12 +40459,12 @@ module stdlib_linalg_lapack_z
                           rwork(i) = dimag(bx(jrow, jcol))
                        end do
                     end do
-                    call stdlib_dgemv('t', k, nrhs, cone, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
-                              czero, rwork(1 + k + nrhs), 1)
+                    call stdlib_dgemv('t', k, nrhs, one, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
+                              zero, rwork(1 + k + nrhs), 1)
                     do jcol = 1, nrhs
                        b(j, jcol) = dcmplx(rwork(jcol + k), rwork(jcol + k + nrhs))
                     end do
-                    call stdlib_zlascl('g', 0, 0, temp, cone, 1, nrhs, b(j, 1), ldb, info)
+                    call stdlib_zlascl('g', 0, 0, temp, one, 1, nrhs, b(j, 1), ldb, info)
                               
                  end do loop_100
               end if
@@ -40501,23 +40480,23 @@ module stdlib_linalg_lapack_z
               else
                  loop_180: do j = 1, k
                     dsigj = poles(j, 2)
-                    if (z(j) == czero) then
-                       rwork(j) = czero
+                    if (z(j) == zero) then
+                       rwork(j) = zero
                     else
                        rwork(j) = -z(j)/difl(j)/(dsigj + poles(j, 1))/difr(j, 2)
                                  
                     end if
                     do i = 1, j - 1
-                       if (z(j) == czero) then
-                          rwork(i) = czero
+                       if (z(j) == zero) then
+                          rwork(i) = zero
                        else
                           rwork(i) = z(j)/(stdlib_dlamc3(dsigj, -poles(i + 1, 2)) - difr(i, &
                                      1))/(dsigj + poles(i, 1))/difr(i, 2)
                        end if
                     end do
                     do i = j + 1, k
-                       if (z(j) == czero) then
-                          rwork(i) = czero
+                       if (z(j) == zero) then
+                          rwork(i) = zero
                        else
                           rwork(i) = z(j)/(stdlib_dlamc3(dsigj, -poles(i, 2)) - difl(i) &
                                     )/(dsigj + poles(i, 1))/difr(i, 2)
@@ -40525,7 +40504,7 @@ module stdlib_linalg_lapack_z
                     end do
                     ! since b and bx are complex, the following call to stdlib_dgemv
                     ! is performed in two steps (real and imaginary parts).
-                    ! call stdlib_dgemv( 't', k, nrhs, cone, b, ldb, work, 1, czero,
+                    ! call stdlib_dgemv( 't', k, nrhs, one, b, ldb, work, 1, zero,
           ! $                     bx( j, 1 ), ldbx )
                     i = k + nrhs*2
                     do jcol = 1, nrhs
@@ -40534,8 +40513,8 @@ module stdlib_linalg_lapack_z
                           rwork(i) = dble(b(jrow, jcol))
                        end do
                     end do
-                    call stdlib_dgemv('t', k, nrhs, cone, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
-                              czero, rwork(1 + k), 1)
+                    call stdlib_dgemv('t', k, nrhs, one, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
+                              zero, rwork(1 + k), 1)
                     i = k + nrhs*2
                     do jcol = 1, nrhs
                        do jrow = 1, k
@@ -40543,8 +40522,8 @@ module stdlib_linalg_lapack_z
                           rwork(i) = dimag(b(jrow, jcol))
                        end do
                     end do
-                    call stdlib_dgemv('t', k, nrhs, cone, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
-                              czero, rwork(1 + k + nrhs), 1)
+                    call stdlib_dgemv('t', k, nrhs, one, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
+                              zero, rwork(1 + k + nrhs), 1)
                     do jcol = 1, nrhs
                        bx(j, jcol) = dcmplx(rwork(jcol + k), rwork(jcol + k + nrhs))
                     end do
@@ -40661,8 +40640,8 @@ module stdlib_linalg_lapack_z
               nrf = ic + 1
               ! since b and bx are complex, the following call to stdlib_dgemm
               ! is performed in two steps (real and imaginary parts).
-              ! call stdlib_dgemm( 't', 'n', nl, nrhs, nl, cone, u( nlf, 1 ), ldu,
-           ! $               b( nlf, 1 ), ldb, czero, bx( nlf, 1 ), ldbx )
+              ! call stdlib_dgemm( 't', 'n', nl, nrhs, nl, one, u( nlf, 1 ), ldu,
+           ! $               b( nlf, 1 ), ldb, zero, bx( nlf, 1 ), ldbx )
               j = nl*nrhs*2
               do jcol = 1, nrhs
                  do jrow = nlf, nlf + nl - 1
@@ -40670,8 +40649,8 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dble(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', nl, nrhs, nl, cone, u(nlf, 1), ldu, rwork(1 + &
-                        nl*nrhs*2), nl, czero, rwork(1), nl)
+              call stdlib_dgemm('t', 'n', nl, nrhs, nl, one, u(nlf, 1), ldu, rwork(1 + nl*nrhs*2 &
+                        ), nl, zero, rwork(1), nl)
               j = nl*nrhs*2
               do jcol = 1, nrhs
                  do jrow = nlf, nlf + nl - 1
@@ -40679,8 +40658,8 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dimag(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', nl, nrhs, nl, cone, u(nlf, 1), ldu, rwork(1 + &
-                        nl*nrhs*2), nl, czero, rwork(1 + nl*nrhs), nl)
+              call stdlib_dgemm('t', 'n', nl, nrhs, nl, one, u(nlf, 1), ldu, rwork(1 + nl*nrhs*2 &
+                        ), nl, zero, rwork(1 + nl*nrhs), nl)
               jreal = 0
               jimag = nl*nrhs
               do jcol = 1, nrhs
@@ -40692,8 +40671,8 @@ module stdlib_linalg_lapack_z
               end do
               ! since b and bx are complex, the following call to stdlib_dgemm
               ! is performed in two steps (real and imaginary parts).
-              ! call stdlib_dgemm( 't', 'n', nr, nrhs, nr, cone, u( nrf, 1 ), ldu,
-          ! $               b( nrf, 1 ), ldb, czero, bx( nrf, 1 ), ldbx )
+              ! call stdlib_dgemm( 't', 'n', nr, nrhs, nr, one, u( nrf, 1 ), ldu,
+          ! $               b( nrf, 1 ), ldb, zero, bx( nrf, 1 ), ldbx )
               j = nr*nrhs*2
               do jcol = 1, nrhs
                  do jrow = nrf, nrf + nr - 1
@@ -40701,8 +40680,8 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dble(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', nr, nrhs, nr, cone, u(nrf, 1), ldu, rwork(1 + &
-                        nr*nrhs*2), nr, czero, rwork(1), nr)
+              call stdlib_dgemm('t', 'n', nr, nrhs, nr, one, u(nrf, 1), ldu, rwork(1 + nr*nrhs*2 &
+                        ), nr, zero, rwork(1), nr)
               j = nr*nrhs*2
               do jcol = 1, nrhs
                  do jrow = nrf, nrf + nr - 1
@@ -40710,8 +40689,8 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dimag(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', nr, nrhs, nr, cone, u(nrf, 1), ldu, rwork(1 + &
-                        nr*nrhs*2), nr, czero, rwork(1 + nr*nrhs), nr)
+              call stdlib_dgemm('t', 'n', nr, nrhs, nr, one, u(nrf, 1), ldu, rwork(1 + nr*nrhs*2 &
+                        ), nr, zero, rwork(1 + nr*nrhs), nr)
               jreal = 0
               jimag = nr*nrhs
               do jcol = 1, nrhs
@@ -40812,8 +40791,8 @@ module stdlib_linalg_lapack_z
               nrf = ic + 1
               ! since b and bx are complex, the following call to stdlib_dgemm is
               ! performed in two steps (real and imaginary parts).
-              ! call stdlib_dgemm( 't', 'n', nlp1, nrhs, nlp1, cone, vt( nlf, 1 ), ldu,
-          ! $               b( nlf, 1 ), ldb, czero, bx( nlf, 1 ), ldbx )
+              ! call stdlib_dgemm( 't', 'n', nlp1, nrhs, nlp1, one, vt( nlf, 1 ), ldu,
+          ! $               b( nlf, 1 ), ldb, zero, bx( nlf, 1 ), ldbx )
               j = nlp1*nrhs*2
               do jcol = 1, nrhs
                  do jrow = nlf, nlf + nlp1 - 1
@@ -40821,8 +40800,8 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dble(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', nlp1, nrhs, nlp1, cone, vt(nlf, 1), ldu, rwork(1 + &
-                        nlp1*nrhs*2), nlp1, czero, rwork(1), nlp1)
+              call stdlib_dgemm('t', 'n', nlp1, nrhs, nlp1, one, vt(nlf, 1), ldu, rwork(1 + &
+                        nlp1*nrhs*2), nlp1, zero, rwork(1), nlp1)
               j = nlp1*nrhs*2
               do jcol = 1, nrhs
                  do jrow = nlf, nlf + nlp1 - 1
@@ -40830,8 +40809,8 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dimag(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', nlp1, nrhs, nlp1, cone, vt(nlf, 1), ldu, rwork(1 + &
-                        nlp1*nrhs*2), nlp1, czero, rwork(1 + nlp1*nrhs), nlp1)
+              call stdlib_dgemm('t', 'n', nlp1, nrhs, nlp1, one, vt(nlf, 1), ldu, rwork(1 + &
+                        nlp1*nrhs*2), nlp1, zero, rwork(1 + nlp1*nrhs), nlp1)
               jreal = 0
               jimag = nlp1*nrhs
               do jcol = 1, nrhs
@@ -40843,8 +40822,8 @@ module stdlib_linalg_lapack_z
               end do
               ! since b and bx are complex, the following call to stdlib_dgemm is
               ! performed in two steps (real and imaginary parts).
-              ! call stdlib_dgemm( 't', 'n', nrp1, nrhs, nrp1, cone, vt( nrf, 1 ), ldu,
-          ! $               b( nrf, 1 ), ldb, czero, bx( nrf, 1 ), ldbx )
+              ! call stdlib_dgemm( 't', 'n', nrp1, nrhs, nrp1, one, vt( nrf, 1 ), ldu,
+          ! $               b( nrf, 1 ), ldb, zero, bx( nrf, 1 ), ldbx )
               j = nrp1*nrhs*2
               do jcol = 1, nrhs
                  do jrow = nrf, nrf + nrp1 - 1
@@ -40852,8 +40831,8 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dble(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', nrp1, nrhs, nrp1, cone, vt(nrf, 1), ldu, rwork(1 + &
-                        nrp1*nrhs*2), nrp1, czero, rwork(1), nrp1)
+              call stdlib_dgemm('t', 'n', nrp1, nrhs, nrp1, one, vt(nrf, 1), ldu, rwork(1 + &
+                        nrp1*nrhs*2), nrp1, zero, rwork(1), nrp1)
               j = nrp1*nrhs*2
               do jcol = 1, nrhs
                  do jrow = nrf, nrf + nrp1 - 1
@@ -40861,8 +40840,8 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dimag(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', nrp1, nrhs, nrp1, cone, vt(nrf, 1), ldu, rwork(1 + &
-                        nrp1*nrhs*2), nrp1, czero, rwork(1 + nrp1*nrhs), nrp1)
+              call stdlib_dgemm('t', 'n', nrp1, nrhs, nrp1, one, vt(nrf, 1), ldu, rwork(1 + &
+                        nrp1*nrhs*2), nrp1, zero, rwork(1 + nrp1*nrhs), nrp1)
               jreal = 0
               jimag = nrp1*nrhs
               do jcol = 1, nrhs
@@ -40932,7 +40911,7 @@ module stdlib_linalg_lapack_z
            end if
            eps = stdlib_dlamch('epsilon')
            ! set up the tolerance.
-           if ((rcond <= zero) .or. (rcond >= cone)) then
+           if ((rcond <= zero) .or. (rcond >= one)) then
               rcnd = eps
            else
               rcnd = rcond
@@ -40946,7 +40925,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlaset('a', 1, nrhs, czero, czero, b, ldb)
               else
                  rank = 1
-                 call stdlib_zlascl('g', 0, 0, d(1), cone, 1, nrhs, b, ldb, info)
+                 call stdlib_zlascl('g', 0, 0, d(1), one, 1, nrhs, b, ldb, info)
                  d(1) = abs(d(1))
               end if
               return
@@ -40982,8 +40961,8 @@ module stdlib_linalg_lapack_z
               call stdlib_zlaset('a', n, nrhs, czero, czero, b, ldb)
               return
            end if
-           call stdlib_dlascl('g', 0, 0, orgnrm, cone, n, 1, d, n, info)
-           call stdlib_dlascl('g', 0, 0, orgnrm, cone, nm1, 1, e, nm1, info)
+           call stdlib_dlascl('g', 0, 0, orgnrm, one, n, 1, d, n, info)
+           call stdlib_dlascl('g', 0, 0, orgnrm, one, nm1, 1, e, nm1, info)
            ! if n is smaller than the minimum divide size smlsiz, then solve
            ! the problem with another solver.
            if (n <= smlsiz) then
@@ -40993,8 +40972,8 @@ module stdlib_linalg_lapack_z
               irwrb = irwwrk
               irwib = irwrb + n*nrhs
               irwb = irwib + n*nrhs
-              call stdlib_dlaset('a', n, n, zero, cone, rwork(irwu), n)
-              call stdlib_dlaset('a', n, n, zero, cone, rwork(irwvt), n)
+              call stdlib_dlaset('a', n, n, zero, one, rwork(irwu), n)
+              call stdlib_dlaset('a', n, n, zero, one, rwork(irwvt), n)
               call stdlib_dlasdq('u', 0, n, n, n, 0, d, e, rwork(irwvt), n, rwork(irwu), n, &
                         rwork(irwwrk), 1, rwork(irwwrk), info)
               if (info /= 0) then
@@ -41010,7 +40989,7 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dble(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', n, nrhs, n, cone, rwork(irwu), n, rwork(irwb), n, &
+              call stdlib_dgemm('t', 'n', n, nrhs, n, one, rwork(irwu), n, rwork(irwb), n, &
                         zero, rwork(irwrb), n)
               j = irwb - 1
               do jcol = 1, nrhs
@@ -41019,7 +40998,7 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dimag(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', n, nrhs, n, cone, rwork(irwu), n, rwork(irwb), n, &
+              call stdlib_dgemm('t', 'n', n, nrhs, n, one, rwork(irwu), n, rwork(irwb), n, &
                         zero, rwork(irwib), n)
               jreal = irwrb - 1
               jimag = irwib - 1
@@ -41035,7 +41014,7 @@ module stdlib_linalg_lapack_z
                  if (d(i) <= tol) then
                     call stdlib_zlaset('a', 1, nrhs, czero, czero, b(i, 1), ldb)
                  else
-                    call stdlib_zlascl('g', 0, 0, d(i), cone, 1, nrhs, b(i, 1), ldb, info)
+                    call stdlib_zlascl('g', 0, 0, d(i), one, 1, nrhs, b(i, 1), ldb, info)
                               
                     rank = rank + 1
                  end if
@@ -41043,7 +41022,7 @@ module stdlib_linalg_lapack_z
               ! since b is complex, the following call to stdlib_dgemm is performed
               ! in two steps (real and imaginary parts). that is for v * b
               ! (in the real version of the code v**h is stored in work).
-              ! call stdlib_dgemm( 't', 'n', n, nrhs, n, cone, work, n, b, ldb, zero,
+              ! call stdlib_dgemm( 't', 'n', n, nrhs, n, one, work, n, b, ldb, zero,
           ! $               work( nwork ), n )
               j = irwb - 1
               do jcol = 1, nrhs
@@ -41052,7 +41031,7 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dble(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', n, nrhs, n, cone, rwork(irwvt), n, rwork(irwb), n, &
+              call stdlib_dgemm('t', 'n', n, nrhs, n, one, rwork(irwvt), n, rwork(irwb), n, &
                         zero, rwork(irwrb), n)
               j = irwb - 1
               do jcol = 1, nrhs
@@ -41061,7 +41040,7 @@ module stdlib_linalg_lapack_z
                     rwork(j) = dimag(b(jrow, jcol))
                  end do
               end do
-              call stdlib_dgemm('t', 'n', n, nrhs, n, cone, rwork(irwvt), n, rwork(irwb), n, &
+              call stdlib_dgemm('t', 'n', n, nrhs, n, one, rwork(irwvt), n, rwork(irwb), n, &
                         zero, rwork(irwib), n)
               jreal = irwrb - 1
               jimag = irwib - 1
@@ -41073,9 +41052,9 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               ! unscale.
-              call stdlib_dlascl('g', 0, 0, cone, orgnrm, n, 1, d, n, info)
+              call stdlib_dlascl('g', 0, 0, one, orgnrm, n, 1, d, n, info)
               call stdlib_dlasrt('d', n, d, info)
-              call stdlib_zlascl('g', 0, 0, orgnrm, cone, n, nrhs, b, ldb, info)
+              call stdlib_zlascl('g', 0, 0, orgnrm, one, n, nrhs, b, ldb, info)
               return
            end if
            ! book-keeping and setting up some constants.
@@ -41143,8 +41122,8 @@ module stdlib_linalg_lapack_z
                     call stdlib_zcopy(nrhs, b(st, 1), ldb, work(bx + st1), n)
                  else if (nsize <= smlsiz) then
                     ! this is a small subproblem and is solved by stdlib_dlasdq.
-                    call stdlib_dlaset('a', nsize, nsize, zero, cone, rwork(vt + st1), n)
-                    call stdlib_dlaset('a', nsize, nsize, zero, cone, rwork(u + st1), n)
+                    call stdlib_dlaset('a', nsize, nsize, zero, one, rwork(vt + st1), n)
+                    call stdlib_dlaset('a', nsize, nsize, zero, one, rwork(u + st1), n)
                     call stdlib_dlasdq('u', 0, nsize, nsize, nsize, 0, d(st), e(st), rwork( &
                     vt + st1), n, rwork(u + st1), n, rwork(nrwork), 1, rwork(nrwork), info)
                               
@@ -41161,8 +41140,8 @@ module stdlib_linalg_lapack_z
                           rwork(j) = dble(b(jrow, jcol))
                        end do
                     end do
-                    call stdlib_dgemm('t', 'n', nsize, nrhs, nsize, cone, rwork(u + st1), n, &
-                              rwork(irwb), nsize, zero, rwork(irwrb), nsize)
+                    call stdlib_dgemm('t', 'n', nsize, nrhs, nsize, one, rwork(u + st1), n, rwork( &
+                               irwb), nsize, zero, rwork(irwrb), nsize)
                     j = irwb - 1
                     do jcol = 1, nrhs
                        do jrow = st, st + nsize - 1
@@ -41170,8 +41149,8 @@ module stdlib_linalg_lapack_z
                           rwork(j) = dimag(b(jrow, jcol))
                        end do
                     end do
-                    call stdlib_dgemm('t', 'n', nsize, nrhs, nsize, cone, rwork(u + st1), n, &
-                              rwork(irwb), nsize, zero, rwork(irwib), nsize)
+                    call stdlib_dgemm('t', 'n', nsize, nrhs, nsize, one, rwork(u + st1), n, rwork( &
+                               irwb), nsize, zero, rwork(irwib), nsize)
                     jreal = irwrb - 1
                     jimag = irwib - 1
                     do jcol = 1, nrhs
@@ -41215,7 +41194,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlaset('a', 1, nrhs, czero, czero, work(bx + i - 1), n)
               else
                  rank = rank + 1
-                 call stdlib_zlascl('g', 0, 0, d(i), cone, 1, nrhs, work(bx + i - 1), n, info)
+                 call stdlib_zlascl('g', 0, 0, d(i), one, 1, nrhs, work(bx + i - 1), n, info)
                            
               end if
               d(i) = abs(d(i))
@@ -41232,7 +41211,7 @@ module stdlib_linalg_lapack_z
               else if (nsize <= smlsiz) then
                  ! since b and bx are complex, the following call to stdlib_dgemm
                  ! is performed in two steps (real and imaginary parts).
-                 ! call stdlib_dgemm( 't', 'n', nsize, nrhs, nsize, cone,
+                 ! call stdlib_dgemm( 't', 'n', nsize, nrhs, nsize, one,
           ! $                  rwork( vt+st1 ), n, rwork( bxst ), n, zero,
           ! $                  b( st, 1 ), ldb )
                  j = bxst - n - 1
@@ -41244,7 +41223,7 @@ module stdlib_linalg_lapack_z
                        rwork(jreal) = dble(work(j + jrow))
                     end do
                  end do
-                 call stdlib_dgemm('t', 'n', nsize, nrhs, nsize, cone, rwork(vt + st1), n, rwork( &
+                 call stdlib_dgemm('t', 'n', nsize, nrhs, nsize, one, rwork(vt + st1), n, rwork( &
                            irwb), nsize, zero, rwork(irwrb), nsize)
                  j = bxst - n - 1
                  jimag = irwb - 1
@@ -41255,7 +41234,7 @@ module stdlib_linalg_lapack_z
                        rwork(jimag) = dimag(work(j + jrow))
                     end do
                  end do
-                 call stdlib_dgemm('t', 'n', nsize, nrhs, nsize, cone, rwork(vt + st1), n, rwork( &
+                 call stdlib_dgemm('t', 'n', nsize, nrhs, nsize, one, rwork(vt + st1), n, rwork( &
                            irwb), nsize, zero, rwork(irwib), nsize)
                  jreal = irwrb - 1
                  jimag = irwib - 1
@@ -41278,9 +41257,9 @@ module stdlib_linalg_lapack_z
               end if
            end do loop_320
            ! unscale and sort the singular values.
-           call stdlib_dlascl('g', 0, 0, cone, orgnrm, n, 1, d, n, info)
+           call stdlib_dlascl('g', 0, 0, one, orgnrm, n, 1, d, n, info)
            call stdlib_dlasrt('d', n, d, info)
-           call stdlib_zlascl('g', 0, 0, orgnrm, cone, n, nrhs, b, ldb, info)
+           call stdlib_zlascl('g', 0, 0, orgnrm, one, n, nrhs, b, ldb, info)
            return
            ! end of stdlib_zlalsd
      end subroutine stdlib_zlalsd
@@ -41309,10 +41288,10 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, max, min, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
-              value = czero
+              value = zero
               do j = 1, n
                  do i = max(ku + 2 - j, 1), min(n + ku + 1 - j, kl + ku + 1)
                     temp = abs(ab(i, j))
@@ -41321,9 +41300,9 @@ module stdlib_linalg_lapack_z
               end do
            else if ((stdlib_lsame(norm, 'o')) .or. (norm == '1')) then
               ! find norm1(a).
-              value = czero
+              value = zero
               do j = 1, n
-                 sum = czero
+                 sum = zero
                  do i = max(ku + 2 - j, 1), min(n + ku + 1 - j, kl + ku + 1)
                     sum = sum + abs(ab(i, j))
                  end do
@@ -41332,7 +41311,7 @@ module stdlib_linalg_lapack_z
            else if (stdlib_lsame(norm, 'i')) then
               ! find normi(a).
               do i = 1, n
-                 work(i) = czero
+                 work(i) = zero
               end do
               do j = 1, n
                  k = ku + 1 - j
@@ -41340,7 +41319,7 @@ module stdlib_linalg_lapack_z
                     work(i) = work(i) + abs(ab(k + i, j))
                  end do
               end do
-              value = czero
+              value = zero
               do i = 1, n
                  temp = work(i)
                  if (value < temp .or. stdlib_disnan(temp)) value = temp
@@ -41348,8 +41327,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               do j = 1, n
                  l = max(1, j - ku)
                  k = ku + 1 - j + l
@@ -41386,10 +41365,10 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, min, sqrt
            ! .. executable statements ..
            if (min(m, n) == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
-              value = czero
+              value = zero
               do j = 1, n
                  do i = 1, m
                     temp = abs(a(i, j))
@@ -41398,9 +41377,9 @@ module stdlib_linalg_lapack_z
               end do
            else if ((stdlib_lsame(norm, 'o')) .or. (norm == '1')) then
               ! find norm1(a).
-              value = czero
+              value = zero
               do j = 1, n
-                 sum = czero
+                 sum = zero
                  do i = 1, m
                     sum = sum + abs(a(i, j))
                  end do
@@ -41409,14 +41388,14 @@ module stdlib_linalg_lapack_z
            else if (stdlib_lsame(norm, 'i')) then
               ! find normi(a).
               do i = 1, m
-                 work(i) = czero
+                 work(i) = zero
               end do
               do j = 1, n
                  do i = 1, m
                     work(i) = work(i) + abs(a(i, j))
                  end do
               end do
-              value = czero
+              value = zero
               do i = 1, m
                  temp = work(i)
                  if (value < temp .or. stdlib_disnan(temp)) value = temp
@@ -41424,8 +41403,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               do j = 1, n
                  call stdlib_zlassq(m, a(1, j), 1, scale, sum)
               end do
@@ -41459,7 +41438,7 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, sqrt
            ! .. executable statements ..
            if (n <= 0) then
-              anorm = czero
+              anorm = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
               anorm = abs(d(n))
@@ -41500,8 +41479,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               call stdlib_zlassq(n, d, 1, scale, sum)
               if (n > 1) then
                  call stdlib_zlassq(n - 1, dl, 1, scale, sum)
@@ -41538,10 +41517,10 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, dble, max, min, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
                     do i = max(k + 2 - j, 1), k
@@ -41564,10 +41543,10 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'i')) .or. (stdlib_lsame(norm, 'o')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
-                    sum = czero
+                    sum = zero
                     l = k + 1 - j
                     do i = max(1, j - k), j - 1
                        absa = abs(ab(l + i, j))
@@ -41582,7 +41561,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    work(i) = czero
+                    work(i) = zero
                  end do
                  do j = 1, n
                     sum = work(j) + abs(dble(ab(1, j)))
@@ -41598,8 +41577,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               if (k > 0) then
                  if (stdlib_lsame(uplo, 'u')) then
                     do j = 2, n
@@ -41618,10 +41597,10 @@ module stdlib_linalg_lapack_z
                  l = 1
               end if
               do j = 1, n
-                 if (dble(ab(l, j)) /= czero) then
+                 if (dble(ab(l, j)) /= zero) then
                     absa = abs(dble(ab(l, j)))
                     if (scale < absa) then
-                       sum = cone + sum*(scale/absa)**2
+                       sum = one + sum*(scale/absa)**2
                        scale = absa
                     else
                        sum = sum + (absa/scale)**2
@@ -41659,10 +41638,10 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, dble, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
                     do i = 1, j - 1
@@ -41685,10 +41664,10 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'i')) .or. (stdlib_lsame(norm, 'o')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
-                    sum = czero
+                    sum = zero
                     do i = 1, j - 1
                        absa = abs(a(i, j))
                        sum = sum + absa
@@ -41702,7 +41681,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    work(i) = czero
+                    work(i) = zero
                  end do
                  do j = 1, n
                     sum = work(j) + abs(dble(a(j, j)))
@@ -41717,8 +41696,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 2, n
                     call stdlib_zlassq(j - 1, a(1, j), 1, scale, sum)
@@ -41730,10 +41709,10 @@ module stdlib_linalg_lapack_z
               end if
               sum = 2*sum
               do i = 1, n
-                 if (dble(a(i, i)) /= czero) then
+                 if (dble(a(i, i)) /= zero) then
                     absa = abs(dble(a(i, i)))
                     if (scale < absa) then
-                       sum = cone + sum*(scale/absa)**2
+                       sum = one + sum*(scale/absa)**2
                        scale = absa
                     else
                        sum = sum + (absa/scale)**2
@@ -41771,7 +41750,7 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, dble, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              stdlib_zlanhf = czero
+              stdlib_zlanhf = zero
               return
            else if (n == 1) then
               stdlib_zlanhf = abs(dble(a(0)))
@@ -41803,7 +41782,7 @@ module stdlib_linalg_lapack_z
            if (stdlib_lsame(norm, 'm')) then
              ! find max(abs(a(i,j))).
               k = (n + 1)/2
-              value = czero
+              value = zero
               if (noe == 1) then
                  ! n is odd
                  if (ifm == 1) then
@@ -42107,10 +42086,10 @@ module stdlib_linalg_lapack_z
                     if (ilu == 0) then
                        ! uplo = 'u'
                        do i = 0, k - 1
-                          work(i) = czero
+                          work(i) = zero
                        end do
                        do j = 0, k
-                          s = czero
+                          s = zero
                           do i = 0, k + j - 1
                              aa = abs(a(i + j*lda))
                              ! -> a(i,j+k)
@@ -42125,7 +42104,7 @@ module stdlib_linalg_lapack_z
                           aa = abs(dble(a(i + j*lda)))
                           ! -> a(j,j)
                           work(j) = work(j) + aa
-                          s = czero
+                          s = zero
                           do l = j + 1, k - 1
                              i = i + 1
                              aa = abs(a(i + j*lda))
@@ -42146,10 +42125,10 @@ module stdlib_linalg_lapack_z
                        k = k + 1
                        ! k=(n+1)/2 for n odd and ilu=1
                        do i = k, n - 1
-                          work(i) = czero
+                          work(i) = zero
                        end do
                        do j = k - 1, 0, -1
-                          s = czero
+                          s = zero
                           do i = 0, j - 2
                              aa = abs(a(i + j*lda))
                              ! -> a(j+k,i+k)
@@ -42167,7 +42146,7 @@ module stdlib_linalg_lapack_z
                           aa = abs(dble(a(i + j*lda)))
                           ! -> a(j,j)
                           work(j) = aa
-                          s = czero
+                          s = zero
                           do l = j + 1, n - 1
                              i = i + 1
                              aa = abs(a(i + j*lda))
@@ -42188,10 +42167,10 @@ module stdlib_linalg_lapack_z
                     if (ilu == 0) then
                        ! uplo = 'u'
                        do i = 0, k - 1
-                          work(i) = czero
+                          work(i) = zero
                        end do
                        do j = 0, k - 1
-                          s = czero
+                          s = zero
                           do i = 0, k + j - 1
                              aa = abs(a(i + j*lda))
                              ! -> a(i,j+k)
@@ -42205,7 +42184,7 @@ module stdlib_linalg_lapack_z
                           aa = abs(dble(a(i + j*lda)))
                           ! -> a(j,j)
                           work(j) = work(j) + aa
-                          s = czero
+                          s = zero
                           do l = j + 1, k - 1
                              i = i + 1
                              aa = abs(a(i + j*lda))
@@ -42223,10 +42202,10 @@ module stdlib_linalg_lapack_z
                     else
                        ! ilu = 1
                        do i = k, n - 1
-                          work(i) = czero
+                          work(i) = zero
                        end do
                        do j = k - 1, 0, -1
-                          s = czero
+                          s = zero
                           do i = 0, j - 1
                              aa = abs(a(i + j*lda))
                              ! -> a(j+k,i+k)
@@ -42242,7 +42221,7 @@ module stdlib_linalg_lapack_z
                           aa = abs(dble(a(i + j*lda)))
                           ! -> a(j,j)
                           work(j) = aa
-                          s = czero
+                          s = zero
                           do l = j + 1, n - 1
                              i = i + 1
                              aa = abs(a(i + j*lda))
@@ -42271,10 +42250,10 @@ module stdlib_linalg_lapack_z
                        k = k + 1
                        ! k is the row size and lda
                        do i = n1, n - 1
-                          work(i) = czero
+                          work(i) = zero
                        end do
                        do j = 0, n1 - 1
-                          s = czero
+                          s = zero
                           do i = 0, k - 1
                              aa = abs(a(i + j*lda))
                              ! a(j,n1+i)
@@ -42294,7 +42273,7 @@ module stdlib_linalg_lapack_z
                        end do
                        work(j) = work(j) + s
                        do j = k, n - 1
-                          s = czero
+                          s = zero
                           do i = 0, j - k - 1
                              aa = abs(a(i + j*lda))
                              ! a(i,j-k)
@@ -42328,11 +42307,11 @@ module stdlib_linalg_lapack_z
                        k = k + 1
                        ! k=(n+1)/2 for n odd and ilu=1
                        do i = k, n - 1
-                          work(i) = czero
+                          work(i) = zero
                        end do
                        do j = 0, k - 2
                           ! process
-                          s = czero
+                          s = zero
                           do i = 0, j - 1
                              aa = abs(a(i + j*lda))
                              ! a(j,i)
@@ -42358,7 +42337,7 @@ module stdlib_linalg_lapack_z
                           work(k + j) = work(k + j) + s
                        end do
                        ! j=k-1 is special :process col a(k-1,0:k-1)
-                       s = czero
+                       s = zero
                        do i = 0, k - 2
                           aa = abs(a(i + j*lda))
                           ! a(k,i)
@@ -42373,7 +42352,7 @@ module stdlib_linalg_lapack_z
                        ! done with col j=k+1
                        do j = k, n - 1
                           ! process col j of a = a(j,0:k-1)
-                          s = czero
+                          s = zero
                           do i = 0, k - 1
                              aa = abs(a(i + j*lda))
                              ! a(j,i)
@@ -42393,10 +42372,10 @@ module stdlib_linalg_lapack_z
                     if (ilu == 0) then
                        ! uplo = 'u'
                        do i = k, n - 1
-                          work(i) = czero
+                          work(i) = zero
                        end do
                        do j = 0, k - 1
-                          s = czero
+                          s = zero
                           do i = 0, k - 1
                              aa = abs(a(i + j*lda))
                              ! a(j,i+k)
@@ -42417,7 +42396,7 @@ module stdlib_linalg_lapack_z
                        end do
                        work(j) = work(j) + s
                        do j = k + 1, n - 1
-                          s = czero
+                          s = zero
                           do i = 0, j - 2 - k
                              aa = abs(a(i + j*lda))
                              ! a(i,j-k-1)
@@ -42443,7 +42422,7 @@ module stdlib_linalg_lapack_z
                           work(j) = work(j) + s
                        end do
                        ! j=n
-                       s = czero
+                       s = zero
                        do i = 0, k - 2
                           aa = abs(a(i + j*lda))
                           ! a(i,k-1)
@@ -42463,7 +42442,7 @@ module stdlib_linalg_lapack_z
                     else
                        ! ilu=1
                        do i = k, n - 1
-                          work(i) = czero
+                          work(i) = zero
                        end do
                        ! j=0 is special :process col a(k:n-1,k)
                        s = abs(dble(a(0)))
@@ -42477,7 +42456,7 @@ module stdlib_linalg_lapack_z
                        work(k) = work(k) + s
                        do j = 1, k - 1
                           ! process
-                          s = czero
+                          s = zero
                           do i = 0, j - 2
                              aa = abs(a(i + j*lda))
                              ! a(j-1,i)
@@ -42503,7 +42482,7 @@ module stdlib_linalg_lapack_z
                           work(k + j) = work(k + j) + s
                        end do
                        ! j=k is special :process col a(k,0:k-1)
-                       s = czero
+                       s = zero
                        do i = 0, k - 2
                           aa = abs(a(i + j*lda))
                           ! a(k,i)
@@ -42518,7 +42497,7 @@ module stdlib_linalg_lapack_z
                        ! done with col j=k+1
                        do j = k + 1, n
                           ! process col j-1 of a = a(j-1,0:k-1)
-                          s = czero
+                          s = zero
                           do i = 0, k - 1
                              aa = abs(a(i + j*lda))
                              ! a(j-1,i)
@@ -42539,8 +42518,8 @@ module stdlib_linalg_lapack_z
                      then
              ! find normf(a).
               k = (n + 1)/2
-              scale = czero
-              s = cone
+              scale = zero
+              s = one
               if (noe == 1) then
                  ! n is odd
                  if (ifm == 1) then
@@ -42562,9 +42541,9 @@ module stdlib_linalg_lapack_z
                        do i = 0, k - 2
                           aa = dble(a(l))
                           ! u(k+i,k+i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42572,9 +42551,9 @@ module stdlib_linalg_lapack_z
                           end if
                           aa = dble(a(l + 1))
                           ! u(i,i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42584,9 +42563,9 @@ module stdlib_linalg_lapack_z
                        end do
                        aa = dble(a(l))
                        ! u(n-1,n-1)
-                       if (aa /= czero) then
+                       if (aa /= zero) then
                           if (scale < aa) then
-                             s = cone + s*(scale/aa)**2
+                             s = one + s*(scale/aa)**2
                              scale = aa
                           else
                              s = s + (aa/scale)**2
@@ -42606,9 +42585,9 @@ module stdlib_linalg_lapack_z
                        ! double s for the off diagonal elements
                        aa = dble(a(0))
                        ! l(0,0) at a(0,0)
-                       if (aa /= czero) then
+                       if (aa /= zero) then
                           if (scale < aa) then
-                             s = cone + s*(scale/aa)**2
+                             s = one + s*(scale/aa)**2
                              scale = aa
                           else
                              s = s + (aa/scale)**2
@@ -42619,9 +42598,9 @@ module stdlib_linalg_lapack_z
                        do i = 1, k - 1
                           aa = dble(a(l))
                           ! l(k-1+i,k-1+i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42629,9 +42608,9 @@ module stdlib_linalg_lapack_z
                           end if
                           aa = dble(a(l + 1))
                           ! l(i,i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42662,9 +42641,9 @@ module stdlib_linalg_lapack_z
                        ! -> u(k-1,k-1) at a(0,k-1)
                        aa = dble(a(l))
                        ! u(k-1,k-1)
-                       if (aa /= czero) then
+                       if (aa /= zero) then
                           if (scale < aa) then
-                             s = cone + s*(scale/aa)**2
+                             s = one + s*(scale/aa)**2
                              scale = aa
                           else
                              s = s + (aa/scale)**2
@@ -42675,9 +42654,9 @@ module stdlib_linalg_lapack_z
                        do j = k, n - 1
                           aa = dble(a(l))
                           ! -> u(j-k,j-k)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42685,9 +42664,9 @@ module stdlib_linalg_lapack_z
                           end if
                           aa = dble(a(l + 1))
                           ! -> u(j,j)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42716,9 +42695,9 @@ module stdlib_linalg_lapack_z
                        do i = 0, k - 2
                           aa = dble(a(l))
                           ! l(i,i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42726,9 +42705,9 @@ module stdlib_linalg_lapack_z
                           end if
                           aa = dble(a(l + 1))
                           ! l(k+i,k+i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42739,9 +42718,9 @@ module stdlib_linalg_lapack_z
                        ! l-> k-1 + (k-1)*lda or l(k-1,k-1) at a(k-1,k-1)
                        aa = dble(a(l))
                        ! l(k-1,k-1) at a(k-1,k-1)
-                       if (aa /= czero) then
+                       if (aa /= zero) then
                           if (scale < aa) then
-                             s = cone + s*(scale/aa)**2
+                             s = one + s*(scale/aa)**2
                              scale = aa
                           else
                              s = s + (aa/scale)**2
@@ -42770,9 +42749,9 @@ module stdlib_linalg_lapack_z
                        do i = 0, k - 1
                           aa = dble(a(l))
                           ! u(k+i,k+i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42780,9 +42759,9 @@ module stdlib_linalg_lapack_z
                           end if
                           aa = dble(a(l + 1))
                           ! u(i,i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42807,9 +42786,9 @@ module stdlib_linalg_lapack_z
                        do i = 0, k - 1
                           aa = dble(a(l))
                           ! l(k-1+i,k-1+i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42817,9 +42796,9 @@ module stdlib_linalg_lapack_z
                           end if
                           aa = dble(a(l + 1))
                           ! l(i,i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42850,9 +42829,9 @@ module stdlib_linalg_lapack_z
                        ! -> u(k,k) at a(0,k)
                        aa = dble(a(l))
                        ! u(k,k)
-                       if (aa /= czero) then
+                       if (aa /= zero) then
                           if (scale < aa) then
-                             s = cone + s*(scale/aa)**2
+                             s = one + s*(scale/aa)**2
                              scale = aa
                           else
                              s = s + (aa/scale)**2
@@ -42863,9 +42842,9 @@ module stdlib_linalg_lapack_z
                        do j = k + 1, n - 1
                           aa = dble(a(l))
                           ! -> u(j-k-1,j-k-1)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42873,9 +42852,9 @@ module stdlib_linalg_lapack_z
                           end if
                           aa = dble(a(l + 1))
                           ! -> u(j,j)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42887,9 +42866,9 @@ module stdlib_linalg_lapack_z
                        ! -> u(k-1,k-1) at a(k-1,n)
                        aa = dble(a(l))
                        ! u(k,k)
-                       if (aa /= czero) then
+                       if (aa /= zero) then
                           if (scale < aa) then
-                             s = cone + s*(scale/aa)**2
+                             s = one + s*(scale/aa)**2
                              scale = aa
                           else
                              s = s + (aa/scale)**2
@@ -42915,9 +42894,9 @@ module stdlib_linalg_lapack_z
                        ! -> l(k,k) at a(0,0)
                        aa = dble(a(l))
                        ! l(k,k) at a(0,0)
-                       if (aa /= czero) then
+                       if (aa /= zero) then
                           if (scale < aa) then
-                             s = cone + s*(scale/aa)**2
+                             s = one + s*(scale/aa)**2
                              scale = aa
                           else
                              s = s + (aa/scale)**2
@@ -42928,9 +42907,9 @@ module stdlib_linalg_lapack_z
                        do i = 0, k - 2
                           aa = dble(a(l))
                           ! l(i,i)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42938,9 +42917,9 @@ module stdlib_linalg_lapack_z
                           end if
                           aa = dble(a(l + 1))
                           ! l(k+i+1,k+i+1)
-                          if (aa /= czero) then
+                          if (aa /= zero) then
                              if (scale < aa) then
-                                s = cone + s*(scale/aa)**2
+                                s = one + s*(scale/aa)**2
                                 scale = aa
                              else
                                 s = s + (aa/scale)**2
@@ -42951,9 +42930,9 @@ module stdlib_linalg_lapack_z
                        ! l-> k - 1 + k*lda or l(k-1,k-1) at a(k-1,k)
                        aa = dble(a(l))
                        ! l(k-1,k-1) at a(k-1,k)
-                       if (aa /= czero) then
+                       if (aa /= zero) then
                           if (scale < aa) then
-                             s = cone + s*(scale/aa)**2
+                             s = one + s*(scale/aa)**2
                              scale = aa
                           else
                              s = s + (aa/scale)**2
@@ -42993,10 +42972,10 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, dble, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  k = 0
                  do j = 1, n
@@ -43023,11 +43002,11 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'i')) .or. (stdlib_lsame(norm, 'o')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
-              value = czero
+              value = zero
               k = 1
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
-                    sum = czero
+                    sum = zero
                     do i = 1, j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
@@ -43043,7 +43022,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    work(i) = czero
+                    work(i) = zero
                  end do
                  do j = 1, n
                     sum = work(j) + abs(dble(ap(k)))
@@ -43060,8 +43039,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               k = 2
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 2, n
@@ -43077,10 +43056,10 @@ module stdlib_linalg_lapack_z
               sum = 2*sum
               k = 1
               do i = 1, n
-                 if (dble(ap(k)) /= czero) then
+                 if (dble(ap(k)) /= zero) then
                     absa = abs(dble(ap(k)))
                     if (scale < absa) then
-                       sum = cone + sum*(scale/absa)**2
+                       sum = one + sum*(scale/absa)**2
                        scale = absa
                     else
                        sum = sum + (absa/scale)**2
@@ -43123,10 +43102,10 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, min, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
-              value = czero
+              value = zero
               do j = 1, n
                  do i = 1, min(n, j + 1)
                     sum = abs(a(i, j))
@@ -43135,9 +43114,9 @@ module stdlib_linalg_lapack_z
               end do
            else if ((stdlib_lsame(norm, 'o')) .or. (norm == '1')) then
               ! find norm1(a).
-              value = czero
+              value = zero
               do j = 1, n
-                 sum = czero
+                 sum = zero
                  do i = 1, min(n, j + 1)
                     sum = sum + abs(a(i, j))
                  end do
@@ -43146,14 +43125,14 @@ module stdlib_linalg_lapack_z
            else if (stdlib_lsame(norm, 'i')) then
               ! find normi(a).
               do i = 1, n
-                 work(i) = czero
+                 work(i) = zero
               end do
               do j = 1, n
                  do i = 1, min(n, j + 1)
                     work(i) = work(i) + abs(a(i, j))
                  end do
               end do
-              value = czero
+              value = zero
               do i = 1, n
                  sum = work(i)
                  if (value < sum .or. stdlib_disnan(sum)) value = sum
@@ -43161,8 +43140,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               do j = 1, n
                  call stdlib_zlassq(min(n, j + 1), a(1, j), 1, scale, sum)
               end do
@@ -43197,7 +43176,7 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, max, sqrt
            ! .. executable statements ..
            if (n <= 0) then
-              anorm = czero
+              anorm = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
               anorm = abs(d(n))
@@ -43224,8 +43203,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               if (n > 1) then
                  call stdlib_zlassq(n - 1, e, 1, scale, sum)
                  sum = 2*sum
@@ -43262,10 +43241,10 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, max, min, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
                     do i = max(k + 2 - j, 1), k + 1
@@ -43284,10 +43263,10 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'i')) .or. (stdlib_lsame(norm, 'o')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
-                    sum = czero
+                    sum = zero
                     l = k + 1 - j
                     do i = max(1, j - k), j - 1
                        absa = abs(ab(l + i, j))
@@ -43302,7 +43281,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    work(i) = czero
+                    work(i) = zero
                  end do
                  do j = 1, n
                     sum = work(j) + abs(ab(1, j))
@@ -43318,8 +43297,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               if (k > 0) then
                  if (stdlib_lsame(uplo, 'u')) then
                     do j = 2, n
@@ -43369,10 +43348,10 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, dble, dimag, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  k = 1
                  do j = 1, n
@@ -43395,11 +43374,11 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'i')) .or. (stdlib_lsame(norm, 'o')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
-              value = czero
+              value = zero
               k = 1
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
-                    sum = czero
+                    sum = zero
                     do i = 1, j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
@@ -43415,7 +43394,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    work(i) = czero
+                    work(i) = zero
                  end do
                  do j = 1, n
                     sum = work(j) + abs(ap(k))
@@ -43432,8 +43411,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               k = 2
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 2, n
@@ -43449,19 +43428,19 @@ module stdlib_linalg_lapack_z
               sum = 2*sum
               k = 1
               do i = 1, n
-                 if (dble(ap(k)) /= czero) then
+                 if (dble(ap(k)) /= zero) then
                     absa = abs(dble(ap(k)))
                     if (scale < absa) then
-                       sum = cone + sum*(scale/absa)**2
+                       sum = one + sum*(scale/absa)**2
                        scale = absa
                     else
                        sum = sum + (absa/scale)**2
                     end if
                  end if
-                 if (dimag(ap(k)) /= czero) then
+                 if (dimag(ap(k)) /= zero) then
                     absa = abs(dimag(ap(k)))
                     if (scale < absa) then
-                       sum = cone + sum*(scale/absa)**2
+                       sum = one + sum*(scale/absa)**2
                        scale = absa
                     else
                        sum = sum + (absa/scale)**2
@@ -43504,10 +43483,10 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
                     do i = 1, j
@@ -43526,10 +43505,10 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'i')) .or. (stdlib_lsame(norm, 'o')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
-                    sum = czero
+                    sum = zero
                     do i = 1, j - 1
                        absa = abs(a(i, j))
                        sum = sum + absa
@@ -43543,7 +43522,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do i = 1, n
-                    work(i) = czero
+                    work(i) = zero
                  end do
                  do j = 1, n
                     sum = work(j) + abs(a(j, j))
@@ -43558,8 +43537,8 @@ module stdlib_linalg_lapack_z
            else if ((stdlib_lsame(norm, 'f')) .or. (stdlib_lsame(norm, 'e'))) &
                      then
               ! find normf(a).
-              scale = czero
-              sum = cone
+              scale = zero
+              sum = one
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 2, n
                     call stdlib_zlassq(j - 1, a(1, j), 1, scale, sum)
@@ -43603,11 +43582,11 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, max, min, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
               if (stdlib_lsame(diag, 'u')) then
-                 value = cone
+                 value = one
                  if (stdlib_lsame(uplo, 'u')) then
                     do j = 1, n
                        do i = max(k + 2 - j, 1), k
@@ -43624,7 +43603,7 @@ module stdlib_linalg_lapack_z
                     end do
                  end if
               else
-                 value = czero
+                 value = zero
                  if (stdlib_lsame(uplo, 'u')) then
                     do j = 1, n
                        do i = max(k + 2 - j, 1), k + 1
@@ -43643,17 +43622,17 @@ module stdlib_linalg_lapack_z
               end if
            else if ((stdlib_lsame(norm, 'o')) .or. (norm == '1')) then
               ! find norm1(a).
-              value = czero
+              value = zero
               udiag = stdlib_lsame(diag, 'u')
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
                     if (udiag) then
-                       sum = cone
+                       sum = one
                        do i = max(k + 2 - j, 1), k
                           sum = sum + abs(ab(i, j))
                        end do
                     else
-                       sum = czero
+                       sum = zero
                        do i = max(k + 2 - j, 1), k + 1
                           sum = sum + abs(ab(i, j))
                        end do
@@ -43663,12 +43642,12 @@ module stdlib_linalg_lapack_z
               else
                  do j = 1, n
                     if (udiag) then
-                       sum = cone
+                       sum = one
                        do i = 2, min(n + 1 - j, k + 1)
                           sum = sum + abs(ab(i, j))
                        end do
                     else
-                       sum = czero
+                       sum = zero
                        do i = 1, min(n + 1 - j, k + 1)
                           sum = sum + abs(ab(i, j))
                        end do
@@ -43678,11 +43657,11 @@ module stdlib_linalg_lapack_z
               end if
            else if (stdlib_lsame(norm, 'i')) then
               ! find normi(a).
-              value = czero
+              value = zero
               if (stdlib_lsame(uplo, 'u')) then
                  if (stdlib_lsame(diag, 'u')) then
                     do i = 1, n
-                       work(i) = cone
+                       work(i) = one
                     end do
                     do j = 1, n
                        l = k + 1 - j
@@ -43692,7 +43671,7 @@ module stdlib_linalg_lapack_z
                     end do
                  else
                     do i = 1, n
-                       work(i) = czero
+                       work(i) = zero
                     end do
                     do j = 1, n
                        l = k + 1 - j
@@ -43704,7 +43683,7 @@ module stdlib_linalg_lapack_z
               else
                  if (stdlib_lsame(diag, 'u')) then
                     do i = 1, n
-                       work(i) = cone
+                       work(i) = one
                     end do
                     do j = 1, n
                        l = 1 - j
@@ -43714,7 +43693,7 @@ module stdlib_linalg_lapack_z
                     end do
                  else
                     do i = 1, n
-                       work(i) = czero
+                       work(i) = zero
                     end do
                     do j = 1, n
                        l = 1 - j
@@ -43733,7 +43712,7 @@ module stdlib_linalg_lapack_z
               ! find normf(a).
               if (stdlib_lsame(uplo, 'u')) then
                  if (stdlib_lsame(diag, 'u')) then
-                    scale = cone
+                    scale = one
                     sum = n
                     if (k > 0) then
                        do j = 2, n
@@ -43742,8 +43721,8 @@ module stdlib_linalg_lapack_z
                        end do
                     end if
                  else
-                    scale = czero
-                    sum = cone
+                    scale = zero
+                    sum = one
                     do j = 1, n
                        call stdlib_zlassq(min(j, k + 1), ab(max(k + 2 - j, 1), j), 1, scale, sum)
                                  
@@ -43751,7 +43730,7 @@ module stdlib_linalg_lapack_z
                  end if
               else
                  if (stdlib_lsame(diag, 'u')) then
-                    scale = cone
+                    scale = one
                     sum = n
                     if (k > 0) then
                        do j = 1, n - 1
@@ -43759,8 +43738,8 @@ module stdlib_linalg_lapack_z
                        end do
                     end if
                  else
-                    scale = czero
-                    sum = cone
+                    scale = zero
+                    sum = one
                     do j = 1, n
                        call stdlib_zlassq(min(n - j + 1, k + 1), ab(1, j), 1, scale, sum)
                     end do
@@ -43798,12 +43777,12 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, sqrt
            ! .. executable statements ..
            if (n == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
               k = 1
               if (stdlib_lsame(diag, 'u')) then
-                 value = cone
+                 value = one
                  if (stdlib_lsame(uplo, 'u')) then
                     do j = 1, n
                        do i = k, k + j - 2
@@ -43822,7 +43801,7 @@ module stdlib_linalg_lapack_z
                     end do
                  end if
               else
-                 value = czero
+                 value = zero
                  if (stdlib_lsame(uplo, 'u')) then
                     do j = 1, n
                        do i = k, k + j - 1
@@ -43843,18 +43822,18 @@ module stdlib_linalg_lapack_z
               end if
            else if ((stdlib_lsame(norm, 'o')) .or. (norm == '1')) then
               ! find norm1(a).
-              value = czero
+              value = zero
               k = 1
               udiag = stdlib_lsame(diag, 'u')
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
                     if (udiag) then
-                       sum = cone
+                       sum = one
                        do i = k, k + j - 2
                           sum = sum + abs(ap(i))
                        end do
                     else
-                       sum = czero
+                       sum = zero
                        do i = k, k + j - 1
                           sum = sum + abs(ap(i))
                        end do
@@ -43865,12 +43844,12 @@ module stdlib_linalg_lapack_z
               else
                  do j = 1, n
                     if (udiag) then
-                       sum = cone
+                       sum = one
                        do i = k + 1, k + n - j
                           sum = sum + abs(ap(i))
                        end do
                     else
-                       sum = czero
+                       sum = zero
                        do i = k, k + n - j
                           sum = sum + abs(ap(i))
                        end do
@@ -43885,7 +43864,7 @@ module stdlib_linalg_lapack_z
               if (stdlib_lsame(uplo, 'u')) then
                  if (stdlib_lsame(diag, 'u')) then
                     do i = 1, n
-                       work(i) = cone
+                       work(i) = one
                     end do
                     do j = 1, n
                        do i = 1, j - 1
@@ -43896,7 +43875,7 @@ module stdlib_linalg_lapack_z
                     end do
                  else
                     do i = 1, n
-                       work(i) = czero
+                       work(i) = zero
                     end do
                     do j = 1, n
                        do i = 1, j
@@ -43908,7 +43887,7 @@ module stdlib_linalg_lapack_z
               else
                  if (stdlib_lsame(diag, 'u')) then
                     do i = 1, n
-                       work(i) = cone
+                       work(i) = one
                     end do
                     do j = 1, n
                        k = k + 1
@@ -43919,7 +43898,7 @@ module stdlib_linalg_lapack_z
                     end do
                  else
                     do i = 1, n
-                       work(i) = czero
+                       work(i) = zero
                     end do
                     do j = 1, n
                        do i = j, n
@@ -43929,7 +43908,7 @@ module stdlib_linalg_lapack_z
                     end do
                  end if
               end if
-              value = czero
+              value = zero
               do i = 1, n
                  sum = work(i)
                  if (value < sum .or. stdlib_disnan(sum)) value = sum
@@ -43939,7 +43918,7 @@ module stdlib_linalg_lapack_z
               ! find normf(a).
               if (stdlib_lsame(uplo, 'u')) then
                  if (stdlib_lsame(diag, 'u')) then
-                    scale = cone
+                    scale = one
                     sum = n
                     k = 2
                     do j = 2, n
@@ -43947,8 +43926,8 @@ module stdlib_linalg_lapack_z
                        k = k + j
                     end do
                  else
-                    scale = czero
-                    sum = cone
+                    scale = zero
+                    sum = one
                     k = 1
                     do j = 1, n
                        call stdlib_zlassq(j, ap(k), 1, scale, sum)
@@ -43957,7 +43936,7 @@ module stdlib_linalg_lapack_z
                  end if
               else
                  if (stdlib_lsame(diag, 'u')) then
-                    scale = cone
+                    scale = one
                     sum = n
                     k = 2
                     do j = 1, n - 1
@@ -43965,8 +43944,8 @@ module stdlib_linalg_lapack_z
                        k = k + n - j + 1
                     end do
                  else
-                    scale = czero
-                    sum = cone
+                    scale = zero
+                    sum = one
                     k = 1
                     do j = 1, n
                        call stdlib_zlassq(n - j + 1, ap(k), 1, scale, sum)
@@ -44006,11 +43985,11 @@ module stdlib_linalg_lapack_z
            intrinsic :: abs, min, sqrt
            ! .. executable statements ..
            if (min(m, n) == 0) then
-              value = czero
+              value = zero
            else if (stdlib_lsame(norm, 'm')) then
               ! find max(abs(a(i,j))).
               if (stdlib_lsame(diag, 'u')) then
-                 value = cone
+                 value = one
                  if (stdlib_lsame(uplo, 'u')) then
                     do j = 1, n
                        do i = 1, min(m, j - 1)
@@ -44027,7 +44006,7 @@ module stdlib_linalg_lapack_z
                     end do
                  end if
               else
-                 value = czero
+                 value = zero
                  if (stdlib_lsame(uplo, 'u')) then
                     do j = 1, n
                        do i = 1, min(m, j)
@@ -44046,17 +44025,17 @@ module stdlib_linalg_lapack_z
               end if
            else if ((stdlib_lsame(norm, 'o')) .or. (norm == '1')) then
               ! find norm1(a).
-              value = czero
+              value = zero
               udiag = stdlib_lsame(diag, 'u')
               if (stdlib_lsame(uplo, 'u')) then
                  do j = 1, n
                     if ((udiag) .and. (j <= m)) then
-                       sum = cone
+                       sum = one
                        do i = 1, j - 1
                           sum = sum + abs(a(i, j))
                        end do
                     else
-                       sum = czero
+                       sum = zero
                        do i = 1, min(m, j)
                           sum = sum + abs(a(i, j))
                        end do
@@ -44066,12 +44045,12 @@ module stdlib_linalg_lapack_z
               else
                  do j = 1, n
                     if (udiag) then
-                       sum = cone
+                       sum = one
                        do i = j + 1, m
                           sum = sum + abs(a(i, j))
                        end do
                     else
-                       sum = czero
+                       sum = zero
                        do i = j, m
                           sum = sum + abs(a(i, j))
                        end do
@@ -44084,7 +44063,7 @@ module stdlib_linalg_lapack_z
               if (stdlib_lsame(uplo, 'u')) then
                  if (stdlib_lsame(diag, 'u')) then
                     do i = 1, m
-                       work(i) = cone
+                       work(i) = one
                     end do
                     do j = 1, n
                        do i = 1, min(m, j - 1)
@@ -44093,7 +44072,7 @@ module stdlib_linalg_lapack_z
                     end do
                  else
                     do i = 1, m
-                       work(i) = czero
+                       work(i) = zero
                     end do
                     do j = 1, n
                        do i = 1, min(m, j)
@@ -44104,10 +44083,10 @@ module stdlib_linalg_lapack_z
               else
                  if (stdlib_lsame(diag, 'u')) then
                     do i = 1, min(m, n)
-                       work(i) = cone
+                       work(i) = one
                     end do
                     do i = n + 1, m
-                       work(i) = czero
+                       work(i) = zero
                     end do
                     do j = 1, n
                        do i = j + 1, m
@@ -44116,7 +44095,7 @@ module stdlib_linalg_lapack_z
                     end do
                  else
                     do i = 1, m
-                       work(i) = czero
+                       work(i) = zero
                     end do
                     do j = 1, n
                        do i = j, m
@@ -44125,7 +44104,7 @@ module stdlib_linalg_lapack_z
                     end do
                  end if
               end if
-              value = czero
+              value = zero
               do i = 1, m
                  sum = work(i)
                  if (value < sum .or. stdlib_disnan(sum)) value = sum
@@ -44135,28 +44114,28 @@ module stdlib_linalg_lapack_z
               ! find normf(a).
               if (stdlib_lsame(uplo, 'u')) then
                  if (stdlib_lsame(diag, 'u')) then
-                    scale = cone
+                    scale = one
                     sum = min(m, n)
                     do j = 2, n
                        call stdlib_zlassq(min(m, j - 1), a(1, j), 1, scale, sum)
                     end do
                  else
-                    scale = czero
-                    sum = cone
+                    scale = zero
+                    sum = one
                     do j = 1, n
                        call stdlib_zlassq(min(m, j), a(1, j), 1, scale, sum)
                     end do
                  end if
               else
                  if (stdlib_lsame(diag, 'u')) then
-                    scale = cone
+                    scale = one
                     sum = min(m, n)
                     do j = 1, n
                        call stdlib_zlassq(m - j, a(min(m, j + 1), j), 1, scale, sum)
                     end do
                  else
-                    scale = czero
-                    sum = cone
+                    scale = zero
+                    sum = one
                     do j = 1, n
                        call stdlib_zlassq(m - j + 1, a(j, j), 1, scale, sum)
                     end do
@@ -44196,7 +44175,7 @@ module stdlib_linalg_lapack_z
            ! .. executable statements ..
            ! quick return if possible
            if (n <= 1) then
-              ssmin = czero
+              ssmin = zero
               return
            end if
            ! compute the qr factorization of the n-by-2 matrix ( x y )
@@ -44271,19 +44250,19 @@ module stdlib_linalg_lapack_z
               end if
               ! update partial column norms.
               do j = i + 1, n
-                 if (vn1(j) /= czero) then
+                 if (vn1(j) /= zero) then
                     ! note: the following 4 lines follow from the analysis in
                     ! lapack working note 176.
                     temp = one - (abs(a(offpi, j))/vn1(j))**2
-                    temp = max(temp, czero)
+                    temp = max(temp, zero)
                     temp2 = temp*(vn1(j)/vn2(j))**2
                     if (temp2 <= tol3z) then
                        if (offpi < m) then
                           vn1(j) = stdlib_dznrm2(m - offpi, a(offpi + 1, j), 1)
                           vn2(j) = vn1(j)
                        else
-                          vn1(j) = czero
-                          vn2(j) = czero
+                          vn1(j) = zero
+                          vn2(j) = zero
                        end if
                     else
                        vn1(j) = vn1(j)*sqrt(temp)
@@ -45182,7 +45161,7 @@ module stdlib_linalg_lapack_z
               eps = stdlib_dlamch('e')
               safmn2 = stdlib_dlamch('b')**int(log(safmin/eps)/log(stdlib_dlamch('b')) &
                          /two)
-              safmx2 = cone/safmn2
+              safmx2 = one/safmn2
            ! end if
            ix = 1
            iy = 1
@@ -45204,7 +45183,7 @@ module stdlib_linalg_lapack_z
                  if (scale >= safmx2 .and. count < 20) go to 10
               else if (scale <= safmn2) then
                  if (g == czero) then
-                    cs = cone
+                    cs = one
                     sn = czero
                     r = f
                     go to 50
@@ -45218,7 +45197,7 @@ module stdlib_linalg_lapack_z
               end if
               f2 = abssq(fs)
               g2 = abssq(gs)
-              if (f2 <= max(g2, cone)*safmin) then
+              if (f2 <= max(g2, one)*safmin) then
                  ! this is a rare case: f is very small.
                  if (f == czero) then
                     cs = zero
@@ -45235,15 +45214,15 @@ module stdlib_linalg_lapack_z
                  g2s = sqrt(g2)
                  ! error in cs from underflow in f2s is at most
                  ! unfl / safmn2 .lt. sqrt(unfl*eps) .lt. eps
-                 ! if max(g2,cone)=g2, then f2 .lt. g2*safmin,
+                 ! if max(g2,one)=g2, then f2 .lt. g2*safmin,
                  ! and so cs .lt. sqrt(safmin)
-                 ! if max(g2,cone)=cone, then f2 .lt. safmin
+                 ! if max(g2,one)=one, then f2 .lt. safmin
                  ! and so cs .lt. sqrt(safmin)/safmn2 = sqrt(eps)
                  ! therefore, cs = f2s/g2s / sqrt( 1 + (f2s/g2s)**2 ) = f2s/g2s
                  cs = f2s/g2s
                  ! make sure abs(ff) = 1
                  ! do complex/real division explicitly with 2 real divisions
-                 if (abs1(f) > cone) then
+                 if (abs1(f) > one) then
                     d = stdlib_dlapy2(dble(f), dimag(f))
                     ff = dcmplx(dble(f)/d, dimag(f)/d)
                  else
@@ -45258,11 +45237,11 @@ module stdlib_linalg_lapack_z
                  ! this is the most common case.
                  ! neither f2 nor f2/g2 are less than safmin
                  ! f2s cannot overflow, and it is accurate
-                 f2s = sqrt(cone + g2/f2)
+                 f2s = sqrt(one + g2/f2)
                  ! do the f2s(real)*fs(complex) multiply with two real
                  ! multiplies
                  r = dcmplx(f2s*dble(fs), f2s*dimag(fs))
-                 cs = cone/f2s
+                 cs = one/f2s
                  d = f2 + g2
                  ! do complex/real division explicitly with two real divisions
                  sn = dcmplx(dble(r)/d, dimag(r)/d)
@@ -45346,7 +45325,7 @@ module stdlib_linalg_lapack_z
            ! factorization used to compute the fp vector
            iindr = 0
            ! iwork(iindc1+1:iinc2+n) are used to store the clusters of the current
-           ! layer and the cone above.
+           ! layer and the one above.
            iindc1 = n
            iindc2 = 2*n
            iindwk = 3*n + 1
@@ -45426,7 +45405,7 @@ module stdlib_linalg_lapack_z
               ! this is for a 1x1 block
               if (ibegin == iend) then
                  done = done + 1
-                 z(ibegin, wbegin) = dcmplx(cone, zero)
+                 z(ibegin, wbegin) = dcmplx(one, zero)
                  isuppz(2*wbegin - 1) = ibegin
                  isuppz(2*wbegin) = ibegin
                  w(wbegin) = w(wbegin) + sigma
@@ -45639,7 +45618,7 @@ module stdlib_linalg_lapack_z
                              ! skip the computation of that branch of the rep. tree
                              ! we could skip before the refinement of the extremal
                              ! eigenvalues of the child, but then the representation
-                             ! tree could be different from the cone when nothing is
+                             ! tree could be different from the one when nothing is
                              ! skipped. for this reason we skip at this place.
                              idone = idone + newlst - newfst + 1
                              goto 139
@@ -45806,14 +45785,14 @@ module stdlib_linalg_lapack_z
                           if (resid > tol*gap .and. abs(rqcorr) > rqtol*abs(lambda) .and. .not. &
                                     usedbs) then
                              ! we need to check that the rqcorr update doesn't
-                             ! move the eigenvalue away from the desired cone and
+                             ! move the eigenvalue away from the desired one and
                              ! towards a neighbor. -> protection with bisection
                              if (indeig <= negcnt) then
                                 ! the wanted eigenvalue lies to the left
-                                sgndef = -cone
+                                sgndef = -one
                              else
                                 ! the wanted eigenvalue lies to the right
-                                sgndef = cone
+                                sgndef = one
                              end if
                              ! we only use the rqcorr if it improves the
                              ! the iterate reasonably.
@@ -45821,7 +45800,7 @@ module stdlib_linalg_lapack_z
                                        lambda + rqcorr >= left)) then
                                 usedrq = .true.
                                 ! store new midpoint of bisection interval in work
-                                if (sgndef == cone) then
+                                if (sgndef == one) then
                                    ! the current lambda is on the left of the true
                                    ! eigenvalue
                                    left = lambda
@@ -45839,12 +45818,12 @@ module stdlib_linalg_lapack_z
                                    ! correct above.
                                     ! left = min(left, lambda + rqcorr)
                                 end if
-                                work(windex) = chalf*(right + left)
+                                work(windex) = half*(right + left)
                                 ! take rqcorr since it has the correct sign and
                                 ! improves the iterate reasonably
                                 lambda = lambda + rqcorr
                                 ! update width of error interval
-                                werr(windex) = chalf*(right - left)
+                                werr(windex) = half*(right - left)
                              else
                                 needbs = .true.
                              end if
@@ -46007,8 +45986,8 @@ module stdlib_linalg_lapack_z
               call stdlib_zcopy(n - 1, rhs, 1, work, 1)
               work(n) = rhs(n) + cone
               rhs(n) = rhs(n) - cone
-              splus = czero
-              sminu = czero
+              splus = zero
+              sminu = zero
               do i = n, 1, -1
                  temp = cone/z(i, i)
                  work(i) = work(i)*temp
@@ -46207,8 +46186,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -46240,7 +46219,7 @@ module stdlib_linalg_lapack_z
               ! compute abs(a)*abs(x) + abs(b).
               if (upper) then
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     l = kd + 1 - k
                     do i = max(1, k - kd), k - 1
@@ -46251,7 +46230,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     rwork(k) = rwork(k) + abs(dble(ab(1, k)))*xk
                     l = 1 - k
@@ -46262,7 +46241,7 @@ module stdlib_linalg_lapack_z
                     rwork(k) = rwork(k) + s
                  end do
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -46328,11 +46307,11 @@ module stdlib_linalg_lapack_z
                  go to 100
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
            ! end of stdlib_zpbrfs
@@ -46399,10 +46378,10 @@ module stdlib_linalg_lapack_z
                  ! compute the cholesky factorization of a hermitian band
                  ! matrix, given the upper triangle of the matrix in band
                  ! storage.
-                 ! czero the upper triangle of the work array.
+                 ! zero the upper triangle of the work array.
                  do j = 1, nb
                     do i = 1, j - 1
-                       work(i, j) = czero
+                       work(i, j) = zero
                     end do
                  end do
                  ! process the band matrix one diagonal block at a time.
@@ -46466,10 +46445,10 @@ module stdlib_linalg_lapack_z
                  ! compute the cholesky factorization of a hermitian band
                  ! matrix, given the lower triangle of the matrix in band
                  ! storage.
-                 ! czero the lower triangle of the work array.
+                 ! zero the lower triangle of the work array.
                  do j = 1, nb
                     do i = j + 1, nb
-                       work(i, j) = czero
+                       work(i, j) = zero
                     end do
                  end do
                  ! process the band matrix one diagonal block at a time.
@@ -46652,8 +46631,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -46684,7 +46663,7 @@ module stdlib_linalg_lapack_z
               ! compute abs(a)*abs(x) + abs(b).
               if (upper) then
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     do i = 1, k - 1
                        rwork(i) = rwork(i) + cabs1(a(i, k))*xk
@@ -46694,7 +46673,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     rwork(k) = rwork(k) + abs(dble(a(k, k)))*xk
                     do i = k + 1, n
@@ -46704,7 +46683,7 @@ module stdlib_linalg_lapack_z
                     rwork(k) = rwork(k) + s
                  end do
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -46770,11 +46749,11 @@ module stdlib_linalg_lapack_z
                  go to 100
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
            ! end of stdlib_zporfs
@@ -46974,8 +46953,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -47007,7 +46986,7 @@ module stdlib_linalg_lapack_z
               kk = 1
               if (upper) then
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     ik = kk
                     do i = 1, k - 1
@@ -47020,7 +46999,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     rwork(k) = rwork(k) + abs(dble(ap(kk)))*xk
                     ik = kk + 1
@@ -47033,7 +47012,7 @@ module stdlib_linalg_lapack_z
                     kk = kk + (n - k + 1)
                  end do
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -47099,11 +47078,11 @@ module stdlib_linalg_lapack_z
                  go to 100
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
            ! end of stdlib_zpprfs
@@ -47198,7 +47177,7 @@ module stdlib_linalg_lapack_z
            else
               rcequ = stdlib_lsame(equed, 'y')
               smlnum = stdlib_dlamch('safe minimum')
-              bignum = cone/smlnum
+              bignum = one/smlnum
            end if
            ! test the input parameters.
            if (.not. nofact .and. .not. equil .and. .not. stdlib_lsame(fact, 'f')) then
@@ -47216,17 +47195,17 @@ module stdlib_linalg_lapack_z
            else
               if (rcequ) then
                  smin = bignum
-                 smax = czero
+                 smax = zero
                  do j = 1, n
                     smin = min(smin, s(j))
                     smax = max(smax, s(j))
                  end do
-                 if (smin <= czero) then
+                 if (smin <= zero) then
                     info = -8
                  else if (n > 0) then
                     scond = max(smin, smlnum)/min(smax, bignum)
                  else
-                    scond = cone
+                    scond = one
                  end if
               end if
               if (info == 0) then
@@ -47262,9 +47241,9 @@ module stdlib_linalg_lapack_z
               ! compute the cholesky factorization a = u**h * u or a = l * l**h.
               call stdlib_zcopy(n*(n + 1)/2, ap, 1, afp, 1)
               call stdlib_zpptrf(uplo, n, afp, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -47343,7 +47322,7 @@ module stdlib_linalg_lapack_z
               do j = 1, n
                  jc = jj + 1
                  jj = jj + j
-                 if (j > 1) call stdlib_zhpr('upper', j - 1, cone, ap(jc), 1, ap)
+                 if (j > 1) call stdlib_zhpr('upper', j - 1, one, ap(jc), 1, ap)
                  ajj = dble(ap(jj))
                  call stdlib_zdscal(j, ajj, ap(jc), 1)
               end do
@@ -47428,13 +47407,13 @@ module stdlib_linalg_lapack_z
               end do
               pvt = maxloc(work(1:n), 1)
               ajj = dble(a(pvt, pvt))
-              if (ajj <= czero .or. stdlib_disnan(ajj)) then
+              if (ajj <= zero .or. stdlib_disnan(ajj)) then
                  rank = 0
                  info = 1
                  go to 230
               end if
            ! compute stopping value if not supplied
-              if (tol < czero) then
+              if (tol < zero) then
                  dstop = n*stdlib_dlamch('epsilon')*ajj
               else
                  dstop = tol
@@ -47444,7 +47423,7 @@ module stdlib_linalg_lapack_z
                  loop_160: do k = 1, n, nb
                     ! account for last block not being nb wide
                     jb = min(nb, n - k + 1)
-                    ! set relevant part of first chalf of work to czero,
+                    ! set relevant part of first chalf of work to zero,
                     ! holds dot products
                     do i = k, n
                        work(i) = 0
@@ -47511,7 +47490,7 @@ module stdlib_linalg_lapack_z
                  loop_210: do k = 1, n, nb
                     ! account for last block not being nb wide
                     jb = min(nb, n - k + 1)
-                    ! set relevant part of first chalf of work to czero,
+                    ! set relevant part of first chalf of work to zero,
                     ! holds dot products
                     do i = k, n
                        work(i) = 0
@@ -47783,7 +47762,7 @@ module stdlib_linalg_lapack_z
               info = -1
            else if (n < 0) then
               info = -2
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -5
            end if
            if (info /= 0) then
@@ -47791,11 +47770,11 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm <= czero) then
+           else if (anorm <= zero) then
               return
            end if
            ! check that the diagonal matrix d is nonsingular.
@@ -47803,14 +47782,14 @@ module stdlib_linalg_lapack_z
               ! upper triangular storage: examine d from bottom to top
               ip = n*(n + 1)/2
               do i = n, 1, -1
-                 if (ipiv(i) > 0 .and. ap(ip) == czero) return
+                 if (ipiv(i) > 0 .and. ap(ip) == zero) return
                  ip = ip - i
               end do
            else
               ! lower triangular storage: examine d from top to bottom.
               ip = 1
               do i = 1, n
-                 if (ipiv(i) > 0 .and. ap(ip) == czero) return
+                 if (ipiv(i) > 0 .and. ap(ip) == zero) return
                  ip = ip + n - i + 1
               end do
            end if
@@ -47824,7 +47803,7 @@ module stdlib_linalg_lapack_z
               go to 30
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
            ! end of stdlib_zspcon
      end subroutine stdlib_zspcon
@@ -47887,8 +47866,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -47920,7 +47899,7 @@ module stdlib_linalg_lapack_z
               kk = 1
               if (upper) then
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     ik = kk
                     do i = 1, k - 1
@@ -47933,7 +47912,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     rwork(k) = rwork(k) + cabs1(ap(kk))*xk
                     ik = kk + 1
@@ -47946,7 +47925,7 @@ module stdlib_linalg_lapack_z
                     kk = kk + (n - k + 1)
                  end do
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -48012,11 +47991,11 @@ module stdlib_linalg_lapack_z
                  go to 100
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
            ! end of stdlib_zsprfs
@@ -48128,9 +48107,9 @@ module stdlib_linalg_lapack_z
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call stdlib_zcopy(n*(n + 1)/2, ap, 1, afp, 1)
               call stdlib_zsptrf(uplo, n, afp, ipiv, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -48258,8 +48237,8 @@ module stdlib_linalg_lapack_z
               lwmin = 12*n
               liwmin = 8*n
            end if
-           wl = czero
-           wu = czero
+           wl = zero
+           wu = zero
            iil = 0
            iiu = 0
            nsplit = 0
@@ -48298,9 +48277,9 @@ module stdlib_linalg_lapack_z
            safmin = stdlib_dlamch('safe minimum')
            eps = stdlib_dlamch('precision')
            smlnum = safmin/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            rmin = sqrt(smlnum)
-           rmax = min(sqrt(bignum), cone/sqrt(sqrt(safmin)))
+           rmax = min(sqrt(bignum), one/sqrt(sqrt(safmin)))
            if (info == 0) then
               work(1) = lwmin
               iwork(1) = liwmin
@@ -48341,7 +48320,7 @@ module stdlib_linalg_lapack_z
                  end if
               end if
               if (wantz .and. (.not. zquery)) then
-                 z(1, 1) = cone
+                 z(1, 1) = one
                  isuppz(1) = 1
                  isuppz(2) = 1
               end if
@@ -48360,9 +48339,9 @@ module stdlib_linalg_lapack_z
                  if (wantz .and. (.not. zquery)) then
                     z(1, m) = -sn
                     z(2, m) = cs
-                    ! note: at most cone of sn and cs can be czero.
-                    if (sn /= czero) then
-                       if (cs /= czero) then
+                    ! note: at most one of sn and cs can be zero.
+                    if (sn /= zero) then
+                       if (cs /= zero) then
                           isuppz(2*m - 1) = 1
                           isuppz(2*m) = 2
                        else
@@ -48382,9 +48361,9 @@ module stdlib_linalg_lapack_z
                  if (wantz .and. (.not. zquery)) then
                     z(1, m) = cs
                     z(2, m) = sn
-                    ! note: at most cone of sn and cs can be czero.
-                    if (sn /= czero) then
-                       if (cs /= czero) then
+                    ! note: at most one of sn and cs can be zero.
+                    if (sn /= zero) then
+                       if (cs /= zero) then
                           isuppz(2*m - 1) = 1
                           isuppz(2*m) = 2
                        else
@@ -48414,14 +48393,14 @@ module stdlib_linalg_lapack_z
               ! comments in stdlib_dlarrd.  the preference for scaling small values
               ! up is heuristic; we expect users' matrices not to be close to the
               ! rmax threshold.
-              scale = cone
+              scale = one
               tnrm = stdlib_dlanst('m', n, d, e)
-              if (tnrm > czero .and. tnrm < rmin) then
+              if (tnrm > zero .and. tnrm < rmin) then
                  scale = rmin/tnrm
               else if (tnrm > rmax) then
                  scale = rmax/tnrm
               end if
-              if (scale /= cone) then
+              if (scale /= one) then
                  call stdlib_dscal(n, scale, d, 1)
                  call stdlib_dscal(n - 1, scale, e, 1)
                  tnrm = tnrm*scale
@@ -48540,8 +48519,8 @@ module stdlib_linalg_lapack_z
                  end do loop_39
               end if
               ! if matrix was scaled, then rescale eigenvalues appropriately.
-              if (scale /= cone) then
-                 call stdlib_dscal(m, cone/scale, w, 1)
+              if (scale /= one) then
+                 call stdlib_dscal(m, one/scale, w, 1)
               end if
            end if
            ! if eigenvalues are not in increasing order, then sort them,
@@ -48623,7 +48602,7 @@ module stdlib_linalg_lapack_z
               info = -2
            else if (lda < max(1, n)) then
               info = -4
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -6
            end if
            if (info /= 0) then
@@ -48631,23 +48610,23 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm <= czero) then
+           else if (anorm <= zero) then
               return
            end if
            ! check that the diagonal matrix d is nonsingular.
            if (upper) then
               ! upper triangular storage: examine d from bottom to top
               do i = n, 1, -1
-                 if (ipiv(i) > 0 .and. a(i, i) == czero) return
+                 if (ipiv(i) > 0 .and. a(i, i) == zero) return
               end do
            else
               ! lower triangular storage: examine d from top to bottom.
               do i = 1, n
-                 if (ipiv(i) > 0 .and. a(i, i) == czero) return
+                 if (ipiv(i) > 0 .and. a(i, i) == zero) return
               end do
            end if
            ! estimate the 1-norm of the inverse.
@@ -48660,7 +48639,7 @@ module stdlib_linalg_lapack_z
               go to 30
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
            ! end of stdlib_zsycon
      end subroutine stdlib_zsycon
@@ -48713,7 +48692,7 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
            else if (anorm <= zero) then
               return
@@ -48740,7 +48719,7 @@ module stdlib_linalg_lapack_z
               go to 30
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
            ! end of stdlib_zsycon_rook
      end subroutine stdlib_zsycon_rook
@@ -48806,8 +48785,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -48838,7 +48817,7 @@ module stdlib_linalg_lapack_z
               ! compute abs(a)*abs(x) + abs(b).
               if (upper) then
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     do i = 1, k - 1
                        rwork(i) = rwork(i) + cabs1(a(i, k))*xk
@@ -48848,7 +48827,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     rwork(k) = rwork(k) + cabs1(a(k, k))*xk
                     do i = k + 1, n
@@ -48858,7 +48837,7 @@ module stdlib_linalg_lapack_z
                     rwork(k) = rwork(k) + s
                  end do
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -48924,11 +48903,11 @@ module stdlib_linalg_lapack_z
                  go to 100
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
            ! end of stdlib_zsyrfs
@@ -49239,9 +49218,9 @@ module stdlib_linalg_lapack_z
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call stdlib_zlacpy(uplo, n, n, a, lda, af, ldaf)
               call stdlib_zsytrf(uplo, n, af, ldaf, ipiv, work, lwork, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -49324,17 +49303,17 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
            end if
-           rcond = czero
+           rcond = zero
            smlnum = stdlib_dlamch('safe minimum')*dble(max(n, 1))
            ! compute the 1-norm of the triangular matrix a or a**h.
            anorm = stdlib_zlantb(norm, uplo, diag, n, kd, ab, ldab, rwork)
            ! continue only if anorm > 0.
-           if (anorm > czero) then
+           if (anorm > zero) then
               ! estimate the 1-norm of the inverse of a.
-              ainvnm = czero
+              ainvnm = zero
               normin = 'n'
               if (onenrm) then
                  kase1 = 1
@@ -49356,16 +49335,16 @@ module stdlib_linalg_lapack_z
                  end if
                  normin = 'y'
                  ! multiply by 1/scale if doing so will not cause overflow.
-                 if (scale /= cone) then
+                 if (scale /= one) then
                     ix = stdlib_izamax(n, work, 1)
                     xnorm = cabs1(work(ix))
-                    if (scale < xnorm*smlnum .or. scale == czero) go to 20
+                    if (scale < xnorm*smlnum .or. scale == zero) go to 20
                     call stdlib_zdrscl(n, scale, work, 1)
                  end if
                  go to 10
               end if
               ! compute the estimate of the reciprocal condition number.
-              if (ainvnm /= czero) rcond = (cone/anorm)/ainvnm
+              if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
 20      continue
            return
@@ -49898,8 +49877,8 @@ module stdlib_linalg_lapack_z
                  ! a(i, i) * r(i, j) - l(i, j) * b(j, j) = c(i, j)
                  ! d(i, i) * r(i, j) - l(i, j) * e(j, j) = f(i, j)
               ! for i = m, m - 1, ..., 1; j = 1, 2, ..., n
-              scale = cone
-              scaloc = cone
+              scale = one
+              scaloc = one
               loop_30: do j = 1, n
                  loop_20: do i = m, 1, -1
                     ! build 2 by 2 system
@@ -49915,10 +49894,10 @@ module stdlib_linalg_lapack_z
                     if (ierr > 0) info = ierr
                     if (ijob == 0) then
                        call stdlib_zgesc2(ldz, z, ldz, rhs, ipiv, jpiv, scaloc)
-                       if (scaloc /= cone) then
+                       if (scaloc /= one) then
                           do k = 1, n
-                             call stdlib_zscal(m, dcmplx(scaloc, czero), c(1, k), 1)
-                             call stdlib_zscal(m, dcmplx(scaloc, czero), f(1, k), 1)
+                             call stdlib_zscal(m, dcmplx(scaloc, zero), c(1, k), 1)
+                             call stdlib_zscal(m, dcmplx(scaloc, zero), f(1, k), 1)
                           end do
                           scale = scale*scaloc
                        end if
@@ -49948,8 +49927,8 @@ module stdlib_linalg_lapack_z
                  ! a(i, i)**h * r(i, j) + d(i, i)**h * l(j, j) = c(i, j)
                  ! r(i, i) * b(j, j) + l(i, j) * e(j, j)   = -f(i, j)
               ! for i = 1, 2, ..., m, j = n, n - 1, ..., 1
-              scale = cone
-              scaloc = cone
+              scale = one
+              scaloc = one
               loop_80: do i = 1, m
                  loop_70: do j = n, 1, -1
                     ! build 2 by 2 system z**h
@@ -49964,10 +49943,10 @@ module stdlib_linalg_lapack_z
                     call stdlib_zgetc2(ldz, z, ldz, ipiv, jpiv, ierr)
                     if (ierr > 0) info = ierr
                     call stdlib_zgesc2(ldz, z, ldz, rhs, ipiv, jpiv, scaloc)
-                    if (scaloc /= cone) then
+                    if (scaloc /= one) then
                        do k = 1, n
-                          call stdlib_zscal(m, dcmplx(scaloc, czero), c(1, k), 1)
-                          call stdlib_zscal(m, dcmplx(scaloc, czero), f(1, k), 1)
+                          call stdlib_zscal(m, dcmplx(scaloc, zero), c(1, k), 1)
+                          call stdlib_zscal(m, dcmplx(scaloc, zero), f(1, k), 1)
                        end do
                        scale = scale*scaloc
                     end if
@@ -50122,9 +50101,9 @@ module stdlib_linalg_lapack_z
            if ((mb <= 1 .and. nb <= 1) .or. (mb >= m .and. nb >= n)) then
               ! use unblocked level 2 solver
               loop_30: do iround = 1, isolve
-                 scale = cone
+                 scale = one
                  dscale = zero
-                 dsum = cone
+                 dsum = one
                  pq = m*n
                  call stdlib_ztgsy2(trans, ifunc, m, n, a, lda, b, ldb, c, ldc, d, ldd, e, lde, f, &
                             ldf, scale, dsum, dscale, info)
@@ -50185,9 +50164,9 @@ module stdlib_linalg_lapack_z
                      ! d(i, i) * r(i, j) - l(i, j) * e(j, j) = f(i, j)
                  ! for i = p, p - 1, ..., 1; j = 1, 2, ..., q
                  pq = 0
-                 scale = cone
+                 scale = one
                  dscale = zero
-                 dsum = cone
+                 dsum = one
                  loop_130: do j = p + 2, q
                     js = iwork(j)
                     je = iwork(j + 1) - 1
@@ -50201,7 +50180,7 @@ module stdlib_linalg_lapack_z
                                  scaloc, dsum, dscale, linfo)
                        if (linfo > 0) info = linfo
                        pq = pq + mb*nb
-                       if (scaloc /= cone) then
+                       if (scaloc /= one) then
                           do k = 1, js - 1
                              call stdlib_zscal(m, dcmplx(scaloc, zero), c(1, k), 1)
                              call stdlib_zscal(m, dcmplx(scaloc, zero), f(1, k), 1)
@@ -50226,19 +50205,19 @@ module stdlib_linalg_lapack_z
                        end if
                        ! substitute r(i,j) and l(i,j) into remaining equation.
                        if (i > 1) then
-                          call stdlib_zgemm('n', 'n', is - 1, nb, mb, dcmplx(-cone, zero), a(1, &
-                          is), lda, c(is, js), ldc, dcmplx(cone, zero), c(1, js), ldc)
+                          call stdlib_zgemm('n', 'n', is - 1, nb, mb, dcmplx(-one, zero), a(1, &
+                          is), lda, c(is, js), ldc, dcmplx(one, zero), c(1, js), ldc)
                                     
-                          call stdlib_zgemm('n', 'n', is - 1, nb, mb, dcmplx(-cone, zero), d(1, &
-                          is), ldd, c(is, js), ldc, dcmplx(cone, zero), f(1, js), ldf)
+                          call stdlib_zgemm('n', 'n', is - 1, nb, mb, dcmplx(-one, zero), d(1, &
+                          is), ldd, c(is, js), ldc, dcmplx(one, zero), f(1, js), ldf)
                                     
                        end if
                        if (j < q) then
-                          call stdlib_zgemm('n', 'n', mb, n - je, nb, dcmplx(cone, zero), f(is, &
-                          js), ldf, b(js, je + 1), ldb, dcmplx(cone, zero), c(is, je + 1), ldc)
+                          call stdlib_zgemm('n', 'n', mb, n - je, nb, dcmplx(one, zero), f(is, &
+                          js), ldf, b(js, je + 1), ldb, dcmplx(one, zero), c(is, je + 1), ldc)
                                     
-                          call stdlib_zgemm('n', 'n', mb, n - je, nb, dcmplx(cone, zero), f(is, &
-                          js), ldf, e(js, je + 1), lde, dcmplx(cone, zero), f(is, je + 1), ldf)
+                          call stdlib_zgemm('n', 'n', mb, n - je, nb, dcmplx(one, zero), f(is, &
+                          js), ldf, e(js, je + 1), lde, dcmplx(one, zero), f(is, je + 1), ldf)
                                     
                        end if
                     end do loop_120
@@ -50270,7 +50249,7 @@ module stdlib_linalg_lapack_z
                   ! a(i, i)**h * r(i, j) + d(i, i)**h * l(i, j) = c(i, j)
                   ! r(i, j) * b(j, j)  + l(i, j) * e(j, j) = -f(i, j)
               ! for i = 1,2,..., p; j = q, q-1,..., 1
-              scale = cone
+              scale = one
               loop_210: do i = 1, p
                  is = iwork(i)
                  ie = iwork(i + 1) - 1
@@ -50283,7 +50262,7 @@ module stdlib_linalg_lapack_z
                     c(is, js), ldc, d(is, is), ldd, e(js, js), lde, f(is, js), ldf, scaloc, &
                               dsum, dscale, linfo)
                     if (linfo > 0) info = linfo
-                    if (scaloc /= cone) then
+                    if (scaloc /= one) then
                        do k = 1, js - 1
                           call stdlib_zscal(m, dcmplx(scaloc, zero), c(1, k), 1)
                           call stdlib_zscal(m, dcmplx(scaloc, zero), f(1, k), 1)
@@ -50306,18 +50285,16 @@ module stdlib_linalg_lapack_z
                     end if
                     ! substitute r(i,j) and l(i,j) into remaining equation.
                     if (j > p + 2) then
-                       call stdlib_zgemm('n', 'c', mb, js - 1, nb, dcmplx(cone, zero), c(is, js) &
-                                 , ldc, b(1, js), ldb, dcmplx(cone, zero), f(is, 1), ldf)
-                       call stdlib_zgemm('n', 'c', mb, js - 1, nb, dcmplx(cone, zero), f(is, js) &
-                                 , ldf, e(1, js), lde, dcmplx(cone, zero), f(is, 1), ldf)
+                       call stdlib_zgemm('n', 'c', mb, js - 1, nb, dcmplx(one, zero), c(is, js), &
+                                  ldc, b(1, js), ldb, dcmplx(one, zero), f(is, 1), ldf)
+                       call stdlib_zgemm('n', 'c', mb, js - 1, nb, dcmplx(one, zero), f(is, js), &
+                                  ldf, e(1, js), lde, dcmplx(one, zero), f(is, 1), ldf)
                     end if
                     if (i < p) then
-                       call stdlib_zgemm('c', 'n', m - ie, nb, mb, dcmplx(-cone, zero), a(is, ie + &
-                       1), lda, c(is, js), ldc, dcmplx(cone, zero), c(ie + 1, js), ldc)
-                                 
-                       call stdlib_zgemm('c', 'n', m - ie, nb, mb, dcmplx(-cone, zero), d(is, ie + &
-                       1), ldd, f(is, js), ldf, dcmplx(cone, zero), c(ie + 1, js), ldc)
-                                 
+                       call stdlib_zgemm('c', 'n', m - ie, nb, mb, dcmplx(-one, zero), a(is, ie + &
+                                 1), lda, c(is, js), ldc, dcmplx(one, zero), c(ie + 1, js), ldc)
+                       call stdlib_zgemm('c', 'n', m - ie, nb, mb, dcmplx(-one, zero), d(is, ie + &
+                                 1), ldd, f(is, js), ldf, dcmplx(one, zero), c(ie + 1, js), ldc)
                     end if
                  end do loop_200
               end do loop_210
@@ -50383,17 +50360,17 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
            end if
-           rcond = czero
+           rcond = zero
            smlnum = stdlib_dlamch('safe minimum')*dble(max(1, n))
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_zlantp(norm, uplo, diag, n, ap, rwork)
            ! continue only if anorm > 0.
-           if (anorm > czero) then
+           if (anorm > zero) then
               ! estimate the norm of the inverse of a.
-              ainvnm = czero
+              ainvnm = zero
               normin = 'n'
               if (onenrm) then
                  kase1 = 1
@@ -50415,16 +50392,16 @@ module stdlib_linalg_lapack_z
                  end if
                  normin = 'y'
                  ! multiply by 1/scale if doing so will not cause overflow.
-                 if (scale /= cone) then
+                 if (scale /= one) then
                     ix = stdlib_izamax(n, work, 1)
                     xnorm = cabs1(work(ix))
-                    if (scale < xnorm*smlnum .or. scale == czero) go to 20
+                    if (scale < xnorm*smlnum .or. scale == zero) go to 20
                     call stdlib_zdrscl(n, scale, work, 1)
                  end if
                  go to 10
               end if
               ! compute the estimate of the reciprocal condition number.
-              if (ainvnm /= czero) rcond = (cone/anorm)/ainvnm
+              if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
 20      continue
            return
@@ -50849,17 +50826,17 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
            end if
-           rcond = czero
+           rcond = zero
            smlnum = stdlib_dlamch('safe minimum')*dble(max(1, n))
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_zlantr(norm, uplo, diag, n, n, a, lda, rwork)
            ! continue only if anorm > 0.
-           if (anorm > czero) then
+           if (anorm > zero) then
               ! estimate the norm of the inverse of a.
-              ainvnm = czero
+              ainvnm = zero
               normin = 'n'
               if (onenrm) then
                  kase1 = 1
@@ -50881,16 +50858,16 @@ module stdlib_linalg_lapack_z
                  end if
                  normin = 'y'
                  ! multiply by 1/scale if doing so will not cause overflow.
-                 if (scale /= cone) then
+                 if (scale /= one) then
                     ix = stdlib_izamax(n, work, 1)
                     xnorm = cabs1(work(ix))
-                    if (scale < xnorm*smlnum .or. scale == czero) go to 20
+                    if (scale < xnorm*smlnum .or. scale == zero) go to 20
                     call stdlib_zdrscl(n, scale, work, 1)
                  end if
                  go to 10
               end if
               ! compute the estimate of the reciprocal condition number.
-              if (ainvnm /= czero) rcond = (cone/anorm)/ainvnm
+              if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
 20      continue
            return
@@ -50955,15 +50932,15 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           scale = cone
+           scale = one
            if (m == 0 .or. n == 0) return
            ! set constants to control overflow
            eps = stdlib_dlamch('p')
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            smlnum = smlnum*dble(m*n)/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            smin = max(smlnum, eps*stdlib_zlange('m', m, m, a, lda, dum), eps*stdlib_zlange('m', &
                       n, n, b, ldb, dum))
            sgn = isgn
@@ -50982,7 +50959,7 @@ module stdlib_linalg_lapack_z
                               )
                     sumr = stdlib_zdotu(l - 1, c(k, 1), ldc, b(1, l), 1)
                     vec = c(k, l) - (suml + sgn*sumr)
-                    scaloc = cone
+                    scaloc = one
                     a11 = a(k, k) + sgn*b(l, l)
                     da11 = abs(dble(a11)) + abs(dimag(a11))
                     if (da11 <= smin) then
@@ -50991,11 +50968,11 @@ module stdlib_linalg_lapack_z
                        info = 1
                     end if
                     db = abs(dble(vec)) + abs(dimag(vec))
-                    if (da11 < cone .and. db > cone) then
-                       if (db > bignum*da11) scaloc = cone/db
+                    if (da11 < one .and. db > one) then
+                       if (db > bignum*da11) scaloc = one/db
                     end if
                     x11 = stdlib_zladiv(vec*dcmplx(scaloc), a11)
-                    if (scaloc /= cone) then
+                    if (scaloc /= one) then
                        do j = 1, n
                           call stdlib_zdscal(m, scaloc, c(1, j), 1)
                        end do
@@ -51018,7 +50995,7 @@ module stdlib_linalg_lapack_z
                     suml = stdlib_zdotc(k - 1, a(1, k), 1, c(1, l), 1)
                     sumr = stdlib_zdotu(l - 1, c(k, 1), ldc, b(1, l), 1)
                     vec = c(k, l) - (suml + sgn*sumr)
-                    scaloc = cone
+                    scaloc = one
                     a11 = dconjg(a(k, k)) + sgn*b(l, l)
                     da11 = abs(dble(a11)) + abs(dimag(a11))
                     if (da11 <= smin) then
@@ -51027,11 +51004,11 @@ module stdlib_linalg_lapack_z
                        info = 1
                     end if
                     db = abs(dble(vec)) + abs(dimag(vec))
-                    if (da11 < cone .and. db > cone) then
-                       if (db > bignum*da11) scaloc = cone/db
+                    if (da11 < one .and. db > one) then
+                       if (db > bignum*da11) scaloc = one/db
                     end if
                     x11 = stdlib_zladiv(vec*dcmplx(scaloc), a11)
-                    if (scaloc /= cone) then
+                    if (scaloc /= one) then
                        do j = 1, n
                           call stdlib_zdscal(m, scaloc, c(1, j), 1)
                        end do
@@ -51058,7 +51035,7 @@ module stdlib_linalg_lapack_z
                     sumr = stdlib_zdotc(n - l, c(k, min(l + 1, n)), ldc, b(l, min(l + 1, n)), &
                               ldb)
                     vec = c(k, l) - (suml + sgn*dconjg(sumr))
-                    scaloc = cone
+                    scaloc = one
                     a11 = dconjg(a(k, k) + sgn*b(l, l))
                     da11 = abs(dble(a11)) + abs(dimag(a11))
                     if (da11 <= smin) then
@@ -51067,11 +51044,11 @@ module stdlib_linalg_lapack_z
                        info = 1
                     end if
                     db = abs(dble(vec)) + abs(dimag(vec))
-                    if (da11 < cone .and. db > cone) then
-                       if (db > bignum*da11) scaloc = cone/db
+                    if (da11 < one .and. db > one) then
+                       if (db > bignum*da11) scaloc = one/db
                     end if
                     x11 = stdlib_zladiv(vec*dcmplx(scaloc), a11)
-                    if (scaloc /= cone) then
+                    if (scaloc /= one) then
                        do j = 1, n
                           call stdlib_zdscal(m, scaloc, c(1, j), 1)
                        end do
@@ -51096,7 +51073,7 @@ module stdlib_linalg_lapack_z
                     sumr = stdlib_zdotc(n - l, c(k, min(l + 1, n)), ldc, b(l, min(l + 1, n)), &
                               ldb)
                     vec = c(k, l) - (suml + sgn*dconjg(sumr))
-                    scaloc = cone
+                    scaloc = one
                     a11 = a(k, k) + sgn*dconjg(b(l, l))
                     da11 = abs(dble(a11)) + abs(dimag(a11))
                     if (da11 <= smin) then
@@ -51105,11 +51082,11 @@ module stdlib_linalg_lapack_z
                        info = 1
                     end if
                     db = abs(dble(vec)) + abs(dimag(vec))
-                    if (da11 < cone .and. db > cone) then
-                       if (db > bignum*da11) scaloc = cone/db
+                    if (da11 < one .and. db > one) then
+                       if (db > bignum*da11) scaloc = one/db
                     end if
                     x11 = stdlib_zladiv(vec*dcmplx(scaloc), a11)
-                    if (scaloc /= cone) then
+                    if (scaloc /= one) then
                        do j = 1, n
                           call stdlib_zdscal(m, scaloc, c(1, j), 1)
                        end do
@@ -51871,7 +51848,7 @@ module stdlib_linalg_lapack_z
            ! are not stored) by performing the "modified" lu-decomposition.
            ! q_in - ( s ) = v * u = ( v1 ) * u,
                   ! ( 0 )           ( v2 )
-           ! where 0 is an (m-n)-by-n czero matrix.
+           ! where 0 is an (m-n)-by-n zero matrix.
            ! (1-1) factor v1 and u.
            call stdlib_zlaunhr_col_getrfnp(n, n, a, lda, d, iinfo)
            ! (1-2) solve for v2.
@@ -51936,10 +51913,10 @@ module stdlib_linalg_lapack_z
                    ! even though the blocks x(jb) and b(jb) are upper-
                    ! triangular, the routine stdlib_ztrsm will access all jnb**2
                    ! elements of the square t(1:jnb,jb:jb+jnb-1). therefore,
-                   ! we need to set to czero the elements of the block
+                   ! we need to set to zero the elements of the block
                    ! t(1:jnb,jb:jb+jnb-1) below the diagonal before the call
                    ! to stdlib_ztrsm.
-              ! (2-3a) set the elements to czero.
+              ! (2-3a) set the elements to zero.
               jbtemp2 = jb - 2
               do j = jb, jb + jnb - 2
                  do i = j - jbtemp2, nb
@@ -52943,8 +52920,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -52992,7 +52969,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do k = 1, n
-                    s = czero
+                    s = zero
                     kk = ku + 1 - k
                     do i = max(1, k - ku), min(n, k + kl)
                        s = s + cabs1(ab(kk + i, k))*cabs1(x(i, j))
@@ -53000,7 +52977,7 @@ module stdlib_linalg_lapack_z
                     rwork(k) = rwork(k) + s
                  end do
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -53068,11 +53045,11 @@ module stdlib_linalg_lapack_z
                  go to 100
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
            ! end of stdlib_zgbrfs
@@ -53178,7 +53155,7 @@ module stdlib_linalg_lapack_z
               rowequ = stdlib_lsame(equed, 'r') .or. stdlib_lsame(equed, 'b')
               colequ = stdlib_lsame(equed, 'c') .or. stdlib_lsame(equed, 'b')
               smlnum = stdlib_dlamch('safe minimum')
-              bignum = cone/smlnum
+              bignum = one/smlnum
            end if
            ! test the input parameters.
            if (.not. nofact .and. .not. equil .and. .not. stdlib_lsame(fact, 'f')) then
@@ -53204,32 +53181,32 @@ module stdlib_linalg_lapack_z
            else
               if (rowequ) then
                  rcmin = bignum
-                 rcmax = czero
+                 rcmax = zero
                  do j = 1, n
                     rcmin = min(rcmin, r(j))
                     rcmax = max(rcmax, r(j))
                  end do
-                 if (rcmin <= czero) then
+                 if (rcmin <= zero) then
                     info = -13
                  else if (n > 0) then
                     rowcnd = max(rcmin, smlnum)/min(rcmax, bignum)
                  else
-                    rowcnd = cone
+                    rowcnd = one
                  end if
               end if
               if (colequ .and. info == 0) then
                  rcmin = bignum
-                 rcmax = czero
+                 rcmax = zero
                  do j = 1, n
                     rcmin = min(rcmin, c(j))
                     rcmax = max(rcmax, c(j))
                  end do
-                 if (rcmin <= czero) then
+                 if (rcmin <= zero) then
                     info = -14
                  else if (n > 0) then
                     colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
                  else
-                    colcnd = cone
+                    colcnd = one
                  end if
               end if
               if (info == 0) then
@@ -53281,11 +53258,11 @@ module stdlib_linalg_lapack_z
                            
               end do
               call stdlib_zgbtrf(n, n, kl, ku, afb, ldafb, ipiv, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
-                 anorm = czero
+                 anorm = zero
                  do j = 1, info
                     do i = max(ku + 2 - j, 1), min(n + ku + 1 - j, kl + ku + 1)
                        anorm = max(anorm, abs(ab(i, j)))
@@ -53293,13 +53270,13 @@ module stdlib_linalg_lapack_z
                  end do
                  rpvgrw = stdlib_zlantb('m', 'u', 'n', info, min(info - 1, kl + ku), afb(max(1, &
                            kl + ku + 2 - info), 1), ldafb, rwork)
-                 if (rpvgrw == czero) then
-                    rpvgrw = cone
+                 if (rpvgrw == zero) then
+                    rpvgrw = one
                  else
                     rpvgrw = anorm/rpvgrw
                  end if
                  rwork(1) = rpvgrw
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -53312,8 +53289,8 @@ module stdlib_linalg_lapack_z
            end if
            anorm = stdlib_zlangb(norm, n, kl, ku, ab, ldab, rwork)
            rpvgrw = stdlib_zlantb('m', 'u', 'n', n, kl + ku, afb, ldafb, rwork)
-           if (rpvgrw == czero) then
-              rpvgrw = cone
+           if (rpvgrw == zero) then
+              rpvgrw = one
            else
               rpvgrw = stdlib_zlangb('m', n, kl, ku, ab, ldab, rwork)/rpvgrw
            end if
@@ -53745,7 +53722,7 @@ module stdlib_linalg_lapack_z
            end if
            ! get machine parameters
            smlnum = stdlib_dlamch('s')/stdlib_dlamch('p')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            ! scale a, b if max element outside range [smlnum,bignum]
            anrm = stdlib_zlange('m', m, n, a, lda, rwork)
@@ -54139,8 +54116,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -54186,14 +54163,14 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do k = 1, n
-                    s = czero
+                    s = zero
                     do i = 1, n
                        s = s + cabs1(a(i, k))*cabs1(x(i, j))
                     end do
                     rwork(k) = rwork(k) + s
                  end do
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -54259,11 +54236,11 @@ module stdlib_linalg_lapack_z
                  go to 100
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
            ! end of stdlib_zgerfs
@@ -54574,7 +54551,7 @@ module stdlib_linalg_lapack_z
            ! initialize q and z if desired.
            if (initq) call stdlib_zlaset('all', n, n, czero, cone, q, ldq)
            if (initz) call stdlib_zlaset('all', n, n, czero, cone, z, ldz)
-           ! czero out lower triangle of b.
+           ! zero out lower triangle of b.
            if (n > 1) call stdlib_zlaset('lower', n - 1, n - 1, czero, czero, b(2, 1), ldb)
            ! quick return if possible
            nh = ihi - ilo + 1
@@ -55184,7 +55161,7 @@ module stdlib_linalg_lapack_z
               info = -1
            else if (n < 0) then
               info = -2
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -8
            end if
            if (info /= 0) then
@@ -55192,18 +55169,18 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm == czero) then
+           else if (anorm == zero) then
               return
            end if
-           ! check that d(1:n) is non-czero.
+           ! check that d(1:n) is non-zero.
            do i = 1, n
-              if (d(i) == dcmplx(czero)) return
+              if (d(i) == dcmplx(zero)) return
            end do
-           ainvnm = czero
+           ainvnm = zero
            if (onenrm) then
               kase1 = 1
            else
@@ -55225,7 +55202,7 @@ module stdlib_linalg_lapack_z
               go to 20
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
            ! end of stdlib_zgtcon
      end subroutine stdlib_zgtcon
@@ -55290,8 +55267,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -55317,7 +55294,7 @@ module stdlib_linalg_lapack_z
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
               call stdlib_zcopy(n, b(1, j), 1, work, 1)
-              call stdlib_zlagtm(trans, n, 1, -cone, dl, d, du, x(1, j), ldx, cone, work, n)
+              call stdlib_zlagtm(trans, n, 1, -one, dl, d, du, x(1, j), ldx, one, work, n)
                         
               ! compute abs(op(a))*abs(x) + abs(b) for use in the backward
               ! error bound.
@@ -55356,7 +55333,7 @@ module stdlib_linalg_lapack_z
               ! or vector z.  if the i-th component of the denominator is less
               ! than safe2, then safe1 is added to the i-th components of the
               ! numerator and denominator before dividing.
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -55373,7 +55350,7 @@ module stdlib_linalg_lapack_z
               if (berr(j) > eps .and. two*berr(j) <= lstres .and. count <= itmax) then
                  ! update solution and try again.
                  call stdlib_zgttrs(trans, n, 1, dlf, df, duf, du2, ipiv, work, n, info)
-                 call stdlib_zaxpy(n, dcmplx(cone), work, 1, x(1, j), 1)
+                 call stdlib_zaxpy(n, dcmplx(one), work, 1, x(1, j), 1)
                  lstres = berr(j)
                  count = count + 1
                  go to 20
@@ -55424,11 +55401,11 @@ module stdlib_linalg_lapack_z
                  go to 70
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_110
            return
            ! end of stdlib_zgtrfs
@@ -55494,9 +55471,9 @@ module stdlib_linalg_lapack_z
                  call stdlib_zcopy(n - 1, du, 1, duf, 1)
               end if
               call stdlib_zgttrf(n, dlf, df, duf, du2, ipiv, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -56681,7 +56658,7 @@ module stdlib_linalg_lapack_z
                           ! elements which have been created outside the band
                           call stdlib_zlargv(nr, ab(kd1, j1 - kd1), inca, work(j1), kd1, d(j1) &
                                     , kd1)
-                          ! apply plane rotations from cone side
+                          ! apply plane rotations from one side
                           ! dependent on the the number of diagonals either
                           ! stdlib_zlartv or stdlib_zrot is used
                           if (nr > 2*kd - 1) then
@@ -56854,7 +56831,7 @@ module stdlib_linalg_lapack_z
               info = -2
            else if (lda < max(1, n)) then
               info = -4
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -6
            end if
            if (info /= 0) then
@@ -56862,23 +56839,23 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm <= czero) then
+           else if (anorm <= zero) then
               return
            end if
            ! check that the diagonal matrix d is nonsingular.
            if (upper) then
               ! upper triangular storage: examine d from bottom to top
               do i = n, 1, -1
-                 if (ipiv(i) > 0 .and. a(i, i) == czero) return
+                 if (ipiv(i) > 0 .and. a(i, i) == zero) return
               end do
            else
               ! lower triangular storage: examine d from top to bottom.
               do i = 1, n
-                 if (ipiv(i) > 0 .and. a(i, i) == czero) return
+                 if (ipiv(i) > 0 .and. a(i, i) == zero) return
               end do
            end if
            ! estimate the 1-norm of the inverse.
@@ -56891,7 +56868,7 @@ module stdlib_linalg_lapack_z
               go to 30
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
            ! end of stdlib_zhecon
      end subroutine stdlib_zhecon
@@ -56934,7 +56911,7 @@ module stdlib_linalg_lapack_z
               info = -2
            else if (lda < max(1, n)) then
               info = -4
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -6
            end if
            if (info /= 0) then
@@ -56942,23 +56919,23 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm <= czero) then
+           else if (anorm <= zero) then
               return
            end if
            ! check that the diagonal matrix d is nonsingular.
            if (upper) then
               ! upper triangular storage: examine d from bottom to top
               do i = n, 1, -1
-                 if (ipiv(i) > 0 .and. a(i, i) == czero) return
+                 if (ipiv(i) > 0 .and. a(i, i) == zero) return
               end do
            else
               ! lower triangular storage: examine d from top to bottom.
               do i = 1, n
-                 if (ipiv(i) > 0 .and. a(i, i) == czero) return
+                 if (ipiv(i) > 0 .and. a(i, i) == zero) return
               end do
            end if
            ! estimate the 1-norm of the inverse.
@@ -56971,7 +56948,7 @@ module stdlib_linalg_lapack_z
               go to 30
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
            ! end of stdlib_zhecon_rook
      end subroutine stdlib_zhecon_rook
@@ -57045,7 +57022,7 @@ module stdlib_linalg_lapack_z
            ! scale matrix to allowable range, if necessary.
            anrm = stdlib_zlanhe('m', uplo, n, a, lda, rwork)
            iscale = 0
-           if (anrm > czero .and. anrm < rmin) then
+           if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
            else if (anrm > rmax) then
@@ -57241,7 +57218,7 @@ module stdlib_linalg_lapack_z
                  end if
               end if
               if (wantz) then
-                 z(1, 1) = cone
+                 z(1, 1) = one
                  isuppz(1) = 1
                  isuppz(2) = 1
               end if
@@ -57251,9 +57228,9 @@ module stdlib_linalg_lapack_z
            safmin = stdlib_dlamch('safe minimum')
            eps = stdlib_dlamch('precision')
            smlnum = safmin/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            rmin = sqrt(smlnum)
-           rmax = min(sqrt(bignum), cone/sqrt(sqrt(safmin)))
+           rmax = min(sqrt(bignum), one/sqrt(sqrt(safmin)))
            ! scale matrix to allowable range, if necessary.
            iscale = 0
            abstll = abstol
@@ -57262,7 +57239,7 @@ module stdlib_linalg_lapack_z
               vuu = vu
            end if
            anrm = stdlib_zlansy('m', uplo, n, a, lda, rwork)
-           if (anrm > czero .and. anrm < rmin) then
+           if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
            else if (anrm > rmax) then
@@ -57393,7 +57370,7 @@ module stdlib_linalg_lapack_z
               else
                  imax = info - 1
               end if
-              call stdlib_dscal(imax, cone/sigma, w, 1)
+              call stdlib_dscal(imax, one/sigma, w, 1)
            end if
            ! if eigenvalues are not in order, then sort them, along with
            ! eigenvectors.
@@ -57542,7 +57519,7 @@ module stdlib_linalg_lapack_z
               vuu = vu
            end if
            anrm = stdlib_zlanhe('m', uplo, n, a, lda, rwork)
-           if (anrm > czero .and. anrm < rmin) then
+           if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
            else if (anrm > rmax) then
@@ -57575,7 +57552,7 @@ module stdlib_linalg_lapack_z
            call stdlib_zhetrd(uplo, n, a, lda, rwork(indd), rwork(inde), work(indtau), work( &
                       indwrk), llwork, iinfo)
            ! if all eigenvalues are desired and abstol is less than or equal to
-           ! czero, then call stdlib_dsterf or stdlib_zungtr and stdlib_zsteqr.  if this fails for
+           ! zero, then call stdlib_dsterf or stdlib_zungtr and stdlib_zsteqr.  if this fails for
            ! some eigenvalue, then try stdlib_dstebz.
            test = .false.
            if (indeig) then
@@ -57583,7 +57560,7 @@ module stdlib_linalg_lapack_z
                  test = .true.
               end if
            end if
-           if ((alleig .or. test) .and. (abstol <= czero)) then
+           if ((alleig .or. test) .and. (abstol <= zero)) then
               call stdlib_dcopy(n, rwork(indd), 1, w, 1)
               indee = indrwk + 2*n
               if (.not. wantz) then
@@ -57961,8 +57938,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -57993,7 +57970,7 @@ module stdlib_linalg_lapack_z
               ! compute abs(a)*abs(x) + abs(b).
               if (upper) then
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     do i = 1, k - 1
                        rwork(i) = rwork(i) + cabs1(a(i, k))*xk
@@ -58003,7 +57980,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     rwork(k) = rwork(k) + abs(dble(a(k, k)))*xk
                     do i = k + 1, n
@@ -58013,7 +57990,7 @@ module stdlib_linalg_lapack_z
                     rwork(k) = rwork(k) + s
                  end do
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -58079,11 +58056,11 @@ module stdlib_linalg_lapack_z
                  go to 100
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
            ! end of stdlib_zherfs
@@ -58394,9 +58371,9 @@ module stdlib_linalg_lapack_z
               ! compute the factorization a = u*d*u**h or a = l*d*l**h.
               call stdlib_zlacpy(uplo, n, n, a, lda, af, ldaf)
               call stdlib_zhetrf(uplo, n, af, ldaf, ipiv, work, lwork, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -58796,7 +58773,7 @@ module stdlib_linalg_lapack_z
                  ctemp = sqrt(abi12)*sqrt(ad21)
                  temp = abs1(ctemp)
                  if (ctemp /= zero) then
-                    x = chalf*(ad11 - shift)
+                    x = half*(ad11 - shift)
                     temp2 = abs1(x)
                     temp = max(temp, abs1(x))
                     y = temp*sqrt((x/temp)**2 + (ctemp/temp)**2)
@@ -58951,7 +58928,7 @@ module stdlib_linalg_lapack_z
               info = -1
            else if (n < 0) then
               info = -2
-           else if (anorm < czero) then
+           else if (anorm < zero) then
               info = -5
            end if
            if (info /= 0) then
@@ -58959,11 +58936,11 @@ module stdlib_linalg_lapack_z
               return
            end if
            ! quick return if possible
-           rcond = czero
+           rcond = zero
            if (n == 0) then
-              rcond = cone
+              rcond = one
               return
-           else if (anorm <= czero) then
+           else if (anorm <= zero) then
               return
            end if
            ! check that the diagonal matrix d is nonsingular.
@@ -58971,14 +58948,14 @@ module stdlib_linalg_lapack_z
               ! upper triangular storage: examine d from bottom to top
               ip = n*(n + 1)/2
               do i = n, 1, -1
-                 if (ipiv(i) > 0 .and. ap(ip) == czero) return
+                 if (ipiv(i) > 0 .and. ap(ip) == zero) return
                  ip = ip - i
               end do
            else
               ! lower triangular storage: examine d from top to bottom.
               ip = 1
               do i = 1, n
-                 if (ipiv(i) > 0 .and. ap(ip) == czero) return
+                 if (ipiv(i) > 0 .and. ap(ip) == zero) return
                  ip = ip + n - i + 1
               end do
            end if
@@ -58992,7 +58969,7 @@ module stdlib_linalg_lapack_z
               go to 30
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= czero) rcond = (cone/ainvnm)/anorm
+           if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
            ! end of stdlib_zhpcon
      end subroutine stdlib_zhpcon
@@ -59042,20 +59019,20 @@ module stdlib_linalg_lapack_z
            if (n == 1) then
               w(1) = dble(ap(1))
               rwork(1) = 1
-              if (wantz) z(1, 1) = cone
+              if (wantz) z(1, 1) = one
               return
            end if
            ! get machine constants.
            safmin = stdlib_dlamch('safe minimum')
            eps = stdlib_dlamch('precision')
            smlnum = safmin/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
            anrm = stdlib_zlanhp('m', uplo, n, ap, rwork)
            iscale = 0
-           if (anrm > czero .and. anrm < rmin) then
+           if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
            else if (anrm > rmax) then
@@ -59088,7 +59065,7 @@ module stdlib_linalg_lapack_z
               else
                  imax = info - 1
               end if
-              call stdlib_dscal(imax, cone/sigma, w, 1)
+              call stdlib_dscal(imax, one/sigma, w, 1)
            end if
            return
            ! end of stdlib_zhpev
@@ -59188,11 +59165,11 @@ module stdlib_linalg_lapack_z
               vll = vl
               vuu = vu
            else
-              vll = czero
-              vuu = czero
+              vll = zero
+              vuu = zero
            end if
            anrm = stdlib_zlanhp('m', uplo, n, ap, rwork)
-           if (anrm > czero .and. anrm < rmin) then
+           if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
            else if (anrm > rmax) then
@@ -59216,7 +59193,7 @@ module stdlib_linalg_lapack_z
            call stdlib_zhptrd(uplo, n, ap, rwork(indd), rwork(inde), work(indtau), iinfo)
                      
            ! if all eigenvalues are desired and abstol is less than or equal
-           ! to czero, then call stdlib_dsterf or stdlib_zupgtr and stdlib_zsteqr.  if this fails
+           ! to zero, then call stdlib_dsterf or stdlib_zupgtr and stdlib_zsteqr.  if this fails
            ! for some eigenvalue, then try stdlib_dstebz.
            test = .false.
            if (indeig) then
@@ -59224,7 +59201,7 @@ module stdlib_linalg_lapack_z
                  test = .true.
               end if
            end if
-           if ((alleig .or. test) .and. (abstol <= czero)) then
+           if ((alleig .or. test) .and. (abstol <= zero)) then
               call stdlib_dcopy(n, rwork(indd), 1, w, 1)
               indee = indrwk + 2*n
               if (.not. wantz) then
@@ -59565,8 +59542,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -59598,7 +59575,7 @@ module stdlib_linalg_lapack_z
               kk = 1
               if (upper) then
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     ik = kk
                     do i = 1, k - 1
@@ -59611,7 +59588,7 @@ module stdlib_linalg_lapack_z
                  end do
               else
                  do k = 1, n
-                    s = czero
+                    s = zero
                     xk = cabs1(x(k, j))
                     rwork(k) = rwork(k) + abs(dble(ap(kk)))*xk
                     ik = kk + 1
@@ -59624,7 +59601,7 @@ module stdlib_linalg_lapack_z
                     kk = kk + (n - k + 1)
                  end do
               end if
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -59690,11 +59667,11 @@ module stdlib_linalg_lapack_z
                  go to 100
               end if
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, cabs1(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
            ! end of stdlib_zhprfs
@@ -59806,9 +59783,9 @@ module stdlib_linalg_lapack_z
               ! compute the factorization a = u*d*u**h or a = l*d*l**h.
               call stdlib_zcopy(n*(n + 1)/2, ap, 1, afp, 1)
               call stdlib_zhptrf(uplo, n, afp, ipiv, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -60978,7 +60955,7 @@ module stdlib_linalg_lapack_z
            else
               rcequ = stdlib_lsame(equed, 'y')
               smlnum = stdlib_dlamch('safe minimum')
-              bignum = cone/smlnum
+              bignum = one/smlnum
            end if
            ! test the input parameters.
            if (.not. nofact .and. .not. equil .and. .not. stdlib_lsame(fact, 'f')) then
@@ -61001,17 +60978,17 @@ module stdlib_linalg_lapack_z
            else
               if (rcequ) then
                  smin = bignum
-                 smax = czero
+                 smax = zero
                  do j = 1, n
                     smin = min(smin, s(j))
                     smax = max(smax, s(j))
                  end do
-                 if (smin <= czero) then
+                 if (smin <= zero) then
                     info = -11
                  else if (n > 0) then
                     scond = max(smin, smlnum)/min(smax, bignum)
                  else
-                    scond = cone
+                    scond = one
                  end if
               end if
               if (info == 0) then
@@ -61058,9 +61035,9 @@ module stdlib_linalg_lapack_z
                  end do
               end if
               call stdlib_zpbtrf(uplo, n, kd, afb, ldafb, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -61519,7 +61496,7 @@ module stdlib_linalg_lapack_z
            else
               rcequ = stdlib_lsame(equed, 'y')
               smlnum = stdlib_dlamch('safe minimum')
-              bignum = cone/smlnum
+              bignum = one/smlnum
            end if
            ! test the input parameters.
            if (.not. nofact .and. .not. equil .and. .not. stdlib_lsame(fact, 'f')) then
@@ -61541,17 +61518,17 @@ module stdlib_linalg_lapack_z
            else
               if (rcequ) then
                  smin = bignum
-                 smax = czero
+                 smax = zero
                  do j = 1, n
                     smin = min(smin, s(j))
                     smax = max(smax, s(j))
                  end do
-                 if (smin <= czero) then
+                 if (smin <= zero) then
                     info = -10
                  else if (n > 0) then
                     scond = max(smin, smlnum)/min(smax, bignum)
                  else
-                    scond = cone
+                    scond = one
                  end if
               end if
               if (info == 0) then
@@ -61587,9 +61564,9 @@ module stdlib_linalg_lapack_z
               ! compute the cholesky factorization a = u**h *u or a = l*l**h.
               call stdlib_zlacpy(uplo, n, n, a, lda, af, ldaf)
               call stdlib_zpotrf(uplo, n, af, ldaf, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -61676,8 +61653,8 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1, nrhs
-                 ferr(j) = czero
-                 berr(j) = czero
+                 ferr(j) = zero
+                 berr(j) = zero
               end do
               return
            end if
@@ -61760,7 +61737,7 @@ module stdlib_linalg_lapack_z
               ! or vector z.  if the i-th component of the denominator is less
               ! than safe2, then safe1 is added to the i-th components of the
               ! numerator and denominator before dividing.
-              s = czero
+              s = zero
               do i = 1, n
                  if (rwork(i) > safe2) then
                     s = max(s, cabs1(work(i))/rwork(i))
@@ -61777,7 +61754,7 @@ module stdlib_linalg_lapack_z
               if (berr(j) > eps .and. two*berr(j) <= lstres .and. count <= itmax) then
                  ! update solution and try again.
                  call stdlib_zpttrs(uplo, n, 1, df, ef, work, n, info)
-                 call stdlib_zaxpy(n, dcmplx(cone), work, 1, x(1, j), 1)
+                 call stdlib_zaxpy(n, dcmplx(one), work, 1, x(1, j), 1)
                  lstres = berr(j)
                  count = count + 1
                  go to 20
@@ -61811,9 +61788,9 @@ module stdlib_linalg_lapack_z
                  ! m(i,j) = -abs(a(i,j)), i .ne. j,
               ! and e = [ 1, 1, ..., 1 ]**t.  note m(a) = m(l)*d*m(l)**h.
               ! solve m(l) * x = e.
-              rwork(1) = cone
+              rwork(1) = one
               do i = 2, n
-                 rwork(i) = cone + rwork(i - 1)*abs(ef(i - 1))
+                 rwork(i) = one + rwork(i - 1)*abs(ef(i - 1))
               end do
               ! solve d * m(l)**h * x = b.
               rwork(n) = rwork(n)/df(n)
@@ -61824,11 +61801,11 @@ module stdlib_linalg_lapack_z
               ix = stdlib_idamax(n, rwork, 1)
               ferr(j) = ferr(j)*abs(rwork(ix))
               ! normalize error.
-              lstres = czero
+              lstres = zero
               do i = 1, n
                  lstres = max(lstres, abs(x(i, j)))
               end do
-              if (lstres /= czero) ferr(j) = ferr(j)/lstres
+              if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_100
            return
            ! end of stdlib_zptrfs
@@ -61928,9 +61905,9 @@ module stdlib_linalg_lapack_z
               call stdlib_dcopy(n, d, 1, df, 1)
               if (n > 1) call stdlib_zcopy(n - 1, e, 1, ef, 1)
               call stdlib_zpttrf(n, df, ef, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -62048,7 +62025,7 @@ module stdlib_linalg_lapack_z
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
-              if (icompz /= 0) z(1, 1) = cone
+              if (icompz /= 0) z(1, 1) = one
               return
            end if
            ! if the following conditional clause is removed, then the routine
@@ -62071,7 +62048,7 @@ module stdlib_linalg_lapack_z
            else
               ! if compz = 'i', we simply call stdlib_dstedc instead.
               if (icompz == 2) then
-                 call stdlib_dlaset('full', n, n, czero, cone, rwork, n)
+                 call stdlib_dlaset('full', n, n, zero, one, rwork, n)
                  ll = n*n + 1
                  call stdlib_dstedc('i', n, d, e, rwork, n, rwork(ll), lrwork - ll + 1, iwork, &
                            liwork, info)
@@ -62086,7 +62063,7 @@ module stdlib_linalg_lapack_z
               ! i.e. icompz = 1.
               ! scale.
               orgnrm = stdlib_dlanst('m', n, d, e)
-              if (orgnrm == czero) go to 70
+              if (orgnrm == zero) go to 70
               eps = stdlib_dlamch('epsilon')
               start = 1
               ! while ( start <= n )
@@ -62111,9 +62088,8 @@ module stdlib_linalg_lapack_z
                  if (m > smlsiz) then
                     ! scale.
                     orgnrm = stdlib_dlanst('m', m, d(start), e(start))
-                    call stdlib_dlascl('g', 0, 0, orgnrm, cone, m, 1, d(start), m, info)
-                              
-                    call stdlib_dlascl('g', 0, 0, orgnrm, cone, m - 1, 1, e(start), m - 1, info)
+                    call stdlib_dlascl('g', 0, 0, orgnrm, one, m, 1, d(start), m, info)
+                    call stdlib_dlascl('g', 0, 0, orgnrm, one, m - 1, 1, e(start), m - 1, info)
                               
                     call stdlib_zlaed0(n, m, d(start), e(start), z(1, start), ldz, work, n, &
                               rwork, iwork, info)
@@ -62123,8 +62099,7 @@ module stdlib_linalg_lapack_z
                        go to 70
                     end if
                     ! scale back.
-                    call stdlib_dlascl('g', 0, 0, cone, orgnrm, m, 1, d(start), m, info)
-                              
+                    call stdlib_dlascl('g', 0, 0, one, orgnrm, m, 1, d(start), m, info)
                  else
                     call stdlib_dsteqr('i', m, d(start), e(start), rwork, m, rwork(m*m + 1), &
                               info)
@@ -62323,12 +62298,12 @@ module stdlib_linalg_lapack_z
            ! quick return if possible.
            if (m == n .or. m == 0) then
               if (wantp) then
-                 pl = cone
-                 pr = cone
+                 pl = one
+                 pr = one
               end if
               if (wantd) then
-                 dscale = czero
-                 dsum = cone
+                 dscale = zero
+                 dsum = one
                  do i = 1, n
                     call stdlib_zlassq(n, a(1, i), 1, dscale, dsum)
                     call stdlib_zlassq(n, b(1, i), 1, dscale, dsum)
@@ -62354,12 +62329,12 @@ module stdlib_linalg_lapack_z
                     ! swap is rejected: exit.
                     info = 1
                     if (wantp) then
-                       pl = czero
-                       pr = czero
+                       pl = zero
+                       pr = zero
                     end if
                     if (wantd) then
-                       dif(1) = czero
-                       dif(2) = czero
+                       dif(1) = zero
+                       dif(2) = zero
                     end if
                     go to 70
                  end if
@@ -62380,21 +62355,21 @@ module stdlib_linalg_lapack_z
                          iwork, ierr)
               ! estimate the reciprocal of norms of "projections" onto
               ! left and right eigenspaces
-              rdscal = czero
-              dsum = cone
+              rdscal = zero
+              dsum = one
               call stdlib_zlassq(n1*n2, work, 1, rdscal, dsum)
               pl = rdscal*sqrt(dsum)
-              if (pl == czero) then
-                 pl = cone
+              if (pl == zero) then
+                 pl = one
               else
                  pl = dscale/(sqrt(dscale*dscale/pl + pl)*sqrt(pl))
               end if
-              rdscal = czero
-              dsum = cone
+              rdscal = zero
+              dsum = one
               call stdlib_zlassq(n1*n2, work(n1*n2 + 1), 1, rdscal, dsum)
               pr = rdscal*sqrt(dsum)
-              if (pr == czero) then
-                 pr = cone
+              if (pr == zero) then
+                 pr = one
               else
                  pr = dscale/(sqrt(dscale*dscale/pr + pr)*sqrt(pr))
               end if
@@ -62476,7 +62451,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zscal(n - k + 1, temp1, a(k, k), lda)
                  if (wantq) call stdlib_zscal(n, temp2, q(1, k), 1)
               else
-                 b(k, k) = dcmplx(czero, czero)
+                 b(k, k) = dcmplx(zero, zero)
               end if
               alpha(k) = a(k, k)
               beta(k) = b(k, k)
@@ -62578,7 +62553,7 @@ module stdlib_linalg_lapack_z
            ! get machine constants
            eps = stdlib_dlamch('p')
            smlnum = stdlib_dlamch('s')/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            ks = 0
            loop_20: do k = 1, n
@@ -62593,15 +62568,15 @@ module stdlib_linalg_lapack_z
                  ! eigenvalue.
                  rnrm = stdlib_dznrm2(n, vr(1, ks), 1)
                  lnrm = stdlib_dznrm2(n, vl(1, ks), 1)
-                 call stdlib_zgemv('n', n, n, dcmplx(cone, czero), a, lda, vr(1, ks), 1, &
-                           dcmplx(czero, czero), work, 1)
+                 call stdlib_zgemv('n', n, n, dcmplx(one, zero), a, lda, vr(1, ks), 1, dcmplx( &
+                            zero, zero), work, 1)
                  yhax = stdlib_zdotc(n, work, 1, vl(1, ks), 1)
-                 call stdlib_zgemv('n', n, n, dcmplx(cone, czero), b, ldb, vr(1, ks), 1, &
-                           dcmplx(czero, czero), work, 1)
+                 call stdlib_zgemv('n', n, n, dcmplx(one, zero), b, ldb, vr(1, ks), 1, dcmplx( &
+                            zero, zero), work, 1)
                  yhbx = stdlib_zdotc(n, work, 1, vl(1, ks), 1)
                  cond = stdlib_dlapy2(abs(yhax), abs(yhbx))
-                 if (cond == czero) then
-                    s(ks) = -cone
+                 if (cond == zero) then
+                    s(ks) = -one
                  else
                     s(ks) = cond/(rnrm*lnrm)
                  end if
@@ -62622,7 +62597,7 @@ module stdlib_linalg_lapack_z
                               dummy1, 1, ifst, ilst, ierr)
                     if (ierr > 0) then
                        ! ill-conditioned problem - swap rejected.
-                       dif(ks) = czero
+                       dif(ks) = zero
                     else
                        ! reordering successful, solve generalized sylvester
                        ! equation for r and l,
@@ -62723,7 +62698,7 @@ module stdlib_linalg_lapack_z
            end if
            ! quick return if possible
            if (m == n .or. m == 0) then
-              if (wants) s = cone
+              if (wants) s = one
               if (wantsp) sep = stdlib_zlange('1', n, n, t, ldt, rwork)
               go to 40
            end if
@@ -62745,15 +62720,15 @@ module stdlib_linalg_lapack_z
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
               rnorm = stdlib_zlange('f', n1, n2, work, n1, rwork)
-              if (rnorm == czero) then
-                 s = cone
+              if (rnorm == zero) then
+                 s = one
               else
                  s = scale/(sqrt(scale*scale/rnorm + rnorm)*sqrt(rnorm))
               end if
            end if
            if (wantsp) then
               ! estimate sep(t11,t22).
-              est = czero
+              est = zero
               kase = 0
 30      continue
               call stdlib_zlacn2(nn, work(nn + 1), work, est, kase, isave)
@@ -63927,7 +63902,7 @@ module stdlib_linalg_lapack_z
            ! the subdiagonal part of input array a and in the input array t.
            ! perform by the following operation using the routine stdlib_zlamtsqr.
                ! q1_in = q_in * ( i ), where i is a n-by-n identity matrix,
-                              ! ( 0 )        0 is a (m-n)-by-n czero matrix.
+                              ! ( 0 )        0 is a (m-n)-by-n zero matrix.
            ! (1a) form m-by-n matrix in the array work(1:ldc*n) with ones
            ! on the diagonal and zeros elsewhere.
            call stdlib_zlaset('f', m, n, czero, cone, work, ldc)
@@ -64584,7 +64559,7 @@ module stdlib_linalg_lapack_z
            eps = stdlib_dlamch('p')
            sfmin = stdlib_dlamch('s')
            smlnum = sfmin/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            ! scale a if max entry outside range [smlnum,bignum].
            anrm = stdlib_zlange('m', m, n, a, lda, rwork)
@@ -70652,7 +70627,7 @@ module stdlib_linalg_lapack_z
               rowequ = stdlib_lsame(equed, 'r') .or. stdlib_lsame(equed, 'b')
               colequ = stdlib_lsame(equed, 'c') .or. stdlib_lsame(equed, 'b')
               smlnum = stdlib_dlamch('safe minimum')
-              bignum = cone/smlnum
+              bignum = one/smlnum
            end if
            ! test the input parameters.
            if (.not. nofact .and. .not. equil .and. .not. stdlib_lsame(fact, 'f')) then
@@ -70674,32 +70649,32 @@ module stdlib_linalg_lapack_z
            else
               if (rowequ) then
                  rcmin = bignum
-                 rcmax = czero
+                 rcmax = zero
                  do j = 1, n
                     rcmin = min(rcmin, r(j))
                     rcmax = max(rcmax, r(j))
                  end do
-                 if (rcmin <= czero) then
+                 if (rcmin <= zero) then
                     info = -11
                  else if (n > 0) then
                     rowcnd = max(rcmin, smlnum)/min(rcmax, bignum)
                  else
-                    rowcnd = cone
+                    rowcnd = one
                  end if
               end if
               if (colequ .and. info == 0) then
                  rcmin = bignum
-                 rcmax = czero
+                 rcmax = zero
                  do j = 1, n
                     rcmin = min(rcmin, c(j))
                     rcmax = max(rcmax, c(j))
                  end do
-                 if (rcmin <= czero) then
+                 if (rcmin <= zero) then
                     info = -12
                  else if (n > 0) then
                     colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
                  else
-                    colcnd = cone
+                    colcnd = one
                  end if
               end if
               if (info == 0) then
@@ -70744,18 +70719,18 @@ module stdlib_linalg_lapack_z
               ! compute the lu factorization of a.
               call stdlib_zlacpy('full', n, n, a, lda, af, ldaf)
               call stdlib_zgetrf(n, n, af, ldaf, ipiv, info)
-              ! return if info is non-czero.
+              ! return if info is non-zero.
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
                  rpvgrw = stdlib_zlantr('m', 'u', 'n', info, info, af, ldaf, rwork)
-                 if (rpvgrw == czero) then
-                    rpvgrw = cone
+                 if (rpvgrw == zero) then
+                    rpvgrw = one
                  else
                     rpvgrw = stdlib_zlange('m', n, info, a, lda, rwork)/rpvgrw
                  end if
                  rwork(1) = rpvgrw
-                 rcond = czero
+                 rcond = zero
                  return
               end if
            end if
@@ -70768,8 +70743,8 @@ module stdlib_linalg_lapack_z
            end if
            anorm = stdlib_zlange(norm, n, n, a, lda, rwork)
            rpvgrw = stdlib_zlantr('m', 'u', 'n', n, n, af, ldaf, rwork)
-           if (rpvgrw == czero) then
-              rpvgrw = cone
+           if (rpvgrw == zero) then
+              rpvgrw = one
            else
               rpvgrw = stdlib_zlange('m', n, n, a, lda, rwork)/rpvgrw
            end if
@@ -70930,7 +70905,7 @@ module stdlib_linalg_lapack_z
            end if
            ! get machine parameters
             smlnum = stdlib_dlamch('s')/stdlib_dlamch('p')
-            bignum = cone/smlnum
+            bignum = one/smlnum
             call stdlib_dlabad(smlnum, bignum)
            ! scale a, b if max element outside range [smlnum,bignum]
            anrm = stdlib_zlange('m', m, n, a, lda, dum)
@@ -72416,20 +72391,20 @@ module stdlib_linalg_lapack_z
               else
                  w(1) = dble(ab(kd + 1, 1))
               end if
-              if (wantz) z(1, 1) = cone
+              if (wantz) z(1, 1) = one
               return
            end if
            ! get machine constants.
            safmin = stdlib_dlamch('safe minimum')
            eps = stdlib_dlamch('precision')
            smlnum = safmin/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
            anrm = stdlib_zlanhb('m', uplo, n, kd, ab, ldab, rwork)
            iscale = 0
-           if (anrm > czero .and. anrm < rmin) then
+           if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
            else if (anrm > rmax) then
@@ -72438,9 +72413,9 @@ module stdlib_linalg_lapack_z
            end if
            if (iscale == 1) then
               if (lower) then
-                 call stdlib_zlascl('b', kd, kd, cone, sigma, n, n, ab, ldab, info)
+                 call stdlib_zlascl('b', kd, kd, one, sigma, n, n, ab, ldab, info)
               else
-                 call stdlib_zlascl('q', kd, kd, cone, sigma, n, n, ab, ldab, info)
+                 call stdlib_zlascl('q', kd, kd, one, sigma, n, n, ab, ldab, info)
               end if
            end if
            ! call stdlib_zhbtrd to reduce hermitian band matrix to tridiagonal form.
@@ -72462,7 +72437,7 @@ module stdlib_linalg_lapack_z
               else
                  imax = info - 1
               end if
-              call stdlib_dscal(imax, cone/sigma, w, 1)
+              call stdlib_dscal(imax, one/sigma, w, 1)
            end if
            return
            ! end of stdlib_zhbev
@@ -73345,7 +73320,7 @@ module stdlib_linalg_lapack_z
            ! scale matrix to allowable range, if necessary.
            anrm = stdlib_zlanhe('m', uplo, n, a, lda, rwork)
            iscale = 0
-           if (anrm > czero .and. anrm < rmin) then
+           if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
            else if (anrm > rmax) then
@@ -73623,7 +73598,7 @@ module stdlib_linalg_lapack_z
            ! scale matrix to allowable range, if necessary.
            anrm = stdlib_zlanhp('m', uplo, n, ap, rwork)
            iscale = 0
-           if (anrm > czero .and. anrm < rmin) then
+           if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
            else if (anrm > rmax) then
@@ -73900,14 +73875,14 @@ module stdlib_linalg_lapack_z
            ! get machine constants
            eps = stdlib_dlamch('p')
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            smlnum = sqrt(smlnum)/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
            anrm = stdlib_zlange('m', n, n, a, lda, dum)
            scalea = .false.
-           if (anrm > czero .and. anrm < smlnum) then
+           if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
               cscale = smlnum
            else if (anrm > bignum) then
@@ -74091,14 +74066,14 @@ module stdlib_linalg_lapack_z
            ! get machine constants
            eps = stdlib_dlamch('p')
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            smlnum = sqrt(smlnum)/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
            anrm = stdlib_zlange('m', n, n, a, lda, dum)
            scalea = .false.
-           if (anrm > czero .and. anrm < smlnum) then
+           if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
               cscale = smlnum
            else if (anrm > bignum) then
@@ -74290,14 +74265,14 @@ module stdlib_linalg_lapack_z
            ! get machine constants
            eps = stdlib_dlamch('p')
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            smlnum = sqrt(smlnum)/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
            anrm = stdlib_zlange('m', n, n, a, lda, dum)
            scalea = .false.
-           if (anrm > czero .and. anrm < smlnum) then
+           if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
               cscale = smlnum
            else if (anrm > bignum) then
@@ -74380,7 +74355,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgebak('b', 'l', n, ilo, ihi, rwork(ibal), n, vl, ldvl, ierr)
               ! normalize left eigenvectors and make largest component real
               do i = 1, n
-                 scl = cone/stdlib_dznrm2(n, vl(1, i), 1)
+                 scl = one/stdlib_dznrm2(n, vl(1, i), 1)
                  call stdlib_zdscal(n, scl, vl(1, i), 1)
                  do k = 1, n
                     rwork(irwork + k - 1) = dble(vl(k, i))**2 + aimag(vl(k, i))**2
@@ -74388,7 +74363,7 @@ module stdlib_linalg_lapack_z
                  k = stdlib_idamax(n, rwork(irwork), 1)
                  tmp = conjg(vl(k, i))/sqrt(rwork(irwork + k - 1))
                  call stdlib_zscal(n, tmp, vl(1, i), 1)
-                 vl(k, i) = dcmplx(dble(vl(k, i)), czero)
+                 vl(k, i) = dcmplx(dble(vl(k, i)), zero)
               end do
            end if
            if (wantvr) then
@@ -74398,7 +74373,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgebak('b', 'r', n, ilo, ihi, rwork(ibal), n, vr, ldvr, ierr)
               ! normalize right eigenvectors and make largest component real
               do i = 1, n
-                 scl = cone/stdlib_dznrm2(n, vr(1, i), 1)
+                 scl = one/stdlib_dznrm2(n, vr(1, i), 1)
                  call stdlib_zdscal(n, scl, vr(1, i), 1)
                  do k = 1, n
                     rwork(irwork + k - 1) = dble(vr(k, i))**2 + aimag(vr(k, i))**2
@@ -74406,7 +74381,7 @@ module stdlib_linalg_lapack_z
                  k = stdlib_idamax(n, rwork(irwork), 1)
                  tmp = conjg(vr(k, i))/sqrt(rwork(irwork + k - 1))
                  call stdlib_zscal(n, tmp, vr(1, i), 1)
-                 vr(k, i) = dcmplx(dble(vr(k, i)), czero)
+                 vr(k, i) = dcmplx(dble(vr(k, i)), zero)
               end do
            end if
            ! undo scaling if necessary
@@ -74578,15 +74553,15 @@ module stdlib_linalg_lapack_z
            ! get machine constants
            eps = stdlib_dlamch('p')
            smlnum = stdlib_dlamch('s')
-           bignum = cone/smlnum
+           bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
            smlnum = sqrt(smlnum)/eps
-           bignum = cone/smlnum
+           bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
            icond = 0
            anrm = stdlib_zlange('m', n, n, a, lda, dum)
            scalea = .false.
-           if (anrm > czero .and. anrm < smlnum) then
+           if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
               cscale = smlnum
            else if (anrm > bignum) then
@@ -74682,7 +74657,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgebak(balanc, 'l', n, ilo, ihi, scale, n, vl, ldvl, ierr)
               ! normalize left eigenvectors and make largest component real
               do i = 1, n
-                 scl = cone/stdlib_dznrm2(n, vl(1, i), 1)
+                 scl = one/stdlib_dznrm2(n, vl(1, i), 1)
                  call stdlib_zdscal(n, scl, vl(1, i), 1)
                  do k = 1, n
                     rwork(k) = dble(vl(k, i))**2 + aimag(vl(k, i))**2
@@ -74690,7 +74665,7 @@ module stdlib_linalg_lapack_z
                  k = stdlib_idamax(n, rwork, 1)
                  tmp = conjg(vl(k, i))/sqrt(rwork(k))
                  call stdlib_zscal(n, tmp, vl(1, i), 1)
-                 vl(k, i) = dcmplx(dble(vl(k, i)), czero)
+                 vl(k, i) = dcmplx(dble(vl(k, i)), zero)
               end do
            end if
            if (wantvr) then
@@ -74698,7 +74673,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgebak(balanc, 'r', n, ilo, ihi, scale, n, vr, ldvr, ierr)
               ! normalize right eigenvectors and make largest component real
               do i = 1, n
-                 scl = cone/stdlib_dznrm2(n, vr(1, i), 1)
+                 scl = one/stdlib_dznrm2(n, vr(1, i), 1)
                  call stdlib_zdscal(n, scl, vr(1, i), 1)
                  do k = 1, n
                     rwork(k) = dble(vr(k, i))**2 + aimag(vr(k, i))**2
@@ -74706,7 +74681,7 @@ module stdlib_linalg_lapack_z
                  k = stdlib_idamax(n, rwork, 1)
                  tmp = conjg(vr(k, i))/sqrt(rwork(k))
                  call stdlib_zscal(n, tmp, vr(1, i), 1)
-                 vr(k, i) = dcmplx(dble(vr(k, i)), czero)
+                 vr(k, i) = dcmplx(dble(vr(k, i)), zero)
               end do
            end if
            ! undo scaling if necessary
@@ -76596,9 +76571,9 @@ module stdlib_linalg_lapack_z
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -chalf*abs(aqoap - apoaq)/aapq1
+                                      theta = -half*abs(aqoap - apoaq)/aapq1
                                       if (abs(theta) > bigtheta) then
-                                         t = chalf/theta
+                                         t = half/theta
                                          cs = one
                                          call stdlib_zrot(m, a(1, p), 1, a(1, q), 1, cs, conjg(ompq) &
                                                    *t)
@@ -76760,10 +76735,10 @@ module stdlib_linalg_lapack_z
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -chalf*abs(aqoap - apoaq)/aapq1
+                                      theta = -half*abs(aqoap - apoaq)/aapq1
                                       if (aaqq > aapp0) theta = -theta
                                       if (abs(theta) > bigtheta) then
-                                         t = chalf/theta
+                                         t = half/theta
                                          cs = one
                                          call stdlib_zrot(m, a(1, p), 1, a(1, q), 1, cs, conjg(ompq) &
                                                    *t)
@@ -77711,9 +77686,9 @@ module stdlib_linalg_lapack_z
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -chalf*abs(aqoap - apoaq)/aapq1
+                                      theta = -half*abs(aqoap - apoaq)/aapq1
                                       if (abs(theta) > bigtheta) then
-                                         t = chalf/theta
+                                         t = half/theta
                                          cs = one
                                          call stdlib_zrot(m, a(1, p), 1, a(1, q), 1, cs, conjg(ompq) &
                                                    *t)
@@ -77874,10 +77849,10 @@ module stdlib_linalg_lapack_z
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -chalf*abs(aqoap - apoaq)/aapq1
+                                      theta = -half*abs(aqoap - apoaq)/aapq1
                                       if (aaqq > aapp0) theta = -theta
                                       if (abs(theta) > bigtheta) then
-                                         t = chalf/theta
+                                         t = half/theta
                                          cs = one
                                          call stdlib_zrot(m, a(1, p), 1, a(1, q), 1, cs, conjg(ompq) &
                                                    *t)
@@ -78143,10 +78118,10 @@ module stdlib_linalg_lapack_z
            rooteps = sqrt(eps)
            rootsfmin = sqrt(sfmin)
            small = sfmin/eps
-           big = cone/sfmin
-           rootbig = cone/rootsfmin
+           big = one/sfmin
+           rootbig = one/rootsfmin
            ! large = big / sqrt( dble( m*n ) )
-           bigtheta = cone/rooteps
+           bigtheta = one/rooteps
            roottol = sqrt(tol)
            ! .. initialize the right singular vector matrix ..
            ! rsvec = stdlib_lsame( jobv, 'y' )
@@ -78175,8 +78150,8 @@ module stdlib_linalg_lapack_z
            ! |[x] [x] [x] *   *   * |
            loop_1993: do i = 1, nsweep
            ! .. go go go ...
-              mxaapq = czero
-              mxsinj = czero
+              mxaapq = zero
+              mxsinj = zero
               iswrot = 0
               notrot = 0
               pskipped = 0
@@ -78195,15 +78170,15 @@ module stdlib_linalg_lapack_z
                     ijblsk = 0
                     loop_2100: do p = igl, min(igl + kbl - 1, n1)
                        aapp = sva(p)
-                       if (aapp > czero) then
+                       if (aapp > zero) then
                           pskipped = 0
                           loop_2200: do q = jgl, min(jgl + kbl - 1, n)
                              aaqq = sva(q)
-                             if (aaqq > czero) then
+                             if (aaqq > zero) then
                                 aapp0 = aapp
            ! .. m x 2 jacobi svd ..
               ! safe gram matrix computation
-                                if (aaqq >= cone) then
+                                if (aaqq >= one) then
                                    if (aapp >= aaqq) then
                                       rotok = (small*aapp) <= aaqq
                                    else
@@ -78214,7 +78189,7 @@ module stdlib_linalg_lapack_z
                                                 aaqq)/aapp
                                    else
                                       call stdlib_zcopy(m, a(1, p), 1, work, 1)
-                                      call stdlib_zlascl('g', 0, 0, aapp, cone, m, 1, work, lda, &
+                                      call stdlib_zlascl('g', 0, 0, aapp, one, m, 1, work, lda, &
                                                 ierr)
                                       aapq = stdlib_zdotc(m, work, 1, a(1, q), 1)/ &
                                                 aaqq
@@ -78230,7 +78205,7 @@ module stdlib_linalg_lapack_z
                                                 aaqq, aapp))/min(aaqq, aapp)
                                    else
                                       call stdlib_zcopy(m, a(1, q), 1, work, 1)
-                                      call stdlib_zlascl('g', 0, 0, aaqq, cone, m, 1, work, lda, &
+                                      call stdlib_zlascl('g', 0, 0, aaqq, one, m, 1, work, lda, &
                                                 ierr)
                                       aapq = stdlib_zdotc(m, a(1, p), 1, work, 1)/ &
                                                 aapp
@@ -78249,35 +78224,33 @@ module stdlib_linalg_lapack_z
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -chalf*abs(aqoap - apoaq)/aapq1
+                                      theta = -half*abs(aqoap - apoaq)/aapq1
                                       if (aaqq > aapp0) theta = -theta
                                       if (abs(theta) > bigtheta) then
-                                         t = chalf/theta
-                                         cs = cone
+                                         t = half/theta
+                                         cs = one
                                          call stdlib_zrot(m, a(1, p), 1, a(1, q), 1, cs, conjg(ompq) &
                                                    *t)
                                          if (rsvec) then
                                              call stdlib_zrot(mvl, v(1, p), 1, v(1, q), 1, cs, &
                                                        conjg(ompq)*t)
                                          end if
-                                         sva(q) = aaqq*sqrt(max(czero, cone + t*apoaq*aapq1))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq1))
                                                    
-                                         aapp = aapp*sqrt(max(czero, cone - t*aqoap*aapq1))
-                                                   
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj, abs(t))
                                       else
                        ! .. choose correct signum for theta and rotate
-                                         thsign = -sign(cone, aapq1)
+                                         thsign = -sign(one, aapq1)
                                          if (aaqq > aapp0) thsign = -thsign
-                                         t = cone/(theta + thsign*sqrt(cone + theta*theta))
+                                         t = one/(theta + thsign*sqrt(one + theta*theta))
                                                    
-                                         cs = sqrt(cone/(cone + t*t))
+                                         cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj, abs(sn))
-                                         sva(q) = aaqq*sqrt(max(czero, cone + t*apoaq*aapq1))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq1))
                                                    
-                                         aapp = aapp*sqrt(max(czero, cone - t*aqoap*aapq1))
-                                                   
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq1))
                                          call stdlib_zrot(m, a(1, p), 1, a(1, q), 1, cs, conjg(ompq) &
                                                    *sn)
                                          if (rsvec) then
@@ -78290,28 +78263,28 @@ module stdlib_linalg_lapack_z
                     ! .. have to use modified gram-schmidt like transformation
                                     if (aapp > aaqq) then
                                          call stdlib_zcopy(m, a(1, p), 1, work, 1)
-                                         call stdlib_zlascl('g', 0, 0, aapp, cone, m, 1, work, lda, &
+                                         call stdlib_zlascl('g', 0, 0, aapp, one, m, 1, work, lda, &
                                                    ierr)
-                                         call stdlib_zlascl('g', 0, 0, aaqq, cone, m, 1, a(1, q) &
-                                                   , lda, ierr)
+                                         call stdlib_zlascl('g', 0, 0, aaqq, one, m, 1, a(1, q), &
+                                                    lda, ierr)
                                          call stdlib_zaxpy(m, -aapq, work, 1, a(1, q), 1)
                                                    
-                                         call stdlib_zlascl('g', 0, 0, cone, aaqq, m, 1, a(1, q) &
-                                                   , lda, ierr)
-                                         sva(q) = aaqq*sqrt(max(czero, cone - aapq1*aapq1))
+                                         call stdlib_zlascl('g', 0, 0, one, aaqq, m, 1, a(1, q), &
+                                                    lda, ierr)
+                                         sva(q) = aaqq*sqrt(max(zero, one - aapq1*aapq1))
                                                    
                                          mxsinj = max(mxsinj, sfmin)
                                     else
                                         call stdlib_zcopy(m, a(1, q), 1, work, 1)
-                                         call stdlib_zlascl('g', 0, 0, aaqq, cone, m, 1, work, lda, &
+                                         call stdlib_zlascl('g', 0, 0, aaqq, one, m, 1, work, lda, &
                                                    ierr)
-                                         call stdlib_zlascl('g', 0, 0, aapp, cone, m, 1, a(1, p) &
-                                                   , lda, ierr)
+                                         call stdlib_zlascl('g', 0, 0, aapp, one, m, 1, a(1, p), &
+                                                    lda, ierr)
                                          call stdlib_zaxpy(m, -conjg(aapq), work, 1, a(1, p), 1 &
                                                    )
-                                         call stdlib_zlascl('g', 0, 0, cone, aapp, m, 1, a(1, p) &
-                                                   , lda, ierr)
-                                         sva(p) = aapp*sqrt(max(czero, cone - aapq1*aapq1))
+                                         call stdlib_zlascl('g', 0, 0, one, aapp, m, 1, a(1, p), &
+                                                    lda, ierr)
+                                         sva(p) = aapp*sqrt(max(zero, one - aapq1*aapq1))
                                                    
                                          mxsinj = max(mxsinj, sfmin)
                                     end if
@@ -78323,8 +78296,8 @@ module stdlib_linalg_lapack_z
                                       if ((aaqq < rootbig) .and. (aaqq > rootsfmin)) then
                                          sva(q) = stdlib_dznrm2(m, a(1, q), 1)
                                        else
-                                         t = czero
-                                         aaqq = cone
+                                         t = zero
+                                         aaqq = one
                                          call stdlib_zlassq(m, a(1, q), 1, t, aaqq)
                                          sva(q) = t*sqrt(aaqq)
                                       end if
@@ -78333,8 +78306,8 @@ module stdlib_linalg_lapack_z
                                       if ((aapp < rootbig) .and. (aapp > rootsfmin)) then
                                          aapp = stdlib_dznrm2(m, a(1, p), 1)
                                       else
-                                         t = czero
-                                         aapp = cone
+                                         t = zero
+                                         aapp = one
                                          call stdlib_zlassq(m, a(1, p), 1, t, aapp)
                                          aapp = t*sqrt(aapp)
                                       end if
@@ -78367,8 +78340,8 @@ module stdlib_linalg_lapack_z
 2203  continue
                           sva(p) = aapp
                        else
-                          if (aapp == czero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
-                          if (aapp < czero) notrot = 0
+                          if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
+                          if (aapp < zero) notrot = 0
                        end if
                     end do loop_2100
            ! end of the p-loop
@@ -78386,8 +78359,8 @@ module stdlib_linalg_lapack_z
               if ((sva(n) < rootbig) .and. (sva(n) > rootsfmin)) then
                  sva(n) = stdlib_dznrm2(m, a(1, n), 1)
               else
-                 t = czero
-                 aapp = cone
+                 t = zero
+                 aapp = one
                  call stdlib_zlassq(m, a(1, n), 1, t, aapp)
                  sva(n) = t*sqrt(aapp)
               end if
