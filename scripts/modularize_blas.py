@@ -1136,13 +1136,56 @@ def add_parameter_lines(Source,prefix,body):
         else:
             printed+=1
 
+    preal = ['one','zero','half']
+    pcmpl = ['cone','czero','chalf']
+
+
+
     if Source.old_name[0]=='c' or Source.old_name[0]=='z':
-       wrong_param.append('one')
-       right_param.append('cone')
-       wrong_param.append('zero')
-       right_param.append('czero')
-       wrong_param.append('half')
-       right_param.append('chalf')
+
+       if Source.old_name[0]=='c':
+          rtyp = 'real(sp)'
+          ctyp = 'complex(sp)'
+       else:
+          rtyp = 'real(dp)'
+          ctyp = 'complex(dp)'
+
+       for j in range(len(preal)):
+           pr = preal[j]
+           pc = pcmpl[j]
+
+           rfound = pr in Source.pname
+           cfound = pc in Source.pname
+
+           r2c = False
+           c2r = False
+
+           if not (rfound or cfound):
+               # No parameters found: apply real -> cmplx by default
+               r2c = True
+               c2r = False
+           elif rfound and cfound:
+               # both found: to not replace
+               r2c = False
+               c2r = False
+           elif rfound:
+               # only real name found: does it hold the right type?
+               idx = Source.pname.index(pr)
+               r2c = Source.ptype[idx] != rtyp
+               c2r = False
+           elif cfound:
+               # only complex name found: does it hold the right type?
+               idx = Source.pname.index(pr)
+               c2r = Source.ptype[idx] != ctyp
+               r2c = False
+
+           if r2c:
+               wrong_param.append(pr)
+               right_param.append(pc)
+           elif c2r:
+               wrong_param.append(pc)
+               right_param.append(pr)
+
 
     # Do not print ".. function parameters .." line if none is printed out
     if printed>0 or len(Source.pname)<=0:
