@@ -8,9 +8,11 @@ The following refactorings are applied:
 - All datatypes and accuracy constants standardized into a module (`stdlib`-compatible names)
 - Free format, lower-case style
 - `implicit none(type, external)` everywhere
+- Removed `DO 10 .... 10 CONTINUE`, replaced with `do..end do` loops or labelled `loop_10: do ... cycle loop_10 ... end do loop_10` in case control statements are present
 - BLAS modularized into a single-file module
 - LAPACK modularized into a single-file module
 - All procedures prefixed (with `stdlib_`, currently).
+- F77-style `parameter`s removed, and numeric constants moved to the top of each module.
 - preprocessor-based OpenMP directives retained.
 
 The single-source module structure hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.
