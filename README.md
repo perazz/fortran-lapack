@@ -13,6 +13,7 @@ The following refactorings are applied:
 - LAPACK modularized into a single-file module
 - All procedures prefixed (with `stdlib_`, currently).
 - F77-style `parameter`s removed, and numeric constants moved to the top of each module.
+- Ambiguity in single vs. double precision constants (`0.0`, `0.d0`, `(1.0,0.0)`) removed
 - preprocessor-based OpenMP directives retained.
 
 The single-source module structure hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.
