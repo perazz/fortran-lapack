@@ -928,8 +928,10 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     Source.body = []
     Source.decl = []
     Source.header = []
-    open_loops = []
-    loop_starts = []
+    open_loops = []  # Label of the open loop
+    loop_lines  = [] # Starting line where the loop is opened
+    loop_spaces = [] # Heading spaces of an open loop label
+    loop_statements = [] # Other statements for this loop were found
 
     # FiLoad whole file; split by lines; join concatenation lines
     with open(os.path.join(source_folder,file_name), 'r') as file:
@@ -1130,8 +1132,11 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            nspaces = len(line) - len(line.lstrip(' '))
                            line    = (" "*nspaces) + "loop_" + str(numbers[0]) + ": do " + line[m_loop.end():]
 
-                           open_loops.append(numbers[0])
-                           loop_starts.append(nspaces)
+                           open_loops.append(numbers[0]) # Save loop label
+                           loop_spaces.append(nspaces)   # Save number of spaces
+                           loop_lines.append(len(Source.body)) # Save line ID the opening statement will be saved to
+                           loop_statements.append(0) # Start with 0 statements found
+
 
                        # Go to inside labelled loop
                        m_goto = re.search(r'go\s*to\s+\d+$',line.lower())
@@ -1142,12 +1147,16 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            # This "go to" matches one of the current loops
                            if len(open_loops)>0:
                                if numbers[0] in open_loops:
+                                   iloop = open_loops.index(numbers[0])
                                    nspaces = len(line) - len(line.lstrip(' '))
                                    left = line[:m_goto.start()]
                                    if len(left.strip())<=0:
                                        line = (nspaces*" ") + "cycle loop_" + str(numbers[0])
                                    else:
                                        line = line[:m_goto.start()] + "cycle loop_" + str(numbers[0])
+
+                                   # Save that a loop statement was found
+                                   loop_statements[iloop]+=1
 
                                    if DEBUG: print(line)
 
@@ -1159,9 +1168,30 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            # This "continue" matches loop
                            if len(open_loops)>0:
                                if open_loops[-1]==numbers[0]:
-                                   loop_ID = open_loops.pop()
-                                   nspaces = loop_starts.pop()
-                                   line    = (" "*nspaces) + "end do loop_" + str(loop_ID)
+                                   loop_ID   = open_loops.pop()
+                                   nspaces   = loop_spaces.pop()
+                                   nstmt     = loop_statements.pop()
+                                   startline = loop_lines.pop()
+
+                                   # Remove loop_xyz labels from loops that:
+                                   # 1) do not have cycle/exit statements
+                                   # 2) span less than 25 lines of code
+
+                                   if nstmt==0 and len(Source.body)-startline<25:
+
+                                      previous = INDENT + (" "*nspaces) + "loop_" + str(numbers[0]) + ": "
+                                      oldline  = Source.body[startline]
+                                      previous = (" "*nspaces) + oldline[len(previous):]
+
+                                      # Override old line
+                                      Source.body[startline] = INDENT + previous
+                                      # End loop without label
+                                      line    = (" "*nspaces) + "end do"
+                                   else:
+                                      # There are some cycle/exit statements: retain label
+                                      line    = (" "*nspaces) + "end do loop_" + str(loop_ID)
+
+
 
                        # End of the function/subroutine: inside a module, it must contain its name
                        if     line.strip().upper()=="END" \
@@ -1193,11 +1223,13 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   Source  = Fortran_Source()
                   whereAt = Section.HEADER
                   Source.is_free_form = free_form
-                  Source.body   = []
-                  Source.decl   = []
-                  Source.header = []
-                  open_loops    = []
-                  loop_starts   = []
+                  Source.body     = []
+                  Source.decl     = []
+                  Source.header   = []
+                  open_loops      = []
+                  loop_lines      = []
+                  loop_spaces     = []
+                  loop_statements = []
 
     if whereAt!=Section.END and whereAt!=Section.HEADER:
         print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper() + " file " + file_name)
