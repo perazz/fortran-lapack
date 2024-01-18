@@ -387,7 +387,6 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
     for i in range(len(functions)):
         for j in range(len(functions[i].deps)):
            functions[i].ideps.append(fun_names.index(functions[i].deps[j].lower()))
-        print(functions[i].ideps)
 
     attempt = 0
     MAXIT   = 50*len(functions)
@@ -482,16 +481,12 @@ def adjust_variable_declaration(line,datatype):
 
             # Patch function argument
             if i==4 and variable.lower().strip()=='selctg':
-                print(line)
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_selctg_"+datatype[0]+") :: selctg"
-                print(line)
 
             if i==4 and variable.lower().strip()=='select':
-                print(line)
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_select_"+datatype[0]+") :: select"
-                print(line)
 
             return line
 
@@ -632,7 +627,6 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
               end_line = "&\n" if len(next.strip())>0 else "\n"
               comment  = "continued" if continued else "non      "
               fid.write(line[:m.start()+1+shift] + end_line)
-              print(comment+" line:" + line[:m.start()+1+shift])
 
               # Start with reminder (add same number of trailing spaces
               nspaces = len(line)-len(line.lstrip(' '))
@@ -660,6 +654,7 @@ class Fortran_Source:
         self.decl          = []
         self.printed       = False
         self.pname = []
+        self.ptype = []
         self.pvalue = []
         self.header = []
 
@@ -909,8 +904,6 @@ def rename_parameter_line(line,Source,prefix):
            break
     if not is_decl: return line
 
-    print(ll)
-
     parameter_found = [False for i in range(len(Source.pname))]
     parameter_type  = [" " for i in range(len(Source.pname))]
 
@@ -921,7 +914,9 @@ def rename_parameter_line(line,Source,prefix):
         has_params = False
         for j in range(len(Source.pname)):
             parameter = Source.pname[j]
-            if bool(re.search(r"\b"+parameter+r"\b",ll)):
+            if bool(re.search(r"\b"+parameter+r"\b",ll)) and \
+               not bool(re.search(r"\(\s*\b"+parameter+r"\b",ll)) and\
+               not bool(re.search(r"\b"+parameter+r"\b\s*\)",ll)):
                 parameter_found[j] = True
                 has_params = True
 
@@ -929,6 +924,7 @@ def rename_parameter_line(line,Source,prefix):
                 for k in range(len(datatypes)):
                    if (ll.startswith(datatypes[k])):
                        parameter_type[j] = datatypes[k]
+                       Source.ptype[j]   = datatypes[k]
                        break
 
                 if parameter_type[j]==" " or len(parameter_type[j])<=0:
@@ -938,7 +934,6 @@ def rename_parameter_line(line,Source,prefix):
 
         # Remove parameter declarations from this line
         if has_params:
-            print(ll)
             for j in range(len(Source.pname)):
                 if parameter_found[j]: ll = re.sub(r"\b"+Source.pname[j]+r"\b\,*","",ll)
 
@@ -1028,7 +1023,67 @@ def rename_source_body(Source,Sources,external_funs,prefix):
         if is_found[j]:
             dependency_list.append(old_names[j])
 
+    # Add parameters
+    body = add_parameter_lines(Source,prefix,body)
+
     return body,dependency_list
+
+# Filter out parameters from the global config, and list those in the current routine
+def add_parameter_lines(Source,prefix,body):
+
+    import re
+
+    start_line = 0
+    INDENT = "    "
+
+    if len(Source.pname)<=0: return body;
+
+    # Find parameter line
+    for i in range(len(body)):
+       ll = body[i].lstrip()
+
+       if re.match(r'\s*\!\s*\.\.\sparameters\s\.\.\s*',ll) or \
+          re.match(r'\s*\!\s*\.\.\slocal\sparameters\s\.\.\s*',ll) or \
+          re.match(r'\s*\!\s*parameters\s*',ll) or \
+          re.match(r'\s*\!\s*\.\.\sparameter\s\.\.\s*',ll):
+
+           heading = re.match(r'\!\s*',ll);
+           start_line = i
+           nspaces = len(body[i])-len(ll)+heading.end()-heading.start()
+           INDENT = nspaces*" "
+           break
+
+
+
+    new = []
+
+    if start_line==0:
+        for i in range(len(body)):
+           ll = body[i].lstrip()
+
+           if re.match(r'\s*\!\s*\.\.\slocal\sscalars\s\.\.\s*',ll) or \
+              re.match(r'\s*\!\s*\.\.\slocal\sscalar\s\.\.\s*',ll):
+               heading = re.match(r'\!\s*',ll);
+               start_line = i
+               nspaces = len(body[i])-len(ll)+heading.end()-heading.start()
+               INDENT = nspaces*" "
+               break
+
+    if start_line==0:
+        print("cannot find parameter starting line")
+        print("\n".join(body))
+        exit(1)
+
+    for i in range(start_line+1):
+        new.append(body[i])
+
+    for i in range(len(Source.pname)):
+        new.append(INDENT + Source.ptype[i] + ", parameter :: " + Source.pname[i] + " = " + Source.pvalue[i])
+
+    for i in range(len(body)-start_line-1):
+        new.append(body[start_line+1+i])
+
+    return new
 
 def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
@@ -1238,6 +1293,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                   for k in range(len(pname)):
                                       Source.pname.append(pname[k])
                                       Source.pvalue.append(pval[k])
+                                      Source.ptype.append(" ")
 
                                   # Do not include "parameter" line in the body
                                   line = ""
@@ -1403,12 +1459,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
