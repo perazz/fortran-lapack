@@ -476,6 +476,41 @@ module stdlib_linalg_lapack_d
      public :: stdlib_dtzrzf
      public :: stdlib_dzsum1
 
+     ! 64-bit real constants
+     real(dp), parameter, private :: zero = 0.00_dp
+     real(dp), parameter, private :: half = 0.50_dp
+     real(dp), parameter, private :: one = 1.00_dp
+     real(dp), parameter, private :: two = 2.00_dp
+     real(dp), parameter, private :: three = 3.00_dp
+     real(dp), parameter, private :: four = 4.00_dp
+     real(dp), parameter, private :: eight = 8.00_dp
+     real(dp), parameter, private :: ten = 10.00_dp
+
+     ! 64-bit complex constants
+     complex(dp), parameter, private :: czero = (0.0_dp, 0.0_dp)
+     complex(dp), parameter, private :: chalf = (0.5_dp, 0.0_dp)
+     complex(dp), parameter, private :: cone = (1.0_dp, 0.0_dp)
+
+     ! 64-bit scaling constants
+     integer, parameter, private :: maxexp = maxexponent(zero)
+     integer, parameter, private :: minexp = minexponent(zero)
+     real(dp), parameter, private :: rradix = real(radix(zero), dp)
+     real(dp), parameter, private :: ulp = epsilon(zero)
+     real(dp), parameter, private :: eps = ulp*half
+     real(dp), parameter, private :: safmin = rradix**max(minexp - 1, 1 - maxexp)
+     real(dp), parameter, private :: safmax = one/safmin
+     real(dp), parameter, private :: smlnum = safmin/ulp
+     real(dp), parameter, private :: bignum = safmax*ulp
+     real(dp), parameter, private :: rtmin = sqrt(smlnum)
+     real(dp), parameter, private :: rtmax = sqrt(bignum)
+
+     ! 64-bit Blue's scaling constants
+     ! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771
+     real(dp), parameter, private :: tsml = rradix**ceiling((minexp - 1)*half)
+     real(dp), parameter, private :: tbig = rradix**floor((maxexp - digits(zero) + 1)*half)
+     real(dp), parameter, private :: ssml = rradix**(-floor((minexp - digits(zero))*half))
+     real(dp), parameter, private :: sbig = rradix**(-ceiling((maxexp + digits(zero) - 1)*half))
+
      contains
 
      ! DGBTF2 computes an LU factorization of a real m-by-n band matrix A
@@ -492,9 +527,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: ab(ldab, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, jp, ju, km, kv
@@ -584,8 +616,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: ab(ldab, *), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lnoti, notran
@@ -678,8 +708,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: scale(*), v(ldv, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: leftv, rightv
@@ -891,8 +919,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: b(ldb, *), d(*), dl(*), du(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -1075,8 +1101,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: d(*), dl(*), du(*), du2(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -1417,9 +1441,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, jlast
@@ -1551,9 +1572,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, iter, j, jlast, jump
@@ -1707,8 +1725,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            real(dp) :: a, b, c, d, r, t
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            real(dp) :: br
@@ -1740,11 +1756,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            real(dp) :: a, b, c, rt1, rt2
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! .. local scalars ..
            real(dp) :: ab, acmn, acmx, adf, df, rt, sm, tb
@@ -1837,10 +1848,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*), nab(mmax, *), nval(*)
            real(dp) :: ab(mmax, *), c(*), d(*), e(*), e2(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: half = 1.0d0/two
            
            ! .. local scalars ..
            integer(ilp) :: itmp1, itmp2, j, ji, jit, jp, kf, kfnew, kl, klnew
@@ -2083,11 +2090,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(2), delta(2), z(2)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: four = 4.0d0
            
            ! .. local scalars ..
            real(dp) :: b, c, del, tau, temp, w
@@ -2155,10 +2157,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: givcol(2, *), givptr(*), perm(*), prmptr(*), qptr(*)
            real(dp) :: givnum(2, *), q(*), z(*), ztemp(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            integer(ilp) :: bsiz1, bsiz2, curr, i, k, mid, psiz1, psiz2, ptr, zptr1
@@ -2262,11 +2260,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            real(dp) :: a, b, c, cs1, rt1, rt2, sn1
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! .. local scalars ..
            integer(ilp) :: sgn1, sgn2
@@ -2365,10 +2358,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: half = one/two
            real(dp), parameter :: fuzzy1 = one + 1.0d-5
            
            ! .. local scalars ..
@@ -2588,9 +2577,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: b(ldb, *), d(*), dl(*), du(*), x(ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -2709,9 +2695,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            character :: cmach
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: rnd, eps, sfmin, small, rmach
@@ -2897,8 +2880,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            real(dp) :: sfmin
@@ -3119,8 +3100,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            real(dp) :: x, y, z
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            real(dp) :: w, xabs, yabs, zabs, hugeval
@@ -3161,7 +3140,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ab(ldab, *), c(*), r(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: thresh = 0.1_dp
            
            ! .. local scalars ..
@@ -3231,7 +3209,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), c(*), r(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: thresh = 0.1_dp
            
            ! .. local scalars ..
@@ -3305,8 +3282,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: h(ldh, *), v(*)
         ! ================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: h21s, h31s, s
@@ -3360,7 +3335,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ab(ldab, *), s(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: thresh = 0.1_dp
            
            ! .. local scalars ..
@@ -3421,7 +3395,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ap(*), s(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: thresh = 0.1_dp
            
            ! .. local scalars ..
@@ -3484,7 +3457,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), s(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: thresh = 0.1_dp
            
            ! .. local scalars ..
@@ -3588,9 +3560,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: c(ldc, *), v(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: applyleft
@@ -3665,8 +3634,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: c(ldc, *), t(ldt, *), v(ldv, *), work(ldwork, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            character :: transt
@@ -3994,9 +3961,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *), work(ldwork, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lnotident
@@ -4136,9 +4100,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: t(ldt, *), tau(*), v(ldv, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, prevlastv, lastv
@@ -4265,9 +4226,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: c(ldc, *), v(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: j
@@ -4770,10 +4728,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: c(ldc, *), v(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: half = 0.5_dp
            
            ! .. local scalars ..
            real(dp) :: alpha
@@ -4804,9 +4758,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: c(*), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, ic, ix, iy
@@ -4861,8 +4812,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: isplit(*)
            real(dp) :: d(*), e(*), e2(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -4921,8 +4870,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(*), e(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -5021,11 +4968,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: d(*), e2(*), w(*), werr(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: half = 0.5d0
            
            integer(ilp) :: maxitr
            ! .. local scalars ..
@@ -5203,10 +5145,7 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), e2(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: two = 2.0d0
            real(dp), parameter :: fudge = two
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: i, it, itmax, negcnt
@@ -5279,7 +5218,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), e(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
            real(dp), parameter :: relcond = 0.999d0
            
            ! .. local scalars ..
@@ -5368,7 +5306,7 @@ module stdlib_linalg_lapack_d
      ! If G=0, then C=1 and S=0.
      ! If F=0 and (G .ne. 0), then C=0 and S=sign(1,G) without doing any
      ! floating point operations (saves work in DBDSQR when
-     ! there aredzeros on the diagonal).
+     ! there are zeros on the diagonal).
      ! If F exceeds G in magnitude, C will be positive.
      ! Below, wp=>dp stands for double precision from LA_CONSTANTS module.
 
@@ -5386,28 +5324,28 @@ module stdlib_linalg_lapack_d
         ! .. executable statements ..
         f1 = abs(f)
         g1 = abs(g)
-        if (g == dzero) then
-           c = done
-           s = dzero
+        if (g == zero) then
+           c = one
+           s = zero
            r = f
-        else if (f == dzero) then
-           c = dzero
-           s = sign(done, g)
+        else if (f == zero) then
+           c = zero
+           s = sign(one, g)
            r = g1
-     else if (f1 > drtmin .and. f1 < drtmax .and. g1 > drtmin .and. g1 < drtmax) &
+     else if (f1 > rtmin .and. f1 < rtmax .and. g1 > rtmin .and. g1 < rtmax) &
                then
            d = sqrt(f*f + g*g)
-           p = done/d
+           p = one/d
            c = f1*p
            s = g*sign(p, f)
            r = sign(d, f)
         else
-           u = min(dsafmax, max(dsafmin, f1, g1))
-           uu = done/u
+           u = min(safmax, max(safmin, f1, g1))
+           uu = one/u
            fs = f*uu
            gs = g*uu
            d = sqrt(fs*fs + gs*gs)
-           p = done/d
+           p = one/d
            c = abs(fs)*p
            s = gs*sign(p, f)
            r = sign(d, f)*u
@@ -5432,10 +5370,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            real(dp) :: cs, f, g, r, sn
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
            
            ! .. local scalars ..
            ! logical            first
@@ -5530,8 +5464,6 @@ module stdlib_linalg_lapack_d
         ! ===================================================================
            ! .. parameters ..
            real(dp), parameter :: negone = -1.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            real(dp) :: r, s, thresh, w, z
@@ -5621,7 +5553,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: x(n)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
            integer(ilp), parameter :: lv = 128
            integer(ilp), parameter :: ipw2 = 4096
            real(dp), parameter :: r = one/ipw2
@@ -5826,9 +5757,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: c(ldc, *), v(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. executable statements ..
            if (stdlib_lsame(side, 'l')) then
@@ -5879,8 +5807,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: c(ldc, *), t(ldt, *), v(ldv, *), work(ldwork, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            character :: transt
@@ -5979,8 +5905,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: t(ldt, *), tau(*), v(ldv, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, info, j
@@ -6033,10 +5957,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            real(dp) :: f, g, h, ssmax, ssmin
         ! ====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
            
            ! .. local scalars ..
            real(dp) :: as, at, au, c, fa, fhmn, fhmx, ga, ha
@@ -6105,12 +6025,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(2), delta(2), work(2), z(2)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
-           real(dp), parameter :: four = 4.0_dp
            
            ! .. local scalars ..
            real(dp) :: b, c, del, delsq, tau, w
@@ -6198,8 +6112,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            integer(ilp) :: inode(*), ndiml(*), ndimr(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: two = 2.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, il, ir, llst, maxn, ncrnt, nlvl
@@ -6311,10 +6223,6 @@ module stdlib_linalg_lapack_d
            real(dp), parameter :: cnst3 = 1.050d0
            real(dp), parameter :: qurtr = 0.250d0
            real(dp), parameter :: third = 0.3330d0
-           real(dp), parameter :: half = 0.50d0
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
            real(dp), parameter :: hundrd = 100.0d0
            
            ! .. local scalars ..
@@ -6515,9 +6423,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: z(*)
         ! =====================================================================
-           ! .. parameter ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 0.5
            
            ! .. local scalars ..
            integer(ilp) :: j4, j4p2
@@ -6743,8 +6648,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: z(*)
         ! =====================================================================
-           ! .. parameter ..
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: j4, j4p2
@@ -6906,9 +6809,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(*), s(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, info, j
@@ -7317,10 +7217,10 @@ module stdlib_linalg_lapack_d
         real(dp) :: abig, amed, asml, ax, ymax, ymin
         ! quick return if possible
         if (ieee_is_nan(scl) .or. ieee_is_nan(sumsq)) return
-        if (sumsq == dzero) scl = done
-        if (scl == dzero) then
-           scl = done
-           sumsq = dzero
+        if (sumsq == zero) scl = one
+        if (scl == zero) then
+           scl = one
+           sumsq = zero
         end if
         if (n <= 0) then
            return
@@ -7330,53 +7230,53 @@ module stdlib_linalg_lapack_d
            ! asml -- sums of squares scaled up to avoid underflow
            ! amed -- sums of squares that do not require scaling
         ! the thresholds and multipliers are
-           ! dtbig -- values bigger than this are scaled down by dsbig
-           ! dtsml -- values smaller than this are scaled up by dssml
+           ! tbig -- values bigger than this are scaled down by sbig
+           ! tsml -- values smaller than this are scaled up by ssml
         notbig = .true.
-        asml = dzero
-        amed = dzero
-        abig = dzero
+        asml = zero
+        amed = zero
+        abig = zero
         ix = 1
         if (incx < 0) ix = 1 - (n - 1)*incx
         do i = 1, n
            ax = abs(x(ix))
-           if (ax > dtbig) then
-              abig = abig + (ax*dsbig)**2
+           if (ax > tbig) then
+              abig = abig + (ax*sbig)**2
               notbig = .false.
-           else if (ax < dtsml) then
-              if (notbig) asml = asml + (ax*dssml)**2
+           else if (ax < tsml) then
+              if (notbig) asml = asml + (ax*ssml)**2
            else
               amed = amed + ax**2
            end if
            ix = ix + incx
         end do
-        ! put the existing sum of squares into done of the accumulators
-        if (sumsq > dzero) then
+        ! put the existing sum of squares into one of the accumulators
+        if (sumsq > zero) then
            ax = scl*sqrt(sumsq)
-           if (ax > dtbig) then
-              ! we assume scl >= sqrt( tiny*eps ) / dsbig
-              abig = abig + (scl*dsbig)**2*sumsq
-           else if (ax < dtsml) then
-              ! we assume scl <= sqrt( huge ) / dssml
-              if (notbig) asml = asml + (scl*dssml)**2*sumsq
+           if (ax > tbig) then
+              ! we assume scl >= sqrt( tiny*eps ) / sbig
+              abig = abig + (scl*sbig)**2*sumsq
+           else if (ax < tsml) then
+              ! we assume scl <= sqrt( huge ) / ssml
+              if (notbig) asml = asml + (scl*ssml)**2*sumsq
            else
               amed = amed + scl**2*sumsq
            end if
         end if
-        ! combine abig and amed or amed and asml if more than done
+        ! combine abig and amed or amed and asml if more than one
         ! accumulator was used.
-        if (abig > dzero) then
+        if (abig > zero) then
            ! combine abig and amed if abig > 0.
-           if (amed > dzero .or. ieee_is_nan(amed)) then
-              abig = abig + (amed*dsbig)*dsbig
+           if (amed > zero .or. ieee_is_nan(amed)) then
+              abig = abig + (amed*sbig)*sbig
            end if
-           scl = done/dsbig
+           scl = one/sbig
            sumsq = abig
-        else if (asml > dzero) then
+        else if (asml > zero) then
            ! combine amed and asml if asml > 0.
-           if (amed > dzero .or. ieee_is_nan(amed)) then
+           if (amed > zero .or. ieee_is_nan(amed)) then
               amed = sqrt(amed)
-              asml = sqrt(asml)/dssml
+              asml = sqrt(asml)/ssml
               if (asml > amed) then
                  ymin = amed
                  ymax = asml
@@ -7384,15 +7284,15 @@ module stdlib_linalg_lapack_d
                  ymin = asml
                  ymax = amed
               end if
-              scl = done
-              sumsq = ymax**2*(done + (ymin/ymax)**2)
+              scl = one
+              sumsq = ymax**2*(one + (ymin/ymax)**2)
            else
-              scl = done/dssml
+              scl = one/ssml
               sumsq = asml
            end if
         else
-           ! otherwise all values are mid-range ordzero
-           scl = done
+           ! otherwise all values are mid-range or zero
+           scl = one
            sumsq = amed
         end if
         return
@@ -7415,12 +7315,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            real(dp) :: csl, csr, f, g, h, snl, snr, ssmax, ssmin
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: four = 4.0d0
            
            ! .. local scalars ..
            logical(lk) :: gasmal, swap
@@ -7631,12 +7525,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: b(ldb, *), tl(ldtl, *), tr(ldtr, *), x(ldx, *)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: half = 0.5_dp
-           real(dp), parameter :: eight = 8.0_dp
            
            ! .. local scalars ..
            logical(lk) :: bswap, xswap
@@ -7903,9 +7791,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: eight = 8.0_dp
            real(dp), parameter :: sevten = 17.0_dp
            
            ! .. local scalars ..
@@ -8342,9 +8227,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), e(*), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: eight = 8.0_dp
            real(dp), parameter :: sevten = 17.0_dp
            
            ! .. local scalars ..
@@ -8785,9 +8667,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: eight = 8.0_dp
            real(dp), parameter :: sevten = 17.0_dp
            
            ! .. local scalars ..
@@ -9298,10 +9177,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), cnorm(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: half = 0.5_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
@@ -9721,10 +9596,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), cnorm(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: half = 0.5_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
@@ -10143,10 +10014,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), cnorm(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: half = 0.5_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
@@ -10544,8 +10411,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -10619,8 +10484,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -10711,8 +10574,6 @@ module stdlib_linalg_lapack_d
            real(dp), parameter :: realone = 1.0d0
            real(dp), parameter :: realzero = 0.0d0
            real(dp), parameter :: negone = -1.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -10830,9 +10691,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, ii, j, l
@@ -10896,9 +10754,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, l
@@ -10963,9 +10818,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, l
@@ -11034,8 +10886,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -11111,7 +10961,7 @@ module stdlib_linalg_lapack_d
                       iinfo)
            if (kk > 0) then
               ! use blocked code
-              loop_50: do i = ki + 1, 1, -nb
+              do i = ki + 1, 1, -nb
                  ib = min(nb, k - i + 1)
                  if (i + ib <= m) then
                     ! form the triangular factor of the block reflector
@@ -11131,7 +10981,7 @@ module stdlib_linalg_lapack_d
                        a(l, j) = zero
                     end do
                  end do
-              end do loop_50
+              end do
            end if
            work(1) = iws
            return
@@ -11153,8 +11003,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -11234,7 +11082,7 @@ module stdlib_linalg_lapack_d
            call stdlib_dorg2l(m - kk, n - kk, k - kk, a, lda, tau, work, iinfo)
            if (kk > 0) then
               ! use blocked code
-              loop_50: do i = k - kk + 1, k, nb
+              do i = k - kk + 1, k, nb
                  ib = min(nb, k - i + 1)
                  if (n - k + i > 1) then
                     ! form the triangular factor of the block reflector
@@ -11255,7 +11103,7 @@ module stdlib_linalg_lapack_d
                        a(l, j) = zero
                     end do
                  end do
-              end do loop_50
+              end do
            end if
            work(1) = iws
            return
@@ -11277,8 +11125,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -11354,7 +11200,7 @@ module stdlib_linalg_lapack_d
                       iinfo)
            if (kk > 0) then
               ! use blocked code
-              loop_50: do i = ki + 1, 1, -nb
+              do i = ki + 1, 1, -nb
                  ib = min(nb, k - i + 1)
                  if (i + ib <= n) then
                     ! form the triangular factor of the block reflector
@@ -11374,7 +11220,7 @@ module stdlib_linalg_lapack_d
                        a(l, j) = zero
                     end do
                  end do
-              end do loop_50
+              end do
            end if
            work(1) = iws
            return
@@ -11396,9 +11242,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, ii, j, l
@@ -11464,8 +11307,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -11545,7 +11386,7 @@ module stdlib_linalg_lapack_d
            call stdlib_dorgr2(m - kk, n - kk, k - kk, a, lda, tau, work, iinfo)
            if (kk > 0) then
               ! use blocked code
-              loop_50: do i = k - kk + 1, k, nb
+              do i = k - kk + 1, k, nb
                  ib = min(nb, k - i + 1)
                  ii = m - k + i
                  if (ii > 1) then
@@ -11566,7 +11407,7 @@ module stdlib_linalg_lapack_d
                        a(j, l) = zero
                     end do
                  end do
-              end do loop_50
+              end do
            end if
            work(1) = iws
            return
@@ -11599,9 +11440,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -11731,8 +11569,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: q(ldq, *), c(ldc, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: left, lquery, notran
@@ -11923,8 +11759,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: left, notran
@@ -12018,8 +11852,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: left, notran
@@ -12118,8 +11950,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: left, notran
@@ -12637,8 +12467,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(ldc, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: left, notran
@@ -13079,7 +12907,7 @@ module stdlib_linalg_lapack_d
               else
                  transt = 'n'
               end if
-              loop_10: do i = i1, i2, i3
+              do i = i1, i2, i3
                  ib = min(nb, k - i + 1)
                  ! form the triangular factor of the block reflector
                  ! h = h(i+ib-1) . . . h(i+1) h(i)
@@ -13097,7 +12925,7 @@ module stdlib_linalg_lapack_d
                  ! apply h or h**t
                  call stdlib_dlarzb(side, transt, 'backward', 'rowwise', mi, ni, ib, l, a(i, ja) &
                            , lda, work(iwt), ldt, c(ic, jc), ldc, work, ldwork)
-              end do loop_10
+              end do
            end if
            work(1) = lwkopt
            return
@@ -13124,9 +12952,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), s(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -13214,9 +13039,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -13335,9 +13157,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -13494,9 +13313,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), s(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -13576,9 +13392,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), s(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -13651,8 +13464,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -13721,9 +13532,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), s(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -13814,9 +13622,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -13966,9 +13771,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(*), e(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, ix
@@ -14036,8 +13838,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(*), e(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, i4
@@ -14165,9 +13965,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: sx(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: done
@@ -14229,9 +14026,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), bb(ldbb, *), work(*), x(ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: update, upper, wantx
@@ -15139,9 +14933,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), d(*), e(*), q(ldq, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: initq, upper, wantq
@@ -15480,9 +15271,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lower, normaltransr, nisodd, notrans
@@ -15738,9 +15526,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), bp(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -15864,9 +15649,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: eight = 8.0_dp
            real(dp), parameter :: sevten = 17.0_dp
            
            ! .. local scalars ..
@@ -16186,9 +15968,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: ap(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -16400,8 +16179,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: ap(*), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -16632,10 +16409,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), e(*), w(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: half = 1.0d0/two
            real(dp), parameter :: fudge = 2.1d0
            real(dp), parameter :: relfac = 2.0d0
            
@@ -17017,9 +16790,9 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), e(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
+           ! .. external subroutines ..
+     
            logical(lk) :: upper, convert
            integer(ilp) :: i, ip, j
            real(dp) :: temp
@@ -17234,9 +17007,9 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), e(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
+           ! .. external subroutines ..
+     
            logical(lk) :: upper, convert
            integer(ilp) :: i, ip
            ! .. executable statements ..
@@ -17488,9 +17261,9 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), e(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
+           ! .. external subroutines ..
+     
            logical(lk) :: upper, convert
            integer(ilp) :: i, ip, ip2
            ! .. executable statements ..
@@ -17737,8 +17510,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), s(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            integer(ilp), parameter :: max_iter = 100
            
            ! .. local scalars ..
@@ -17911,9 +17682,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -18038,9 +17806,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -18254,9 +18019,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), e(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: eight = 8.0_dp
            real(dp), parameter :: sevten = 17.0_dp
            
            ! .. local scalars ..
@@ -18706,9 +18468,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: eight = 8.0_dp
            real(dp), parameter :: sevten = 17.0_dp
            
            ! .. local scalars ..
@@ -19411,9 +19170,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -19602,9 +19358,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -19833,8 +19586,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -20045,8 +19796,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -20231,8 +19980,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *), e(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -20386,8 +20133,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
            
-           ! .. local scalars ..
-           real(dp), parameter :: one = 1.0_dp
            logical(lk) :: lquery, upper
            integer(ilp) :: k, kp, lwkopt
      
@@ -20504,8 +20249,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -20733,9 +20476,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ab(ldab, *), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
                      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
@@ -20970,8 +20710,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nounit, upper
@@ -21049,9 +20787,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(0:*), b(0:ldb - 1, 0:*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lower, lside, misodd, nisodd, normaltransr, notrans
@@ -22035,9 +21770,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *), v(ldv, *), work(ldwork, *)
                      
         ! ==========================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0
-           real(dp), parameter :: zero = 0.0
            
            ! .. local scalars ..
            integer(ilp) :: i, j, mp, np, kp
@@ -22460,9 +22192,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: ap(*), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
@@ -22702,9 +22431,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nounit, upper
@@ -22799,8 +22525,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nounit, upper
@@ -23174,9 +22898,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
                      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran, nounit, upper
@@ -23407,8 +23128,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nounit, upper
@@ -23484,9 +23203,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nounit, upper
@@ -23576,9 +23292,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nounit
@@ -23989,9 +23702,6 @@ module stdlib_linalg_lapack_d
            integer(ilp), parameter :: maxitr = 6
            real(dp), parameter :: hundred = 100.0d0
            real(dp), parameter :: meighth = -0.125d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: ten = 10.0d0
-           real(dp), parameter :: zero = 0.0d0
            real(dp), parameter :: negone = -1.0d0
            real(dp), parameter :: piover2 = 1.57079632679489661923132169163975144210d0
            
@@ -24582,8 +24292,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(*), sep(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: decr, eigen, incr, left, right, sing
@@ -24683,9 +24391,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ab(ldab, *), c(ldc, *), d(*), e(*), pt(ldpt, *), q(ldq, *), &
                      work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: wantb, wantc, wantpt, wantq
@@ -24948,9 +24653,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: ab(ldab, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lnoti, onenrm
@@ -25078,9 +24780,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), c(*), r(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, kd
@@ -25216,9 +24915,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), c(*), r(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, kd
@@ -25356,10 +25052,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran
@@ -25553,8 +25245,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ab(ldab, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            integer(ilp), parameter :: nbmax = 64
            integer(ilp), parameter :: ldwork = nbmax + 1
            
@@ -25809,9 +25499,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: onenrm
@@ -25913,9 +25600,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(*), r(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -26045,9 +25729,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), c(*), r(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -26371,9 +26052,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*), jpiv(*)
            real(dp) :: a(lda, *), rhs(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -26433,9 +26111,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*), jpiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, ip, ipv, j, jp, jpv
@@ -26524,9 +26199,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: sfmin
@@ -26552,7 +26224,7 @@ module stdlib_linalg_lapack_d
            if (m == 0 .or. n == 0) return
            ! compute machine safe minimum
            sfmin = stdlib_dlamch('s')
-           loop_10: do j = 1, min(m, n)
+           do j = 1, min(m, n)
               ! find pivot and test for singularity.
               jp = j - 1 + stdlib_idamax(m - j + 1, a(j, j), 1)
               ipiv(j) = jp
@@ -26577,7 +26249,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dger(m - j, n - j, -one, a(j + 1, j), 1, a(j, j + 1), lda, a(j + 1, j + 1), &
                             lda)
               end if
-           end do loop_10
+           end do
            return
            ! end of stdlib_dgetf2
      end subroutine stdlib_dgetf2
@@ -26612,9 +26284,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: sfmin, temp
@@ -26716,9 +26385,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -26822,8 +26488,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran
@@ -26899,10 +26563,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), b(ldb, *), lscale(*), rscale(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: half = 0.5_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: three = 3.0_dp
            real(dp), parameter :: sclfac = 1.0d+1
            
            ! .. local scalars ..
@@ -27209,9 +26869,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: ilq, ilz
@@ -27414,9 +27071,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: symb_zero
@@ -27760,9 +27414,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: symb_zero
@@ -28292,9 +27943,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: symb_zero
@@ -28820,8 +28468,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            real(dp) :: a, b, c, d, p, q
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: r, t
@@ -28861,12 +28507,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: maxit = 40
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: three = 3.0d0
-           real(dp), parameter :: four = 4.0d0
-           real(dp), parameter :: eight = 8.0d0
            
            ! .. local arrays ..
            real(dp) :: dscale(3), zscale(3)
@@ -29092,8 +28732,6 @@ module stdlib_linalg_lapack_d
            logical(lk) :: upper
            real(dp) :: a1, a2, a3, b1, b2, b3, csq, csu, csv, snq, snu, snv
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: a, aua11, aua12, aua21, aua22, avb11, avb12, avb21, avb22, b, c, csl, csr, &
@@ -29252,8 +28890,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: in(*)
            real(dp) :: a(*), b(*), c(*), d(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: k
@@ -29342,9 +28978,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: in(*)
            real(dp) :: a(*), b(*), c(*), d(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: k
@@ -29552,12 +29185,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: w(j), x(j)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: four = 4.0d0
            
            ! .. local scalars ..
            real(dp) :: absalp, absest, absgam, alpha, b, cosine, eps, norma, s1, s2, sine, t, test, &
@@ -29766,8 +29393,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), lld(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            integer(ilp), parameter :: blklen = 128
            
            ! some architectures propagate infinities and nans very slowly, so
@@ -29861,9 +29486,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, k, l
@@ -29940,9 +29562,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -30016,9 +29635,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(*), dl(*), du(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -30097,9 +29713,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -30173,9 +29786,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, l
@@ -30282,9 +29892,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(0:*), work(0:*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, ifm, ilu, noe, n1, k, l, lda
@@ -30990,9 +30597,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, k
@@ -31118,9 +30722,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(*), e(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -31185,9 +30786,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -31285,9 +30883,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: udiag
@@ -31482,9 +31077,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: udiag
@@ -31692,9 +31284,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: udiag
@@ -31912,8 +31501,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: iinfo, j, jb, nb
@@ -31975,9 +31562,6 @@ module stdlib_linalg_lapack_d
            ! .. scalar arguments ..
            real(dp) :: x, y
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: w, xabs, yabs, z, hugeval
@@ -32022,10 +31606,6 @@ module stdlib_linalg_lapack_d
            integer(ilp), intent(in) :: lda, ldb
            real(dp), intent(in) :: a(lda, *), b(ldb, *), sr1, sr2, si, beta1, beta2
            real(dp), intent(out) :: v(*)
-           ! parameters
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! local scalars
            real(dp) :: w(2), safmin, safmax, scale1, scale2
@@ -32078,10 +31658,6 @@ module stdlib_linalg_lapack_d
            integer(ilp), intent(in) :: k, lda, ldb, ldq, ldz, istartm, istopm, nq, nz, qstart, &
                      zstart, ihi
            real(dp) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *)
-           ! parameters
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! local variables
            real(dp) :: h(2, 3), c1, s1, c2, s2, temp
@@ -32198,10 +31774,6 @@ module stdlib_linalg_lapack_d
            real(dp), intent(inout) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *), qc( &
                      ldqc, *), zc(ldzc, *), work(*), sr(*), si(*), ss(*)
            integer(ilp), intent(out) :: info
-           ! parameters
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! local scalars
            integer(ilp) :: i, j, ns, istartm, istopm, sheight, swidth, k, np, istartb, istopb, &
@@ -32479,9 +32051,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), l(*), ld(*), lld(*), work(*)
            real(dp) :: z(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: sawnan1, sawnan2
@@ -32696,9 +32265,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: j, knt
@@ -32769,10 +32335,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: j, knt
@@ -32874,8 +32436,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: x(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
            integer(ilp), parameter :: lv = 128
            real(dp), parameter :: twopi = 6.28318530717958647692528676655900576839_dp
            
@@ -32939,10 +32499,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: d(*), lld(*), w(*), werr(*), wgap(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: half = 0.5d0
            
            integer(ilp) :: maxitr
            ! .. local scalars ..
@@ -33121,10 +32677,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), e(*), e2(*), gers(*), w(*), werr(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: half = one/two
            real(dp), parameter :: fudge = two
            integer(ilp), parameter :: allrng = 1
            integer(ilp), parameter :: valrng = 2
@@ -33583,9 +33135,6 @@ module stdlib_linalg_lapack_d
                      ), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: four = 4.0d0
            real(dp), parameter :: quart = 0.25d0
            real(dp), parameter :: maxgrowth1 = 8.d0
            real(dp), parameter :: maxgrowth2 = 8.d0
@@ -33845,12 +33394,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: maxitr = 10
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: three = 3.0d0
-           real(dp), parameter :: four = 4.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! .. local scalars ..
            logical(lk) :: eskip, needbs, stp2ii, tryrqc, usedbs, usedrq
@@ -34476,9 +34019,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: done
@@ -34658,13 +34198,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: maxit = 400
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
-           real(dp), parameter :: four = 4.0_dp
-           real(dp), parameter :: eight = 8.0_dp
-           real(dp), parameter :: ten = 10.0_dp
            
            ! .. local scalars ..
            logical(lk) :: orgati, swtch, swtch3, geomavg
@@ -35388,11 +34921,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), dsigma(*), givnum(ldgnum, *), vf(*), vfw(*), vl(*), vlw( &
                      *), z(*), zw(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: eight = 8.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, idxi, idxj, idxjp, j, jp, jprev, k2, m, n, nlp1, nlp2
@@ -35627,8 +35155,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), difl(*), difr(lddifr, *), dsigma(*), vf(*), vl(*), work( &
                      *), z(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, iwk1, iwk2, iwk2i, iwk3, iwk3i, j
@@ -35765,11 +35291,7 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            real(dp), parameter :: cbias = 1.50d0
-           real(dp), parameter :: zero = 0.0d0
            real(dp), parameter :: qurtr = 0.250d0
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
            real(dp), parameter :: hundrd = 100.0d0
            
            ! .. local scalars ..
@@ -35941,8 +35463,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: maxdim = 8
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, info, j, k
@@ -36052,10 +35572,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), e(*), tau(*), w(ldw, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: half = 0.5_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, iw
@@ -36104,7 +35620,7 @@ module stdlib_linalg_lapack_d
               end do loop_10
            else
               ! reduce first nb columns of lower triangle
-              loop_20: do i = 1, nb
+              do i = 1, nb
                  ! update a(i:n,i)
                  call stdlib_dgemv('no transpose', n - i + 1, i - 1, -one, a(i, 1), lda, w(i, 1), &
                            ldw, one, a(i, i), 1)
@@ -36133,7 +35649,7 @@ module stdlib_linalg_lapack_d
                               
                     call stdlib_daxpy(n - i, alpha, a(i + 1, i), 1, w(i + 1, i), 1)
                  end if
-              end do loop_20
+              end do
            end if
            return
            ! end of stdlib_dlatrd
@@ -36153,8 +35669,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -36214,7 +35728,6 @@ module stdlib_linalg_lapack_d
         ! ====================================================================
            ! .. parameters ..
            real(dp), parameter :: realone = 1.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: colmajor, lquery
@@ -36532,9 +36045,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: q1(ldq1, *), q2(ldq2, *), work(*), x1(*), x2(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: childinfo, i, j
@@ -36641,9 +36151,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: u1(ldu1, *), u2(ldu2, *), v1t(ldv1t, *), v2t(ldv2t, *), work(*), &
                      x11(ldx11, *), x12(ldx12, *), x21(ldx21, *), x22(ldx22, *)
         ! ===================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            character :: transt, signst
@@ -36901,9 +36408,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -36999,9 +36503,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), t(ldt, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, iinfo, j, jb, jbtemp1, jbtemp2, jnb, nplusone
@@ -37236,9 +36737,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -37337,10 +36835,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -37526,8 +37020,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(0:*), b(ldb, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lower, normaltransr
@@ -37586,9 +37078,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -37685,10 +37174,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -37873,9 +37358,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -37970,9 +37452,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -38109,9 +37588,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: ap(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -38206,10 +37682,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -38451,9 +37923,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: afp(*), ap(*), b(ldb, *), berr(*), ferr(*), s(*), work(*), x( &
                      ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: equil, nofact, rcequ
@@ -38585,8 +38054,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -38658,9 +38125,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), work(2*n)
            integer(ilp) :: piv(n)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: ajj, dstop, dtemp
@@ -38889,9 +38353,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), v(*), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -39042,9 +38503,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: ap(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -39127,10 +38585,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -39373,8 +38827,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: afp(*), ap(*), b(ldb, *), berr(*), ferr(*), work(*), x(ldx, *)
                      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nofact
@@ -39445,10 +38897,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), d(*), e(*), tau(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 1.0d0/2.0d0
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -39474,7 +38922,7 @@ module stdlib_linalg_lapack_d
               ! reduce the upper triangle of a.
               ! i1 is the index in ap of a(1,i+1).
               i1 = n*(n - 1)/2 + 1
-              loop_10: do i = n - 1, 1, -1
+              do i = n - 1, 1, -1
                  ! generate elementary reflector h(i) = i - tau * v * v**t
                  ! to annihilate a(1:i-1,i+1)
                  call stdlib_dlarfg(i, ap(i1 + i - 1), ap(i1), 1, taui)
@@ -39495,13 +38943,13 @@ module stdlib_linalg_lapack_d
                  d(i + 1) = ap(i1 + i)
                  tau(i) = taui
                  i1 = i1 - i
-              end do loop_10
+              end do
               d(1) = ap(1)
            else
               ! reduce the lower triangle of a. ii is the index in ap of
               ! a(i,i) and i1i1 is the index of a(i+1,i+1).
               ii = 1
-              loop_20: do i = 1, n - 1
+              do i = 1, n - 1
                  i1i1 = ii + n - i + 1
                  ! generate elementary reflector h(i) = i - tau * v * v**t
                  ! to annihilate a(i+2:n,i)
@@ -39525,7 +38973,7 @@ module stdlib_linalg_lapack_d
                  d(i) = ap(ii)
                  tau(i) = taui
                  ii = i1i1
-              end do loop_20
+              end do
               d(n) = ap(ii)
            end if
            return
@@ -39550,9 +38998,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), e(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: ten = 1.0d+1
            real(dp), parameter :: odm3 = 1.0d-3
            real(dp), parameter :: odm1 = 1.0d-1
            integer(ilp), parameter :: maxits = 5
@@ -39748,10 +39193,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: three = 3.0d0
            integer(ilp), parameter :: maxit = 30
            
            ! .. local scalars ..
@@ -40064,10 +39505,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), e(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: three = 3.0d0
            integer(ilp), parameter :: maxit = 30
            
            ! .. local scalars ..
@@ -40303,9 +39740,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: wantz
@@ -40394,9 +39828,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: d(*), e(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, test, valeig, wantz
@@ -40590,9 +40021,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -40674,9 +40102,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -40758,10 +40183,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -41096,10 +40517,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), e(*), tau(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 1.0d0/2.0d0
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -41127,7 +40544,7 @@ module stdlib_linalg_lapack_d
            if (n <= 0) return
            if (upper) then
               ! reduce the upper triangle of a
-              loop_10: do i = n - 1, 1, -1
+              do i = n - 1, 1, -1
                  ! generate elementary reflector h(i) = i - tau * v * v**t
                  ! to annihilate a(1:i-1,i+1)
                  call stdlib_dlarfg(i, a(i, i + 1), a(1, i + 1), 1, taui)
@@ -41148,11 +40565,11 @@ module stdlib_linalg_lapack_d
                  end if
                  d(i + 1) = a(i + 1, i + 1)
                  tau(i) = taui
-              end do loop_10
+              end do
               d(1) = a(1, 1)
            else
               ! reduce the lower triangle of a
-              loop_20: do i = 1, n - 1
+              do i = 1, n - 1
                  ! generate elementary reflector h(i) = i - tau * v * v**t
                  ! to annihilate a(i+2:n,i)
                  call stdlib_dlarfg(n - i, a(i + 1, i), a(min(i + 2, n), i), 1, taui)
@@ -41174,7 +40591,7 @@ module stdlib_linalg_lapack_d
                  end if
                  d(i) = a(i, i)
                  tau(i) = taui
-              end do loop_20
+              end do
               d(n) = a(n, n)
            end if
            return
@@ -41201,9 +40618,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: eight = 8.0_dp
            real(dp), parameter :: sevten = 17.0_dp
            
            ! .. local scalars ..
@@ -41483,8 +40897,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), e(*), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper
@@ -41619,8 +41031,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            real(dp), parameter :: rzero = 0.0_dp
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, wantq, upper, afters1
@@ -42006,9 +41416,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nounit, onenrm, upper
@@ -42107,8 +41514,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(0:*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
@@ -42326,8 +41731,6 @@ module stdlib_linalg_lapack_d
         ! sven hammarling, 27/5/02.
            ! .. parameters ..
            integer(ilp), parameter :: ldz = 8
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran
@@ -42965,9 +42368,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
         ! replaced various illegal calls to stdlib_dcopy by calls to stdlib_dlaset.
         ! sven hammarling, 1/5/02.
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, notran
@@ -43271,9 +42671,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: ap(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nounit, onenrm, upper
@@ -43367,9 +42764,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0
-           real(dp), parameter :: zero = 0.0
            
            ! .. local scalars ..
            integer(ilp) :: i, j, p, mp, np
@@ -43703,9 +43097,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), t(ldt, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0
-           real(dp), parameter :: zero = 0.0
            
            ! .. local scalars ..
            integer(ilp) :: i, j, p, mp, np
@@ -43803,9 +43194,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nounit, onenrm, upper
@@ -43962,9 +43350,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ab(ldab, *), afb(ldafb, *), b(ldb, *), berr(*), c(*), ferr(*), &
                      r(*), work(*), x(ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: colequ, equil, nofact, notran, rowequ
@@ -44186,8 +43571,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), scale(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: sclfac = 2.0_dp
            real(dp), parameter :: factor = 0.95_dp
            
@@ -44347,9 +43730,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), e(*), taup(*), tauq(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -44372,7 +43752,7 @@ module stdlib_linalg_lapack_d
            end if
            if (m >= n) then
               ! reduce to upper bidiagonal form
-              loop_10: do i = 1, n
+              do i = 1, n
                  ! generate elementary reflector h(i) to annihilate a(i+1:m,i)
                  call stdlib_dlarfg(m - i + 1, a(i, i), a(min(i + 1, m), i), 1, tauq(i))
                            
@@ -44396,10 +43776,10 @@ module stdlib_linalg_lapack_d
                  else
                     taup(i) = zero
                  end if
-              end do loop_10
+              end do
            else
               ! reduce to lower bidiagonal form
-              loop_20: do i = 1, m
+              do i = 1, m
                  ! generate elementary reflector g(i) to annihilate a(i,i+1:n)
                  call stdlib_dlarfg(n - i + 1, a(i, i), a(i, min(i + 1, n)), lda, taup(i))
                            
@@ -44423,7 +43803,7 @@ module stdlib_linalg_lapack_d
                  else
                     tauq(i) = zero
                  end if
-              end do loop_20
+              end do
            end if
            return
            ! end of stdlib_dgebd2
@@ -44441,8 +43821,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -44499,8 +43877,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, k
@@ -44652,8 +44028,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, i1, j, j1, m1, m2, iinfo
@@ -44739,8 +44113,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, k
@@ -44903,8 +44275,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, k
@@ -44961,8 +44331,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, k
@@ -45218,9 +44586,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, k
@@ -45291,8 +44656,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, i1, j, j1, n1, n2, iinfo
@@ -45383,10 +44746,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran
@@ -45569,8 +44928,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, k
@@ -45735,8 +45092,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, iinfo, j, jb, nb
@@ -45766,7 +45121,7 @@ module stdlib_linalg_lapack_d
               call stdlib_dgetrf2(m, n, a, lda, ipiv, info)
            else
               ! use blocked code.
-              loop_20: do j = 1, min(m, n), nb
+              do j = 1, min(m, n), nb
                  jb = min(min(m, n) - j + 1, nb)
                  ! factor diagonal and subdiagonal blocks and test for exact
                  ! singularity.
@@ -45791,7 +45146,7 @@ module stdlib_linalg_lapack_d
                                  
                     end if
                  end if
-              end do loop_20
+              end do
            end if
            return
            ! end of stdlib_dgetrf
@@ -45835,9 +45190,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *), work(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: blk22, initq, initz, lquery, wantq, wantz
@@ -46500,10 +45852,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), sva(n), d(n), v(ldv, *), work(lwork)
         ! =====================================================================
-           ! .. local parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: aapp, aapp0, aapq, aaqq, apoaq, aqoap, big, bigtheta, cs, mxaapq, mxsinj, &
@@ -47174,10 +46522,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(n), sva(n), v(ldv, *), work(lwork)
         ! =====================================================================
-           ! .. local parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: aapp, aapp0, aapq, aaqq, apoaq, aqoap, big, bigtheta, cs, large, mxaapq, &
@@ -47592,9 +46936,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*), iwork(*)
            real(dp) :: d(*), dl(*), du(*), du2(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: onenrm
@@ -47676,10 +47017,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran
@@ -47880,8 +47217,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: b(ldb, *), berr(*), d(*), df(*), dl(*), dlf(*), du(*), du2(* &
                      ), duf(*), ferr(*), work(*), x(ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nofact, notran
@@ -48006,9 +47341,6 @@ module stdlib_linalg_lapack_d
                      work(*), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: half = 0.5_dp
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: safety = 1.0d+2
           ! $                     safety = 1.0_sp )
            
@@ -48846,9 +48178,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), d(*), e(*), taup(*), tauq(*), x(ldx, *), y(ldy, *)
                      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -48980,8 +48309,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            real(dp), parameter :: bs = 2.0d0
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: two = 2.0d0
            
            ! .. local scalars ..
            real(dp) :: aa, bb, cc, dd, ab, cd, s, ov, un, be, eps
@@ -49055,13 +48382,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: maxit = 30
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: three = 3.0d0
-           real(dp), parameter :: four = 4.0d0
-           real(dp), parameter :: eight = 8.0d0
-           real(dp), parameter :: ten = 10.0d0
            
            ! .. local scalars ..
            logical(lk) :: orgati, swtch, swtch3
@@ -49664,10 +48984,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            real(dp), parameter :: mone = -1.0d0
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: eight = 8.0d0
            
            ! .. local scalars ..
            integer(ilp) :: i, imax, j, jlam, jmax, jp, k2, n1, n1p1, n2
@@ -49992,8 +49308,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: b(ldb, *), h(ldh, *), vi(*), vr(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: tenth = 1.0d-1
            
            ! .. local scalars ..
@@ -50034,7 +49348,7 @@ module stdlib_linalg_lapack_d
               if (rightv) then
                  ! lu decomposition with partial pivoting of b, replacing zero
                  ! pivots by eps3.
-                 loop_60: do i = 1, n - 1
+                 do i = 1, n - 1
                     ei = h(i + 1, i)
                     if (abs(b(i, i)) < abs(ei)) then
                        ! interchange rows and eliminate.
@@ -50055,13 +49369,13 @@ module stdlib_linalg_lapack_d
                           end do
                        end if
                     end if
-                 end do loop_60
+                 end do
                  if (b(n, n) == zero) b(n, n) = eps3
                  trans = 'n'
               else
                  ! ul decomposition with partial pivoting of b, replacing zero
                  ! pivots by eps3.
-                 loop_90: do j = n, 2, -1
+                 do j = n, 2, -1
                     ej = h(j, j - 1)
                     if (abs(b(j, j)) < abs(ej)) then
                        ! interchange columns and eliminate.
@@ -50082,7 +49396,7 @@ module stdlib_linalg_lapack_d
                           end do
                        end if
                     end if
-                 end do loop_90
+                 end do
                  if (b(1, 1) == zero) b(1, 1) = eps3
                  trans = 't'
               end if
@@ -50350,9 +49664,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), alphai(2), alphar(2), b(ldb, *), beta(2)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            real(dp) :: anorm, ascale, bnorm, bscale, h1, h2, h3, qq, r, rr, safmin, scale1, scale2, &
@@ -50505,9 +49816,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, nb), tau(nb), y(ldy, nb)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -50619,10 +49927,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), x(ldx, *)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
            
            ! .. local scalars ..
            integer(ilp) :: icmax, j
@@ -50630,7 +49934,7 @@ module stdlib_linalg_lapack_d
            cr22, csi, csr, li21, lr21, smini, smlnum, temp, u22abs, ui11, ui11r, ui12, ui12s, ui22, &
                      ur11, ur11r, ur12, ur12s, ur22, xi1, xi2, xr1, xr2
            ! .. local arrays ..
-           logical(lk) :: rswap(4), stdlib_zswap(4)
+           logical(lk) :: rswap(4), zswap(4)
            integer(ilp) :: ipivot(4, 4)
            real(dp) :: ci(2, 2), civ(4), cr(2, 2), crv(4)
      
@@ -50639,7 +49943,7 @@ module stdlib_linalg_lapack_d
            ! .. equivalences ..
            equivalence(ci(1, 1), civ(1)), (cr(1, 1), crv(1))
            ! .. data statements ..
-           data stdlib_zswap/.false., .false., .true., .true./
+           data zswap/.false., .false., .true., .true./
            data rswap/.false., .true., .false., .true./
            data ipivot/1, 2, 3, 4, 2, 1, 4, 3, 3, 4, 1, 2, 4, 3, 2, 1/
            ! .. executable statements ..
@@ -50758,7 +50062,7 @@ module stdlib_linalg_lapack_d
                  end if
                  xr2 = (br2*scale)/ur22
                  xr1 = (scale*br1)*ur11r - xr2*(ur11r*ur12)
-                 if (stdlib_zswap(icmax)) then
+                 if (zswap(icmax)) then
                     x(1, 1) = xr2
                     x(2, 1) = xr1
                  else
@@ -50878,7 +50182,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dladiv(br2, bi2, ur22, ui22, xr2, xi2)
                  xr1 = ur11r*br1 - ui11r*bi1 - ur12s*xr2 + ui12s*xi2
                  xi1 = ui11r*br1 + ur11r*bi1 - ui12s*xr2 - ur12s*xi2
-                 if (stdlib_zswap(icmax)) then
+                 if (zswap(icmax)) then
                     x(1, 1) = xr2
                     x(2, 1) = xr1
                     x(1, 2) = xi2
@@ -50944,8 +50248,6 @@ module stdlib_linalg_lapack_d
                      ), poles(ldgnum, *), work(*), z(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            real(dp), parameter :: negone = -1.0d0
            
            ! .. local scalars ..
@@ -51131,6 +50433,8 @@ module stdlib_linalg_lapack_d
            logical(lk) :: left, right, tran, notran, lquery
            integer(ilp) :: i, ii, kk, ctr, lw
      
+           ! .. external subroutines ..
+     
            ! .. executable statements ..
            ! test the input arguments
            lquery = lwork < 0
@@ -51287,6 +50591,8 @@ module stdlib_linalg_lapack_d
            logical(lk) :: left, right, tran, notran, lquery
            integer(ilp) :: i, ii, kk, lw, ctr, q
      
+           ! .. external subroutines ..
+     
            ! .. executable statements ..
            ! test the input arguments
            lquery = lwork < 0
@@ -51441,10 +50747,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a, b, c, cs, d, rt1i, rt1r, rt2i, rt2r, sn
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: half = 0.5_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0d0
            real(dp), parameter :: multpl = 4.0_dp
            
            ! .. local scalars ..
@@ -51591,9 +50893,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            real(dp) :: a11, a12, a22, c, ssmax, tau
@@ -51633,9 +50932,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: jpvt(*)
            real(dp) :: a(lda, *), tau(*), vn1(*), vn2(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, itemp, j, mn, offpi, pvt
@@ -51721,9 +51017,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: jpvt(*)
            real(dp) :: a(lda, *), auxv(*), f(ldf, *), tau(*), vn1(*), vn2(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: itemp, j, k, lastrk, lsticc, pvt, rk
@@ -51856,9 +51149,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: h(ldh, *), si(*), sr(*), u(ldu, *), v(ldv, *), wh(ldwh, *), wv( &
                      ldwv, *), z(ldz, *)
         ! ================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: alpha, beta, h11, h12, h21, h22, refsum, safmax, safmin, scl, smlnum, swap, &
@@ -52283,9 +51573,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: b(*), t(ldt, *), work(*), x(*)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notran
@@ -52725,8 +52012,6 @@ module stdlib_linalg_lapack_d
                       vt2(ldvt2, *), z(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            real(dp), parameter :: negone = -1.0_dp
            
            ! .. local scalars ..
@@ -52955,9 +52240,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), difl(*), difr(*), givnum(ldgnum, *), poles(ldgnum, *), vf(* &
                      ), vl(*), work(*), z(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, idx, idxc, idxp, isigma, ivfw, ivlw, iw, m, n, n1, n2
@@ -53050,9 +52332,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), q(ldq, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -53145,8 +52424,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), c(ldc, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: forwrd, left, notran, upper
@@ -53205,7 +52482,7 @@ module stdlib_linalg_lapack_d
               else
                  mi = m
               end if
-              loop_10: do i = i1, i2, i3
+              do i = i1, i2, i3
                  if (left) then
                     ! h(i) is applied to c(1:i,1:n)
                     mi = i
@@ -53223,7 +52500,7 @@ module stdlib_linalg_lapack_d
                  else
                     ii = ii - i - 1
                  end if
-              end do loop_10
+              end do
            else
               ! q was determined by a call to stdlib_dsptrd with uplo = 'l'.
               forwrd = (left .and. .not. notran) .or. (.not. left .and. notran)
@@ -53245,7 +52522,7 @@ module stdlib_linalg_lapack_d
                  mi = m
                  ic = 1
               end if
-              loop_20: do i = i1, i2, i3
+              do i = i1, i2, i3
                  aii = ap(ii)
                  ap(ii) = one
                  if (left) then
@@ -53266,7 +52543,7 @@ module stdlib_linalg_lapack_d
                  else
                     ii = ii - nq + i - 2
                  end if
-              end do loop_20
+              end do
            end if
            return
            ! end of stdlib_dopmtr
@@ -53299,8 +52576,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: phi(*), theta(*)
            real(dp) :: taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, *)
         ! ====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: c, s
@@ -53405,7 +52680,6 @@ module stdlib_linalg_lapack_d
         ! ====================================================================
            ! .. parameters ..
            real(dp), parameter :: negone = -1.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: c, s
@@ -53518,8 +52792,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: phi(*), theta(*)
            real(dp) :: taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, *)
         ! ====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: c, s
@@ -53634,8 +52906,6 @@ module stdlib_linalg_lapack_d
         ! ====================================================================
            ! .. parameters ..
            real(dp), parameter :: negone = -1.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            real(dp) :: c, s
@@ -53781,9 +53051,6 @@ module stdlib_linalg_lapack_d
                      
            integer(ilp) :: iwork(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: childinfo, i, ib11d, ib11e, ib12d, ib12e, ib21d, ib21e, ib22d, ib22e, &
@@ -54185,9 +53452,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper
@@ -54288,9 +53552,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -54510,8 +53771,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ab(ldab, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            integer(ilp), parameter :: nbmax = 32
            integer(ilp), parameter :: ldwork = nbmax + 1
            
@@ -54707,8 +53966,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(0:*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
@@ -54872,8 +54129,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: upper
@@ -54973,9 +54228,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), work(2*n)
            integer(ilp) :: piv(n)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: ajj, dstop, dtemp
@@ -55183,10 +54435,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: itmax = 5
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: three = 3.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: count, i, ix, j, nz
@@ -55400,8 +54648,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: b(ldb, *), berr(*), d(*), df(*), e(*), ef(*), ferr(*), work( &
                      *), x(ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: nofact
@@ -55469,9 +54715,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ab(ldab, *), w(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: lower, wantz
@@ -55579,9 +54822,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: ab(ldab, *), q(ldq, *), w(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lower, test, valeig, wantz
@@ -55889,9 +55129,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ab(ldab, *), bb(ldbb, *), q(ldq, *), w(*), work(*), z(ldz, *)
                      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, test, upper, valeig, wantz
@@ -56102,7 +55339,6 @@ module stdlib_linalg_lapack_d
            integer(ilp), parameter :: itermax = 30
            real(dp), parameter :: bwdmax = 1.0_sp
            real(dp), parameter :: negone = -1.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, iiter, ptsa, ptsx
@@ -56248,9 +55484,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: ap(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: wantz
@@ -56349,9 +55582,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: ap(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, test, valeig, wantz
@@ -56789,7 +56019,6 @@ module stdlib_linalg_lapack_d
            integer(ilp), parameter :: itermax = 30
            real(dp), parameter :: bwdmax = 1.0_sp
            real(dp), parameter :: negone = -1.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, iiter, ptsa, ptsx
@@ -56933,9 +56162,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), w(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: lower, lquery, wantz
@@ -57048,9 +56274,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: a(lda, *), w(*), work(*), z(ldz, *)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lower, lquery, test, valeig, wantz
@@ -57295,8 +56518,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), w(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper, wantz
@@ -57401,8 +56622,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ifail(*), iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), w(*), work(*), z(ldz, *)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lquery, upper, valeig, wantz
@@ -57610,8 +56829,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), af(ldaf, *), b(ldb, *), berr(*), ferr(*), work(*), x( &
                       ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, nofact
@@ -57704,9 +56921,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            real(dp), parameter :: rone = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: half = 0.5_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper
@@ -57783,7 +56997,7 @@ module stdlib_linalg_lapack_d
            ! way every time t is generated the upper/lower portion will be always zero
            call stdlib_dlaset("a", ldt, kd, zero, zero, work(tpos), ldt)
            if (upper) then
-               loop_10: do i = 1, n - kd, kd
+               do i = 1, n - kd, kd
                   pn = n - i - kd + 1
                   pk = min(n - i - kd + 1, kd)
                   ! compute the lq factorization of the current block
@@ -57811,7 +57025,7 @@ module stdlib_linalg_lapack_d
                   ! an update of the form:  a := a - v'*w - w'*v
                   call stdlib_dsyr2k(uplo, 'conjugate', pn, pk, -one, a(i, i + kd), lda, work( &
                             wpos), ldw, rone, a(i + kd, i + kd), lda)
-               end do loop_10
+               end do
               ! copy the upper band to ab which is the band storage matrix
               do j = n - kd + 1, n
                  lk = min(kd, n - j) + 1
@@ -57898,8 +57112,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: p(ldp, *), s(lds, *), vl(ldvl, *), vr(ldvr, *), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: safety = 1.0d+2
            
            ! .. local scalars ..
@@ -58622,8 +57834,6 @@ module stdlib_linalg_lapack_d
         ! replaced various illegal calls to stdlib_dcopy by calls to stdlib_dlaset, or by do
         ! loops. sven hammarling, 1/5/02.
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: twenty = 2.0e+01_dp
            integer(ilp), parameter :: ldst = 4
            logical(lk), parameter :: wands = .true.
@@ -58985,8 +58195,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), q(ldq, *), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -59249,8 +58457,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: idifjb = 3
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, pair, swap, wantd, wantd1, wantd2, wantp
@@ -59616,8 +58822,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: maxit = 40
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            real(dp), parameter :: hugenum = huge(zero)
            
            ! .. local scalars ..
@@ -59743,7 +58947,7 @@ module stdlib_linalg_lapack_d
               alpha(i) = one
               beta(i) = zero
            end do
-           loop_70: do i = 1, min(l, m - k)
+           do i = 1, min(l, m - k)
               a1 = a(k + i, n - l + i)
               b1 = b(i, n - l + i)
               gamma = b1/a1
@@ -59765,7 +58969,7 @@ module stdlib_linalg_lapack_d
                  beta(k + i) = one
                  call stdlib_dcopy(l - i + 1, b(i, n - l + i), ldb, a(k + i, n - l + i), lda)
               end if
-           end do loop_70
+           end do
            ! post-assignment
            do i = m + 1, k + l
               alpha(i) = zero
@@ -59808,10 +59012,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: difdri = 3
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: four = 4.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, pair, somcon, wantbh, wantdf, wants
@@ -60187,9 +59387,6 @@ module stdlib_linalg_lapack_d
            logical(lk) :: select(*)
            real(dp) :: t(ldt, *), vl(ldvl, *), vr(ldvr, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: allv, bothv, leftv, over, pair, rightv, somev
@@ -60805,8 +60002,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: t(ldt, *), vl(ldvl, *), vr(ldvr, *), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            integer(ilp), parameter :: nbmin = 8
            integer(ilp), parameter :: nbmax = 128
            
@@ -61620,9 +60815,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: notrna, notrnb
@@ -62276,8 +61468,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -62393,8 +61583,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), d(*), e(*), taup(*), tauq(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -62455,7 +61643,7 @@ module stdlib_linalg_lapack_d
            else
               nx = minmn
            end if
-           loop_30: do i = 1, minmn - nx, nb
+           do i = 1, minmn - nx, nb
               ! reduce rows and columns i:i+nb-1 to bidiagonal form and return
               ! the matrices x and y which are needed to update the unreduced
               ! part of the matrix
@@ -62479,7 +61667,7 @@ module stdlib_linalg_lapack_d
                     a(j + 1, j) = e(j)
                  end do
               end if
-           end do loop_30
+           end do
            ! use unblocked code to reduce the remainder of the matrix
            call stdlib_dgebd2(m - i + 1, n - i + 1, a(i, i), lda, d(i), e(i), tauq(i), taup(i), &
                      work, iinfo)
@@ -62504,8 +61692,6 @@ module stdlib_linalg_lapack_d
            integer(ilp), parameter :: nbmax = 64
            integer(ilp), parameter :: ldt = nbmax + 1
            integer(ilp), parameter :: tsize = ldt*nbmax
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -62585,7 +61771,7 @@ module stdlib_linalg_lapack_d
            else
               ! use blocked code
               iwt = 1 + n*nb
-              loop_40: do i = ilo, ihi - 1 - nx, nb
+              do i = ilo, ihi - 1 - nx, nb
                  ib = min(nb, ihi - i)
                  ! reduce columns i:i+ib-1 to hessenberg form, returning the
                  ! matrices v and t of the block reflector h = i - v*t*v**t
@@ -62611,7 +61797,7 @@ module stdlib_linalg_lapack_d
                  ! left
                  call stdlib_dlarfb('left', 'transpose', 'forward', 'columnwise', ihi - i, n - i - ib + 1, &
                            ib, a(i + 1, i), lda, work(iwt), ldt, a(i + 1, i + ib), lda, work, ldwork)
-              end do loop_40
+              end do
            end if
            ! use unblocked code to reduce the rest of the matrix
            call stdlib_dgehd2(n, i, ihi, a, lda, tau, work, iinfo)
@@ -62700,9 +61886,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: lquery, tpsd
@@ -63367,9 +62550,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), sva(n), v(ldv, *), work(lwork)
         ! =====================================================================
            ! .. local parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: one = 1.0d0
            integer(ilp), parameter :: nsweep = 30
            
            ! .. local scalars ..
@@ -63383,6 +62563,10 @@ module stdlib_linalg_lapack_d
            real(dp) :: fastr(5)
            ! .. intrinsic functions ..
            intrinsic :: dabs, max, min, dble, dsign, dsqrt
+     
+           ! from lapack
+     
+           ! from lapack
      
            ! .. executable statements ..
            ! test the input arguments
@@ -64344,9 +63528,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), af(ldaf, *), b(ldb, *), berr(*), c(*), ferr(*), r(* &
                      ), work(*), x(ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: colequ, equil, nofact, notran, rowequ
@@ -64572,9 +63753,6 @@ module stdlib_linalg_lapack_d
            procedure(stdlib_selctg_d) :: selctg
      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: cursl, ilascl, ilbscl, ilvsl, ilvsr, lastsl, lquery, lst2sl, &
@@ -64824,7 +64002,7 @@ module stdlib_linalg_lapack_d
               lst2sl = .true.
               sdim = 0
               ip = 0
-              loop_40: do i = 1, n
+              do i = 1, n
                  cursl = selctg(alphar(i), alphai(i), beta(i))
                  if (alphai(i) == zero) then
                     if (cursl) sdim = sdim + 1
@@ -64845,7 +64023,7 @@ module stdlib_linalg_lapack_d
                  end if
                  lst2sl = lastsl
                  lastsl = cursl
-              end do loop_40
+              end do
            end if
 50      continue
            work(1) = maxwrk
@@ -64900,9 +64078,6 @@ module stdlib_linalg_lapack_d
            procedure(stdlib_selctg_d) :: selctg
      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: cursl, ilascl, ilbscl, ilvsl, ilvsr, lastsl, lquery, lst2sl, wantsb, &
@@ -65198,7 +64373,7 @@ module stdlib_linalg_lapack_d
               lst2sl = .true.
               sdim = 0
               ip = 0
-              loop_50: do i = 1, n
+              do i = 1, n
                  cursl = selctg(alphar(i), alphai(i), beta(i))
                  if (alphai(i) == zero) then
                     if (cursl) sdim = sdim + 1
@@ -65219,7 +64394,7 @@ module stdlib_linalg_lapack_d
                  end if
                  lst2sl = lastsl
                  lastsl = cursl
-              end do loop_50
+              end do
            end if
 60      continue
            work(1) = maxwrk
@@ -65256,9 +64431,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), vl(ldvl, *) &
                      , vr(ldvr, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: ilascl, ilbscl, ilv, ilvl, ilvr, lquery
@@ -65567,9 +64739,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), lscale(*), &
                      rconde(*), rcondv(*), rscale(*), vl(ldvl, *), vr(ldvr, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: ilascl, ilbscl, ilv, ilvl, ilvr, lquery, noscl, pair, wantsb, wantse, &
@@ -65956,9 +65125,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), d(*), work(*), x(*), y(*)
         ! ===================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -66089,8 +65255,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), c(*), d(*), work(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -66222,9 +65386,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: h(ldh, *), vl(ldvl, *), vr(ldvr, *), wi(*), work(*), wr(*)
                      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: bothv, fromqr, leftv, noinit, pair, rightv
@@ -66533,9 +65694,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ctot(*), indx(*)
            real(dp) :: d(*), dlamda(*), q(ldq, *), q2(*), s(*), w(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: i, ii, iq2, j, n12, n2, n23
@@ -66685,9 +65843,6 @@ module stdlib_linalg_lapack_d
                      *), qptr(*)
            real(dp) :: d(*), givnum(2, *), q(ldq, *), qstore(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: coltyp, curr, i, idlmda, indx, indxc, indxp, iq2, is, iw, iz, k, ldq2, &
@@ -66800,9 +65955,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: q(ldq, *), t(ldt, *), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: ten = 1.0d+1
            integer(ilp), parameter :: ldd = 4
            integer(ilp), parameter :: ldx = 2
            
@@ -66998,11 +66150,8 @@ module stdlib_linalg_lapack_d
            real(dp) :: h(ldh, *), wi(*), wr(*), z(ldz, *)
         ! =========================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: dat1 = 3.0d0/4.0d0
-           real(dp), parameter :: dat2 = -0.4375d0
+           real(dp), parameter :: dat1 = 3.0_dp/4.0_dp
+           real(dp), parameter :: dat2 = -0.4375_dp
            integer(ilp), parameter :: kexsh = 10
            
            ! .. local scalars ..
@@ -67312,11 +66461,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: d(*), dsigma(*), u(ldu, *), u2(ldu2, *), vt(ldvt, *), vt2(ldvt2, &
                      *), z(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
-           real(dp), parameter :: eight = 8.0_dp
            
            ! .. local arrays ..
            integer(ilp) :: ctot(4), psm(4)
@@ -67605,7 +66749,8 @@ module stdlib_linalg_lapack_d
            logical(lk) :: lquery
            integer(ilp) :: i, ii, kk, ctr
      
-           ! .. intrinsic functions ..
+           ! .. external subroutines ..
+     
            intrinsic :: max, min, mod
            ! .. executable statements ..
            ! test the input arguments
@@ -67690,7 +66835,8 @@ module stdlib_linalg_lapack_d
            logical(lk) :: lquery
            integer(ilp) :: i, ii, kk, ctr
      
-           ! .. intrinsic functions ..
+           ! .. external subroutines ..
+     
            intrinsic :: max, min, mod
            ! .. executable statements ..
            ! test the input arguments
@@ -67777,9 +66923,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), tau(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, wantq
@@ -68139,9 +67282,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: ab(ldab, *), afb(ldafb, *), b(ldb, *), berr(*), ferr(*), s(*), &
                      work(*), x(ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: equil, nofact, rcequ, upper
@@ -68294,8 +67434,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(0:*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
@@ -68528,9 +67666,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), af(ldaf, *), b(ldb, *), berr(*), ferr(*), s(*), work( &
                       *), x(ldx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: equil, nofact, rcequ
@@ -68673,8 +67808,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: q(ldq, *), t(ldt, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: wantq
@@ -68883,9 +68016,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: q(ldq, *), t(ldt, *), wi(*), work(*), wr(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, pair, swap, wantbh, wantq, wants, wantsp
@@ -69078,10 +68208,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: s(*), sep(*), t(ldt, *), vl(ldvl, *), vr(ldvr, *), work(ldwork, &
                      *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
            
            ! .. local scalars ..
            logical(lk) :: pair, somcon, wantbh, wants, wantsp
@@ -69331,9 +68457,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            character*1 joba, jobp, jobr, jobt, jobu, jobv
         ! ===========================================================================
-           ! .. local parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: aapp, aaqq, aatmax, aatmin, big, big1, cond_ok, condr1, condr2, entra, &
@@ -70574,8 +69697,6 @@ module stdlib_linalg_lapack_d
            ! .. parameters ..
            integer(ilp), parameter :: imax = 1
            integer(ilp), parameter :: imin = 2
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -70905,9 +70026,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: lquery, tran
@@ -71138,8 +70256,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), t(ldt, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -71270,10 +70386,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            real(dp), parameter :: mone = -1.0d0
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: eight = 8.0d0
            
            ! .. local arrays ..
            integer(ilp) :: ctot(4), psm(4)
@@ -71534,9 +70646,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: h(ldh, *), si(*), sr(*), t(ldt, *), v(ldv, *), work(*), wv( &
                      ldwv, *), z(ldz, *)
         ! ================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: aa, bb, beta, cc, cs, dd, evi, evk, foo, s, safmax, safmin, smlnum, sn, tau, &
@@ -71858,9 +70967,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: idxq(*), iwork(*)
            real(dp) :: d(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: coltyp, i, idx, idxc, idxp, iq, isigma, iu2, ivt2, iz, k, ldq, ldu2, &
@@ -72049,10 +71155,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: d(*), e(*), q(ldq, *), qstore(ldqs, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.d0
-           real(dp), parameter :: one = 1.d0
-           real(dp), parameter :: two = 2.d0
            
            ! .. local scalars ..
            integer(ilp) :: curlvl, curprb, curr, i, igivcl, igivnm, igivpt, indxq, iperm, iprmpt, &
@@ -72266,10 +71368,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -72493,9 +71591,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: lquery, wantz
@@ -72602,9 +71697,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), w(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lower, lquery, wantz
@@ -72740,8 +71832,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), w(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper, wantz
@@ -72861,9 +71951,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), w(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lower, lquery, wantz
@@ -72998,9 +72085,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: ab(ldab, *), bb(ldbb, *), w(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper, wantz
@@ -73116,9 +72200,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: ap(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, wantz
@@ -73378,10 +72459,6 @@ module stdlib_linalg_lapack_d
         ! changed dimension statement in comment describing e from (n) to
         ! (n-1).  sven, 17 feb 05.
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: difl, difr, givcol, givnum, givptr, i, ic, icompq, ierr, ii, is, iu, &
@@ -73644,11 +72721,8 @@ module stdlib_linalg_lapack_d
            real(dp) :: c(ldc, *), d(*), e(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            real(dp), parameter :: negone = -1.0d0
            real(dp), parameter :: hndrth = 0.01d0
-           real(dp), parameter :: ten = 10.0d0
            real(dp), parameter :: hndrd = 100.0d0
            real(dp), parameter :: meigth = -0.125d0
            integer(ilp), parameter :: maxitr = 6
@@ -74098,9 +73172,6 @@ module stdlib_linalg_lapack_d
            procedure(stdlib_select_d) :: select
      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: cursl, lastsl, lquery, lst2sl, scalea, wantst, wantvs
@@ -74291,7 +73362,7 @@ module stdlib_linalg_lapack_d
               lst2sl = .true.
               sdim = 0
               ip = 0
-              loop_30: do i = 1, n
+              do i = 1, n
                  cursl = select(wr(i), wi(i))
                  if (wi(i) == zero) then
                     if (cursl) sdim = sdim + 1
@@ -74312,7 +73383,7 @@ module stdlib_linalg_lapack_d
                  end if
                  lst2sl = lastsl
                  lastsl = cursl
-              end do loop_30
+              end do
            end if
            work(1) = maxwrk
            return
@@ -74356,9 +73427,6 @@ module stdlib_linalg_lapack_d
            procedure(stdlib_select_d) :: select
      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: cursl, lastsl, lquery, lst2sl, scalea, wantsb, wantse, wantsn, wantst, &
@@ -74584,7 +73652,7 @@ module stdlib_linalg_lapack_d
               lst2sl = .true.
               sdim = 0
               ip = 0
-              loop_30: do i = 1, n
+              do i = 1, n
                  cursl = select(wr(i), wi(i))
                  if (wi(i) == zero) then
                     if (cursl) sdim = sdim + 1
@@ -74605,7 +73673,7 @@ module stdlib_linalg_lapack_d
                  end if
                  lst2sl = lastsl
                  lastsl = cursl
-              end do loop_30
+              end do
            end if
            work(1) = maxwrk
            if (wantsv .or. wantsb) then
@@ -74641,9 +73709,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), vl(ldvl, *), vr(ldvr, *), wi(*), work(*), wr(*)
                      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: lquery, scalea, wantvl, wantvr
@@ -74922,9 +73987,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), rconde(*), rcondv(*), scale(*), vl(ldvl, *), vr(ldvr, &
                      *), wi(*), work(*), wr(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: lquery, scalea, wantvl, wantvr, wntsnb, wntsne, wntsnn, wntsnv
@@ -75235,10 +74297,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), b(ldb, *), s(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -75548,9 +74606,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), b(ldb, *), s(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -76001,9 +75056,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: a(lda, *), s(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: lquery, wntqa, wntqas, wntqn, wntqo, wntqs
@@ -76966,9 +76018,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), s(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            logical(lk) :: lquery, wntua, wntuas, wntun, wntuo, wntus, wntva, wntvas, wntvn, wntvo, &
@@ -79225,9 +78274,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: s(*), rwork(*)
            integer(ilp) :: iwork(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            integer(ilp) :: ierr, iwoff, nr, n1, optratio, p, q
@@ -80113,9 +79159,6 @@ module stdlib_linalg_lapack_d
            procedure(stdlib_selctg_d) :: selctg
      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: cursl, ilascl, ilbscl, ilvsl, ilvsr, lastsl, lquery, lst2sl, &
@@ -80359,7 +79402,7 @@ module stdlib_linalg_lapack_d
               lst2sl = .true.
               sdim = 0
               ip = 0
-              loop_40: do i = 1, n
+              do i = 1, n
                  cursl = selctg(alphar(i), alphai(i), beta(i))
                  if (alphai(i) == zero) then
                     if (cursl) sdim = sdim + 1
@@ -80380,7 +79423,7 @@ module stdlib_linalg_lapack_d
                  end if
                  lst2sl = lastsl
                  lastsl = cursl
-              end do loop_40
+              end do
            end if
 50      continue
            work(1) = lwkopt
@@ -80416,9 +79459,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: a(lda, *), alphai(*), alphar(*), b(ldb, *), beta(*), vl(ldvl, *) &
                      , vr(ldvr, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: ilascl, ilbscl, ilv, ilvl, ilvr, lquery
@@ -80714,8 +79754,6 @@ module stdlib_linalg_lapack_d
            ! .. parameters ..
            integer(ilp), parameter :: ntiny = 15
            integer(ilp), parameter :: nl = 49
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0d0
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_dlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
@@ -80863,9 +79901,6 @@ module stdlib_linalg_lapack_d
            ldu, *), poles(ldu, *), s(*), u(ldu, *), vt(ldu, *), work(*), z(ldu, *)
                      
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            integer(ilp) :: i, i1, ic, im1, inode, j, lf, ll, lvl, lvl2, nd, ndb1, ndiml, ndimr, nl, &
@@ -81054,10 +80089,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: iwork(*)
            real(dp) :: b(ldb, *), d(*), e(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
            
            ! .. local scalars ..
            integer(ilp) :: bx, bxst, c, difl, difr, givcol, givnum, givptr, i, icmpq1, icmpq2, iwk, &
@@ -81326,10 +80357,8 @@ module stdlib_linalg_lapack_d
            integer(ilp), parameter :: ntiny = 15
            integer(ilp), parameter :: kexnw = 5
            integer(ilp), parameter :: kexsh = 6
-           real(dp), parameter :: wilk1 = 0.75d0
-           real(dp), parameter :: wilk2 = -0.4375d0
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0d0
+           real(dp), parameter :: wilk1 = 0.75_dp
+           real(dp), parameter :: wilk2 = -0.4375_dp
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_dlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
@@ -81697,9 +80726,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: h(ldh, *), si(*), sr(*), t(ldt, *), v(ldv, *), work(*), wv( &
                      ldwv, *), z(ldz, *)
         ! ================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local scalars ..
            real(dp) :: aa, bb, beta, cc, cs, dd, evi, evk, foo, s, safmax, safmin, smlnum, sn, tau, &
@@ -82019,10 +81045,8 @@ module stdlib_linalg_lapack_d
            integer(ilp), parameter :: ntiny = 15
            integer(ilp), parameter :: kexnw = 5
            integer(ilp), parameter :: kexsh = 6
-           real(dp), parameter :: wilk1 = 0.75d0
-           real(dp), parameter :: wilk2 = -0.4375d0
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0d0
+           real(dp), parameter :: wilk1 = 0.75_dp
+           real(dp), parameter :: wilk2 = -0.4375_dp
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_dlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
@@ -82420,10 +81444,6 @@ module stdlib_linalg_lapack_d
            integer(ilp), intent(out) :: info
            real(dp), intent(inout) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *), alphar( &
                       *), alphai(*), beta(*), work(*)
-           ! parameters
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! local scalars
            real(dp) :: smlnum, ulp, eshift, safmin, safmax, c1, s1, temp, swap
@@ -82434,7 +81454,6 @@ module stdlib_linalg_lapack_d
            logical(lk) :: ilschur, ilq, ilz
            character :: jbcmpz*3
      
-           ! decode wants,wantq,wantz
            if (stdlib_lsame(wants, 'e')) then
               ilschur = .false.
               iwants = 1
@@ -82774,10 +81793,6 @@ module stdlib_linalg_lapack_d
                       *), alphai(*), beta(*)
            integer(ilp), intent(out) :: ns, nd, info
            real(dp) :: qc(ldqc, *), zc(ldzc, *), work(*)
-           ! parameters
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: half = 0.5d0
            
            ! local scalars
            logical(lk) :: bulge
@@ -83067,13 +82082,8 @@ module stdlib_linalg_lapack_d
                      
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: four = 4.0d0
            real(dp), parameter :: hndrd = 100.0d0
            real(dp), parameter :: pert = 8.0d0
-           real(dp), parameter :: half = one/two
            real(dp), parameter :: fourth = one/four
            real(dp), parameter :: fac = half
            real(dp), parameter :: maxgrowth = 64.0d0
@@ -83727,9 +82737,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: c(*), d(*), difl(ldu, *), difr(ldu, *), e(*), givnum(ldu, *), &
                      poles(ldu, *), s(*), u(ldu, *), vt(ldu, *), work(*), z(ldu, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: i, i1, ic, idxq, idxqi, im1, inode, itemp, iwk, j, lf, ll, lvl, lvl2, m, &
@@ -83934,8 +82941,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: c(ldc, *), d(*), e(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            logical(lk) :: rotate
@@ -84097,8 +83102,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(*), e(*), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
            
            ! .. local scalars ..
            integer(ilp) :: i, iinfo
@@ -84196,11 +83199,6 @@ module stdlib_linalg_lapack_d
         ! =====================================================================
            ! .. parameters ..
            real(dp), parameter :: cbias = 1.50d0
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: half = 0.5d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: two = 2.0d0
-           real(dp), parameter :: four = 4.0d0
            real(dp), parameter :: hundrd = 100.0d0
            
            ! .. local scalars ..
@@ -84587,9 +83585,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), h(ldh, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            integer(ilp) :: j, k, k1, i1, i2, mj
@@ -84829,9 +83824,6 @@ module stdlib_linalg_lapack_d
            ! .. array arguments ..
            real(dp) :: d(*), e(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
            
            ! .. local arrays ..
            real(dp) :: c(1, 1), vt(1, 1)
@@ -85003,9 +83995,6 @@ module stdlib_linalg_lapack_d
            real(dp) :: z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d0
-           real(dp), parameter :: one = 1.0d0
-           real(dp), parameter :: four = 4.0d0
            real(dp), parameter :: minrgp = 1.0d-3
            
            ! .. local scalars ..
@@ -85413,10 +84402,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: isuppz(*), iwork(*)
            real(dp) :: d(*), e(*), w(*), work(*), z(ldz, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
            
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, test, lquery, valeig, wantz, tryrac
@@ -85681,10 +84666,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: isuppz(*), iwork(*)
            real(dp) :: a(lda, *), w(*), work(*), z(ldz, *)
        ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: two = 2.0_dp
            
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lower, lquery, valeig, wantz, tryrac
@@ -86033,9 +85014,6 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: ipiv(*)
            real(dp) :: a(lda, *), work(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
-           real(dp), parameter :: one = 1.0_dp
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper

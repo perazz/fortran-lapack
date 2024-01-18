@@ -42,6 +42,41 @@ module stdlib_linalg_blas_s
      public :: stdlib_strsm
      public :: stdlib_strsv
 
+     ! 32-bit real constants
+     real(sp), parameter, private :: zero = 0.00_sp
+     real(sp), parameter, private :: half = 0.50_sp
+     real(sp), parameter, private :: one = 1.00_sp
+     real(sp), parameter, private :: two = 2.00_sp
+     real(sp), parameter, private :: three = 3.00_sp
+     real(sp), parameter, private :: four = 4.00_sp
+     real(sp), parameter, private :: eight = 8.00_sp
+     real(sp), parameter, private :: ten = 10.00_sp
+
+     ! 32-bit complex constants
+     complex(sp), parameter, private :: czero = (0.0_sp, 0.0_sp)
+     complex(sp), parameter, private :: chalf = (0.5_sp, 0.0_sp)
+     complex(sp), parameter, private :: cone = (1.0_sp, 0.0_sp)
+
+     ! 32-bit scaling constants
+     integer, parameter, private :: maxexp = maxexponent(zero)
+     integer, parameter, private :: minexp = minexponent(zero)
+     real(sp), parameter, private :: rradix = real(radix(zero), sp)
+     real(sp), parameter, private :: ulp = epsilon(zero)
+     real(sp), parameter, private :: eps = ulp*half
+     real(sp), parameter, private :: safmin = rradix**max(minexp - 1, 1 - maxexp)
+     real(sp), parameter, private :: safmax = one/safmin
+     real(sp), parameter, private :: smlnum = safmin/ulp
+     real(sp), parameter, private :: bignum = safmax*ulp
+     real(sp), parameter, private :: rtmin = sqrt(smlnum)
+     real(sp), parameter, private :: rtmax = sqrt(bignum)
+
+     ! 32-bit Blue's scaling constants
+     ! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771
+     real(sp), parameter, private :: tsml = rradix**ceiling((minexp - 1)*half)
+     real(sp), parameter, private :: tbig = rradix**floor((maxexp - digits(zero) + 1)*half)
+     real(sp), parameter, private :: ssml = rradix**(-floor((minexp - digits(zero))*half))
+     real(sp), parameter, private :: sbig = rradix**(-ceiling((maxexp + digits(zero) - 1)*half))
+
      contains
 
      ! SASUM takes the sum of the absolute values.
@@ -61,8 +96,8 @@ module stdlib_linalg_blas_s
            integer(ilp) :: i, m, mp1, nincx
            ! .. intrinsic functions ..
            intrinsic :: abs, mod
-           stdlib_sasum = 0.0e0
-           stemp = 0.0e0
+           stdlib_sasum = zero
+           stemp = zero
            if (n <= 0 .or. incx <= 0) return
            if (incx == 1) then
               ! code for increment equal to 1
@@ -164,8 +199,8 @@ module stdlib_linalg_blas_s
            integer(ilp) :: i, nincx
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, real
-           stdlib_scasum = 0.0e0
-           stemp = 0.0e0
+           stdlib_scasum = zero
+           stemp = zero
            if (n <= 0 .or. incx <= 0) return
            if (incx == 1) then
               ! code for increment equal to 1
@@ -190,15 +225,15 @@ module stdlib_linalg_blas_s
      ! SCNRM2 := sqrt( x**H*x )
 
      function stdlib_scnrm2(n, x, incx)
-        integer, parameter :: wp = kind(1.e0)
+        integer, parameter :: wp = kind(1._sp)
         real(sp) :: stdlib_scnrm2
         ! -- reference blas level1 routine (version 3.9.1) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        real(sp), parameter :: szero = 0.0_sp
-        real(sp), parameter :: sone = 1.0_sp
+        real(sp), parameter :: zero = 0.0_sp
+        real(sp), parameter :: one = 1.0_sp
         real(sp), parameter :: maxn = huge(0.0_sp)
         ! .. blue's scaling constants ..
      real(sp), parameter :: tsml = real(radix(0._sp), wp)**ceiling((minexponent(0._sp) - 1) &
@@ -218,10 +253,10 @@ module stdlib_linalg_blas_s
         logical :: notbig
         real(sp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
         ! quick return if possible
-        stdlib_scnrm2 = szero
+        stdlib_scnrm2 = zero
         if (n <= 0) return
-        scl = sone
-        sumsq = szero
+        scl = one
+        sumsq = zero
         ! compute the sum of squares in 3 accumulators:
            ! abig -- sums of squares scaled down to avoid overflow
            ! asml -- sums of squares scaled up to avoid underflow
@@ -230,9 +265,9 @@ module stdlib_linalg_blas_s
            ! tbig -- values bigger than this are scaled down by sbig
            ! tsml -- values smaller than this are scaled up by ssml
         notbig = .true.
-        asml = szero
-        amed = szero
-        abig = szero
+        asml = zero
+        amed = zero
+        abig = zero
         ix = 1
         if (incx < 0) ix = 1 - (n - 1)*incx
         do i = 1, n
@@ -256,18 +291,18 @@ module stdlib_linalg_blas_s
            end if
            ix = ix + incx
         end do
-        ! combine abig and amed or amed and asml if more than sone
+        ! combine abig and amed or amed and asml if more than one
         ! accumulator was used.
-        if (abig > szero) then
+        if (abig > zero) then
            ! combine abig and amed if abig > 0.
-           if ((amed > szero) .or. (amed > maxn) .or. (amed /= amed)) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               abig = abig + (amed*sbig)*sbig
            end if
-           scl = sone/sbig
+           scl = one/sbig
            sumsq = abig
-        else if (asml > szero) then
+        else if (asml > zero) then
            ! combine amed and asml if asml > 0.
-           if ((amed > szero) .or. (amed > maxn) .or. (amed /= amed)) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               amed = sqrt(amed)
               asml = sqrt(asml)/ssml
               if (asml > amed) then
@@ -277,15 +312,15 @@ module stdlib_linalg_blas_s
                  ymin = asml
                  ymax = amed
               end if
-              scl = sone
-              sumsq = ymax**2*(sone + (ymin/ymax)**2)
+              scl = one
+              sumsq = ymax**2*(one + (ymin/ymax)**2)
            else
-              scl = sone/ssml
+              scl = one/ssml
               sumsq = asml
            end if
         else
            ! otherwise all values are mid-range
-           scl = sone
+           scl = one
            sumsq = amed
         end if
         stdlib_scnrm2 = scl*sqrt(sumsq)
@@ -363,8 +398,8 @@ module stdlib_linalg_blas_s
            integer(ilp) :: i, ix, iy, m, mp1
            ! .. intrinsic functions ..
            intrinsic :: mod
-           stemp = 0.0e0
-           stdlib_sdot = 0.0e0
+           stemp = zero
+           stdlib_sdot = zero
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -419,20 +454,20 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: sx(*), sy(*)
            ! .. local scalars ..
-           real(dp) :: stdlib_dsdot
+           real(dp) :: dsdot
            integer(ilp) :: i, kx, ky, ns
            ! .. intrinsic functions ..
            intrinsic :: dble
-           stdlib_dsdot = sb
+           dsdot = sb
            if (n <= 0) then
-              stdlib_sdsdot = stdlib_dsdot
+              stdlib_sdsdot = dsdot
               return
            end if
            if (incx == incy .and. incx > 0) then
            ! code for equal and positive increments.
               ns = n*incx
               do i = 1, ns, incx
-                 stdlib_dsdot = stdlib_dsdot + dble(sx(i))*dble(sy(i))
+                 dsdot = dsdot + dble(sx(i))*dble(sy(i))
               end do
            else
            ! code for unequal or nonpositive increments.
@@ -441,12 +476,12 @@ module stdlib_linalg_blas_s
               if (incx < 0) kx = 1 + (1 - n)*incx
               if (incy < 0) ky = 1 + (1 - n)*incy
               do i = 1, n
-                 stdlib_dsdot = stdlib_dsdot + dble(sx(kx))*dble(sy(ky))
+                 dsdot = dsdot + dble(sx(kx))*dble(sy(ky))
                  kx = kx + incx
                  ky = ky + incy
               end do
            end if
-           stdlib_sdsdot = stdlib_dsdot
+           stdlib_sdsdot = dsdot
            return
            ! end of stdlib_sdsdot
      end function stdlib_sdsdot
@@ -467,9 +502,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -635,9 +667,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, j, l, nrowa, nrowb
            logical(lk) :: nota, notb
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! transposed and set  nrowa and nrowb  as the number of rows of  a
@@ -793,9 +822,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -940,8 +966,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -1013,15 +1037,15 @@ module stdlib_linalg_blas_s
      ! SNRM2 := sqrt( x'*x ).
 
      function stdlib_snrm2(n, x, incx)
-        integer, parameter :: wp = kind(1.e0)
+        integer, parameter :: wp = kind(1._sp)
         real(sp) :: stdlib_snrm2
         ! -- reference blas level1 routine (version 3.9.1) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        real(sp), parameter :: szero = 0.0_sp
-        real(sp), parameter :: sone = 1.0_sp
+        real(sp), parameter :: zero = 0.0_sp
+        real(sp), parameter :: one = 1.0_sp
         real(sp), parameter :: maxn = huge(0.0_sp)
         ! .. blue's scaling constants ..
      real(sp), parameter :: tsml = real(radix(0._sp), wp)**ceiling((minexponent(0._sp) - 1) &
@@ -1041,10 +1065,10 @@ module stdlib_linalg_blas_s
         logical :: notbig
         real(sp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
         ! quick return if possible
-        stdlib_snrm2 = szero
+        stdlib_snrm2 = zero
         if (n <= 0) return
-        scl = sone
-        sumsq = szero
+        scl = one
+        sumsq = zero
         ! compute the sum of squares in 3 accumulators:
            ! abig -- sums of squares scaled down to avoid overflow
            ! asml -- sums of squares scaled up to avoid underflow
@@ -1053,9 +1077,9 @@ module stdlib_linalg_blas_s
            ! tbig -- values bigger than this are scaled down by sbig
            ! tsml -- values smaller than this are scaled up by ssml
         notbig = .true.
-        asml = szero
-        amed = szero
-        abig = szero
+        asml = zero
+        amed = zero
+        abig = zero
         ix = 1
         if (incx < 0) ix = 1 - (n - 1)*incx
         do i = 1, n
@@ -1070,18 +1094,18 @@ module stdlib_linalg_blas_s
            end if
            ix = ix + incx
         end do
-        ! combine abig and amed or amed and asml if more than sone
+        ! combine abig and amed or amed and asml if more than one
         ! accumulator was used.
-        if (abig > szero) then
+        if (abig > zero) then
            ! combine abig and amed if abig > 0.
-           if ((amed > szero) .or. (amed > maxn) .or. (amed /= amed)) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               abig = abig + (amed*sbig)*sbig
            end if
-           scl = sone/sbig
+           scl = one/sbig
            sumsq = abig
-        else if (asml > szero) then
+        else if (asml > zero) then
            ! combine amed and asml if asml > 0.
-           if ((amed > szero) .or. (amed > maxn) .or. (amed /= amed)) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               amed = sqrt(amed)
               asml = sqrt(asml)/ssml
               if (asml > amed) then
@@ -1091,15 +1115,15 @@ module stdlib_linalg_blas_s
                  ymin = asml
                  ymax = amed
               end if
-              scl = sone
-              sumsq = ymax**2*(sone + (ymin/ymax)**2)
+              scl = one
+              sumsq = ymax**2*(one + (ymin/ymax)**2)
            else
-              scl = sone/ssml
+              scl = one/ssml
               sumsq = asml
            end if
         else
            ! otherwise all values are mid-range
-           scl = sone
+           scl = one
            sumsq = amed
         end if
         stdlib_snrm2 = scl*sqrt(sumsq)
@@ -1165,13 +1189,13 @@ module stdlib_linalg_blas_s
      ! If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
 
      subroutine stdlib_srotg(a, b, c, s)
-        integer, parameter :: wp = kind(1.e0)
+        integer, parameter :: wp = kind(1._sp)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        real(sp), parameter :: szero = 0.0_sp
-        real(sp), parameter :: sone = 1.0_sp
+        real(sp), parameter :: zero = 0.0_sp
+        real(sp), parameter :: one = 1.0_sp
         ! .. scaling constants ..
      real(sp), parameter :: safmin = real(radix(0._sp), wp)**max(minexponent(0._sp) - 1, 1 - &
                maxexponent(0._sp))
@@ -1183,31 +1207,31 @@ module stdlib_linalg_blas_s
         real(sp) :: anorm, bnorm, scl, sigma, r, z
         anorm = abs(a)
         bnorm = abs(b)
-        if (bnorm == szero) then
-           c = sone
-           s = szero
-           b = szero
-        else if (anorm == szero) then
-           c = szero
-           s = sone
+        if (bnorm == zero) then
+           c = one
+           s = zero
+           b = zero
+        else if (anorm == zero) then
+           c = zero
+           s = one
            a = b
-           b = sone
+           b = one
         else
            scl = min(safmax, max(safmin, anorm, bnorm))
            if (anorm > bnorm) then
-              sigma = sign(sone, a)
+              sigma = sign(one, a)
            else
-              sigma = sign(sone, b)
+              sigma = sign(one, b)
            end if
            r = sigma*(scl*sqrt((a/scl)**2 + (b/scl)**2))
            c = a/r
            s = b/r
            if (anorm > bnorm) then
               z = s
-           else if (c /= szero) then
-              z = sone/c
+           else if (c /= zero) then
+              z = one/c
            else
-              z = sone
+              z = one
            end if
            a = r
            b = z
@@ -1499,9 +1523,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp1, temp2
@@ -1712,9 +1733,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: ap(*), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp1, temp2
@@ -1872,8 +1890,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: ap(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -1982,8 +1998,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: ap(*), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp1, temp2
@@ -2182,9 +2196,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp1, temp2
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side, 'l')) then
@@ -2324,9 +2335,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp1, temp2
@@ -2480,8 +2488,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -2586,8 +2592,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp1, temp2
@@ -2722,9 +2726,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp1, temp2
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
@@ -2901,9 +2902,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
@@ -3061,8 +3059,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -3250,8 +3246,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -3436,8 +3430,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: ap(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -3623,8 +3615,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: ap(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -3817,9 +3807,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, nounit, upper
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
@@ -4018,8 +4005,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp
@@ -4197,9 +4182,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, nounit, upper
-           ! .. parameters ..
-           real(sp), parameter :: one = 1.0_sp
-           real(sp), parameter :: zero = 0.0_sp
            
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
@@ -4424,8 +4406,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
            
            ! .. local scalars ..
            real(sp) :: temp

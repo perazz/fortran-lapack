@@ -44,6 +44,41 @@ module stdlib_linalg_blas_z
      public :: stdlib_ztrsm
      public :: stdlib_ztrsv
 
+     ! 64-bit real constants
+     real(dp), parameter, private :: zero = 0.00_dp
+     real(dp), parameter, private :: half = 0.50_dp
+     real(dp), parameter, private :: one = 1.00_dp
+     real(dp), parameter, private :: two = 2.00_dp
+     real(dp), parameter, private :: three = 3.00_dp
+     real(dp), parameter, private :: four = 4.00_dp
+     real(dp), parameter, private :: eight = 8.00_dp
+     real(dp), parameter, private :: ten = 10.00_dp
+
+     ! 64-bit complex constants
+     complex(dp), parameter, private :: czero = (0.0_dp, 0.0_dp)
+     complex(dp), parameter, private :: chalf = (0.5_dp, 0.0_dp)
+     complex(dp), parameter, private :: cone = (1.0_dp, 0.0_dp)
+
+     ! 64-bit scaling constants
+     integer, parameter, private :: maxexp = maxexponent(zero)
+     integer, parameter, private :: minexp = minexponent(zero)
+     real(dp), parameter, private :: rradix = real(radix(zero), dp)
+     real(dp), parameter, private :: ulp = epsilon(zero)
+     real(dp), parameter, private :: eps = ulp*half
+     real(dp), parameter, private :: safmin = rradix**max(minexp - 1, 1 - maxexp)
+     real(dp), parameter, private :: safmax = one/safmin
+     real(dp), parameter, private :: smlnum = safmin/ulp
+     real(dp), parameter, private :: bignum = safmax*ulp
+     real(dp), parameter, private :: rtmin = sqrt(smlnum)
+     real(dp), parameter, private :: rtmax = sqrt(bignum)
+
+     ! 64-bit Blue's scaling constants
+     ! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771
+     real(dp), parameter, private :: tsml = rradix**ceiling((minexp - 1)*half)
+     real(dp), parameter, private :: tbig = rradix**floor((maxexp - digits(zero) + 1)*half)
+     real(dp), parameter, private :: ssml = rradix**(-floor((minexp - digits(zero))*half))
+     real(dp), parameter, private :: sbig = rradix**(-ceiling((maxexp + digits(zero) - 1)*half))
+
      contains
 
      ! ZAXPY constant times a vector plus a vector.
@@ -300,9 +335,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -336,7 +368,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
+           if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = stdlib_lsame(trans, 't')
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
@@ -358,13 +390,13 @@ module stdlib_linalg_blas_z
                ky = 1 - (leny - 1)*incy
            end if
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through the band part of a.
+           ! accessed sequentially with cone pass through the band part of a.
            ! first form  y := beta*y.
-           if (beta /= one) then
+           if (beta /= cone) then
                if (incy == 1) then
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, leny
-                           y(i) = zero
+                           y(i) = czero
                        end do
                    else
                        do i = 1, leny
@@ -373,9 +405,9 @@ module stdlib_linalg_blas_z
                    end if
                else
                    iy = ky
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, leny
-                           y(iy) = zero
+                           y(iy) = czero
                            iy = iy + incy
                        end do
                    else
@@ -386,7 +418,7 @@ module stdlib_linalg_blas_z
                    end if
                end if
            end if
-           if (alpha == zero) return
+           if (alpha == czero) return
            kup1 = ku + 1
            if (stdlib_lsame(trans, 'n')) then
               ! form  y := alpha*a*x + y.
@@ -418,7 +450,7 @@ module stdlib_linalg_blas_z
                jy = ky
                if (incx == 1) then
                    do j = 1, n
-                       temp = zero
+                       temp = czero
                        k = kup1 - j
                        if (noconj) then
                            do i = max(1, j - ku), min(m, j + kl)
@@ -434,7 +466,7 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       temp = zero
+                       temp = czero
                        ix = kx
                        k = kup1 - j
                        if (noconj) then
@@ -483,9 +515,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, j, l, nrowa, nrowb
            logical(lk) :: conja, conjb, nota, notb
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! conjugated or transposed, set  conja and conjb  as true if  a  and
@@ -530,14 +559,14 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((m == 0) .or. (n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) &
+           if ((m == 0) .or. (n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) &
                      return
-           ! and when  alpha.eq.zero.
-           if (alpha == zero) then
-               if (beta == zero) then
+           ! and when  alpha.eq.czero.
+           if (alpha == czero) then
+               if (beta == czero) then
                    do j = 1, n
                        do i = 1, m
-                           c(i, j) = zero
+                           c(i, j) = czero
                        end do
                    end do
                else
@@ -554,11 +583,11 @@ module stdlib_linalg_blas_z
                if (nota) then
                  ! form  c := alpha*a*b + beta*c.
                    do j = 1, n
-                       if (beta == zero) then
+                       if (beta == czero) then
                            do i = 1, m
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = 1, m
                                c(i, j) = beta*c(i, j)
                            end do
@@ -574,11 +603,11 @@ module stdlib_linalg_blas_z
                  ! form  c := alpha*a**h*b + beta*c.
                    do j = 1, n
                        do i = 1, m
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + dconjg(a(l, i))*b(l, j)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
@@ -589,11 +618,11 @@ module stdlib_linalg_blas_z
                  ! form  c := alpha*a**t*b + beta*c
                    do j = 1, n
                        do i = 1, m
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + a(l, i)*b(l, j)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
@@ -605,11 +634,11 @@ module stdlib_linalg_blas_z
                if (conjb) then
                  ! form  c := alpha*a*b**h + beta*c.
                    do j = 1, n
-                       if (beta == zero) then
+                       if (beta == czero) then
                            do i = 1, m
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = 1, m
                                c(i, j) = beta*c(i, j)
                            end do
@@ -624,11 +653,11 @@ module stdlib_linalg_blas_z
                else
                  ! form  c := alpha*a*b**t + beta*c
                    do j = 1, n
-                       if (beta == zero) then
+                       if (beta == czero) then
                            do i = 1, m
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = 1, m
                                c(i, j) = beta*c(i, j)
                            end do
@@ -646,11 +675,11 @@ module stdlib_linalg_blas_z
                  ! form  c := alpha*a**h*b**h + beta*c.
                    do j = 1, n
                        do i = 1, m
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + dconjg(a(l, i))*dconjg(b(j, l))
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
@@ -661,11 +690,11 @@ module stdlib_linalg_blas_z
                  ! form  c := alpha*a**h*b**t + beta*c
                    do j = 1, n
                        do i = 1, m
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + dconjg(a(l, i))*b(j, l)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
@@ -678,11 +707,11 @@ module stdlib_linalg_blas_z
                  ! form  c := alpha*a**t*b**h + beta*c
                    do j = 1, n
                        do i = 1, m
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + a(l, i)*dconjg(b(j, l))
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
@@ -693,11 +722,11 @@ module stdlib_linalg_blas_z
                  ! form  c := alpha*a**t*b**t + beta*c
                    do j = 1, n
                        do i = 1, m
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + a(l, i)*b(j, l)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
@@ -727,9 +756,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -759,7 +785,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
+           if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = stdlib_lsame(trans, 't')
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
@@ -781,13 +807,13 @@ module stdlib_linalg_blas_z
                ky = 1 - (leny - 1)*incy
            end if
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through a.
+           ! accessed sequentially with cone pass through a.
            ! first form  y := beta*y.
-           if (beta /= one) then
+           if (beta /= cone) then
                if (incy == 1) then
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, leny
-                           y(i) = zero
+                           y(i) = czero
                        end do
                    else
                        do i = 1, leny
@@ -796,9 +822,9 @@ module stdlib_linalg_blas_z
                    end if
                else
                    iy = ky
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, leny
-                           y(iy) = zero
+                           y(iy) = czero
                            iy = iy + incy
                        end do
                    else
@@ -809,7 +835,7 @@ module stdlib_linalg_blas_z
                    end if
                end if
            end if
-           if (alpha == zero) return
+           if (alpha == czero) return
            if (stdlib_lsame(trans, 'n')) then
               ! form  y := alpha*a*x + y.
                jx = kx
@@ -837,7 +863,7 @@ module stdlib_linalg_blas_z
                jy = ky
                if (incx == 1) then
                    do j = 1, n
-                       temp = zero
+                       temp = czero
                        if (noconj) then
                            do i = 1, m
                                temp = temp + a(i, j)*x(i)
@@ -852,7 +878,7 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       temp = zero
+                       temp = czero
                        ix = kx
                        if (noconj) then
                            do i = 1, m
@@ -889,8 +915,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -916,9 +940,9 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
+           if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through a.
+           ! accessed sequentially with cone pass through a.
            if (incy > 0) then
                jy = 1
            else
@@ -926,7 +950,7 @@ module stdlib_linalg_blas_z
            end if
            if (incx == 1) then
                do j = 1, n
-                   if (y(jy) /= zero) then
+                   if (y(jy) /= czero) then
                        temp = alpha*dconjg(y(jy))
                        do i = 1, m
                            a(i, j) = a(i, j) + x(i)*temp
@@ -941,7 +965,7 @@ module stdlib_linalg_blas_z
                    kx = 1 - (m - 1)*incx
                end if
                do j = 1, n
-                   if (y(jy) /= zero) then
+                   if (y(jy) /= czero) then
                        temp = alpha*dconjg(y(jy))
                        ix = kx
                        do i = 1, m
@@ -971,8 +995,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -998,9 +1020,9 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
+           if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through a.
+           ! accessed sequentially with cone pass through a.
            if (incy > 0) then
                jy = 1
            else
@@ -1008,7 +1030,7 @@ module stdlib_linalg_blas_z
            end if
            if (incx == 1) then
                do j = 1, n
-                   if (y(jy) /= zero) then
+                   if (y(jy) /= czero) then
                        temp = alpha*y(jy)
                        do i = 1, m
                            a(i, j) = a(i, j) + x(i)*temp
@@ -1023,7 +1045,7 @@ module stdlib_linalg_blas_z
                    kx = 1 - (m - 1)*incx
                end if
                do j = 1, n
-                   if (y(jy) /= zero) then
+                   if (y(jy) /= czero) then
                        temp = alpha*y(jy)
                        ix = kx
                        do i = 1, m
@@ -1054,9 +1076,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
@@ -1084,7 +1103,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
+           if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
            if (incx > 0) then
                kx = 1
@@ -1097,13 +1116,13 @@ module stdlib_linalg_blas_z
                ky = 1 - (n - 1)*incy
            end if
            ! start the operations. in this version the elements of the array a
-           ! are accessed sequentially with one pass through a.
+           ! are accessed sequentially with cone pass through a.
            ! first form  y := beta*y.
-           if (beta /= one) then
+           if (beta /= cone) then
                if (incy == 1) then
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, n
-                           y(i) = zero
+                           y(i) = czero
                        end do
                    else
                        do i = 1, n
@@ -1112,9 +1131,9 @@ module stdlib_linalg_blas_z
                    end if
                else
                    iy = ky
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, n
-                           y(iy) = zero
+                           y(iy) = czero
                            iy = iy + incy
                        end do
                    else
@@ -1125,14 +1144,14 @@ module stdlib_linalg_blas_z
                    end if
                end if
            end if
-           if (alpha == zero) return
+           if (alpha == czero) return
            if (stdlib_lsame(uplo, 'u')) then
               ! form  y  when upper triangle of a is stored.
                kplus1 = k + 1
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        temp1 = alpha*x(j)
-                       temp2 = zero
+                       temp2 = czero
                        l = kplus1 - j
                        do i = max(1, j - k), j - 1
                            y(i) = y(i) + temp1*a(l + i, j)
@@ -1145,7 +1164,7 @@ module stdlib_linalg_blas_z
                    jy = ky
                    do j = 1, n
                        temp1 = alpha*x(jx)
-                       temp2 = zero
+                       temp2 = czero
                        ix = kx
                        iy = ky
                        l = kplus1 - j
@@ -1169,7 +1188,7 @@ module stdlib_linalg_blas_z
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        temp1 = alpha*x(j)
-                       temp2 = zero
+                       temp2 = czero
                        y(j) = y(j) + temp1*dble(a(1, j))
                        l = 1 - j
                        do i = j + 1, min(n, j + k)
@@ -1183,7 +1202,7 @@ module stdlib_linalg_blas_z
                    jy = ky
                    do j = 1, n
                        temp1 = alpha*x(jx)
-                       temp2 = zero
+                       temp2 = czero
                        y(jy) = y(jy) + temp1*dble(a(1, j))
                        l = 1 - j
                        ix = jx
@@ -1229,9 +1248,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side, 'l')) then
@@ -1262,13 +1278,13 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
-           ! and when  alpha.eq.zero.
-           if (alpha == zero) then
-               if (beta == zero) then
+           if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
+           ! and when  alpha.eq.czero.
+           if (alpha == czero) then
+               if (beta == czero) then
                    do j = 1, n
                        do i = 1, m
-                           c(i, j) = zero
+                           c(i, j) = czero
                        end do
                    end do
                else
@@ -1287,12 +1303,12 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        do i = 1, m
                            temp1 = alpha*b(i, j)
-                           temp2 = zero
+                           temp2 = czero
                            do k = 1, i - 1
                                c(k, j) = c(k, j) + temp1*a(k, i)
                                temp2 = temp2 + b(k, j)*dconjg(a(k, i))
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = temp1*dble(a(i, i)) + alpha*temp2
                            else
                                c(i, j) = beta*c(i, j) + temp1*dble(a(i, i)) + alpha*temp2
@@ -1303,12 +1319,12 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        do i = m, 1, -1
                            temp1 = alpha*b(i, j)
-                           temp2 = zero
+                           temp2 = czero
                            do k = i + 1, m
                                c(k, j) = c(k, j) + temp1*a(k, i)
                                temp2 = temp2 + b(k, j)*dconjg(a(k, i))
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = temp1*dble(a(i, i)) + alpha*temp2
                            else
                                c(i, j) = beta*c(i, j) + temp1*dble(a(i, i)) + alpha*temp2
@@ -1320,7 +1336,7 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*b*a + beta*c.
                loop_170: do j = 1, n
                    temp1 = alpha*dble(a(j, j))
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, m
                            c(i, j) = temp1*b(i, j)
                        end do
@@ -1371,9 +1387,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
@@ -1399,7 +1412,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
+           if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
            if (incx > 0) then
                kx = 1
@@ -1412,14 +1425,14 @@ module stdlib_linalg_blas_z
                ky = 1 - (n - 1)*incy
            end if
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through the triangular part
+           ! accessed sequentially with cone pass through the triangular part
            ! of a.
            ! first form  y := beta*y.
-           if (beta /= one) then
+           if (beta /= cone) then
                if (incy == 1) then
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, n
-                           y(i) = zero
+                           y(i) = czero
                        end do
                    else
                        do i = 1, n
@@ -1428,9 +1441,9 @@ module stdlib_linalg_blas_z
                    end if
                else
                    iy = ky
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, n
-                           y(iy) = zero
+                           y(iy) = czero
                            iy = iy + incy
                        end do
                    else
@@ -1441,13 +1454,13 @@ module stdlib_linalg_blas_z
                    end if
                end if
            end if
-           if (alpha == zero) return
+           if (alpha == czero) return
            if (stdlib_lsame(uplo, 'u')) then
               ! form  y  when a is stored in upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        temp1 = alpha*x(j)
-                       temp2 = zero
+                       temp2 = czero
                        do i = 1, j - 1
                            y(i) = y(i) + temp1*a(i, j)
                            temp2 = temp2 + dconjg(a(i, j))*x(i)
@@ -1459,7 +1472,7 @@ module stdlib_linalg_blas_z
                    jy = ky
                    do j = 1, n
                        temp1 = alpha*x(jx)
-                       temp2 = zero
+                       temp2 = czero
                        ix = kx
                        iy = ky
                        do i = 1, j - 1
@@ -1478,7 +1491,7 @@ module stdlib_linalg_blas_z
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        temp1 = alpha*x(j)
-                       temp2 = zero
+                       temp2 = czero
                        y(j) = y(j) + temp1*dble(a(j, j))
                        do i = j + 1, n
                            y(i) = y(i) + temp1*a(i, j)
@@ -1491,7 +1504,7 @@ module stdlib_linalg_blas_z
                    jy = ky
                    do j = 1, n
                        temp1 = alpha*x(jx)
-                       temp2 = zero
+                       temp2 = czero
                        y(jy) = y(jy) + temp1*dble(a(j, j))
                        ix = jx
                        iy = jy
@@ -1527,8 +1540,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -1552,7 +1563,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == dble(zero))) return
+           if ((n == 0) .or. (alpha == dble(czero))) return
            ! set the start point in x if the increment is not unity.
            if (incx <= 0) then
                kx = 1 - (n - 1)*incx
@@ -1560,13 +1571,13 @@ module stdlib_linalg_blas_z
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through the triangular part
+           ! accessed sequentially with cone pass through the triangular part
            ! of a.
            if (stdlib_lsame(uplo, 'u')) then
               ! form  a  when a is stored in upper triangle.
                if (incx == 1) then
                    do j = 1, n
-                       if (x(j) /= zero) then
+                       if (x(j) /= czero) then
                            temp = alpha*dconjg(x(j))
                            do i = 1, j - 1
                                a(i, j) = a(i, j) + x(i)*temp
@@ -1579,7 +1590,7 @@ module stdlib_linalg_blas_z
                else
                    jx = kx
                    do j = 1, n
-                       if (x(jx) /= zero) then
+                       if (x(jx) /= czero) then
                            temp = alpha*dconjg(x(jx))
                            ix = kx
                            do i = 1, j - 1
@@ -1597,7 +1608,7 @@ module stdlib_linalg_blas_z
               ! form  a  when a is stored in lower triangle.
                if (incx == 1) then
                    do j = 1, n
-                       if (x(j) /= zero) then
+                       if (x(j) /= czero) then
                            temp = alpha*dconjg(x(j))
                            a(j, j) = dble(a(j, j)) + dble(temp*x(j))
                            do i = j + 1, n
@@ -1610,7 +1621,7 @@ module stdlib_linalg_blas_z
                else
                    jx = kx
                    do j = 1, n
-                       if (x(jx) /= zero) then
+                       if (x(jx) /= czero) then
                            temp = alpha*dconjg(x(jx))
                            a(j, j) = dble(a(j, j)) + dble(temp*x(jx))
                            ix = jx
@@ -1645,8 +1656,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
@@ -1672,7 +1681,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == zero)) return
+           if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both
            ! unity.
            if ((incx /= 1) .or. (incy /= 1)) then
@@ -1690,13 +1699,13 @@ module stdlib_linalg_blas_z
                jy = ky
            end if
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through the triangular part
+           ! accessed sequentially with cone pass through the triangular part
            ! of a.
            if (stdlib_lsame(uplo, 'u')) then
               ! form  a  when a is stored in the upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
-                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
+                       if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*dconjg(y(j))
                            temp2 = dconjg(alpha*x(j))
                            do i = 1, j - 1
@@ -1709,7 +1718,7 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
+                       if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*dconjg(y(jy))
                            temp2 = dconjg(alpha*x(jx))
                            ix = kx
@@ -1731,7 +1740,7 @@ module stdlib_linalg_blas_z
               ! form  a  when a is stored in the lower triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
-                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
+                       if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*dconjg(y(j))
                            temp2 = dconjg(alpha*x(j))
                            a(j, j) = dble(a(j, j)) + dble(x(j)*temp1 + y(j)*temp2)
@@ -1744,7 +1753,7 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
+                       if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*dconjg(y(jy))
                            temp2 = dconjg(alpha*x(jx))
                            a(j, j) = dble(a(j, j)) + dble(x(jx)*temp1 + y(jy)*temp2)
@@ -1794,9 +1803,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
@@ -1827,14 +1833,14 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
-           ! and when  alpha.eq.zero.
-           if (alpha == zero) then
+           if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
+           ! and when  alpha.eq.czero.
+           if (alpha == czero) then
                if (upper) then
-                   if (beta == dble(zero)) then
+                   if (beta == dble(czero)) then
                        do j = 1, n
                            do i = 1, j
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
                        end do
                    else
@@ -1846,10 +1852,10 @@ module stdlib_linalg_blas_z
                        end do
                    end if
                else
-                   if (beta == dble(zero)) then
+                   if (beta == dble(czero)) then
                        do j = 1, n
                            do i = j, n
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
                        end do
                    else
@@ -1869,11 +1875,11 @@ module stdlib_linalg_blas_z
                          ! c.
                if (upper) then
                    do j = 1, n
-                       if (beta == dble(zero)) then
+                       if (beta == dble(czero)) then
                            do i = 1, j
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
@@ -1882,7 +1888,7 @@ module stdlib_linalg_blas_z
                            c(j, j) = dble(c(j, j))
                        end if
                        do l = 1, k
-                           if ((a(j, l) /= zero) .or. (b(j, l) /= zero)) then
+                           if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
                                temp1 = alpha*dconjg(b(j, l))
                                temp2 = dconjg(alpha*a(j, l))
                                do i = 1, j - 1
@@ -1894,11 +1900,11 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       if (beta == dble(zero)) then
+                       if (beta == dble(czero)) then
                            do i = j, n
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
@@ -1907,7 +1913,7 @@ module stdlib_linalg_blas_z
                            c(j, j) = dble(c(j, j))
                        end if
                        do l = 1, k
-                           if ((a(j, l) /= zero) .or. (b(j, l) /= zero)) then
+                           if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
                                temp1 = alpha*dconjg(b(j, l))
                                temp2 = dconjg(alpha*a(j, l))
                                do i = j + 1, n
@@ -1924,21 +1930,21 @@ module stdlib_linalg_blas_z
                if (upper) then
                    do j = 1, n
                        do i = 1, j
-                           temp1 = zero
-                           temp2 = zero
+                           temp1 = czero
+                           temp2 = czero
                            do l = 1, k
                                temp1 = temp1 + dconjg(a(l, i))*b(l, j)
                                temp2 = temp2 + dconjg(b(l, i))*a(l, j)
                            end do
                            if (i == j) then
-                               if (beta == dble(zero)) then
+                               if (beta == dble(czero)) then
                                    c(j, j) = dble(alpha*temp1 + dconjg(alpha)*temp2)
                                else
                                    c(j, j) = beta*dble(c(j, j)) + dble(alpha*temp1 + dconjg(alpha) &
                                              *temp2)
                                end if
                            else
-                               if (beta == dble(zero)) then
+                               if (beta == dble(czero)) then
                                    c(i, j) = alpha*temp1 + dconjg(alpha)*temp2
                                else
                                    c(i, j) = beta*c(i, j) + alpha*temp1 + dconjg(alpha)*temp2
@@ -1949,21 +1955,21 @@ module stdlib_linalg_blas_z
                else
                    do j = 1, n
                        do i = j, n
-                           temp1 = zero
-                           temp2 = zero
+                           temp1 = czero
+                           temp2 = czero
                            do l = 1, k
                                temp1 = temp1 + dconjg(a(l, i))*b(l, j)
                                temp2 = temp2 + dconjg(b(l, i))*a(l, j)
                            end do
                            if (i == j) then
-                               if (beta == dble(zero)) then
+                               if (beta == dble(czero)) then
                                    c(j, j) = dble(alpha*temp1 + dconjg(alpha)*temp2)
                                else
                                    c(j, j) = beta*dble(c(j, j)) + dble(alpha*temp1 + dconjg(alpha) &
                                              *temp2)
                                end if
                            else
-                               if (beta == dble(zero)) then
+                               if (beta == dble(czero)) then
                                    c(i, j) = alpha*temp1 + dconjg(alpha)*temp2
                                else
                                    c(i, j) = beta*c(i, j) + alpha*temp1 + dconjg(alpha)*temp2
@@ -2004,9 +2010,6 @@ module stdlib_linalg_blas_z
            real(dp) :: rtemp
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
@@ -2035,14 +2038,14 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
-           ! and when  alpha.eq.zero.
-           if (alpha == zero) then
+           if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
+           ! and when  alpha.eq.czero.
+           if (alpha == czero) then
                if (upper) then
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do j = 1, n
                            do i = 1, j
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
                        end do
                    else
@@ -2054,10 +2057,10 @@ module stdlib_linalg_blas_z
                        end do
                    end if
                else
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do j = 1, n
                            do i = j, n
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
                        end do
                    else
@@ -2076,11 +2079,11 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*a*a**h + beta*c.
                if (upper) then
                    do j = 1, n
-                       if (beta == zero) then
+                       if (beta == czero) then
                            do i = 1, j
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
@@ -2089,7 +2092,7 @@ module stdlib_linalg_blas_z
                            c(j, j) = dble(c(j, j))
                        end if
                        do l = 1, k
-                           if (a(j, l) /= dcmplx(zero)) then
+                           if (a(j, l) /= dcmplx(czero)) then
                                temp = alpha*dconjg(a(j, l))
                                do i = 1, j - 1
                                    c(i, j) = c(i, j) + temp*a(i, l)
@@ -2100,11 +2103,11 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       if (beta == zero) then
+                       if (beta == czero) then
                            do i = j, n
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            c(j, j) = beta*dble(c(j, j))
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
@@ -2113,7 +2116,7 @@ module stdlib_linalg_blas_z
                            c(j, j) = dble(c(j, j))
                        end if
                        do l = 1, k
-                           if (a(j, l) /= dcmplx(zero)) then
+                           if (a(j, l) /= dcmplx(czero)) then
                                temp = alpha*dconjg(a(j, l))
                                c(j, j) = dble(c(j, j)) + dble(temp*a(j, l))
                                do i = j + 1, n
@@ -2128,21 +2131,21 @@ module stdlib_linalg_blas_z
                if (upper) then
                    do j = 1, n
                        do i = 1, j - 1
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + dconjg(a(l, i))*a(l, j)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
                            end if
                        end do
-                       rtemp = zero
+                       rtemp = czero
                        do l = 1, k
                            rtemp = rtemp + dconjg(a(l, j))*a(l, j)
                        end do
-                       if (beta == zero) then
+                       if (beta == czero) then
                            c(j, j) = alpha*rtemp
                        else
                            c(j, j) = alpha*rtemp + beta*dble(c(j, j))
@@ -2150,21 +2153,21 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       rtemp = zero
+                       rtemp = czero
                        do l = 1, k
                            rtemp = rtemp + dconjg(a(l, j))*a(l, j)
                        end do
-                       if (beta == zero) then
+                       if (beta == czero) then
                            c(j, j) = alpha*rtemp
                        else
                            c(j, j) = alpha*rtemp + beta*dble(c(j, j))
                        end if
                        do i = j + 1, n
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + dconjg(a(l, i))*a(l, j)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
@@ -2193,9 +2196,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: ap(*), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
@@ -2219,7 +2219,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
+           if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
            if (incx > 0) then
                kx = 1
@@ -2232,13 +2232,13 @@ module stdlib_linalg_blas_z
                ky = 1 - (n - 1)*incy
            end if
            ! start the operations. in this version the elements of the array ap
-           ! are accessed sequentially with one pass through ap.
+           ! are accessed sequentially with cone pass through ap.
            ! first form  y := beta*y.
-           if (beta /= one) then
+           if (beta /= cone) then
                if (incy == 1) then
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, n
-                           y(i) = zero
+                           y(i) = czero
                        end do
                    else
                        do i = 1, n
@@ -2247,9 +2247,9 @@ module stdlib_linalg_blas_z
                    end if
                else
                    iy = ky
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, n
-                           y(iy) = zero
+                           y(iy) = czero
                            iy = iy + incy
                        end do
                    else
@@ -2260,14 +2260,14 @@ module stdlib_linalg_blas_z
                    end if
                end if
            end if
-           if (alpha == zero) return
+           if (alpha == czero) return
            kk = 1
            if (stdlib_lsame(uplo, 'u')) then
               ! form  y  when ap contains the upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        temp1 = alpha*x(j)
-                       temp2 = zero
+                       temp2 = czero
                        k = kk
                        do i = 1, j - 1
                            y(i) = y(i) + temp1*ap(k)
@@ -2282,7 +2282,7 @@ module stdlib_linalg_blas_z
                    jy = ky
                    do j = 1, n
                        temp1 = alpha*x(jx)
-                       temp2 = zero
+                       temp2 = czero
                        ix = kx
                        iy = ky
                        do k = kk, kk + j - 2
@@ -2302,7 +2302,7 @@ module stdlib_linalg_blas_z
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        temp1 = alpha*x(j)
-                       temp2 = zero
+                       temp2 = czero
                        y(j) = y(j) + temp1*dble(ap(kk))
                        k = kk + 1
                        do i = j + 1, n
@@ -2318,7 +2318,7 @@ module stdlib_linalg_blas_z
                    jy = ky
                    do j = 1, n
                        temp1 = alpha*x(jx)
-                       temp2 = zero
+                       temp2 = czero
                        y(jy) = y(jy) + temp1*dble(ap(kk))
                        ix = jx
                        iy = jy
@@ -2355,8 +2355,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: ap(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -2378,7 +2376,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == dble(zero))) return
+           if ((n == 0) .or. (alpha == dble(czero))) return
            ! set the start point in x if the increment is not unity.
            if (incx <= 0) then
                kx = 1 - (n - 1)*incx
@@ -2386,13 +2384,13 @@ module stdlib_linalg_blas_z
                kx = 1
            end if
            ! start the operations. in this version the elements of the array ap
-           ! are accessed sequentially with one pass through ap.
+           ! are accessed sequentially with cone pass through ap.
            kk = 1
            if (stdlib_lsame(uplo, 'u')) then
               ! form  a  when upper triangle is stored in ap.
                if (incx == 1) then
                    do j = 1, n
-                       if (x(j) /= zero) then
+                       if (x(j) /= czero) then
                            temp = alpha*dconjg(x(j))
                            k = kk
                            do i = 1, j - 1
@@ -2408,7 +2406,7 @@ module stdlib_linalg_blas_z
                else
                    jx = kx
                    do j = 1, n
-                       if (x(jx) /= zero) then
+                       if (x(jx) /= czero) then
                            temp = alpha*dconjg(x(jx))
                            ix = kx
                            do k = kk, kk + j - 2
@@ -2427,7 +2425,7 @@ module stdlib_linalg_blas_z
               ! form  a  when lower triangle is stored in ap.
                if (incx == 1) then
                    do j = 1, n
-                       if (x(j) /= zero) then
+                       if (x(j) /= czero) then
                            temp = alpha*dconjg(x(j))
                            ap(kk) = dble(ap(kk)) + dble(temp*x(j))
                            k = kk + 1
@@ -2443,7 +2441,7 @@ module stdlib_linalg_blas_z
                else
                    jx = kx
                    do j = 1, n
-                       if (x(jx) /= zero) then
+                       if (x(jx) /= czero) then
                            temp = alpha*dconjg(x(jx))
                            ap(kk) = dble(ap(kk)) + dble(temp*x(jx))
                            ix = jx
@@ -2479,8 +2477,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: ap(*), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
@@ -2504,7 +2500,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == zero)) return
+           if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both
            ! unity.
            if ((incx /= 1) .or. (incy /= 1)) then
@@ -2522,13 +2518,13 @@ module stdlib_linalg_blas_z
                jy = ky
            end if
            ! start the operations. in this version the elements of the array ap
-           ! are accessed sequentially with one pass through ap.
+           ! are accessed sequentially with cone pass through ap.
            kk = 1
            if (stdlib_lsame(uplo, 'u')) then
               ! form  a  when upper triangle is stored in ap.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
-                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
+                       if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*dconjg(y(j))
                            temp2 = dconjg(alpha*x(j))
                            k = kk
@@ -2544,7 +2540,7 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
+                       if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*dconjg(y(jy))
                            temp2 = dconjg(alpha*x(jx))
                            ix = kx
@@ -2567,7 +2563,7 @@ module stdlib_linalg_blas_z
               ! form  a  when lower triangle is stored in ap.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
-                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
+                       if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*dconjg(y(j))
                            temp2 = dconjg(alpha*x(j))
                            ap(kk) = dble(ap(kk)) + dble(x(j)*temp1 + y(j)*temp2)
@@ -2583,7 +2579,7 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
+                       if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*dconjg(y(jy))
                            temp2 = dconjg(alpha*x(jx))
                            ap(kk) = dble(ap(kk)) + dble(x(jx)*temp1 + y(jy)*temp2)
@@ -2623,14 +2619,14 @@ module stdlib_linalg_blas_z
      ! if the signs of a and b are not the same.
 
      subroutine stdlib_zrotg(a, b, c, s)
-        integer, parameter :: wp = kind(1.d0)
+        integer, parameter :: wp = kind(1._dp)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        real(dp), parameter :: dzero = 0.0_dp
-        real(dp), parameter :: done = 1.0_dp
-        complex(dp), parameter :: zzero = 0.0_dp
+        real(dp), parameter :: zero = 0.0_dp
+        real(dp), parameter :: one = 1.0_dp
+        complex(dp), parameter :: czero = 0.0_dp
         ! .. scaling constants ..
      real(dp), parameter :: safmin = real(radix(0._dp), wp)**max(minexponent(0._dp) - 1, 1 - &
                maxexponent(0._dp))
@@ -2655,12 +2651,12 @@ module stdlib_linalg_blas_z
         ! .. executable statements ..
         f = a
         g = b
-        if (g == zzero) then
-           c = done
-           s = zzero
+        if (g == czero) then
+           c = one
+           s = czero
            r = f
-        else if (f == zzero) then
-           c = dzero
+        else if (f == czero) then
+           c = zero
            g1 = max(abs(real(g)), abs(aimag(g)))
            if (g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
@@ -2671,7 +2667,7 @@ module stdlib_linalg_blas_z
            else
               ! use scaled algorithm
               u = min(safmax, max(safmin, g1))
-              uu = done/u
+              uu = one/u
               gs = g*uu
               g2 = abssq(gs)
               d = sqrt(g2)
@@ -2698,21 +2694,21 @@ module stdlib_linalg_blas_z
            else
               ! use scaled algorithm
               u = min(safmax, max(safmin, f1, g1))
-              uu = done/u
+              uu = one/u
               gs = g*uu
               g2 = abssq(gs)
               if (f1*uu < rtmin) then
                  ! f is not well-scaled when scaled by g1.
                  ! use a different scaling for f.
                  v = min(safmax, max(safmin, f1))
-                 vv = done/v
+                 vv = one/v
                  w = v*uu
                  fs = f*vv
                  f2 = abssq(fs)
                  h2 = f2*w**2 + g2
               else
                  ! otherwise use the same scaling for f and g.
-                 w = done
+                 w = one
                  fs = f*uu
                  f2 = abssq(fs)
                  h2 = f2 + g2
@@ -2829,9 +2825,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side, 'l')) then
@@ -2862,13 +2855,13 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
-           ! and when  alpha.eq.zero.
-           if (alpha == zero) then
-               if (beta == zero) then
+           if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
+           ! and when  alpha.eq.czero.
+           if (alpha == czero) then
+               if (beta == czero) then
                    do j = 1, n
                        do i = 1, m
-                           c(i, j) = zero
+                           c(i, j) = czero
                        end do
                    end do
                else
@@ -2887,12 +2880,12 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        do i = 1, m
                            temp1 = alpha*b(i, j)
-                           temp2 = zero
+                           temp2 = czero
                            do k = 1, i - 1
                                c(k, j) = c(k, j) + temp1*a(k, i)
                                temp2 = temp2 + b(k, j)*a(k, i)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = temp1*a(i, i) + alpha*temp2
                            else
                                c(i, j) = beta*c(i, j) + temp1*a(i, i) + alpha*temp2
@@ -2903,12 +2896,12 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        do i = m, 1, -1
                            temp1 = alpha*b(i, j)
-                           temp2 = zero
+                           temp2 = czero
                            do k = i + 1, m
                                c(k, j) = c(k, j) + temp1*a(k, i)
                                temp2 = temp2 + b(k, j)*a(k, i)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = temp1*a(i, i) + alpha*temp2
                            else
                                c(i, j) = beta*c(i, j) + temp1*a(i, i) + alpha*temp2
@@ -2920,7 +2913,7 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*b*a + beta*c.
                loop_170: do j = 1, n
                    temp1 = alpha*a(j, j)
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do i = 1, m
                            c(i, j) = temp1*b(i, j)
                        end do
@@ -2981,9 +2974,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
@@ -3014,14 +3004,14 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
-           ! and when  alpha.eq.zero.
-           if (alpha == zero) then
+           if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
+           ! and when  alpha.eq.czero.
+           if (alpha == czero) then
                if (upper) then
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do j = 1, n
                            do i = 1, j
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
                        end do
                    else
@@ -3032,10 +3022,10 @@ module stdlib_linalg_blas_z
                        end do
                    end if
                else
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do j = 1, n
                            do i = j, n
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
                        end do
                    else
@@ -3053,17 +3043,17 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*a*b**t + alpha*b*a**t + c.
                if (upper) then
                    do j = 1, n
-                       if (beta == zero) then
+                       if (beta == czero) then
                            do i = 1, j
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = 1, j
                                c(i, j) = beta*c(i, j)
                            end do
                        end if
                        do l = 1, k
-                           if ((a(j, l) /= zero) .or. (b(j, l) /= zero)) then
+                           if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
                                temp1 = alpha*b(j, l)
                                temp2 = alpha*a(j, l)
                                do i = 1, j
@@ -3074,17 +3064,17 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       if (beta == zero) then
+                       if (beta == czero) then
                            do i = j, n
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = j, n
                                c(i, j) = beta*c(i, j)
                            end do
                        end if
                        do l = 1, k
-                           if ((a(j, l) /= zero) .or. (b(j, l) /= zero)) then
+                           if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
                                temp1 = alpha*b(j, l)
                                temp2 = alpha*a(j, l)
                                do i = j, n
@@ -3099,13 +3089,13 @@ module stdlib_linalg_blas_z
                if (upper) then
                    do j = 1, n
                        do i = 1, j
-                           temp1 = zero
-                           temp2 = zero
+                           temp1 = czero
+                           temp2 = czero
                            do l = 1, k
                                temp1 = temp1 + a(l, i)*b(l, j)
                                temp2 = temp2 + b(l, i)*a(l, j)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp1 + alpha*temp2
                            else
                                c(i, j) = beta*c(i, j) + alpha*temp1 + alpha*temp2
@@ -3115,13 +3105,13 @@ module stdlib_linalg_blas_z
                else
                    do j = 1, n
                        do i = j, n
-                           temp1 = zero
-                           temp2 = zero
+                           temp1 = czero
+                           temp2 = czero
                            do l = 1, k
                                temp1 = temp1 + a(l, i)*b(l, j)
                                temp2 = temp2 + b(l, i)*a(l, j)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp1 + alpha*temp2
                            else
                                c(i, j) = beta*c(i, j) + alpha*temp1 + alpha*temp2
@@ -3160,9 +3150,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
@@ -3191,14 +3178,14 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
-           ! and when  alpha.eq.zero.
-           if (alpha == zero) then
+           if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
+           ! and when  alpha.eq.czero.
+           if (alpha == czero) then
                if (upper) then
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do j = 1, n
                            do i = 1, j
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
                        end do
                    else
@@ -3209,10 +3196,10 @@ module stdlib_linalg_blas_z
                        end do
                    end if
                else
-                   if (beta == zero) then
+                   if (beta == czero) then
                        do j = 1, n
                            do i = j, n
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
                        end do
                    else
@@ -3230,17 +3217,17 @@ module stdlib_linalg_blas_z
               ! form  c := alpha*a*a**t + beta*c.
                if (upper) then
                    do j = 1, n
-                       if (beta == zero) then
+                       if (beta == czero) then
                            do i = 1, j
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = 1, j
                                c(i, j) = beta*c(i, j)
                            end do
                        end if
                        do l = 1, k
-                           if (a(j, l) /= zero) then
+                           if (a(j, l) /= czero) then
                                temp = alpha*a(j, l)
                                do i = 1, j
                                    c(i, j) = c(i, j) + temp*a(i, l)
@@ -3250,17 +3237,17 @@ module stdlib_linalg_blas_z
                    end do
                else
                    do j = 1, n
-                       if (beta == zero) then
+                       if (beta == czero) then
                            do i = j, n
-                               c(i, j) = zero
+                               c(i, j) = czero
                            end do
-                       else if (beta /= one) then
+                       else if (beta /= cone) then
                            do i = j, n
                                c(i, j) = beta*c(i, j)
                            end do
                        end if
                        do l = 1, k
-                           if (a(j, l) /= zero) then
+                           if (a(j, l) /= czero) then
                                temp = alpha*a(j, l)
                                do i = j, n
                                    c(i, j) = c(i, j) + temp*a(i, l)
@@ -3274,11 +3261,11 @@ module stdlib_linalg_blas_z
                if (upper) then
                    do j = 1, n
                        do i = 1, j
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + a(l, i)*a(l, j)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
@@ -3288,11 +3275,11 @@ module stdlib_linalg_blas_z
                else
                    do j = 1, n
                        do i = j, n
-                           temp = zero
+                           temp = czero
                            do l = 1, k
                                temp = temp + a(l, i)*a(l, j)
                            end do
-                           if (beta == zero) then
+                           if (beta == czero) then
                                c(i, j) = alpha*temp
                            else
                                c(i, j) = alpha*temp + beta*c(i, j)
@@ -3320,8 +3307,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -3364,14 +3349,14 @@ module stdlib_linalg_blas_z
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through a.
+           ! accessed sequentially with cone pass through a.
            if (stdlib_lsame(trans, 'n')) then
                ! form  x := a*x.
                if (stdlib_lsame(uplo, 'u')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = 1, n
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                temp = x(j)
                                l = kplus1 - j
                                do i = max(1, j - k), j - 1
@@ -3383,7 +3368,7 @@ module stdlib_linalg_blas_z
                    else
                        jx = kx
                        do j = 1, n
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                temp = x(jx)
                                ix = kx
                                l = kplus1 - j
@@ -3400,7 +3385,7 @@ module stdlib_linalg_blas_z
                else
                    if (incx == 1) then
                        do j = n, 1, -1
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                temp = x(j)
                                l = 1 - j
                                do i = min(n, j + k), j + 1, -1
@@ -3413,7 +3398,7 @@ module stdlib_linalg_blas_z
                        kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n, 1, -1
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                temp = x(jx)
                                ix = kx
                                l = 1 - j
@@ -3540,8 +3525,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -3584,14 +3567,14 @@ module stdlib_linalg_blas_z
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
-           ! accessed by sequentially with one pass through a.
+           ! accessed by sequentially with cone pass through a.
            if (stdlib_lsame(trans, 'n')) then
               ! form  x := inv( a )*x.
                if (stdlib_lsame(uplo, 'u')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = n, 1, -1
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                l = kplus1 - j
                                if (nounit) x(j) = x(j)/a(kplus1, j)
                                temp = x(j)
@@ -3605,7 +3588,7 @@ module stdlib_linalg_blas_z
                        jx = kx
                        do j = n, 1, -1
                            kx = kx - incx
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                ix = kx
                                l = kplus1 - j
                                if (nounit) x(jx) = x(jx)/a(kplus1, j)
@@ -3621,7 +3604,7 @@ module stdlib_linalg_blas_z
                else
                    if (incx == 1) then
                        do j = 1, n
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                l = 1 - j
                                if (nounit) x(j) = x(j)/a(1, j)
                                temp = x(j)
@@ -3634,7 +3617,7 @@ module stdlib_linalg_blas_z
                        jx = kx
                        do j = 1, n
                            kx = kx + incx
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                ix = kx
                                l = 1 - j
                                if (nounit) x(jx) = x(jx)/a(1, j)
@@ -3757,8 +3740,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: ap(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -3797,14 +3778,14 @@ module stdlib_linalg_blas_z
                kx = 1
            end if
            ! start the operations. in this version the elements of ap are
-           ! accessed sequentially with one pass through ap.
+           ! accessed sequentially with cone pass through ap.
            if (stdlib_lsame(trans, 'n')) then
               ! form  x:= a*x.
                if (stdlib_lsame(uplo, 'u')) then
                    kk = 1
                    if (incx == 1) then
                        do j = 1, n
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                temp = x(j)
                                k = kk
                                do i = 1, j - 1
@@ -3818,7 +3799,7 @@ module stdlib_linalg_blas_z
                    else
                        jx = kx
                        do j = 1, n
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                temp = x(jx)
                                ix = kx
                                do k = kk, kk + j - 2
@@ -3835,7 +3816,7 @@ module stdlib_linalg_blas_z
                    kk = (n*(n + 1))/2
                    if (incx == 1) then
                        do j = n, 1, -1
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                temp = x(j)
                                k = kk
                                do i = n, j + 1, -1
@@ -3850,7 +3831,7 @@ module stdlib_linalg_blas_z
                        kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n, 1, -1
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                temp = x(jx)
                                ix = kx
                                do k = kk, kk - (n - (j + 1)), -1
@@ -3979,8 +3960,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: ap(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -4019,14 +3998,14 @@ module stdlib_linalg_blas_z
                kx = 1
            end if
            ! start the operations. in this version the elements of ap are
-           ! accessed sequentially with one pass through ap.
+           ! accessed sequentially with cone pass through ap.
            if (stdlib_lsame(trans, 'n')) then
               ! form  x := inv( a )*x.
                if (stdlib_lsame(uplo, 'u')) then
                    kk = (n*(n + 1))/2
                    if (incx == 1) then
                        do j = n, 1, -1
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                if (nounit) x(j) = x(j)/ap(kk)
                                temp = x(j)
                                k = kk - 1
@@ -4040,7 +4019,7 @@ module stdlib_linalg_blas_z
                    else
                        jx = kx + (n - 1)*incx
                        do j = n, 1, -1
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                if (nounit) x(jx) = x(jx)/ap(kk)
                                temp = x(jx)
                                ix = jx
@@ -4057,7 +4036,7 @@ module stdlib_linalg_blas_z
                    kk = 1
                    if (incx == 1) then
                        do j = 1, n
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                if (nounit) x(j) = x(j)/ap(kk)
                                temp = x(j)
                                k = kk + 1
@@ -4071,7 +4050,7 @@ module stdlib_linalg_blas_z
                    else
                        jx = kx
                        do j = 1, n
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                if (nounit) x(jx) = x(jx)/ap(kk)
                                temp = x(jx)
                                ix = jx
@@ -4208,9 +4187,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, noconj, nounit, upper
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
@@ -4248,11 +4224,11 @@ module stdlib_linalg_blas_z
            end if
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
-           ! and when  alpha.eq.zero.
-           if (alpha == zero) then
+           ! and when  alpha.eq.czero.
+           if (alpha == czero) then
                do j = 1, n
                    do i = 1, m
-                       b(i, j) = zero
+                       b(i, j) = czero
                    end do
                end do
                return
@@ -4264,7 +4240,7 @@ module stdlib_linalg_blas_z
                    if (upper) then
                        do j = 1, n
                            do k = 1, m
-                               if (b(k, j) /= zero) then
+                               if (b(k, j) /= czero) then
                                    temp = alpha*b(k, j)
                                    do i = 1, k - 1
                                        b(i, j) = b(i, j) + temp*a(i, k)
@@ -4277,7 +4253,7 @@ module stdlib_linalg_blas_z
                    else
                        do j = 1, n
                            do k = m, 1, -1
-                               if (b(k, j) /= zero) then
+                               if (b(k, j) /= czero) then
                                    temp = alpha*b(k, j)
                                    b(k, j) = temp
                                    if (nounit) b(k, j) = b(k, j)*a(k, k)
@@ -4339,7 +4315,7 @@ module stdlib_linalg_blas_z
                                b(i, j) = temp*b(i, j)
                            end do
                            do k = 1, j - 1
-                               if (a(k, j) /= zero) then
+                               if (a(k, j) /= czero) then
                                    temp = alpha*a(k, j)
                                    do i = 1, m
                                        b(i, j) = b(i, j) + temp*b(i, k)
@@ -4355,7 +4331,7 @@ module stdlib_linalg_blas_z
                                b(i, j) = temp*b(i, j)
                            end do
                            do k = j + 1, n
-                               if (a(k, j) /= zero) then
+                               if (a(k, j) /= czero) then
                                    temp = alpha*a(k, j)
                                    do i = 1, m
                                        b(i, j) = b(i, j) + temp*b(i, k)
@@ -4369,7 +4345,7 @@ module stdlib_linalg_blas_z
                    if (upper) then
                        loop_280: do k = 1, n
                            do j = 1, k - 1
-                               if (a(j, k) /= zero) then
+                               if (a(j, k) /= czero) then
                                    if (noconj) then
                                        temp = alpha*a(j, k)
                                    else
@@ -4388,7 +4364,7 @@ module stdlib_linalg_blas_z
                                    temp = temp*dconjg(a(k, k))
                                end if
                            end if
-                           if (temp /= one) then
+                           if (temp /= cone) then
                                do i = 1, m
                                    b(i, k) = temp*b(i, k)
                                end do
@@ -4397,7 +4373,7 @@ module stdlib_linalg_blas_z
                    else
                        loop_320: do k = n, 1, -1
                            do j = k + 1, n
-                               if (a(j, k) /= zero) then
+                               if (a(j, k) /= czero) then
                                    if (noconj) then
                                        temp = alpha*a(j, k)
                                    else
@@ -4416,7 +4392,7 @@ module stdlib_linalg_blas_z
                                    temp = temp*dconjg(a(k, k))
                                end if
                            end if
-                           if (temp /= one) then
+                           if (temp /= cone) then
                                do i = 1, m
                                    b(i, k) = temp*b(i, k)
                                end do
@@ -4444,8 +4420,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -4486,13 +4460,13 @@ module stdlib_linalg_blas_z
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through a.
+           ! accessed sequentially with cone pass through a.
            if (stdlib_lsame(trans, 'n')) then
               ! form  x := a*x.
                if (stdlib_lsame(uplo, 'u')) then
                    if (incx == 1) then
                        do j = 1, n
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                temp = x(j)
                                do i = 1, j - 1
                                    x(i) = x(i) + temp*a(i, j)
@@ -4503,7 +4477,7 @@ module stdlib_linalg_blas_z
                    else
                        jx = kx
                        do j = 1, n
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                temp = x(jx)
                                ix = kx
                                do i = 1, j - 1
@@ -4518,7 +4492,7 @@ module stdlib_linalg_blas_z
                else
                    if (incx == 1) then
                        do j = n, 1, -1
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                temp = x(j)
                                do i = n, j + 1, -1
                                    x(i) = x(i) + temp*a(i, j)
@@ -4530,7 +4504,7 @@ module stdlib_linalg_blas_z
                        kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n, 1, -1
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                temp = x(jx)
                                ix = kx
                                do i = n, j + 1, -1
@@ -4654,9 +4628,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, noconj, nounit, upper
-           ! .. parameters ..
-           complex(dp), parameter :: one = (1.0_dp, 0.0_dp)
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
@@ -4694,11 +4665,11 @@ module stdlib_linalg_blas_z
            end if
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
-           ! and when  alpha.eq.zero.
-           if (alpha == zero) then
+           ! and when  alpha.eq.czero.
+           if (alpha == czero) then
                do j = 1, n
                    do i = 1, m
-                       b(i, j) = zero
+                       b(i, j) = czero
                    end do
                end do
                return
@@ -4709,13 +4680,13 @@ module stdlib_linalg_blas_z
                  ! form  b := alpha*inv( a )*b.
                    if (upper) then
                        do j = 1, n
-                           if (alpha /= one) then
+                           if (alpha /= cone) then
                                do i = 1, m
                                    b(i, j) = alpha*b(i, j)
                                end do
                            end if
                            do k = m, 1, -1
-                               if (b(k, j) /= zero) then
+                               if (b(k, j) /= czero) then
                                    if (nounit) b(k, j) = b(k, j)/a(k, k)
                                    do i = 1, k - 1
                                        b(i, j) = b(i, j) - b(k, j)*a(i, k)
@@ -4725,13 +4696,13 @@ module stdlib_linalg_blas_z
                        end do
                    else
                        do j = 1, n
-                           if (alpha /= one) then
+                           if (alpha /= cone) then
                                do i = 1, m
                                    b(i, j) = alpha*b(i, j)
                                end do
                            end if
                            do k = 1, m
-                               if (b(k, j) /= zero) then
+                               if (b(k, j) /= czero) then
                                    if (nounit) b(k, j) = b(k, j)/a(k, k)
                                    do i = k + 1, m
                                        b(i, j) = b(i, j) - b(k, j)*a(i, k)
@@ -4786,20 +4757,20 @@ module stdlib_linalg_blas_z
                  ! form  b := alpha*b*inv( a ).
                    if (upper) then
                        do j = 1, n
-                           if (alpha /= one) then
+                           if (alpha /= cone) then
                                do i = 1, m
                                    b(i, j) = alpha*b(i, j)
                                end do
                            end if
                            do k = 1, j - 1
-                               if (a(k, j) /= zero) then
+                               if (a(k, j) /= czero) then
                                    do i = 1, m
                                        b(i, j) = b(i, j) - a(k, j)*b(i, k)
                                    end do
                                end if
                            end do
                            if (nounit) then
-                               temp = one/a(j, j)
+                               temp = cone/a(j, j)
                                do i = 1, m
                                    b(i, j) = temp*b(i, j)
                                end do
@@ -4807,20 +4778,20 @@ module stdlib_linalg_blas_z
                        end do
                    else
                        do j = n, 1, -1
-                           if (alpha /= one) then
+                           if (alpha /= cone) then
                                do i = 1, m
                                    b(i, j) = alpha*b(i, j)
                                end do
                            end if
                            do k = j + 1, n
-                               if (a(k, j) /= zero) then
+                               if (a(k, j) /= czero) then
                                    do i = 1, m
                                        b(i, j) = b(i, j) - a(k, j)*b(i, k)
                                    end do
                                end if
                            end do
                            if (nounit) then
-                               temp = one/a(j, j)
+                               temp = cone/a(j, j)
                                do i = 1, m
                                    b(i, j) = temp*b(i, j)
                                end do
@@ -4834,16 +4805,16 @@ module stdlib_linalg_blas_z
                        loop_330: do k = n, 1, -1
                            if (nounit) then
                                if (noconj) then
-                                   temp = one/a(k, k)
+                                   temp = cone/a(k, k)
                                else
-                                   temp = one/dconjg(a(k, k))
+                                   temp = cone/dconjg(a(k, k))
                                end if
                                do i = 1, m
                                    b(i, k) = temp*b(i, k)
                                end do
                            end if
                            do j = 1, k - 1
-                               if (a(j, k) /= zero) then
+                               if (a(j, k) /= czero) then
                                    if (noconj) then
                                        temp = a(j, k)
                                    else
@@ -4854,7 +4825,7 @@ module stdlib_linalg_blas_z
                                    end do
                                end if
                            end do
-                           if (alpha /= one) then
+                           if (alpha /= cone) then
                                do i = 1, m
                                    b(i, k) = alpha*b(i, k)
                                end do
@@ -4864,16 +4835,16 @@ module stdlib_linalg_blas_z
                        loop_380: do k = 1, n
                            if (nounit) then
                                if (noconj) then
-                                   temp = one/a(k, k)
+                                   temp = cone/a(k, k)
                                else
-                                   temp = one/dconjg(a(k, k))
+                                   temp = cone/dconjg(a(k, k))
                                end if
                                do i = 1, m
                                    b(i, k) = temp*b(i, k)
                                end do
                            end if
                            do j = k + 1, n
-                               if (a(j, k) /= zero) then
+                               if (a(j, k) /= czero) then
                                    if (noconj) then
                                        temp = a(j, k)
                                    else
@@ -4884,7 +4855,7 @@ module stdlib_linalg_blas_z
                                    end do
                                end if
                            end do
-                           if (alpha /= one) then
+                           if (alpha /= cone) then
                                do i = 1, m
                                    b(i, k) = alpha*b(i, k)
                                end do
@@ -4914,8 +4885,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
            
            ! .. local scalars ..
            complex(dp) :: temp
@@ -4956,13 +4925,13 @@ module stdlib_linalg_blas_z
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
-           ! accessed sequentially with one pass through a.
+           ! accessed sequentially with cone pass through a.
            if (stdlib_lsame(trans, 'n')) then
               ! form  x := inv( a )*x.
                if (stdlib_lsame(uplo, 'u')) then
                    if (incx == 1) then
                        do j = n, 1, -1
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                if (nounit) x(j) = x(j)/a(j, j)
                                temp = x(j)
                                do i = j - 1, 1, -1
@@ -4973,7 +4942,7 @@ module stdlib_linalg_blas_z
                    else
                        jx = kx + (n - 1)*incx
                        do j = n, 1, -1
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                if (nounit) x(jx) = x(jx)/a(j, j)
                                temp = x(jx)
                                ix = jx
@@ -4988,7 +4957,7 @@ module stdlib_linalg_blas_z
                else
                    if (incx == 1) then
                        do j = 1, n
-                           if (x(j) /= zero) then
+                           if (x(j) /= czero) then
                                if (nounit) x(j) = x(j)/a(j, j)
                                temp = x(j)
                                do i = j + 1, n
@@ -4999,7 +4968,7 @@ module stdlib_linalg_blas_z
                    else
                        jx = kx
                        do j = 1, n
-                           if (x(jx) /= zero) then
+                           if (x(jx) /= czero) then
                                if (nounit) x(jx) = x(jx)/a(j, j)
                                temp = x(jx)
                                ix = jx

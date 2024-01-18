@@ -43,6 +43,41 @@ module stdlib_linalg_blas_d
      public :: stdlib_dzasum
      public :: stdlib_dznrm2
 
+     ! 64-bit real constants
+     real(dp), parameter, private :: zero = 0.00_dp
+     real(dp), parameter, private :: half = 0.50_dp
+     real(dp), parameter, private :: one = 1.00_dp
+     real(dp), parameter, private :: two = 2.00_dp
+     real(dp), parameter, private :: three = 3.00_dp
+     real(dp), parameter, private :: four = 4.00_dp
+     real(dp), parameter, private :: eight = 8.00_dp
+     real(dp), parameter, private :: ten = 10.00_dp
+
+     ! 64-bit complex constants
+     complex(dp), parameter, private :: czero = (0.0_dp, 0.0_dp)
+     complex(dp), parameter, private :: chalf = (0.5_dp, 0.0_dp)
+     complex(dp), parameter, private :: cone = (1.0_dp, 0.0_dp)
+
+     ! 64-bit scaling constants
+     integer, parameter, private :: maxexp = maxexponent(zero)
+     integer, parameter, private :: minexp = minexponent(zero)
+     real(dp), parameter, private :: rradix = real(radix(zero), dp)
+     real(dp), parameter, private :: ulp = epsilon(zero)
+     real(dp), parameter, private :: eps = ulp*half
+     real(dp), parameter, private :: safmin = rradix**max(minexp - 1, 1 - maxexp)
+     real(dp), parameter, private :: safmax = one/safmin
+     real(dp), parameter, private :: smlnum = safmin/ulp
+     real(dp), parameter, private :: bignum = safmax*ulp
+     real(dp), parameter, private :: rtmin = sqrt(smlnum)
+     real(dp), parameter, private :: rtmax = sqrt(bignum)
+
+     ! 64-bit Blue's scaling constants
+     ! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771
+     real(dp), parameter, private :: tsml = rradix**ceiling((minexp - 1)*half)
+     real(dp), parameter, private :: tbig = rradix**floor((maxexp - digits(zero) + 1)*half)
+     real(dp), parameter, private :: ssml = rradix**(-floor((minexp - digits(zero))*half))
+     real(dp), parameter, private :: sbig = rradix**(-ceiling((maxexp + digits(zero) - 1)*half))
+
      contains
 
      ! DASUM takes the sum of the absolute values.
@@ -273,9 +308,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -441,9 +473,6 @@ module stdlib_linalg_blas_d
            real(dp) :: temp
            integer(ilp) :: i, info, j, l, nrowa, nrowb
            logical(lk) :: nota, notb
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! transposed and set  nrowa and nrowb  as the number of rows of  a
@@ -599,9 +628,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -746,8 +772,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -819,15 +843,15 @@ module stdlib_linalg_blas_d
      ! DNRM2 := sqrt( x'*x )
 
      function stdlib_dnrm2(n, x, incx)
-        integer, parameter :: wp = kind(1.d0)
+        integer, parameter :: wp = kind(1._dp)
         real(dp) :: stdlib_dnrm2
         ! -- reference blas level1 routine (version 3.9.1) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        real(dp), parameter :: dzero = 0.0_dp
-        real(dp), parameter :: done = 1.0_dp
+        real(dp), parameter :: zero = 0.0_dp
+        real(dp), parameter :: one = 1.0_dp
         real(dp), parameter :: maxn = huge(0.0_dp)
         ! .. blue's scaling constants ..
      real(dp), parameter :: tsml = real(radix(0._dp), wp)**ceiling((minexponent(0._dp) - 1) &
@@ -847,10 +871,10 @@ module stdlib_linalg_blas_d
         logical :: notbig
         real(dp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
         ! quick return if possible
-        stdlib_dnrm2 = dzero
+        stdlib_dnrm2 = zero
         if (n <= 0) return
-        scl = done
-        sumsq = dzero
+        scl = one
+        sumsq = zero
         ! compute the sum of squares in 3 accumulators:
            ! abig -- sums of squares scaled down to avoid overflow
            ! asml -- sums of squares scaled up to avoid underflow
@@ -859,9 +883,9 @@ module stdlib_linalg_blas_d
            ! tbig -- values bigger than this are scaled down by sbig
            ! tsml -- values smaller than this are scaled up by ssml
         notbig = .true.
-        asml = dzero
-        amed = dzero
-        abig = dzero
+        asml = zero
+        amed = zero
+        abig = zero
         ix = 1
         if (incx < 0) ix = 1 - (n - 1)*incx
         do i = 1, n
@@ -876,18 +900,18 @@ module stdlib_linalg_blas_d
            end if
            ix = ix + incx
         end do
-        ! combine abig and amed or amed and asml if more than done
+        ! combine abig and amed or amed and asml if more than one
         ! accumulator was used.
-        if (abig > dzero) then
+        if (abig > zero) then
            ! combine abig and amed if abig > 0.
-           if ((amed > dzero) .or. (amed > maxn) .or. (amed /= amed)) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               abig = abig + (amed*sbig)*sbig
            end if
-           scl = done/sbig
+           scl = one/sbig
            sumsq = abig
-        else if (asml > dzero) then
+        else if (asml > zero) then
            ! combine amed and asml if asml > 0.
-           if ((amed > dzero) .or. (amed > maxn) .or. (amed /= amed)) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               amed = sqrt(amed)
               asml = sqrt(asml)/ssml
               if (asml > amed) then
@@ -897,15 +921,15 @@ module stdlib_linalg_blas_d
                  ymin = asml
                  ymax = amed
               end if
-              scl = done
-              sumsq = ymax**2*(done + (ymin/ymax)**2)
+              scl = one
+              sumsq = ymax**2*(one + (ymin/ymax)**2)
            else
-              scl = done/ssml
+              scl = one/ssml
               sumsq = asml
            end if
         else
            ! otherwise all values are mid-range
-           scl = done
+           scl = one
            sumsq = amed
         end if
         stdlib_dnrm2 = scl*sqrt(sumsq)
@@ -971,13 +995,13 @@ module stdlib_linalg_blas_d
      ! If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
 
      subroutine stdlib_drotg(a, b, c, s)
-        integer, parameter :: wp = kind(1.d0)
+        integer, parameter :: wp = kind(1._dp)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        real(dp), parameter :: dzero = 0.0_dp
-        real(dp), parameter :: done = 1.0_dp
+        real(dp), parameter :: zero = 0.0_dp
+        real(dp), parameter :: one = 1.0_dp
         ! .. scaling constants ..
      real(dp), parameter :: safmin = real(radix(0._dp), wp)**max(minexponent(0._dp) - 1, 1 - &
                maxexponent(0._dp))
@@ -989,31 +1013,31 @@ module stdlib_linalg_blas_d
         real(dp) :: anorm, bnorm, scl, sigma, r, z
         anorm = abs(a)
         bnorm = abs(b)
-        if (bnorm == dzero) then
-           c = done
-           s = dzero
-           b = dzero
-        else if (anorm == dzero) then
-           c = dzero
-           s = done
+        if (bnorm == zero) then
+           c = one
+           s = zero
+           b = zero
+        else if (anorm == zero) then
+           c = zero
+           s = one
            a = b
-           b = done
+           b = one
         else
            scl = min(safmax, max(safmin, anorm, bnorm))
            if (anorm > bnorm) then
-              sigma = sign(done, a)
+              sigma = sign(one, a)
            else
-              sigma = sign(done, b)
+              sigma = sign(one, b)
            end if
            r = sigma*(scl*sqrt((a/scl)**2 + (b/scl)**2))
            c = a/r
            s = b/r
            if (anorm > bnorm) then
               z = s
-           else if (c /= dzero) then
-              z = done/c
+           else if (c /= zero) then
+              z = one/c
            else
-              z = done
+              z = one
            end if
            a = r
            b = z
@@ -1305,9 +1329,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp1, temp2
@@ -1566,9 +1587,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: ap(*), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp1, temp2
@@ -1726,8 +1744,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: ap(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -1836,8 +1852,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: ap(*), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp1, temp2
@@ -2036,9 +2050,6 @@ module stdlib_linalg_blas_d
            real(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side, 'l')) then
@@ -2178,9 +2189,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp1, temp2
@@ -2334,8 +2342,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -2440,8 +2446,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp1, temp2
@@ -2576,9 +2580,6 @@ module stdlib_linalg_blas_d
            real(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
@@ -2755,9 +2756,6 @@ module stdlib_linalg_blas_d
            real(dp) :: temp
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
@@ -2915,8 +2913,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -3104,8 +3100,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -3290,8 +3284,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: ap(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -3477,8 +3469,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: ap(*), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -3671,9 +3661,6 @@ module stdlib_linalg_blas_d
            real(dp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, nounit, upper
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
@@ -3872,8 +3859,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -4051,9 +4036,6 @@ module stdlib_linalg_blas_d
            real(dp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, nounit, upper
-           ! .. parameters ..
-           real(dp), parameter :: one = 1.0_dp
-           real(dp), parameter :: zero = 0.0_dp
            
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
@@ -4278,8 +4260,6 @@ module stdlib_linalg_blas_d
            ! .. array arguments ..
            real(dp) :: a(lda, *), x(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
            
            ! .. local scalars ..
            real(dp) :: temp
@@ -4474,15 +4454,15 @@ module stdlib_linalg_blas_d
      ! DZNRM2 := sqrt( x**H*x )
 
      function stdlib_dznrm2(n, x, incx)
-        integer, parameter :: wp = kind(1.d0)
+        integer, parameter :: wp = kind(1._dp)
         real(dp) :: stdlib_dznrm2
         ! -- reference blas level1 routine (version 3.9.1) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        real(dp), parameter :: dzero = 0.0_dp
-        real(dp), parameter :: done = 1.0_dp
+        real(dp), parameter :: zero = 0.0_dp
+        real(dp), parameter :: one = 1.0_dp
         real(dp), parameter :: maxn = huge(0.0_dp)
         ! .. blue's scaling constants ..
      real(dp), parameter :: tsml = real(radix(0._dp), wp)**ceiling((minexponent(0._dp) - 1) &
@@ -4502,10 +4482,10 @@ module stdlib_linalg_blas_d
         logical :: notbig
         real(dp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
         ! quick return if possible
-        stdlib_dznrm2 = dzero
+        stdlib_dznrm2 = zero
         if (n <= 0) return
-        scl = done
-        sumsq = dzero
+        scl = one
+        sumsq = zero
         ! compute the sum of squares in 3 accumulators:
            ! abig -- sums of squares scaled down to avoid overflow
            ! asml -- sums of squares scaled up to avoid underflow
@@ -4514,9 +4494,9 @@ module stdlib_linalg_blas_d
            ! tbig -- values bigger than this are scaled down by sbig
            ! tsml -- values smaller than this are scaled up by ssml
         notbig = .true.
-        asml = dzero
-        amed = dzero
-        abig = dzero
+        asml = zero
+        amed = zero
+        abig = zero
         ix = 1
         if (incx < 0) ix = 1 - (n - 1)*incx
         do i = 1, n
@@ -4540,18 +4520,18 @@ module stdlib_linalg_blas_d
            end if
            ix = ix + incx
         end do
-        ! combine abig and amed or amed and asml if more than done
+        ! combine abig and amed or amed and asml if more than one
         ! accumulator was used.
-        if (abig > dzero) then
+        if (abig > zero) then
            ! combine abig and amed if abig > 0.
-           if ((amed > dzero) .or. (amed > maxn) .or. (amed /= amed)) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               abig = abig + (amed*sbig)*sbig
            end if
-           scl = done/sbig
+           scl = one/sbig
            sumsq = abig
-        else if (asml > dzero) then
+        else if (asml > zero) then
            ! combine amed and asml if asml > 0.
-           if ((amed > dzero) .or. (amed > maxn) .or. (amed /= amed)) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               amed = sqrt(amed)
               asml = sqrt(asml)/ssml
               if (asml > amed) then
@@ -4561,15 +4541,15 @@ module stdlib_linalg_blas_d
                  ymin = asml
                  ymax = amed
               end if
-              scl = done
-              sumsq = ymax**2*(done + (ymin/ymax)**2)
+              scl = one
+              sumsq = ymax**2*(one + (ymin/ymax)**2)
            else
-              scl = done/ssml
+              scl = one/ssml
               sumsq = asml
            end if
         else
            ! otherwise all values are mid-range
-           scl = done
+           scl = one
            sumsq = amed
         end if
         stdlib_dznrm2 = scl*sqrt(sumsq)

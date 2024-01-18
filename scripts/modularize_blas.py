@@ -39,39 +39,12 @@ def create_constants_module(module_name,out_folder):
     fid.write(INDENT + "private            :: int32, int64\n\n\n")
 
     # Arithmetic constants (private)
-    print_lapack_constants(fid,INDENT)
+    # print_lapack_constants(fid,INDENT)
 
     # Close module
     fid.write("\n\n\n\n\nend module {}\n".format(module_name))
 
     fid.close()
-
-# Add parameter constants
-def patch_parameters(fid,prefix,indent):
-
-    INDENT          = "     "
-
-    initials = ['s','d','c','z']
-    datatypes = ['real(sp)','real(dp)','complex(sp)','complex(dp)']
-
-    kinds = ['sp','dp','sp','dp']
-
-    kind = 'sp'
-
-    fid.write("real   ({kd}), parameter :: zero   = 0.0_{kd}\n".format(kd=kind))
-    fid.write("real   ({kd}), parameter :: thresh = 0.1_{kd}\n".format(kd=kind))
-    fid.write("real   ({kd}), parameter :: half   = 0.5_{kd}\n".format(kd=kind))
-    fid.write("real   ({kd}), parameter :: one    = 1.0_{kd}\n".format(kd=kind))
-    fid.write("real   ({kd}), parameter :: two    = 2.0_{kd}\n".format(kd=kind))
-    fid.write("real   ({kd}), parameter :: fuzzy1 = one + 1.0e-5_{kd}\n".format(kd=kind))
-    fid.write("real   ({kd}), parameter :: relfac = two \n".format(kd=kind))
-
-    # fudge is sometimes 2.0, sometimes 2.1
-
-
-    fid.write("integer(ilp), parameter :: itmax = 5\n")
-
-
 
 # Patch lapack aux module interface
 def patch_lapack_aux(fid,prefix,indent):
@@ -195,10 +168,12 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
                 print("\n".join(function.body))
                 exit(1)
 
-
+        numeric_const = []
         if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
             # AUX: add procedure interfaces
             patch_lapack_aux(fid,prefix,INDENT)
+        else: #elif module_name=='stdlib_linalg_lapack':
+            numeric_const,numeric_type = print_module_constants(fid,initials[m],INDENT)
 
         # Actual implementation
         fid.write("\n\n" + INDENT + "contains\n")
@@ -341,10 +316,10 @@ def print_lapack_constants(fid,INDENT):
        fid.write("\n" + INDENT + "! "+precision[i]+" scaling constants \n")
        fid.write(INDENT + "integer,     parameter :: "     +rpr+"maxexp = maxexponent("+rpr+"zero) \n")
        fid.write(INDENT + "integer,     parameter :: "     +rpr+"minexp = minexponent("+rpr+"zero) \n")
-       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"radix  = real(radix("+rpr+"zero),"+rk+") \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"rradix = real(rradix("+rpr+"zero),"+rk+") \n")
        fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"ulp    = epsilon("+rpr+"zero) \n")
        fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"eps    = "+rpr+"ulp*"+rpr+"half \n")
-       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"safmin = "+rpr+"radix**max("+rpr+"minexp-1,1-"+rpr+"maxexp) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"safmin = "+rpr+"rradix**max("+rpr+"minexp-1,1-"+rpr+"maxexp) \n")
        fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"safmax = "+rpr+"one/"+rpr+"safmin \n")
        fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"smlnum = "+rpr+"safmin/"+rpr+"ulp \n")
        fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"bignum = "+rpr+"safmax*"+rpr+"ulp \n")
@@ -352,10 +327,10 @@ def print_lapack_constants(fid,INDENT):
        fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"rtmax  = sqrt("+rpr+"bignum) \n")
        fid.write("\n" + INDENT + "! "+precision[i]+" Blue's scaling constants \n")
        fid.write(INDENT + "! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771 \n")
-       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"tsml   = "+rpr+"radix**ceiling(("+rpr+"minexp-1)*"+rpr+"half) \n")
-       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"tbig   = "+rpr+"radix**floor(("+rpr+"maxexp-digits("+rpr+"zero)+1)*"+rpr+"half) \n")
-       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"ssml   = "+rpr+"radix**(-floor(("+rpr+"minexp-digits("+rpr+"zero))*"+rpr+"half)) \n")
-       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"sbig   = "+rpr+"radix**(-ceiling(("+rpr+"maxexp+digits("+rpr+"zero)-1)*"+rpr+"half)) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"tsml   = "+rpr+"rradix**ceiling(("+rpr+"minexp-1)*"+rpr+"half) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"tbig   = "+rpr+"rradix**floor(("+rpr+"maxexp-digits("+rpr+"zero)+1)*"+rpr+"half) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"ssml   = "+rpr+"rradix**(-floor(("+rpr+"minexp-digits("+rpr+"zero))*"+rpr+"half)) \n")
+       fid.write(INDENT + "real("+rk+"),    parameter :: "+rpr+"sbig   = "+rpr+"rradix**(-ceiling(("+rpr+"maxexp+digits("+rpr+"zero)-1)*"+rpr+"half)) \n")
 
        fid.write("\n" + INDENT + "! "+precision[i]+" complex constants \n")
        fid.write(INDENT + "complex("+rk+"), parameter :: "+cpr+"zero  = (0.0_"+rk+",0.0_"+rk+")\n")
@@ -365,6 +340,72 @@ def print_lapack_constants(fid,INDENT):
     fid.write("\n\n\n" + "contains" + "\n\n\n")
 
 
+
+# Print LAPACK constants
+def print_module_constants(fid,prefix,INDENT):
+
+    real_prefix = ['s','d']
+    cmpl_prefix = ['c','z']
+    precision   = ['32-bit','64-bit']
+
+    real_const = ['zero','half','one','two','three','four','eight','ten']
+    real_val   = [0.0,0.5,1.0,2.0,3.0,4.0,8.0,10.0]
+
+    const_names = []
+    const_types = []
+
+    if prefix in real_prefix:
+        i = real_prefix.index(prefix)
+    elif prefix in cmpl_prefix:
+        i = cmpl_prefix.index(prefix)
+    else:
+        # aux module
+        print("NO CONSTANTS FOR PREFIX " + prefix)
+        return const_names,const_types
+
+    rpr = real_prefix[i]
+    cpr = cmpl_prefix[i]
+    rk  = rpr + "p"
+
+    if fid: fid.write("\n" + INDENT + "! "+precision[i]+" real constants \n")
+    for j in range(len(real_const)):
+        name  = real_const[j].rjust(10, ' ')
+        value = "{numbr:.2f}".format(numbr=real_val[j])
+        if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: "+name+" = "+value+"_"+rk+"\n")
+        const_names.append(name.strip())
+        const_types.append("real("+rk+")")
+
+    if fid: fid.write("\n" + INDENT + "! "+precision[i]+" complex constants \n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: czero  = (0.0_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: chalf  = (0.5_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: cone   = (1.0_"+rk+",0.0_"+rk+")\n")
+    const_names.append("czero")
+    const_types.append("complex("+rk+")")
+    const_names.append("cone")
+    const_types.append("complex("+rk+")")
+    const_names.append("chalf")
+    const_types.append("complex("+rk+")")
+
+    if fid: fid.write("\n" + INDENT + "! "+precision[i]+" scaling constants \n")
+    if fid: fid.write(INDENT + "integer,     parameter, private :: maxexp = maxexponent(zero) \n")
+    if fid: fid.write(INDENT + "integer,     parameter, private :: minexp = minexponent(zero) \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: rradix = real(radix(zero),"+rk+") \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: ulp    = epsilon(zero) \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: eps    = ulp*half \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: safmin = rradix**max(minexp-1,1-maxexp) \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: safmax = one/safmin \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: smlnum = safmin/ulp \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: bignum = safmax*ulp \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: rtmin  = sqrt(smlnum) \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: rtmax  = sqrt(bignum) \n")
+    if fid: fid.write("\n" + INDENT + "! "+precision[i]+" Blue's scaling constants \n")
+    if fid: fid.write(INDENT + "! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771 \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: tsml   = rradix**ceiling((minexp-1)*half) \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: tbig   = rradix**floor((maxexp-digits(zero)+1)*half) \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: ssml   = rradix**(-floor((minexp-digits(zero))*half)) \n")
+    if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: sbig   = rradix**(-ceiling((maxexp+digits(zero)-1)*half)) \n")
+
+    return const_names,const_types
 
 # Print function tree in a dependency-suitable way
 def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
@@ -675,8 +716,7 @@ def line_read_and_preprocess(line,is_free_form,file_name):
 
     processed = replace_f77_types(line,is_free_form)
 
-    if is_free_form:
-       processed = replace_la_constants(processed,file_name)
+    processed = replace_la_constants(processed,file_name)
 
     # Check if this is a directive
     is_dir = is_directive_line(processed)
@@ -766,23 +806,24 @@ def replace_la_constants(line,file_name):
 
     letter = file_name[0].lower()
     if   letter=='c' or letter=='s':
+        ext = "_sp"
         new_line = new_line.replace("_wp","_sp")
         new_line = new_line.replace("(wp)","(sp)")
-        new_line = new_line.replace(" zero","szero")
-        new_line = new_line.replace(" one"," sone")
-        new_line = new_line.replace("(one","(sone")
-        new_line = new_line.replace(" two","stwo")
-        new_line = new_line.replace(" half","shalf")
     elif letter=='d' or letter=='z':
+        ext = "_dp"
         new_line = new_line.replace("_wp","_dp")
         new_line = new_line.replace("(wp)","(dp)")
-        new_line = new_line.replace(" zero","dzero")
-        new_line = new_line.replace(" one"," done")
-        new_line = new_line.replace("(one","(done")
-        new_line = new_line.replace(" two","dtwo")
-        new_line = new_line.replace(" half","dhalf")
-        new_line = new_line.replace(" czero","zzero")
+    else:
+        # aux
+        return new_line
 
+    # Numeric constants
+    new_line = re.sub(r'\b0.0d0','zero',new_line)
+    new_line = re.sub(r'\b0.0e0','zero',new_line)
+    new_line = re.sub(r'\b1.0d0','one',new_line)
+    new_line = re.sub(r'\b1.0e0','one',new_line)
+    new_line = re.sub(r'd0',ext,new_line)
+    new_line = re.sub(r'e0',ext,new_line)
     return new_line
 
 # Check if a line is a datatype line
@@ -800,12 +841,12 @@ def is_externals_header(line):
     check_line = line.strip().lower()
 
     # Begins with a data type
-    ext =    bool(re.match(r'\S\s*.. external functions ..',check_line)) \
-          or bool(re.match(r'\S\s*.. external function ..',check_line)) \
-          or bool(re.match(r'\S\s*from blas',check_line)) \
-          or bool(re.match(r'\S\s*from lapack',check_line)) \
-          or bool(re.match(r'\S\s*external functions\s*\S*',check_line)) \
-          or bool(re.match(r'\S\s*.. external subroutines ..',check_line))
+    ext =    bool(re.match(r'[\S\*\!]\s*.. external functions ..',check_line)) \
+          or bool(re.match(r'[\S\*\!]\s*.. external function ..',check_line)) \
+          or bool(re.match(r'[\S\*\!]\s*from blas',check_line)) \
+          or bool(re.match(r'[\S\*\!]\s*from lapack',check_line)) \
+          or bool(re.match(r'[\S\*\!]\s*external functions\s*\S*',check_line)) \
+          or bool(re.match(r'[\S\*\!]\s*.. external subroutines ..',check_line))
 
     return ext
 
@@ -959,15 +1000,17 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     decl  = Source.decl
 
     initial = name[0]
-    if initial=='c' or initial=='s':
-        for i in range(len(la_names)):
-            la_repl.append('s'+la_names[i])
-    else: # z, d
-        for i in range(len(la_names)):
-            la_repl.append('d'+la_names[i])
-        la_names.append('czero')
-        la_repl .append('zzero')
+#    if initial=='c' or initial=='s':
+#        for i in range(len(la_names)):
+#            la_repl.append('s'+la_names[i])
+#    else: # z, d
+#        for i in range(len(la_names)):
+#            la_repl.append('d'+la_names[i])
+#        la_names.append('czero')
+#        la_repl .append('zzero')
 
+    la_names = []
+    la_repl  = []
     la_names.append('la_isnan')
     la_repl .append('ieee_is_nan')
 
@@ -986,8 +1029,10 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     # do not replace their names
     whole_decl = '\n'.join(decl).lower()
     for j in range(len(old_names)):
-        if bool(re.search(r"\b"+old_names[j]+r"\b",whole_decl)): is_declared[i] = True
+        if bool(re.search(r"\b"+old_names[j]+r"\b",whole_decl)) \
+           and not old_names[j]==Source.old_name: is_declared[j] = True
         if "la_constants" in whole_decl: la_const = True
+
 
     replacement = prefix+r'\g<0>'
 
@@ -1036,6 +1081,9 @@ def add_parameter_lines(Source,prefix,body):
     start_line = 0
     INDENT = "    "
 
+    # Get standard numeric constants for this module
+    mod_const,mod_types = print_module_constants([],Source.old_name[0],INDENT)
+
     if len(Source.pname)<=0: return body;
 
     # Find parameter line
@@ -1045,14 +1093,14 @@ def add_parameter_lines(Source,prefix,body):
        if re.match(r'\s*\!\s*\.\.\sparameters\s\.\.\s*',ll) or \
           re.match(r'\s*\!\s*\.\.\slocal\sparameters\s\.\.\s*',ll) or \
           re.match(r'\s*\!\s*parameters\s*',ll) or \
-          re.match(r'\s*\!\s*\.\.\sparameter\s\.\.\s*',ll):
-
-           heading = re.match(r'\!\s*',ll);
-           start_line = i
-           nspaces = len(body[i])-len(ll)+heading.end()-heading.start()
-           INDENT = nspaces*" "
-           break
-
+          re.match(r'\s*\!\s*\.\.\sparameter\s\.\.\s*',ll) or \
+          re.match(r'\s*\!\s*\.\.\sconstants\s\.\.\s*',ll) or \
+          re.match(r"\s*\!\s*\.\.\sblue\'s\sscaling\sconstants\s\.\.\s*",ll):
+             heading = re.match(r'\!\s*',ll);
+             start_line = i
+             nspaces = len(body[i])-len(ll)+heading.end()-heading.start()
+             INDENT = nspaces*" "
+             break
 
 
     new = []
@@ -1074,14 +1122,48 @@ def add_parameter_lines(Source,prefix,body):
         print("\n".join(body))
         exit(1)
 
-    for i in range(start_line+1):
+    # How many parameters are non-module?
+    wrong_param = []
+    right_param = []
+
+    printed = 0
+    for i in range(len(Source.pname)):
+        if Source.pname[i] in mod_const:
+            # Check if this name has the wrong type. e.g., complex(sp), parameter :: one = (1.0,0.0)
+            # instead of cone
+            ipar = mod_const.index(Source.pname[i])
+            par_type = mod_types[ipar]
+        else:
+            printed+=1
+
+    if Source.old_name[0]=='c' or Source.old_name[0]=='z':
+       wrong_param.append('one')
+       right_param.append('cone')
+       wrong_param.append('zero')
+       right_param.append('czero')
+       wrong_param.append('half')
+       right_param.append('chalf')
+
+    # Do not print ".. function parameters .." line if none is printed out
+    if printed>0 or len(Source.pname)<=0:
+        remove_header = 0
+    else:
+        remove_header = 1
+
+    for i in range(start_line+1-remove_header):
         new.append(body[i])
 
     for i in range(len(Source.pname)):
-        new.append(INDENT + Source.ptype[i] + ", parameter :: " + Source.pname[i] + " = " + Source.pvalue[i])
+        if not Source.pname[i] in mod_const:
+            new.append(INDENT + Source.ptype[i] + ", parameter :: " + Source.pname[i] + " = " + Source.pvalue[i])
 
     for i in range(len(body)-start_line-1):
-        new.append(body[start_line+1+i])
+        if len(body[start_line+1+i])>0:
+            line = body[start_line+1+i]
+            if len(wrong_param)>0:
+                for j in range(len(wrong_param)):
+                    line = re.sub(r"\b"+wrong_param[j]+r"\b",right_param[j],line)
+            new.append(line)
 
     return new
 
@@ -1095,7 +1177,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False #file_name.lower().startswith("dlaed6")
+    DEBUG  = False #file_name.lower().startswith("dgesvj")
 
     Procedures = []
 
@@ -1170,14 +1252,20 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
             elif Line.comment:
 
+               # Empty comment line? skip
+               ls = line.strip()
+               if ls=='!' or ls=='! ..' or ls=='*': continue
+
                if DEBUG: print("Section.COMMENT " + line + " " + str(whereAt))
 
+               ext_header = is_externals_header(line)
+
                # Inside an externals section: remove altogether
-               if whereAt==Section.EXTERNALS:
+               if whereAt==Section.EXTERNALS and not ext_header:
                   if DEBUG: print("go back to declaration")
                   whereAt = Section.DECLARATION
                # Is an Externals section starting
-               elif whereAt==Section.DECLARATION and is_externals_header(line):
+               elif whereAt==Section.DECLARATION and ext_header:
                   if DEBUG: print("is externals header")
                   whereAt = Section.EXTERNALS
                   continue
@@ -1209,10 +1297,6 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                      # Remove header, only keep description
                      if '\par Purpose:' in line:
                         whereAt = Section.HEADER_DESCR
-
-               # Empty comment line? skip
-               ls = line.strip()
-               if ls=='!' or ls=='! ..': continue
 
             else:
 
