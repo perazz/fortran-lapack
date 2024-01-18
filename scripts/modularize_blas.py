@@ -498,6 +498,64 @@ def adjust_variable_declaration(line,datatype):
 
     return line
 
+# Find parameter declarations
+def find_parameter_declaration(line,datatype):
+
+    import re
+
+    ll = line.lower()
+
+    parameter_name  = []
+    parameter_value = []
+
+    m = re.match(r'\s*parameter\s*\(.+\)',ll)
+
+    if not m: return parameter_name, parameter_value
+
+    # Remove all spaces from the line
+    nospace = re.sub('\s','',ll)
+
+    # Remove header
+    nospace = nospace[10:len(nospace)-1]
+
+    # Search complex values first
+    mcmplx = re.search(r'[a-zA-Z0-9\_]+\=\([a-zA-Z0-9\.\_\,\+\-]+\)',nospace)
+    while mcmplx:
+        this_var = nospace[mcmplx.start():mcmplx.end()]
+        splitted = this_var.split("=")
+        parameter_name .append(splitted[0].strip())
+        parameter_value.append(splitted[1].strip())
+        if mcmplx.start()>0:
+            nospace = nospace[:mcmplx.start()] + nospace[mcmplx.end()+1:]
+        else:
+            nospace = nospace[mcmplx.end()+1:]
+        mcmplx = re.search(r'[a-zA-Z0-9\_]+\=\([a-zA-Z0-9\.\_\,\+\-]+\)',nospace)
+
+    # Other parameters can just be identified with commas
+    others = nospace.split(",")
+
+    for i in range(len(others)):
+        ll = others[i].strip()
+        if len(ll)<1:
+            # do nothing
+            ieq = 0
+        elif "=" in ll:
+            ieq = ll.index("=")
+            parameter_name .append(ll[:ieq])
+            parameter_value.append(ll[ieq+1:])
+        else:
+            print(others[i])
+            print("is error!")
+            print(nospace)
+            print(line)
+            exit(1)
+
+    #for i in range(len(parameter_name)):
+    #    print("parameter #" + str(i+1) + " found: name = " + parameter_name[i] + ",   value = " + parameter_value[i])
+
+    return parameter_name, parameter_value
+
+
 # Write function body (list of lines)
 def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
 
@@ -926,6 +984,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     whereAt = Section.HEADER
     Source.is_free_form = free_form
     Source.body = []
+    Source.pname = []
+    Source.pvalue = []
     Source.decl = []
     Source.header = []
     open_loops = []  # Label of the open loop
@@ -1104,7 +1164,15 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                                line = adjust_variable_declaration(line,initial)
 
-                               Source.decl.append(line)
+                               # Parse parameter lines
+                               pname, pval = find_parameter_declaration(line,initial)
+
+                               # If parameters were found, strip them off the declaration for now
+                               if len(pname)>0:
+                                  Source.pname.append(pname)
+                                  Source.pvalue.append(pval)
+                               else:
+                                  Source.decl.append(line)
                        else:
                            # Start body section
                            if DEBUG: print("start body: " + line)
@@ -1226,6 +1294,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   Source.body     = []
                   Source.decl     = []
                   Source.header   = []
+                  Source.pname    = []
+                  Source.pvalue   = []
                   open_loops      = []
                   loop_lines      = []
                   loop_spaces     = []

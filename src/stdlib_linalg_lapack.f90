@@ -6,7 +6,9 @@ module stdlib_linalg_lapack
      use stdlib_linalg_lapack_d
      use stdlib_linalg_lapack_c
      use stdlib_linalg_lapack_z
-     implicit none(type, external)
+     implicit none(type,external)
      public
+
+
 
 end module stdlib_linalg_lapack
