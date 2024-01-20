@@ -245,12 +245,12 @@ module stdlib_linalg_blas_s
      real(sp), parameter :: sbig = real(radix(0._sp), wp)**(-ceiling((maxexponent(0._sp) &
                + digits(0._sp) - 1)*0.5_sp))
         ! .. scalar arguments ..
-        integer :: incx, n
+     integer(ilp) :: incx, n
         ! .. array arguments ..
         complex(sp) :: x(*)
         ! .. local scalars ..
-        integer :: i, ix
-        logical :: notbig
+     integer(ilp) :: i, ix
+     logical(lk) :: notbig
         real(sp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
         ! quick return if possible
         stdlib_scnrm2 = zero
@@ -467,7 +467,7 @@ module stdlib_linalg_blas_s
            ! code for equal and positive increments.
               ns = n*incx
               do i = 1, ns, incx
-                 dsdot = dsdot + dble(sx(i))*dble(sy(i))
+                 dsdot = dsdot + real(sx(i), KIND=sp)*real(sy(i), KIND=sp)
               end do
            else
            ! code for unequal or nonpositive increments.
@@ -476,7 +476,7 @@ module stdlib_linalg_blas_s
               if (incx < 0) kx = 1 + (1 - n)*incx
               if (incy < 0) ky = 1 + (1 - n)*incy
               do i = 1, n
-                 dsdot = dsdot + dble(sx(kx))*dble(sy(ky))
+                 dsdot = dsdot + real(sx(kx), KIND=sp)*real(sy(ky), KIND=sp)
                  kx = kx + incx
                  ky = ky + incy
               end do
@@ -1057,12 +1057,12 @@ module stdlib_linalg_blas_s
      real(sp), parameter :: sbig = real(radix(0._sp), wp)**(-ceiling((maxexponent(0._sp) &
                + digits(0._sp) - 1)*0.5_sp))
         ! .. scalar arguments ..
-        integer :: incx, n
+     integer(ilp) :: incx, n
         ! .. array arguments ..
         real(sp) :: x(*)
         ! .. local scalars ..
-        integer :: i, ix
-        logical :: notbig
+     integer(ilp) :: i, ix
+     logical(lk) :: notbig
         real(sp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
         ! quick return if possible
         stdlib_snrm2 = zero

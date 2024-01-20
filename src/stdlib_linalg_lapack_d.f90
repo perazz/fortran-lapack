@@ -868,14 +868,14 @@ module stdlib_linalg_lapack_d
               if (rightv) then
                  if (ilo == 1) go to 50
                  loop_40: do i = ilo - 1, 1, -1
-                    k = int(rscale(i))
+                    k = int(rscale(i), KIND=ilp)
                     if (k == i) cycle loop_40
                     call stdlib_dswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_40
 50      continue
                  if (ihi == n) go to 70
                  loop_60: do i = ihi + 1, n
-                    k = int(rscale(i))
+                    k = int(rscale(i), KIND=ilp)
                     if (k == i) cycle loop_60
                     call stdlib_dswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_60
@@ -885,14 +885,14 @@ module stdlib_linalg_lapack_d
               if (leftv) then
                  if (ilo == 1) go to 90
                  loop_80: do i = ilo - 1, 1, -1
-                    k = int(lscale(i))
+                    k = int(lscale(i), KIND=ilp)
                     if (k == i) cycle loop_80
                     call stdlib_dswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_80
 90      continue
                  if (ihi == n) go to 110
                  loop_100: do i = ihi + 1, n
-                    k = int(lscale(i))
+                    k = int(lscale(i), KIND=ilp)
                     if (k == i) cycle loop_100
                     call stdlib_dswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_100
@@ -1451,7 +1451,7 @@ module stdlib_linalg_lapack_d
            ! .. executable statements ..
            if (kase == 0) then
               do i = 1, n
-                 x(i) = one/dble(n)
+                 x(i) = one/real(n, KIND=dp)
               end do
               kase = 1
               isave(1) = 1
@@ -1474,7 +1474,7 @@ module stdlib_linalg_lapack_d
               else
                  x(i) = -one
               end if
-              isgn(i) = nint(x(i))
+              isgn(i) = nint(x(i), KIND=ilp)
            end do
            kase = 2
            isave(1) = 2
@@ -1505,7 +1505,7 @@ module stdlib_linalg_lapack_d
               else
                  xs = -one
               end if
-              if (nint(xs) /= isgn(i)) go to 90
+              if (nint(xs, KIND=ilp) /= isgn(i)) go to 90
            end do
            ! repeated sign vector detected, hence algorithm has converged.
            go to 120
@@ -1518,7 +1518,7 @@ module stdlib_linalg_lapack_d
               else
                  x(i) = -one
               end if
-              isgn(i) = nint(x(i))
+              isgn(i) = nint(x(i), KIND=ilp)
            end do
            kase = 2
            isave(1) = 4
@@ -1536,7 +1536,7 @@ module stdlib_linalg_lapack_d
 120    continue
            altsgn = one
            do i = 1, n
-              x(i) = altsgn*(one + dble(i - 1)/dble(n - 1))
+              x(i) = altsgn*(one + real(i - 1, KIND=dp)/real(n - 1, KIND=dp))
               altsgn = -altsgn
            end do
            kase = 1
@@ -1545,7 +1545,7 @@ module stdlib_linalg_lapack_d
            ! ................ entry   (isave( 1 ) = 5)
            ! x has been overwritten by a*x.
 140    continue
-           temp = two*(stdlib_dasum(n, x, 1)/dble(3*n))
+           temp = two*(stdlib_dasum(n, x, 1)/real(3*n, KIND=dp))
            if (temp > est) then
               call stdlib_dcopy(n, x, 1, v, 1)
               est = temp
@@ -1584,7 +1584,7 @@ module stdlib_linalg_lapack_d
            ! .. executable statements ..
            if (kase == 0) then
               do i = 1, n
-                 x(i) = one/dble(n)
+                 x(i) = one/real(n, KIND=dp)
               end do
               kase = 1
               jump = 1
@@ -1603,7 +1603,7 @@ module stdlib_linalg_lapack_d
            est = stdlib_dasum(n, x, 1)
            do i = 1, n
               x(i) = sign(one, x(i))
-              isgn(i) = nint(x(i))
+              isgn(i) = nint(x(i), KIND=ilp)
            end do
            kase = 2
            jump = 2
@@ -1638,7 +1638,7 @@ module stdlib_linalg_lapack_d
            if (est <= estold) go to 120
            do i = 1, n
               x(i) = sign(one, x(i))
-              isgn(i) = nint(x(i))
+              isgn(i) = nint(x(i), KIND=ilp)
            end do
            kase = 2
            jump = 4
@@ -1656,7 +1656,7 @@ module stdlib_linalg_lapack_d
 120    continue
            altsgn = one
            do i = 1, n
-              x(i) = altsgn*(one + dble(i - 1)/dble(n - 1))
+              x(i) = altsgn*(one + real(i - 1, KIND=dp)/real(n - 1, KIND=dp))
               altsgn = -altsgn
            end do
            kase = 1
@@ -1665,7 +1665,7 @@ module stdlib_linalg_lapack_d
            ! ................ entry   (jump = 5)
            ! x has been overwritten by a*x.
 140    continue
-           temp = two*(stdlib_dasum(n, x, 1)/dble(3*n))
+           temp = two*(stdlib_dasum(n, x, 1)/real(3*n, KIND=dp))
            if (temp > est) then
               call stdlib_dcopy(n, x, 1, v, 1)
               est = temp
@@ -2886,7 +2886,7 @@ module stdlib_linalg_lapack_d
            integer(ilp) :: i, iinfo, n1, n2
      
            ! .. intrinsic functions ..
-           intrinsic :: abs, dsign, max, min
+           intrinsic :: abs, sign, max, min
            ! .. executable statements ..
            ! test the input parameters
            info = 0
@@ -2907,14 +2907,14 @@ module stdlib_linalg_lapack_d
               ! one row case, (also recursion termination case),
               ! use unblocked code
               ! transfer the sign
-              d(1) = -dsign(one, a(1, 1))
+              d(1) = -sign(one, a(1, 1))
               ! construct the row of u
               a(1, 1) = a(1, 1) - d(1)
            else if (n == 1) then
               ! one column case, (also recursion termination case),
               ! use unblocked code
               ! transfer the sign
-              d(1) = -dsign(one, a(1, 1))
+              d(1) = -sign(one, a(1, 1))
               ! construct the row of u
               a(1, 1) = a(1, 1) - d(1)
               ! scale the elements 2:m of the column
@@ -5712,7 +5712,8 @@ module stdlib_linalg_lapack_d
               it1 = it1 + i1*mm(i, 4) + i2*mm(i, 3) + i3*mm(i, 2) + i4*mm(i, 1)
               it1 = mod(it1, ipw2)
               ! convert 48-bit integer to a real number in the interval (0,1)
-              x(i) = r*(dble(it1) + r*(dble(it2) + r*(dble(it3) + r*dble(it4))))
+              x(i) = r*(real(it1, KIND=dp) + r*(real(it2, KIND=dp) + r*(real(it3, KIND=dp) + &
+                        r*real(it4, KIND=dp))))
               if (x(i) == 1.0d0) then
                  ! if a real number has n bits of precision, and the first
                  ! n bits of the 48-bit integer above happen to be all 1 (which
@@ -6121,8 +6122,8 @@ module stdlib_linalg_lapack_d
            ! .. executable statements ..
            ! find the number of levels on the tree.
            maxn = max(1, n)
-           temp = log(dble(maxn)/dble(msub + 1))/log(two)
-           lvl = int(temp) + 1
+           temp = log(real(maxn, KIND=dp)/real(msub + 1, KIND=dp))/log(two)
+           lvl = int(temp, KIND=ilp) + 1
            i = n/2
            inode(1) = i + 1
            ndiml(1) = i
@@ -7207,13 +7208,13 @@ module stdlib_linalg_lapack_d
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. scalar arguments ..
-        integer :: incx, n
+     integer(ilp) :: incx, n
         real(dp) :: scl, sumsq
         ! .. array arguments ..
         real(dp) :: x(*)
         ! .. local scalars ..
-        integer :: i, ix
-        logical :: notbig
+     integer(ilp) :: i, ix
+     logical(lk) :: notbig
         real(dp) :: abig, amed, asml, ax, ymax, ymin
         ! quick return if possible
         if (ieee_is_nan(scl) .or. ieee_is_nan(sumsq)) return
@@ -11479,12 +11480,12 @@ module stdlib_linalg_lapack_d
               call stdlib_xerbla('stdlib_dorgtsqr_row', -info)
               return
            else if (lquery) then
-              work(1) = dble(lworkopt)
+              work(1) = real(lworkopt, KIND=dp)
               return
            end if
            ! quick return if possible
            if (min(m, n) == 0) then
-              work(1) = dble(lworkopt)
+              work(1) = real(lworkopt, KIND=dp)
               return
            end if
            ! (0) set the upper-triangular part of the matrix a to zero and
@@ -11552,7 +11553,7 @@ module stdlib_linalg_lapack_d
                            kb), lda, a(kb + knb, kb), lda, work, knb)
               end if
            end do
-           work(1) = dble(lworkopt)
+           work(1) = real(lworkopt, KIND=dp)
            return
            ! end of stdlib_dorgtsqr_row
      end subroutine stdlib_dorgtsqr_row
@@ -11613,7 +11614,7 @@ module stdlib_linalg_lapack_d
            end if
            if (info == 0) then
               lwkopt = m*n
-              work(1) = dble(lwkopt)
+              work(1) = real(lwkopt, KIND=dp)
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_dorm22', -info)
@@ -11733,7 +11734,7 @@ module stdlib_linalg_lapack_d
                  end do
               end if
            end if
-           work(1) = dble(lwkopt)
+           work(1) = real(lwkopt, KIND=dp)
            return
            ! end of stdlib_dorm22
      end subroutine stdlib_dorm22
@@ -26719,7 +26720,7 @@ module stdlib_linalg_lapack_d
                  work(j + 5*n) = work(j + 5*n) - ta - tb
               end do
            end do
-           coef = one/dble(2*nr)
+           coef = one/real(2*nr, KIND=dp)
            coef2 = coef*coef
            coef5 = half*coef2
            nrp2 = nr + 2
@@ -26761,7 +26762,7 @@ module stdlib_linalg_lapack_d
                  kount = kount + 1
                  sum = sum + work(j)
               end do loop_290
-              work(i + 2*n) = dble(kount)*work(i + n) + sum
+              work(i + 2*n) = real(kount, KIND=dp)*work(i + n) + sum
            end do
            do j = ilo, ihi
               kount = 0
@@ -26775,7 +26776,7 @@ module stdlib_linalg_lapack_d
                  kount = kount + 1
                  sum = sum + work(i + n)
               end do loop_320
-              work(j + 3*n) = dble(kount)*work(j) + sum
+              work(j + 3*n) = real(kount, KIND=dp)*work(j) + sum
            end do
            sum = stdlib_ddot(nr, work(ilo + n), 1, work(ilo + 2*n), 1) + stdlib_ddot(nr, work( &
                      ilo), 1, work(ilo + 3*n), 1)
@@ -26800,14 +26801,14 @@ module stdlib_linalg_lapack_d
 350    continue
            sfmin = stdlib_dlamch('s')
            sfmax = one/sfmin
-           lsfmin = int(log10(sfmin)/basl + one)
-           lsfmax = int(log10(sfmax)/basl)
+           lsfmin = int(log10(sfmin)/basl + one, KIND=ilp)
+           lsfmax = int(log10(sfmax)/basl, KIND=ilp)
            do i = ilo, ihi
               irab = stdlib_idamax(n - ilo + 1, a(i, ilo), lda)
               rab = abs(a(i, irab + ilo - 1))
               irab = stdlib_idamax(n - ilo + 1, b(i, ilo), ldb)
               rab = max(rab, abs(b(i, irab + ilo - 1)))
-              lrab = int(log10(rab + sfmin)/basl + one)
+              lrab = int(log10(rab + sfmin)/basl + one, KIND=ilp)
               ir = int(lscale(i) + sign(half, lscale(i)))
               ir = min(max(ir, lsfmin), lsfmax, lsfmax - lrab)
               lscale(i) = sclfac**ir
@@ -26815,7 +26816,7 @@ module stdlib_linalg_lapack_d
               cab = abs(a(icab, i))
               icab = stdlib_idamax(ihi, b(1, i), 1)
               cab = max(cab, abs(b(icab, i)))
-              lcab = int(log10(cab + sfmin)/basl + one)
+              lcab = int(log10(cab + sfmin)/basl + one, KIND=ilp)
               jc = int(rscale(i) + sign(half, rscale(i)))
               jc = min(max(jc, lsfmin), lsfmax, lsfmax - lcab)
               rscale(i) = sclfac**jc
@@ -33158,7 +33159,7 @@ module stdlib_linalg_lapack_d
            if (n <= 0) then
               return
            end if
-           fact = dble(2**ktrymax)
+           fact = real(2**ktrymax, KIND=dp)
            eps = stdlib_dlamch('precision')
            shift = 0
            forcer = .false.
@@ -33177,7 +33178,7 @@ module stdlib_linalg_lapack_d
            nofail = .false.
            ! compute the average gap length of the cluster
            clwdth = abs(w(clend) - w(clstrt)) + werr(clend) + werr(clstrt)
-           avgap = clwdth/dble(clend - clstrt)
+           avgap = clwdth/real(clend - clstrt, KIND=dp)
            mingap = min(clgapl, clgapr)
            ! initial values for shifts to both ends of cluster
            lsigma = min(w(clstrt), w(clend)) - werr(clstrt)
@@ -33193,8 +33194,8 @@ module stdlib_linalg_lapack_d
            ! initialize the record of the best representation found
            s = stdlib_dlamch('s')
            smlgrowth = one/s
-           fail = dble(n - 1)*mingap/(spdiam*eps)
-           fail2 = dble(n - 1)*mingap/(spdiam*sqrt(eps))
+           fail = real(n - 1, KIND=dp)*mingap/(spdiam*eps)
+           fail2 = real(n - 1, KIND=dp)*mingap/(spdiam*sqrt(eps))
            bestshift = lsigma
            ! while (ktry <= ktrymax)
            ktry = 0
@@ -33289,8 +33290,8 @@ module stdlib_linalg_lapack_d
            ! we may still accept the representation, if it passes a
            ! refined test for rrr. this test supposes that no nan occurred.
            ! moreover, we use the refined rrr test only for isolated clusters.
-           if ((clwdth < mingap/dble(128)) .and. (min(max1, max2) < fail2) .and. (.not. sawnan1) .and. ( &
-                     .not. sawnan2)) then
+           if ((clwdth < mingap/real(128, KIND=dp)) .and. (min(max1, max2) < fail2) .and. (.not. sawnan1) &
+                     .and. (.not. sawnan2)) then
               dorrr1 = .true.
            else
               dorrr1 = .false.
@@ -33759,7 +33760,7 @@ module stdlib_linalg_lapack_d
                        else
                           ! compute eigenvector of singleton
                           iter = 0
-                          tol = four*log(dble(in))*eps
+                          tol = four*log(real(in, KIND=dp))*eps
                           k = newfst
                           windex = wbegin + k - 1
                           windmn = max(windex - 1, 1)
@@ -36243,16 +36244,16 @@ module stdlib_linalg_lapack_d
               itauq2 = itauq1 + max(1, q)
               iorgqr = itauq2 + max(1, m - q)
               call stdlib_dorgqr(m - q, m - q, m - q, u1, max(1, m - q), u1, work, -1, childinfo)
-              lorgqrworkopt = int(work(1))
+              lorgqrworkopt = int(work(1), KIND=ilp)
               lorgqrworkmin = max(1, m - q)
               iorglq = itauq2 + max(1, m - q)
               call stdlib_dorglq(m - q, m - q, m - q, u1, max(1, m - q), u1, work, -1, childinfo)
-              lorglqworkopt = int(work(1))
+              lorglqworkopt = int(work(1), KIND=ilp)
               lorglqworkmin = max(1, m - q)
               iorbdb = itauq2 + max(1, m - q)
               call stdlib_dorbdb(trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, &
                         ldx22, theta, v1t, u1, u2, v1t, v2t, work, -1, childinfo)
-              lorbdbworkopt = int(work(1))
+              lorbdbworkopt = int(work(1), KIND=ilp)
               lorbdbworkmin = lorbdbworkopt
               ib11d = itauq2 + max(1, m - q)
               ib11e = ib11d + max(1, q)
@@ -36266,7 +36267,7 @@ module stdlib_linalg_lapack_d
               call stdlib_dbbcsd(jobu1, jobu2, jobv1t, jobv2t, trans, m, p, q, theta, theta, u1, &
               ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, u1, u1, u1, u1, u1, u1, u1, u1, work, -1, &
                         childinfo)
-              lbbcsdworkopt = int(work(1))
+              lbbcsdworkopt = int(work(1), KIND=ilp)
               lbbcsdworkmin = lbbcsdworkopt
               lworkopt = max(iorgqr + lorgqrworkopt, iorglq + lorglqworkopt, iorbdb + &
                         lorbdbworkopt, ibbcsd + lbbcsdworkopt) - 1
@@ -41456,7 +41457,7 @@ module stdlib_linalg_lapack_d
               return
            end if
            rcond = zero
-           smlnum = stdlib_dlamch('safe minimum')*dble(max(1, n))
+           smlnum = stdlib_dlamch('safe minimum')*real(max(1, n), KIND=dp)
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_dlantb(norm, uplo, diag, n, kd, ab, ldab, work)
            ! continue only if anorm > 0.
@@ -42463,9 +42464,9 @@ module stdlib_linalg_lapack_d
                             ldf, scale, dsum, dscale, iwork, pq, info)
                  if (dscale /= zero) then
                     if (ijob == 1 .or. ijob == 3) then
-                       dif = sqrt(dble(2*m*n))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(2*m*n, KIND=dp))/(dscale*sqrt(dsum))
                     else
-                       dif = sqrt(dble(pq))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(pq, KIND=dp))/(dscale*sqrt(dsum))
                     end if
                  end if
                  if (isolve == 2 .and. iround == 1) then
@@ -42574,9 +42575,9 @@ module stdlib_linalg_lapack_d
                  end do loop_130
                  if (dscale /= zero) then
                     if (ijob == 1 .or. ijob == 3) then
-                       dif = sqrt(dble(2*m*n))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(2*m*n, KIND=dp))/(dscale*sqrt(dsum))
                     else
-                       dif = sqrt(dble(pq))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(pq, KIND=dp))/(dscale*sqrt(dsum))
                     end if
                  end if
                  if (isolve == 2 .and. iround == 1) then
@@ -42707,7 +42708,7 @@ module stdlib_linalg_lapack_d
               return
            end if
            rcond = zero
-           smlnum = stdlib_dlamch('safe minimum')*dble(max(1, n))
+           smlnum = stdlib_dlamch('safe minimum')*real(max(1, n), KIND=dp)
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_dlantp(norm, uplo, diag, n, ap, work)
            ! continue only if anorm > 0.
@@ -43232,7 +43233,7 @@ module stdlib_linalg_lapack_d
               return
            end if
            rcond = zero
-           smlnum = stdlib_dlamch('safe minimum')*dble(max(1, n))
+           smlnum = stdlib_dlamch('safe minimum')*real(max(1, n), KIND=dp)
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_dlantr(norm, uplo, diag, n, n, a, lda, work)
            ! continue only if anorm > 0.
@@ -45205,7 +45206,7 @@ module stdlib_linalg_lapack_d
            info = 0
            nb = stdlib_ilaenv(1, 'stdlib_dgghd3', ' ', n, ilo, ihi, -1)
            lwkopt = max(6*n*nb, 1)
-           work(1) = dble(lwkopt)
+           work(1) = real(lwkopt, KIND=dp)
            initq = stdlib_lsame(compq, 'i')
            wantq = initq .or. stdlib_lsame(compq, 'v')
            initz = stdlib_lsame(compz, 'i')
@@ -45676,7 +45677,7 @@ module stdlib_linalg_lapack_d
            end if
            if (jcol < ihi) call stdlib_dgghrd(compq2, compz2, n, jcol, ihi, a, lda, b, ldb, q, ldq, &
                       z, ldz, ierr)
-           work(1) = dble(lwkopt)
+           work(1) = real(lwkopt, KIND=dp)
            return
            ! end of stdlib_dgghd3
      end subroutine stdlib_dgghd3
@@ -45750,10 +45751,10 @@ module stdlib_linalg_lapack_d
            ! update b := q**t*b.
            call stdlib_dormqr('left', 'transpose', n, p, min(n, m), a, lda, taua, b, ldb, work, &
                      lwork, info)
-           lopt = max(lopt, int(work(1)))
+           lopt = max(lopt, int(work(1), KIND=ilp))
            ! rq factorization of n-by-p matrix b: b = t*z.
            call stdlib_dgerqf(n, p, b, ldb, taub, work, lwork, info)
-           work(1) = max(lopt, int(work(1)))
+           work(1) = max(lopt, int(work(1), KIND=ilp))
            return
            ! end of stdlib_dggqrf
      end subroutine stdlib_dggqrf
@@ -45827,10 +45828,10 @@ module stdlib_linalg_lapack_d
            ! update b := b*q**t
            call stdlib_dormrq('right', 'transpose', p, n, min(m, n), a(max(1, m - n + 1), 1), &
                      lda, taua, b, ldb, work, lwork, info)
-           lopt = max(lopt, int(work(1)))
+           lopt = max(lopt, int(work(1), KIND=ilp))
            ! qr factorization of p-by-n matrix b: b = z*t
            call stdlib_dgeqrf(p, n, b, ldb, taub, work, lwork, info)
-           work(1) = max(lopt, int(work(1)))
+           work(1) = max(lopt, int(work(1), KIND=ilp))
            return
            ! end of stdlib_dggrqf
      end subroutine stdlib_dggrqf
@@ -45862,7 +45863,7 @@ module stdlib_linalg_lapack_d
            ! .. local arrays ..
            real(dp) :: fastr(5)
            ! .. intrinsic functions ..
-           intrinsic :: dabs, max, dble, min, dsign, dsqrt
+           intrinsic :: abs, max, dble, min, sign, sqrt
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -45900,13 +45901,13 @@ module stdlib_linalg_lapack_d
               mvl = mv
            end if
            rsvec = rsvec .or. applv
-           rooteps = dsqrt(eps)
-           rootsfmin = dsqrt(sfmin)
+           rooteps = sqrt(eps)
+           rootsfmin = sqrt(sfmin)
            small = sfmin/eps
            big = one/sfmin
            rootbig = one/rootsfmin
            bigtheta = one/rooteps
-           roottol = dsqrt(tol)
+           roottol = sqrt(tol)
            ! -#- row-cyclic jacobi svd algorithm with column pivoting -#-
            emptsw = (n*(n - 1))/2
            notrot = 0
@@ -45961,9 +45962,9 @@ module stdlib_linalg_lapack_d
               ! norm computation.
               ! caveat:
               ! some blas implementations compute stdlib_dnrm2(m,a(1,p),1)
-              ! as dsqrt(stdlib_ddot(m,a(1,p),1,a(1,p),1)), which may result in
-              ! overflow for ||a(:,p)||_2 > dsqrt(overflow_threshold), and
-              ! underflow for ||a(:,p)||_2 < dsqrt(underflow_threshold).
+              ! as sqrt(stdlib_ddot(m,a(1,p),1,a(1,p),1)), which may result in
+              ! overflow for ||a(:,p)||_2 > sqrt(overflow_threshold), and
+              ! underflow for ||a(:,p)||_2 < sqrt(underflow_threshold).
               ! hence, stdlib_dnrm2 cannot be trusted, not even in the case when
               ! the true norm is far from the under(over)flow boundaries.
               ! if properly implemented stdlib_dnrm2 is available, the if-then-else
@@ -45974,7 +45975,7 @@ module stdlib_linalg_lapack_d
                              temp1 = zero
                              aapp = one
                              call stdlib_dlassq(m, a(1, p), 1, temp1, aapp)
-                             sva(p) = temp1*dsqrt(aapp)*d(p)
+                             sva(p) = temp1*sqrt(aapp)*d(p)
                           end if
                           aapp = sva(p)
                        else
@@ -46011,9 +46012,9 @@ module stdlib_linalg_lapack_d
                                                 aapp
                                    end if
                                 end if
-                                mxaapq = max(mxaapq, dabs(aapq))
+                                mxaapq = max(mxaapq, abs(aapq))
               ! to rotate or not to rotate, that is the question ...
-                                if (dabs(aapq) > tol) then
+                                if (abs(aapq) > tol) then
                  ! .. rotate
                  ! rotated = rotated + one
                                    if (ir1 == 0) then
@@ -46024,8 +46025,8 @@ module stdlib_linalg_lapack_d
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -half*dabs(aqoap - apoaq)/aapq
-                                      if (dabs(theta) > bigtheta) then
+                                      theta = -half*abs(aqoap - apoaq)/aapq
+                                      if (abs(theta) > bigtheta) then
                                          t = half/theta
                                          fastr(3) = t*d(p)/d(q)
                                          fastr(4) = -t*d(q)/d(p)
@@ -46033,21 +46034,21 @@ module stdlib_linalg_lapack_d
                                                    
                                          if (rsvec) call stdlib_drotm(mvl, v(1, p), 1, v(1, q), &
                                                     1, fastr)
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
-                                         mxsinj = max(mxsinj, dabs(t))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
+                                         mxsinj = max(mxsinj, abs(t))
                                       else
                        ! .. choose correct signum for theta and rotate
-                                         thsign = -dsign(one, aapq)
-                                         t = one/(theta + thsign*dsqrt(one + theta*theta))
+                                         thsign = -sign(one, aapq)
+                                         t = one/(theta + thsign*sqrt(one + theta*theta))
                                                    
-                                         cs = dsqrt(one/(one + t*t))
+                                         cs = sqrt(one/(one + t*t))
                                          sn = t*cs
-                                         mxsinj = max(mxsinj, dabs(sn))
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         mxsinj = max(mxsinj, abs(sn))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
                                          apoaq = d(p)/d(q)
                                          aqoap = d(q)/d(p)
                                          if (d(p) >= one) then
@@ -46130,7 +46131,7 @@ module stdlib_linalg_lapack_d
                                       call stdlib_daxpy(m, temp1, work, 1, a(1, q), 1)
                                       call stdlib_dlascl('g', 0, 0, one, aaqq, m, 1, a(1, q), &
                                                 lda, ierr)
-                                      sva(q) = aaqq*dsqrt(max(zero, one - aapq*aapq))
+                                      sva(q) = aaqq*sqrt(max(zero, one - aapq*aapq))
                                       mxsinj = max(mxsinj, sfmin)
                                    end if
                  ! end if rotok then ... else
@@ -46143,7 +46144,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aaqq = one
                                          call stdlib_dlassq(m, a(1, q), 1, t, aaqq)
-                                         sva(q) = t*dsqrt(aaqq)*d(q)
+                                         sva(q) = t*sqrt(aaqq)*d(q)
                                       end if
                                    end if
                                    if ((aapp/aapp0) <= rooteps) then
@@ -46153,7 +46154,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aapp = one
                                          call stdlib_dlassq(m, a(1, p), 1, t, aapp)
-                                         aapp = t*dsqrt(aapp)*d(p)
+                                         aapp = t*sqrt(aapp)*d(p)
                                       end if
                                       sva(p) = aapp
                                    end if
@@ -46237,9 +46238,9 @@ module stdlib_linalg_lapack_d
                                                 aapp
                                    end if
                                 end if
-                                mxaapq = max(mxaapq, dabs(aapq))
+                                mxaapq = max(mxaapq, abs(aapq))
               ! to rotate or not to rotate, that is the question ...
-                                if (dabs(aapq) > tol) then
+                                if (abs(aapq) > tol) then
                                    notrot = 0
                  ! rotated  = rotated + 1
                                    pskipped = 0
@@ -46247,9 +46248,9 @@ module stdlib_linalg_lapack_d
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -half*dabs(aqoap - apoaq)/aapq
+                                      theta = -half*abs(aqoap - apoaq)/aapq
                                       if (aaqq > aapp0) theta = -theta
-                                      if (dabs(theta) > bigtheta) then
+                                      if (abs(theta) > bigtheta) then
                                          t = half/theta
                                          fastr(3) = t*d(p)/d(q)
                                          fastr(4) = -t*d(q)/d(p)
@@ -46257,22 +46258,22 @@ module stdlib_linalg_lapack_d
                                                    
                                          if (rsvec) call stdlib_drotm(mvl, v(1, p), 1, v(1, q), &
                                                     1, fastr)
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
-                                         mxsinj = max(mxsinj, dabs(t))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
+                                         mxsinj = max(mxsinj, abs(t))
                                       else
                        ! .. choose correct signum for theta and rotate
-                                         thsign = -dsign(one, aapq)
+                                         thsign = -sign(one, aapq)
                                          if (aaqq > aapp0) thsign = -thsign
-                                         t = one/(theta + thsign*dsqrt(one + theta*theta))
+                                         t = one/(theta + thsign*sqrt(one + theta*theta))
                                                    
-                                         cs = dsqrt(one/(one + t*t))
+                                         cs = sqrt(one/(one + t*t))
                                          sn = t*cs
-                                         mxsinj = max(mxsinj, dabs(sn))
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         mxsinj = max(mxsinj, abs(sn))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
                                          apoaq = d(p)/d(q)
                                          aqoap = d(q)/d(p)
                                          if (d(p) >= one) then
@@ -46356,8 +46357,7 @@ module stdlib_linalg_lapack_d
                                                    
                                          call stdlib_dlascl('g', 0, 0, one, aaqq, m, 1, a(1, q), &
                                                     lda, ierr)
-                                         sva(q) = aaqq*dsqrt(max(zero, one - aapq*aapq))
-                                                   
+                                         sva(q) = aaqq*sqrt(max(zero, one - aapq*aapq))
                                          mxsinj = max(mxsinj, sfmin)
                                       else
                                          call stdlib_dcopy(m, a(1, q), 1, work, 1)
@@ -46370,8 +46370,7 @@ module stdlib_linalg_lapack_d
                                                    
                                          call stdlib_dlascl('g', 0, 0, one, aapp, m, 1, a(1, p), &
                                                     lda, ierr)
-                                         sva(p) = aapp*dsqrt(max(zero, one - aapq*aapq))
-                                                   
+                                         sva(p) = aapp*sqrt(max(zero, one - aapq*aapq))
                                          mxsinj = max(mxsinj, sfmin)
                                       end if
                                    end if
@@ -46385,7 +46384,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aaqq = one
                                          call stdlib_dlassq(m, a(1, q), 1, t, aaqq)
-                                         sva(q) = t*dsqrt(aaqq)*d(q)
+                                         sva(q) = t*sqrt(aaqq)*d(q)
                                       end if
                                    end if
                                    if ((aapp/aapp0)**2 <= rooteps) then
@@ -46395,7 +46394,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aapp = one
                                          call stdlib_dlassq(m, a(1, p), 1, t, aapp)
-                                         aapp = t*dsqrt(aapp)*d(p)
+                                         aapp = t*sqrt(aapp)*d(p)
                                       end if
                                       sva(p) = aapp
                                    end if
@@ -46435,7 +46434,7 @@ module stdlib_linalg_lapack_d
 2011  continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
-                    sva(p) = dabs(sva(p))
+                    sva(p) = abs(sva(p))
                  end do
               end do loop_2000
       ! 2000 :: end of the ibr-loop
@@ -46446,11 +46445,11 @@ module stdlib_linalg_lapack_d
                  t = zero
                  aapp = one
                  call stdlib_dlassq(m, a(1, n), 1, t, aapp)
-                 sva(n) = t*dsqrt(aapp)*d(n)
+                 sva(n) = t*sqrt(aapp)*d(n)
               end if
            ! additional steering devices
               if ((i < swband) .and. ((mxaapq <= roottol) .or. (iswrot <= n))) swband = i
-              if ((i > swband + 1) .and. (mxaapq < dble(n)*tol) .and. (dble(n) &
+              if ((i > swband + 1) .and. (mxaapq < real(n, KIND=dp)*tol) .and. (real(n, KIND=dp) &
                         *mxaapq*mxsinj < tol)) then
                  go to 1994
               end if
@@ -46532,7 +46531,7 @@ module stdlib_linalg_lapack_d
            ! .. local arrays ..
            real(dp) :: fastr(5)
            ! .. intrinsic functions ..
-           intrinsic :: dabs, max, dble, min, dsign, dsqrt
+           intrinsic :: abs, max, dble, min, sign, sqrt
      
            ! .. executable statements ..
            ! test the input parameters.
@@ -46572,14 +46571,14 @@ module stdlib_linalg_lapack_d
               mvl = mv
            end if
            rsvec = rsvec .or. applv
-           rooteps = dsqrt(eps)
-           rootsfmin = dsqrt(sfmin)
+           rooteps = sqrt(eps)
+           rootsfmin = sqrt(sfmin)
            small = sfmin/eps
            big = one/sfmin
            rootbig = one/rootsfmin
-           large = big/dsqrt(dble(m*n))
+           large = big/sqrt(real(m*n, KIND=dp))
            bigtheta = one/rooteps
-           roottol = dsqrt(tol)
+           roottol = sqrt(tol)
            ! .. initialize the right singular vector matrix ..
            ! rsvec = stdlib_lsame( jobv, 'y' )
            emptsw = n1*(n - n1)
@@ -46665,9 +46664,9 @@ module stdlib_linalg_lapack_d
                                                 aapp
                                    end if
                                 end if
-                                mxaapq = max(mxaapq, dabs(aapq))
+                                mxaapq = max(mxaapq, abs(aapq))
               ! to rotate or not to rotate, that is the question ...
-                                if (dabs(aapq) > tol) then
+                                if (abs(aapq) > tol) then
                                    notrot = 0
                  ! rotated  = rotated + 1
                                    pskipped = 0
@@ -46675,9 +46674,9 @@ module stdlib_linalg_lapack_d
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -half*dabs(aqoap - apoaq)/aapq
+                                      theta = -half*abs(aqoap - apoaq)/aapq
                                       if (aaqq > aapp0) theta = -theta
-                                      if (dabs(theta) > bigtheta) then
+                                      if (abs(theta) > bigtheta) then
                                          t = half/theta
                                          fastr(3) = t*d(p)/d(q)
                                          fastr(4) = -t*d(q)/d(p)
@@ -46685,22 +46684,22 @@ module stdlib_linalg_lapack_d
                                                    
                                          if (rsvec) call stdlib_drotm(mvl, v(1, p), 1, v(1, q), &
                                                     1, fastr)
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
-                                         mxsinj = max(mxsinj, dabs(t))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
+                                         mxsinj = max(mxsinj, abs(t))
                                       else
                        ! .. choose correct signum for theta and rotate
-                                         thsign = -dsign(one, aapq)
+                                         thsign = -sign(one, aapq)
                                          if (aaqq > aapp0) thsign = -thsign
-                                         t = one/(theta + thsign*dsqrt(one + theta*theta))
+                                         t = one/(theta + thsign*sqrt(one + theta*theta))
                                                    
-                                         cs = dsqrt(one/(one + t*t))
+                                         cs = sqrt(one/(one + t*t))
                                          sn = t*cs
-                                         mxsinj = max(mxsinj, dabs(sn))
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         mxsinj = max(mxsinj, abs(sn))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
                                          apoaq = d(p)/d(q)
                                          aqoap = d(q)/d(p)
                                          if (d(p) >= one) then
@@ -46784,8 +46783,7 @@ module stdlib_linalg_lapack_d
                                                    
                                          call stdlib_dlascl('g', 0, 0, one, aaqq, m, 1, a(1, q), &
                                                     lda, ierr)
-                                         sva(q) = aaqq*dsqrt(max(zero, one - aapq*aapq))
-                                                   
+                                         sva(q) = aaqq*sqrt(max(zero, one - aapq*aapq))
                                          mxsinj = max(mxsinj, sfmin)
                                       else
                                          call stdlib_dcopy(m, a(1, q), 1, work, 1)
@@ -46798,8 +46796,7 @@ module stdlib_linalg_lapack_d
                                                    
                                          call stdlib_dlascl('g', 0, 0, one, aapp, m, 1, a(1, p), &
                                                     lda, ierr)
-                                         sva(p) = aapp*dsqrt(max(zero, one - aapq*aapq))
-                                                   
+                                         sva(p) = aapp*sqrt(max(zero, one - aapq*aapq))
                                          mxsinj = max(mxsinj, sfmin)
                                       end if
                                    end if
@@ -46813,7 +46810,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aaqq = one
                                          call stdlib_dlassq(m, a(1, q), 1, t, aaqq)
-                                         sva(q) = t*dsqrt(aaqq)*d(q)
+                                         sva(q) = t*sqrt(aaqq)*d(q)
                                       end if
                                    end if
                                    if ((aapp/aapp0)**2 <= rooteps) then
@@ -46823,7 +46820,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aapp = one
                                          call stdlib_dlassq(m, a(1, p), 1, t, aapp)
-                                         aapp = t*dsqrt(aapp)*d(p)
+                                         aapp = t*sqrt(aapp)*d(p)
                                       end if
                                       sva(p) = aapp
                                    end if
@@ -46866,7 +46863,7 @@ module stdlib_linalg_lapack_d
 2011  continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
-                    sva(p) = dabs(sva(p))
+                    sva(p) = abs(sva(p))
                  end do
       ! **   if ( notrot >= emptsw ) go to 1994
               end do loop_2000
@@ -46878,11 +46875,11 @@ module stdlib_linalg_lapack_d
                  t = zero
                  aapp = one
                  call stdlib_dlassq(m, a(1, n), 1, t, aapp)
-                 sva(n) = t*dsqrt(aapp)*d(n)
+                 sva(n) = t*sqrt(aapp)*d(n)
               end if
            ! additional steering devices
               if ((i < swband) .and. ((mxaapq <= roottol) .or. (iswrot <= n))) swband = i
-              if ((i > swband + 1) .and. (mxaapq < dble(n)*tol) .and. (dble(n) &
+              if ((i > swband + 1) .and. (mxaapq < real(n, KIND=dp)*tol) .and. (real(n, KIND=dp) &
                         *mxaapq*mxsinj < tol)) then
                  go to 1994
               end if
@@ -47429,7 +47426,7 @@ module stdlib_linalg_lapack_d
            end if
            ! quick return if possible
            if (n <= 0) then
-              work(1) = dble(1)
+              work(1) = real(1, KIND=dp)
               return
            end if
            ! initialize q and z
@@ -47669,11 +47666,11 @@ module stdlib_linalg_lapack_d
               if ((iiter/10)*10 == iiter) then
                  ! exceptional shift.  chosen for no particularly good reason.
                  ! (single shift only.)
-                 if ((dble(maxit)*safmin)*abs(h(ilast, ilast - 1)) < abs(t(ilast - 1, ilast - 1 &
-                           ))) then
+                 if ((real(maxit, KIND=dp)*safmin)*abs(h(ilast, ilast - 1)) < abs(t(ilast - 1, &
+                           ilast - 1))) then
                     eshift = h(ilast, ilast - 1)/t(ilast - 1, ilast - 1)
                  else
-                    eshift = eshift + one/(safmin*dble(maxit))
+                    eshift = eshift + one/(safmin*real(maxit, KIND=dp))
                  end if
                  s1 = one
                  wr = eshift
@@ -48155,7 +48152,7 @@ module stdlib_linalg_lapack_d
            info = 0
            ! exit (other than argument error) -- return optimal workspace size
 420    continue
-           work(1) = dble(n)
+           work(1) = real(n, KIND=dp)
            return
            ! end of stdlib_dhgeqz
      end subroutine stdlib_dhgeqz
@@ -49322,7 +49319,7 @@ module stdlib_linalg_lapack_d
            info = 0
            ! growto is the threshold used in the acceptance test for an
            ! eigenvector.
-           rootn = sqrt(dble(n))
+           rootn = sqrt(real(n, KIND=dp))
            growto = tenth/rootn
            nrmsml = max(one, eps3*rootn)*smlnum
            ! form b = h - (wr,wi)*i (except that the subdiagonal elements and
@@ -51095,7 +51092,7 @@ module stdlib_linalg_lapack_d
                        temp = max(zero, (one + temp)*(one - temp))
                        temp2 = temp*(vn1(j)/vn2(j))**2
                        if (temp2 <= tol3z) then
-                          vn2(j) = dble(lsticc)
+                          vn2(j) = real(lsticc, KIND=dp)
                           lsticc = j
                        else
                           vn1(j) = vn1(j)*sqrt(temp)
@@ -51119,7 +51116,7 @@ module stdlib_linalg_lapack_d
            ! recomputation of difficult columns.
 40      continue
            if (lsticc > 0) then
-              itemp = nint(vn2(lsticc))
+              itemp = nint(vn2(lsticc), KIND=ilp)
               vn1(lsticc) = stdlib_dnrm2(m - rk, a(rk + 1, lsticc), 1)
               ! note: the computation of vn1( lsticc ) relies on the fact that
               ! stdlib_snrm2 does not fail on vectors with norm below the value of
@@ -51194,7 +51191,7 @@ module stdlib_linalg_lapack_d
            safmax = one/safmin
            call stdlib_dlabad(safmin, safmax)
            ulp = stdlib_dlamch('precision')
-           smlnum = safmin*(dble(n)/ulp)
+           smlnum = safmin*(real(n, KIND=dp)/ulp)
            ! ==== use accumulated reflections to update far-from-diagonal
            ! .    entries ? ====
            accum = (kacc22 == 1) .or. (kacc22 == 2)
@@ -53128,101 +53125,101 @@ module stdlib_linalg_lapack_d
               if (r == q) then
                  call stdlib_dorbdb1(m, p, q, x11, ldx11, x21, ldx21, theta, dum1, dum1, dum1, &
                            dum1, work, -1, childinfo)
-                 lorbdb = int(work(1))
+                 lorbdb = int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_dorgqr(p, p, q, u1, ldu1, dum1, work(1), -1, childinfo)
                     lorgqrmin = max(lorgqrmin, p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_dorgqr(m - p, m - p, q, u2, ldu2, dum1, work(1), -1, childinfo)
                               
                     lorgqrmin = max(lorgqrmin, m - p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_dorglq(q - 1, q - 1, q - 1, v1t, ldv1t, dum1, work(1), -1, childinfo)
                               
                     lorglqmin = max(lorglqmin, q - 1)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_dbbcsd(jobu1, jobu2, jobv1t, 'n', 'n', m, p, q, theta, dum1, u1, &
                  ldu1, u2, ldu2, v1t, ldv1t, dum2, 1, dum1, dum1, dum1, dum1, dum1, dum1, dum1, dum1, &
                             work(1), -1, childinfo)
-                 lbbcsd = int(work(1))
+                 lbbcsd = int(work(1), KIND=ilp)
               else if (r == p) then
                  call stdlib_dorbdb2(m, p, q, x11, ldx11, x21, ldx21, theta, dum1, dum1, dum1, &
                            dum1, work(1), -1, childinfo)
-                 lorbdb = int(work(1))
+                 lorbdb = int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_dorgqr(p - 1, p - 1, p - 1, u1(2, 2), ldu1, dum1, work(1), -1, childinfo &
                               )
                     lorgqrmin = max(lorgqrmin, p - 1)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_dorgqr(m - p, m - p, q, u2, ldu2, dum1, work(1), -1, childinfo)
                               
                     lorgqrmin = max(lorgqrmin, m - p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_dorglq(q, q, r, v1t, ldv1t, dum1, work(1), -1, childinfo)
                     lorglqmin = max(lorglqmin, q)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_dbbcsd(jobv1t, 'n', jobu1, jobu2, 't', m, q, p, theta, dum1, v1t, &
                  ldv1t, dum2, 1, u1, ldu1, u2, ldu2, dum1, dum1, dum1, dum1, dum1, dum1, dum1, dum1, &
                            work(1), -1, childinfo)
-                 lbbcsd = int(work(1))
+                 lbbcsd = int(work(1), KIND=ilp)
               else if (r == m - p) then
                  call stdlib_dorbdb3(m, p, q, x11, ldx11, x21, ldx21, theta, dum1, dum1, dum1, &
                            dum1, work(1), -1, childinfo)
-                 lorbdb = int(work(1))
+                 lorbdb = int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_dorgqr(p, p, q, u1, ldu1, dum1, work(1), -1, childinfo)
                     lorgqrmin = max(lorgqrmin, p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_dorgqr(m - p - 1, m - p - 1, m - p - 1, u2(2, 2), ldu2, dum1, work(1), -1, &
                               childinfo)
                     lorgqrmin = max(lorgqrmin, m - p - 1)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_dorglq(q, q, r, v1t, ldv1t, dum1, work(1), -1, childinfo)
                     lorglqmin = max(lorglqmin, q)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_dbbcsd('n', jobv1t, jobu2, jobu1, 't', m, m - q, m - p, theta, dum1, &
                  dum2, 1, v1t, ldv1t, u2, ldu2, u1, ldu1, dum1, dum1, dum1, dum1, dum1, dum1, dum1, &
                            dum1, work(1), -1, childinfo)
-                 lbbcsd = int(work(1))
+                 lbbcsd = int(work(1), KIND=ilp)
               else
                  call stdlib_dorbdb4(m, p, q, x11, ldx11, x21, ldx21, theta, dum1, dum1, dum1, &
                            dum1, dum1, work(1), -1, childinfo)
-                 lorbdb = m + int(work(1))
+                 lorbdb = m + int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_dorgqr(p, p, m - q, u1, ldu1, dum1, work(1), -1, childinfo)
                     lorgqrmin = max(lorgqrmin, p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_dorgqr(m - p, m - p, m - q, u2, ldu2, dum1, work(1), -1, childinfo)
                               
                     lorgqrmin = max(lorgqrmin, m - p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_dorglq(q, q, q, v1t, ldv1t, dum1, work(1), -1, childinfo)
                     lorglqmin = max(lorglqmin, q)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_dbbcsd(jobu2, jobu1, 'n', jobv1t, 'n', m, m - p, m - q, theta, dum1, u2, &
                  ldu2, u1, ldu1, dum2, 1, v1t, ldv1t, dum1, dum1, dum1, dum1, dum1, dum1, dum1, dum1, &
                             work(1), -1, childinfo)
-                 lbbcsd = int(work(1))
+                 lbbcsd = int(work(1), KIND=ilp)
               end if
               lworkmin = max(iorbdb + lorbdb - 1, iorgqr + lorgqrmin - 1, iorglq + lorglqmin - 1, ibbcsd + lbbcsd - &
                         1)
@@ -53601,12 +53598,12 @@ module stdlib_linalg_lapack_d
               call stdlib_xerbla('stdlib_dorgtsqr', -info)
               return
            else if (lquery) then
-              work(1) = dble(lworkopt)
+              work(1) = real(lworkopt, KIND=dp)
               return
            end if
            ! quick return if possible
            if (min(m, n) == 0) then
-              work(1) = dble(lworkopt)
+              work(1) = real(lworkopt, KIND=dp)
               return
            end if
            ! (1) form explicitly the tall-skinny m-by-n left submatrix q1_in
@@ -53629,7 +53626,7 @@ module stdlib_linalg_lapack_d
            do j = 1, n
               call stdlib_dcopy(m, work((j - 1)*ldc + 1), 1, a(1, j), 1)
            end do
-           work(1) = dble(lworkopt)
+           work(1) = real(lworkopt, KIND=dp)
            return
            ! end of stdlib_dorgtsqr
      end subroutine stdlib_dorgtsqr
@@ -55376,7 +55373,7 @@ module stdlib_linalg_lapack_d
            ! compute some constants.
            anrm = stdlib_dlange('i', n, n, a, lda, work)
            eps = stdlib_dlamch('epsilon')
-           cte = anrm*eps*sqrt(dble(n))*bwdmax
+           cte = anrm*eps*sqrt(real(n, KIND=dp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
            ptsa = 1
            ptsx = ptsa + n*n
@@ -56058,7 +56055,7 @@ module stdlib_linalg_lapack_d
            ! compute some constants.
            anrm = stdlib_dlansy('i', uplo, n, a, lda, work)
            eps = stdlib_dlamch('epsilon')
-           cte = anrm*eps*sqrt(dble(n))*bwdmax
+           cte = anrm*eps*sqrt(real(n, KIND=dp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
            ptsa = 1
            ptsx = ptsa + n*n
@@ -60862,7 +60859,7 @@ module stdlib_linalg_lapack_d
            smlnum = stdlib_dlamch('s')
            bignum = one/smlnum
            call stdlib_dlabad(smlnum, bignum)
-           smlnum = smlnum*dble(m*n)/eps
+           smlnum = smlnum*real(m*n, KIND=dp)/eps
            bignum = one/smlnum
            smin = max(smlnum, eps*stdlib_dlange('m', m, m, a, lda, dum), eps*stdlib_dlange('m', &
                       n, n, b, ldb, dum))
@@ -61596,7 +61593,7 @@ module stdlib_linalg_lapack_d
            info = 0
            nb = max(1, stdlib_ilaenv(1, 'stdlib_dgebrd', ' ', m, n, -1, -1))
            lwkopt = (m + n)*nb
-           work(1) = dble(lwkopt)
+           work(1) = real(lwkopt, KIND=dp)
            lquery = (lwork == -1)
            if (m < 0) then
               info = -1
@@ -61940,7 +61937,7 @@ module stdlib_linalg_lapack_d
                  end if
               end if
               wsize = max(1, mn + max(mn, nrhs)*nb)
-              work(1) = dble(wsize)
+              work(1) = real(wsize, KIND=dp)
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_dgels ', -info)
@@ -62073,7 +62070,7 @@ module stdlib_linalg_lapack_d
               call stdlib_dlascl('g', 0, 0, bignum, bnrm, scllen, nrhs, b, ldb, info)
            end if
 50      continue
-           work(1) = dble(wsize)
+           work(1) = real(wsize, KIND=dp)
            return
            ! end of stdlib_dgels
      end subroutine stdlib_dgels
@@ -62110,8 +62107,8 @@ module stdlib_linalg_lapack_d
            tran = stdlib_lsame(trans, 't')
            left = stdlib_lsame(side, 'l')
            right = stdlib_lsame(side, 'r')
-           mb = int(t(2))
-           nb = int(t(3))
+           mb = int(t(2), KIND=ilp)
+           nb = int(t(3), KIND=ilp)
            if (left) then
              lw = n*mb
              mn = m
@@ -62206,8 +62203,8 @@ module stdlib_linalg_lapack_d
            tran = stdlib_lsame(trans, 't')
            left = stdlib_lsame(side, 'l')
            right = stdlib_lsame(side, 'r')
-           mb = int(t(2))
-           nb = int(t(3))
+           mb = int(t(2), KIND=ilp)
+           nb = int(t(3), KIND=ilp)
            if (left) then
              lw = n*nb
              mn = m
@@ -62353,13 +62350,13 @@ module stdlib_linalg_lapack_d
               na = min(m, nfxd)
       ! cc      call stdlib_dgeqr2( m, na, a, lda, tau, work, info )
               call stdlib_dgeqrf(m, na, a, lda, tau, work, lwork, info)
-              iws = max(iws, int(work(1)))
+              iws = max(iws, int(work(1), KIND=ilp))
               if (na < n) then
       ! cc         call stdlib_dorm2r( 'left', 'transpose', m, n-na, na, a, lda,
       ! cc  $                   tau, a( 1, na+1 ), lda, work, info )
                  call stdlib_dormqr('left', 'transpose', m, n - na, na, a, lda, tau, a(1, na + 1), &
                            lda, work, lwork, info)
-                 iws = max(iws, int(work(1)))
+                 iws = max(iws, int(work(1), KIND=ilp))
               end if
            end if
            ! factorize free columns
@@ -62562,7 +62559,7 @@ module stdlib_linalg_lapack_d
            ! .. local arrays ..
            real(dp) :: fastr(5)
            ! .. intrinsic functions ..
-           intrinsic :: dabs, max, min, dble, dsign, dsqrt
+           intrinsic :: abs, max, min, dble, sign, sqrt
      
            ! from lapack
      
@@ -62616,26 +62613,26 @@ module stdlib_linalg_lapack_d
            else
               ! ... default
               if (lsvec .or. rsvec .or. applv) then
-                 ctol = dsqrt(dble(m))
+                 ctol = sqrt(real(m, KIND=dp))
               else
-                 ctol = dble(m)
+                 ctol = real(m, KIND=dp)
               end if
            end if
            ! ... and the machine dependent parameters are
       ! [!]  (make sure that stdlib_dlamch() works properly on the target machine.)
            epsln = stdlib_dlamch('epsilon')
-           rooteps = dsqrt(epsln)
+           rooteps = sqrt(epsln)
            sfmin = stdlib_dlamch('safeminimum')
-           rootsfmin = dsqrt(sfmin)
+           rootsfmin = sqrt(sfmin)
            small = sfmin/epsln
            big = stdlib_dlamch('overflow')
            ! big         = one    / sfmin
            rootbig = one/rootsfmin
-           large = big/dsqrt(dble(m*n))
+           large = big/sqrt(real(m*n, KIND=dp))
            bigtheta = one/rooteps
            tol = ctol*epsln
-           roottol = dsqrt(tol)
-           if (dble(m)*epsln >= one) then
+           roottol = sqrt(tol)
+           if (real(m, KIND=dp)*epsln >= one) then
               info = -4
               call stdlib_xerbla('stdlib_dgesvj', -info)
               return
@@ -62654,9 +62651,9 @@ module stdlib_linalg_lapack_d
            ! value destroys the information about the small ones.
            ! this initial scaling is almost minimal in the sense that the
            ! goal is to make sure that no column norm overflows, and that
-           ! dsqrt(n)*max_i sva(i) does not overflow. if infinite entries
+           ! sqrt(n)*max_i sva(i) does not overflow. if infinite entries
            ! in a are detected, the procedure returns with info=-6.
-           skl = one/dsqrt(dble(m)*dble(n))
+           skl = one/sqrt(real(m, KIND=dp)*real(n, KIND=dp))
            noscale = .true.
            goscale = .true.
            if (lower) then
@@ -62670,7 +62667,7 @@ module stdlib_linalg_lapack_d
                     call stdlib_xerbla('stdlib_dgesvj', -info)
                     return
                  end if
-                 aaqq = dsqrt(aaqq)
+                 aaqq = sqrt(aaqq)
                  if ((aapp < (big/aaqq)) .and. noscale) then
                     sva(p) = aapp*aaqq
                  else
@@ -62695,7 +62692,7 @@ module stdlib_linalg_lapack_d
                     call stdlib_xerbla('stdlib_dgesvj', -info)
                     return
                  end if
-                 aaqq = dsqrt(aaqq)
+                 aaqq = sqrt(aaqq)
                  if ((aapp < (big/aaqq)) .and. noscale) then
                     sva(p) = aapp*aaqq
                  else
@@ -62720,7 +62717,7 @@ module stdlib_linalg_lapack_d
                     call stdlib_xerbla('stdlib_dgesvj', -info)
                     return
                  end if
-                 aaqq = dsqrt(aaqq)
+                 aaqq = sqrt(aaqq)
                  if ((aapp < (big/aaqq)) .and. noscale) then
                     sva(p) = aapp*aaqq
                  else
@@ -62774,15 +62771,15 @@ module stdlib_linalg_lapack_d
            end if
            ! protect small singular values from underflow, and try to
            ! avoid underflows/overflows in computing jacobi rotations.
-           sn = dsqrt(sfmin/epsln)
-           temp1 = dsqrt(big/dble(n))
+           sn = sqrt(sfmin/epsln)
+           temp1 = sqrt(big/real(n, KIND=dp))
            if ((aapp <= sn) .or. (aaqq >= temp1) .or. ((sn <= aaqq) .and. (aapp <= temp1))) &
                      then
               temp1 = min(big, temp1/aapp)
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else if ((aaqq <= sn) .and. (aapp <= temp1)) then
-              temp1 = min(sn/aaqq, big/(aapp*dsqrt(dble(n))))
+              temp1 = min(sn/aaqq, big/(aapp*sqrt(real(n, KIND=dp))))
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else if ((aaqq >= sn) .and. (aapp >= temp1)) then
@@ -62790,7 +62787,7 @@ module stdlib_linalg_lapack_d
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else if ((aaqq <= sn) .and. (aapp >= temp1)) then
-              temp1 = min(sn/aaqq, big/(dsqrt(dble(n))*aapp))
+              temp1 = min(sn/aaqq, big/(sqrt(real(n, KIND=dp))*aapp))
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else
@@ -62921,9 +62918,9 @@ module stdlib_linalg_lapack_d
               ! norm computation.
               ! caveat:
               ! unfortunately, some blas implementations compute stdlib_dnrm2(m,a(1,p),1)
-              ! as dsqrt(stdlib_ddot(m,a(1,p),1,a(1,p),1)), which may cause the result to
-              ! overflow for ||a(:,p)||_2 > dsqrt(overflow_threshold), and to
-              ! underflow for ||a(:,p)||_2 < dsqrt(underflow_threshold).
+              ! as sqrt(stdlib_ddot(m,a(1,p),1,a(1,p),1)), which may cause the result to
+              ! overflow for ||a(:,p)||_2 > sqrt(overflow_threshold), and to
+              ! underflow for ||a(:,p)||_2 < sqrt(underflow_threshold).
               ! hence, stdlib_dnrm2 cannot be trusted, not even in the case when
               ! the true norm is far from the under(over)flow boundaries.
               ! if properly implemented stdlib_dnrm2 is available, the if-then-else
@@ -62934,7 +62931,7 @@ module stdlib_linalg_lapack_d
                              temp1 = zero
                              aapp = one
                              call stdlib_dlassq(m, a(1, p), 1, temp1, aapp)
-                             sva(p) = temp1*dsqrt(aapp)*work(p)
+                             sva(p) = temp1*sqrt(aapp)*work(p)
                           end if
                           aapp = sva(p)
                        else
@@ -62971,9 +62968,9 @@ module stdlib_linalg_lapack_d
                                                 p)/aapp
                                    end if
                                 end if
-                                mxaapq = max(mxaapq, dabs(aapq))
+                                mxaapq = max(mxaapq, abs(aapq))
               ! to rotate or not to rotate, that is the question ...
-                                if (dabs(aapq) > tol) then
+                                if (abs(aapq) > tol) then
                  ! .. rotate
       ! [rtd]      rotated = rotated + one
                                    if (ir1 == 0) then
@@ -62984,8 +62981,8 @@ module stdlib_linalg_lapack_d
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -half*dabs(aqoap - apoaq)/aapq
-                                      if (dabs(theta) > bigtheta) then
+                                      theta = -half*abs(aqoap - apoaq)/aapq
+                                      if (abs(theta) > bigtheta) then
                                          t = half/theta
                                          fastr(3) = t*work(p)/work(q)
                                          fastr(4) = -t*work(q)/work(p)
@@ -62993,21 +62990,21 @@ module stdlib_linalg_lapack_d
                                                    
                                          if (rsvec) call stdlib_drotm(mvl, v(1, p), 1, v(1, q), &
                                                     1, fastr)
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
-                                         mxsinj = max(mxsinj, dabs(t))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
+                                         mxsinj = max(mxsinj, abs(t))
                                       else
                        ! .. choose correct signum for theta and rotate
-                                         thsign = -dsign(one, aapq)
-                                         t = one/(theta + thsign*dsqrt(one + theta*theta))
+                                         thsign = -sign(one, aapq)
+                                         t = one/(theta + thsign*sqrt(one + theta*theta))
                                                    
-                                         cs = dsqrt(one/(one + t*t))
+                                         cs = sqrt(one/(one + t*t))
                                          sn = t*cs
-                                         mxsinj = max(mxsinj, dabs(sn))
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         mxsinj = max(mxsinj, abs(sn))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
                                          apoaq = work(p)/work(q)
                                          aqoap = work(q)/work(p)
                                          if (work(p) >= one) then
@@ -63091,7 +63088,7 @@ module stdlib_linalg_lapack_d
                                                 
                                       call stdlib_dlascl('g', 0, 0, one, aaqq, m, 1, a(1, q), &
                                                 lda, ierr)
-                                      sva(q) = aaqq*dsqrt(max(zero, one - aapq*aapq))
+                                      sva(q) = aaqq*sqrt(max(zero, one - aapq*aapq))
                                       mxsinj = max(mxsinj, sfmin)
                                    end if
                  ! end if rotok then ... else
@@ -63105,7 +63102,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aaqq = one
                                          call stdlib_dlassq(m, a(1, q), 1, t, aaqq)
-                                         sva(q) = t*dsqrt(aaqq)*work(q)
+                                         sva(q) = t*sqrt(aaqq)*work(q)
                                       end if
                                    end if
                                    if ((aapp/aapp0) <= rooteps) then
@@ -63115,7 +63112,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aapp = one
                                          call stdlib_dlassq(m, a(1, p), 1, t, aapp)
-                                         aapp = t*dsqrt(aapp)*work(p)
+                                         aapp = t*sqrt(aapp)*work(p)
                                       end if
                                       sva(p) = aapp
                                    end if
@@ -63199,9 +63196,9 @@ module stdlib_linalg_lapack_d
                                                 p)/aapp
                                    end if
                                 end if
-                                mxaapq = max(mxaapq, dabs(aapq))
+                                mxaapq = max(mxaapq, abs(aapq))
               ! to rotate or not to rotate, that is the question ...
-                                if (dabs(aapq) > tol) then
+                                if (abs(aapq) > tol) then
                                    notrot = 0
       ! [rtd]      rotated  = rotated + 1
                                    pskipped = 0
@@ -63209,9 +63206,9 @@ module stdlib_linalg_lapack_d
                                    if (rotok) then
                                       aqoap = aaqq/aapp
                                       apoaq = aapp/aaqq
-                                      theta = -half*dabs(aqoap - apoaq)/aapq
+                                      theta = -half*abs(aqoap - apoaq)/aapq
                                       if (aaqq > aapp0) theta = -theta
-                                      if (dabs(theta) > bigtheta) then
+                                      if (abs(theta) > bigtheta) then
                                          t = half/theta
                                          fastr(3) = t*work(p)/work(q)
                                          fastr(4) = -t*work(q)/work(p)
@@ -63219,22 +63216,22 @@ module stdlib_linalg_lapack_d
                                                    
                                          if (rsvec) call stdlib_drotm(mvl, v(1, p), 1, v(1, q), &
                                                     1, fastr)
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
-                                         mxsinj = max(mxsinj, dabs(t))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
+                                         mxsinj = max(mxsinj, abs(t))
                                       else
                        ! .. choose correct signum for theta and rotate
-                                         thsign = -dsign(one, aapq)
+                                         thsign = -sign(one, aapq)
                                          if (aaqq > aapp0) thsign = -thsign
-                                         t = one/(theta + thsign*dsqrt(one + theta*theta))
+                                         t = one/(theta + thsign*sqrt(one + theta*theta))
                                                    
-                                         cs = dsqrt(one/(one + t*t))
+                                         cs = sqrt(one/(one + t*t))
                                          sn = t*cs
-                                         mxsinj = max(mxsinj, dabs(sn))
-                                         sva(q) = aaqq*dsqrt(max(zero, one + t*apoaq*aapq))
+                                         mxsinj = max(mxsinj, abs(sn))
+                                         sva(q) = aaqq*sqrt(max(zero, one + t*apoaq*aapq))
                                                    
-                                         aapp = aapp*dsqrt(max(zero, one - t*aqoap*aapq))
+                                         aapp = aapp*sqrt(max(zero, one - t*aqoap*aapq))
                                          apoaq = work(p)/work(q)
                                          aqoap = work(q)/work(p)
                                          if (work(p) >= one) then
@@ -63319,8 +63316,7 @@ module stdlib_linalg_lapack_d
                                                    )
                                          call stdlib_dlascl('g', 0, 0, one, aaqq, m, 1, a(1, q), &
                                                     lda, ierr)
-                                         sva(q) = aaqq*dsqrt(max(zero, one - aapq*aapq))
-                                                   
+                                         sva(q) = aaqq*sqrt(max(zero, one - aapq*aapq))
                                          mxsinj = max(mxsinj, sfmin)
                                       else
                                          call stdlib_dcopy(m, a(1, q), 1, work(n + 1), 1)
@@ -63334,8 +63330,7 @@ module stdlib_linalg_lapack_d
                                                    )
                                          call stdlib_dlascl('g', 0, 0, one, aapp, m, 1, a(1, p), &
                                                     lda, ierr)
-                                         sva(p) = aapp*dsqrt(max(zero, one - aapq*aapq))
-                                                   
+                                         sva(p) = aapp*sqrt(max(zero, one - aapq*aapq))
                                          mxsinj = max(mxsinj, sfmin)
                                       end if
                                    end if
@@ -63350,7 +63345,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aaqq = one
                                          call stdlib_dlassq(m, a(1, q), 1, t, aaqq)
-                                         sva(q) = t*dsqrt(aaqq)*work(q)
+                                         sva(q) = t*sqrt(aaqq)*work(q)
                                       end if
                                    end if
                                    if ((aapp/aapp0)**2 <= rooteps) then
@@ -63360,7 +63355,7 @@ module stdlib_linalg_lapack_d
                                          t = zero
                                          aapp = one
                                          call stdlib_dlassq(m, a(1, p), 1, t, aapp)
-                                         aapp = t*dsqrt(aapp)*work(p)
+                                         aapp = t*sqrt(aapp)*work(p)
                                       end if
                                       sva(p) = aapp
                                    end if
@@ -63401,7 +63396,7 @@ module stdlib_linalg_lapack_d
 2011  continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
-                    sva(p) = dabs(sva(p))
+                    sva(p) = abs(sva(p))
                  end do
       ! **
               end do loop_2000
@@ -63413,12 +63408,12 @@ module stdlib_linalg_lapack_d
                  t = zero
                  aapp = one
                  call stdlib_dlassq(m, a(1, n), 1, t, aapp)
-                 sva(n) = t*dsqrt(aapp)*work(n)
+                 sva(n) = t*sqrt(aapp)*work(n)
               end if
            ! additional steering devices
               if ((i < swband) .and. ((mxaapq <= roottol) .or. (iswrot <= n))) swband = i
-              if ((i > swband + 1) .and. (mxaapq < dsqrt(dble(n))*tol) .and. (dble(n) &
-                        *mxaapq*mxsinj < tol)) then
+              if ((i > swband + 1) .and. (mxaapq < sqrt(real(n, KIND=dp))*tol) .and. (real(n, &
+                        KIND=dp)*mxaapq*mxsinj < tol)) then
                  go to 1994
               end if
               if (notrot >= emptsw) go to 1994
@@ -63489,13 +63484,13 @@ module stdlib_linalg_lapack_d
            ! the singular values of a are skl*sva(1:n). if skl/=one
            ! then some of the singular values may overflow or underflow and
            ! the spectrum is given in this factored representation.
-           work(2) = dble(n4)
+           work(2) = real(n4, KIND=dp)
            ! n4 is the number of computed nonzero singular values of a.
-           work(3) = dble(n2)
+           work(3) = real(n2, KIND=dp)
            ! n2 is the number of singular values of a greater than sfmin.
            ! if n2<n, sva(n2:n) contains zeros and/or denormalized numbers
            ! that may carry some information.
-           work(4) = dble(i)
+           work(4) = real(i, KIND=dp)
            ! i is the index of the last sweep before declaring convergence.
            work(5) = mxaapq
            ! mxaapq is the largest absolute value of scaled pivots in the
@@ -65196,7 +65191,7 @@ module stdlib_linalg_lapack_d
                                                      ! ( d2 ) n-m
            call stdlib_dormqr('left', 'transpose', n, 1, m, a, lda, work, d, max(1, n), work(m + &
                      np + 1), lwork - m - np, info)
-           lopt = max(lopt, int(work(m + np + 1)))
+           lopt = max(lopt, int(work(m + np + 1), KIND=ilp))
            ! solve t22*y2 = d2 for y2
            if (n > m) then
               call stdlib_dtrtrs('upper', 'no transpose', 'non unit', n - m, 1, b(m + 1, m + p - n + 1), &
@@ -65228,7 +65223,7 @@ module stdlib_linalg_lapack_d
            ! backward transformation y = z**t *y
            call stdlib_dormrq('left', 'transpose', p, 1, np, b(max(1, n - p + 1), 1), ldb, work( &
                      m + 1), y, max(1, p), work(m + np + 1), lwork - m - np, info)
-           work(1) = m + np + max(lopt, int(work(m + np + 1)))
+           work(1) = m + np + max(lopt, int(work(m + np + 1), KIND=ilp))
            return
            ! end of stdlib_dggglm
      end subroutine stdlib_dggglm
@@ -65318,7 +65313,7 @@ module stdlib_linalg_lapack_d
                                 ! ( c2 ) m+p-n
            call stdlib_dormqr('left', 'transpose', m, 1, mn, a, lda, work(p + 1), c, max(1, m), &
                      work(p + mn + 1), lwork - p - mn, info)
-           lopt = max(lopt, int(work(p + mn + 1)))
+           lopt = max(lopt, int(work(p + mn + 1), KIND=ilp))
            ! solve t12*x2 = d for x2
            if (p > 0) then
               call stdlib_dtrtrs('upper', 'no transpose', 'non-unit', p, 1, b(1, n - p + 1), ldb, d, &
@@ -65360,7 +65355,7 @@ module stdlib_linalg_lapack_d
            ! backward transformation x = q**t*x
            call stdlib_dormrq('left', 'transpose', n, 1, p, b, ldb, work(1), x, n, work(p + mn + 1 &
                      ), lwork - p - mn, info)
-           work(1) = p + mn + max(lopt, int(work(p + mn + 1)))
+           work(1) = p + mn + max(lopt, int(work(p + mn + 1), KIND=ilp))
            return
            ! end of stdlib_dgglse
      end subroutine stdlib_dgglse
@@ -66185,7 +66180,7 @@ module stdlib_linalg_lapack_d
            safmax = one/safmin
            call stdlib_dlabad(safmin, safmax)
            ulp = stdlib_dlamch('precision')
-           smlnum = safmin*(dble(nh)/ulp)
+           smlnum = safmin*(real(nh, KIND=dp)/ulp)
            ! i1 and i2 are the indices of the first row and last column of h
            ! to which transformations must be applied. if eigenvalues only are
            ! being computed, i1 and i2 are set inside the main loop.
@@ -68466,7 +68461,7 @@ module stdlib_linalg_lapack_d
            logical(lk) :: almort, defr, errest, goscal, jracc, kill, lsvec, l2aber, l2kill, &
                      l2pert, l2rank, l2tran, noscal, rowpiv, rsvec, transp
            ! .. intrinsic functions ..
-           intrinsic :: dabs, dlog, max, min, dble, idnint, dsign, dsqrt
+           intrinsic :: abs, log, max, min, dble, idnint, sign, sqrt
      
            ! test the input arguments
            lsvec = stdlib_lsame(jobu, 'u') .or. stdlib_lsame(jobu, 'f')
@@ -68544,7 +68539,7 @@ module stdlib_linalg_lapack_d
       ! (!)  if necessary, scale sva() to protect the largest norm from
            ! overflow. it is possible that this scaling pushes the smallest
            ! column norm left from the underflow threshold (extreme case).
-           scalem = one/dsqrt(dble(m)*dble(n))
+           scalem = one/sqrt(real(m, KIND=dp)*real(n, KIND=dp))
            noscal = .true.
            goscal = .true.
            do p = 1, n
@@ -68556,7 +68551,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_xerbla('stdlib_dgejsv', -info)
                  return
               end if
-              aaqq = dsqrt(aaqq)
+              aaqq = sqrt(aaqq)
               if ((aapp < (big/aaqq)) .and. noscal) then
                  sva(p) = aapp*aaqq
               else
@@ -68668,13 +68663,13 @@ module stdlib_linalg_lapack_d
                     ! stdlib_dlassq gets both the ell_2 and the ell_infinity norm
                     ! in one pass through the vector
                     work(m + n + p) = xsc*scalem
-                    work(n + p) = xsc*(scalem*dsqrt(temp1))
+                    work(n + p) = xsc*(scalem*sqrt(temp1))
                     aatmax = max(aatmax, work(n + p))
                     if (work(n + p) /= zero) aatmin = min(aatmin, work(n + p))
                  end do
               else
                  do p = 1, m
-                    work(m + n + p) = scalem*dabs(a(p, stdlib_idamax(n, a(p, 1), lda)))
+                    work(m + n + p) = scalem*abs(a(p, stdlib_idamax(n, a(p, 1), lda)))
                     aatmax = max(aatmax, work(m + n + p))
                     aatmin = min(aatmin, work(m + n + p))
                  end do
@@ -68696,9 +68691,9 @@ module stdlib_linalg_lapack_d
               entra = zero
               do p = 1, n
                  big1 = ((sva(p)/xsc)**2)*temp1
-                 if (big1 /= zero) entra = entra + big1*dlog(big1)
+                 if (big1 /= zero) entra = entra + big1*log(big1)
               end do
-              entra = -entra/dlog(dble(n))
+              entra = -entra/log(real(n, KIND=dp))
               ! now, sva().^2/trace(a^t * a) is a point in the probability simplex.
               ! it is derived from the diagonal of  a^t * a.  do the same with the
               ! diagonal of a * a^t, compute the entropy of the corresponding
@@ -68707,9 +68702,9 @@ module stdlib_linalg_lapack_d
               entrat = zero
               do p = n + 1, n + m
                  big1 = ((work(p)/xsc)**2)*temp1
-                 if (big1 /= zero) entrat = entrat + big1*dlog(big1)
+                 if (big1 /= zero) entrat = entrat + big1*log(big1)
               end do
-              entrat = -entrat/dlog(dble(m))
+              entrat = -entrat/log(real(m, KIND=dp))
               ! analyze the entropies and decide a or a^t. smaller entropy
               ! usually means better input for the algorithm.
               transp = (entrat < entra)
@@ -68743,16 +68738,16 @@ module stdlib_linalg_lapack_d
            end if
            ! end if l2tran
            ! scale the matrix so that its maximal singular value remains less
-           ! than dsqrt(big) -- the matrix is scaled so that its maximal column
-           ! has euclidean norm equal to dsqrt(big/n). the only reason to keep
-           ! dsqrt(big) instead of big is the fact that stdlib_dgejsv uses lapack and
+           ! than sqrt(big) -- the matrix is scaled so that its maximal column
+           ! has euclidean norm equal to sqrt(big/n). the only reason to keep
+           ! sqrt(big) instead of big is the fact that stdlib_dgejsv uses lapack and
            ! blas routines that, in some implementations, are not capable of
            ! working in the full interval [sfmin,big] and that they may provoke
            ! overflows in the intermediate results. if the singular values spread
            ! from sfmin to big, then stdlib_dgesvj will compute them. so, in that case,
            ! one should use stdlib_dgesvj instead of stdlib_dgejsv.
-           big1 = dsqrt(big)
-           temp1 = dsqrt(big/dble(n))
+           big1 = sqrt(big)
+           temp1 = sqrt(big/real(n, KIND=dp))
            call stdlib_dlascl('g', 0, 0, aapp, temp1, n, 1, sva, n, ierr)
            if (aaqq > (aapp*sfmin)) then
                aaqq = (aaqq/aapp)*temp1
@@ -68768,19 +68763,19 @@ module stdlib_linalg_lapack_d
            if (l2kill) then
               ! l2kill enforces computation of nonzero singular values in
               ! the restricted range of condition number of the initial a,
-              ! sigma_max(a) / sigma_min(a) approx. dsqrt(big)/dsqrt(sfmin).
-              xsc = dsqrt(sfmin)
+              ! sigma_max(a) / sigma_min(a) approx. sqrt(big)/sqrt(sfmin).
+              xsc = sqrt(sfmin)
            else
               xsc = small
               ! now, if the condition number of a is too big,
-              ! sigma_max(a) / sigma_min(a) > dsqrt(big/n) * epsln / sfmin,
+              ! sigma_max(a) / sigma_min(a) > sqrt(big/n) * epsln / sfmin,
               ! as a precaution measure, the full svd is computed using stdlib_dgesvj
               ! with accumulated jacobi rotations. this provides numerically
               ! more robust computation, at the cost of slightly increased run
               ! time. depending on the concrete implementation of blas and lapack
               ! (i.e. how they behave in presence of extreme ill-conditioning) the
               ! implementor may decide to remove this switch.
-              if ((aaqq < dsqrt(sfmin)) .and. lsvec .and. rsvec) then
+              if ((aaqq < sqrt(sfmin)) .and. lsvec .and. rsvec) then
                  jracc = .true.
               end if
            end if
@@ -68840,9 +68835,9 @@ module stdlib_linalg_lapack_d
               ! sigma_i < n*epsln*||a|| are flushed to zero. this is an
               ! aggressive enforcement of lower numerical rank by introducing a
               ! backward error of the order of n*epsln*||a||.
-              temp1 = dsqrt(dble(n))*epsln
+              temp1 = sqrt(real(n, KIND=dp))*epsln
               do p = 2, n
-                 if (dabs(a(p, p)) >= (temp1*dabs(a(1, 1)))) then
+                 if (abs(a(p, p)) >= (temp1*abs(a(1, 1)))) then
                     nr = nr + 1
                  else
                     go to 3002
@@ -68853,10 +68848,10 @@ module stdlib_linalg_lapack_d
               ! .. similarly as above, only slightly more gentle (less aggressive).
               ! sudden drop on the diagonal of r1 is used as the criterion for
               ! close-to-rank-deficient.
-              temp1 = dsqrt(sfmin)
+              temp1 = sqrt(sfmin)
               do p = 2, n
-                 if ((dabs(a(p, p)) < (epsln*dabs(a(p - 1, p - 1)))) .or. (dabs(a(p, p)) < small) &
-                           .or. (l2kill .and. (dabs(a(p, p)) < temp1))) go to 3402
+                 if ((abs(a(p, p)) < (epsln*abs(a(p - 1, p - 1)))) .or. (abs(a(p, p)) < small) .or. ( &
+                           l2kill .and. (abs(a(p, p)) < temp1))) go to 3402
                  nr = nr + 1
               end do
 3402  continue
@@ -68868,10 +68863,10 @@ module stdlib_linalg_lapack_d
               ! here we just remove the underflowed part of the triangular
               ! factor. this prevents the situation in which the code is
               ! working hard to get the accuracy not warranted by the data.
-              temp1 = dsqrt(sfmin)
+              temp1 = sqrt(sfmin)
               do p = 2, n
-                 if ((dabs(a(p, p)) < small) .or. (l2kill .and. (dabs(a(p, p)) < temp1))) go &
-                           to 3302
+                 if ((abs(a(p, p)) < small) .or. (l2kill .and. (abs(a(p, p)) < temp1))) go to &
+                           3302
                  nr = nr + 1
               end do
 3302  continue
@@ -68880,10 +68875,10 @@ module stdlib_linalg_lapack_d
            if (nr == n) then
               maxprj = one
               do p = 2, n
-                 temp1 = dabs(a(p, p))/sva(iwork(p))
+                 temp1 = abs(a(p, p))/sva(iwork(p))
                  maxprj = min(maxprj, temp1)
               end do
-              if (maxprj**2 >= one - dble(n)*epsln) almort = .true.
+              if (maxprj**2 >= one - real(n, KIND=dp)*epsln) almort = .true.
            end if
            sconda = -one
            condr1 = -one
@@ -68918,14 +68913,14 @@ module stdlib_linalg_lapack_d
                     call stdlib_dpocon('u', n, work(n + 1), n, one, temp1, work(n + n*n + 1), iwork(2*n + &
                               m + 1), ierr)
                  end if
-                 sconda = one/dsqrt(temp1)
-                 ! sconda is an estimate of dsqrt(||(r^t * r)^(-1)||_1).
+                 sconda = one/sqrt(temp1)
+                 ! sconda is an estimate of sqrt(||(r^t * r)^(-1)||_1).
                  ! n^(-1/4) * sconda <= ||r^(-1)||_2 <= n^(1/4) * sconda
               else
                  sconda = -one
               end if
            end if
-           l2pert = l2pert .and. (dabs(a(1, 1)/a(nr, nr)) > dsqrt(big1))
+           l2pert = l2pert .and. (abs(a(1, 1)/a(nr, nr)) > sqrt(big1))
            ! if there is no violent scaling, artificial perturbation is not needed.
            ! phase 3:
            if (.not. (rsvec .or. lsvec)) then
@@ -68947,13 +68942,13 @@ module stdlib_linalg_lapack_d
               ! should be .false. if flush to zero underflow is active.
               if (.not. almort) then
                  if (l2pert) then
-                    ! xsc = dsqrt(small)
-                    xsc = epsln/dble(n)
+                    ! xsc = sqrt(small)
+                    xsc = epsln/real(n, KIND=dp)
                     do q = 1, nr
-                       temp1 = xsc*dabs(a(q, q))
+                       temp1 = xsc*abs(a(q, q))
                        do p = 1, n
-                          if (((p > q) .and. (dabs(a(p, q)) <= temp1)) .or. (p < q)) a(p, q) = &
-                                    dsign(temp1, a(p, q))
+                          if (((p > q) .and. (abs(a(p, q)) <= temp1)) .or. (p < q)) a(p, q) = sign( &
+                                    temp1, a(p, q))
                        end do
                     end do
                  else
@@ -68970,13 +68965,13 @@ module stdlib_linalg_lapack_d
                  ! .. again some perturbation (a "background noise") is added
                  ! to drown denormals
                  if (l2pert) then
-                    ! xsc = dsqrt(small)
-                    xsc = epsln/dble(n)
+                    ! xsc = sqrt(small)
+                    xsc = epsln/real(n, KIND=dp)
                     do q = 1, nr
-                       temp1 = xsc*dabs(a(q, q))
+                       temp1 = xsc*abs(a(q, q))
                        do p = 1, nr
-                          if (((p > q) .and. (dabs(a(p, q)) <= temp1)) .or. (p < q)) a(p, q) = &
-                                    dsign(temp1, a(p, q))
+                          if (((p > q) .and. (abs(a(p, q)) <= temp1)) .or. (p < q)) a(p, q) = sign( &
+                                    temp1, a(p, q))
                        end do
                     end do
                  else
@@ -68988,7 +68983,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dgesvj('l', 'nou', 'nov', nr, nr, a, lda, sva, n, v, ldv, work, &
                            lwork, info)
                  scalem = work(1)
-                 numrank = idnint(work(2))
+                 numrank = nint(work(2), KIND=ilp)
            else if (rsvec .and. (.not. lsvec)) then
               ! -> singular values and right singular vectors <-
               if (almort) then
@@ -69000,7 +68995,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dgesvj('l', 'u', 'n', n, nr, v, ldv, sva, nr, a, lda, work, lwork, info)
                            
                  scalem = work(1)
-                 numrank = idnint(work(2))
+                 numrank = nint(work(2), KIND=ilp)
               else
               ! .. two more qr factorizations ( one qrf is not enough, two require
               ! accumulated product of jacobi rotations, three are perfect )
@@ -69017,7 +69012,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dgesvj('lower', 'u', 'n', nr, nr, v, ldv, sva, nr, u, ldu, work(n + 1), &
                            lwork, info)
                  scalem = work(n + 1)
-                 numrank = idnint(work(n + 2))
+                 numrank = nint(work(n + 2), KIND=ilp)
                  if (nr < n) then
                     call stdlib_dlaset('a', n - nr, nr, zero, zero, v(nr + 1, 1), ldv)
                     call stdlib_dlaset('a', nr, n - nr, zero, zero, v(1, nr + 1), ldv)
@@ -69049,7 +69044,7 @@ module stdlib_linalg_lapack_d
               call stdlib_dgesvj('lower', 'u', 'n', nr, nr, u, ldu, sva, nr, a, lda, work(n + 1), &
                         lwork - n, info)
               scalem = work(n + 1)
-              numrank = idnint(work(n + 2))
+              numrank = nint(work(n + 2), KIND=ilp)
               if (nr < m) then
                  call stdlib_dlaset('a', m - nr, nr, zero, zero, u(nr + 1, 1), ldu)
                  if (nr < n1) then
@@ -69092,12 +69087,12 @@ module stdlib_linalg_lapack_d
                  ! the following two loops should be blocked and fused with the
                  ! transposed copy above.
                  if (l2pert) then
-                    xsc = dsqrt(small)
+                    xsc = sqrt(small)
                     do q = 1, nr
-                       temp1 = xsc*dabs(v(q, q))
+                       temp1 = xsc*abs(v(q, q))
                        do p = 1, n
-                          if ((p > q) .and. (dabs(v(p, q)) <= temp1) .or. (p < q)) v(p, q) = &
-                                    dsign(temp1, v(p, q))
+                          if ((p > q) .and. (abs(v(p, q)) <= temp1) .or. (p < q)) v(p, q) = &
+                                    sign(temp1, v(p, q))
                           if (p < q) v(p, q) = -v(p, q)
                        end do
                     end do
@@ -69114,12 +69109,12 @@ module stdlib_linalg_lapack_d
                  end do
                  call stdlib_dpocon('lower', nr, work(2*n + 1), nr, one, temp1, work(2*n + nr*nr + 1), iwork(m + &
                            2*n + 1), ierr)
-                 condr1 = one/dsqrt(temp1)
+                 condr1 = one/sqrt(temp1)
                  ! .. here need a second opinion on the condition number
                  ! .. then assume worst case scenario
-                 ! r1 is ok for inverse <=> condr1 < dble(n)
-                 ! more conservative    <=> condr1 < dsqrt(dble(n))
-                 cond_ok = dsqrt(dble(nr))
+                 ! r1 is ok for inverse <=> condr1 < real(n,KIND=dp)
+                 ! more conservative    <=> condr1 < sqrt(real(n,KIND=dp))
+                 cond_ok = sqrt(real(nr, KIND=dp))
       ! [tp]       cond_ok is a tuning parameter.
                  if (condr1 < cond_ok) then
                     ! .. the second qrf without pivoting. note: in an optimized
@@ -69129,11 +69124,11 @@ module stdlib_linalg_lapack_d
                     call stdlib_dgeqrf(n, nr, v, ldv, work(n + 1), work(2*n + 1), lwork - 2*n, ierr)
                               
                     if (l2pert) then
-                       xsc = dsqrt(small)/epsln
+                       xsc = sqrt(small)/epsln
                        do p = 2, nr
                           do q = 1, p - 1
-                             temp1 = xsc*min(dabs(v(p, p)), dabs(v(q, q)))
-                             if (dabs(v(q, p)) <= temp1) v(q, p) = dsign(temp1, v(q, p))
+                             temp1 = xsc*min(abs(v(p, p)), abs(v(q, q)))
+                             if (abs(v(q, p)) <= temp1) v(q, p) = sign(temp1, v(q, p))
                           end do
                        end do
                     end if
@@ -69160,21 +69155,21 @@ module stdlib_linalg_lapack_d
       ! *               call stdlib_dgeqrf( n, nr, v, ldv, work(n+1), work(2*n+1),
       ! *     $              lwork-2*n, ierr )
                     if (l2pert) then
-                       xsc = dsqrt(small)
+                       xsc = sqrt(small)
                        do p = 2, nr
                           do q = 1, p - 1
-                             temp1 = xsc*min(dabs(v(p, p)), dabs(v(q, q)))
-                             if (dabs(v(q, p)) <= temp1) v(q, p) = dsign(temp1, v(q, p))
+                             temp1 = xsc*min(abs(v(p, p)), abs(v(q, q)))
+                             if (abs(v(q, p)) <= temp1) v(q, p) = sign(temp1, v(q, p))
                           end do
                        end do
                     end if
                     call stdlib_dlacpy('a', n, nr, v, ldv, work(2*n + 1), n)
                     if (l2pert) then
-                       xsc = dsqrt(small)
+                       xsc = sqrt(small)
                        do p = 2, nr
                           do q = 1, p - 1
-                             temp1 = xsc*min(dabs(v(p, p)), dabs(v(q, q)))
-                             v(p, q) = -dsign(temp1, v(q, p))
+                             temp1 = xsc*min(abs(v(p, p)), abs(v(q, q)))
+                             v(p, q) = -sign(temp1, v(q, p))
                           end do
                        end do
                     else
@@ -69191,7 +69186,7 @@ module stdlib_linalg_lapack_d
                     end do
                     call stdlib_dpocon('l', nr, work(2*n + n*nr + nr + 1), nr, one, temp1, work(2*n + n*nr + nr + &
                               nr*nr + 1), iwork(m + 2*n + 1), ierr)
-                    condr2 = one/dsqrt(temp1)
+                    condr2 = one/sqrt(temp1)
                     if (condr2 >= cond_ok) then
                        ! .. save the householder vectors used for q3
                        ! (this overwrites the copy of r2, as it will not be
@@ -69203,12 +69198,12 @@ module stdlib_linalg_lapack_d
                     end if
                  end if
                  if (l2pert) then
-                    xsc = dsqrt(small)
+                    xsc = sqrt(small)
                     do q = 2, nr
                        temp1 = xsc*v(q, q)
                        do p = 1, q - 1
-                          ! v(p,q) = - dsign( temp1, v(q,p) )
-                          v(p, q) = -dsign(temp1, v(p, q))
+                          ! v(p,q) = - sign( temp1, v(q,p) )
+                          v(p, q) = -sign(temp1, v(p, q))
                        end do
                     end do
                  else
@@ -69222,7 +69217,7 @@ module stdlib_linalg_lapack_d
                     call stdlib_dgesvj('l', 'u', 'n', nr, nr, v, ldv, sva, nr, u, ldu, work(2*n + n*nr + nr + 1), &
                               lwork - 2*n - n*nr - nr, info)
                     scalem = work(2*n + n*nr + nr + 1)
-                    numrank = idnint(work(2*n + n*nr + nr + 2))
+                    numrank = nint(work(2*n + n*nr + nr + 2), KIND=ilp)
                     do p = 1, nr
                        call stdlib_dcopy(nr, v(1, p), 1, u(1, p), 1)
                        call stdlib_dscal(nr, sva(p), v(1, p), 1)
@@ -69258,7 +69253,7 @@ module stdlib_linalg_lapack_d
                     call stdlib_dgesvj('l', 'u', 'n', nr, nr, v, ldv, sva, nr, u, ldu, work(2*n + &
                               n*nr + nr + 1), lwork - 2*n - n*nr - nr, info)
                     scalem = work(2*n + n*nr + nr + 1)
-                    numrank = idnint(work(2*n + n*nr + nr + 2))
+                    numrank = nint(work(2*n + n*nr + nr + 2), KIND=ilp)
                     do p = 1, nr
                        call stdlib_dcopy(nr, v(1, p), 1, u(1, p), 1)
                        call stdlib_dscal(nr, sva(p), u(1, p), 1)
@@ -69295,7 +69290,7 @@ module stdlib_linalg_lapack_d
                     call stdlib_dgesvj('l', 'u', 'v', nr, nr, v, ldv, sva, nr, u, ldu, work(2*n + &
                               n*nr + nr + 1), lwork - 2*n - n*nr - nr, info)
                     scalem = work(2*n + n*nr + nr + 1)
-                    numrank = idnint(work(2*n + n*nr + nr + 2))
+                    numrank = nint(work(2*n + n*nr + nr + 2), KIND=ilp)
                     if (nr < n) then
                        call stdlib_dlaset('a', n - nr, nr, zero, zero, v(nr + 1, 1), ldv)
                        call stdlib_dlaset('a', nr, n - nr, zero, zero, v(1, nr + 1), ldv)
@@ -69317,7 +69312,7 @@ module stdlib_linalg_lapack_d
                  ! permute the rows of v using the (column) permutation from the
                  ! first qrf. also, scale the columns to make them unit in
                  ! euclidean norm. this applies to all cases.
-                 temp1 = dsqrt(dble(n))*epsln
+                 temp1 = sqrt(real(n, KIND=dp))*epsln
                  do q = 1, n
                     do p = 1, n
                        work(2*n + n*nr + nr + iwork(p)) = v(p, q)
@@ -69343,7 +69338,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dormqr('left', 'no_tr', m, n1, n, a, lda, work, u, ldu, work(n + 1), &
                            lwork - n, ierr)
                  ! the columns of u are normalized. the cost is o(m*n) flops.
-                 temp1 = dsqrt(dble(m))*epsln
+                 temp1 = sqrt(real(m, KIND=dp))*epsln
                  do p = 1, nr
                     xsc = one/stdlib_dnrm2(m, u(1, p), 1)
                     if ((xsc < (one - temp1)) .or. (xsc > (one + temp1))) call stdlib_dscal(m, xsc, &
@@ -69357,11 +69352,11 @@ module stdlib_linalg_lapack_d
               ! the second qrf is not needed
                  call stdlib_dlacpy('upper', n, n, a, lda, work(n + 1), n)
                  if (l2pert) then
-                    xsc = dsqrt(small)
+                    xsc = sqrt(small)
                     do p = 2, n
                        temp1 = xsc*work(n + (p - 1)*n + p)
                        do q = 1, p - 1
-                          work(n + (q - 1)*n + p) = -dsign(temp1, work(n + (p - 1)*n + q))
+                          work(n + (q - 1)*n + p) = -sign(temp1, work(n + (p - 1)*n + q))
                        end do
                     end do
                  else
@@ -69370,7 +69365,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dgesvj('upper', 'u', 'n', n, n, work(n + 1), n, sva, n, u, ldu, work(n + &
                            n*n + 1), lwork - n - n*n, info)
                  scalem = work(n + n*n + 1)
-                 numrank = idnint(work(n + n*n + 2))
+                 numrank = nint(work(n + n*n + 2), KIND=ilp)
                  do p = 1, n
                     call stdlib_dcopy(n, work(n + (p - 1)*n + 1), 1, u(1, p), 1)
                     call stdlib_dscal(n, sva(p), work(n + (p - 1)*n + 1), 1)
@@ -69380,7 +69375,7 @@ module stdlib_linalg_lapack_d
                  do p = 1, n
                     call stdlib_dcopy(n, work(n + p), n, v(iwork(p), 1), ldv)
                  end do
-                 temp1 = dsqrt(dble(n))*epsln
+                 temp1 = sqrt(real(n, KIND=dp))*epsln
                  do p = 1, n
                     xsc = one/stdlib_dnrm2(n, v(1, p), 1)
                     if ((xsc < (one - temp1)) .or. (xsc > (one + temp1))) call stdlib_dscal(n, xsc, &
@@ -69396,7 +69391,7 @@ module stdlib_linalg_lapack_d
                  end if
                  call stdlib_dormqr('left', 'no tr', m, n1, n, a, lda, work, u, ldu, work(n + 1), &
                            lwork - n, ierr)
-                 temp1 = dsqrt(dble(m))*epsln
+                 temp1 = sqrt(real(m, KIND=dp))*epsln
                  do p = 1, n1
                     xsc = one/stdlib_dnrm2(m, u(1, p), 1)
                     if ((xsc < (one - temp1)) .or. (xsc > (one + temp1))) call stdlib_dscal(m, xsc, &
@@ -69419,12 +69414,12 @@ module stdlib_linalg_lapack_d
                  call stdlib_dcopy(n - p + 1, a(p, p), lda, v(p, p), 1)
               end do
               if (l2pert) then
-                 xsc = dsqrt(small/epsln)
+                 xsc = sqrt(small/epsln)
                  do q = 1, nr
-                    temp1 = xsc*dabs(v(q, q))
+                    temp1 = xsc*abs(v(q, q))
                     do p = 1, n
-                       if ((p > q) .and. (dabs(v(p, q)) <= temp1) .or. (p < q)) v(p, q) = &
-                                 dsign(temp1, v(p, q))
+                       if ((p > q) .and. (abs(v(p, q)) <= temp1) .or. (p < q)) v(p, q) = sign( &
+                                  temp1, v(p, q))
                        if (p < q) v(p, q) = -v(p, q)
                     end do
                  end do
@@ -69437,11 +69432,11 @@ module stdlib_linalg_lapack_d
                  call stdlib_dcopy(nr - p + 1, v(p, p), ldv, u(p, p), 1)
               end do
               if (l2pert) then
-                 xsc = dsqrt(small/epsln)
+                 xsc = sqrt(small/epsln)
                  do q = 2, nr
                     do p = 1, q - 1
-                       temp1 = xsc*min(dabs(u(p, p)), dabs(u(q, q)))
-                       u(p, q) = -dsign(temp1, u(q, p))
+                       temp1 = xsc*min(abs(u(p, p)), abs(u(q, q)))
+                       u(p, q) = -sign(temp1, u(q, p))
                     end do
                  end do
               else
@@ -69450,7 +69445,7 @@ module stdlib_linalg_lapack_d
               call stdlib_dgesvj('g', 'u', 'v', nr, nr, u, ldu, sva, n, v, ldv, work(2*n + n*nr + 1), &
                         lwork - 2*n - n*nr, info)
               scalem = work(2*n + n*nr + 1)
-              numrank = idnint(work(2*n + n*nr + 2))
+              numrank = nint(work(2*n + n*nr + 2), KIND=ilp)
               if (nr < n) then
                  call stdlib_dlaset('a', n - nr, nr, zero, zero, v(nr + 1, 1), ldv)
                  call stdlib_dlaset('a', nr, n - nr, zero, zero, v(1, nr + 1), ldv)
@@ -69461,7 +69456,7 @@ module stdlib_linalg_lapack_d
                  ! permute the rows of v using the (column) permutation from the
                  ! first qrf. also, scale the columns to make them unit in
                  ! euclidean norm. this applies to all cases.
-                 temp1 = dsqrt(dble(n))*epsln
+                 temp1 = sqrt(real(n, KIND=dp))*epsln
                  do q = 1, n
                     do p = 1, n
                        work(2*n + n*nr + nr + iwork(p)) = v(p, q)
@@ -70058,46 +70053,46 @@ module stdlib_linalg_lapack_d
            ! determine the optimum and minimum lwork
             if (m >= n) then
               call stdlib_dgeqr(m, n, a, lda, tq, -1, workq, -1, info2)
-              tszo = int(tq(1))
-              lwo = int(workq(1))
+              tszo = int(tq(1), KIND=ilp)
+              lwo = int(workq(1), KIND=ilp)
               call stdlib_dgemqr('l', trans, m, nrhs, n, a, lda, tq, tszo, b, ldb, workq, -1, &
                         info2)
-              lwo = max(lwo, int(workq(1)))
+              lwo = max(lwo, int(workq(1), KIND=ilp))
               call stdlib_dgeqr(m, n, a, lda, tq, -2, workq, -2, info2)
-              tszm = int(tq(1))
-              lwm = int(workq(1))
+              tszm = int(tq(1), KIND=ilp)
+              lwm = int(workq(1), KIND=ilp)
               call stdlib_dgemqr('l', trans, m, nrhs, n, a, lda, tq, tszm, b, ldb, workq, -1, &
                         info2)
-              lwm = max(lwm, int(workq(1)))
+              lwm = max(lwm, int(workq(1), KIND=ilp))
               wsizeo = tszo + lwo
               wsizem = tszm + lwm
             else
               call stdlib_dgelq(m, n, a, lda, tq, -1, workq, -1, info2)
-              tszo = int(tq(1))
-              lwo = int(workq(1))
+              tszo = int(tq(1), KIND=ilp)
+              lwo = int(workq(1), KIND=ilp)
               call stdlib_dgemlq('l', trans, n, nrhs, m, a, lda, tq, tszo, b, ldb, workq, -1, &
                         info2)
-              lwo = max(lwo, int(workq(1)))
+              lwo = max(lwo, int(workq(1), KIND=ilp))
               call stdlib_dgelq(m, n, a, lda, tq, -2, workq, -2, info2)
-              tszm = int(tq(1))
-              lwm = int(workq(1))
+              tszm = int(tq(1), KIND=ilp)
+              lwm = int(workq(1), KIND=ilp)
               call stdlib_dgemlq('l', trans, n, nrhs, m, a, lda, tq, tszm, b, ldb, workq, -1, &
                         info2)
-              lwm = max(lwm, int(workq(1)))
+              lwm = max(lwm, int(workq(1), KIND=ilp))
               wsizeo = tszo + lwo
               wsizem = tszm + lwm
             end if
             if ((lwork < wsizem) .and. (.not. lquery)) then
                info = -10
             end if
-            work(1) = dble(wsizeo)
+            work(1) = real(wsizeo, KIND=dp)
            end if
            if (info /= 0) then
              call stdlib_xerbla('stdlib_dgetsls', -info)
              return
            end if
            if (lquery) then
-             if (lwork == -2) work(1) = dble(wsizem)
+             if (lwork == -2) work(1) = real(wsizem, KIND=dp)
              return
            end if
            if (lwork < wsizeo) then
@@ -70228,7 +70223,7 @@ module stdlib_linalg_lapack_d
              call stdlib_dlascl('g', 0, 0, bignum, bnrm, scllen, nrhs, b, ldb, info)
            end if
 50      continue
-           work(1) = dble(tszo + lwo)
+           work(1) = real(tszo + lwo, KIND=dp)
            return
            ! end of stdlib_dgetsls
      end subroutine stdlib_dgetsls
@@ -70294,7 +70289,8 @@ module stdlib_linalg_lapack_d
               else
                  ! set block size for column blocks
                  nb1local = min(nb1, n)
-                 num_all_row_blocks = max(1, ceiling(dble(m - n)/dble(mb1 - n)))
+                 num_all_row_blocks = max(1, ceiling(real(m - n, KIND=dp)/real(mb1 - n, &
+                           KIND=dp)))
                  ! length and leading dimension of work array to place
                  ! t array in tsqr.
                  lwt = num_all_row_blocks*n*nb1local
@@ -70314,12 +70310,12 @@ module stdlib_linalg_lapack_d
               call stdlib_xerbla('stdlib_dgetsqrhrt', -info)
               return
            else if (lquery) then
-              work(1) = dble(lworkopt)
+              work(1) = real(lworkopt, KIND=dp)
               return
            end if
            ! quick return if possible
            if (min(m, n) == 0) then
-              work(1) = dble(lworkopt)
+              work(1) = real(lworkopt, KIND=dp)
               return
            end if
            nb2local = min(nb2, n)
@@ -70360,7 +70356,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dcopy(n - i + 1, work(lwt + n*(i - 1) + i), n, a(i, i), lda)
               end if
            end do
-           work(1) = dble(lworkopt)
+           work(1) = real(lworkopt, KIND=dp)
            return
            ! end of stdlib_dgetsqrhrt
      end subroutine stdlib_dgetsqrhrt
@@ -70664,17 +70660,17 @@ module stdlib_linalg_lapack_d
            else
               ! ==== workspace query call to stdlib_dgehrd ====
               call stdlib_dgehrd(jw, 1, jw - 1, t, ldt, work, work, -1, info)
-              lwk1 = int(work(1))
+              lwk1 = int(work(1), KIND=ilp)
               ! ==== workspace query call to stdlib_dormhr ====
               call stdlib_dormhr('r', 'n', jw, jw, 1, jw - 1, t, ldt, work, v, ldv, work, -1, info)
                         
-              lwk2 = int(work(1))
+              lwk2 = int(work(1), KIND=ilp)
               ! ==== optimal workspace ====
               lwkopt = jw + max(lwk1, lwk2)
            end if
            ! ==== quick return in case of workspace query. ====
            if (lwork == -1) then
-              work(1) = dble(lwkopt)
+              work(1) = real(lwkopt, KIND=dp)
               return
            end if
            ! ==== nothing to do ...
@@ -70690,7 +70686,7 @@ module stdlib_linalg_lapack_d
            safmax = one/safmin
            call stdlib_dlabad(safmin, safmax)
            ulp = stdlib_dlamch('precision')
-           smlnum = safmin*(dble(n)/ulp)
+           smlnum = safmin*(real(n, KIND=dp)/ulp)
            ! ==== setup deflation window ====
            jw = min(nw, kbot - ktop + 1)
            kwtop = kbot - jw + 1
@@ -70921,7 +70917,7 @@ module stdlib_linalg_lapack_d
            ! .    window.)  ====
            ns = ns - infqr
             ! ==== return optimal workspace. ====
-           work(1) = dble(lwkopt)
+           work(1) = real(lwkopt, KIND=dp)
            ! ==== end of stdlib_dlaqr2 ====
      end subroutine stdlib_dlaqr2
 
@@ -71216,8 +71212,8 @@ module stdlib_linalg_lapack_d
            if (icompq /= 2) then
               ! set up workspaces for eigenvalues only/accumulate new vectors
               ! routine
-              temp = log(dble(n))/log(two)
-              lgn = int(temp)
+              temp = log(real(n, KIND=dp))/log(two)
+              lgn = int(temp, KIND=ilp)
               if (2**lgn < n) lgn = lgn + 1
               if (2**lgn < n) lgn = lgn + 1
               iprmpt = indxq + n + 1
@@ -71407,7 +71403,7 @@ module stdlib_linalg_lapack_d
                  liwmin = 1
                  lwmin = 2*(n - 1)
               else
-                 lgn = int(log(dble(n))/log(two))
+                 lgn = int(log(real(n, KIND=dp))/log(two))
                  if (2**lgn < n) lgn = lgn + 1
                  if (2**lgn < n) lgn = lgn + 1
                  if (icompz == 1) then
@@ -71897,8 +71893,8 @@ module stdlib_linalg_lapack_d
            ! transform problem to standard eigenvalue problem and solve.
            call stdlib_dsygst(itype, uplo, n, a, lda, b, ldb, info)
            call stdlib_dsyevd(jobz, uplo, n, a, lda, w, work, lwork, iwork, liwork, info)
-           lopt = max(dble(lopt), dble(work(1)))
-           liopt = max(dble(liopt), dble(iwork(1)))
+           lopt = max(real(lopt, KIND=dp), real(work(1), KIND=dp))
+           liopt = max(real(liopt, KIND=dp), real(iwork(1), KIND=dp))
            if (wantz .and. info == 0) then
               ! backtransform eigenvectors to the original problem.
               if (itype == 1 .or. itype == 2) then
@@ -72391,8 +72387,8 @@ module stdlib_linalg_lapack_d
            call stdlib_dspgst(itype, uplo, n, ap, bp, info)
            call stdlib_dspevd(jobz, uplo, n, ap, w, z, ldz, work, lwork, iwork, liwork, info)
                      
-           lwmin = max(dble(lwmin), dble(work(1)))
-           liwmin = max(dble(liwmin), dble(iwork(1)))
+           lwmin = max(real(lwmin, KIND=dp), real(work(1), KIND=dp))
+           liwmin = max(real(liwmin, KIND=dp), real(iwork(1), KIND=dp))
            if (wantz) then
               ! backtransform eigenvectors to the original problem.
               neig = n
@@ -72575,7 +72571,8 @@ module stdlib_linalg_lapack_d
            call stdlib_dlascl('g', 0, 0, orgnrm, one, n, 1, d, n, ierr)
            call stdlib_dlascl('g', 0, 0, orgnrm, one, nm1, 1, e, nm1, ierr)
            eps = (0.9_dp)*stdlib_dlamch('epsilon')
-           mlvl = int(log(dble(n)/dble(smlsiz + 1))/log(two)) + 1
+           mlvl = int(log(real(n, KIND=dp)/real(smlsiz + 1, KIND=dp))/log(two)) + &
+                     1
            smlszp = smlsiz + 1
            if (icompq == 1) then
               iu = 1
@@ -72821,7 +72818,7 @@ module stdlib_linalg_lapack_d
                  if (sminoa == zero) go to 50
               end do
 50      continue
-              sminoa = sminoa/sqrt(dble(n))
+              sminoa = sminoa/sqrt(real(n, KIND=dp))
               thresh = max(tol*sminoa, maxitr*(n*(n*unfl)))
            else
               ! absolute accuracy desired
@@ -73762,11 +73759,11 @@ module stdlib_linalg_lapack_d
                               n, 1, n, -1))
                     call stdlib_dhseqr('s', 'v', n, 1, n, a, lda, wr, wi, vl, ldvl, work, -1, &
                               info)
-                    hswork = int(work(1))
+                    hswork = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + 1, n + hswork)
                     call stdlib_dtrevc3('l', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     maxwrk = max(maxwrk, 4*n)
                  else if (wantvr) then
@@ -73775,18 +73772,18 @@ module stdlib_linalg_lapack_d
                               n, 1, n, -1))
                     call stdlib_dhseqr('s', 'v', n, 1, n, a, lda, wr, wi, vr, ldvr, work, -1, &
                               info)
-                    hswork = int(work(1))
+                    hswork = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + 1, n + hswork)
                     call stdlib_dtrevc3('r', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     maxwrk = max(maxwrk, 4*n)
                  else
                     minwrk = 3*n
                     call stdlib_dhseqr('e', 'n', n, 1, n, a, lda, wr, wi, vr, ldvr, work, -1, &
                               info)
-                    hswork = int(work(1))
+                    hswork = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + 1, n + hswork)
                  end if
                  maxwrk = max(maxwrk, minwrk)
@@ -74047,14 +74044,14 @@ module stdlib_linalg_lapack_d
                  if (wantvl) then
                     call stdlib_dtrevc3('l', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     call stdlib_dhseqr('s', 'v', n, 1, n, a, lda, wr, wi, vl, ldvl, work, -1, &
                               info)
                  else if (wantvr) then
                     call stdlib_dtrevc3('r', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     call stdlib_dhseqr('s', 'v', n, 1, n, a, lda, wr, wi, vr, ldvr, work, -1, &
                               info)
@@ -74067,7 +74064,7 @@ module stdlib_linalg_lapack_d
                                  info)
                     end if
                  end if
-                 hswork = int(work(1))
+                 hswork = int(work(1), KIND=ilp)
                  if ((.not. wantvl) .and. (.not. wantvr)) then
                     minwrk = 2*n
                     if (.not. wntsnn) minwrk = max(minwrk, n*n + 6*n)
@@ -74334,7 +74331,8 @@ module stdlib_linalg_lapack_d
            minwrk = 1
            liwork = 1
            minmn = max(1, minmn)
-           nlvl = max(int(log(dble(minmn)/dble(smlsiz + 1))/log(two)) + 1, 0)
+           nlvl = max(int(log(real(minmn, KIND=dp)/real(smlsiz + 1, KIND=dp))/log(two)) &
+                     + 1, 0)
            if (info == 0) then
               maxwrk = 0
               liwork = 3*minmn*nlvl + 11*minmn
@@ -75108,7 +75106,7 @@ module stdlib_linalg_lapack_d
               minwrk = 1
               maxwrk = 1
               bdspac = 0
-              mnthr = int(minmn*11.0d0/6.0d0)
+              mnthr = int(minmn*11.0d0/6.0d0, KIND=ilp)
               if (m >= n .and. minmn > 0) then
                  ! compute space needed for stdlib_dbdsdc
                  if (wntqn) then
@@ -75121,30 +75119,30 @@ module stdlib_linalg_lapack_d
                  ! compute space preferred for each routine
                  call stdlib_dgebrd(m, n, dum(1), m, dum(1), dum(1), dum(1), dum(1), dum(1), -1, &
                            ierr)
-                 lwork_dgebrd_mn = int(dum(1))
+                 lwork_dgebrd_mn = int(dum(1), KIND=ilp)
                  call stdlib_dgebrd(n, n, dum(1), n, dum(1), dum(1), dum(1), dum(1), dum(1), -1, &
                            ierr)
-                 lwork_dgebrd_nn = int(dum(1))
+                 lwork_dgebrd_nn = int(dum(1), KIND=ilp)
                  call stdlib_dgeqrf(m, n, dum(1), m, dum(1), dum(1), -1, ierr)
-                 lwork_dgeqrf_mn = int(dum(1))
+                 lwork_dgeqrf_mn = int(dum(1), KIND=ilp)
                  call stdlib_dorgbr('q', n, n, n, dum(1), n, dum(1), dum(1), -1, ierr)
-                 lwork_dorgbr_q_nn = int(dum(1))
+                 lwork_dorgbr_q_nn = int(dum(1), KIND=ilp)
                  call stdlib_dorgqr(m, m, n, dum(1), m, dum(1), dum(1), -1, ierr)
-                 lwork_dorgqr_mm = int(dum(1))
+                 lwork_dorgqr_mm = int(dum(1), KIND=ilp)
                  call stdlib_dorgqr(m, n, n, dum(1), m, dum(1), dum(1), -1, ierr)
-                 lwork_dorgqr_mn = int(dum(1))
+                 lwork_dorgqr_mn = int(dum(1), KIND=ilp)
                  call stdlib_dormbr('p', 'r', 't', n, n, n, dum(1), n, dum(1), dum(1), n, dum(1), &
                            -1, ierr)
-                 lwork_dormbr_prt_nn = int(dum(1))
+                 lwork_dormbr_prt_nn = int(dum(1), KIND=ilp)
                  call stdlib_dormbr('q', 'l', 'n', n, n, n, dum(1), n, dum(1), dum(1), n, dum(1), &
                            -1, ierr)
-                 lwork_dormbr_qln_nn = int(dum(1))
+                 lwork_dormbr_qln_nn = int(dum(1), KIND=ilp)
                  call stdlib_dormbr('q', 'l', 'n', m, n, n, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_dormbr_qln_mn = int(dum(1))
+                 lwork_dormbr_qln_mn = int(dum(1), KIND=ilp)
                  call stdlib_dormbr('q', 'l', 'n', m, m, n, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_dormbr_qln_mm = int(dum(1))
+                 lwork_dormbr_qln_mm = int(dum(1), KIND=ilp)
                  if (m >= mnthr) then
                     if (wntqn) then
                        ! path 1 (m >> n, jobz='n')
@@ -75223,30 +75221,30 @@ module stdlib_linalg_lapack_d
                  ! compute space preferred for each routine
                  call stdlib_dgebrd(m, n, dum(1), m, dum(1), dum(1), dum(1), dum(1), dum(1), -1, &
                            ierr)
-                 lwork_dgebrd_mn = int(dum(1))
+                 lwork_dgebrd_mn = int(dum(1), KIND=ilp)
                  call stdlib_dgebrd(m, m, a, m, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                            
-                 lwork_dgebrd_mm = int(dum(1))
+                 lwork_dgebrd_mm = int(dum(1), KIND=ilp)
                  call stdlib_dgelqf(m, n, a, m, dum(1), dum(1), -1, ierr)
-                 lwork_dgelqf_mn = int(dum(1))
+                 lwork_dgelqf_mn = int(dum(1), KIND=ilp)
                  call stdlib_dorglq(n, n, m, dum(1), n, dum(1), dum(1), -1, ierr)
-                 lwork_dorglq_nn = int(dum(1))
+                 lwork_dorglq_nn = int(dum(1), KIND=ilp)
                  call stdlib_dorglq(m, n, m, a, m, dum(1), dum(1), -1, ierr)
-                 lwork_dorglq_mn = int(dum(1))
+                 lwork_dorglq_mn = int(dum(1), KIND=ilp)
                  call stdlib_dorgbr('p', m, m, m, a, n, dum(1), dum(1), -1, ierr)
-                 lwork_dorgbr_p_mm = int(dum(1))
+                 lwork_dorgbr_p_mm = int(dum(1), KIND=ilp)
                  call stdlib_dormbr('p', 'r', 't', m, m, m, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_dormbr_prt_mm = int(dum(1))
+                 lwork_dormbr_prt_mm = int(dum(1), KIND=ilp)
                  call stdlib_dormbr('p', 'r', 't', m, n, m, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_dormbr_prt_mn = int(dum(1))
+                 lwork_dormbr_prt_mn = int(dum(1), KIND=ilp)
                  call stdlib_dormbr('p', 'r', 't', n, n, m, dum(1), n, dum(1), dum(1), n, dum(1), &
                            -1, ierr)
-                 lwork_dormbr_prt_nn = int(dum(1))
+                 lwork_dormbr_prt_nn = int(dum(1), KIND=ilp)
                  call stdlib_dormbr('q', 'l', 'n', m, m, m, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_dormbr_qln_mm = int(dum(1))
+                 lwork_dormbr_qln_mm = int(dum(1), KIND=ilp)
                  if (n >= mnthr) then
                     if (wntqn) then
                        ! path 1t (n >> m, jobz='n')
@@ -76079,22 +76077,22 @@ module stdlib_linalg_lapack_d
                  bdspac = 5*n
                  ! compute space needed for stdlib_dgeqrf
                  call stdlib_dgeqrf(m, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_dgeqrf = int(dum(1))
+                 lwork_dgeqrf = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_dorgqr
                  call stdlib_dorgqr(m, n, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_dorgqr_n = int(dum(1))
+                 lwork_dorgqr_n = int(dum(1), KIND=ilp)
                  call stdlib_dorgqr(m, m, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_dorgqr_m = int(dum(1))
+                 lwork_dorgqr_m = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_dgebrd
                  call stdlib_dgebrd(n, n, a, lda, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                            
-                 lwork_dgebrd = int(dum(1))
+                 lwork_dgebrd = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_dorgbr p
                  call stdlib_dorgbr('p', n, n, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_dorgbr_p = int(dum(1))
+                 lwork_dorgbr_p = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_dorgbr q
                  call stdlib_dorgbr('q', n, n, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_dorgbr_q = int(dum(1))
+                 lwork_dorgbr_q = int(dum(1), KIND=ilp)
                  if (m >= mnthr) then
                     if (wntun) then
                        ! path 1 (m much larger than n, jobu='n')
@@ -76188,16 +76186,16 @@ module stdlib_linalg_lapack_d
                     ! path 10 (m at least n, but not much larger)
                     call stdlib_dgebrd(m, n, a, lda, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                               
-                    lwork_dgebrd = int(dum(1))
+                    lwork_dgebrd = int(dum(1), KIND=ilp)
                     maxwrk = 3*n + lwork_dgebrd
                     if (wntus .or. wntuo) then
                        call stdlib_dorgbr('q', m, n, n, a, lda, dum(1), dum(1), -1, ierr)
-                       lwork_dorgbr_q = int(dum(1))
+                       lwork_dorgbr_q = int(dum(1), KIND=ilp)
                        maxwrk = max(maxwrk, 3*n + lwork_dorgbr_q)
                     end if
                     if (wntua) then
                        call stdlib_dorgbr('q', m, m, n, a, lda, dum(1), dum(1), -1, ierr)
-                       lwork_dorgbr_q = int(dum(1))
+                       lwork_dorgbr_q = int(dum(1), KIND=ilp)
                        maxwrk = max(maxwrk, 3*n + lwork_dorgbr_q)
                     end if
                     if (.not. wntvn) then
@@ -76212,22 +76210,22 @@ module stdlib_linalg_lapack_d
                  bdspac = 5*m
                  ! compute space needed for stdlib_dgelqf
                  call stdlib_dgelqf(m, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_dgelqf = int(dum(1))
+                 lwork_dgelqf = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_dorglq
                  call stdlib_dorglq(n, n, m, dum(1), n, dum(1), dum(1), -1, ierr)
-                 lwork_dorglq_n = int(dum(1))
+                 lwork_dorglq_n = int(dum(1), KIND=ilp)
                  call stdlib_dorglq(m, n, m, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_dorglq_m = int(dum(1))
+                 lwork_dorglq_m = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_dgebrd
                  call stdlib_dgebrd(m, m, a, lda, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                            
-                 lwork_dgebrd = int(dum(1))
+                 lwork_dgebrd = int(dum(1), KIND=ilp)
                   ! compute space needed for stdlib_dorgbr p
                  call stdlib_dorgbr('p', m, m, m, a, n, dum(1), dum(1), -1, ierr)
-                 lwork_dorgbr_p = int(dum(1))
+                 lwork_dorgbr_p = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_dorgbr q
                  call stdlib_dorgbr('q', m, m, m, a, n, dum(1), dum(1), -1, ierr)
-                 lwork_dorgbr_q = int(dum(1))
+                 lwork_dorgbr_q = int(dum(1), KIND=ilp)
                  if (n >= mnthr) then
                     if (wntvn) then
                        ! path 1t(n much larger than m, jobvt='n')
@@ -76321,17 +76319,17 @@ module stdlib_linalg_lapack_d
                     ! path 10t(n greater than m, but not much larger)
                     call stdlib_dgebrd(m, n, a, lda, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                               
-                    lwork_dgebrd = int(dum(1))
+                    lwork_dgebrd = int(dum(1), KIND=ilp)
                     maxwrk = 3*m + lwork_dgebrd
                     if (wntvs .or. wntvo) then
                       ! compute space needed for stdlib_dorgbr p
                       call stdlib_dorgbr('p', m, n, m, a, n, dum(1), dum(1), -1, ierr)
-                      lwork_dorgbr_p = int(dum(1))
+                      lwork_dorgbr_p = int(dum(1), KIND=ilp)
                       maxwrk = max(maxwrk, 3*m + lwork_dorgbr_p)
                     end if
                     if (wntva) then
                       call stdlib_dorgbr('p', n, n, m, a, n, dum(1), dum(1), -1, ierr)
-                      lwork_dorgbr_p = int(dum(1))
+                      lwork_dorgbr_p = int(dum(1), KIND=ilp)
                       maxwrk = max(maxwrk, 3*m + lwork_dorgbr_p)
                     end if
                     if (.not. wntun) then
@@ -78368,15 +78366,15 @@ module stdlib_linalg_lapack_d
               lwsvd = max(5*n, 1)
               if (lquery) then
                   call stdlib_dgeqp3(m, n, a, lda, iwork, rdummy, rdummy, -1, ierr)
-                  lwrk_dgeqp3 = int(rdummy(1))
+                  lwrk_dgeqp3 = int(rdummy(1), KIND=ilp)
                   if (wntus .or. wntur) then
                       call stdlib_dormqr('l', 'n', m, n, n, a, lda, rdummy, u, ldu, rdummy, -1, &
                                 ierr)
-                      lwrk_dormqr = int(rdummy(1))
+                      lwrk_dormqr = int(rdummy(1), KIND=ilp)
                   else if (wntua) then
                       call stdlib_dormqr('l', 'n', m, m, n, a, lda, rdummy, u, ldu, rdummy, -1, &
                                 ierr)
-                      lwrk_dormqr = int(rdummy(1))
+                      lwrk_dormqr = int(rdummy(1), KIND=ilp)
                   else
                       lwrk_dormqr = 0
                   end if
@@ -78394,7 +78392,7 @@ module stdlib_linalg_lapack_d
                   if (lquery) then
                       call stdlib_dgesvd('n', 'n', n, n, a, lda, s, u, ldu, v, ldv, rdummy, -1, &
                                 ierr)
-                      lwrk_dgesvd = int(rdummy(1))
+                      lwrk_dgesvd = int(rdummy(1), KIND=ilp)
                       if (conda) then
                          optwrk = max(n + lwrk_dgeqp3, n + lwcon, lwrk_dgesvd)
                       else
@@ -78417,7 +78415,7 @@ module stdlib_linalg_lapack_d
                         call stdlib_dgesvd('o', 'n', n, n, a, lda, s, u, ldu, v, ldv, rdummy, -1, &
                                   ierr)
                      end if
-                     lwrk_dgesvd = int(rdummy(1))
+                     lwrk_dgesvd = int(rdummy(1), KIND=ilp)
                      if (conda) then
                          optwrk = n + max(lwrk_dgeqp3, lwcon, lwrk_dgesvd, lwrk_dormqr)
                      else
@@ -78440,7 +78438,7 @@ module stdlib_linalg_lapack_d
                           call stdlib_dgesvd('n', 'o', n, n, a, lda, s, u, ldu, v, ldv, rdummy, - &
                                     1, ierr)
                       end if
-                      lwrk_dgesvd = int(rdummy(1))
+                      lwrk_dgesvd = int(rdummy(1), KIND=ilp)
                       if (conda) then
                           optwrk = n + max(lwrk_dgeqp3, lwcon, lwrk_dgesvd)
                       else
@@ -78484,19 +78482,19 @@ module stdlib_linalg_lapack_d
                      if (rtrans) then
                         call stdlib_dgesvd('o', 'a', n, n, a, lda, s, u, ldu, v, ldv, rdummy, -1, &
                                   ierr)
-                        lwrk_dgesvd = int(rdummy(1))
+                        lwrk_dgesvd = int(rdummy(1), KIND=ilp)
                         optwrk = max(lwrk_dgeqp3, lwrk_dgesvd, lwrk_dormqr)
                         if (conda) optwrk = max(optwrk, lwcon)
                         optwrk = n + optwrk
                         if (wntva) then
                             call stdlib_dgeqrf(n, n/2, u, ldu, rdummy, rdummy, -1, ierr)
-                            lwrk_dgeqrf = int(rdummy(1))
+                            lwrk_dgeqrf = int(rdummy(1), KIND=ilp)
                             call stdlib_dgesvd('s', 'o', n/2, n/2, v, ldv, s, u, ldu, v, ldv, rdummy, &
                                        -1, ierr)
-                            lwrk_dgesvd2 = int(rdummy(1))
+                            lwrk_dgesvd2 = int(rdummy(1), KIND=ilp)
                             call stdlib_dormqr('r', 'c', n, n, n/2, u, ldu, rdummy, v, ldv, &
                                       rdummy, -1, ierr)
-                            lwrk_dormqr2 = int(rdummy(1))
+                            lwrk_dormqr2 = int(rdummy(1), KIND=ilp)
                             optwrk2 = max(lwrk_dgeqp3, n/2 + lwrk_dgeqrf, n/2 + lwrk_dgesvd2, n/2 + &
                                       lwrk_dormqr2)
                             if (conda) optwrk2 = max(optwrk2, lwcon)
@@ -78506,19 +78504,19 @@ module stdlib_linalg_lapack_d
                      else
                         call stdlib_dgesvd('s', 'o', n, n, a, lda, s, u, ldu, v, ldv, rdummy, -1, &
                                   ierr)
-                        lwrk_dgesvd = int(rdummy(1))
+                        lwrk_dgesvd = int(rdummy(1), KIND=ilp)
                         optwrk = max(lwrk_dgeqp3, lwrk_dgesvd, lwrk_dormqr)
                         if (conda) optwrk = max(optwrk, lwcon)
                         optwrk = n + optwrk
                         if (wntva) then
                            call stdlib_dgelqf(n/2, n, u, ldu, rdummy, rdummy, -1, ierr)
-                           lwrk_dgelqf = int(rdummy(1))
+                           lwrk_dgelqf = int(rdummy(1), KIND=ilp)
                            call stdlib_dgesvd('s', 'o', n/2, n/2, v, ldv, s, u, ldu, v, ldv, rdummy, &
                                       -1, ierr)
-                           lwrk_dgesvd2 = int(rdummy(1))
+                           lwrk_dgesvd2 = int(rdummy(1), KIND=ilp)
                            call stdlib_dormlq('r', 'n', n, n, n/2, u, ldu, rdummy, v, ldv, rdummy, &
                                      -1, ierr)
-                           lwrk_dormlq = int(rdummy(1))
+                           lwrk_dormlq = int(rdummy(1), KIND=ilp)
                            optwrk2 = max(lwrk_dgeqp3, n/2 + lwrk_dgelqf, n/2 + lwrk_dgesvd2, n/2 + &
                                      lwrk_dormlq)
                             if (conda) optwrk2 = max(optwrk2, lwcon)
@@ -78602,10 +78600,11 @@ module stdlib_linalg_lapack_d
                     rwork(2) = -1
                     return
                  end if
-                 if (rwork(1) > big/sqrt(dble(m))) then
+                 if (rwork(1) > big/sqrt(real(m, KIND=dp))) then
                      ! .. to prevent overflow in the qr factorization, scale the
                      ! matrix by 1/sqrt(m) if too large entry detected
-                     call stdlib_dlascl('g', 0, 0, sqrt(dble(m)), one, m, n, a, lda, ierr)
+                     call stdlib_dlascl('g', 0, 0, sqrt(real(m, KIND=dp)), one, m, n, a, lda, ierr)
+                               
                      ascaled = .true.
                  end if
                  call stdlib_dlaswp(n, a, lda, 1, m - 1, iwork(n + 1), 1)
@@ -78621,10 +78620,11 @@ module stdlib_linalg_lapack_d
                     call stdlib_xerbla('stdlib_dgesvdq', -info)
                     return
                end if
-               if (rtmp > big/sqrt(dble(m))) then
+               if (rtmp > big/sqrt(real(m, KIND=dp))) then
                    ! .. to prevent overflow in the qr factorization, scale the
                    ! matrix by 1/sqrt(m) if too large entry detected
-                   call stdlib_dlascl('g', 0, 0, sqrt(dble(m)), one, m, n, a, lda, ierr)
+                   call stdlib_dlascl('g', 0, 0, sqrt(real(m, KIND=dp)), one, m, n, a, lda, ierr)
+                             
                    ascaled = .true.
                end if
            end if
@@ -78649,7 +78649,7 @@ module stdlib_linalg_lapack_d
               ! aggressive enforcement of lower numerical rank by introducing a
               ! backward error of the order of n*eps*||a||_f.
               nr = 1
-              rtmp = sqrt(dble(n))*epsln
+              rtmp = sqrt(real(n, KIND=dp))*epsln
               do p = 2, n
                  if (abs(a(p, p)) < (rtmp*abs(a(1, 1)))) go to 3002
                     nr = nr + 1
@@ -79104,8 +79104,8 @@ module stdlib_linalg_lapack_d
            if (nr < n) call stdlib_dlaset('g', n - nr, 1, zero, zero, s(nr + 1), n)
            ! .. undo scaling; this may cause overflow in the largest singular
            ! values.
-           if (ascaled) call stdlib_dlascl('g', 0, 0, one, sqrt(dble(m)), nr, 1, s, n, ierr)
-                     
+           if (ascaled) call stdlib_dlascl('g', 0, 0, one, sqrt(real(m, KIND=dp)), nr, 1, s, n, ierr &
+                     )
            if (conda) rwork(1) = sconda
            rwork(2) = p - nr
            ! .. p-nr is the number of singular values that are computed as
@@ -79221,24 +79221,24 @@ module stdlib_linalg_lapack_d
            ! compute workspace
            if (info == 0) then
               call stdlib_dgeqrf(n, n, b, ldb, work, work, -1, ierr)
-              lwkopt = max(6*n + 16, 3*n + int(work(1)))
+              lwkopt = max(6*n + 16, 3*n + int(work(1), KIND=ilp))
               call stdlib_dormqr('l', 't', n, n, n, b, ldb, work, a, lda, work, -1, ierr)
-              lwkopt = max(lwkopt, 3*n + int(work(1)))
+              lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               if (ilvsl) then
                  call stdlib_dorgqr(n, n, n, vsl, ldvsl, work, work, -1, ierr)
-                 lwkopt = max(lwkopt, 3*n + int(work(1)))
+                 lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               end if
               call stdlib_dgghd3(jobvsl, jobvsr, n, 1, n, a, lda, b, ldb, vsl, ldvsl, vsr, ldvsr, &
                         work, -1, ierr)
-              lwkopt = max(lwkopt, 3*n + int(work(1)))
+              lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               call stdlib_dlaqz0('s', jobvsl, jobvsr, n, 1, n, a, lda, b, ldb, alphar, alphai, &
                         beta, vsl, ldvsl, vsr, ldvsr, work, -1, 0, ierr)
-              lwkopt = max(lwkopt, 2*n + int(work(1)))
+              lwkopt = max(lwkopt, 2*n + int(work(1), KIND=ilp))
               if (wantst) then
                  call stdlib_dtgsen(0, ilvsl, ilvsr, bwork, n, a, lda, b, ldb, alphar, alphai, &
                  beta, vsl, ldvsl, vsr, ldvsr, sdim, pvsl, pvsr, dif, work, -1, idum, 1, ierr)
                            
-                 lwkopt = max(lwkopt, 2*n + int(work(1)))
+                 lwkopt = max(lwkopt, 2*n + int(work(1), KIND=ilp))
               end if
               work(1) = lwkopt
            end if
@@ -79517,27 +79517,27 @@ module stdlib_linalg_lapack_d
            ! compute workspace
            if (info == 0) then
               call stdlib_dgeqrf(n, n, b, ldb, work, work, -1, ierr)
-              lwkopt = max(1, 8*n, 3*n + int(work(1)))
+              lwkopt = max(1, 8*n, 3*n + int(work(1), KIND=ilp))
               call stdlib_dormqr('l', 't', n, n, n, b, ldb, work, a, lda, work, -1, ierr)
-              lwkopt = max(lwkopt, 3*n + int(work(1)))
+              lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               if (ilvl) then
                  call stdlib_dorgqr(n, n, n, vl, ldvl, work, work, -1, ierr)
-                 lwkopt = max(lwkopt, 3*n + int(work(1)))
+                 lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               end if
               if (ilv) then
                  call stdlib_dgghd3(jobvl, jobvr, n, 1, n, a, lda, b, ldb, vl, ldvl, vr, ldvr, &
                            work, -1, ierr)
-                 lwkopt = max(lwkopt, 3*n + int(work(1)))
+                 lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
                  call stdlib_dlaqz0('s', jobvl, jobvr, n, 1, n, a, lda, b, ldb, alphar, alphai, &
                            beta, vl, ldvl, vr, ldvr, work, -1, 0, ierr)
-                 lwkopt = max(lwkopt, 2*n + int(work(1)))
+                 lwkopt = max(lwkopt, 2*n + int(work(1), KIND=ilp))
               else
                  call stdlib_dgghd3('n', 'n', n, 1, n, a, lda, b, ldb, vl, ldvl, vr, ldvr, work, - &
                            1, ierr)
-                 lwkopt = max(lwkopt, 3*n + int(work(1)))
+                 lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
                  call stdlib_dlaqz0('e', jobvl, jobvr, n, 1, n, a, lda, b, ldb, alphar, alphai, &
                            beta, vl, ldvl, vr, ldvr, work, -1, 0, ierr)
-                 lwkopt = max(lwkopt, 2*n + int(work(1)))
+                 lwkopt = max(lwkopt, 2*n + int(work(1), KIND=ilp))
               end if
               work(1) = lwkopt
            end if
@@ -79778,7 +79778,7 @@ module stdlib_linalg_lapack_d
            wantt = stdlib_lsame(job, 's')
            initz = stdlib_lsame(compz, 'i')
            wantz = initz .or. stdlib_lsame(compz, 'v')
-           work(1) = dble(max(1, n))
+           work(1) = real(max(1, n), KIND=dp)
            lquery = lwork == -1
            info = 0
            if (.not. stdlib_lsame(job, 'e') .and. .not. wantt) then
@@ -79811,7 +79811,7 @@ module stdlib_linalg_lapack_d
                         work, lwork, info)
               ! ==== ensure reported workspace size is backward-compatible with
               ! .    previous lapack versions. ====
-              work(1) = max(dble(max(1, n)), work(1))
+              work(1) = max(real(max(1, n), KIND=dp), work(1))
               return
            else
               ! ==== copy eigenvalues isolated by stdlib_dgebal ====
@@ -79872,7 +79872,7 @@ module stdlib_linalg_lapack_d
                          h(3, 1), ldh)
               ! ==== ensure reported workspace size is backward-compatible with
               ! .    previous lapack versions. ====
-              work(1) = max(dble(max(1, n)), work(1))
+              work(1) = max(real(max(1, n), KIND=dp), work(1))
            end if
            ! ==== end of stdlib_dhseqr ====
      end subroutine stdlib_dhseqr
@@ -80196,7 +80196,8 @@ module stdlib_linalg_lapack_d
               return
            end if
            ! book-keeping and setting up some constants.
-           nlvl = int(log(dble(n)/dble(smlsiz + 1))/log(two)) + 1
+           nlvl = int(log(real(n, KIND=dp)/real(smlsiz + 1, KIND=dp))/log(two)) + &
+                     1
            smlszp = smlsiz + 1
            u = 1
            vt = 1 + smlsiz*n
@@ -80435,10 +80436,10 @@ module stdlib_linalg_lapack_d
               call stdlib_dlaqr3(wantt, wantz, n, ilo, ihi, nwr + 1, h, ldh, iloz, ihiz, z, ldz, ls, &
                          ld, wr, wi, h, ldh, n, h, ldh, n, h, ldh, work, -1)
               ! ==== optimal workspace = max(stdlib_dlaqr5, stdlib_dlaqr3) ====
-              lwkopt = max(3*nsr/2, int(work(1)))
+              lwkopt = max(3*nsr/2, int(work(1), KIND=ilp))
               ! ==== quick return in case of workspace query. ====
               if (lwork == -1) then
-                 work(1) = dble(lwkopt)
+                 work(1) = real(lwkopt, KIND=dp)
                  return
               end if
               ! ==== stdlib_dlahqr/stdlib_dlaqr0 crossover point ====
@@ -80699,7 +80700,7 @@ module stdlib_linalg_lapack_d
 90      continue
            end if
            ! ==== return the optimal value of lwork. ====
-           work(1) = dble(lwkopt)
+           work(1) = real(lwkopt, KIND=dp)
            ! ==== end of stdlib_dlaqr0 ====
      end subroutine stdlib_dlaqr0
 
@@ -80744,21 +80745,21 @@ module stdlib_linalg_lapack_d
            else
               ! ==== workspace query call to stdlib_dgehrd ====
               call stdlib_dgehrd(jw, 1, jw - 1, t, ldt, work, work, -1, info)
-              lwk1 = int(work(1))
+              lwk1 = int(work(1), KIND=ilp)
               ! ==== workspace query call to stdlib_dormhr ====
               call stdlib_dormhr('r', 'n', jw, jw, 1, jw - 1, t, ldt, work, v, ldv, work, -1, info)
                         
-              lwk2 = int(work(1))
+              lwk2 = int(work(1), KIND=ilp)
               ! ==== workspace query call to stdlib_dlaqr4 ====
               call stdlib_dlaqr4(.true., .true., jw, 1, jw, t, ldt, sr, si, 1, jw, v, ldv, work, - &
                         1, infqr)
-              lwk3 = int(work(1))
+              lwk3 = int(work(1), KIND=ilp)
               ! ==== optimal workspace ====
               lwkopt = max(jw + max(lwk1, lwk2), lwk3)
            end if
            ! ==== quick return in case of workspace query. ====
            if (lwork == -1) then
-              work(1) = dble(lwkopt)
+              work(1) = real(lwkopt, KIND=dp)
               return
            end if
            ! ==== nothing to do ...
@@ -80774,7 +80775,7 @@ module stdlib_linalg_lapack_d
            safmax = one/safmin
            call stdlib_dlabad(safmin, safmax)
            ulp = stdlib_dlamch('precision')
-           smlnum = safmin*(dble(n)/ulp)
+           smlnum = safmin*(real(n, KIND=dp)/ulp)
            ! ==== setup deflation window ====
            jw = min(nw, kbot - ktop + 1)
            kwtop = kbot - jw + 1
@@ -81011,7 +81012,7 @@ module stdlib_linalg_lapack_d
            ! .    window.)  ====
            ns = ns - infqr
             ! ==== return optimal workspace. ====
-           work(1) = dble(lwkopt)
+           work(1) = real(lwkopt, KIND=dp)
            ! ==== end of stdlib_dlaqr3 ====
      end subroutine stdlib_dlaqr3
 
@@ -81123,10 +81124,10 @@ module stdlib_linalg_lapack_d
               call stdlib_dlaqr2(wantt, wantz, n, ilo, ihi, nwr + 1, h, ldh, iloz, ihiz, z, ldz, ls, &
                          ld, wr, wi, h, ldh, n, h, ldh, n, h, ldh, work, -1)
               ! ==== optimal workspace = max(stdlib_dlaqr5, stdlib_dlaqr2) ====
-              lwkopt = max(3*nsr/2, int(work(1)))
+              lwkopt = max(3*nsr/2, int(work(1), KIND=ilp))
               ! ==== quick return in case of workspace query. ====
               if (lwork == -1) then
-                 work(1) = dble(lwkopt)
+                 work(1) = real(lwkopt, KIND=dp)
                  return
               end if
               ! ==== stdlib_dlahqr/stdlib_dlaqr0 crossover point ====
@@ -81382,7 +81383,7 @@ module stdlib_linalg_lapack_d
 90      continue
            end if
            ! ==== return the optimal value of lwork. ====
-           work(1) = dble(lwkopt)
+           work(1) = real(lwkopt, KIND=dp)
            ! ==== end of stdlib_dlaqr4 ====
      end subroutine stdlib_dlaqr4
 
@@ -81516,7 +81517,7 @@ module stdlib_linalg_lapack_d
            end if
            ! quick return if possible
            if (n <= 0) then
-              work(1) = dble(1)
+              work(1) = real(1, KIND=dp)
               return
            end if
            ! get the parameters
@@ -81532,7 +81533,7 @@ module stdlib_linalg_lapack_d
            nsr = min(nsr, (n + 6)/9, ihi - ilo)
            nsr = max(2, nsr - mod(nsr, 2))
            rcost = stdlib_ilaenv(17, 'stdlib_dlaqz0', jbcmpz, n, ilo, ihi, lwork)
-           itemp1 = int(nsr/sqrt(1 + 2*nsr/(dble(rcost)/100*n)))
+           itemp1 = int(nsr/sqrt(1 + 2*nsr/(real(rcost, KIND=dp)/100*n)))
            itemp1 = ((itemp1 - 1)/4)*4 + 4
            nbr = nsr + itemp1
            if (n < nmin .or. rec >= 2) then
@@ -81546,14 +81547,14 @@ module stdlib_linalg_lapack_d
            call stdlib_dlaqz3(ilschur, ilq, ilz, n, ilo, ihi, nw, a, lda, b, ldb, q, ldq, z, ldz, &
            n_undeflated, n_deflated, alphar, alphai, beta, work, nw, work, nw, work, -1, rec, &
                      aed_info)
-           itemp1 = int(work(1))
+           itemp1 = int(work(1), KIND=ilp)
            ! workspace query to stdlib_dlaqz4
            call stdlib_dlaqz4(ilschur, ilq, ilz, n, ilo, ihi, nsr, nbr, alphar, alphai, beta, a, &
                      lda, b, ldb, q, ldq, z, ldz, work, nbr, work, nbr, work, -1, sweep_info)
-           itemp2 = int(work(1))
+           itemp2 = int(work(1), KIND=ilp)
            lworkreq = max(itemp1 + 2*nw**2, itemp2 + 2*nbr**2)
            if (lwork == -1) then
-              work(1) = dble(lworkreq)
+              work(1) = real(lworkreq, KIND=dp)
               return
            else if (lwork < lworkreq) then
               info = -19
@@ -81570,7 +81571,7 @@ module stdlib_linalg_lapack_d
            safmax = one/safmin
            call stdlib_dlabad(safmin, safmax)
            ulp = stdlib_dlamch('precision')
-           smlnum = safmin*(dble(n)/ulp)
+           smlnum = safmin*(real(n, KIND=dp)/ulp)
            istart = ilo
            istop = ihi
            maxit = 3*(ihi - ilo + 1)
@@ -81751,11 +81752,11 @@ module stdlib_linalg_lapack_d
               end do
               if (mod(ld, 6) == 0) then
                  ! exceptional shift.  chosen for no particularly good reason.
-                 if ((dble(maxit)*safmin)*abs(a(istop, istop - 1)) < abs(a(istop - 1, istop - 1) &
-                            )) then
+                 if ((real(maxit, KIND=dp)*safmin)*abs(a(istop, istop - 1)) < abs(a(istop - 1, &
+                           istop - 1))) then
                     eshift = a(istop, istop - 1)/b(istop - 1, istop - 1)
                  else
-                    eshift = eshift + one/(safmin*dble(maxit))
+                    eshift = eshift + one/(safmin*real(maxit, KIND=dp))
                  end if
                  alphar(shiftpos) = one
                  alphar(shiftpos + 1) = zero
@@ -81814,10 +81815,10 @@ module stdlib_linalg_lapack_d
            ilst = jw
            call stdlib_dtgexc(.true., .true., jw, a, lda, b, ldb, qc, ldqc, zc, ldzc, ifst, ilst, &
                      work, -1, dtgexc_info)
-           lworkreq = int(work(1))
+           lworkreq = int(work(1), KIND=ilp)
            call stdlib_dlaqz0('s', 'v', 'v', jw, 1, jw, a(kwtop, kwtop), lda, b(kwtop, kwtop), &
                       ldb, alphar, alphai, beta, qc, ldqc, zc, ldzc, work, -1, rec + 1, qz_small_info)
-           lworkreq = max(lworkreq, int(work(1)) + 2*jw**2)
+           lworkreq = max(lworkreq, int(work(1), KIND=ilp) + 2*jw**2)
            lworkreq = max(lworkreq, n*nw, 2*nw**2 + n)
            if (lwork == -1) then
               ! workspace query, quick return
@@ -81835,7 +81836,7 @@ module stdlib_linalg_lapack_d
            safmax = one/safmin
            call stdlib_dlabad(safmin, safmax)
            ulp = stdlib_dlamch('precision')
-           smlnum = safmin*(dble(n)/ulp)
+           smlnum = safmin*(real(n, KIND=dp)/ulp)
            if (ihi == kwtop) then
               ! 1 by 1 deflation window, just try a regular deflation
               alphar(kwtop) = a(kwtop, kwtop)
@@ -82382,7 +82383,7 @@ module stdlib_linalg_lapack_d
               else
                  if (mb > 1) then
                     clwdth = w(wend) + werr(wend) - w(wbegin) - werr(wbegin)
-                    avgap = abs(clwdth/dble(wend - wbegin))
+                    avgap = abs(clwdth/real(wend - wbegin, KIND=dp))
                     if (sgndef == one) then
                        tau = half*max(wgap(wbegin), avgap)
                        tau = max(tau, werr(wbegin))
@@ -82519,7 +82520,7 @@ module stdlib_linalg_lapack_d
                  ! this is an estimated error, the worst case bound is 4*n*eps
                  ! which is usually too large and requires unnecessary work to be
                  ! done by bisection when computing the eigenvectors
-                 rtol = log(dble(in))*four*eps
+                 rtol = log(real(in, KIND=dp))*four*eps
                  j = ibegin
                  do i = 1, in - 1
                     work(2*i - 1) = abs(d(j))
@@ -83555,9 +83556,9 @@ module stdlib_linalg_lapack_d
            ! store trace, sum(eigenvalues) and information on performance.
            z(2*n + 1) = trace
            z(2*n + 2) = e
-           z(2*n + 3) = dble(iter)
-           z(2*n + 4) = dble(ndiv)/dble(n**2)
-           z(2*n + 5) = hundrd*nfail/dble(iter)
+           z(2*n + 3) = real(iter, KIND=dp)
+           z(2*n + 4) = real(ndiv, KIND=dp)/real(n**2, KIND=dp)
+           z(2*n + 5) = hundrd*nfail/real(iter, KIND=dp)
            return
            ! end of stdlib_dlasq2
      end subroutine stdlib_dlasq2
@@ -84971,9 +84972,9 @@ module stdlib_linalg_lapack_d
            end if
            if (info == 0) then
               call stdlib_dsytrf_aa(uplo, n, a, lda, ipiv, work, -1, info)
-              lwkopt_sytrf = int(work(1))
+              lwkopt_sytrf = int(work(1), KIND=ilp)
               call stdlib_dsytrs_aa(uplo, n, nrhs, a, lda, ipiv, b, ldb, work, -1, info)
-              lwkopt_sytrs = int(work(1))
+              lwkopt_sytrs = int(work(1), KIND=ilp)
               lwkopt = max(lwkopt_sytrf, lwkopt_sytrs)
               work(1) = lwkopt
            end if

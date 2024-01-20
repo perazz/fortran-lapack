@@ -106,8 +106,8 @@ module stdlib_linalg_lapack_aux
            ! .. intrinsic functions ..
            intrinsic :: epsilon, dble, int
            ! .. executable statements ..
-           stdlib_droundup_lwork = dble(lwork)
-           if (int(stdlib_droundup_lwork) < lwork) then
+           stdlib_droundup_lwork = real(lwork, KIND=dp)
+           if (int(stdlib_droundup_lwork, KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_droundup_lwork = stdlib_droundup_lwork*(1.0_dp + epsilon(0.0_dp))
                          
@@ -893,7 +893,7 @@ module stdlib_linalg_lapack_aux
            intrinsic :: epsilon, real, int
            ! .. executable statements ..
            stdlib_sroundup_lwork = real(lwork)
-           if (int(stdlib_sroundup_lwork) < lwork) then
+           if (int(stdlib_sroundup_lwork, KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_sroundup_lwork = stdlib_sroundup_lwork*(1.0_sp + epsilon(0.0_sp))
                          

@@ -1443,7 +1443,7 @@ module stdlib_linalg_lapack_c
               jpiv(1) = 1
               if (abs(a(1, 1)) < smlnum) then
                  info = 1
-                 a(1, 1) = cmplx(smlnum, zero)
+                 a(1, 1) = cmplx(smlnum, zero, KIND=sp)
               end if
               return
            end if
@@ -1471,17 +1471,17 @@ module stdlib_linalg_lapack_c
               ! check for singularity
               if (abs(a(i, i)) < smin) then
                  info = i
-                 a(i, i) = cmplx(smin, zero)
+                 a(i, i) = cmplx(smin, zero, KIND=sp)
               end if
               do j = i + 1, n
                  a(j, i) = a(j, i)/a(i, i)
               end do
-              call stdlib_cgeru(n - i, n - i, -cmplx(one), a(i + 1, i), 1, a(i, i + 1), lda, a(i + 1, &
-                         i + 1), lda)
+              call stdlib_cgeru(n - i, n - i, -cmplx(one, KIND=sp), a(i + 1, i), 1, a(i, i + 1), lda, &
+                         a(i + 1, i + 1), lda)
            end do loop_40
            if (abs(a(n, n)) < smin) then
               info = n
-              a(n, n) = cmplx(smin, zero)
+              a(n, n) = cmplx(smin, zero, KIND=sp)
            end if
            ! set last pivots to n
            ipiv(n) = n
@@ -1946,14 +1946,14 @@ module stdlib_linalg_lapack_c
 350    continue
            sfmin = stdlib_slamch('s')
            sfmax = one/sfmin
-           lsfmin = int(log10(sfmin)/basl + one)
-           lsfmax = int(log10(sfmax)/basl)
+           lsfmin = int(log10(sfmin)/basl + one, KIND=ilp)
+           lsfmax = int(log10(sfmax)/basl, KIND=ilp)
            do i = ilo, ihi
               irab = stdlib_icamax(n - ilo + 1, a(i, ilo), lda)
               rab = abs(a(i, irab + ilo - 1))
               irab = stdlib_icamax(n - ilo + 1, b(i, ilo), ldb)
               rab = max(rab, abs(b(i, irab + ilo - 1)))
-              lrab = int(log10(rab + sfmin)/basl + one)
+              lrab = int(log10(rab + sfmin)/basl + one, KIND=ilp)
               ir = lscale(i) + sign(half, lscale(i))
               ir = min(max(ir, lsfmin), lsfmax, lsfmax - lrab)
               lscale(i) = sclfac**ir
@@ -1961,7 +1961,7 @@ module stdlib_linalg_lapack_c
               cab = abs(a(icab, i))
               icab = stdlib_icamax(ihi, b(1, i), 1)
               cab = max(cab, abs(b(icab, i)))
-              lcab = int(log10(cab + sfmin)/basl + one)
+              lcab = int(log10(cab + sfmin)/basl + one, KIND=ilp)
               jc = rscale(i) + sign(half, rscale(i))
               jc = min(max(jc, lsfmin), lsfmax, lsfmax - lcab)
               rscale(i) = sclfac**jc
@@ -4436,8 +4436,8 @@ module stdlib_linalg_lapack_c
               end do
               return
            end if
-           calpha = cmplx(alpha, zero)
-           cbeta = cmplx(beta, zero)
+           calpha = cmplx(alpha, zero, KIND=sp)
+           cbeta = cmplx(beta, zero, KIND=sp)
            ! c is n-by-n.
            ! if n is odd, set nisodd = .true., and n1 and n2.
            ! if n is even, nisodd = .false., and nk.
@@ -6459,7 +6459,7 @@ module stdlib_linalg_lapack_c
            safmin = stdlib_slamch('safe minimum')
            if (kase == 0) then
               do i = 1, n
-                 x(i) = cmplx(one/real(n))
+                 x(i) = cmplx(one/real(n), KIND=sp)
               end do
               kase = 1
               isave(1) = 1
@@ -6582,7 +6582,7 @@ module stdlib_linalg_lapack_c
            safmin = stdlib_slamch('safe minimum')
            if (kase == 0) then
               do i = 1, n
-                 x(i) = cmplx(one/real(n))
+                 x(i) = cmplx(one/real(n), KIND=sp)
               end do
               kase = 1
               jump = 1
@@ -6876,7 +6876,7 @@ module stdlib_linalg_lapack_c
            intrinsic :: aimag, cmplx, real
            ! .. executable statements ..
            call stdlib_sladiv(real(x), aimag(x), real(y), aimag(y), zr, zi)
-           stdlib_cladiv = cmplx(zr, zi)
+           stdlib_cladiv = cmplx(zr, zi, KIND=sp)
            return
            ! end of stdlib_cladiv
      end function stdlib_cladiv
@@ -7533,7 +7533,7 @@ module stdlib_linalg_lapack_c
                        ! a(k,k) := d(k,k) = w(k,kw)
                        ! a(1:k-1,k) := u(1:k-1,k) = w(1:k-1,kw)/d(k,k)
                     ! (note: no need to use for hermitian matrix
-                    ! a( k, k ) = dble( w( k, k) ) to separately copy diagonal
+                    ! a( k, k ) = real( w( k, k) ,KIND=sp) to separately copy diagonal
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_ccopy(k, w(1, kw), 1, a(1, k), 1)
                     if (k > 1) then
@@ -7774,7 +7774,7 @@ module stdlib_linalg_lapack_c
                        ! a(k,k) := d(k,k) = w(k,k)
                        ! a(k+1:n,k) := l(k+1:n,k) = w(k+1:n,k)/d(k,k)
                     ! (note: no need to use for hermitian matrix
-                    ! a( k, k ) = dble( w( k, k) ) to separately copy diagonal
+                    ! a( k, k ) = real( w( k, k) ,KIND=sp) to separately copy diagonal
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_ccopy(n - k + 1, w(k, k), 1, a(k, k), 1)
                     if (k < n) then
@@ -10402,7 +10402,7 @@ module stdlib_linalg_lapack_c
               t6 = ci*yi - t1r
               x(ix) = ci*t5 + (sir*real(t4) + sii*aimag(t4))
               y(ix) = ci*t6 - (sir*real(t3) - sii*aimag(t3))
-              z(ix) = ci*t3 + conjg(si)*cmplx(t6, t1i)
+              z(ix) = ci*t3 + conjg(si)*cmplx(t6, t1i, KIND=sp)
               ix = ix + incx
               ic = ic + incc
            end do
@@ -11070,11 +11070,11 @@ module stdlib_linalg_lapack_c
                  if ((abs(beta) < safmin) .and. (knt < 20)) go to 10
                  ! new beta is at most 1, at least safmin
                  xnorm = stdlib_scnrm2(n - 1, x, incx)
-                 alpha = cmplx(alphr, alphi)
+                 alpha = cmplx(alphr, alphi, KIND=sp)
                  beta = -sign(stdlib_slapy3(alphr, alphi, xnorm), alphr)
               end if
-              tau = cmplx((beta - alphr)/beta, -alphi/beta)
-              alpha = stdlib_cladiv(cmplx(one), alpha - beta)
+              tau = cmplx((beta - alphr)/beta, -alphi/beta, KIND=sp)
+              alpha = stdlib_cladiv(cmplx(one, KIND=sp), alpha - beta)
               call stdlib_cscal(n - 1, alpha, x, incx)
               ! if alpha is subnormal, it may lose relative accuracy
               do j = 1, knt
@@ -11146,7 +11146,7 @@ module stdlib_linalg_lapack_c
               else
                  ! only "reflecting" the diagonal entry to be real and non-negative.
                  xnorm = stdlib_slapy2(alphr, alphi)
-                 tau = cmplx(one - alphr/xnorm, -alphi/xnorm)
+                 tau = cmplx(one - alphr/xnorm, -alphi/xnorm, KIND=sp)
                  do j = 1, n - 1
                     x(1 + (j - 1)*incx) = zero
                  end do
@@ -11169,7 +11169,7 @@ module stdlib_linalg_lapack_c
                  if ((abs(beta) < smlnum) .and. (knt < 20)) go to 10
                  ! new beta is at most 1, at least smlnum
                  xnorm = stdlib_scnrm2(n - 1, x, incx)
-                 alpha = cmplx(alphr, alphi)
+                 alpha = cmplx(alphr, alphi, KIND=sp)
                  beta = sign(stdlib_slapy3(alphr, alphi, xnorm), alphr)
               end if
               savealpha = alpha
@@ -11180,10 +11180,10 @@ module stdlib_linalg_lapack_c
               else
                  alphr = alphi*(alphi/real(alpha))
                  alphr = alphr + xnorm*(xnorm/real(alpha))
-                 tau = cmplx(alphr/beta, -alphi/beta)
-                 alpha = cmplx(-alphr, alphi)
+                 tau = cmplx(alphr/beta, -alphi/beta, KIND=sp)
+                 alpha = cmplx(-alphr, alphi, KIND=sp)
               end if
-              alpha = stdlib_cladiv(cmplx(one), alpha)
+              alpha = stdlib_cladiv(cmplx(one, KIND=sp), alpha)
               if (abs(tau) <= smlnum) then
                  ! in the case where the computed tau ends up being a denormalized number,
                  ! it loses relative accuracy. this is a big problem. solution: flush tau
@@ -11204,7 +11204,7 @@ module stdlib_linalg_lapack_c
                     end if
                  else
                     xnorm = stdlib_slapy2(alphr, alphi)
-                    tau = cmplx(one - alphr/xnorm, -alphi/xnorm)
+                    tau = cmplx(one - alphr/xnorm, -alphi/xnorm, KIND=sp)
                     do j = 1, n - 1
                        x(1 + (j - 1)*incx) = zero
                     end do
@@ -11934,19 +11934,20 @@ module stdlib_linalg_lapack_c
                  ! convert generated numbers to normal (0,1) distribution
                  do i = 1, il
                     x(iv + i - 1) = sqrt(-two*log(u(2*i - 1)))*exp(cmplx(zero, twopi*u(2*i) &
-                              ))
+                              , KIND=sp))
                  end do
               else if (idist == 4) then
                  ! convert generated numbers to complex numbers uniformly
                  ! distributed on the unit disk
                  do i = 1, il
-                    x(iv + i - 1) = sqrt(u(2*i - 1))*exp(cmplx(zero, twopi*u(2*i)))
+                    x(iv + i - 1) = sqrt(u(2*i - 1))*exp(cmplx(zero, twopi*u(2*i), KIND=sp))
+                              
                  end do
               else if (idist == 5) then
                  ! convert generated numbers to complex numbers uniformly
                  ! distributed on the unit circle
                  do i = 1, il
-                    x(iv + i - 1) = exp(cmplx(zero, twopi*u(2*i)))
+                    x(iv + i - 1) = exp(cmplx(zero, twopi*u(2*i), KIND=sp))
                  end do
               end if
 60      continue
@@ -12851,13 +12852,13 @@ module stdlib_linalg_lapack_c
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. scalar arguments ..
-        integer :: incx, n
+     integer(ilp) :: incx, n
         real(sp) :: scl, sumsq
         ! .. array arguments ..
         complex(sp) :: x(*)
         ! .. local scalars ..
-        integer :: i, ix
-        logical :: notbig
+     integer(ilp) :: i, ix
+     logical(lk) :: notbig
         real(sp) :: abig, amed, asml, ax, ymax, ymin
         ! quick return if possible
         if (ieee_is_nan(scl) .or. ieee_is_nan(sumsq)) return
@@ -14725,7 +14726,7 @@ module stdlib_linalg_lapack_c
                        end if
                     end if
                     csumj = zero
-                    if (uscal == cmplx(one)) then
+                    if (uscal == cmplx(one, KIND=sp)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_cdotu to perform the dot product.
                        if (upper) then
@@ -14751,7 +14752,7 @@ module stdlib_linalg_lapack_c
                           end do
                        end if
                     end if
-                    if (uscal == cmplx(tscal)) then
+                    if (uscal == cmplx(tscal, KIND=sp)) then
                        ! compute x(j) := ( x(j) - csumj ) / a(j,j) if 1/a(j,j)
                        ! was not used to scale the dotproduct.
                        x(j) = x(j) - csumj
@@ -14833,7 +14834,7 @@ module stdlib_linalg_lapack_c
                        end if
                     end if
                     csumj = zero
-                    if (uscal == cmplx(one)) then
+                    if (uscal == cmplx(one, KIND=sp)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_cdotc to perform the dot product.
                        if (upper) then
@@ -14860,7 +14861,7 @@ module stdlib_linalg_lapack_c
                           end do
                        end if
                     end if
-                    if (uscal == cmplx(tscal)) then
+                    if (uscal == cmplx(tscal, KIND=sp)) then
                        ! compute x(j) := ( x(j) - csumj ) / a(j,j) if 1/a(j,j)
                        ! was not used to scale the dotproduct.
                        x(j) = x(j) - csumj
@@ -15281,7 +15282,7 @@ module stdlib_linalg_lapack_c
                        end if
                     end if
                     csumj = zero
-                    if (uscal == cmplx(one)) then
+                    if (uscal == cmplx(one, KIND=sp)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_cdotu to perform the dot product.
                        if (upper) then
@@ -15301,7 +15302,7 @@ module stdlib_linalg_lapack_c
                           end do
                        end if
                     end if
-                    if (uscal == cmplx(tscal)) then
+                    if (uscal == cmplx(tscal, KIND=sp)) then
                        ! compute x(j) := ( x(j) - csumj ) / a(j,j) if 1/a(j,j)
                        ! was not used to scale the dotproduct.
                        x(j) = x(j) - csumj
@@ -15387,7 +15388,7 @@ module stdlib_linalg_lapack_c
                        end if
                     end if
                     csumj = zero
-                    if (uscal == cmplx(one)) then
+                    if (uscal == cmplx(one, KIND=sp)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_cdotc to perform the dot product.
                        if (upper) then
@@ -15407,7 +15408,7 @@ module stdlib_linalg_lapack_c
                           end do
                        end if
                     end if
-                    if (uscal == cmplx(tscal)) then
+                    if (uscal == cmplx(tscal, KIND=sp)) then
                        ! compute x(j) := ( x(j) - csumj ) / a(j,j) if 1/a(j,j)
                        ! was not used to scale the dotproduct.
                        x(j) = x(j) - csumj
@@ -15932,7 +15933,7 @@ module stdlib_linalg_lapack_c
                        end if
                     end if
                     csumj = zero
-                    if (uscal == cmplx(one)) then
+                    if (uscal == cmplx(one, KIND=sp)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_cdotu to perform the dot product.
                        if (upper) then
@@ -15952,7 +15953,7 @@ module stdlib_linalg_lapack_c
                           end do
                        end if
                     end if
-                    if (uscal == cmplx(tscal)) then
+                    if (uscal == cmplx(tscal, KIND=sp)) then
                        ! compute x(j) := ( x(j) - csumj ) / a(j,j) if 1/a(j,j)
                        ! was not used to scale the dotproduct.
                        x(j) = x(j) - csumj
@@ -16034,7 +16035,7 @@ module stdlib_linalg_lapack_c
                        end if
                     end if
                     csumj = zero
-                    if (uscal == cmplx(one)) then
+                    if (uscal == cmplx(one, KIND=sp)) then
                        ! if the scaling needed for a in the dot product is 1,
                        ! call stdlib_cdotc to perform the dot product.
                        if (upper) then
@@ -16054,7 +16055,7 @@ module stdlib_linalg_lapack_c
                           end do
                        end if
                     end if
-                    if (uscal == cmplx(tscal)) then
+                    if (uscal == cmplx(tscal, KIND=sp)) then
                        ! compute x(j) := ( x(j) - csumj ) / a(j,j) if 1/a(j,j)
                        ! was not used to scale the dotproduct.
                        x(j) = x(j) - csumj
@@ -16354,7 +16355,7 @@ module stdlib_linalg_lapack_c
                               lda))
                     call stdlib_clacgv(n - i, a(i, i + 1), lda)
                     call stdlib_cgemv('no transpose', i - 1, n - i, cone, a(1, i + 1), lda, a(i, i + 1 &
-                              ), lda, cmplx(aii), a(1, i), 1)
+                              ), lda, cmplx(aii, KIND=sp), a(1, i), 1)
                     call stdlib_clacgv(n - i, a(i, i + 1), lda)
                  else
                     call stdlib_csscal(i, aii, a(1, i), 1)
@@ -16369,7 +16370,7 @@ module stdlib_linalg_lapack_c
                                )
                     call stdlib_clacgv(i - 1, a(i, 1), lda)
                     call stdlib_cgemv('conjugate transpose', n - i, i - 1, cone, a(i + 1, 1), lda, a( &
-                              i + 1, i), 1, cmplx(aii), a(i, 1), lda)
+                              i + 1, i), 1, cmplx(aii, KIND=sp), a(i, 1), lda)
                     call stdlib_clacgv(i - 1, a(i, 1), lda)
                  else
                     call stdlib_csscal(i, aii, a(i, 1), lda)
@@ -17818,7 +17819,7 @@ module stdlib_linalg_lapack_c
               eii = aimag(e(i))
               f = eir/d(i)
               g = eii/d(i)
-              e(i) = cmplx(f, g)
+              e(i) = cmplx(f, g, KIND=sp)
               d(i + 1) = d(i + 1) - f*eir - g*eii
            end do
            loop_110: do i = i4 + 1, n - 4, 4
@@ -17833,7 +17834,7 @@ module stdlib_linalg_lapack_c
               eii = aimag(e(i))
               f = eir/d(i)
               g = eii/d(i)
-              e(i) = cmplx(f, g)
+              e(i) = cmplx(f, g, KIND=sp)
               d(i + 1) = d(i + 1) - f*eir - g*eii
               if (d(i + 1) <= zero) then
                  info = i + 1
@@ -17844,7 +17845,7 @@ module stdlib_linalg_lapack_c
               eii = aimag(e(i + 1))
               f = eir/d(i + 1)
               g = eii/d(i + 1)
-              e(i + 1) = cmplx(f, g)
+              e(i + 1) = cmplx(f, g, KIND=sp)
               d(i + 2) = d(i + 2) - f*eir - g*eii
               if (d(i + 2) <= zero) then
                  info = i + 2
@@ -17855,7 +17856,7 @@ module stdlib_linalg_lapack_c
               eii = aimag(e(i + 2))
               f = eir/d(i + 2)
               g = eii/d(i + 2)
-              e(i + 2) = cmplx(f, g)
+              e(i + 2) = cmplx(f, g, KIND=sp)
               d(i + 3) = d(i + 3) - f*eir - g*eii
               if (d(i + 3) <= zero) then
                  info = i + 3
@@ -17866,7 +17867,7 @@ module stdlib_linalg_lapack_c
               eii = aimag(e(i + 3))
               f = eir/d(i + 3)
               g = eii/d(i + 3)
-              e(i + 3) = cmplx(f, g)
+              e(i + 3) = cmplx(f, g, KIND=sp)
               d(i + 4) = d(i + 4) - f*eir - g*eii
            end do loop_110
            ! check d(n) for positive definiteness.
@@ -19312,7 +19313,7 @@ module stdlib_linalg_lapack_c
                     z(i, j) = czero
                  end do
                  do i = 1, blksiz
-                    z(b1 + i - 1, j) = cmplx(work(indrv1 + i), zero)
+                    z(b1 + i - 1, j) = cmplx(work(indrv1 + i), zero, KIND=sp)
                  end do
                  ! save the shift to check eigenvalue spacing at next
                  ! iteration.
@@ -25316,7 +25317,7 @@ module stdlib_linalg_lapack_c
                        ! form x(j) = - sum / conjg( a*s(j,j) - b*p(j,j) )
                        ! with scaling and perturbation of the denominator
                        d = conjg(acoeff*s(j, j) - bcoeff*p(j, j))
-                       if (abs1(d) <= dmin) d = cmplx(dmin)
+                       if (abs1(d) <= dmin) d = cmplx(dmin, KIND=sp)
                        if (abs1(d) < one) then
                           if (abs1(sum) >= bignum*abs1(d)) then
                              temp = one/abs1(sum)
@@ -25429,7 +25430,7 @@ module stdlib_linalg_lapack_c
                        ! form x(j) := - w(j) / d
                        ! with scaling and perturbation of the denominator
                        d = acoeff*s(j, j) - bcoeff*p(j, j)
-                       if (abs1(d) <= dmin) d = cmplx(dmin)
+                       if (abs1(d) <= dmin) d = cmplx(dmin, KIND=sp)
                        if (abs1(d) < one) then
                           if (abs1(work(j)) >= bignum*abs1(d)) then
                              temp = one/abs1(work(j))
@@ -25543,8 +25544,8 @@ module stdlib_linalg_lapack_c
            call stdlib_clacpy('full', m, m, t, ldst, work(m*m + 1), m)
            call stdlib_classq(m*m, work, 1, scale, sum)
            sa = scale*sqrt(sum)
-           scale = dble(czero)
-           sum = dble(cone)
+           scale = real(czero, KIND=sp)
+           sum = real(cone, KIND=sp)
            call stdlib_classq(m*m, work(m*m + 1), 1, scale, sum)
            sb = scale*sqrt(sum)
            ! thres has been changed from
@@ -25592,12 +25593,12 @@ module stdlib_linalg_lapack_c
                  work(i + 4) = work(i + 4) - b(j1 + i - 1, j1)
                  work(i + 6) = work(i + 6) - b(j1 + i - 1, j1 + 1)
               end do
-              scale = dble(czero)
-              sum = dble(cone)
+              scale = real(czero, KIND=sp)
+              sum = real(cone, KIND=sp)
               call stdlib_classq(m*m, work, 1, scale, sum)
               sa = scale*sqrt(sum)
-              scale = dble(czero)
-              sum = dble(cone)
+              scale = real(czero, KIND=sp)
+              sum = real(cone, KIND=sp)
               call stdlib_classq(m*m, work(m*m + 1), 1, scale, sum)
               sb = scale*sqrt(sum)
               strong = sa <= thresha .and. sb <= threshb
@@ -27201,7 +27202,7 @@ module stdlib_linalg_lapack_c
                     end do
                  else
                     if (ki > 1) call stdlib_cgemv('n', n, ki - 1, cmone, vr, ldvr, work(1), 1, &
-                              cmplx(scale), vr(1, ki), 1)
+                              cmplx(scale, KIND=sp), vr(1, ki), 1)
                     ii = stdlib_icamax(n, vr(1, ki), 1)
                     remax = one/cabs1(vr(ii, ki))
                     call stdlib_csscal(n, remax, vr(1, ki), 1)
@@ -27248,7 +27249,7 @@ module stdlib_linalg_lapack_c
                     end do
                  else
                     if (ki < n) call stdlib_cgemv('n', n, n - ki, cmone, vl(1, ki + 1), ldvl, work( &
-                              ki + 1), 1, cmplx(scale), vl(1, ki), 1)
+                              ki + 1), 1, cmplx(scale, KIND=sp), vl(1, ki), 1)
                     ii = stdlib_icamax(n, vl(1, ki), 1)
                     remax = one/cabs1(vl(ii, ki))
                     call stdlib_csscal(n, remax, vl(1, ki), 1)
@@ -27434,7 +27435,7 @@ module stdlib_linalg_lapack_c
                     ! ------------------------------
                     ! version 1: back-transform each vector with gemv, q*x.
                     if (ki > 1) call stdlib_cgemv('n', n, ki - 1, cone, vr, ldvr, work(1 + iv*n), 1, &
-                               cmplx(scale), vr(1, ki), 1)
+                               cmplx(scale, KIND=sp), vr(1, ki), 1)
                     ii = stdlib_icamax(n, vr(1, ki), 1)
                     remax = one/cabs1(vr(ii, ki))
                     call stdlib_csscal(n, remax, vr(1, ki), 1)
@@ -27518,7 +27519,7 @@ module stdlib_linalg_lapack_c
                     ! ------------------------------
                     ! version 1: back-transform each vector with gemv, q*x.
                     if (ki < n) call stdlib_cgemv('n', n, n - ki, cone, vl(1, ki + 1), ldvl, work(ki + &
-                              1 + iv*n), 1, cmplx(scale), vl(1, ki), 1)
+                              1 + iv*n), 1, cmplx(scale, KIND=sp), vl(1, ki), 1)
                     ii = stdlib_icamax(n, vl(1, ki), 1)
                     remax = one/cabs1(vl(ii, ki))
                     call stdlib_csscal(n, remax, vl(1, ki), 1)
@@ -28656,7 +28657,7 @@ module stdlib_linalg_lapack_c
               ! reduce columns 1, ..., q of x11, x12, x21, and x22
               do i = 1, q
                  if (i == 1) then
-                    call stdlib_cscal(p - i + 1, cmplx(z1, 0.0e0), x11(i, i), 1)
+                    call stdlib_cscal(p - i + 1, cmplx(z1, 0.0e0, KIND=sp), x11(i, i), 1)
                  else
                     call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0e0), x11(i, i), 1)
                               
@@ -28664,7 +28665,7 @@ module stdlib_linalg_lapack_c
                               1, x11(i, i), 1)
                  end if
                  if (i == 1) then
-                    call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0e0), x21(i, i), 1)
+                    call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0e0, KIND=sp), x21(i, i), 1)
                  else
                     call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0e0), x21(i, i), 1)
                               
@@ -28747,7 +28748,8 @@ module stdlib_linalg_lapack_c
               end do
               ! reduce columns q + 1, ..., p of x12, x22
               do i = q + 1, p
-                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4, 0.0e0), x12(i, i), ldx12)
+                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4, 0.0e0, KIND=sp), x12(i, i), ldx12)
+                           
                  call stdlib_clacgv(m - q - i + 1, x12(i, i), ldx12)
                  if (i >= m - q) then
                     call stdlib_clarfgp(m - q - i + 1, x12(i, i), x12(i, i), ldx12, tauq2(i))
@@ -28765,7 +28767,8 @@ module stdlib_linalg_lapack_c
               end do
               ! reduce columns p + 1, ..., m - q of x12, x22
               do i = 1, m - p - q
-                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0e0), x22(q + i, p + i), ldx22)
+                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0e0, KIND=sp), x22(q + i, p + i), ldx22)
+                           
                  call stdlib_clacgv(m - p - q - i + 1, x22(q + i, p + i), ldx22)
                  call stdlib_clarfgp(m - p - q - i + 1, x22(q + i, p + i), x22(q + i, p + i + 1), ldx22, tauq2(p + i))
                            
@@ -28778,7 +28781,7 @@ module stdlib_linalg_lapack_c
               ! reduce columns 1, ..., q of x11, x12, x21, x22
               do i = 1, q
                  if (i == 1) then
-                    call stdlib_cscal(p - i + 1, cmplx(z1, 0.0e0), x11(i, i), ldx11)
+                    call stdlib_cscal(p - i + 1, cmplx(z1, 0.0e0, KIND=sp), x11(i, i), ldx11)
                  else
                     call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0e0), x11(i, i), ldx11)
                               
@@ -28786,7 +28789,8 @@ module stdlib_linalg_lapack_c
                               ldx12, x11(i, i), ldx11)
                  end if
                  if (i == 1) then
-                    call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0e0), x21(i, i), ldx21)
+                    call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0e0, KIND=sp), x21(i, i), ldx21)
+                              
                  else
                     call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0e0), x21(i, i), ldx21)
                               
@@ -28848,7 +28852,7 @@ module stdlib_linalg_lapack_c
               end do
               ! reduce columns q + 1, ..., p of x12, x22
               do i = q + 1, p
-                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4, 0.0e0), x12(i, i), 1)
+                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4, 0.0e0, KIND=sp), x12(i, i), 1)
                  call stdlib_clarfgp(m - q - i + 1, x12(i, i), x12(i + 1, i), 1, tauq2(i))
                  x12(i, i) = cone
                  if (p > i) then
@@ -28860,7 +28864,8 @@ module stdlib_linalg_lapack_c
               end do
               ! reduce columns p + 1, ..., m - q of x12, x22
               do i = 1, m - p - q
-                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0e0), x22(p + i, q + i), 1)
+                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0e0, KIND=sp), x22(p + i, q + i), 1)
+                           
                  call stdlib_clarfgp(m - p - q - i + 1, x22(p + i, q + i), x22(p + i + 1, q + i), 1, tauq2(p + i))
                            
                  x22(p + i, q + i) = cone
@@ -29809,12 +29814,12 @@ module stdlib_linalg_lapack_c
               call stdlib_xerbla('stdlib_cungtsqr_row', -info)
               return
            else if (lquery) then
-              work(1) = cmplx(lworkopt)
+              work(1) = cmplx(lworkopt, KIND=sp)
               return
            end if
            ! quick return if possible
            if (min(m, n) == 0) then
-              work(1) = cmplx(lworkopt)
+              work(1) = cmplx(lworkopt, KIND=sp)
               return
            end if
            ! (0) set the upper-triangular part of the matrix a to zero and
@@ -29882,7 +29887,7 @@ module stdlib_linalg_lapack_c
                            kb), lda, a(kb + knb, kb), lda, work, knb)
               end if
            end do
-           work(1) = cmplx(lworkopt)
+           work(1) = cmplx(lworkopt, KIND=sp)
            return
            ! end of stdlib_cungtsqr_row
      end subroutine stdlib_cungtsqr_row
@@ -29943,7 +29948,7 @@ module stdlib_linalg_lapack_c
            end if
            if (info == 0) then
               lwkopt = m*n
-              work(1) = cmplx(lwkopt)
+              work(1) = cmplx(lwkopt, KIND=sp)
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_cunm22', -info)
@@ -30063,7 +30068,7 @@ module stdlib_linalg_lapack_c
                  end do
               end if
            end if
-           work(1) = cmplx(lwkopt)
+           work(1) = cmplx(lwkopt, KIND=sp)
            return
            ! end of stdlib_cunm22
      end subroutine stdlib_cunm22
@@ -34385,12 +34390,12 @@ module stdlib_linalg_lapack_c
            ! check for scaling
            i = stdlib_icamax(n, rhs, 1)
            if (two*smlnum*abs(rhs(i)) > abs(a(n, n))) then
-              temp = cmplx(one/two, zero)/abs(rhs(i))
+              temp = cmplx(one/two, zero, KIND=sp)/abs(rhs(i))
               call stdlib_cscal(n, temp, rhs(1), 1)
               scale = scale*real(temp)
            end if
            do i = n, 1, -1
-              temp = cmplx(one, zero)/a(i, i)
+              temp = cmplx(one, zero, KIND=sp)/a(i, i)
               rhs(i) = rhs(i)*temp
               do j = i + 1, n
                  rhs(i) = rhs(i) - rhs(j)*(a(i, j)*temp)
@@ -34892,10 +34897,10 @@ module stdlib_linalg_lapack_c
            ! update b := q**h*b.
            call stdlib_cunmqr('left', 'conjugate transpose', n, p, min(n, m), a, lda, taua, b, &
                      ldb, work, lwork, info)
-           lopt = max(lopt, int(work(1)))
+           lopt = max(lopt, int(work(1), KIND=ilp))
            ! rq factorization of n-by-p matrix b: b = t*z.
            call stdlib_cgerqf(n, p, b, ldb, taub, work, lwork, info)
-           work(1) = max(lopt, int(work(1)))
+           work(1) = max(lopt, int(work(1), KIND=ilp))
            return
            ! end of stdlib_cggqrf
      end subroutine stdlib_cggqrf
@@ -34969,10 +34974,10 @@ module stdlib_linalg_lapack_c
            ! update b := b*q**h
            call stdlib_cunmrq('right', 'conjugate transpose', p, n, min(m, n), a(max(1, m - n + 1 &
                      ), 1), lda, taua, b, ldb, work, lwork, info)
-           lopt = max(lopt, int(work(1)))
+           lopt = max(lopt, int(work(1), KIND=ilp))
            ! qr factorization of p-by-n matrix b: b = z*t
            call stdlib_cgeqrf(p, n, b, ldb, taub, work, lwork, info)
-           work(1) = max(lopt, int(work(1)))
+           work(1) = max(lopt, int(work(1), KIND=ilp))
            return
            ! end of stdlib_cggrqf
      end subroutine stdlib_cggrqf
@@ -39495,14 +39500,18 @@ module stdlib_linalg_lapack_c
                  avb12 = abs(csr)*abs1(b2) + abs(snr)*abs(b3)
                  ! zero (1,2) elements of u**h *a and v**h *b
                  if ((abs(ua11r) + abs1(ua12)) == zero) then
-                    call stdlib_clartg(-cmplx(vb11r), conjg(vb12), csq, snq, r)
+                    call stdlib_clartg(-cmplx(vb11r, KIND=sp), conjg(vb12), csq, snq, r)
+                              
                  else if ((abs(vb11r) + abs1(vb12)) == zero) then
-                    call stdlib_clartg(-cmplx(ua11r), conjg(ua12), csq, snq, r)
+                    call stdlib_clartg(-cmplx(ua11r, KIND=sp), conjg(ua12), csq, snq, r)
+                              
                  else if (aua12/(abs(ua11r) + abs1(ua12)) <= avb12/(abs(vb11r) + abs1(vb12 &
                            ))) then
-                    call stdlib_clartg(-cmplx(ua11r), conjg(ua12), csq, snq, r)
+                    call stdlib_clartg(-cmplx(ua11r, KIND=sp), conjg(ua12), csq, snq, r)
+                              
                  else
-                    call stdlib_clartg(-cmplx(vb11r), conjg(vb12), csq, snq, r)
+                    call stdlib_clartg(-cmplx(vb11r, KIND=sp), conjg(vb12), csq, snq, r)
+                              
                  end if
                  csu = csl
                  snu = -d1*snl
@@ -39560,14 +39569,14 @@ module stdlib_linalg_lapack_c
                  avb21 = abs(snl)*abs(b1) + abs(csl)*abs1(b2)
                  ! zero (2,1) elements of u**h *a and v**h *b.
                  if ((abs1(ua21) + abs(ua22r)) == zero) then
-                    call stdlib_clartg(cmplx(vb22r), vb21, csq, snq, r)
+                    call stdlib_clartg(cmplx(vb22r, KIND=sp), vb21, csq, snq, r)
                  else if ((abs1(vb21) + abs(vb22r)) == zero) then
-                    call stdlib_clartg(cmplx(ua22r), ua21, csq, snq, r)
+                    call stdlib_clartg(cmplx(ua22r, KIND=sp), ua21, csq, snq, r)
                  else if (aua21/(abs1(ua21) + abs(ua22r)) <= avb21/(abs1(vb21) + abs(vb22r &
                            ))) then
-                    call stdlib_clartg(cmplx(ua22r), ua21, csq, snq, r)
+                    call stdlib_clartg(cmplx(ua22r, KIND=sp), ua21, csq, snq, r)
                  else
-                    call stdlib_clartg(cmplx(vb22r), vb21, csq, snq, r)
+                    call stdlib_clartg(cmplx(vb22r, KIND=sp), vb21, csq, snq, r)
                  end if
                  csu = csr
                  snu = -conjg(d1)*snr
@@ -44071,7 +44080,7 @@ module stdlib_linalg_lapack_c
            ! recomputation of difficult columns.
 60      continue
            if (lsticc > 0) then
-              itemp = nint(vn2(lsticc))
+              itemp = nint(vn2(lsticc), KIND=ilp)
               vn1(lsticc) = stdlib_scnrm2(m - rk, a(rk + 1, lsticc), 1)
               ! note: the computation of vn1( lsticc ) relies on the fact that
               ! stdlib_snrm2 does not fail on vectors with norm below the value of
@@ -44896,7 +44905,7 @@ module stdlib_linalg_lapack_c
                     dr = safmx2*real(f)
                     di = safmx2*aimag(f)
                     d = stdlib_slapy2(dr, di)
-                    ff = cmplx(dr/d, di/d)
+                    ff = cmplx(dr/d, di/d, KIND=sp)
                  end if
                  sn = ff*cmplx(real(gs)/g2s, -aimag(gs)/g2s)
                  r = cs*f + sn*g
@@ -45072,7 +45081,7 @@ module stdlib_linalg_lapack_c
               ! this is for a 1x1 block
               if (ibegin == iend) then
                  done = done + 1
-                 z(ibegin, wbegin) = cmplx(one, zero)
+                 z(ibegin, wbegin) = cmplx(one, zero, KIND=sp)
                  isuppz(2*wbegin - 1) = ibegin
                  isuppz(2*wbegin) = ibegin
                  w(wbegin) = w(wbegin) + sigma
@@ -45301,15 +45310,17 @@ module stdlib_linalg_lapack_c
                           ! the new rrr directly into z and needs an intermediate
                           ! workspace
                           do k = 1, in - 1
-                             z(ibegin + k - 1, newftt) = cmplx(work(indin1 + k - 1), zero)
-                             z(ibegin + k - 1, newftt + 1) = cmplx(work(indin2 + k - 1), zero)
+                             z(ibegin + k - 1, newftt) = cmplx(work(indin1 + k - 1), zero, KIND=sp)
+                                       
+                             z(ibegin + k - 1, newftt + 1) = cmplx(work(indin2 + k - 1), zero, KIND=sp)
+                                       
                           end do
-                          z(iend, newftt) = cmplx(work(indin1 + in - 1), zero)
+                          z(iend, newftt) = cmplx(work(indin1 + in - 1), zero, KIND=sp)
                           if (iinfo == 0) then
                              ! a new rrr for the cluster was found by stdlib_slarrf
                              ! update shift and store it
                              ssigma = sigma + tau
-                             z(iend, newftt + 1) = cmplx(ssigma, zero)
+                             z(iend, newftt + 1) = cmplx(ssigma, zero, KIND=sp)
                              ! work() are the midpoints and werr() the semi-width
                              ! note that the entries in w are unchanged.
                              do k = newfst, newlst
@@ -49861,8 +49872,10 @@ module stdlib_linalg_lapack_c
                        call stdlib_cgesc2(ldz, z, ldz, rhs, ipiv, jpiv, scaloc)
                        if (scaloc /= one) then
                           do k = 1, n
-                             call stdlib_cscal(m, cmplx(scaloc, zero), c(1, k), 1)
-                             call stdlib_cscal(m, cmplx(scaloc, zero), f(1, k), 1)
+                             call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), c(1, k), 1)
+                                       
+                             call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), f(1, k), 1)
+                                       
                           end do
                           scale = scale*scaloc
                        end if
@@ -49910,8 +49923,10 @@ module stdlib_linalg_lapack_c
                     call stdlib_cgesc2(ldz, z, ldz, rhs, ipiv, jpiv, scaloc)
                     if (scaloc /= one) then
                        do k = 1, n
-                          call stdlib_cscal(m, cmplx(scaloc, zero), c(1, k), 1)
-                          call stdlib_cscal(m, cmplx(scaloc, zero), f(1, k), 1)
+                          call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), c(1, k), 1)
+                                    
+                          call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), f(1, k), 1)
+                                    
                        end do
                        scale = scale*scaloc
                     end if
@@ -50147,39 +50162,47 @@ module stdlib_linalg_lapack_c
                        pq = pq + mb*nb
                        if (scaloc /= one) then
                           do k = 1, js - 1
-                             call stdlib_cscal(m, cmplx(scaloc, zero), c(1, k), 1)
-                             call stdlib_cscal(m, cmplx(scaloc, zero), f(1, k), 1)
+                             call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), c(1, k), 1)
+                                       
+                             call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), f(1, k), 1)
+                                       
                           end do
                           do k = js, je
-                             call stdlib_cscal(is - 1, cmplx(scaloc, zero), c(1, k), 1)
-                             call stdlib_cscal(is - 1, cmplx(scaloc, zero), f(1, k), 1)
+                             call stdlib_cscal(is - 1, cmplx(scaloc, zero, KIND=sp), c(1, k), 1)
+                                       
+                             call stdlib_cscal(is - 1, cmplx(scaloc, zero, KIND=sp), f(1, k), 1)
+                                       
                           end do
                           do k = js, je
-                             call stdlib_cscal(m - ie, cmplx(scaloc, zero), c(ie + 1, k), 1)
-                                       
-                             call stdlib_cscal(m - ie, cmplx(scaloc, zero), f(ie + 1, k), 1)
-                                       
+                             call stdlib_cscal(m - ie, cmplx(scaloc, zero, KIND=sp), c(ie + 1, k), &
+                                       1)
+                             call stdlib_cscal(m - ie, cmplx(scaloc, zero, KIND=sp), f(ie + 1, k), &
+                                       1)
                           end do
                           do k = je + 1, n
-                             call stdlib_cscal(m, cmplx(scaloc, zero), c(1, k), 1)
-                             call stdlib_cscal(m, cmplx(scaloc, zero), f(1, k), 1)
+                             call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), c(1, k), 1)
+                                       
+                             call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), f(1, k), 1)
+                                       
                           end do
                           scale = scale*scaloc
                        end if
                        ! substitute r(i,j) and l(i,j) into remaining equation.
                        if (i > 1) then
-                          call stdlib_cgemm('n', 'n', is - 1, nb, mb, cmplx(-one, zero), a(1, is &
-                                    ), lda, c(is, js), ldc, cmplx(one, zero), c(1, js), ldc)
-                          call stdlib_cgemm('n', 'n', is - 1, nb, mb, cmplx(-one, zero), d(1, is &
-                                    ), ldd, c(is, js), ldc, cmplx(one, zero), f(1, js), ldf)
+                          call stdlib_cgemm('n', 'n', is - 1, nb, mb, cmplx(-one, zero, KIND=sp), &
+                          a(1, is), lda, c(is, js), ldc, cmplx(one, zero, KIND=sp), c(1, js), &
+                                     ldc)
+                          call stdlib_cgemm('n', 'n', is - 1, nb, mb, cmplx(-one, zero, KIND=sp), &
+                          d(1, is), ldd, c(is, js), ldc, cmplx(one, zero, KIND=sp), f(1, js), &
+                                     ldf)
                        end if
                        if (j < q) then
-                          call stdlib_cgemm('n', 'n', mb, n - je, nb, cmplx(one, zero), f(is, js &
-                          ), ldf, b(js, je + 1), ldb, cmplx(one, zero), c(is, je + 1), ldc)
-                                    
-                          call stdlib_cgemm('n', 'n', mb, n - je, nb, cmplx(one, zero), f(is, js &
-                          ), ldf, e(js, je + 1), lde, cmplx(one, zero), f(is, je + 1), ldf)
-                                    
+                          call stdlib_cgemm('n', 'n', mb, n - je, nb, cmplx(one, zero, KIND=sp), f( &
+                           is, js), ldf, b(js, je + 1), ldb, cmplx(one, zero, KIND=sp), c(is, je + &
+                                     1), ldc)
+                          call stdlib_cgemm('n', 'n', mb, n - je, nb, cmplx(one, zero, KIND=sp), f( &
+                           is, js), ldf, e(js, je + 1), lde, cmplx(one, zero, KIND=sp), f(is, je + &
+                                     1), ldf)
                        end if
                     end do loop_120
                  end do loop_130
@@ -50225,35 +50248,47 @@ module stdlib_linalg_lapack_c
                     if (linfo > 0) info = linfo
                     if (scaloc /= one) then
                        do k = 1, js - 1
-                          call stdlib_cscal(m, cmplx(scaloc, zero), c(1, k), 1)
-                          call stdlib_cscal(m, cmplx(scaloc, zero), f(1, k), 1)
+                          call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), c(1, k), 1)
+                                    
+                          call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), f(1, k), 1)
+                                    
                        end do
                        do k = js, je
-                          call stdlib_cscal(is - 1, cmplx(scaloc, zero), c(1, k), 1)
-                          call stdlib_cscal(is - 1, cmplx(scaloc, zero), f(1, k), 1)
+                          call stdlib_cscal(is - 1, cmplx(scaloc, zero, KIND=sp), c(1, k), 1)
+                                    
+                          call stdlib_cscal(is - 1, cmplx(scaloc, zero, KIND=sp), f(1, k), 1)
+                                    
                        end do
                        do k = js, je
-                          call stdlib_cscal(m - ie, cmplx(scaloc, zero), c(ie + 1, k), 1)
-                          call stdlib_cscal(m - ie, cmplx(scaloc, zero), f(ie + 1, k), 1)
+                          call stdlib_cscal(m - ie, cmplx(scaloc, zero, KIND=sp), c(ie + 1, k), 1)
+                                    
+                          call stdlib_cscal(m - ie, cmplx(scaloc, zero, KIND=sp), f(ie + 1, k), 1)
+                                    
                        end do
                        do k = je + 1, n
-                          call stdlib_cscal(m, cmplx(scaloc, zero), c(1, k), 1)
-                          call stdlib_cscal(m, cmplx(scaloc, zero), f(1, k), 1)
+                          call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), c(1, k), 1)
+                                    
+                          call stdlib_cscal(m, cmplx(scaloc, zero, KIND=sp), f(1, k), 1)
+                                    
                        end do
                        scale = scale*scaloc
                     end if
                     ! substitute r(i,j) and l(i,j) into remaining equation.
                     if (j > p + 2) then
-                       call stdlib_cgemm('n', 'c', mb, js - 1, nb, cmplx(one, zero), c(is, js), &
-                                 ldc, b(1, js), ldb, cmplx(one, zero), f(is, 1), ldf)
-                       call stdlib_cgemm('n', 'c', mb, js - 1, nb, cmplx(one, zero), f(is, js), &
-                                 ldf, e(1, js), lde, cmplx(one, zero), f(is, 1), ldf)
+                       call stdlib_cgemm('n', 'c', mb, js - 1, nb, cmplx(one, zero, KIND=sp), c( &
+                       is, js), ldc, b(1, js), ldb, cmplx(one, zero, KIND=sp), f(is, 1), ldf)
+                                 
+                       call stdlib_cgemm('n', 'c', mb, js - 1, nb, cmplx(one, zero, KIND=sp), f( &
+                       is, js), ldf, e(1, js), lde, cmplx(one, zero, KIND=sp), f(is, 1), ldf)
+                                 
                     end if
                     if (i < p) then
-                       call stdlib_cgemm('c', 'n', m - ie, nb, mb, cmplx(-one, zero), a(is, ie + 1 &
-                                 ), lda, c(is, js), ldc, cmplx(one, zero), c(ie + 1, js), ldc)
-                       call stdlib_cgemm('c', 'n', m - ie, nb, mb, cmplx(-one, zero), d(is, ie + 1 &
-                                 ), ldd, f(is, js), ldf, cmplx(one, zero), c(ie + 1, js), ldc)
+                       call stdlib_cgemm('c', 'n', m - ie, nb, mb, cmplx(-one, zero, KIND=sp), a( &
+                       is, ie + 1), lda, c(is, js), ldc, cmplx(one, zero, KIND=sp), c(ie + 1, js), &
+                                  ldc)
+                       call stdlib_cgemm('c', 'n', m - ie, nb, mb, cmplx(-one, zero, KIND=sp), d( &
+                       is, ie + 1), ldd, f(is, js), ldf, cmplx(one, zero, KIND=sp), c(ie + 1, js), &
+                                  ldc)
                     end if
                  end do loop_200
               end do loop_210
@@ -50930,7 +50965,7 @@ module stdlib_linalg_lapack_c
                     if (da11 < one .and. db > one) then
                        if (db > bignum*da11) scaloc = one/db
                     end if
-                    x11 = stdlib_cladiv(vec*cmplx(scaloc), a11)
+                    x11 = stdlib_cladiv(vec*cmplx(scaloc, KIND=sp), a11)
                     if (scaloc /= one) then
                        do j = 1, n
                           call stdlib_csscal(m, scaloc, c(1, j), 1)
@@ -50966,7 +51001,7 @@ module stdlib_linalg_lapack_c
                     if (da11 < one .and. db > one) then
                        if (db > bignum*da11) scaloc = one/db
                     end if
-                    x11 = stdlib_cladiv(vec*cmplx(scaloc), a11)
+                    x11 = stdlib_cladiv(vec*cmplx(scaloc, KIND=sp), a11)
                     if (scaloc /= one) then
                        do j = 1, n
                           call stdlib_csscal(m, scaloc, c(1, j), 1)
@@ -51006,7 +51041,7 @@ module stdlib_linalg_lapack_c
                     if (da11 < one .and. db > one) then
                        if (db > bignum*da11) scaloc = one/db
                     end if
-                    x11 = stdlib_cladiv(vec*cmplx(scaloc), a11)
+                    x11 = stdlib_cladiv(vec*cmplx(scaloc, KIND=sp), a11)
                     if (scaloc /= one) then
                        do j = 1, n
                           call stdlib_csscal(m, scaloc, c(1, j), 1)
@@ -51044,7 +51079,7 @@ module stdlib_linalg_lapack_c
                     if (da11 < one .and. db > one) then
                        if (db > bignum*da11) scaloc = one/db
                     end if
-                    x11 = stdlib_cladiv(vec*cmplx(scaloc), a11)
+                    x11 = stdlib_cladiv(vec*cmplx(scaloc, KIND=sp), a11)
                     if (scaloc /= one) then
                        do j = 1, n
                           call stdlib_csscal(m, scaloc, c(1, j), 1)
@@ -51408,7 +51443,7 @@ module stdlib_linalg_lapack_c
               call stdlib_cbbcsd(jobu1, jobu2, jobv1t, jobv2t, trans, m, p, q, theta, theta, u1, &
               ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, theta, theta, theta, theta, theta, theta, &
                         theta, theta, rwork, -1, childinfo)
-              lbbcsdworkopt = int(rwork(1))
+              lbbcsdworkopt = int(rwork(1), KIND=ilp)
               lbbcsdworkmin = lbbcsdworkopt
               lrworkopt = ibbcsd + lbbcsdworkopt - 1
               lrworkmin = ibbcsd + lbbcsdworkmin - 1
@@ -51420,16 +51455,16 @@ module stdlib_linalg_lapack_c
               itauq2 = itauq1 + max(1, q)
               iorgqr = itauq2 + max(1, m - q)
               call stdlib_cungqr(m - q, m - q, m - q, u1, max(1, m - q), u1, work, -1, childinfo)
-              lorgqrworkopt = int(work(1))
+              lorgqrworkopt = int(work(1), KIND=ilp)
               lorgqrworkmin = max(1, m - q)
               iorglq = itauq2 + max(1, m - q)
               call stdlib_cunglq(m - q, m - q, m - q, u1, max(1, m - q), u1, work, -1, childinfo)
-              lorglqworkopt = int(work(1))
+              lorglqworkopt = int(work(1), KIND=ilp)
               lorglqworkmin = max(1, m - q)
               iorbdb = itauq2 + max(1, m - q)
               call stdlib_cunbdb(trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, &
                         ldx22, theta, theta, u1, u2, v1t, v2t, work, -1, childinfo)
-              lorbdbworkopt = int(work(1))
+              lorbdbworkopt = int(work(1), KIND=ilp)
               lorbdbworkmin = lorbdbworkopt
               lworkopt = max(iorgqr + lorgqrworkopt, iorglq + lorglqworkopt, iorbdb + &
                         lorbdbworkopt) - 1
@@ -53668,7 +53703,7 @@ module stdlib_linalg_lapack_c
                  nb = stdlib_ilaenv(inb, 'stdlib_cgeqrf', ' ', m, n, -1, -1)
                  lwkopt = (n + 1)*nb
               end if
-              work(1) = cmplx(lwkopt)
+              work(1) = cmplx(lwkopt, KIND=sp)
               if ((lwork < iws) .and. .not. lquery) then
                  info = -8
               end if
@@ -53704,14 +53739,14 @@ module stdlib_linalg_lapack_c
               na = min(m, nfxd)
       ! cc      call stdlib_cgeqr2( m, na, a, lda, tau, work, info )
               call stdlib_cgeqrf(m, na, a, lda, tau, work, lwork, info)
-              iws = max(iws, int(work(1)))
+              iws = max(iws, int(work(1), KIND=ilp))
               if (na < n) then
       ! cc         call stdlib_cunm2r( 'left', 'conjugate transpose', m, n-na,
       ! cc  $                   na, a, lda, tau, a( 1, na+1 ), lda, work,
       ! cc  $                   info )
                  call stdlib_cunmqr('left', 'conjugate transpose', m, n - na, na, a, lda, tau, a(1, &
                             na + 1), lda, work, lwork, info)
-                 iws = max(iws, int(work(1)))
+                 iws = max(iws, int(work(1), KIND=ilp))
               end if
            end if
            ! factorize free columns
@@ -53768,7 +53803,7 @@ module stdlib_linalg_lapack_c
               if (j <= minmn) call stdlib_claqp2(m, n - j + 1, j - 1, a(1, j), lda, jpvt(j), tau(j), &
                          rwork(j), rwork(n + j), work(1))
            end if
-           work(1) = cmplx(lwkopt)
+           work(1) = cmplx(lwkopt, KIND=sp)
            return
            ! end of stdlib_cgeqp3
      end subroutine stdlib_cgeqp3
@@ -54199,7 +54234,7 @@ module stdlib_linalg_lapack_c
                                                      ! ( d2 ) n-m
            call stdlib_cunmqr('left', 'conjugate transpose', n, 1, m, a, lda, work, d, max(1, n) &
                      , work(m + np + 1), lwork - m - np, info)
-           lopt = max(lopt, int(work(m + np + 1)))
+           lopt = max(lopt, int(work(m + np + 1), KIND=ilp))
            ! solve t22*y2 = d2 for y2
            if (n > m) then
               call stdlib_ctrtrs('upper', 'no transpose', 'non unit', n - m, 1, b(m + 1, m + p - n + 1), &
@@ -54231,7 +54266,7 @@ module stdlib_linalg_lapack_c
            ! backward transformation y = z**h *y
            call stdlib_cunmrq('left', 'conjugate transpose', p, 1, np, b(max(1, n - p + 1), 1), &
                      ldb, work(m + 1), y, max(1, p), work(m + np + 1), lwork - m - np, info)
-           work(1) = m + np + max(lopt, int(work(m + np + 1)))
+           work(1) = m + np + max(lopt, int(work(m + np + 1), KIND=ilp))
            return
            ! end of stdlib_cggglm
      end subroutine stdlib_cggglm
@@ -54290,7 +54325,7 @@ module stdlib_linalg_lapack_c
            info = 0
            nb = stdlib_ilaenv(1, 'stdlib_cgghd3', ' ', n, ilo, ihi, -1)
            lwkopt = max(6*n*nb, 1)
-           work(1) = cmplx(lwkopt)
+           work(1) = cmplx(lwkopt, KIND=sp)
            initq = stdlib_lsame(compq, 'i')
            wantq = initq .or. stdlib_lsame(compq, 'v')
            initz = stdlib_lsame(compz, 'i')
@@ -54385,7 +54420,7 @@ module stdlib_linalg_lapack_c
                     do i = ihi, j + 2, -1
                        temp = a(i - 1, j)
                        call stdlib_clartg(temp, a(i, j), c, s, a(i - 1, j))
-                       a(i, j) = cmplx(c)
+                       a(i, j) = cmplx(c, KIND=sp)
                        b(i, j) = s
                     end do
                     ! accumulate givens rotations into workspace array.
@@ -54446,7 +54481,7 @@ module stdlib_linalg_lapack_c
                           b(jj + 1, jj) = czero
                           call stdlib_crot(jj - top, b(top + 1, jj + 1), 1, b(top + 1, jj), 1, c, s)
                                     
-                          a(jj + 1, j) = cmplx(c)
+                          a(jj + 1, j) = cmplx(c, KIND=sp)
                           b(jj + 1, j) = -conjg(s)
                        end if
                     end do
@@ -54474,7 +54509,7 @@ module stdlib_linalg_lapack_c
                     end do
                     if (jj > 0) then
                        do i = jj, 1, -1
-                          c = dble(a(j + 1 + i, j))
+                          c = real(a(j + 1 + i, j), KIND=sp)
                           call stdlib_crot(ihi - top, a(top + 1, j + i + 1), 1, a(top + 1, j + i), 1, c, - &
                                     conjg(b(j + 1 + i, j)))
                        end do
@@ -54763,7 +54798,7 @@ module stdlib_linalg_lapack_c
            end if
            if (jcol < ihi) call stdlib_cgghrd(compq2, compz2, n, jcol, ihi, a, lda, b, ldb, q, ldq, &
                       z, ldz, ierr)
-           work(1) = cmplx(lwkopt)
+           work(1) = cmplx(lwkopt, KIND=sp)
            return
            ! end of stdlib_cgghd3
      end subroutine stdlib_cgghd3
@@ -54853,7 +54888,7 @@ module stdlib_linalg_lapack_c
                              ! ( c2 ) m+p-n
            call stdlib_cunmqr('left', 'conjugate transpose', m, 1, mn, a, lda, work(p + 1), c, &
                      max(1, m), work(p + mn + 1), lwork - p - mn, info)
-           lopt = max(lopt, int(work(p + mn + 1)))
+           lopt = max(lopt, int(work(p + mn + 1), KIND=ilp))
            ! solve t12*x2 = d for x2
            if (p > 0) then
               call stdlib_ctrtrs('upper', 'no transpose', 'non-unit', p, 1, b(1, n - p + 1), ldb, d, &
@@ -54895,7 +54930,7 @@ module stdlib_linalg_lapack_c
            ! backward transformation x = q**h*x
            call stdlib_cunmrq('left', 'conjugate transpose', n, 1, p, b, ldb, work(1), x, n, &
                      work(p + mn + 1), lwork - p - mn, info)
-           work(1) = p + mn + max(lopt, int(work(p + mn + 1)))
+           work(1) = p + mn + max(lopt, int(work(p + mn + 1), KIND=ilp))
            return
            ! end of stdlib_cgglse
      end subroutine stdlib_cgglse
@@ -54953,7 +54988,7 @@ module stdlib_linalg_lapack_c
            end if
            ! check that d(1:n) is non-zero.
            do i = 1, n
-              if (d(i) == cmplx(zero)) return
+              if (d(i) == cmplx(zero, KIND=sp)) return
            end do
            ainvnm = zero
            if (onenrm) then
@@ -55125,7 +55160,7 @@ module stdlib_linalg_lapack_c
               if (berr(j) > eps .and. two*berr(j) <= lstres .and. count <= itmax) then
                  ! update solution and try again.
                  call stdlib_cgttrs(trans, n, 1, dlf, df, duf, du2, ipiv, work, n, info)
-                 call stdlib_caxpy(n, cmplx(one), work, 1, x(1, j), 1)
+                 call stdlib_caxpy(n, cmplx(one, KIND=sp), work, 1, x(1, j), 1)
                  lstres = berr(j)
                  count = count + 1
                  go to 20
@@ -58304,9 +58339,9 @@ module stdlib_linalg_lapack_c
               return
            end if
            ! quick return if possible
-           ! work( 1 ) = cmplx( 1 )
+           ! work( 1 ) = cmplx( 1 ,KIND=sp)
            if (n <= 0) then
-              work(1) = cmplx(1)
+              work(1) = cmplx(1, KIND=sp)
               return
            end if
            ! initialize q and z
@@ -58663,7 +58698,7 @@ module stdlib_linalg_lapack_c
            info = 0
            ! exit (other than argument error) -- return optimal workspace size
 210    continue
-           work(1) = cmplx(n)
+           work(1) = cmplx(n, KIND=sp)
            return
            ! end of stdlib_chgeqz
      end subroutine stdlib_chgeqz
@@ -59832,7 +59867,7 @@ module stdlib_linalg_lapack_c
            ! set up workspaces for eigenvalues only/accumulate new vectors
            ! routine
            temp = log(real(n))/log(two)
-           lgn = int(temp)
+           lgn = int(temp, KIND=ilp)
            if (2**lgn < n) lgn = lgn + 1
            if (2**lgn < n) lgn = lgn + 1
            iprmpt = indxq + n + 1
@@ -60297,17 +60332,17 @@ module stdlib_linalg_lapack_c
            else
               ! ==== workspace query call to stdlib_cgehrd ====
               call stdlib_cgehrd(jw, 1, jw - 1, t, ldt, work, work, -1, info)
-              lwk1 = int(work(1))
+              lwk1 = int(work(1), KIND=ilp)
               ! ==== workspace query call to stdlib_cunmhr ====
               call stdlib_cunmhr('r', 'n', jw, jw, 1, jw - 1, t, ldt, work, v, ldv, work, -1, info)
                         
-              lwk2 = int(work(1))
+              lwk2 = int(work(1), KIND=ilp)
               ! ==== optimal workspace ====
               lwkopt = jw + max(lwk1, lwk2)
            end if
            ! ==== quick return in case of workspace query. ====
            if (lwork == -1) then
-              work(1) = cmplx(lwkopt, 0)
+              work(1) = cmplx(lwkopt, 0, KIND=sp)
               return
            end if
            ! ==== nothing to do ...
@@ -60458,7 +60493,7 @@ module stdlib_linalg_lapack_c
            ! .    window.)  ====
            ns = ns - infqr
             ! ==== return optimal workspace. ====
-           work(1) = cmplx(lwkopt, 0)
+           work(1) = cmplx(lwkopt, 0, KIND=sp)
            ! ==== end of stdlib_claqr2 ====
      end subroutine stdlib_claqr2
 
@@ -61529,7 +61564,7 @@ module stdlib_linalg_lapack_c
               if (berr(j) > eps .and. two*berr(j) <= lstres .and. count <= itmax) then
                  ! update solution and try again.
                  call stdlib_cpttrs(uplo, n, 1, df, ef, work, n, info)
-                 call stdlib_caxpy(n, cmplx(one), work, 1, x(1, j), 1)
+                 call stdlib_caxpy(n, cmplx(one, KIND=sp), work, 1, x(1, j), 1)
                  lstres = berr(j)
                  count = count + 1
                  go to 20
@@ -62225,7 +62260,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cscal(n - k + 1, temp1, a(k, k), lda)
                  if (wantq) call stdlib_cscal(n, temp2, q(1, k), 1)
               else
-                 b(k, k) = cmplx(zero, zero)
+                 b(k, k) = cmplx(zero, zero, KIND=sp)
               end if
               alpha(k) = a(k, k)
               beta(k) = b(k, k)
@@ -62342,11 +62377,11 @@ module stdlib_linalg_lapack_c
                  ! eigenvalue.
                  rnrm = stdlib_scnrm2(n, vr(1, ks), 1)
                  lnrm = stdlib_scnrm2(n, vl(1, ks), 1)
-                 call stdlib_cgemv('n', n, n, cmplx(one, zero), a, lda, vr(1, ks), 1, cmplx( &
-                           zero, zero), work, 1)
+                 call stdlib_cgemv('n', n, n, cmplx(one, zero, KIND=sp), a, lda, vr(1, ks), 1, &
+                           cmplx(zero, zero, KIND=sp), work, 1)
                  yhax = stdlib_cdotc(n, work, 1, vl(1, ks), 1)
-                 call stdlib_cgemv('n', n, n, cmplx(one, zero), b, ldb, vr(1, ks), 1, cmplx( &
-                           zero, zero), work, 1)
+                 call stdlib_cgemv('n', n, n, cmplx(one, zero, KIND=sp), b, ldb, vr(1, ks), 1, &
+                           cmplx(zero, zero, KIND=sp), work, 1)
                  yhbx = stdlib_cdotc(n, work, 1, vl(1, ks), 1)
                  cond = stdlib_slapy2(abs(yhax), abs(yhbx))
                  if (cond == zero) then
@@ -63138,101 +63173,101 @@ module stdlib_linalg_lapack_c
               if (r == q) then
                  call stdlib_cunbdb1(m, p, q, x11, ldx11, x21, ldx21, theta, dum, cdum, cdum, &
                            cdum, work, -1, childinfo)
-                 lorbdb = int(work(1))
+                 lorbdb = int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_cungqr(p, p, q, u1, ldu1, cdum, work(1), -1, childinfo)
                     lorgqrmin = max(lorgqrmin, p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_cungqr(m - p, m - p, q, u2, ldu2, cdum, work(1), -1, childinfo)
                               
                     lorgqrmin = max(lorgqrmin, m - p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_cunglq(q - 1, q - 1, q - 1, v1t, ldv1t, cdum, work(1), -1, childinfo)
                               
                     lorglqmin = max(lorglqmin, q - 1)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_cbbcsd(jobu1, jobu2, jobv1t, 'n', 'n', m, p, q, theta, dum(1), u1, &
                  ldu1, u2, ldu2, v1t, ldv1t, cdum, 1, dum, dum, dum, dum, dum, dum, dum, dum, rwork( &
                            1), -1, childinfo)
-                 lbbcsd = int(rwork(1))
+                 lbbcsd = int(rwork(1), KIND=ilp)
               else if (r == p) then
                  call stdlib_cunbdb2(m, p, q, x11, ldx11, x21, ldx21, theta, dum, cdum, cdum, &
                            cdum, work(1), -1, childinfo)
-                 lorbdb = int(work(1))
+                 lorbdb = int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_cungqr(p - 1, p - 1, p - 1, u1(2, 2), ldu1, cdum, work(1), -1, childinfo &
                               )
                     lorgqrmin = max(lorgqrmin, p - 1)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_cungqr(m - p, m - p, q, u2, ldu2, cdum, work(1), -1, childinfo)
                               
                     lorgqrmin = max(lorgqrmin, m - p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_cunglq(q, q, r, v1t, ldv1t, cdum, work(1), -1, childinfo)
                     lorglqmin = max(lorglqmin, q)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_cbbcsd(jobv1t, 'n', jobu1, jobu2, 't', m, q, p, theta, dum, v1t, &
                  ldv1t, cdum, 1, u1, ldu1, u2, ldu2, dum, dum, dum, dum, dum, dum, dum, dum, rwork( &
                            1), -1, childinfo)
-                 lbbcsd = int(rwork(1))
+                 lbbcsd = int(rwork(1), KIND=ilp)
               else if (r == m - p) then
                  call stdlib_cunbdb3(m, p, q, x11, ldx11, x21, ldx21, theta, dum, cdum, cdum, &
                            cdum, work(1), -1, childinfo)
-                 lorbdb = int(work(1))
+                 lorbdb = int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_cungqr(p, p, q, u1, ldu1, cdum, work(1), -1, childinfo)
                     lorgqrmin = max(lorgqrmin, p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_cungqr(m - p - 1, m - p - 1, m - p - 1, u2(2, 2), ldu2, cdum, work(1), -1, &
                               childinfo)
                     lorgqrmin = max(lorgqrmin, m - p - 1)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_cunglq(q, q, r, v1t, ldv1t, cdum, work(1), -1, childinfo)
                     lorglqmin = max(lorglqmin, q)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_cbbcsd('n', jobv1t, jobu2, jobu1, 't', m, m - q, m - p, theta, dum, cdum, &
                   1, v1t, ldv1t, u2, ldu2, u1, ldu1, dum, dum, dum, dum, dum, dum, dum, dum, rwork( &
                             1), -1, childinfo)
-                 lbbcsd = int(rwork(1))
+                 lbbcsd = int(rwork(1), KIND=ilp)
               else
                  call stdlib_cunbdb4(m, p, q, x11, ldx11, x21, ldx21, theta, dum, cdum, cdum, &
                            cdum, cdum, work(1), -1, childinfo)
-                 lorbdb = m + int(work(1))
+                 lorbdb = m + int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_cungqr(p, p, m - q, u1, ldu1, cdum, work(1), -1, childinfo)
                     lorgqrmin = max(lorgqrmin, p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_cungqr(m - p, m - p, m - q, u2, ldu2, cdum, work(1), -1, childinfo)
                               
                     lorgqrmin = max(lorgqrmin, m - p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_cunglq(q, q, q, v1t, ldv1t, cdum, work(1), -1, childinfo)
                     lorglqmin = max(lorglqmin, q)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_cbbcsd(jobu2, jobu1, 'n', jobv1t, 'n', m, m - p, m - q, theta, dum, u2, &
                  ldu2, u1, ldu1, cdum, 1, v1t, ldv1t, dum, dum, dum, dum, dum, dum, dum, dum, rwork( &
                            1), -1, childinfo)
-                 lbbcsd = int(rwork(1))
+                 lbbcsd = int(rwork(1), KIND=ilp)
               end if
               lrworkmin = ibbcsd + lbbcsd - 1
               lrworkopt = lrworkmin
@@ -63663,12 +63698,12 @@ module stdlib_linalg_lapack_c
               call stdlib_xerbla('stdlib_cungtsqr', -info)
               return
            else if (lquery) then
-              work(1) = cmplx(lworkopt)
+              work(1) = cmplx(lworkopt, KIND=sp)
               return
            end if
            ! quick return if possible
            if (min(m, n) == 0) then
-              work(1) = cmplx(lworkopt)
+              work(1) = cmplx(lworkopt, KIND=sp)
               return
            end if
            ! (1) form explicitly the tall-skinny m-by-n left submatrix q1_in
@@ -63691,7 +63726,7 @@ module stdlib_linalg_lapack_c
            do j = 1, n
               call stdlib_ccopy(m, work((j - 1)*ldc + 1), 1, a(1, j), 1)
            end do
-           work(1) = cmplx(lworkopt)
+           work(1) = cmplx(lworkopt, KIND=sp)
            return
            ! end of stdlib_cungtsqr
      end subroutine stdlib_cungtsqr
@@ -64852,7 +64887,7 @@ module stdlib_linalg_lapack_c
            nb4 = stdlib_ilaenv(1, 'stdlib_cunmrq', ' ', m, n, nrhs, -1)
            nb = max(nb1, nb2, nb3, nb4)
            lwkopt = max(1, mn + 2*n + nb*(n + 1), 2*mn + nb*nrhs)
-           work(1) = cmplx(lwkopt)
+           work(1) = cmplx(lwkopt, KIND=sp)
            lquery = (lwork == -1)
            if (m < 0) then
               info = -1
@@ -64999,7 +65034,7 @@ module stdlib_linalg_lapack_c
               call stdlib_clascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
 70      continue
-           work(1) = cmplx(lwkopt)
+           work(1) = cmplx(lwkopt, KIND=sp)
            return
            ! end of stdlib_cgelsy
      end subroutine stdlib_cgelsy
@@ -65036,8 +65071,8 @@ module stdlib_linalg_lapack_c
            tran = stdlib_lsame(trans, 'c')
            left = stdlib_lsame(side, 'l')
            right = stdlib_lsame(side, 'r')
-           mb = int(t(2))
-           nb = int(t(3))
+           mb = int(t(2), KIND=ilp)
+           nb = int(t(3), KIND=ilp)
            if (left) then
              lw = n*mb
              mn = m
@@ -65132,8 +65167,8 @@ module stdlib_linalg_lapack_c
            tran = stdlib_lsame(trans, 'c')
            left = stdlib_lsame(side, 'l')
            right = stdlib_lsame(side, 'r')
-           mb = int(t(2))
-           nb = int(t(3))
+           mb = int(t(2), KIND=ilp)
+           nb = int(t(3), KIND=ilp)
            if (left) then
              lw = n*nb
              mn = m
@@ -65367,8 +65402,8 @@ module stdlib_linalg_lapack_c
            ! test the input arguments
            info = 0
            minmn = min(m, n)
-           mnthr1 = int(minmn*17.0e0/9.0e0)
-           mnthr2 = int(minmn*5.0e0/3.0e0)
+           mnthr1 = int(minmn*17.0e0/9.0e0, KIND=ilp)
+           mnthr2 = int(minmn*5.0e0/3.0e0, KIND=ilp)
            wntqa = stdlib_lsame(jobz, 'a')
            wntqs = stdlib_lsame(jobz, 's')
            wntqas = wntqa .or. wntqs
@@ -65411,34 +65446,34 @@ module stdlib_linalg_lapack_c
                  ! compute space preferred for each routine
                  call stdlib_cgebrd(m, n, cdum(1), m, dum(1), dum(1), cdum(1), cdum(1), cdum(1), - &
                            1, ierr)
-                 lwork_cgebrd_mn = int(cdum(1))
+                 lwork_cgebrd_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cgebrd(n, n, cdum(1), n, dum(1), dum(1), cdum(1), cdum(1), cdum(1), - &
                            1, ierr)
-                 lwork_cgebrd_nn = int(cdum(1))
+                 lwork_cgebrd_nn = int(cdum(1), KIND=ilp)
                  call stdlib_cgeqrf(m, n, cdum(1), m, cdum(1), cdum(1), -1, ierr)
-                 lwork_cgeqrf_mn = int(cdum(1))
+                 lwork_cgeqrf_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cungbr('p', n, n, n, cdum(1), n, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_p_nn = int(cdum(1))
+                 lwork_cungbr_p_nn = int(cdum(1), KIND=ilp)
                  call stdlib_cungbr('q', m, m, n, cdum(1), m, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_q_mm = int(cdum(1))
+                 lwork_cungbr_q_mm = int(cdum(1), KIND=ilp)
                  call stdlib_cungbr('q', m, n, n, cdum(1), m, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_q_mn = int(cdum(1))
+                 lwork_cungbr_q_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cungqr(m, m, n, cdum(1), m, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungqr_mm = int(cdum(1))
+                 lwork_cungqr_mm = int(cdum(1), KIND=ilp)
                  call stdlib_cungqr(m, n, n, cdum(1), m, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungqr_mn = int(cdum(1))
+                 lwork_cungqr_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cunmbr('p', 'r', 'c', n, n, n, cdum(1), n, cdum(1), cdum(1), n, cdum( &
                            1), -1, ierr)
-                 lwork_cunmbr_prc_nn = int(cdum(1))
+                 lwork_cunmbr_prc_nn = int(cdum(1), KIND=ilp)
                  call stdlib_cunmbr('q', 'l', 'n', m, m, n, cdum(1), m, cdum(1), cdum(1), m, cdum( &
                            1), -1, ierr)
-                 lwork_cunmbr_qln_mm = int(cdum(1))
+                 lwork_cunmbr_qln_mm = int(cdum(1), KIND=ilp)
                  call stdlib_cunmbr('q', 'l', 'n', m, n, n, cdum(1), m, cdum(1), cdum(1), m, cdum( &
                            1), -1, ierr)
-                 lwork_cunmbr_qln_mn = int(cdum(1))
+                 lwork_cunmbr_qln_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cunmbr('q', 'l', 'n', n, n, n, cdum(1), n, cdum(1), cdum(1), n, cdum( &
                            1), -1, ierr)
-                 lwork_cunmbr_qln_nn = int(cdum(1))
+                 lwork_cunmbr_qln_nn = int(cdum(1), KIND=ilp)
                  if (m >= mnthr1) then
                     if (wntqn) then
                        ! path 1 (m >> n, jobz='n')
@@ -65521,34 +65556,34 @@ module stdlib_linalg_lapack_c
                  ! compute space preferred for each routine
                  call stdlib_cgebrd(m, n, cdum(1), m, dum(1), dum(1), cdum(1), cdum(1), cdum(1), - &
                            1, ierr)
-                 lwork_cgebrd_mn = int(cdum(1))
+                 lwork_cgebrd_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cgebrd(m, m, cdum(1), m, dum(1), dum(1), cdum(1), cdum(1), cdum(1), - &
                            1, ierr)
-                 lwork_cgebrd_mm = int(cdum(1))
+                 lwork_cgebrd_mm = int(cdum(1), KIND=ilp)
                  call stdlib_cgelqf(m, n, cdum(1), m, cdum(1), cdum(1), -1, ierr)
-                 lwork_cgelqf_mn = int(cdum(1))
+                 lwork_cgelqf_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cungbr('p', m, n, m, cdum(1), m, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_p_mn = int(cdum(1))
+                 lwork_cungbr_p_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cungbr('p', n, n, m, cdum(1), n, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_p_nn = int(cdum(1))
+                 lwork_cungbr_p_nn = int(cdum(1), KIND=ilp)
                  call stdlib_cungbr('q', m, m, n, cdum(1), m, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_q_mm = int(cdum(1))
+                 lwork_cungbr_q_mm = int(cdum(1), KIND=ilp)
                  call stdlib_cunglq(m, n, m, cdum(1), m, cdum(1), cdum(1), -1, ierr)
-                 lwork_cunglq_mn = int(cdum(1))
+                 lwork_cunglq_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cunglq(n, n, m, cdum(1), n, cdum(1), cdum(1), -1, ierr)
-                 lwork_cunglq_nn = int(cdum(1))
+                 lwork_cunglq_nn = int(cdum(1), KIND=ilp)
                  call stdlib_cunmbr('p', 'r', 'c', m, m, m, cdum(1), m, cdum(1), cdum(1), m, cdum( &
                            1), -1, ierr)
-                 lwork_cunmbr_prc_mm = int(cdum(1))
+                 lwork_cunmbr_prc_mm = int(cdum(1), KIND=ilp)
                  call stdlib_cunmbr('p', 'r', 'c', m, n, m, cdum(1), m, cdum(1), cdum(1), m, cdum( &
                            1), -1, ierr)
-                 lwork_cunmbr_prc_mn = int(cdum(1))
+                 lwork_cunmbr_prc_mn = int(cdum(1), KIND=ilp)
                  call stdlib_cunmbr('p', 'r', 'c', n, n, m, cdum(1), n, cdum(1), cdum(1), n, cdum( &
                            1), -1, ierr)
-                 lwork_cunmbr_prc_nn = int(cdum(1))
+                 lwork_cunmbr_prc_nn = int(cdum(1), KIND=ilp)
                  call stdlib_cunmbr('q', 'l', 'n', m, m, m, cdum(1), m, cdum(1), cdum(1), m, cdum( &
                            1), -1, ierr)
-                 lwork_cunmbr_qln_mm = int(cdum(1))
+                 lwork_cunmbr_qln_mm = int(cdum(1), KIND=ilp)
                  if (n >= mnthr1) then
                     if (wntqn) then
                        ! path 1t (n >> m, jobz='n')
@@ -66942,21 +66977,21 @@ module stdlib_linalg_lapack_c
                  mnthr = stdlib_ilaenv(6, 'stdlib_cgesvd', jobu//jobvt, m, n, 0, 0)
                  ! compute space needed for stdlib_cgeqrf
                  call stdlib_cgeqrf(m, n, a, lda, cdum(1), cdum(1), -1, ierr)
-                 lwork_cgeqrf = int(cdum(1))
+                 lwork_cgeqrf = int(cdum(1), KIND=ilp)
                  ! compute space needed for stdlib_cungqr
                  call stdlib_cungqr(m, n, n, a, lda, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungqr_n = int(cdum(1))
+                 lwork_cungqr_n = int(cdum(1), KIND=ilp)
                  call stdlib_cungqr(m, m, n, a, lda, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungqr_m = int(cdum(1))
+                 lwork_cungqr_m = int(cdum(1), KIND=ilp)
                  ! compute space needed for stdlib_cgebrd
                  call stdlib_cgebrd(n, n, a, lda, s, dum(1), cdum(1), cdum(1), cdum(1), -1, ierr)
                            
-                 lwork_cgebrd = int(cdum(1))
+                 lwork_cgebrd = int(cdum(1), KIND=ilp)
                  ! compute space needed for stdlib_cungbr
                  call stdlib_cungbr('p', n, n, n, a, lda, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_p = int(cdum(1))
+                 lwork_cungbr_p = int(cdum(1), KIND=ilp)
                  call stdlib_cungbr('q', n, n, n, a, lda, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_q = int(cdum(1))
+                 lwork_cungbr_q = int(cdum(1), KIND=ilp)
                  mnthr = stdlib_ilaenv(6, 'stdlib_cgesvd', jobu//jobvt, m, n, 0, 0)
                  if (m >= mnthr) then
                     if (wntun) then
@@ -67042,18 +67077,18 @@ module stdlib_linalg_lapack_c
                     ! path 10 (m at least n, but not much larger)
                     call stdlib_cgebrd(m, n, a, lda, s, dum(1), cdum(1), cdum(1), cdum(1), -1, &
                               ierr)
-                    lwork_cgebrd = int(cdum(1))
+                    lwork_cgebrd = int(cdum(1), KIND=ilp)
                     maxwrk = 2*n + lwork_cgebrd
                     if (wntus .or. wntuo) then
                        call stdlib_cungbr('q', m, n, n, a, lda, cdum(1), cdum(1), -1, ierr)
                                  
-                       lwork_cungbr_q = int(cdum(1))
+                       lwork_cungbr_q = int(cdum(1), KIND=ilp)
                        maxwrk = max(maxwrk, 2*n + lwork_cungbr_q)
                     end if
                     if (wntua) then
                        call stdlib_cungbr('q', m, m, n, a, lda, cdum(1), cdum(1), -1, ierr)
                                  
-                       lwork_cungbr_q = int(cdum(1))
+                       lwork_cungbr_q = int(cdum(1), KIND=ilp)
                        maxwrk = max(maxwrk, 2*n + lwork_cungbr_q)
                     end if
                     if (.not. wntvn) then
@@ -67066,22 +67101,22 @@ module stdlib_linalg_lapack_c
                  mnthr = stdlib_ilaenv(6, 'stdlib_cgesvd', jobu//jobvt, m, n, 0, 0)
                  ! compute space needed for stdlib_cgelqf
                  call stdlib_cgelqf(m, n, a, lda, cdum(1), cdum(1), -1, ierr)
-                 lwork_cgelqf = int(cdum(1))
+                 lwork_cgelqf = int(cdum(1), KIND=ilp)
                  ! compute space needed for stdlib_cunglq
                  call stdlib_cunglq(n, n, m, cdum(1), n, cdum(1), cdum(1), -1, ierr)
-                 lwork_cunglq_n = int(cdum(1))
+                 lwork_cunglq_n = int(cdum(1), KIND=ilp)
                  call stdlib_cunglq(m, n, m, a, lda, cdum(1), cdum(1), -1, ierr)
-                 lwork_cunglq_m = int(cdum(1))
+                 lwork_cunglq_m = int(cdum(1), KIND=ilp)
                  ! compute space needed for stdlib_cgebrd
                  call stdlib_cgebrd(m, m, a, lda, s, dum(1), cdum(1), cdum(1), cdum(1), -1, ierr)
                            
-                 lwork_cgebrd = int(cdum(1))
+                 lwork_cgebrd = int(cdum(1), KIND=ilp)
                   ! compute space needed for stdlib_cungbr p
                  call stdlib_cungbr('p', m, m, m, a, n, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_p = int(cdum(1))
+                 lwork_cungbr_p = int(cdum(1), KIND=ilp)
                  ! compute space needed for stdlib_cungbr q
                  call stdlib_cungbr('q', m, m, m, a, n, cdum(1), cdum(1), -1, ierr)
-                 lwork_cungbr_q = int(cdum(1))
+                 lwork_cungbr_q = int(cdum(1), KIND=ilp)
                  if (n >= mnthr) then
                     if (wntvn) then
                        ! path 1t(n much larger than m, jobvt='n')
@@ -67166,17 +67201,17 @@ module stdlib_linalg_lapack_c
                     ! path 10t(n greater than m, but not much larger)
                     call stdlib_cgebrd(m, n, a, lda, s, dum(1), cdum(1), cdum(1), cdum(1), -1, &
                               ierr)
-                    lwork_cgebrd = int(cdum(1))
+                    lwork_cgebrd = int(cdum(1), KIND=ilp)
                     maxwrk = 2*m + lwork_cgebrd
                     if (wntvs .or. wntvo) then
                       ! compute space needed for stdlib_cungbr p
                       call stdlib_cungbr('p', m, n, m, a, n, cdum(1), cdum(1), -1, ierr)
-                      lwork_cungbr_p = int(cdum(1))
+                      lwork_cungbr_p = int(cdum(1), KIND=ilp)
                       maxwrk = max(maxwrk, 2*m + lwork_cungbr_p)
                     end if
                     if (wntva) then
                       call stdlib_cungbr('p', n, n, m, a, n, cdum(1), cdum(1), -1, ierr)
-                      lwork_cungbr_p = int(cdum(1))
+                      lwork_cungbr_p = int(cdum(1), KIND=ilp)
                       maxwrk = max(maxwrk, 2*m + lwork_cungbr_p)
                     end if
                     if (.not. wntun) then
@@ -69413,15 +69448,15 @@ module stdlib_linalg_lapack_c
               if (lquery) then
                   call stdlib_cgeqp3(m, n, a, lda, iwork, cdummy, cdummy, -1, rdummy, ierr)
                             
-                  lwrk_cgeqp3 = int(cdummy(1))
+                  lwrk_cgeqp3 = int(cdummy(1), KIND=ilp)
                   if (wntus .or. wntur) then
                       call stdlib_cunmqr('l', 'n', m, n, n, a, lda, cdummy, u, ldu, cdummy, -1, &
                                 ierr)
-                      lwrk_cunmqr = int(cdummy(1))
+                      lwrk_cunmqr = int(cdummy(1), KIND=ilp)
                   else if (wntua) then
                       call stdlib_cunmqr('l', 'n', m, m, n, a, lda, cdummy, u, ldu, cdummy, -1, &
                                 ierr)
-                      lwrk_cunmqr = int(cdummy(1))
+                      lwrk_cunmqr = int(cdummy(1), KIND=ilp)
                   else
                       lwrk_cunmqr = 0
                   end if
@@ -69439,7 +69474,7 @@ module stdlib_linalg_lapack_c
                   if (lquery) then
                       call stdlib_cgesvd('n', 'n', n, n, a, lda, s, u, ldu, v, ldv, cdummy, -1, &
                                 rdummy, ierr)
-                      lwrk_cgesvd = int(cdummy(1))
+                      lwrk_cgesvd = int(cdummy(1), KIND=ilp)
                       if (conda) then
                          optwrk = max(n + lwrk_cgeqp3, n + lwcon, lwrk_cgesvd)
                       else
@@ -69462,7 +69497,7 @@ module stdlib_linalg_lapack_c
                         call stdlib_cgesvd('o', 'n', n, n, a, lda, s, u, ldu, v, ldv, cdummy, -1, &
                                   rdummy, ierr)
                      end if
-                     lwrk_cgesvd = int(cdummy(1))
+                     lwrk_cgesvd = int(cdummy(1), KIND=ilp)
                      if (conda) then
                          optwrk = n + max(lwrk_cgeqp3, lwcon, lwrk_cgesvd, lwrk_cunmqr)
                      else
@@ -69485,7 +69520,7 @@ module stdlib_linalg_lapack_c
                           call stdlib_cgesvd('n', 'o', n, n, a, lda, s, u, ldu, v, ldv, cdummy, - &
                                     1, rdummy, ierr)
                       end if
-                      lwrk_cgesvd = int(cdummy(1))
+                      lwrk_cgesvd = int(cdummy(1), KIND=ilp)
                       if (conda) then
                           optwrk = n + max(lwrk_cgeqp3, lwcon, lwrk_cgesvd)
                       else
@@ -69529,19 +69564,19 @@ module stdlib_linalg_lapack_c
                      if (rtrans) then
                         call stdlib_cgesvd('o', 'a', n, n, a, lda, s, u, ldu, v, ldv, cdummy, -1, &
                                   rdummy, ierr)
-                        lwrk_cgesvd = int(cdummy(1))
+                        lwrk_cgesvd = int(cdummy(1), KIND=ilp)
                         optwrk = max(lwrk_cgeqp3, lwrk_cgesvd, lwrk_cunmqr)
                         if (conda) optwrk = max(optwrk, lwcon)
                         optwrk = n + optwrk
                         if (wntva) then
                             call stdlib_cgeqrf(n, n/2, u, ldu, cdummy, cdummy, -1, ierr)
-                            lwrk_cgeqrf = int(cdummy(1))
+                            lwrk_cgeqrf = int(cdummy(1), KIND=ilp)
                             call stdlib_cgesvd('s', 'o', n/2, n/2, v, ldv, s, u, ldu, v, ldv, cdummy, &
                                        -1, rdummy, ierr)
-                            lwrk_cgesvd2 = int(cdummy(1))
+                            lwrk_cgesvd2 = int(cdummy(1), KIND=ilp)
                             call stdlib_cunmqr('r', 'c', n, n, n/2, u, ldu, cdummy, v, ldv, &
                                       cdummy, -1, ierr)
-                            lwrk_cunmqr2 = int(cdummy(1))
+                            lwrk_cunmqr2 = int(cdummy(1), KIND=ilp)
                             optwrk2 = max(lwrk_cgeqp3, n/2 + lwrk_cgeqrf, n/2 + lwrk_cgesvd2, n/2 + &
                                       lwrk_cunmqr2)
                             if (conda) optwrk2 = max(optwrk2, lwcon)
@@ -69551,19 +69586,19 @@ module stdlib_linalg_lapack_c
                      else
                         call stdlib_cgesvd('s', 'o', n, n, a, lda, s, u, ldu, v, ldv, cdummy, -1, &
                                   rdummy, ierr)
-                        lwrk_cgesvd = int(cdummy(1))
+                        lwrk_cgesvd = int(cdummy(1), KIND=ilp)
                         optwrk = max(lwrk_cgeqp3, lwrk_cgesvd, lwrk_cunmqr)
                         if (conda) optwrk = max(optwrk, lwcon)
                         optwrk = n + optwrk
                         if (wntva) then
                            call stdlib_cgelqf(n/2, n, u, ldu, cdummy, cdummy, -1, ierr)
-                           lwrk_cgelqf = int(cdummy(1))
+                           lwrk_cgelqf = int(cdummy(1), KIND=ilp)
                            call stdlib_cgesvd('s', 'o', n/2, n/2, v, ldv, s, u, ldu, v, ldv, cdummy, &
                                       -1, rdummy, ierr)
-                           lwrk_cgesvd2 = int(cdummy(1))
+                           lwrk_cgesvd2 = int(cdummy(1), KIND=ilp)
                            call stdlib_cunmlq('r', 'n', n, n, n/2, u, ldu, cdummy, v, ldv, cdummy, &
                                      -1, ierr)
-                           lwrk_cunmlq = int(cdummy(1))
+                           lwrk_cunmlq = int(cdummy(1), KIND=ilp)
                            optwrk2 = max(lwrk_cgeqp3, n/2 + lwrk_cgelqf, n/2 + lwrk_cgesvd2, n/2 + &
                                      lwrk_cunmlq)
                             if (conda) optwrk2 = max(optwrk2, lwcon)
@@ -70442,32 +70477,32 @@ module stdlib_linalg_lapack_c
            ! determine the optimum and minimum lwork
             if (m >= n) then
               call stdlib_cgeqr(m, n, a, lda, tq, -1, workq, -1, info2)
-              tszo = int(tq(1))
-              lwo = int(workq(1))
+              tszo = int(tq(1), KIND=ilp)
+              lwo = int(workq(1), KIND=ilp)
               call stdlib_cgemqr('l', trans, m, nrhs, n, a, lda, tq, tszo, b, ldb, workq, -1, &
                         info2)
-              lwo = max(lwo, int(workq(1)))
+              lwo = max(lwo, int(workq(1), KIND=ilp))
               call stdlib_cgeqr(m, n, a, lda, tq, -2, workq, -2, info2)
-              tszm = int(tq(1))
-              lwm = int(workq(1))
+              tszm = int(tq(1), KIND=ilp)
+              lwm = int(workq(1), KIND=ilp)
               call stdlib_cgemqr('l', trans, m, nrhs, n, a, lda, tq, tszm, b, ldb, workq, -1, &
                         info2)
-              lwm = max(lwm, int(workq(1)))
+              lwm = max(lwm, int(workq(1), KIND=ilp))
               wsizeo = tszo + lwo
               wsizem = tszm + lwm
             else
               call stdlib_cgelq(m, n, a, lda, tq, -1, workq, -1, info2)
-              tszo = int(tq(1))
-              lwo = int(workq(1))
+              tszo = int(tq(1), KIND=ilp)
+              lwo = int(workq(1), KIND=ilp)
               call stdlib_cgemlq('l', trans, n, nrhs, m, a, lda, tq, tszo, b, ldb, workq, -1, &
                         info2)
-              lwo = max(lwo, int(workq(1)))
+              lwo = max(lwo, int(workq(1), KIND=ilp))
               call stdlib_cgelq(m, n, a, lda, tq, -2, workq, -2, info2)
-              tszm = int(tq(1))
-              lwm = int(workq(1))
+              tszm = int(tq(1), KIND=ilp)
+              lwm = int(workq(1), KIND=ilp)
               call stdlib_cgemlq('l', trans, n, nrhs, m, a, lda, tq, tszm, b, ldb, workq, -1, &
                         info2)
-              lwm = max(lwm, int(workq(1)))
+              lwm = max(lwm, int(workq(1), KIND=ilp))
               wsizeo = tszo + lwo
               wsizem = tszm + lwm
             end if
@@ -70697,12 +70732,12 @@ module stdlib_linalg_lapack_c
               call stdlib_xerbla('stdlib_cgetsqrhrt', -info)
               return
            else if (lquery) then
-              work(1) = cmplx(lworkopt)
+              work(1) = cmplx(lworkopt, KIND=sp)
               return
            end if
            ! quick return if possible
            if (min(m, n) == 0) then
-              work(1) = cmplx(lworkopt)
+              work(1) = cmplx(lworkopt, KIND=sp)
               return
            end if
            nb2local = min(nb2, n)
@@ -70743,7 +70778,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_ccopy(n - i + 1, work(lwt + n*(i - 1) + i), n, a(i, i), lda)
               end if
            end do
-           work(1) = cmplx(lworkopt)
+           work(1) = cmplx(lworkopt, KIND=sp)
            return
            ! end of stdlib_cgetsqrhrt
      end subroutine stdlib_cgetsqrhrt
@@ -73822,7 +73857,7 @@ module stdlib_linalg_lapack_c
                               1, n, -1))
                     call stdlib_ctrevc3('l', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, rwork, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     call stdlib_chseqr('s', 'v', n, 1, n, a, lda, w, vl, ldvl, work, -1, info)
                               
@@ -73831,7 +73866,7 @@ module stdlib_linalg_lapack_c
                               1, n, -1))
                     call stdlib_ctrevc3('r', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, rwork, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     call stdlib_chseqr('s', 'v', n, 1, n, a, lda, w, vr, ldvr, work, -1, info)
                               
@@ -73839,7 +73874,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_chseqr('e', 'n', n, 1, n, a, lda, w, vr, ldvr, work, -1, info)
                               
                  end if
-                 hswork = int(work(1))
+                 hswork = int(work(1), KIND=ilp)
                  maxwrk = max(maxwrk, hswork, minwrk)
               end if
               work(1) = maxwrk
@@ -74093,14 +74128,14 @@ module stdlib_linalg_lapack_c
                  if (wantvl) then
                     call stdlib_ctrevc3('l', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, rwork, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, lwork_trevc)
                     call stdlib_chseqr('s', 'v', n, 1, n, a, lda, w, vl, ldvl, work, -1, info)
                               
                  else if (wantvr) then
                     call stdlib_ctrevc3('r', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, rwork, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, lwork_trevc)
                     call stdlib_chseqr('s', 'v', n, 1, n, a, lda, w, vr, ldvr, work, -1, info)
                               
@@ -74113,7 +74148,7 @@ module stdlib_linalg_lapack_c
                                  
                     end if
                  end if
-                 hswork = int(work(1))
+                 hswork = int(work(1), KIND=ilp)
                  if ((.not. wantvl) .and. (.not. wantvr)) then
                     minwrk = 2*n
                     if (.not. (wntsnn .or. wntsne)) minwrk = max(minwrk, n*n + 2*n)
@@ -74337,7 +74372,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: cdummy(1)
            real(sp) :: rdummy(1)
            ! .. intrinsic functions ..
-           intrinsic :: abs, cmplx, conjg, alog, max, min, real, nint, sqrt
+           intrinsic :: abs, cmplx, conjg, log, max, min, real, nint, sqrt
      
            ! test the input arguments
            lsvec = stdlib_lsame(jobu, 'u') .or. stdlib_lsame(jobu, 'f')
@@ -74806,9 +74841,9 @@ module stdlib_linalg_lapack_c
               entra = zero
               do p = 1, n
                  big1 = ((sva(p)/xsc)**2)*temp1
-                 if (big1 /= zero) entra = entra + big1*alog(big1)
+                 if (big1 /= zero) entra = entra + big1*log(big1)
               end do
-              entra = -entra/alog(real(n))
+              entra = -entra/log(real(n))
               ! now, sva().^2/trace(a^* * a) is a point in the probability simplex.
               ! it is derived from the diagonal of  a^* * a.  do the same with the
               ! diagonal of a * a^*, compute the entropy of the corresponding
@@ -74817,9 +74852,9 @@ module stdlib_linalg_lapack_c
               entrat = zero
               do p = 1, m
                  big1 = ((rwork(p)/xsc)**2)*temp1
-                 if (big1 /= zero) entrat = entrat + big1*alog(big1)
+                 if (big1 /= zero) entrat = entrat + big1*log(big1)
               end do
-              entrat = -entrat/alog(real(m))
+              entrat = -entrat/log(real(m))
               ! analyze the entropies and decide a or a^*. smaller entropy
               ! usually means better input for the algorithm.
               transp = (entrat < entra)
@@ -75134,7 +75169,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgesvj('l', 'n', 'n', nr, nr, a, lda, sva, n, v, ldv, cwork, lwork, &
                            rwork, lrwork, info)
                  scalem = rwork(1)
-                 numrank = nint(rwork(2))
+                 numrank = nint(rwork(2), KIND=ilp)
            else if ((rsvec .and. (.not. lsvec) .and. (.not. jracc)) .or. (jracc .and. ( &
                      .not. lsvec) .and. (nr /= n))) then
               ! -> singular values and right singular vectors <-
@@ -75148,7 +75183,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgesvj('l', 'u', 'n', n, nr, v, ldv, sva, nr, a, lda, cwork, lwork, &
                            rwork, lrwork, info)
                  scalem = rwork(1)
-                 numrank = nint(rwork(2))
+                 numrank = nint(rwork(2), KIND=ilp)
               else
               ! .. two more qr factorizations ( one qrf is not enough, two require
               ! accumulated product of jacobi rotations, three are perfect )
@@ -75166,7 +75201,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgesvj('l', 'u', 'n', nr, nr, v, ldv, sva, nr, u, ldu, cwork(n + 1), &
                            lwork - n, rwork, lrwork, info)
                  scalem = rwork(1)
-                 numrank = nint(rwork(2))
+                 numrank = nint(rwork(2), KIND=ilp)
                  if (nr < n) then
                     call stdlib_claset('a', n - nr, nr, czero, czero, v(nr + 1, 1), ldv)
                     call stdlib_claset('a', nr, n - nr, czero, czero, v(1, nr + 1), ldv)
@@ -75189,7 +75224,7 @@ module stdlib_linalg_lapack_c
               call stdlib_cgesvj('u', 'n', 'v', n, n, a, lda, sva, n, v, ldv, cwork, lwork, rwork, &
                         lrwork, info)
                scalem = rwork(1)
-               numrank = nint(rwork(2))
+               numrank = nint(rwork(2), KIND=ilp)
                call stdlib_clapmr(.false., n, n, v, ldv, iwork)
            else if (lsvec .and. (.not. rsvec)) then
               ! .. singular values and left singular vectors                 ..
@@ -75210,7 +75245,7 @@ module stdlib_linalg_lapack_c
               call stdlib_cgesvj('l', 'u', 'n', nr, nr, u, ldu, sva, nr, a, lda, cwork(n + 1), lwork - &
                         n, rwork, lrwork, info)
               scalem = rwork(1)
-              numrank = nint(rwork(2))
+              numrank = nint(rwork(2), KIND=ilp)
               if (nr < m) then
                  call stdlib_claset('a', m - nr, nr, czero, czero, u(nr + 1, 1), ldu)
                  if (nr < n1) then
@@ -75391,7 +75426,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_cgesvj('l', 'u', 'n', nr, nr, v, ldv, sva, nr, u, ldu, cwork(2*n + n*nr + nr + 1) &
                               , lwork - 2*n - n*nr - nr, rwork, lrwork, info)
                     scalem = rwork(1)
-                    numrank = nint(rwork(2))
+                    numrank = nint(rwork(2), KIND=ilp)
                     do p = 1, nr
                        call stdlib_ccopy(nr, v(1, p), 1, u(1, p), 1)
                        call stdlib_csscal(nr, sva(p), v(1, p), 1)
@@ -75425,7 +75460,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_cgesvj('l', 'u', 'n', nr, nr, v, ldv, sva, nr, u, ldu, cwork(2*n + &
                               n*nr + nr + 1), lwork - 2*n - n*nr - nr, rwork, lrwork, info)
                     scalem = rwork(1)
-                    numrank = nint(rwork(2))
+                    numrank = nint(rwork(2), KIND=ilp)
                     do p = 1, nr
                        call stdlib_ccopy(nr, v(1, p), 1, u(1, p), 1)
                        call stdlib_csscal(nr, sva(p), u(1, p), 1)
@@ -75462,7 +75497,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_cgesvj('l', 'u', 'v', nr, nr, v, ldv, sva, nr, u, ldu, cwork(2*n + &
                               n*nr + nr + 1), lwork - 2*n - n*nr - nr, rwork, lrwork, info)
                     scalem = rwork(1)
-                    numrank = nint(rwork(2))
+                    numrank = nint(rwork(2), KIND=ilp)
                     if (nr < n) then
                        call stdlib_claset('a', n - nr, nr, czero, czero, v(nr + 1, 1), ldv)
                        call stdlib_claset('a', nr, n - nr, czero, czero, v(1, nr + 1), ldv)
@@ -75539,7 +75574,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgesvj('u', 'u', 'n', n, n, cwork(n + 1), n, sva, n, u, ldu, cwork(n + &
                            n*n + 1), lwork - n - n*n, rwork, lrwork, info)
                  scalem = rwork(1)
-                 numrank = nint(rwork(2))
+                 numrank = nint(rwork(2), KIND=ilp)
                  do p = 1, n
                     call stdlib_ccopy(n, cwork(n + (p - 1)*n + 1), 1, u(1, p), 1)
                     call stdlib_csscal(n, sva(p), cwork(n + (p - 1)*n + 1), 1)
@@ -75624,7 +75659,7 @@ module stdlib_linalg_lapack_c
               call stdlib_cgesvj('l', 'u', 'v', nr, nr, u, ldu, sva, n, v, ldv, cwork(2*n + n*nr + 1), &
                          lwork - 2*n - n*nr, rwork, lrwork, info)
               scalem = rwork(1)
-              numrank = nint(rwork(2))
+              numrank = nint(rwork(2), KIND=ilp)
               if (nr < n) then
                  call stdlib_claset('a', n - nr, nr, czero, czero, v(nr + 1, 1), ldv)
                  call stdlib_claset('a', nr, n - nr, czero, czero, v(1, nr + 1), ldv)
@@ -76671,7 +76706,7 @@ module stdlib_linalg_lapack_c
                            ldvsl, vsr, ldvsr, sdim, pvsl, pvsr, dif, work, -1, idum, 1, ierr)
                  lwkopt = max(lwkopt, int(work(1)))
               end if
-              work(1) = cmplx(lwkopt)
+              work(1) = cmplx(lwkopt, KIND=sp)
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_cgges3 ', -info)
@@ -76801,7 +76836,7 @@ module stdlib_linalg_lapack_c
               end do
            end if
 30      continue
-           work(1) = cmplx(lwkopt)
+           work(1) = cmplx(lwkopt, KIND=sp)
            return
            ! end of stdlib_cgges3
      end subroutine stdlib_cgges3
@@ -76898,29 +76933,29 @@ module stdlib_linalg_lapack_c
            ! compute workspace
            if (info == 0) then
               call stdlib_cgeqrf(n, n, b, ldb, work, work, -1, ierr)
-              lwkopt = max(n, n + int(work(1)))
+              lwkopt = max(n, n + int(work(1), KIND=ilp))
               call stdlib_cunmqr('l', 'c', n, n, n, b, ldb, work, a, lda, work, -1, ierr)
-              lwkopt = max(lwkopt, n + int(work(1)))
+              lwkopt = max(lwkopt, n + int(work(1), KIND=ilp))
               if (ilvl) then
                  call stdlib_cungqr(n, n, n, vl, ldvl, work, work, -1, ierr)
-                 lwkopt = max(lwkopt, n + int(work(1)))
+                 lwkopt = max(lwkopt, n + int(work(1), KIND=ilp))
               end if
               if (ilv) then
                  call stdlib_cgghd3(jobvl, jobvr, n, 1, n, a, lda, b, ldb, vl, ldvl, vr, ldvr, &
                            work, -1, ierr)
-                 lwkopt = max(lwkopt, n + int(work(1)))
+                 lwkopt = max(lwkopt, n + int(work(1), KIND=ilp))
                  call stdlib_claqz0('s', jobvl, jobvr, n, 1, n, a, lda, b, ldb, alpha, beta, vl, &
                            ldvl, vr, ldvr, work, -1, rwork, 0, ierr)
-                 lwkopt = max(lwkopt, n + int(work(1)))
+                 lwkopt = max(lwkopt, n + int(work(1), KIND=ilp))
               else
                  call stdlib_cgghd3('n', 'n', n, 1, n, a, lda, b, ldb, vl, ldvl, vr, ldvr, work, - &
                            1, ierr)
-                 lwkopt = max(lwkopt, n + int(work(1)))
+                 lwkopt = max(lwkopt, n + int(work(1), KIND=ilp))
                  call stdlib_claqz0('e', jobvl, jobvr, n, 1, n, a, lda, b, ldb, alpha, beta, vl, &
                            ldvl, vr, ldvr, work, -1, rwork, 0, ierr)
-                 lwkopt = max(lwkopt, n + int(work(1)))
+                 lwkopt = max(lwkopt, n + int(work(1), KIND=ilp))
               end if
-              work(1) = cmplx(lwkopt)
+              work(1) = cmplx(lwkopt, KIND=sp)
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_cggev3 ', -info)
@@ -77073,7 +77108,7 @@ module stdlib_linalg_lapack_c
 70      continue
            if (ilascl) call stdlib_clascl('g', 0, 0, anrmto, anrm, n, 1, alpha, n, ierr)
            if (ilbscl) call stdlib_clascl('g', 0, 0, bnrmto, bnrm, n, 1, beta, n, ierr)
-           work(1) = cmplx(lwkopt)
+           work(1) = cmplx(lwkopt, KIND=sp)
            return
            ! end of stdlib_cggev3
      end subroutine stdlib_cggev3
@@ -78041,9 +78076,9 @@ module stdlib_linalg_lapack_c
            end if
            if (info == 0) then
               call stdlib_chetrf_aa(uplo, n, a, lda, ipiv, work, -1, info)
-              lwkopt_hetrf = int(work(1))
+              lwkopt_hetrf = int(work(1), KIND=ilp)
               call stdlib_chetrs_aa(uplo, n, nrhs, a, lda, ipiv, b, ldb, work, -1, info)
-              lwkopt_hetrs = int(work(1))
+              lwkopt_hetrs = int(work(1), KIND=ilp)
               lwkopt = max(lwkopt_hetrf, lwkopt_hetrs)
               work(1) = lwkopt
            end if
@@ -78788,10 +78823,10 @@ module stdlib_linalg_lapack_c
               call stdlib_claqr3(wantt, wantz, n, ilo, ihi, nwr + 1, h, ldh, iloz, ihiz, z, ldz, ls, &
                          ld, w, h, ldh, n, h, ldh, n, h, ldh, work, -1)
               ! ==== optimal workspace = max(stdlib_claqr5, stdlib_claqr3) ====
-              lwkopt = max(3*nsr/2, int(work(1)))
+              lwkopt = max(3*nsr/2, int(work(1), KIND=ilp))
               ! ==== quick return in case of workspace query. ====
               if (lwork == -1) then
-                 work(1) = cmplx(lwkopt, 0)
+                 work(1) = cmplx(lwkopt, 0, KIND=sp)
                  return
               end if
               ! ==== stdlib_clahqr/stdlib_claqr0 crossover point ====
@@ -79024,7 +79059,7 @@ module stdlib_linalg_lapack_c
 80      continue
            end if
            ! ==== return the optimal value of lwork. ====
-           work(1) = cmplx(lwkopt, 0)
+           work(1) = cmplx(lwkopt, 0, KIND=sp)
            ! ==== end of stdlib_claqr0 ====
      end subroutine stdlib_claqr0
 
@@ -79075,21 +79110,21 @@ module stdlib_linalg_lapack_c
            else
               ! ==== workspace query call to stdlib_cgehrd ====
               call stdlib_cgehrd(jw, 1, jw - 1, t, ldt, work, work, -1, info)
-              lwk1 = int(work(1))
+              lwk1 = int(work(1), KIND=ilp)
               ! ==== workspace query call to stdlib_cunmhr ====
               call stdlib_cunmhr('r', 'n', jw, jw, 1, jw - 1, t, ldt, work, v, ldv, work, -1, info)
                         
-              lwk2 = int(work(1))
+              lwk2 = int(work(1), KIND=ilp)
               ! ==== workspace query call to stdlib_claqr4 ====
               call stdlib_claqr4(.true., .true., jw, 1, jw, t, ldt, sh, 1, jw, v, ldv, work, -1, &
                         infqr)
-              lwk3 = int(work(1))
+              lwk3 = int(work(1), KIND=ilp)
               ! ==== optimal workspace ====
               lwkopt = max(jw + max(lwk1, lwk2), lwk3)
            end if
            ! ==== quick return in case of workspace query. ====
            if (lwork == -1) then
-              work(1) = cmplx(lwkopt, 0)
+              work(1) = cmplx(lwkopt, 0, KIND=sp)
               return
            end if
            ! ==== nothing to do ...
@@ -79246,7 +79281,7 @@ module stdlib_linalg_lapack_c
            ! .    window.)  ====
            ns = ns - infqr
             ! ==== return optimal workspace. ====
-           work(1) = cmplx(lwkopt, 0)
+           work(1) = cmplx(lwkopt, 0, KIND=sp)
            ! ==== end of stdlib_claqr3 ====
      end subroutine stdlib_claqr3
 
@@ -79362,10 +79397,10 @@ module stdlib_linalg_lapack_c
               call stdlib_claqr2(wantt, wantz, n, ilo, ihi, nwr + 1, h, ldh, iloz, ihiz, z, ldz, ls, &
                          ld, w, h, ldh, n, h, ldh, n, h, ldh, work, -1)
               ! ==== optimal workspace = max(stdlib_claqr5, stdlib_claqr2) ====
-              lwkopt = max(3*nsr/2, int(work(1)))
+              lwkopt = max(3*nsr/2, int(work(1), KIND=ilp))
               ! ==== quick return in case of workspace query. ====
               if (lwork == -1) then
-                 work(1) = cmplx(lwkopt, 0)
+                 work(1) = cmplx(lwkopt, 0, KIND=sp)
                  return
               end if
               ! ==== stdlib_clahqr/stdlib_claqr0 crossover point ====
@@ -79593,7 +79628,7 @@ module stdlib_linalg_lapack_c
 80      continue
            end if
            ! ==== return the optimal value of lwork. ====
-           work(1) = cmplx(lwkopt, 0)
+           work(1) = cmplx(lwkopt, 0, KIND=sp)
            ! ==== end of stdlib_claqr4 ====
      end subroutine stdlib_claqr4
 
@@ -79751,11 +79786,11 @@ module stdlib_linalg_lapack_c
            call stdlib_claqz2(ilschur, ilq, ilz, n, ilo, ihi, nw, a, lda, b, ldb, q, ldq, z, ldz, &
            n_undeflated, n_deflated, alpha, beta, work, nw, work, nw, work, -1, rwork, rec, &
                      aed_info)
-           itemp1 = int(work(1))
+           itemp1 = int(work(1), KIND=ilp)
            ! workspace query to stdlib_claqz3
            call stdlib_claqz3(ilschur, ilq, ilz, n, ilo, ihi, nsr, nbr, alpha, beta, a, lda, b, &
                      ldb, q, ldq, z, ldz, work, nbr, work, nbr, work, -1, sweep_info)
-           itemp2 = int(work(1))
+           itemp2 = int(work(1), KIND=ilp)
            lworkreq = max(itemp1 + 2*nw**2, itemp2 + 2*nbr**2)
            if (lwork == -1) then
               work(1) = real(lworkreq)
@@ -79986,7 +80021,7 @@ module stdlib_linalg_lapack_c
            ilst = jw
            call stdlib_claqz0('s', 'v', 'v', jw, 1, jw, a(kwtop, kwtop), lda, b(kwtop, kwtop), &
                       ldb, alpha, beta, qc, ldqc, zc, ldzc, work, -1, rwork, rec + 1, qz_small_info)
-           lworkreq = int(work(1)) + 2*jw**2
+           lworkreq = int(work(1), KIND=ilp) + 2*jw**2
            lworkreq = max(lworkreq, n*nw, 2*nw**2 + n)
            if (lwork == -1) then
               ! workspace query, quick return
@@ -80425,9 +80460,9 @@ module stdlib_linalg_lapack_c
            end if
            if (info == 0) then
               call stdlib_csytrf_aa(uplo, n, a, lda, ipiv, work, -1, info)
-              lwkopt_sytrf = int(work(1))
+              lwkopt_sytrf = int(work(1), KIND=ilp)
               call stdlib_csytrs_aa(uplo, n, nrhs, a, lda, ipiv, b, ldb, work, -1, info)
-              lwkopt_sytrs = int(work(1))
+              lwkopt_sytrs = int(work(1), KIND=ilp)
               lwkopt = max(lwkopt_sytrf, lwkopt_sytrs)
               work(1) = lwkopt
            end if

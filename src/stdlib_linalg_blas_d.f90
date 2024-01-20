@@ -95,7 +95,7 @@ module stdlib_linalg_blas_d
            real(dp) :: dtemp
            integer(ilp) :: i, m, mp1, nincx
            ! .. intrinsic functions ..
-           intrinsic :: dabs, mod
+           intrinsic :: abs, mod
            stdlib_dasum = 0.0_dp
            dtemp = 0.0_dp
            if (n <= 0 .or. incx <= 0) return
@@ -105,7 +105,7 @@ module stdlib_linalg_blas_d
               m = mod(n, 6)
               if (m /= 0) then
                  do i = 1, m
-                    dtemp = dtemp + dabs(dx(i))
+                    dtemp = dtemp + abs(dx(i))
                  end do
                  if (n < 6) then
                     stdlib_dasum = dtemp
@@ -114,14 +114,14 @@ module stdlib_linalg_blas_d
               end if
               mp1 = m + 1
               do i = mp1, n, 6
-                 dtemp = dtemp + dabs(dx(i)) + dabs(dx(i + 1)) + dabs(dx(i + 2)) + dabs(dx(i + 3)) + dabs( &
-                           dx(i + 4)) + dabs(dx(i + 5))
+                 dtemp = dtemp + abs(dx(i)) + abs(dx(i + 1)) + abs(dx(i + 2)) + abs(dx(i + 3)) + abs(dx(i + &
+                           4)) + abs(dx(i + 5))
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
               do i = 1, nincx, incx
-                 dtemp = dtemp + dabs(dx(i))
+                 dtemp = dtemp + abs(dx(i))
               end do
            end if
            stdlib_dasum = dtemp
@@ -863,12 +863,12 @@ module stdlib_linalg_blas_d
      real(dp), parameter :: sbig = real(radix(0._dp), wp)**(-ceiling((maxexponent(0._dp) &
                + digits(0._dp) - 1)*0.5_dp))
         ! .. scalar arguments ..
-        integer :: incx, n
+     integer(ilp) :: incx, n
         ! .. array arguments ..
         real(dp) :: x(*)
         ! .. local scalars ..
-        integer :: i, ix
-        logical :: notbig
+     integer(ilp) :: i, ix
+     logical(lk) :: notbig
         real(dp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
         ! quick return if possible
         stdlib_dnrm2 = zero
@@ -1152,7 +1152,7 @@ module stdlib_linalg_blas_d
      end subroutine stdlib_drotm
 
      ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
-     ! THE SECOND COMPONENT OF THE 2-VECTOR  (DSQRT(DD1)*DX1,DSQRT(DD2)    DY2)**T.
+     ! THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(DD1)*DX1,SQRT(DD2)    DY2)**T.
      ! WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
      ! DFLAG=-1.D0     DFLAG=0.D0        DFLAG=1.D0     DFLAG=-2.D0
      ! (DH11  DH12)    (1.D0  DH12)    (DH11  1.D0)    (1.D0  0.D0)
@@ -1178,7 +1178,7 @@ module stdlib_linalg_blas_d
            real(dp) :: dflag, dh11, dh12, dh21, dh22, dp1, dp2, dq1, dq2, dtemp, du, gam, gamsq, one, rgamsq, &
                      two, zero
            ! .. intrinsic functions ..
-           intrinsic :: dabs
+           intrinsic :: abs
            ! .. data statements ..
            data zero, one, two/0.d0, 1.d0, 2.d0/
            data gam, gamsq, rgamsq/4096.d0, 16777216.d0, 5.9604645d-8/
@@ -1204,7 +1204,7 @@ module stdlib_linalg_blas_d
               dp1 = dd1*dx1
               dq2 = dp2*dy1
               dq1 = dp1*dx1
-              if (dabs(dq1) > dabs(dq2)) then
+              if (abs(dq1) > abs(dq2)) then
                  dh21 = -dy1/dx1
                  dh12 = dp2/dp1
                  du = one - dh12*dh21
@@ -1274,7 +1274,7 @@ module stdlib_linalg_blas_d
                  end do
               end if
               if (dd2 /= zero) then
-                 do while ((dabs(dd2) <= rgamsq) .or. (dabs(dd2) >= gamsq))
+                 do while ((abs(dd2) <= rgamsq) .or. (abs(dd2) >= gamsq))
                     if (dflag == zero) then
                        dh11 = one
                        dh22 = one
@@ -1284,7 +1284,7 @@ module stdlib_linalg_blas_d
                        dh12 = one
                        dflag = -one
                     end if
-                    if (dabs(dd2) <= rgamsq) then
+                    if (abs(dd2) <= rgamsq) then
                        dd2 = dd2*gam**2
                        dh21 = dh21/gam
                        dh22 = dh22/gam
@@ -1553,7 +1553,7 @@ module stdlib_linalg_blas_d
            ! code for equal, positive, non-unit increments.
               ns = n*incx
               do i = 1, ns, incx
-                 stdlib_dsdot = stdlib_dsdot + dble(sx(i))*dble(sy(i))
+                 stdlib_dsdot = stdlib_dsdot + real(sx(i), KIND=dp)*real(sy(i), KIND=dp)
               end do
            else
            ! code for unequal or nonpositive increments.
@@ -1562,7 +1562,7 @@ module stdlib_linalg_blas_d
               if (incx < 0) kx = 1 + (1 - n)*incx
               if (incy < 0) ky = 1 + (1 - n)*incy
               do i = 1, n
-                 stdlib_dsdot = stdlib_dsdot + dble(sx(kx))*dble(sy(ky))
+                 stdlib_dsdot = stdlib_dsdot + real(sx(kx), KIND=dp)*real(sy(ky), KIND=dp)
                  kx = kx + incx
                  ky = ky + incy
               end do
@@ -4474,12 +4474,12 @@ module stdlib_linalg_blas_d
      real(dp), parameter :: sbig = real(radix(0._dp), wp)**(-ceiling((maxexponent(0._dp) &
                + digits(0._dp) - 1)*0.5_dp))
         ! .. scalar arguments ..
-        integer :: incx, n
+     integer(ilp) :: incx, n
         ! .. array arguments ..
         complex(dp) :: x(*)
         ! .. local scalars ..
-        integer :: i, ix
-        logical :: notbig
+     integer(ilp) :: i, ix
+     logical(lk) :: notbig
         real(dp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
         ! quick return if possible
         stdlib_dznrm2 = zero

@@ -172,14 +172,14 @@ module stdlib_linalg_blas_z
            complex(dp) :: ztemp
            integer(ilp) :: i, ix, iy
            ! .. intrinsic functions ..
-           intrinsic :: dconjg
+           intrinsic :: conjg
            ztemp = (0.0_dp, 0.0_dp)
            stdlib_zdotc = (0.0_dp, 0.0_dp)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               do i = 1, n
-                 ztemp = ztemp + dconjg(zx(i))*zy(i)
+                 ztemp = ztemp + conjg(zx(i))*zy(i)
               end do
            else
               ! code for unequal increments or equal increments
@@ -189,7 +189,7 @@ module stdlib_linalg_blas_z
               if (incx < 0) ix = (-n + 1)*incx + 1
               if (incy < 0) iy = (-n + 1)*incy + 1
               do i = 1, n
-                 ztemp = ztemp + dconjg(zx(ix))*zy(iy)
+                 ztemp = ztemp + conjg(zx(ix))*zy(iy)
                  ix = ix + incx
                  iy = iy + incy
               end do
@@ -305,13 +305,13 @@ module stdlib_linalg_blas_z
            if (incx == 1) then
               ! code for increment equal to 1
               do i = 1, n
-                 zx(i) = dcmplx(da, 0.0_dp)*zx(i)
+                 zx(i) = cmplx(da, 0.0_dp, KIND=dp)*zx(i)
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
               do i = 1, nincx, incx
-                 zx(i) = dcmplx(da, 0.0_dp)*zx(i)
+                 zx(i) = cmplx(da, 0.0_dp, KIND=dp)*zx(i)
               end do
            end if
            return
@@ -342,7 +342,7 @@ module stdlib_linalg_blas_z
            logical(lk) :: noconj
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max, min
+           intrinsic :: conjg, max, min
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
@@ -458,7 +458,7 @@ module stdlib_linalg_blas_z
                            end do
                        else
                            do i = max(1, j - ku), min(m, j + kl)
-                               temp = temp + dconjg(a(k + i, j))*x(i)
+                               temp = temp + conjg(a(k + i, j))*x(i)
                            end do
                        end if
                        y(jy) = y(jy) + alpha*temp
@@ -476,7 +476,7 @@ module stdlib_linalg_blas_z
                            end do
                        else
                            do i = max(1, j - ku), min(m, j + kl)
-                               temp = temp + dconjg(a(k + i, j))*x(ix)
+                               temp = temp + conjg(a(k + i, j))*x(ix)
                                ix = ix + incx
                            end do
                        end if
@@ -510,7 +510,7 @@ module stdlib_linalg_blas_z
         ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max
+           intrinsic :: conjg, max
            ! .. local scalars ..
            complex(dp) :: temp
            integer(ilp) :: i, info, j, l, nrowa, nrowb
@@ -605,7 +605,7 @@ module stdlib_linalg_blas_z
                        do i = 1, m
                            temp = czero
                            do l = 1, k
-                               temp = temp + dconjg(a(l, i))*b(l, j)
+                               temp = temp + conjg(a(l, i))*b(l, j)
                            end do
                            if (beta == czero) then
                                c(i, j) = alpha*temp
@@ -644,7 +644,7 @@ module stdlib_linalg_blas_z
                            end do
                        end if
                        do l = 1, k
-                           temp = alpha*dconjg(b(j, l))
+                           temp = alpha*conjg(b(j, l))
                            do i = 1, m
                                c(i, j) = c(i, j) + temp*a(i, l)
                            end do
@@ -677,7 +677,7 @@ module stdlib_linalg_blas_z
                        do i = 1, m
                            temp = czero
                            do l = 1, k
-                               temp = temp + dconjg(a(l, i))*dconjg(b(j, l))
+                               temp = temp + conjg(a(l, i))*conjg(b(j, l))
                            end do
                            if (beta == czero) then
                                c(i, j) = alpha*temp
@@ -692,7 +692,7 @@ module stdlib_linalg_blas_z
                        do i = 1, m
                            temp = czero
                            do l = 1, k
-                               temp = temp + dconjg(a(l, i))*b(j, l)
+                               temp = temp + conjg(a(l, i))*b(j, l)
                            end do
                            if (beta == czero) then
                                c(i, j) = alpha*temp
@@ -709,7 +709,7 @@ module stdlib_linalg_blas_z
                        do i = 1, m
                            temp = czero
                            do l = 1, k
-                               temp = temp + a(l, i)*dconjg(b(j, l))
+                               temp = temp + a(l, i)*conjg(b(j, l))
                            end do
                            if (beta == czero) then
                                c(i, j) = alpha*temp
@@ -763,7 +763,7 @@ module stdlib_linalg_blas_z
            logical(lk) :: noconj
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max
+           intrinsic :: conjg, max
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(trans, 'n') .and. .not. stdlib_lsame(trans, 't') &
@@ -870,7 +870,7 @@ module stdlib_linalg_blas_z
                            end do
                        else
                            do i = 1, m
-                               temp = temp + dconjg(a(i, j))*x(i)
+                               temp = temp + conjg(a(i, j))*x(i)
                            end do
                        end if
                        y(jy) = y(jy) + alpha*temp
@@ -887,7 +887,7 @@ module stdlib_linalg_blas_z
                            end do
                        else
                            do i = 1, m
-                               temp = temp + dconjg(a(i, j))*x(ix)
+                               temp = temp + conjg(a(i, j))*x(ix)
                                ix = ix + incx
                            end do
                        end if
@@ -921,7 +921,7 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, info, ix, j, jy, kx
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max
+           intrinsic :: conjg, max
            ! test the input parameters.
            info = 0
            if (m < 0) then
@@ -951,7 +951,7 @@ module stdlib_linalg_blas_z
            if (incx == 1) then
                do j = 1, n
                    if (y(jy) /= czero) then
-                       temp = alpha*dconjg(y(jy))
+                       temp = alpha*conjg(y(jy))
                        do i = 1, m
                            a(i, j) = a(i, j) + x(i)*temp
                        end do
@@ -966,7 +966,7 @@ module stdlib_linalg_blas_z
                end if
                do j = 1, n
                    if (y(jy) /= czero) then
-                       temp = alpha*dconjg(y(jy))
+                       temp = alpha*conjg(y(jy))
                        ix = kx
                        do i = 1, m
                            a(i, j) = a(i, j) + x(ix)*temp
@@ -1082,7 +1082,7 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dconjg, max, min
+           intrinsic :: dble, conjg, max, min
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -1155,9 +1155,9 @@ module stdlib_linalg_blas_z
                        l = kplus1 - j
                        do i = max(1, j - k), j - 1
                            y(i) = y(i) + temp1*a(l + i, j)
-                           temp2 = temp2 + dconjg(a(l + i, j))*x(i)
+                           temp2 = temp2 + conjg(a(l + i, j))*x(i)
                        end do
-                       y(j) = y(j) + temp1*dble(a(kplus1, j)) + alpha*temp2
+                       y(j) = y(j) + temp1*real(a(kplus1, j), KIND=dp) + alpha*temp2
                    end do
                else
                    jx = kx
@@ -1170,11 +1170,11 @@ module stdlib_linalg_blas_z
                        l = kplus1 - j
                        do i = max(1, j - k), j - 1
                            y(iy) = y(iy) + temp1*a(l + i, j)
-                           temp2 = temp2 + dconjg(a(l + i, j))*x(ix)
+                           temp2 = temp2 + conjg(a(l + i, j))*x(ix)
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*dble(a(kplus1, j)) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(a(kplus1, j), KIND=dp) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        if (j > k) then
@@ -1189,11 +1189,11 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = czero
-                       y(j) = y(j) + temp1*dble(a(1, j))
+                       y(j) = y(j) + temp1*real(a(1, j), KIND=dp)
                        l = 1 - j
                        do i = j + 1, min(n, j + k)
                            y(i) = y(i) + temp1*a(l + i, j)
-                           temp2 = temp2 + dconjg(a(l + i, j))*x(i)
+                           temp2 = temp2 + conjg(a(l + i, j))*x(i)
                        end do
                        y(j) = y(j) + alpha*temp2
                    end do
@@ -1203,7 +1203,7 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = czero
-                       y(jy) = y(jy) + temp1*dble(a(1, j))
+                       y(jy) = y(jy) + temp1*real(a(1, j), KIND=dp)
                        l = 1 - j
                        ix = jx
                        iy = jy
@@ -1211,7 +1211,7 @@ module stdlib_linalg_blas_z
                            ix = ix + incx
                            iy = iy + incy
                            y(iy) = y(iy) + temp1*a(l + i, j)
-                           temp2 = temp2 + dconjg(a(l + i, j))*x(ix)
+                           temp2 = temp2 + conjg(a(l + i, j))*x(ix)
                        end do
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
@@ -1243,7 +1243,7 @@ module stdlib_linalg_blas_z
         ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dconjg, max
+           intrinsic :: dble, conjg, max
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, k, nrowa
@@ -1306,12 +1306,13 @@ module stdlib_linalg_blas_z
                            temp2 = czero
                            do k = 1, i - 1
                                c(k, j) = c(k, j) + temp1*a(k, i)
-                               temp2 = temp2 + b(k, j)*dconjg(a(k, i))
+                               temp2 = temp2 + b(k, j)*conjg(a(k, i))
                            end do
                            if (beta == czero) then
-                               c(i, j) = temp1*dble(a(i, i)) + alpha*temp2
+                               c(i, j) = temp1*real(a(i, i), KIND=dp) + alpha*temp2
                            else
-                               c(i, j) = beta*c(i, j) + temp1*dble(a(i, i)) + alpha*temp2
+                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i), KIND=dp) + &
+                                         alpha*temp2
                            end if
                        end do
                    end do
@@ -1322,12 +1323,13 @@ module stdlib_linalg_blas_z
                            temp2 = czero
                            do k = i + 1, m
                                c(k, j) = c(k, j) + temp1*a(k, i)
-                               temp2 = temp2 + b(k, j)*dconjg(a(k, i))
+                               temp2 = temp2 + b(k, j)*conjg(a(k, i))
                            end do
                            if (beta == czero) then
-                               c(i, j) = temp1*dble(a(i, i)) + alpha*temp2
+                               c(i, j) = temp1*real(a(i, i), KIND=dp) + alpha*temp2
                            else
-                               c(i, j) = beta*c(i, j) + temp1*dble(a(i, i)) + alpha*temp2
+                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i), KIND=dp) + &
+                                         alpha*temp2
                            end if
                        end do
                    end do
@@ -1335,7 +1337,7 @@ module stdlib_linalg_blas_z
            else
               ! form  c := alpha*b*a + beta*c.
                loop_170: do j = 1, n
-                   temp1 = alpha*dble(a(j, j))
+                   temp1 = alpha*real(a(j, j), KIND=dp)
                    if (beta == czero) then
                        do i = 1, m
                            c(i, j) = temp1*b(i, j)
@@ -1349,7 +1351,7 @@ module stdlib_linalg_blas_z
                        if (upper) then
                            temp1 = alpha*a(k, j)
                        else
-                           temp1 = alpha*dconjg(a(j, k))
+                           temp1 = alpha*conjg(a(j, k))
                        end if
                        do i = 1, m
                            c(i, j) = c(i, j) + temp1*b(i, k)
@@ -1357,7 +1359,7 @@ module stdlib_linalg_blas_z
                    end do
                    do k = j + 1, n
                        if (upper) then
-                           temp1 = alpha*dconjg(a(j, k))
+                           temp1 = alpha*conjg(a(j, k))
                        else
                            temp1 = alpha*a(k, j)
                        end if
@@ -1393,7 +1395,7 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dconjg, max
+           intrinsic :: dble, conjg, max
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -1463,9 +1465,9 @@ module stdlib_linalg_blas_z
                        temp2 = czero
                        do i = 1, j - 1
                            y(i) = y(i) + temp1*a(i, j)
-                           temp2 = temp2 + dconjg(a(i, j))*x(i)
+                           temp2 = temp2 + conjg(a(i, j))*x(i)
                        end do
-                       y(j) = y(j) + temp1*dble(a(j, j)) + alpha*temp2
+                       y(j) = y(j) + temp1*real(a(j, j), KIND=dp) + alpha*temp2
                    end do
                else
                    jx = kx
@@ -1477,11 +1479,11 @@ module stdlib_linalg_blas_z
                        iy = ky
                        do i = 1, j - 1
                            y(iy) = y(iy) + temp1*a(i, j)
-                           temp2 = temp2 + dconjg(a(i, j))*x(ix)
+                           temp2 = temp2 + conjg(a(i, j))*x(ix)
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*dble(a(j, j)) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(a(j, j), KIND=dp) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                    end do
@@ -1492,10 +1494,10 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = czero
-                       y(j) = y(j) + temp1*dble(a(j, j))
+                       y(j) = y(j) + temp1*real(a(j, j), KIND=dp)
                        do i = j + 1, n
                            y(i) = y(i) + temp1*a(i, j)
-                           temp2 = temp2 + dconjg(a(i, j))*x(i)
+                           temp2 = temp2 + conjg(a(i, j))*x(i)
                        end do
                        y(j) = y(j) + alpha*temp2
                    end do
@@ -1505,14 +1507,14 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = czero
-                       y(jy) = y(jy) + temp1*dble(a(j, j))
+                       y(jy) = y(jy) + temp1*real(a(j, j), KIND=dp)
                        ix = jx
                        iy = jy
                        do i = j + 1, n
                            ix = ix + incx
                            iy = iy + incy
                            y(iy) = y(iy) + temp1*a(i, j)
-                           temp2 = temp2 + dconjg(a(i, j))*x(ix)
+                           temp2 = temp2 + conjg(a(i, j))*x(ix)
                        end do
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
@@ -1546,7 +1548,7 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, info, ix, j, jx, kx
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dconjg, max
+           intrinsic :: dble, conjg, max
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -1563,7 +1565,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == dble(czero))) return
+           if ((n == 0) .or. (alpha == real(czero, KIND=dp))) return
            ! set the start point in x if the increment is not unity.
            if (incx <= 0) then
                kx = 1 - (n - 1)*incx
@@ -1578,28 +1580,28 @@ module stdlib_linalg_blas_z
                if (incx == 1) then
                    do j = 1, n
                        if (x(j) /= czero) then
-                           temp = alpha*dconjg(x(j))
+                           temp = alpha*conjg(x(j))
                            do i = 1, j - 1
                                a(i, j) = a(i, j) + x(i)*temp
                            end do
-                           a(j, j) = dble(a(j, j)) + dble(x(j)*temp)
+                           a(j, j) = real(a(j, j), KIND=dp) + real(x(j)*temp, KIND=dp)
                        else
-                           a(j, j) = dble(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=dp)
                        end if
                    end do
                else
                    jx = kx
                    do j = 1, n
                        if (x(jx) /= czero) then
-                           temp = alpha*dconjg(x(jx))
+                           temp = alpha*conjg(x(jx))
                            ix = kx
                            do i = 1, j - 1
                                a(i, j) = a(i, j) + x(ix)*temp
                                ix = ix + incx
                            end do
-                           a(j, j) = dble(a(j, j)) + dble(x(jx)*temp)
+                           a(j, j) = real(a(j, j), KIND=dp) + real(x(jx)*temp, KIND=dp)
                        else
-                           a(j, j) = dble(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=dp)
                        end if
                        jx = jx + incx
                    end do
@@ -1609,28 +1611,28 @@ module stdlib_linalg_blas_z
                if (incx == 1) then
                    do j = 1, n
                        if (x(j) /= czero) then
-                           temp = alpha*dconjg(x(j))
-                           a(j, j) = dble(a(j, j)) + dble(temp*x(j))
+                           temp = alpha*conjg(x(j))
+                           a(j, j) = real(a(j, j), KIND=dp) + real(temp*x(j), KIND=dp)
                            do i = j + 1, n
                                a(i, j) = a(i, j) + x(i)*temp
                            end do
                        else
-                           a(j, j) = dble(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=dp)
                        end if
                    end do
                else
                    jx = kx
                    do j = 1, n
                        if (x(jx) /= czero) then
-                           temp = alpha*dconjg(x(jx))
-                           a(j, j) = dble(a(j, j)) + dble(temp*x(jx))
+                           temp = alpha*conjg(x(jx))
+                           a(j, j) = real(a(j, j), KIND=dp) + real(temp*x(jx), KIND=dp)
                            ix = jx
                            do i = j + 1, n
                                ix = ix + incx
                                a(i, j) = a(i, j) + x(ix)*temp
                            end do
                        else
-                           a(j, j) = dble(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=dp)
                        end if
                        jx = jx + incx
                    end do
@@ -1662,7 +1664,7 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dconjg, max
+           intrinsic :: dble, conjg, max
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -1706,21 +1708,21 @@ module stdlib_linalg_blas_z
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
-                           temp1 = alpha*dconjg(y(j))
-                           temp2 = dconjg(alpha*x(j))
+                           temp1 = alpha*conjg(y(j))
+                           temp2 = conjg(alpha*x(j))
                            do i = 1, j - 1
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
-                           a(j, j) = dble(a(j, j)) + dble(x(j)*temp1 + y(j)*temp2)
+                           a(j, j) = real(a(j, j), KIND=dp) + dble(x(j)*temp1 + y(j)*temp2)
                        else
-                           a(j, j) = dble(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=dp)
                        end if
                    end do
                else
                    do j = 1, n
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
-                           temp1 = alpha*dconjg(y(jy))
-                           temp2 = dconjg(alpha*x(jx))
+                           temp1 = alpha*conjg(y(jy))
+                           temp2 = conjg(alpha*x(jx))
                            ix = kx
                            iy = ky
                            do i = 1, j - 1
@@ -1728,9 +1730,9 @@ module stdlib_linalg_blas_z
                                ix = ix + incx
                                iy = iy + incy
                            end do
-                           a(j, j) = dble(a(j, j)) + dble(x(jx)*temp1 + y(jy)*temp2)
+                           a(j, j) = real(a(j, j), KIND=dp) + dble(x(jx)*temp1 + y(jy)*temp2)
                        else
-                           a(j, j) = dble(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=dp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -1741,22 +1743,22 @@ module stdlib_linalg_blas_z
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
-                           temp1 = alpha*dconjg(y(j))
-                           temp2 = dconjg(alpha*x(j))
-                           a(j, j) = dble(a(j, j)) + dble(x(j)*temp1 + y(j)*temp2)
+                           temp1 = alpha*conjg(y(j))
+                           temp2 = conjg(alpha*x(j))
+                           a(j, j) = real(a(j, j), KIND=dp) + dble(x(j)*temp1 + y(j)*temp2)
                            do i = j + 1, n
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
                        else
-                           a(j, j) = dble(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=dp)
                        end if
                    end do
                else
                    do j = 1, n
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
-                           temp1 = alpha*dconjg(y(jy))
-                           temp2 = dconjg(alpha*x(jx))
-                           a(j, j) = dble(a(j, j)) + dble(x(jx)*temp1 + y(jy)*temp2)
+                           temp1 = alpha*conjg(y(jy))
+                           temp2 = conjg(alpha*x(jx))
+                           a(j, j) = real(a(j, j), KIND=dp) + dble(x(jx)*temp1 + y(jy)*temp2)
                            ix = jx
                            iy = jy
                            do i = j + 1, n
@@ -1765,7 +1767,7 @@ module stdlib_linalg_blas_z
                                a(i, j) = a(i, j) + x(ix)*temp1 + y(iy)*temp2
                            end do
                        else
-                           a(j, j) = dble(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=dp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -1798,7 +1800,7 @@ module stdlib_linalg_blas_z
         ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dconjg, max
+           intrinsic :: dble, conjg, max
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, l, nrowa
@@ -1837,7 +1839,7 @@ module stdlib_linalg_blas_z
            ! and when  alpha.eq.czero.
            if (alpha == czero) then
                if (upper) then
-                   if (beta == dble(czero)) then
+                   if (beta == real(czero, KIND=dp)) then
                        do j = 1, n
                            do i = 1, j
                                c(i, j) = czero
@@ -1848,11 +1850,11 @@ module stdlib_linalg_blas_z
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*dble(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=dp)
                        end do
                    end if
                else
-                   if (beta == dble(czero)) then
+                   if (beta == real(czero, KIND=dp)) then
                        do j = 1, n
                            do i = j, n
                                c(i, j) = czero
@@ -1860,7 +1862,7 @@ module stdlib_linalg_blas_z
                        end do
                    else
                        do j = 1, n
-                           c(j, j) = beta*dble(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=dp)
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
@@ -1875,7 +1877,7 @@ module stdlib_linalg_blas_z
                          ! c.
                if (upper) then
                    do j = 1, n
-                       if (beta == dble(czero)) then
+                       if (beta == real(czero, KIND=dp)) then
                            do i = 1, j
                                c(i, j) = czero
                            end do
@@ -1883,24 +1885,25 @@ module stdlib_linalg_blas_z
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*dble(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=dp)
                        else
-                           c(j, j) = dble(c(j, j))
+                           c(j, j) = real(c(j, j), KIND=dp)
                        end if
                        do l = 1, k
                            if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
-                               temp1 = alpha*dconjg(b(j, l))
-                               temp2 = dconjg(alpha*a(j, l))
+                               temp1 = alpha*conjg(b(j, l))
+                               temp2 = conjg(alpha*a(j, l))
                                do i = 1, j - 1
                                    c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do
-                               c(j, j) = dble(c(j, j)) + dble(a(j, l)*temp1 + b(j, l)*temp2)
+                               c(j, j) = real(c(j, j), KIND=dp) + dble(a(j, l)*temp1 + b(j, l)*temp2)
+                                         
                            end if
                        end do
                    end do
                else
                    do j = 1, n
-                       if (beta == dble(czero)) then
+                       if (beta == real(czero, KIND=dp)) then
                            do i = j, n
                                c(i, j) = czero
                            end do
@@ -1908,18 +1911,19 @@ module stdlib_linalg_blas_z
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*dble(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=dp)
                        else
-                           c(j, j) = dble(c(j, j))
+                           c(j, j) = real(c(j, j), KIND=dp)
                        end if
                        do l = 1, k
                            if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
-                               temp1 = alpha*dconjg(b(j, l))
-                               temp2 = dconjg(alpha*a(j, l))
+                               temp1 = alpha*conjg(b(j, l))
+                               temp2 = conjg(alpha*a(j, l))
                                do i = j + 1, n
                                    c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do
-                               c(j, j) = dble(c(j, j)) + dble(a(j, l)*temp1 + b(j, l)*temp2)
+                               c(j, j) = real(c(j, j), KIND=dp) + dble(a(j, l)*temp1 + b(j, l)*temp2)
+                                         
                            end if
                        end do
                    end do
@@ -1933,21 +1937,21 @@ module stdlib_linalg_blas_z
                            temp1 = czero
                            temp2 = czero
                            do l = 1, k
-                               temp1 = temp1 + dconjg(a(l, i))*b(l, j)
-                               temp2 = temp2 + dconjg(b(l, i))*a(l, j)
+                               temp1 = temp1 + conjg(a(l, i))*b(l, j)
+                               temp2 = temp2 + conjg(b(l, i))*a(l, j)
                            end do
                            if (i == j) then
-                               if (beta == dble(czero)) then
-                                   c(j, j) = dble(alpha*temp1 + dconjg(alpha)*temp2)
+                               if (beta == real(czero, KIND=dp)) then
+                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2, KIND=dp)
                                else
-                                   c(j, j) = beta*dble(c(j, j)) + dble(alpha*temp1 + dconjg(alpha) &
-                                             *temp2)
+                                   c(j, j) = beta*real(c(j, j), KIND=dp) + real(alpha*temp1 + conjg( &
+                                             alpha)*temp2, KIND=dp)
                                end if
                            else
-                               if (beta == dble(czero)) then
-                                   c(i, j) = alpha*temp1 + dconjg(alpha)*temp2
+                               if (beta == real(czero, KIND=dp)) then
+                                   c(i, j) = alpha*temp1 + conjg(alpha)*temp2
                                else
-                                   c(i, j) = beta*c(i, j) + alpha*temp1 + dconjg(alpha)*temp2
+                                   c(i, j) = beta*c(i, j) + alpha*temp1 + conjg(alpha)*temp2
                                end if
                            end if
                        end do
@@ -1958,21 +1962,21 @@ module stdlib_linalg_blas_z
                            temp1 = czero
                            temp2 = czero
                            do l = 1, k
-                               temp1 = temp1 + dconjg(a(l, i))*b(l, j)
-                               temp2 = temp2 + dconjg(b(l, i))*a(l, j)
+                               temp1 = temp1 + conjg(a(l, i))*b(l, j)
+                               temp2 = temp2 + conjg(b(l, i))*a(l, j)
                            end do
                            if (i == j) then
-                               if (beta == dble(czero)) then
-                                   c(j, j) = dble(alpha*temp1 + dconjg(alpha)*temp2)
+                               if (beta == real(czero, KIND=dp)) then
+                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2, KIND=dp)
                                else
-                                   c(j, j) = beta*dble(c(j, j)) + dble(alpha*temp1 + dconjg(alpha) &
-                                             *temp2)
+                                   c(j, j) = beta*real(c(j, j), KIND=dp) + real(alpha*temp1 + conjg( &
+                                             alpha)*temp2, KIND=dp)
                                end if
                            else
-                               if (beta == dble(czero)) then
-                                   c(i, j) = alpha*temp1 + dconjg(alpha)*temp2
+                               if (beta == real(czero, KIND=dp)) then
+                                   c(i, j) = alpha*temp1 + conjg(alpha)*temp2
                                else
-                                   c(i, j) = beta*c(i, j) + alpha*temp1 + dconjg(alpha)*temp2
+                                   c(i, j) = beta*c(i, j) + alpha*temp1 + conjg(alpha)*temp2
                                end if
                            end if
                        end do
@@ -2004,7 +2008,7 @@ module stdlib_linalg_blas_z
         ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dcmplx, dconjg, max
+           intrinsic :: dble, dcmplx, conjg, max
            ! .. local scalars ..
            complex(dp) :: temp
            real(dp) :: rtemp
@@ -2053,7 +2057,7 @@ module stdlib_linalg_blas_z
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*dble(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=dp)
                        end do
                    end if
                else
@@ -2065,7 +2069,7 @@ module stdlib_linalg_blas_z
                        end do
                    else
                        do j = 1, n
-                           c(j, j) = beta*dble(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=dp)
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
@@ -2087,17 +2091,17 @@ module stdlib_linalg_blas_z
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*dble(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=dp)
                        else
-                           c(j, j) = dble(c(j, j))
+                           c(j, j) = real(c(j, j), KIND=dp)
                        end if
                        do l = 1, k
-                           if (a(j, l) /= dcmplx(zero)) then
-                               temp = alpha*dconjg(a(j, l))
+                           if (a(j, l) /= cmplx(zero, KIND=dp)) then
+                               temp = alpha*conjg(a(j, l))
                                do i = 1, j - 1
                                    c(i, j) = c(i, j) + temp*a(i, l)
                                end do
-                               c(j, j) = dble(c(j, j)) + dble(temp*a(i, l))
+                               c(j, j) = real(c(j, j), KIND=dp) + real(temp*a(i, l), KIND=dp)
                            end if
                        end do
                    end do
@@ -2108,17 +2112,17 @@ module stdlib_linalg_blas_z
                                c(i, j) = zero
                            end do
                        else if (beta /= one) then
-                           c(j, j) = beta*dble(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=dp)
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
                        else
-                           c(j, j) = dble(c(j, j))
+                           c(j, j) = real(c(j, j), KIND=dp)
                        end if
                        do l = 1, k
-                           if (a(j, l) /= dcmplx(zero)) then
-                               temp = alpha*dconjg(a(j, l))
-                               c(j, j) = dble(c(j, j)) + dble(temp*a(j, l))
+                           if (a(j, l) /= cmplx(zero, KIND=dp)) then
+                               temp = alpha*conjg(a(j, l))
+                               c(j, j) = real(c(j, j), KIND=dp) + real(temp*a(j, l), KIND=dp)
                                do i = j + 1, n
                                    c(i, j) = c(i, j) + temp*a(i, l)
                                end do
@@ -2133,7 +2137,7 @@ module stdlib_linalg_blas_z
                        do i = 1, j - 1
                            temp = zero
                            do l = 1, k
-                               temp = temp + dconjg(a(l, i))*a(l, j)
+                               temp = temp + conjg(a(l, i))*a(l, j)
                            end do
                            if (beta == zero) then
                                c(i, j) = alpha*temp
@@ -2143,29 +2147,29 @@ module stdlib_linalg_blas_z
                        end do
                        rtemp = zero
                        do l = 1, k
-                           rtemp = rtemp + dconjg(a(l, j))*a(l, j)
+                           rtemp = rtemp + conjg(a(l, j))*a(l, j)
                        end do
                        if (beta == zero) then
                            c(j, j) = alpha*rtemp
                        else
-                           c(j, j) = alpha*rtemp + beta*dble(c(j, j))
+                           c(j, j) = alpha*rtemp + beta*real(c(j, j), KIND=dp)
                        end if
                    end do
                else
                    do j = 1, n
                        rtemp = zero
                        do l = 1, k
-                           rtemp = rtemp + dconjg(a(l, j))*a(l, j)
+                           rtemp = rtemp + conjg(a(l, j))*a(l, j)
                        end do
                        if (beta == zero) then
                            c(j, j) = alpha*rtemp
                        else
-                           c(j, j) = alpha*rtemp + beta*dble(c(j, j))
+                           c(j, j) = alpha*rtemp + beta*real(c(j, j), KIND=dp)
                        end if
                        do i = j + 1, n
                            temp = zero
                            do l = 1, k
-                               temp = temp + dconjg(a(l, i))*a(l, j)
+                               temp = temp + conjg(a(l, i))*a(l, j)
                            end do
                            if (beta == zero) then
                                c(i, j) = alpha*temp
@@ -2202,7 +2206,7 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dconjg
+           intrinsic :: dble, conjg
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -2271,10 +2275,10 @@ module stdlib_linalg_blas_z
                        k = kk
                        do i = 1, j - 1
                            y(i) = y(i) + temp1*ap(k)
-                           temp2 = temp2 + dconjg(ap(k))*x(i)
+                           temp2 = temp2 + conjg(ap(k))*x(i)
                            k = k + 1
                        end do
-                       y(j) = y(j) + temp1*dble(ap(kk + j - 1)) + alpha*temp2
+                       y(j) = y(j) + temp1*real(ap(kk + j - 1), KIND=dp) + alpha*temp2
                        kk = kk + j
                    end do
                else
@@ -2287,11 +2291,11 @@ module stdlib_linalg_blas_z
                        iy = ky
                        do k = kk, kk + j - 2
                            y(iy) = y(iy) + temp1*ap(k)
-                           temp2 = temp2 + dconjg(ap(k))*x(ix)
+                           temp2 = temp2 + conjg(ap(k))*x(ix)
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*dble(ap(kk + j - 1)) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(ap(kk + j - 1), KIND=dp) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        kk = kk + j
@@ -2303,11 +2307,11 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = czero
-                       y(j) = y(j) + temp1*dble(ap(kk))
+                       y(j) = y(j) + temp1*real(ap(kk), KIND=dp)
                        k = kk + 1
                        do i = j + 1, n
                            y(i) = y(i) + temp1*ap(k)
-                           temp2 = temp2 + dconjg(ap(k))*x(i)
+                           temp2 = temp2 + conjg(ap(k))*x(i)
                            k = k + 1
                        end do
                        y(j) = y(j) + alpha*temp2
@@ -2319,14 +2323,14 @@ module stdlib_linalg_blas_z
                    do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = czero
-                       y(jy) = y(jy) + temp1*dble(ap(kk))
+                       y(jy) = y(jy) + temp1*real(ap(kk), KIND=dp)
                        ix = jx
                        iy = jy
                        do k = kk + 1, kk + n - j
                            ix = ix + incx
                            iy = iy + incy
                            y(iy) = y(iy) + temp1*ap(k)
-                           temp2 = temp2 + dconjg(ap(k))*x(ix)
+                           temp2 = temp2 + conjg(ap(k))*x(ix)
                        end do
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
@@ -2361,7 +2365,7 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dconjg
+           intrinsic :: dble, conjg
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -2376,7 +2380,7 @@ module stdlib_linalg_blas_z
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == dble(czero))) return
+           if ((n == 0) .or. (alpha == real(czero, KIND=dp))) return
            ! set the start point in x if the increment is not unity.
            if (incx <= 0) then
                kx = 1 - (n - 1)*incx
@@ -2391,15 +2395,15 @@ module stdlib_linalg_blas_z
                if (incx == 1) then
                    do j = 1, n
                        if (x(j) /= czero) then
-                           temp = alpha*dconjg(x(j))
+                           temp = alpha*conjg(x(j))
                            k = kk
                            do i = 1, j - 1
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
                            end do
-                           ap(kk + j - 1) = dble(ap(kk + j - 1)) + dble(x(j)*temp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + real(x(j)*temp, KIND=dp)
                        else
-                           ap(kk + j - 1) = dble(ap(kk + j - 1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
                        end if
                        kk = kk + j
                    end do
@@ -2407,15 +2411,16 @@ module stdlib_linalg_blas_z
                    jx = kx
                    do j = 1, n
                        if (x(jx) /= czero) then
-                           temp = alpha*dconjg(x(jx))
+                           temp = alpha*conjg(x(jx))
                            ix = kx
                            do k = kk, kk + j - 2
                                ap(k) = ap(k) + x(ix)*temp
                                ix = ix + incx
                            end do
-                           ap(kk + j - 1) = dble(ap(kk + j - 1)) + dble(x(jx)*temp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + real(x(jx)*temp, KIND=dp)
+                                     
                        else
-                           ap(kk + j - 1) = dble(ap(kk + j - 1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
                        end if
                        jx = jx + incx
                        kk = kk + j
@@ -2426,15 +2431,15 @@ module stdlib_linalg_blas_z
                if (incx == 1) then
                    do j = 1, n
                        if (x(j) /= czero) then
-                           temp = alpha*dconjg(x(j))
-                           ap(kk) = dble(ap(kk)) + dble(temp*x(j))
+                           temp = alpha*conjg(x(j))
+                           ap(kk) = real(ap(kk), KIND=dp) + real(temp*x(j), KIND=dp)
                            k = kk + 1
                            do i = j + 1, n
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
                            end do
                        else
-                           ap(kk) = dble(ap(kk))
+                           ap(kk) = real(ap(kk), KIND=dp)
                        end if
                        kk = kk + n - j + 1
                    end do
@@ -2442,15 +2447,15 @@ module stdlib_linalg_blas_z
                    jx = kx
                    do j = 1, n
                        if (x(jx) /= czero) then
-                           temp = alpha*dconjg(x(jx))
-                           ap(kk) = dble(ap(kk)) + dble(temp*x(jx))
+                           temp = alpha*conjg(x(jx))
+                           ap(kk) = real(ap(kk), KIND=dp) + real(temp*x(jx), KIND=dp)
                            ix = jx
                            do k = kk + 1, kk + n - j
                                ix = ix + incx
                                ap(k) = ap(k) + x(ix)*temp
                            end do
                        else
-                           ap(kk) = dble(ap(kk))
+                           ap(kk) = real(ap(kk), KIND=dp)
                        end if
                        jx = jx + incx
                        kk = kk + n - j + 1
@@ -2483,7 +2488,7 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
      
            ! .. intrinsic functions ..
-           intrinsic :: dble, dconjg
+           intrinsic :: dble, conjg
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -2525,24 +2530,25 @@ module stdlib_linalg_blas_z
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
-                           temp1 = alpha*dconjg(y(j))
-                           temp2 = dconjg(alpha*x(j))
+                           temp1 = alpha*conjg(y(j))
+                           temp2 = conjg(alpha*x(j))
                            k = kk
                            do i = 1, j - 1
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
                            end do
-                           ap(kk + j - 1) = dble(ap(kk + j - 1)) + dble(x(j)*temp1 + y(j)*temp2)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + dble(x(j)*temp1 + y(j)*temp2)
+                                     
                        else
-                           ap(kk + j - 1) = dble(ap(kk + j - 1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
                        end if
                        kk = kk + j
                    end do
                else
                    do j = 1, n
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
-                           temp1 = alpha*dconjg(y(jy))
-                           temp2 = dconjg(alpha*x(jx))
+                           temp1 = alpha*conjg(y(jy))
+                           temp2 = conjg(alpha*x(jx))
                            ix = kx
                            iy = ky
                            do k = kk, kk + j - 2
@@ -2550,9 +2556,10 @@ module stdlib_linalg_blas_z
                                ix = ix + incx
                                iy = iy + incy
                            end do
-                           ap(kk + j - 1) = dble(ap(kk + j - 1)) + dble(x(jx)*temp1 + y(jy)*temp2)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + dble(x(jx)*temp1 + y(jy)*temp2)
+                                     
                        else
-                           ap(kk + j - 1) = dble(ap(kk + j - 1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -2564,25 +2571,25 @@ module stdlib_linalg_blas_z
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1, n
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
-                           temp1 = alpha*dconjg(y(j))
-                           temp2 = dconjg(alpha*x(j))
-                           ap(kk) = dble(ap(kk)) + dble(x(j)*temp1 + y(j)*temp2)
+                           temp1 = alpha*conjg(y(j))
+                           temp2 = conjg(alpha*x(j))
+                           ap(kk) = real(ap(kk), KIND=dp) + dble(x(j)*temp1 + y(j)*temp2)
                            k = kk + 1
                            do i = j + 1, n
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
                            end do
                        else
-                           ap(kk) = dble(ap(kk))
+                           ap(kk) = real(ap(kk), KIND=dp)
                        end if
                        kk = kk + n - j + 1
                    end do
                else
                    do j = 1, n
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
-                           temp1 = alpha*dconjg(y(jy))
-                           temp2 = dconjg(alpha*x(jx))
-                           ap(kk) = dble(ap(kk)) + dble(x(jx)*temp1 + y(jy)*temp2)
+                           temp1 = alpha*conjg(y(jy))
+                           temp2 = conjg(alpha*x(jx))
+                           ap(kk) = real(ap(kk), KIND=dp) + dble(x(jx)*temp1 + y(jy)*temp2)
                            ix = jx
                            iy = jy
                            do k = kk + 1, kk + n - j
@@ -2591,7 +2598,7 @@ module stdlib_linalg_blas_z
                                ap(k) = ap(k) + x(ix)*temp1 + y(iy)*temp2
                            end do
                        else
-                           ap(kk) = dble(ap(kk))
+                           ap(kk) = real(ap(kk), KIND=dp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -3314,7 +3321,7 @@ module stdlib_linalg_blas_z
            logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max, min
+           intrinsic :: conjg, max, min
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -3427,9 +3434,9 @@ module stdlib_linalg_blas_z
                                    temp = temp + a(l + i, j)*x(i)
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(a(kplus1, j))
+                               if (nounit) temp = temp*conjg(a(kplus1, j))
                                do i = j - 1, max(1, j - k), -1
-                                   temp = temp + dconjg(a(l + i, j))*x(i)
+                                   temp = temp + conjg(a(l + i, j))*x(i)
                                end do
                            end if
                            x(j) = temp
@@ -3449,9 +3456,9 @@ module stdlib_linalg_blas_z
                                    ix = ix - incx
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(a(kplus1, j))
+                               if (nounit) temp = temp*conjg(a(kplus1, j))
                                do i = j - 1, max(1, j - k), -1
-                                   temp = temp + dconjg(a(l + i, j))*x(ix)
+                                   temp = temp + conjg(a(l + i, j))*x(ix)
                                    ix = ix - incx
                                end do
                            end if
@@ -3470,9 +3477,9 @@ module stdlib_linalg_blas_z
                                    temp = temp + a(l + i, j)*x(i)
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(a(1, j))
+                               if (nounit) temp = temp*conjg(a(1, j))
                                do i = j + 1, min(n, j + k)
-                                   temp = temp + dconjg(a(l + i, j))*x(i)
+                                   temp = temp + conjg(a(l + i, j))*x(i)
                                end do
                            end if
                            x(j) = temp
@@ -3491,9 +3498,9 @@ module stdlib_linalg_blas_z
                                    ix = ix + incx
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(a(1, j))
+                               if (nounit) temp = temp*conjg(a(1, j))
                                do i = j + 1, min(n, j + k)
-                                   temp = temp + dconjg(a(l + i, j))*x(ix)
+                                   temp = temp + conjg(a(l + i, j))*x(ix)
                                    ix = ix + incx
                                end do
                            end if
@@ -3532,7 +3539,7 @@ module stdlib_linalg_blas_z
            logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max, min
+           intrinsic :: conjg, max, min
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -3646,9 +3653,9 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/a(kplus1, j)
                            else
                                do i = max(1, j - k), j - 1
-                                   temp = temp - dconjg(a(l + i, j))*x(i)
+                                   temp = temp - conjg(a(l + i, j))*x(i)
                                end do
-                               if (nounit) temp = temp/dconjg(a(kplus1, j))
+                               if (nounit) temp = temp/conjg(a(kplus1, j))
                            end if
                            x(j) = temp
                        end do
@@ -3666,10 +3673,10 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/a(kplus1, j)
                            else
                                do i = max(1, j - k), j - 1
-                                   temp = temp - dconjg(a(l + i, j))*x(ix)
+                                   temp = temp - conjg(a(l + i, j))*x(ix)
                                    ix = ix + incx
                                end do
-                               if (nounit) temp = temp/dconjg(a(kplus1, j))
+                               if (nounit) temp = temp/conjg(a(kplus1, j))
                            end if
                            x(jx) = temp
                            jx = jx + incx
@@ -3688,9 +3695,9 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/a(1, j)
                            else
                                do i = min(n, j + k), j + 1, -1
-                                   temp = temp - dconjg(a(l + i, j))*x(i)
+                                   temp = temp - conjg(a(l + i, j))*x(i)
                                end do
-                               if (nounit) temp = temp/dconjg(a(1, j))
+                               if (nounit) temp = temp/conjg(a(1, j))
                            end if
                            x(j) = temp
                        end do
@@ -3709,10 +3716,10 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/a(1, j)
                            else
                                do i = min(n, j + k), j + 1, -1
-                                   temp = temp - dconjg(a(l + i, j))*x(ix)
+                                   temp = temp - conjg(a(l + i, j))*x(ix)
                                    ix = ix - incx
                                end do
-                               if (nounit) temp = temp/dconjg(a(1, j))
+                               if (nounit) temp = temp/conjg(a(1, j))
                            end if
                            x(jx) = temp
                            jx = jx - incx
@@ -3747,7 +3754,7 @@ module stdlib_linalg_blas_z
            logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg
+           intrinsic :: conjg
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -3860,9 +3867,9 @@ module stdlib_linalg_blas_z
                                    k = k - 1
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(ap(kk))
+                               if (nounit) temp = temp*conjg(ap(kk))
                                do i = j - 1, 1, -1
-                                   temp = temp + dconjg(ap(k))*x(i)
+                                   temp = temp + conjg(ap(k))*x(i)
                                    k = k - 1
                                end do
                            end if
@@ -3881,10 +3888,10 @@ module stdlib_linalg_blas_z
                                    temp = temp + ap(k)*x(ix)
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(ap(kk))
+                               if (nounit) temp = temp*conjg(ap(kk))
                                do k = kk - 1, kk - j + 1, -1
                                    ix = ix - incx
-                                   temp = temp + dconjg(ap(k))*x(ix)
+                                   temp = temp + conjg(ap(k))*x(ix)
                                end do
                            end if
                            x(jx) = temp
@@ -3905,9 +3912,9 @@ module stdlib_linalg_blas_z
                                    k = k + 1
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(ap(kk))
+                               if (nounit) temp = temp*conjg(ap(kk))
                                do i = j + 1, n
-                                   temp = temp + dconjg(ap(k))*x(i)
+                                   temp = temp + conjg(ap(k))*x(i)
                                    k = k + 1
                                end do
                            end if
@@ -3926,10 +3933,10 @@ module stdlib_linalg_blas_z
                                    temp = temp + ap(k)*x(ix)
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(ap(kk))
+                               if (nounit) temp = temp*conjg(ap(kk))
                                do k = kk + 1, kk + n - j
                                    ix = ix + incx
-                                   temp = temp + dconjg(ap(k))*x(ix)
+                                   temp = temp + conjg(ap(k))*x(ix)
                                end do
                            end if
                            x(jx) = temp
@@ -3967,7 +3974,7 @@ module stdlib_linalg_blas_z
            logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg
+           intrinsic :: conjg
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -4080,10 +4087,10 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/ap(kk + j - 1)
                            else
                                do i = 1, j - 1
-                                   temp = temp - dconjg(ap(k))*x(i)
+                                   temp = temp - conjg(ap(k))*x(i)
                                    k = k + 1
                                end do
-                               if (nounit) temp = temp/dconjg(ap(kk + j - 1))
+                               if (nounit) temp = temp/conjg(ap(kk + j - 1))
                            end if
                            x(j) = temp
                            kk = kk + j
@@ -4101,10 +4108,10 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/ap(kk + j - 1)
                            else
                                do k = kk, kk + j - 2
-                                   temp = temp - dconjg(ap(k))*x(ix)
+                                   temp = temp - conjg(ap(k))*x(ix)
                                    ix = ix + incx
                                end do
-                               if (nounit) temp = temp/dconjg(ap(kk + j - 1))
+                               if (nounit) temp = temp/conjg(ap(kk + j - 1))
                            end if
                            x(jx) = temp
                            jx = jx + incx
@@ -4125,10 +4132,10 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/ap(kk - n + j)
                            else
                                do i = n, j + 1, -1
-                                   temp = temp - dconjg(ap(k))*x(i)
+                                   temp = temp - conjg(ap(k))*x(i)
                                    k = k - 1
                                end do
-                               if (nounit) temp = temp/dconjg(ap(kk - n + j))
+                               if (nounit) temp = temp/conjg(ap(kk - n + j))
                            end if
                            x(j) = temp
                            kk = kk - (n - j + 1)
@@ -4147,10 +4154,10 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/ap(kk - n + j)
                            else
                                do k = kk, kk - (n - (j + 1)), -1
-                                   temp = temp - dconjg(ap(k))*x(ix)
+                                   temp = temp - conjg(ap(k))*x(ix)
                                    ix = ix - incx
                                end do
-                               if (nounit) temp = temp/dconjg(ap(kk - n + j))
+                               if (nounit) temp = temp/conjg(ap(kk - n + j))
                            end if
                            x(jx) = temp
                            jx = jx - incx
@@ -4182,7 +4189,7 @@ module stdlib_linalg_blas_z
         ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max
+           intrinsic :: conjg, max
            ! .. local scalars ..
            complex(dp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
@@ -4276,9 +4283,9 @@ module stdlib_linalg_blas_z
                                        temp = temp + a(k, i)*b(k, j)
                                    end do
                                else
-                                   if (nounit) temp = temp*dconjg(a(i, i))
+                                   if (nounit) temp = temp*conjg(a(i, i))
                                    do k = 1, i - 1
-                                       temp = temp + dconjg(a(k, i))*b(k, j)
+                                       temp = temp + conjg(a(k, i))*b(k, j)
                                    end do
                                end if
                                b(i, j) = alpha*temp
@@ -4294,9 +4301,9 @@ module stdlib_linalg_blas_z
                                        temp = temp + a(k, i)*b(k, j)
                                    end do
                                else
-                                   if (nounit) temp = temp*dconjg(a(i, i))
+                                   if (nounit) temp = temp*conjg(a(i, i))
                                    do k = i + 1, m
-                                       temp = temp + dconjg(a(k, i))*b(k, j)
+                                       temp = temp + conjg(a(k, i))*b(k, j)
                                    end do
                                end if
                                b(i, j) = alpha*temp
@@ -4349,7 +4356,7 @@ module stdlib_linalg_blas_z
                                    if (noconj) then
                                        temp = alpha*a(j, k)
                                    else
-                                       temp = alpha*dconjg(a(j, k))
+                                       temp = alpha*conjg(a(j, k))
                                    end if
                                    do i = 1, m
                                        b(i, j) = b(i, j) + temp*b(i, k)
@@ -4361,7 +4368,7 @@ module stdlib_linalg_blas_z
                                if (noconj) then
                                    temp = temp*a(k, k)
                                else
-                                   temp = temp*dconjg(a(k, k))
+                                   temp = temp*conjg(a(k, k))
                                end if
                            end if
                            if (temp /= cone) then
@@ -4377,7 +4384,7 @@ module stdlib_linalg_blas_z
                                    if (noconj) then
                                        temp = alpha*a(j, k)
                                    else
-                                       temp = alpha*dconjg(a(j, k))
+                                       temp = alpha*conjg(a(j, k))
                                    end if
                                    do i = 1, m
                                        b(i, j) = b(i, j) + temp*b(i, k)
@@ -4389,7 +4396,7 @@ module stdlib_linalg_blas_z
                                if (noconj) then
                                    temp = temp*a(k, k)
                                else
-                                   temp = temp*dconjg(a(k, k))
+                                   temp = temp*conjg(a(k, k))
                                end if
                            end if
                            if (temp /= cone) then
@@ -4427,7 +4434,7 @@ module stdlib_linalg_blas_z
            logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max
+           intrinsic :: conjg, max
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -4529,9 +4536,9 @@ module stdlib_linalg_blas_z
                                    temp = temp + a(i, j)*x(i)
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(a(j, j))
+                               if (nounit) temp = temp*conjg(a(j, j))
                                do i = j - 1, 1, -1
-                                   temp = temp + dconjg(a(i, j))*x(i)
+                                   temp = temp + conjg(a(i, j))*x(i)
                                end do
                            end if
                            x(j) = temp
@@ -4548,10 +4555,10 @@ module stdlib_linalg_blas_z
                                    temp = temp + a(i, j)*x(ix)
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(a(j, j))
+                               if (nounit) temp = temp*conjg(a(j, j))
                                do i = j - 1, 1, -1
                                    ix = ix - incx
-                                   temp = temp + dconjg(a(i, j))*x(ix)
+                                   temp = temp + conjg(a(i, j))*x(ix)
                                end do
                            end if
                            x(jx) = temp
@@ -4568,9 +4575,9 @@ module stdlib_linalg_blas_z
                                    temp = temp + a(i, j)*x(i)
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(a(j, j))
+                               if (nounit) temp = temp*conjg(a(j, j))
                                do i = j + 1, n
-                                   temp = temp + dconjg(a(i, j))*x(i)
+                                   temp = temp + conjg(a(i, j))*x(i)
                                end do
                            end if
                            x(j) = temp
@@ -4587,10 +4594,10 @@ module stdlib_linalg_blas_z
                                    temp = temp + a(i, j)*x(ix)
                                end do
                            else
-                               if (nounit) temp = temp*dconjg(a(j, j))
+                               if (nounit) temp = temp*conjg(a(j, j))
                                do i = j + 1, n
                                    ix = ix + incx
-                                   temp = temp + dconjg(a(i, j))*x(ix)
+                                   temp = temp + conjg(a(i, j))*x(ix)
                                end do
                            end if
                            x(jx) = temp
@@ -4623,7 +4630,7 @@ module stdlib_linalg_blas_z
         ! =====================================================================
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max
+           intrinsic :: conjg, max
            ! .. local scalars ..
            complex(dp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
@@ -4725,9 +4732,9 @@ module stdlib_linalg_blas_z
                                    if (nounit) temp = temp/a(i, i)
                                else
                                    do k = 1, i - 1
-                                       temp = temp - dconjg(a(k, i))*b(k, j)
+                                       temp = temp - conjg(a(k, i))*b(k, j)
                                    end do
-                                   if (nounit) temp = temp/dconjg(a(i, i))
+                                   if (nounit) temp = temp/conjg(a(i, i))
                                end if
                                b(i, j) = temp
                            end do
@@ -4743,9 +4750,9 @@ module stdlib_linalg_blas_z
                                    if (nounit) temp = temp/a(i, i)
                                else
                                    do k = i + 1, m
-                                       temp = temp - dconjg(a(k, i))*b(k, j)
+                                       temp = temp - conjg(a(k, i))*b(k, j)
                                    end do
-                                   if (nounit) temp = temp/dconjg(a(i, i))
+                                   if (nounit) temp = temp/conjg(a(i, i))
                                end if
                                b(i, j) = temp
                            end do
@@ -4807,7 +4814,7 @@ module stdlib_linalg_blas_z
                                if (noconj) then
                                    temp = cone/a(k, k)
                                else
-                                   temp = cone/dconjg(a(k, k))
+                                   temp = cone/conjg(a(k, k))
                                end if
                                do i = 1, m
                                    b(i, k) = temp*b(i, k)
@@ -4818,7 +4825,7 @@ module stdlib_linalg_blas_z
                                    if (noconj) then
                                        temp = a(j, k)
                                    else
-                                       temp = dconjg(a(j, k))
+                                       temp = conjg(a(j, k))
                                    end if
                                    do i = 1, m
                                        b(i, j) = b(i, j) - temp*b(i, k)
@@ -4837,7 +4844,7 @@ module stdlib_linalg_blas_z
                                if (noconj) then
                                    temp = cone/a(k, k)
                                else
-                                   temp = cone/dconjg(a(k, k))
+                                   temp = cone/conjg(a(k, k))
                                end if
                                do i = 1, m
                                    b(i, k) = temp*b(i, k)
@@ -4848,7 +4855,7 @@ module stdlib_linalg_blas_z
                                    if (noconj) then
                                        temp = a(j, k)
                                    else
-                                       temp = dconjg(a(j, k))
+                                       temp = conjg(a(j, k))
                                    end if
                                    do i = 1, m
                                        b(i, j) = b(i, j) - temp*b(i, k)
@@ -4892,7 +4899,7 @@ module stdlib_linalg_blas_z
            logical(lk) :: noconj, nounit
      
            ! .. intrinsic functions ..
-           intrinsic :: dconjg, max
+           intrinsic :: conjg, max
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -4994,9 +5001,9 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/a(j, j)
                            else
                                do i = 1, j - 1
-                                   temp = temp - dconjg(a(i, j))*x(i)
+                                   temp = temp - conjg(a(i, j))*x(i)
                                end do
-                               if (nounit) temp = temp/dconjg(a(j, j))
+                               if (nounit) temp = temp/conjg(a(j, j))
                            end if
                            x(j) = temp
                        end do
@@ -5013,10 +5020,10 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/a(j, j)
                            else
                                do i = 1, j - 1
-                                   temp = temp - dconjg(a(i, j))*x(ix)
+                                   temp = temp - conjg(a(i, j))*x(ix)
                                    ix = ix + incx
                                end do
-                               if (nounit) temp = temp/dconjg(a(j, j))
+                               if (nounit) temp = temp/conjg(a(j, j))
                            end if
                            x(jx) = temp
                            jx = jx + incx
@@ -5033,9 +5040,9 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/a(j, j)
                            else
                                do i = n, j + 1, -1
-                                   temp = temp - dconjg(a(i, j))*x(i)
+                                   temp = temp - conjg(a(i, j))*x(i)
                                end do
-                               if (nounit) temp = temp/dconjg(a(j, j))
+                               if (nounit) temp = temp/conjg(a(j, j))
                            end if
                            x(j) = temp
                        end do
@@ -5053,10 +5060,10 @@ module stdlib_linalg_blas_z
                                if (nounit) temp = temp/a(j, j)
                            else
                                do i = n, j + 1, -1
-                                   temp = temp - dconjg(a(i, j))*x(ix)
+                                   temp = temp - conjg(a(i, j))*x(ix)
                                    ix = ix - incx
                                end do
-                               if (nounit) temp = temp/dconjg(a(j, j))
+                               if (nounit) temp = temp/conjg(a(j, j))
                            end if
                            x(jx) = temp
                            jx = jx - incx

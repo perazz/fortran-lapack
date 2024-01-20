@@ -2013,7 +2013,7 @@ module stdlib_linalg_blas_c
                            c(j, j) = real(c(j, j))
                        end if
                        do l = 1, k
-                           if (a(j, l) /= cmplx(zero)) then
+                           if (a(j, l) /= cmplx(zero, KIND=sp)) then
                                temp = alpha*conjg(a(j, l))
                                do i = 1, j - 1
                                    c(i, j) = c(i, j) + temp*a(i, l)
@@ -2037,7 +2037,7 @@ module stdlib_linalg_blas_c
                            c(j, j) = real(c(j, j))
                        end if
                        do l = 1, k
-                           if (a(j, l) /= cmplx(zero)) then
+                           if (a(j, l) /= cmplx(zero, KIND=sp)) then
                                temp = alpha*conjg(a(j, l))
                                c(j, j) = real(c(j, j)) + real(temp*a(j, l))
                                do i = j + 1, n

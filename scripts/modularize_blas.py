@@ -798,6 +798,24 @@ def replace_f77_types(line,is_free_form):
     new_line = new_line.replace("D+0","_dp")
     new_line = new_line.replace("0.0d0","0.0_dp")
 
+    # Relabel double precision intrinsic functions with kind-agnostic ones
+    new_line = re.sub(r'\bDABS\b',r'ABS',new_line) # abs
+    new_line = re.sub(r'\bdabs\b',r'abs',new_line)
+    new_line = re.sub(r'\bDLOG\b',r'LOG',new_line) # log
+    new_line = re.sub(r'\bdlog\b',r'log',new_line)
+    new_line = re.sub(r'\bALOG\b',r'LOG',new_line) # log
+    new_line = re.sub(r'\balog\b',r'log',new_line)
+    new_line = re.sub(r'\bDSIGN\b',r'SIGN',new_line) # sign
+    new_line = re.sub(r'\bdsign\b',r'sign',new_line)
+    new_line = re.sub(r'\bDSQRT\b',r'SQRT',new_line) # sqrt
+    new_line = re.sub(r'\bdsqrt\b',r'sqrt',new_line)
+    new_line = re.sub(r'\bDIMAG\b',r'AIMAG',new_line) # aimag
+    new_line = re.sub(r'\bdimag\b',r'aimag',new_line)
+    new_line = re.sub(r'\bDCONJG\b',r'CONJG',new_line) # conjg
+    new_line = re.sub(r'\bdconjg\b',r'conjg',new_line)
+    new_line = re.sub(r'\bDCONJG\b',r'CONJG',new_line)
+    new_line = re.sub(r'\bdconjg\b',r'conjg',new_line)
+
     return new_line
 
 def replace_la_constants(line,file_name):
@@ -1002,14 +1020,12 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     decl  = Source.decl
 
     initial = name[0]
-#    if initial=='c' or initial=='s':
-#        for i in range(len(la_names)):
-#            la_repl.append('s'+la_names[i])
-#    else: # z, d
-#        for i in range(len(la_names)):
-#            la_repl.append('d'+la_names[i])
-#        la_names.append('czero')
-#        la_repl .append('zzero')
+    if initial=='c' or initial=='s':
+        ik = 'ilp'
+        rk = 'sp'
+    else: # z, d
+        ik = 'ilp'
+        rk = 'dp'
 
     la_names = []
     la_repl  = []
@@ -1054,6 +1070,24 @@ def rename_source_body(Source,Sources,external_funs,prefix):
             if is_declared[j]: continue
             old = len(whole)
             whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
+
+
+    # This regex pattern defines 3 groups such that we can capture expressions
+    # containing other brackets, such as real(ax(i)+2)*real(bx(6)+ety(4))
+    fpref = r'(([^a-zA-Z0-9\_])'
+    findr = r'\(([^()]*(?:\([^()]*\))*[^()]*)\))'
+
+
+
+    # Replace type-dependent intrinsics that require a KIND specification
+    whole = re.sub(fpref+'int'+findr,r'\2int(\3,KIND='+ik+r')',whole) # int
+    whole = re.sub(fpref+'nint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # nint
+    whole = re.sub(fpref+'idnint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # idnint
+    whole = re.sub(fpref+'dble'+findr,r'\2real(\3,KIND='+rk+r')',whole) # dble
+    whole = re.sub(fpref+'float'+findr,r'\2real(\3,KIND='+rk+r')',whole) # float
+    # whole = re.sub(r'(real\()(.+)(\))',r'real(\2,KIND='+rk+r')',whole) # real
+    whole = re.sub(fpref+'cmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
+    whole = re.sub(fpref+'dcmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
 
     body = whole.split('\n')
 

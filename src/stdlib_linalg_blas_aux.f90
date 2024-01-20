@@ -26,8 +26,8 @@ module stdlib_linalg_blas_aux
            complex(dp) :: z
         ! =====================================================================
            ! .. intrinsic functions ..
-           intrinsic :: abs, dble, dimag
-           stdlib_dcabs1 = abs(dble(z)) + abs(dimag(z))
+           intrinsic :: abs, dble, aimag
+           stdlib_dcabs1 = abs(real(z, KIND=dp)) + abs(aimag(z))
            return
            ! end of stdlib_dcabs1
      end function stdlib_dcabs1
@@ -47,29 +47,29 @@ module stdlib_linalg_blas_aux
            real(dp) :: dmax
            integer(ilp) :: i, ix
            ! .. intrinsic functions ..
-           intrinsic :: dabs
+           intrinsic :: abs
            stdlib_idamax = 0
            if (n < 1 .or. incx <= 0) return
            stdlib_idamax = 1
            if (n == 1) return
            if (incx == 1) then
               ! code for increment equal to 1
-              dmax = dabs(dx(1))
+              dmax = abs(dx(1))
               do i = 2, n
-                 if (dabs(dx(i)) > dmax) then
+                 if (abs(dx(i)) > dmax) then
                     stdlib_idamax = i
-                    dmax = dabs(dx(i))
+                    dmax = abs(dx(i))
                  end if
               end do
            else
               ! code for increment not equal to 1
               ix = 1
-              dmax = dabs(dx(1))
+              dmax = abs(dx(1))
               ix = ix + incx
               do i = 2, n
-                 if (dabs(dx(ix)) > dmax) then
+                 if (abs(dx(ix)) > dmax) then
                     stdlib_idamax = i
-                    dmax = dabs(dx(ix))
+                    dmax = abs(dx(ix))
                  end if
                  ix = ix + incx
               end do

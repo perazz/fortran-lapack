@@ -1512,7 +1512,7 @@ module stdlib_linalg_lapack_s
               else
                  x(i) = -one
               end if
-              isgn(i) = nint(x(i))
+              isgn(i) = nint(x(i), KIND=ilp)
            end do
            kase = 2
            isave(1) = 2
@@ -1543,7 +1543,7 @@ module stdlib_linalg_lapack_s
               else
                  xs = -one
               end if
-              if (nint(xs) /= isgn(i)) go to 90
+              if (nint(xs, KIND=ilp) /= isgn(i)) go to 90
            end do
            ! repeated sign vector detected, hence algorithm has converged.
            go to 120
@@ -1556,7 +1556,7 @@ module stdlib_linalg_lapack_s
               else
                  x(i) = -one
               end if
-              isgn(i) = nint(x(i))
+              isgn(i) = nint(x(i), KIND=ilp)
            end do
            kase = 2
            isave(1) = 4
@@ -1641,7 +1641,7 @@ module stdlib_linalg_lapack_s
            est = stdlib_sasum(n, x, 1)
            do i = 1, n
               x(i) = sign(one, x(i))
-              isgn(i) = nint(x(i))
+              isgn(i) = nint(x(i), KIND=ilp)
            end do
            kase = 2
            jump = 2
@@ -1676,7 +1676,7 @@ module stdlib_linalg_lapack_s
            if (est <= estold) go to 120
            do i = 1, n
               x(i) = sign(one, x(i))
-              isgn(i) = nint(x(i))
+              isgn(i) = nint(x(i), KIND=ilp)
            end do
            kase = 2
            jump = 4
@@ -6152,7 +6152,7 @@ module stdlib_linalg_lapack_s
            ! find the number of levels on the tree.
            maxn = max(1, n)
            temp = log(real(maxn)/real(msub + 1))/log(two)
-           lvl = int(temp) + 1
+           lvl = int(temp, KIND=ilp) + 1
            i = n/2
            inode(1) = i + 1
            ndiml(1) = i
@@ -7237,13 +7237,13 @@ module stdlib_linalg_lapack_s
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. scalar arguments ..
-        integer :: incx, n
+     integer(ilp) :: incx, n
         real(sp) :: scl, sumsq
         ! .. array arguments ..
         real(sp) :: x(*)
         ! .. local scalars ..
-        integer :: i, ix
-        logical :: notbig
+     integer(ilp) :: i, ix
+     logical(lk) :: notbig
         real(sp) :: abig, amed, asml, ax, ymax, ymin
         ! quick return if possible
         if (ieee_is_nan(scl) .or. ieee_is_nan(sumsq)) return
@@ -26742,14 +26742,14 @@ module stdlib_linalg_lapack_s
 350    continue
            sfmin = stdlib_slamch('s')
            sfmax = one/sfmin
-           lsfmin = int(log10(sfmin)/basl + one)
-           lsfmax = int(log10(sfmax)/basl)
+           lsfmin = int(log10(sfmin)/basl + one, KIND=ilp)
+           lsfmax = int(log10(sfmax)/basl, KIND=ilp)
            do i = ilo, ihi
               irab = stdlib_isamax(n - ilo + 1, a(i, ilo), lda)
               rab = abs(a(i, irab + ilo - 1))
               irab = stdlib_isamax(n - ilo + 1, b(i, ilo), ldb)
               rab = max(rab, abs(b(i, irab + ilo - 1)))
-              lrab = int(log10(rab + sfmin)/basl + one)
+              lrab = int(log10(rab + sfmin)/basl + one, KIND=ilp)
               ir = lscale(i) + sign(half, lscale(i))
               ir = min(max(ir, lsfmin), lsfmax, lsfmax - lrab)
               lscale(i) = sclfac**ir
@@ -26757,7 +26757,7 @@ module stdlib_linalg_lapack_s
               cab = abs(a(icab, i))
               icab = stdlib_isamax(ihi, b(1, i), 1)
               cab = max(cab, abs(b(icab, i)))
-              lcab = int(log10(cab + sfmin)/basl + one)
+              lcab = int(log10(cab + sfmin)/basl + one, KIND=ilp)
               jc = rscale(i) + sign(half, rscale(i))
               jc = min(max(jc, lsfmin), lsfmax, lsfmax - lcab)
               rscale(i) = sclfac**jc
@@ -36189,17 +36189,17 @@ module stdlib_linalg_lapack_s
               iorgqr = itauq2 + max(1, m - q)
               call stdlib_sorgqr(m - q, m - q, m - q, dummy, max(1, m - q), dummy, work, -1, childinfo)
                         
-              lorgqrworkopt = int(work(1))
+              lorgqrworkopt = int(work(1), KIND=ilp)
               lorgqrworkmin = max(1, m - q)
               iorglq = itauq2 + max(1, m - q)
               call stdlib_sorglq(m - q, m - q, m - q, dummy, max(1, m - q), dummy, work, -1, childinfo)
                         
-              lorglqworkopt = int(work(1))
+              lorglqworkopt = int(work(1), KIND=ilp)
               lorglqworkmin = max(1, m - q)
               iorbdb = itauq2 + max(1, m - q)
               call stdlib_sorbdb(trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, &
                         ldx22, dummy, dummy, dummy, dummy, dummy, dummy, work, -1, childinfo)
-              lorbdbworkopt = int(work(1))
+              lorbdbworkopt = int(work(1), KIND=ilp)
               lorbdbworkmin = lorbdbworkopt
               ib11d = itauq2 + max(1, m - q)
               ib11e = ib11d + max(1, q)
@@ -36213,7 +36213,7 @@ module stdlib_linalg_lapack_s
               call stdlib_sbbcsd(jobu1, jobu2, jobv1t, jobv2t, trans, m, p, q, dummy, dummy, u1, &
               ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, dummy, dummy, dummy, dummy, dummy, dummy, &
                         dummy, dummy, work, -1, childinfo)
-              lbbcsdworkopt = int(work(1))
+              lbbcsdworkopt = int(work(1), KIND=ilp)
               lbbcsdworkmin = lbbcsdworkopt
               lworkopt = max(iorgqr + lorgqrworkopt, iorglq + lorglqworkopt, iorbdb + &
                         lorbdbworkopt, ibbcsd + lbbcsdworkopt) - 1
@@ -45618,10 +45618,10 @@ module stdlib_linalg_lapack_s
            ! update b := q**t*b.
            call stdlib_sormqr('left', 'transpose', n, p, min(n, m), a, lda, taua, b, ldb, work, &
                      lwork, info)
-           lopt = max(lopt, int(work(1)))
+           lopt = max(lopt, int(work(1), KIND=ilp))
            ! rq factorization of n-by-p matrix b: b = t*z.
            call stdlib_sgerqf(n, p, b, ldb, taub, work, lwork, info)
-           work(1) = max(lopt, int(work(1)))
+           work(1) = max(lopt, int(work(1), KIND=ilp))
            return
            ! end of stdlib_sggqrf
      end subroutine stdlib_sggqrf
@@ -45695,10 +45695,10 @@ module stdlib_linalg_lapack_s
            ! update b := b*q**t
            call stdlib_sormrq('right', 'transpose', p, n, min(m, n), a(max(1, m - n + 1), 1), &
                      lda, taua, b, ldb, work, lwork, info)
-           lopt = max(lopt, int(work(1)))
+           lopt = max(lopt, int(work(1), KIND=ilp))
            ! qr factorization of p-by-n matrix b: b = z*t
            call stdlib_sgeqrf(p, n, b, ldb, taub, work, lwork, info)
-           work(1) = max(lopt, int(work(1)))
+           work(1) = max(lopt, int(work(1), KIND=ilp))
            return
            ! end of stdlib_sggrqf
      end subroutine stdlib_sggrqf
@@ -49905,7 +49905,7 @@ module stdlib_linalg_lapack_s
            ! recomputation of difficult columns.
 40      continue
            if (lsticc > 0) then
-              itemp = nint(vn2(lsticc))
+              itemp = nint(vn2(lsticc), KIND=ilp)
               vn1(lsticc) = stdlib_snrm2(m - rk, a(rk + 1, lsticc), 1)
               ! note: the computation of vn1( lsticc ) relies on the fact that
               ! stdlib_snrm2 does not fail on vectors with norm below the value of
@@ -51914,101 +51914,101 @@ module stdlib_linalg_lapack_s
               if (r == q) then
                  call stdlib_sorbdb1(m, p, q, x11, ldx11, x21, ldx21, theta, dum1, dum1, dum1, &
                            dum1, work, -1, childinfo)
-                 lorbdb = int(work(1))
+                 lorbdb = int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_sorgqr(p, p, q, u1, ldu1, dum1, work(1), -1, childinfo)
                     lorgqrmin = max(lorgqrmin, p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_sorgqr(m - p, m - p, q, u2, ldu2, dum1, work(1), -1, childinfo)
                               
                     lorgqrmin = max(lorgqrmin, m - p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_sorglq(q - 1, q - 1, q - 1, v1t, ldv1t, dum1, work(1), -1, childinfo)
                               
                     lorglqmin = max(lorglqmin, q - 1)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_sbbcsd(jobu1, jobu2, jobv1t, 'n', 'n', m, p, q, theta, dum1, u1, &
                  ldu1, u2, ldu2, v1t, ldv1t, dum2, 1, dum1, dum1, dum1, dum1, dum1, dum1, dum1, &
                            dum1, work(1), -1, childinfo)
-                 lbbcsd = int(work(1))
+                 lbbcsd = int(work(1), KIND=ilp)
               else if (r == p) then
                  call stdlib_sorbdb2(m, p, q, x11, ldx11, x21, ldx21, theta, dum1, dum1, dum1, &
                            dum1, work(1), -1, childinfo)
-                 lorbdb = int(work(1))
+                 lorbdb = int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_sorgqr(p - 1, p - 1, p - 1, u1(2, 2), ldu1, dum1, work(1), -1, childinfo &
                               )
                     lorgqrmin = max(lorgqrmin, p - 1)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_sorgqr(m - p, m - p, q, u2, ldu2, dum1, work(1), -1, childinfo)
                               
                     lorgqrmin = max(lorgqrmin, m - p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_sorglq(q, q, r, v1t, ldv1t, dum1, work(1), -1, childinfo)
                     lorglqmin = max(lorglqmin, q)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_sbbcsd(jobv1t, 'n', jobu1, jobu2, 't', m, q, p, theta, dum1, v1t, &
                  ldv1t, dum2, 1, u1, ldu1, u2, ldu2, dum1, dum1, dum1, dum1, dum1, dum1, dum1, dum1, &
                             work(1), -1, childinfo)
-                 lbbcsd = int(work(1))
+                 lbbcsd = int(work(1), KIND=ilp)
               else if (r == m - p) then
                  call stdlib_sorbdb3(m, p, q, x11, ldx11, x21, ldx21, theta, dum1, dum1, dum1, &
                            dum1, work(1), -1, childinfo)
-                 lorbdb = int(work(1))
+                 lorbdb = int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_sorgqr(p, p, q, u1, ldu1, dum1, work(1), -1, childinfo)
                     lorgqrmin = max(lorgqrmin, p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_sorgqr(m - p - 1, m - p - 1, m - p - 1, u2(2, 2), ldu2, dum1, work(1), -1, &
                               childinfo)
                     lorgqrmin = max(lorgqrmin, m - p - 1)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_sorglq(q, q, r, v1t, ldv1t, dum1, work(1), -1, childinfo)
                     lorglqmin = max(lorglqmin, q)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_sbbcsd('n', jobv1t, jobu2, jobu1, 't', m, m - q, m - p, theta, dum1, &
                  dum2, 1, v1t, ldv1t, u2, ldu2, u1, ldu1, dum1, dum1, dum1, dum1, dum1, dum1, dum1, &
                            dum1, work(1), -1, childinfo)
-                 lbbcsd = int(work(1))
+                 lbbcsd = int(work(1), KIND=ilp)
               else
                  call stdlib_sorbdb4(m, p, q, x11, ldx11, x21, ldx21, theta, dum1, dum1, dum1, &
                            dum1, dum1, work(1), -1, childinfo)
-                 lorbdb = m + int(work(1))
+                 lorbdb = m + int(work(1), KIND=ilp)
                  if (wantu1 .and. p > 0) then
                     call stdlib_sorgqr(p, p, m - q, u1, ldu1, dum1, work(1), -1, childinfo)
                     lorgqrmin = max(lorgqrmin, p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_sorgqr(m - p, m - p, m - q, u2, ldu2, dum1, work(1), -1, childinfo)
                               
                     lorgqrmin = max(lorgqrmin, m - p)
-                    lorgqropt = max(lorgqropt, int(work(1)))
+                    lorgqropt = max(lorgqropt, int(work(1), KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_sorglq(q, q, q, v1t, ldv1t, dum1, work(1), -1, childinfo)
                     lorglqmin = max(lorglqmin, q)
-                    lorglqopt = max(lorglqopt, int(work(1)))
+                    lorglqopt = max(lorglqopt, int(work(1), KIND=ilp))
                  end if
                  call stdlib_sbbcsd(jobu2, jobu1, 'n', jobv1t, 'n', m, m - p, m - q, theta, dum1, u2, &
                  ldu2, u1, ldu1, dum2, 1, v1t, ldv1t, dum1, dum1, dum1, dum1, dum1, dum1, dum1, &
                            dum1, work(1), -1, childinfo)
-                 lbbcsd = int(work(1))
+                 lbbcsd = int(work(1), KIND=ilp)
               end if
               lworkmin = max(iorbdb + lorbdb - 1, iorgqr + lorgqrmin - 1, iorglq + lorglqmin - 1, ibbcsd + lbbcsd - &
                         1)
@@ -60543,8 +60543,8 @@ module stdlib_linalg_lapack_s
            tran = stdlib_lsame(trans, 't')
            left = stdlib_lsame(side, 'l')
            right = stdlib_lsame(side, 'r')
-           mb = int(t(2))
-           nb = int(t(3))
+           mb = int(t(2), KIND=ilp)
+           nb = int(t(3), KIND=ilp)
            if (left) then
              lw = n*mb
              mn = m
@@ -60639,8 +60639,8 @@ module stdlib_linalg_lapack_s
            tran = stdlib_lsame(trans, 't')
            left = stdlib_lsame(side, 'l')
            right = stdlib_lsame(side, 'r')
-           mb = int(t(2))
-           nb = int(t(3))
+           mb = int(t(2), KIND=ilp)
+           nb = int(t(3), KIND=ilp)
            if (left) then
              lw = n*nb
              mn = m
@@ -60785,13 +60785,13 @@ module stdlib_linalg_lapack_s
               na = min(m, nfxd)
       ! cc      call stdlib_sgeqr2( m, na, a, lda, tau, work, info )
               call stdlib_sgeqrf(m, na, a, lda, tau, work, lwork, info)
-              iws = max(iws, int(work(1)))
+              iws = max(iws, int(work(1), KIND=ilp))
               if (na < n) then
       ! cc         call stdlib_sorm2r( 'left', 'transpose', m, n-na, na, a, lda,
       ! cc  $                   tau, a( 1, na+1 ), lda, work, info )
                  call stdlib_sormqr('left', 'transpose', m, n - na, na, a, lda, tau, a(1, na + 1), &
                            lda, work, lwork, info)
-                 iws = max(iws, int(work(1)))
+                 iws = max(iws, int(work(1), KIND=ilp))
               end if
            end if
            ! factorize free columns
@@ -62646,7 +62646,7 @@ module stdlib_linalg_lapack_s
                                                      ! ( d2 ) n-m
            call stdlib_sormqr('left', 'transpose', n, 1, m, a, lda, work, d, max(1, n), work(m + &
                      np + 1), lwork - m - np, info)
-           lopt = max(lopt, int(work(m + np + 1)))
+           lopt = max(lopt, int(work(m + np + 1), KIND=ilp))
            ! solve t22*y2 = d2 for y2
            if (n > m) then
               call stdlib_strtrs('upper', 'no transpose', 'non unit', n - m, 1, b(m + 1, m + p - n + 1), &
@@ -62678,7 +62678,7 @@ module stdlib_linalg_lapack_s
            ! backward transformation y = z**t *y
            call stdlib_sormrq('left', 'transpose', p, 1, np, b(max(1, n - p + 1), 1), ldb, work( &
                      m + 1), y, max(1, p), work(m + np + 1), lwork - m - np, info)
-           work(1) = m + np + max(lopt, int(work(m + np + 1)))
+           work(1) = m + np + max(lopt, int(work(m + np + 1), KIND=ilp))
            return
            ! end of stdlib_sggglm
      end subroutine stdlib_sggglm
@@ -62768,7 +62768,7 @@ module stdlib_linalg_lapack_s
                                 ! ( c2 ) m+p-n
            call stdlib_sormqr('left', 'transpose', m, 1, mn, a, lda, work(p + 1), c, max(1, m), &
                      work(p + mn + 1), lwork - p - mn, info)
-           lopt = max(lopt, int(work(p + mn + 1)))
+           lopt = max(lopt, int(work(p + mn + 1), KIND=ilp))
            ! solve t12*x2 = d for x2
            if (p > 0) then
               call stdlib_strtrs('upper', 'no transpose', 'non-unit', p, 1, b(1, n - p + 1), ldb, d, &
@@ -62810,7 +62810,7 @@ module stdlib_linalg_lapack_s
            ! backward transformation x = q**t*x
            call stdlib_sormrq('left', 'transpose', n, 1, p, b, ldb, work(1), x, n, work(p + mn + 1 &
                      ), lwork - p - mn, info)
-           work(1) = p + mn + max(lopt, int(work(p + mn + 1)))
+           work(1) = p + mn + max(lopt, int(work(p + mn + 1), KIND=ilp))
            return
            ! end of stdlib_sgglse
      end subroutine stdlib_sgglse
@@ -66415,32 +66415,32 @@ module stdlib_linalg_lapack_s
            ! determine the optimum and minimum lwork
             if (m >= n) then
               call stdlib_sgeqr(m, n, a, lda, tq, -1, workq, -1, info2)
-              tszo = int(tq(1))
-              lwo = int(workq(1))
+              tszo = int(tq(1), KIND=ilp)
+              lwo = int(workq(1), KIND=ilp)
               call stdlib_sgemqr('l', trans, m, nrhs, n, a, lda, tq, tszo, b, ldb, workq, -1, &
                         info2)
-              lwo = max(lwo, int(workq(1)))
+              lwo = max(lwo, int(workq(1), KIND=ilp))
               call stdlib_sgeqr(m, n, a, lda, tq, -2, workq, -2, info2)
-              tszm = int(tq(1))
-              lwm = int(workq(1))
+              tszm = int(tq(1), KIND=ilp)
+              lwm = int(workq(1), KIND=ilp)
               call stdlib_sgemqr('l', trans, m, nrhs, n, a, lda, tq, tszm, b, ldb, workq, -1, &
                         info2)
-              lwm = max(lwm, int(workq(1)))
+              lwm = max(lwm, int(workq(1), KIND=ilp))
               wsizeo = tszo + lwo
               wsizem = tszm + lwm
             else
               call stdlib_sgelq(m, n, a, lda, tq, -1, workq, -1, info2)
-              tszo = int(tq(1))
-              lwo = int(workq(1))
+              tszo = int(tq(1), KIND=ilp)
+              lwo = int(workq(1), KIND=ilp)
               call stdlib_sgemlq('l', trans, n, nrhs, m, a, lda, tq, tszo, b, ldb, workq, -1, &
                         info2)
-              lwo = max(lwo, int(workq(1)))
+              lwo = max(lwo, int(workq(1), KIND=ilp))
               call stdlib_sgelq(m, n, a, lda, tq, -2, workq, -2, info2)
-              tszm = int(tq(1))
-              lwm = int(workq(1))
+              tszm = int(tq(1), KIND=ilp)
+              lwm = int(workq(1), KIND=ilp)
               call stdlib_sgemlq('l', trans, n, nrhs, m, a, lda, tq, tszm, b, ldb, workq, -1, &
                         info2)
-              lwm = max(lwm, int(workq(1)))
+              lwm = max(lwm, int(workq(1), KIND=ilp))
               wsizeo = tszo + lwo
               wsizem = tszm + lwm
             end if
@@ -67021,11 +67021,11 @@ module stdlib_linalg_lapack_s
            else
               ! ==== workspace query call to stdlib_sgehrd ====
               call stdlib_sgehrd(jw, 1, jw - 1, t, ldt, work, work, -1, info)
-              lwk1 = int(work(1))
+              lwk1 = int(work(1), KIND=ilp)
               ! ==== workspace query call to stdlib_sormhr ====
               call stdlib_sormhr('r', 'n', jw, jw, 1, jw - 1, t, ldt, work, v, ldv, work, -1, info)
                         
-              lwk2 = int(work(1))
+              lwk2 = int(work(1), KIND=ilp)
               ! ==== optimal workspace ====
               lwkopt = jw + max(lwk1, lwk2)
            end if
@@ -67574,7 +67574,7 @@ module stdlib_linalg_lapack_s
               ! set up workspaces for eigenvalues only/accumulate new vectors
               ! routine
               temp = log(real(n))/log(two)
-              lgn = int(temp)
+              lgn = int(temp, KIND=ilp)
               if (2**lgn < n) lgn = lgn + 1
               if (2**lgn < n) lgn = lgn + 1
               iprmpt = indxq + n + 1
@@ -70120,11 +70120,11 @@ module stdlib_linalg_lapack_s
                               n, 1, n, -1))
                     call stdlib_shseqr('s', 'v', n, 1, n, a, lda, wr, wi, vl, ldvl, work, -1, &
                               info)
-                    hswork = int(work(1))
+                    hswork = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + 1, n + hswork)
                     call stdlib_strevc3('l', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     maxwrk = max(maxwrk, 4*n)
                  else if (wantvr) then
@@ -70133,18 +70133,18 @@ module stdlib_linalg_lapack_s
                               n, 1, n, -1))
                     call stdlib_shseqr('s', 'v', n, 1, n, a, lda, wr, wi, vr, ldvr, work, -1, &
                               info)
-                    hswork = int(work(1))
+                    hswork = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + 1, n + hswork)
                     call stdlib_strevc3('r', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     maxwrk = max(maxwrk, 4*n)
                  else
                     minwrk = 3*n
                     call stdlib_shseqr('e', 'n', n, 1, n, a, lda, wr, wi, vr, ldvr, work, -1, &
                               info)
-                    hswork = int(work(1))
+                    hswork = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + 1, n + hswork)
                  end if
                  maxwrk = max(maxwrk, minwrk)
@@ -70405,14 +70405,14 @@ module stdlib_linalg_lapack_s
                  if (wantvl) then
                     call stdlib_strevc3('l', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     call stdlib_shseqr('s', 'v', n, 1, n, a, lda, wr, wi, vl, ldvl, work, -1, &
                               info)
                  else if (wantvr) then
                     call stdlib_strevc3('r', 'b', select, n, a, lda, vl, ldvl, vr, ldvr, n, nout, &
                               work, -1, ierr)
-                    lwork_trevc = int(work(1))
+                    lwork_trevc = int(work(1), KIND=ilp)
                     maxwrk = max(maxwrk, n + lwork_trevc)
                     call stdlib_shseqr('s', 'v', n, 1, n, a, lda, wr, wi, vr, ldvr, work, -1, &
                               info)
@@ -70425,7 +70425,7 @@ module stdlib_linalg_lapack_s
                                  info)
                     end if
                  end if
-                 hswork = int(work(1))
+                 hswork = int(work(1), KIND=ilp)
                  if ((.not. wantvl) .and. (.not. wantvr)) then
                     minwrk = 2*n
                     if (.not. wntsnn) minwrk = max(minwrk, n*n + 6*n)
@@ -70652,7 +70652,7 @@ module stdlib_linalg_lapack_s
            logical(lk) :: almort, defr, errest, goscal, jracc, kill, lsvec, l2aber, l2kill, &
                      l2pert, l2rank, l2tran, noscal, rowpiv, rsvec, transp
            ! .. intrinsic functions ..
-           intrinsic :: abs, alog, max, min, float, nint, sign, sqrt
+           intrinsic :: abs, log, max, min, float, nint, sign, sqrt
      
            ! test the input arguments
            lsvec = stdlib_lsame(jobu, 'u') .or. stdlib_lsame(jobu, 'f')
@@ -70730,7 +70730,7 @@ module stdlib_linalg_lapack_s
       ! (!)  if necessary, scale sva() to protect the largest norm from
            ! overflow. it is possible that this scaling pushes the smallest
            ! column norm left from the underflow threshold (extreme case).
-           scalem = one/sqrt(float(m)*float(n))
+           scalem = one/sqrt(real(m, KIND=sp)*real(n, KIND=sp))
            noscal = .true.
            goscal = .true.
            do p = 1, n
@@ -70882,9 +70882,9 @@ module stdlib_linalg_lapack_s
               entra = zero
               do p = 1, n
                  big1 = ((sva(p)/xsc)**2)*temp1
-                 if (big1 /= zero) entra = entra + big1*alog(big1)
+                 if (big1 /= zero) entra = entra + big1*log(big1)
               end do
-              entra = -entra/alog(float(n))
+              entra = -entra/log(real(n, KIND=sp))
               ! now, sva().^2/trace(a^t * a) is a point in the probability simplex.
               ! it is derived from the diagonal of  a^t * a.  do the same with the
               ! diagonal of a * a^t, compute the entropy of the corresponding
@@ -70893,9 +70893,9 @@ module stdlib_linalg_lapack_s
               entrat = zero
               do p = n + 1, n + m
                  big1 = ((work(p)/xsc)**2)*temp1
-                 if (big1 /= zero) entrat = entrat + big1*alog(big1)
+                 if (big1 /= zero) entrat = entrat + big1*log(big1)
               end do
-              entrat = -entrat/alog(float(m))
+              entrat = -entrat/log(real(m, KIND=sp))
               ! analyze the entropies and decide a or a^t. smaller entropy
               ! usually means better input for the algorithm.
               transp = (entrat < entra)
@@ -70938,7 +70938,7 @@ module stdlib_linalg_lapack_s
            ! from sfmin to big, then stdlib_sgesvj will compute them. so, in that case,
            ! one should use stdlib_sgesvj instead of stdlib_sgejsv.
            big1 = sqrt(big)
-           temp1 = sqrt(big/float(n))
+           temp1 = sqrt(big/real(n, KIND=sp))
            call stdlib_slascl('g', 0, 0, aapp, temp1, n, 1, sva, n, ierr)
            if (aaqq > (aapp*sfmin)) then
                aaqq = (aaqq/aapp)*temp1
@@ -71026,7 +71026,7 @@ module stdlib_linalg_lapack_s
               ! sigma_i < n*epsln*||a|| are flushed to zero. this is an
               ! aggressive enforcement of lower numerical rank by introducing a
               ! backward error of the order of n*epsln*||a||.
-              temp1 = sqrt(float(n))*epsln
+              temp1 = sqrt(real(n, KIND=sp))*epsln
               do p = 2, n
                  if (abs(a(p, p)) >= (temp1*abs(a(1, 1)))) then
                     nr = nr + 1
@@ -71069,7 +71069,7 @@ module stdlib_linalg_lapack_s
                  temp1 = abs(a(p, p))/sva(iwork(p))
                  maxprj = min(maxprj, temp1)
               end do
-              if (maxprj**2 >= one - float(n)*epsln) almort = .true.
+              if (maxprj**2 >= one - real(n, KIND=sp)*epsln) almort = .true.
            end if
            sconda = -one
            condr1 = -one
@@ -71134,7 +71134,7 @@ module stdlib_linalg_lapack_s
               if (.not. almort) then
                  if (l2pert) then
                     ! xsc = sqrt(small)
-                    xsc = epsln/float(n)
+                    xsc = epsln/real(n, KIND=sp)
                     do q = 1, nr
                        temp1 = xsc*abs(a(q, q))
                        do p = 1, n
@@ -71157,7 +71157,7 @@ module stdlib_linalg_lapack_s
                  ! to drown denormals
                  if (l2pert) then
                     ! xsc = sqrt(small)
-                    xsc = epsln/float(n)
+                    xsc = epsln/real(n, KIND=sp)
                     do q = 1, nr
                        temp1 = xsc*abs(a(q, q))
                        do p = 1, nr
@@ -71174,7 +71174,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_sgesvj('l', 'nou', 'nov', nr, nr, a, lda, sva, n, v, ldv, work, &
                            lwork, info)
                  scalem = work(1)
-                 numrank = nint(work(2))
+                 numrank = nint(work(2), KIND=ilp)
            else if (rsvec .and. (.not. lsvec)) then
               ! -> singular values and right singular vectors <-
               if (almort) then
@@ -71186,7 +71186,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_sgesvj('l', 'u', 'n', n, nr, v, ldv, sva, nr, a, lda, work, lwork, info)
                            
                  scalem = work(1)
-                 numrank = nint(work(2))
+                 numrank = nint(work(2), KIND=ilp)
               else
               ! .. two more qr factorizations ( one qrf is not enough, two require
               ! accumulated product of jacobi rotations, three are perfect )
@@ -71203,7 +71203,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_sgesvj('lower', 'u', 'n', nr, nr, v, ldv, sva, nr, u, ldu, work(n + 1), &
                            lwork - n, info)
                  scalem = work(n + 1)
-                 numrank = nint(work(n + 2))
+                 numrank = nint(work(n + 2), KIND=ilp)
                  if (nr < n) then
                     call stdlib_slaset('a', n - nr, nr, zero, zero, v(nr + 1, 1), ldv)
                     call stdlib_slaset('a', nr, n - nr, zero, zero, v(1, nr + 1), ldv)
@@ -71235,7 +71235,7 @@ module stdlib_linalg_lapack_s
               call stdlib_sgesvj('lower', 'u', 'n', nr, nr, u, ldu, sva, nr, a, lda, work(n + 1), &
                         lwork - n, info)
               scalem = work(n + 1)
-              numrank = nint(work(n + 2))
+              numrank = nint(work(n + 2), KIND=ilp)
               if (nr < m) then
                  call stdlib_slaset('a', m - nr, nr, zero, zero, u(nr + 1, 1), ldu)
                  if (nr < n1) then
@@ -71303,9 +71303,9 @@ module stdlib_linalg_lapack_s
                  condr1 = one/sqrt(temp1)
                  ! .. here need a second opinion on the condition number
                  ! .. then assume worst case scenario
-                 ! r1 is ok for inverse <=> condr1 < float(n)
-                 ! more conservative    <=> condr1 < sqrt(float(n))
-                 cond_ok = sqrt(float(nr))
+                 ! r1 is ok for inverse <=> condr1 < real(n,KIND=sp)
+                 ! more conservative    <=> condr1 < sqrt(real(n,KIND=sp))
+                 cond_ok = sqrt(real(nr, KIND=sp))
       ! [tp]       cond_ok is a tuning parameter.
                  if (condr1 < cond_ok) then
                     ! .. the second qrf without pivoting. note: in an optimized
@@ -71408,7 +71408,7 @@ module stdlib_linalg_lapack_s
                     call stdlib_sgesvj('l', 'u', 'n', nr, nr, v, ldv, sva, nr, u, ldu, work(2*n + n*nr + nr + 1), &
                               lwork - 2*n - n*nr - nr, info)
                     scalem = work(2*n + n*nr + nr + 1)
-                    numrank = nint(work(2*n + n*nr + nr + 2))
+                    numrank = nint(work(2*n + n*nr + nr + 2), KIND=ilp)
                     do p = 1, nr
                        call stdlib_scopy(nr, v(1, p), 1, u(1, p), 1)
                        call stdlib_sscal(nr, sva(p), v(1, p), 1)
@@ -71444,7 +71444,7 @@ module stdlib_linalg_lapack_s
                     call stdlib_sgesvj('l', 'u', 'n', nr, nr, v, ldv, sva, nr, u, ldu, work(2*n + &
                               n*nr + nr + 1), lwork - 2*n - n*nr - nr, info)
                     scalem = work(2*n + n*nr + nr + 1)
-                    numrank = nint(work(2*n + n*nr + nr + 2))
+                    numrank = nint(work(2*n + n*nr + nr + 2), KIND=ilp)
                     do p = 1, nr
                        call stdlib_scopy(nr, v(1, p), 1, u(1, p), 1)
                        call stdlib_sscal(nr, sva(p), u(1, p), 1)
@@ -71481,7 +71481,7 @@ module stdlib_linalg_lapack_s
                     call stdlib_sgesvj('l', 'u', 'v', nr, nr, v, ldv, sva, nr, u, ldu, work(2*n + &
                               n*nr + nr + 1), lwork - 2*n - n*nr - nr, info)
                     scalem = work(2*n + n*nr + nr + 1)
-                    numrank = nint(work(2*n + n*nr + nr + 2))
+                    numrank = nint(work(2*n + n*nr + nr + 2), KIND=ilp)
                     if (nr < n) then
                        call stdlib_slaset('a', n - nr, nr, zero, zero, v(nr + 1, 1), ldv)
                        call stdlib_slaset('a', nr, n - nr, zero, zero, v(1, nr + 1), ldv)
@@ -71503,7 +71503,7 @@ module stdlib_linalg_lapack_s
                  ! permute the rows of v using the (column) permutation from the
                  ! first qrf. also, scale the columns to make them unit in
                  ! euclidean norm. this applies to all cases.
-                 temp1 = sqrt(float(n))*epsln
+                 temp1 = sqrt(real(n, KIND=sp))*epsln
                  do q = 1, n
                     do p = 1, n
                        work(2*n + n*nr + nr + iwork(p)) = v(p, q)
@@ -71529,7 +71529,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_sormqr('left', 'no_tr', m, n1, n, a, lda, work, u, ldu, work(n + 1), &
                            lwork - n, ierr)
                  ! the columns of u are normalized. the cost is o(m*n) flops.
-                 temp1 = sqrt(float(m))*epsln
+                 temp1 = sqrt(real(m, KIND=sp))*epsln
                  do p = 1, nr
                     xsc = one/stdlib_snrm2(m, u(1, p), 1)
                     if ((xsc < (one - temp1)) .or. (xsc > (one + temp1))) call stdlib_sscal(m, xsc, &
@@ -71556,7 +71556,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_sgesvj('upper', 'u', 'n', n, n, work(n + 1), n, sva, n, u, ldu, work(n + &
                            n*n + 1), lwork - n - n*n, info)
                  scalem = work(n + n*n + 1)
-                 numrank = nint(work(n + n*n + 2))
+                 numrank = nint(work(n + n*n + 2), KIND=ilp)
                  do p = 1, n
                     call stdlib_scopy(n, work(n + (p - 1)*n + 1), 1, u(1, p), 1)
                     call stdlib_sscal(n, sva(p), work(n + (p - 1)*n + 1), 1)
@@ -71566,7 +71566,7 @@ module stdlib_linalg_lapack_s
                  do p = 1, n
                     call stdlib_scopy(n, work(n + p), n, v(iwork(p), 1), ldv)
                  end do
-                 temp1 = sqrt(float(n))*epsln
+                 temp1 = sqrt(real(n, KIND=sp))*epsln
                  do p = 1, n
                     xsc = one/stdlib_snrm2(n, v(1, p), 1)
                     if ((xsc < (one - temp1)) .or. (xsc > (one + temp1))) call stdlib_sscal(n, xsc, &
@@ -71582,7 +71582,7 @@ module stdlib_linalg_lapack_s
                  end if
                  call stdlib_sormqr('left', 'no tr', m, n1, n, a, lda, work, u, ldu, work(n + 1), &
                            lwork - n, ierr)
-                 temp1 = sqrt(float(m))*epsln
+                 temp1 = sqrt(real(m, KIND=sp))*epsln
                  do p = 1, n1
                     xsc = one/stdlib_snrm2(m, u(1, p), 1)
                     if ((xsc < (one - temp1)) .or. (xsc > (one + temp1))) call stdlib_sscal(m, xsc, &
@@ -71636,7 +71636,7 @@ module stdlib_linalg_lapack_s
               call stdlib_sgesvj('l', 'u', 'v', nr, nr, u, ldu, sva, n, v, ldv, work(2*n + n*nr + 1), &
                         lwork - 2*n - n*nr, info)
               scalem = work(2*n + n*nr + 1)
-              numrank = nint(work(2*n + n*nr + 2))
+              numrank = nint(work(2*n + n*nr + 2), KIND=ilp)
               if (nr < n) then
                  call stdlib_slaset('a', n - nr, nr, zero, zero, v(nr + 1, 1), ldv)
                  call stdlib_slaset('a', nr, n - nr, zero, zero, v(1, nr + 1), ldv)
@@ -71647,7 +71647,7 @@ module stdlib_linalg_lapack_s
                  ! permute the rows of v using the (column) permutation from the
                  ! first qrf. also, scale the columns to make them unit in
                  ! euclidean norm. this applies to all cases.
-                 temp1 = sqrt(float(n))*epsln
+                 temp1 = sqrt(real(n, KIND=sp))*epsln
                  do q = 1, n
                     do p = 1, n
                        work(2*n + n*nr + nr + iwork(p)) = v(p, q)
@@ -72560,7 +72560,7 @@ module stdlib_linalg_lapack_s
               minwrk = 1
               maxwrk = 1
               bdspac = 0
-              mnthr = int(minmn*11.0e0/6.0e0)
+              mnthr = int(minmn*11.0e0/6.0e0, KIND=ilp)
               if (m >= n .and. minmn > 0) then
                  ! compute space needed for stdlib_sbdsdc
                  if (wntqn) then
@@ -72573,30 +72573,30 @@ module stdlib_linalg_lapack_s
                  ! compute space preferred for each routine
                  call stdlib_sgebrd(m, n, dum(1), m, dum(1), dum(1), dum(1), dum(1), dum(1), -1, &
                            ierr)
-                 lwork_sgebrd_mn = int(dum(1))
+                 lwork_sgebrd_mn = int(dum(1), KIND=ilp)
                  call stdlib_sgebrd(n, n, dum(1), n, dum(1), dum(1), dum(1), dum(1), dum(1), -1, &
                            ierr)
-                 lwork_sgebrd_nn = int(dum(1))
+                 lwork_sgebrd_nn = int(dum(1), KIND=ilp)
                  call stdlib_sgeqrf(m, n, dum(1), m, dum(1), dum(1), -1, ierr)
-                 lwork_sgeqrf_mn = int(dum(1))
+                 lwork_sgeqrf_mn = int(dum(1), KIND=ilp)
                  call stdlib_sorgbr('q', n, n, n, dum(1), n, dum(1), dum(1), -1, ierr)
-                 lwork_sorgbr_q_nn = int(dum(1))
+                 lwork_sorgbr_q_nn = int(dum(1), KIND=ilp)
                  call stdlib_sorgqr(m, m, n, dum(1), m, dum(1), dum(1), -1, ierr)
-                 lwork_sorgqr_mm = int(dum(1))
+                 lwork_sorgqr_mm = int(dum(1), KIND=ilp)
                  call stdlib_sorgqr(m, n, n, dum(1), m, dum(1), dum(1), -1, ierr)
-                 lwork_sorgqr_mn = int(dum(1))
+                 lwork_sorgqr_mn = int(dum(1), KIND=ilp)
                  call stdlib_sormbr('p', 'r', 't', n, n, n, dum(1), n, dum(1), dum(1), n, dum(1), &
                            -1, ierr)
-                 lwork_sormbr_prt_nn = int(dum(1))
+                 lwork_sormbr_prt_nn = int(dum(1), KIND=ilp)
                  call stdlib_sormbr('q', 'l', 'n', n, n, n, dum(1), n, dum(1), dum(1), n, dum(1), &
                            -1, ierr)
-                 lwork_sormbr_qln_nn = int(dum(1))
+                 lwork_sormbr_qln_nn = int(dum(1), KIND=ilp)
                  call stdlib_sormbr('q', 'l', 'n', m, n, n, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_sormbr_qln_mn = int(dum(1))
+                 lwork_sormbr_qln_mn = int(dum(1), KIND=ilp)
                  call stdlib_sormbr('q', 'l', 'n', m, m, n, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_sormbr_qln_mm = int(dum(1))
+                 lwork_sormbr_qln_mm = int(dum(1), KIND=ilp)
                  if (m >= mnthr) then
                     if (wntqn) then
                        ! path 1 (m >> n, jobz='n')
@@ -72675,30 +72675,30 @@ module stdlib_linalg_lapack_s
                  ! compute space preferred for each routine
                  call stdlib_sgebrd(m, n, dum(1), m, dum(1), dum(1), dum(1), dum(1), dum(1), -1, &
                            ierr)
-                 lwork_sgebrd_mn = int(dum(1))
+                 lwork_sgebrd_mn = int(dum(1), KIND=ilp)
                  call stdlib_sgebrd(m, m, a, m, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                            
-                 lwork_sgebrd_mm = int(dum(1))
+                 lwork_sgebrd_mm = int(dum(1), KIND=ilp)
                  call stdlib_sgelqf(m, n, a, m, dum(1), dum(1), -1, ierr)
-                 lwork_sgelqf_mn = int(dum(1))
+                 lwork_sgelqf_mn = int(dum(1), KIND=ilp)
                  call stdlib_sorglq(n, n, m, dum(1), n, dum(1), dum(1), -1, ierr)
-                 lwork_sorglq_nn = int(dum(1))
+                 lwork_sorglq_nn = int(dum(1), KIND=ilp)
                  call stdlib_sorglq(m, n, m, a, m, dum(1), dum(1), -1, ierr)
-                 lwork_sorglq_mn = int(dum(1))
+                 lwork_sorglq_mn = int(dum(1), KIND=ilp)
                  call stdlib_sorgbr('p', m, m, m, a, n, dum(1), dum(1), -1, ierr)
-                 lwork_sorgbr_p_mm = int(dum(1))
+                 lwork_sorgbr_p_mm = int(dum(1), KIND=ilp)
                  call stdlib_sormbr('p', 'r', 't', m, m, m, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_sormbr_prt_mm = int(dum(1))
+                 lwork_sormbr_prt_mm = int(dum(1), KIND=ilp)
                  call stdlib_sormbr('p', 'r', 't', m, n, m, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_sormbr_prt_mn = int(dum(1))
+                 lwork_sormbr_prt_mn = int(dum(1), KIND=ilp)
                  call stdlib_sormbr('p', 'r', 't', n, n, m, dum(1), n, dum(1), dum(1), n, dum(1), &
                            -1, ierr)
-                 lwork_sormbr_prt_nn = int(dum(1))
+                 lwork_sormbr_prt_nn = int(dum(1), KIND=ilp)
                  call stdlib_sormbr('q', 'l', 'n', m, m, m, dum(1), m, dum(1), dum(1), m, dum(1), &
                            -1, ierr)
-                 lwork_sormbr_qln_mm = int(dum(1))
+                 lwork_sormbr_qln_mm = int(dum(1), KIND=ilp)
                  if (n >= mnthr) then
                     if (wntqn) then
                        ! path 1t (n >> m, jobz='n')
@@ -73531,22 +73531,22 @@ module stdlib_linalg_lapack_s
                  bdspac = 5*n
                  ! compute space needed for stdlib_sgeqrf
                  call stdlib_sgeqrf(m, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_sgeqrf = int(dum(1))
+                 lwork_sgeqrf = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_sorgqr
                  call stdlib_sorgqr(m, n, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_sorgqr_n = int(dum(1))
+                 lwork_sorgqr_n = int(dum(1), KIND=ilp)
                  call stdlib_sorgqr(m, m, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_sorgqr_m = int(dum(1))
+                 lwork_sorgqr_m = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_sgebrd
                  call stdlib_sgebrd(n, n, a, lda, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                            
-                 lwork_sgebrd = int(dum(1))
+                 lwork_sgebrd = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_sorgbr p
                  call stdlib_sorgbr('p', n, n, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_sorgbr_p = int(dum(1))
+                 lwork_sorgbr_p = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_sorgbr q
                  call stdlib_sorgbr('q', n, n, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_sorgbr_q = int(dum(1))
+                 lwork_sorgbr_q = int(dum(1), KIND=ilp)
                  if (m >= mnthr) then
                     if (wntun) then
                        ! path 1 (m much larger than n, jobu='n')
@@ -73640,16 +73640,16 @@ module stdlib_linalg_lapack_s
                     ! path 10 (m at least n, but not much larger)
                     call stdlib_sgebrd(m, n, a, lda, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                               
-                    lwork_sgebrd = int(dum(1))
+                    lwork_sgebrd = int(dum(1), KIND=ilp)
                     maxwrk = 3*n + lwork_sgebrd
                     if (wntus .or. wntuo) then
                        call stdlib_sorgbr('q', m, n, n, a, lda, dum(1), dum(1), -1, ierr)
-                       lwork_sorgbr_q = int(dum(1))
+                       lwork_sorgbr_q = int(dum(1), KIND=ilp)
                        maxwrk = max(maxwrk, 3*n + lwork_sorgbr_q)
                     end if
                     if (wntua) then
                        call stdlib_sorgbr('q', m, m, n, a, lda, dum(1), dum(1), -1, ierr)
-                       lwork_sorgbr_q = int(dum(1))
+                       lwork_sorgbr_q = int(dum(1), KIND=ilp)
                        maxwrk = max(maxwrk, 3*n + lwork_sorgbr_q)
                     end if
                     if (.not. wntvn) then
@@ -73664,22 +73664,22 @@ module stdlib_linalg_lapack_s
                  bdspac = 5*m
                  ! compute space needed for stdlib_sgelqf
                  call stdlib_sgelqf(m, n, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_sgelqf = int(dum(1))
+                 lwork_sgelqf = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_sorglq
                  call stdlib_sorglq(n, n, m, dum(1), n, dum(1), dum(1), -1, ierr)
-                 lwork_sorglq_n = int(dum(1))
+                 lwork_sorglq_n = int(dum(1), KIND=ilp)
                  call stdlib_sorglq(m, n, m, a, lda, dum(1), dum(1), -1, ierr)
-                 lwork_sorglq_m = int(dum(1))
+                 lwork_sorglq_m = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_sgebrd
                  call stdlib_sgebrd(m, m, a, lda, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                            
-                 lwork_sgebrd = int(dum(1))
+                 lwork_sgebrd = int(dum(1), KIND=ilp)
                   ! compute space needed for stdlib_sorgbr p
                  call stdlib_sorgbr('p', m, m, m, a, n, dum(1), dum(1), -1, ierr)
-                 lwork_sorgbr_p = int(dum(1))
+                 lwork_sorgbr_p = int(dum(1), KIND=ilp)
                  ! compute space needed for stdlib_sorgbr q
                  call stdlib_sorgbr('q', m, m, m, a, n, dum(1), dum(1), -1, ierr)
-                 lwork_sorgbr_q = int(dum(1))
+                 lwork_sorgbr_q = int(dum(1), KIND=ilp)
                  if (n >= mnthr) then
                     if (wntvn) then
                        ! path 1t(n much larger than m, jobvt='n')
@@ -73774,17 +73774,17 @@ module stdlib_linalg_lapack_s
                     ! path 10t(n greater than m, but not much larger)
                     call stdlib_sgebrd(m, n, a, lda, s, dum(1), dum(1), dum(1), dum(1), -1, ierr)
                               
-                    lwork_sgebrd = int(dum(1))
+                    lwork_sgebrd = int(dum(1), KIND=ilp)
                     maxwrk = 3*m + lwork_sgebrd
                     if (wntvs .or. wntvo) then
                       ! compute space needed for stdlib_sorgbr p
                       call stdlib_sorgbr('p', m, n, m, a, n, dum(1), dum(1), -1, ierr)
-                      lwork_sorgbr_p = int(dum(1))
+                      lwork_sorgbr_p = int(dum(1), KIND=ilp)
                       maxwrk = max(maxwrk, 3*m + lwork_sorgbr_p)
                     end if
                     if (wntva) then
                       call stdlib_sorgbr('p', n, n, m, a, n, dum(1), dum(1), -1, ierr)
-                      lwork_sorgbr_p = int(dum(1))
+                      lwork_sorgbr_p = int(dum(1), KIND=ilp)
                       maxwrk = max(maxwrk, 3*m + lwork_sorgbr_p)
                     end if
                     if (.not. wntun) then
@@ -75822,15 +75822,15 @@ module stdlib_linalg_lapack_s
               lwsvd = max(5*n, 1)
               if (lquery) then
                   call stdlib_sgeqp3(m, n, a, lda, iwork, rdummy, rdummy, -1, ierr)
-                  lwrk_sgeqp3 = int(rdummy(1))
+                  lwrk_sgeqp3 = int(rdummy(1), KIND=ilp)
                   if (wntus .or. wntur) then
                       call stdlib_sormqr('l', 'n', m, n, n, a, lda, rdummy, u, ldu, rdummy, -1, &
                                 ierr)
-                      lwrk_sormqr = int(rdummy(1))
+                      lwrk_sormqr = int(rdummy(1), KIND=ilp)
                   else if (wntua) then
                       call stdlib_sormqr('l', 'n', m, m, n, a, lda, rdummy, u, ldu, rdummy, -1, &
                                 ierr)
-                      lwrk_sormqr = int(rdummy(1))
+                      lwrk_sormqr = int(rdummy(1), KIND=ilp)
                   else
                       lwrk_sormqr = 0
                   end if
@@ -75848,7 +75848,7 @@ module stdlib_linalg_lapack_s
                   if (lquery) then
                       call stdlib_sgesvd('n', 'n', n, n, a, lda, s, u, ldu, v, ldv, rdummy, -1, &
                                 ierr)
-                      lwrk_sgesvd = int(rdummy(1))
+                      lwrk_sgesvd = int(rdummy(1), KIND=ilp)
                       if (conda) then
                          optwrk = max(n + lwrk_sgeqp3, n + lwcon, lwrk_sgesvd)
                       else
@@ -75871,7 +75871,7 @@ module stdlib_linalg_lapack_s
                         call stdlib_sgesvd('o', 'n', n, n, a, lda, s, u, ldu, v, ldv, rdummy, -1, &
                                   ierr)
                      end if
-                     lwrk_sgesvd = int(rdummy(1))
+                     lwrk_sgesvd = int(rdummy(1), KIND=ilp)
                      if (conda) then
                          optwrk = n + max(lwrk_sgeqp3, lwcon, lwrk_sgesvd, lwrk_sormqr)
                      else
@@ -75894,7 +75894,7 @@ module stdlib_linalg_lapack_s
                           call stdlib_sgesvd('n', 'o', n, n, a, lda, s, u, ldu, v, ldv, rdummy, - &
                                     1, ierr)
                       end if
-                      lwrk_sgesvd = int(rdummy(1))
+                      lwrk_sgesvd = int(rdummy(1), KIND=ilp)
                       if (conda) then
                           optwrk = n + max(lwrk_sgeqp3, lwcon, lwrk_sgesvd)
                       else
@@ -75938,19 +75938,19 @@ module stdlib_linalg_lapack_s
                      if (rtrans) then
                         call stdlib_sgesvd('o', 'a', n, n, a, lda, s, u, ldu, v, ldv, rdummy, -1, &
                                   ierr)
-                        lwrk_sgesvd = int(rdummy(1))
+                        lwrk_sgesvd = int(rdummy(1), KIND=ilp)
                         optwrk = max(lwrk_sgeqp3, lwrk_sgesvd, lwrk_sormqr)
                         if (conda) optwrk = max(optwrk, lwcon)
                         optwrk = n + optwrk
                         if (wntva) then
                             call stdlib_sgeqrf(n, n/2, u, ldu, rdummy, rdummy, -1, ierr)
-                            lwrk_sgeqrf = int(rdummy(1))
+                            lwrk_sgeqrf = int(rdummy(1), KIND=ilp)
                             call stdlib_sgesvd('s', 'o', n/2, n/2, v, ldv, s, u, ldu, v, ldv, rdummy, &
                                        -1, ierr)
-                            lwrk_sgesvd2 = int(rdummy(1))
+                            lwrk_sgesvd2 = int(rdummy(1), KIND=ilp)
                             call stdlib_sormqr('r', 'c', n, n, n/2, u, ldu, rdummy, v, ldv, &
                                       rdummy, -1, ierr)
-                            lwrk_sormqr2 = int(rdummy(1))
+                            lwrk_sormqr2 = int(rdummy(1), KIND=ilp)
                             optwrk2 = max(lwrk_sgeqp3, n/2 + lwrk_sgeqrf, n/2 + lwrk_sgesvd2, n/2 + &
                                       lwrk_sormqr2)
                             if (conda) optwrk2 = max(optwrk2, lwcon)
@@ -75960,19 +75960,19 @@ module stdlib_linalg_lapack_s
                      else
                         call stdlib_sgesvd('s', 'o', n, n, a, lda, s, u, ldu, v, ldv, rdummy, -1, &
                                   ierr)
-                        lwrk_sgesvd = int(rdummy(1))
+                        lwrk_sgesvd = int(rdummy(1), KIND=ilp)
                         optwrk = max(lwrk_sgeqp3, lwrk_sgesvd, lwrk_sormqr)
                         if (conda) optwrk = max(optwrk, lwcon)
                         optwrk = n + optwrk
                         if (wntva) then
                            call stdlib_sgelqf(n/2, n, u, ldu, rdummy, rdummy, -1, ierr)
-                           lwrk_sgelqf = int(rdummy(1))
+                           lwrk_sgelqf = int(rdummy(1), KIND=ilp)
                            call stdlib_sgesvd('s', 'o', n/2, n/2, v, ldv, s, u, ldu, v, ldv, rdummy, &
                                       -1, ierr)
-                           lwrk_sgesvd2 = int(rdummy(1))
+                           lwrk_sgesvd2 = int(rdummy(1), KIND=ilp)
                            call stdlib_sormlq('r', 'n', n, n, n/2, u, ldu, rdummy, v, ldv, rdummy, &
                                      -1, ierr)
-                           lwrk_sormlq = int(rdummy(1))
+                           lwrk_sormlq = int(rdummy(1), KIND=ilp)
                            optwrk2 = max(lwrk_sgeqp3, n/2 + lwrk_sgelqf, n/2 + lwrk_sgesvd2, n/2 + &
                                      lwrk_sormlq)
                             if (conda) optwrk2 = max(optwrk2, lwcon)
@@ -76660,9 +76660,9 @@ module stdlib_linalg_lapack_s
            else
               ! ... default
               if (lsvec .or. rsvec .or. applv) then
-                 ctol = sqrt(float(m))
+                 ctol = sqrt(real(m, KIND=sp))
               else
-                 ctol = float(m)
+                 ctol = real(m, KIND=sp)
               end if
            end if
            ! ... and the machine dependent parameters are
@@ -76675,11 +76675,11 @@ module stdlib_linalg_lapack_s
            big = stdlib_slamch('overflow')
            ! big         = one    / sfmin
            rootbig = one/rootsfmin
-           large = big/sqrt(float(m*n))
+           large = big/sqrt(real(m*n, KIND=sp))
            bigtheta = one/rooteps
            tol = ctol*epsln
            roottol = sqrt(tol)
-           if (float(m)*epsln >= one) then
+           if (real(m, KIND=sp)*epsln >= one) then
               info = -4
               call stdlib_xerbla('stdlib_sgesvj', -info)
               return
@@ -76700,7 +76700,7 @@ module stdlib_linalg_lapack_s
            ! goal is to make sure that no column norm overflows, and that
            ! sqrt(n)*max_i sva(i) does not overflow. if infinite entries
            ! in a are detected, the procedure returns with info=-6.
-           skl = one/sqrt(float(m)*float(n))
+           skl = one/sqrt(real(m, KIND=sp)*real(n, KIND=sp))
            noscale = .true.
            goscale = .true.
            if (lower) then
@@ -76819,14 +76819,14 @@ module stdlib_linalg_lapack_s
            ! protect small singular values from underflow, and try to
            ! avoid underflows/overflows in computing jacobi rotations.
            sn = sqrt(sfmin/epsln)
-           temp1 = sqrt(big/float(n))
+           temp1 = sqrt(big/real(n, KIND=sp))
            if ((aapp <= sn) .or. (aaqq >= temp1) .or. ((sn <= aaqq) .and. (aapp <= temp1))) &
                      then
               temp1 = min(big, temp1/aapp)
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else if ((aaqq <= sn) .and. (aapp <= temp1)) then
-              temp1 = min(sn/aaqq, big/(aapp*sqrt(float(n))))
+              temp1 = min(sn/aaqq, big/(aapp*sqrt(real(n, KIND=sp))))
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else if ((aaqq >= sn) .and. (aapp >= temp1)) then
@@ -76834,7 +76834,7 @@ module stdlib_linalg_lapack_s
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else if ((aaqq <= sn) .and. (aapp >= temp1)) then
-              temp1 = min(sn/aaqq, big/(sqrt(float(n))*aapp))
+              temp1 = min(sn/aaqq, big/(sqrt(real(n, KIND=sp))*aapp))
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else
@@ -77459,8 +77459,8 @@ module stdlib_linalg_lapack_s
               end if
            ! additional steering devices
               if ((i < swband) .and. ((mxaapq <= roottol) .or. (iswrot <= n))) swband = i
-              if ((i > swband + 1) .and. (mxaapq < sqrt(float(n))*tol) .and. (float(n) &
-                        *mxaapq*mxsinj < tol)) then
+              if ((i > swband + 1) .and. (mxaapq < sqrt(real(n, KIND=sp))*tol) .and. (real(n, &
+                        KIND=sp)*mxaapq*mxsinj < tol)) then
                  go to 1994
               end if
               if (notrot >= emptsw) go to 1994
@@ -77531,13 +77531,13 @@ module stdlib_linalg_lapack_s
            ! the singular values of a are skl*sva(1:n). if skl/=one
            ! then some of the singular values may overflow or underflow and
            ! the spectrum is given in this factored representation.
-           work(2) = float(n4)
+           work(2) = real(n4, KIND=sp)
            ! n4 is the number of computed nonzero singular values of a.
-           work(3) = float(n2)
+           work(3) = real(n2, KIND=sp)
            ! n2 is the number of singular values of a greater than sfmin.
            ! if n2<n, sva(n2:n) contains zeros and/or denormalized numbers
            ! that may carry some information.
-           work(4) = float(i)
+           work(4) = real(i, KIND=sp)
            ! i is the index of the last sweep before declaring convergence.
            work(5) = mxaapq
            ! mxaapq is the largest absolute value of scaled pivots in the
@@ -77654,24 +77654,24 @@ module stdlib_linalg_lapack_s
            ! compute workspace
            if (info == 0) then
               call stdlib_sgeqrf(n, n, b, ldb, work, work, -1, ierr)
-              lwkopt = max(6*n + 16, 3*n + int(work(1)))
+              lwkopt = max(6*n + 16, 3*n + int(work(1), KIND=ilp))
               call stdlib_sormqr('l', 't', n, n, n, b, ldb, work, a, lda, work, -1, ierr)
-              lwkopt = max(lwkopt, 3*n + int(work(1)))
+              lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               if (ilvsl) then
                  call stdlib_sorgqr(n, n, n, vsl, ldvsl, work, work, -1, ierr)
-                 lwkopt = max(lwkopt, 3*n + int(work(1)))
+                 lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               end if
               call stdlib_sgghd3(jobvsl, jobvsr, n, 1, n, a, lda, b, ldb, vsl, ldvsl, vsr, ldvsr, &
                         work, -1, ierr)
-              lwkopt = max(lwkopt, 3*n + int(work(1)))
+              lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               call stdlib_slaqz0('s', jobvsl, jobvsr, n, 1, n, a, lda, b, ldb, alphar, alphai, &
                         beta, vsl, ldvsl, vsr, ldvsr, work, -1, 0, ierr)
-              lwkopt = max(lwkopt, 2*n + int(work(1)))
+              lwkopt = max(lwkopt, 2*n + int(work(1), KIND=ilp))
               if (wantst) then
                  call stdlib_stgsen(0, ilvsl, ilvsr, bwork, n, a, lda, b, ldb, alphar, alphai, &
                  beta, vsl, ldvsl, vsr, ldvsr, sdim, pvsl, pvsr, dif, work, -1, idum, 1, ierr)
                            
-                 lwkopt = max(lwkopt, 2*n + int(work(1)))
+                 lwkopt = max(lwkopt, 2*n + int(work(1), KIND=ilp))
               end if
               work(1) = lwkopt
            end if
@@ -78772,7 +78772,7 @@ module stdlib_linalg_lapack_s
               end if
            ! additional steering devices
               if ((i < swband) .and. ((mxaapq <= roottol) .or. (iswrot <= n))) swband = i
-              if ((i > swband + 1) .and. (mxaapq < float(n)*tol) .and. (float(n) &
+              if ((i > swband + 1) .and. (mxaapq < real(n, KIND=sp)*tol) .and. (real(n, KIND=sp) &
                         *mxaapq*mxsinj < tol)) then
                  go to 1994
               end if
@@ -78899,7 +78899,7 @@ module stdlib_linalg_lapack_s
            small = sfmin/eps
            big = one/sfmin
            rootbig = one/rootsfmin
-           large = big/sqrt(float(m*n))
+           large = big/sqrt(real(m*n, KIND=sp))
            bigtheta = one/rooteps
            roottol = sqrt(tol)
            ! .. initialize the right singular vector matrix ..
@@ -79202,7 +79202,7 @@ module stdlib_linalg_lapack_s
               end if
            ! additional steering devices
               if ((i < swband) .and. ((mxaapq <= roottol) .or. (iswrot <= n))) swband = i
-              if ((i > swband + 1) .and. (mxaapq < float(n)*tol) .and. (float(n) &
+              if ((i > swband + 1) .and. (mxaapq < real(n, KIND=sp)*tol) .and. (real(n, KIND=sp) &
                         *mxaapq*mxsinj < tol)) then
                  go to 1994
               end if
@@ -79941,7 +79941,7 @@ module stdlib_linalg_lapack_s
               call stdlib_slaqr3(wantt, wantz, n, ilo, ihi, nwr + 1, h, ldh, iloz, ihiz, z, ldz, ls, &
                          ld, wr, wi, h, ldh, n, h, ldh, n, h, ldh, work, -1)
               ! ==== optimal workspace = max(stdlib_slaqr5, stdlib_slaqr3) ====
-              lwkopt = max(3*nsr/2, int(work(1)))
+              lwkopt = max(3*nsr/2, int(work(1), KIND=ilp))
               ! ==== quick return in case of workspace query. ====
               if (lwork == -1) then
                  work(1) = real(lwkopt)
@@ -80250,15 +80250,15 @@ module stdlib_linalg_lapack_s
            else
               ! ==== workspace query call to stdlib_sgehrd ====
               call stdlib_sgehrd(jw, 1, jw - 1, t, ldt, work, work, -1, info)
-              lwk1 = int(work(1))
+              lwk1 = int(work(1), KIND=ilp)
               ! ==== workspace query call to stdlib_sormhr ====
               call stdlib_sormhr('r', 'n', jw, jw, 1, jw - 1, t, ldt, work, v, ldv, work, -1, info)
                         
-              lwk2 = int(work(1))
+              lwk2 = int(work(1), KIND=ilp)
               ! ==== workspace query call to stdlib_slaqr4 ====
               call stdlib_slaqr4(.true., .true., jw, 1, jw, t, ldt, sr, si, 1, jw, v, ldv, work, - &
                         1, infqr)
-              lwk3 = int(work(1))
+              lwk3 = int(work(1), KIND=ilp)
               ! ==== optimal workspace ====
               lwkopt = max(jw + max(lwk1, lwk2), lwk3)
            end if
@@ -80629,7 +80629,7 @@ module stdlib_linalg_lapack_s
               call stdlib_slaqr2(wantt, wantz, n, ilo, ihi, nwr + 1, h, ldh, iloz, ihiz, z, ldz, ls, &
                          ld, wr, wi, h, ldh, n, h, ldh, n, h, ldh, work, -1)
               ! ==== optimal workspace = max(stdlib_slaqr5, stdlib_slaqr2) ====
-              lwkopt = max(3*nsr/2, int(work(1)))
+              lwkopt = max(3*nsr/2, int(work(1), KIND=ilp))
               ! ==== quick return in case of workspace query. ====
               if (lwork == -1) then
                  work(1) = real(lwkopt)
@@ -81052,11 +81052,11 @@ module stdlib_linalg_lapack_s
            call stdlib_slaqz3(ilschur, ilq, ilz, n, ilo, ihi, nw, a, lda, b, ldb, q, ldq, z, ldz, &
            n_undeflated, n_deflated, alphar, alphai, beta, work, nw, work, nw, work, -1, rec, &
                      aed_info)
-           itemp1 = int(work(1))
+           itemp1 = int(work(1), KIND=ilp)
            ! workspace query to stdlib_slaqz4
            call stdlib_slaqz4(ilschur, ilq, ilz, n, ilo, ihi, nsr, nbr, alphar, alphai, beta, a, &
                      lda, b, ldb, q, ldq, z, ldz, work, nbr, work, nbr, work, -1, sweep_info)
-           itemp2 = int(work(1))
+           itemp2 = int(work(1), KIND=ilp)
            lworkreq = max(itemp1 + 2*nw**2, itemp2 + 2*nbr**2)
            if (lwork == -1) then
               work(1) = real(lworkreq)
@@ -81320,10 +81320,10 @@ module stdlib_linalg_lapack_s
            ilst = jw
            call stdlib_stgexc(.true., .true., jw, a, lda, b, ldb, qc, ldqc, zc, ldzc, ifst, ilst, &
                      work, -1, stgexc_info)
-           lworkreq = int(work(1))
+           lworkreq = int(work(1), KIND=ilp)
            call stdlib_slaqz0('s', 'v', 'v', jw, 1, jw, a(kwtop, kwtop), lda, b(kwtop, kwtop), &
                       ldb, alphar, alphai, beta, qc, ldqc, zc, ldzc, work, -1, rec + 1, qz_small_info)
-           lworkreq = max(lworkreq, int(work(1)) + 2*jw**2)
+           lworkreq = max(lworkreq, int(work(1), KIND=ilp) + 2*jw**2)
            lworkreq = max(lworkreq, n*nw, 2*nw**2 + n)
            if (lwork == -1) then
               ! workspace query, quick return
@@ -84490,9 +84490,9 @@ module stdlib_linalg_lapack_s
            end if
            if (info == 0) then
               call stdlib_ssytrf_aa(uplo, n, a, lda, ipiv, work, -1, info)
-              lwkopt_sytrf = int(work(1))
+              lwkopt_sytrf = int(work(1), KIND=ilp)
               call stdlib_ssytrs_aa(uplo, n, nrhs, a, lda, ipiv, b, ldb, work, -1, info)
-              lwkopt_sytrs = int(work(1))
+              lwkopt_sytrs = int(work(1), KIND=ilp)
               lwkopt = max(lwkopt_sytrf, lwkopt_sytrs)
               work(1) = lwkopt
            end if
