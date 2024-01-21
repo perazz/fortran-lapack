@@ -94,9 +94,8 @@ module stdlib_linalg_blas_c
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i, ix, iy
-     
            if (n <= 0) return
-           if (stdlib_scabs1(ca) == 0.0_sp) return
+           if (stdlib_scabs1(ca) == 0.0e+0_sp) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               do i = 1, n
@@ -172,8 +171,8 @@ module stdlib_linalg_blas_c
            integer(ilp) :: i, ix, iy
            ! .. intrinsic functions ..
            intrinsic :: conjg
-           ctemp = (0.0, 0.0)
-           stdlib_cdotc = (0.0, 0.0)
+           ctemp = (zero, zero)
+           stdlib_cdotc = (zero, zero)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -213,8 +212,8 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: ctemp
            integer(ilp) :: i, ix, iy
-           ctemp = (0.0, 0.0)
-           stdlib_cdotu = (0.0, 0.0)
+           ctemp = (zero, zero)
+           stdlib_cdotu = (zero, zero)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -261,7 +260,6 @@ module stdlib_linalg_blas_c
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kup1, kx, ky, lenx, leny
            logical(lk) :: noconj
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! test the input parameters.
@@ -429,7 +427,6 @@ module stdlib_linalg_blas_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. local scalars ..
@@ -682,7 +679,6 @@ module stdlib_linalg_blas_c
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky, lenx, leny
            logical(lk) :: noconj
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! test the input parameters.
@@ -840,7 +836,6 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jy, kx
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! test the input parameters.
@@ -920,7 +915,6 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jy, kx
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
@@ -1001,7 +995,6 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min, real
            ! test the input parameters.
@@ -1162,7 +1155,6 @@ module stdlib_linalg_blas_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real
            ! .. local scalars ..
@@ -1312,7 +1304,6 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real
            ! test the input parameters.
@@ -1465,7 +1456,6 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real
            ! test the input parameters.
@@ -1581,7 +1571,6 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real
            ! test the input parameters.
@@ -1717,7 +1706,6 @@ module stdlib_linalg_blas_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real
            ! .. local scalars ..
@@ -1923,7 +1911,6 @@ module stdlib_linalg_blas_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: cmplx, conjg, max, real
            ! .. local scalars ..
@@ -2121,7 +2108,6 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, real
            ! test the input parameters.
@@ -2280,7 +2266,6 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, real
            ! test the input parameters.
@@ -2402,7 +2387,6 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, real
            ! test the input parameters.
@@ -2817,7 +2801,6 @@ module stdlib_linalg_blas_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -2966,7 +2949,6 @@ module stdlib_linalg_blas_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -3142,7 +3124,6 @@ module stdlib_linalg_blas_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -3311,7 +3292,6 @@ module stdlib_linalg_blas_c
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! test the input parameters.
@@ -3529,7 +3509,6 @@ module stdlib_linalg_blas_c
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! test the input parameters.
@@ -3744,7 +3723,6 @@ module stdlib_linalg_blas_c
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! test the input parameters.
@@ -3964,7 +3942,6 @@ module stdlib_linalg_blas_c
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! test the input parameters.
@@ -4179,7 +4156,6 @@ module stdlib_linalg_blas_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. local scalars ..
@@ -4424,7 +4400,6 @@ module stdlib_linalg_blas_c
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! test the input parameters.
@@ -4620,7 +4595,6 @@ module stdlib_linalg_blas_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. local scalars ..
@@ -4889,7 +4863,6 @@ module stdlib_linalg_blas_c
            complex(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! test the input parameters.

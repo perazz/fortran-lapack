@@ -26,7 +26,7 @@ module stdlib_linalg_blas_aux
            complex(dp) :: z
         ! =====================================================================
            ! .. intrinsic functions ..
-           intrinsic :: abs, dble, aimag
+           intrinsic :: abs, real, aimag
            stdlib_dcabs1 = abs(real(z, KIND=dp)) + abs(aimag(z))
            return
            ! end of stdlib_dcabs1
@@ -138,7 +138,6 @@ module stdlib_linalg_blas_aux
            ! .. local scalars ..
            real(dp) :: dmax
            integer(ilp) :: i, ix
-     
            stdlib_izamax = 0
            if (n < 1 .or. incx <= 0) return
            stdlib_izamax = 1
@@ -289,7 +288,6 @@ module stdlib_linalg_blas_aux
            character*32 srname
            ! .. intrinsic functions ..
            intrinsic :: min, len
-     
            ! .. executable statements ..
            srname = ''
            do i = 1, min(srname_len, len(srname))
@@ -314,7 +312,6 @@ module stdlib_linalg_blas_aux
            ! .. local scalars ..
            real(sp) :: smax
            integer(ilp) :: i, ix
-     
            stdlib_icamax = 0
            if (n < 1 .or. incx <= 0) return
            stdlib_icamax = 1

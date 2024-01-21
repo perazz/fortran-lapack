@@ -684,6 +684,7 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
 class Fortran_Source:
     def __init__(self):
         self.ext = ".f90"
+        self.file_name     = "nofile.f90"
         self.is_free_form  = True
         self.is_function   = False
         self.is_subroutine = True
@@ -788,15 +789,6 @@ def replace_f77_types(line,is_free_form):
     new_line = re.sub(r'^\s*LOGICAL,',INDENT+'LOGICAL(lk),',new_line)
     new_line = re.sub(r'^\s*REAL,',INDENT+'REAL(sp),',new_line)
     new_line = re.sub(r'^\s*DOUBLE PRECISION,',INDENT+'REAL(dp),',new_line)
-    new_line = new_line.replace("E+000","_sp")
-    new_line = new_line.replace("E+00","_sp")
-    new_line = new_line.replace("E+01","e+01_sp")
-    new_line = new_line.replace("E+0","_sp")
-    new_line = new_line.replace("D+000","_dp")
-    new_line = new_line.replace("D+00","_dp")
-    new_line = new_line.replace("D+01","e+01_dp")
-    new_line = new_line.replace("D+0","_dp")
-    new_line = new_line.replace("0.0d0","0.0_dp")
 
     # Relabel double precision intrinsic functions with kind-agnostic ones
     new_line = re.sub(r'\bDABS\b',r'ABS',new_line) # abs
@@ -838,18 +830,21 @@ def replace_la_constants(line,file_name):
         return new_line
 
     # Numeric constants
-    new_line = re.sub(r'\b0.0d0','zero',new_line)
-    new_line = re.sub(r'\b0.0e0','zero',new_line)
-    new_line = re.sub(r'\b1.0d0','one',new_line)
-    new_line = re.sub(r'\b1.0e0','one',new_line)
-    new_line = re.sub(r'd0',ext,new_line)
-    new_line = re.sub(r'e0',ext,new_line)
+    new_line = re.sub(r'\b0\.0\b','zero',new_line)
+    new_line = re.sub(r'\b0\.0d0\b','zero',new_line)
+    new_line = re.sub(r'\b0\.0e0\b','zero',new_line)
+    new_line = re.sub(r'\b1\.0\b','one',new_line)
+    new_line = re.sub(r'\b1\.0d0\b','one',new_line)
+    new_line = re.sub(r'\b1\.0e0\b','one',new_line)
+    new_line = re.sub(r'([0-9\.]+)[dD]0+([^_])',r'\1'+ext+r'\2',new_line)
+    new_line = re.sub(r'([0-9\.]+)[eE]0+([^_])',r'\1'+ext+r'\2',new_line)
 
     # AFTER parameters have been replaced, replace leftover numeric constants
-    new_line = re.sub(r'([-\s\,\*])0\.0[de]0',r'\1zero',new_line)  # zero
-    new_line = re.sub(r'([-\s\,\*])1\.0[de]0',r'\1one',new_line)   # one
+    new_line = re.sub(r'([-\s\,\*])0+\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1zero\2',new_line)  # zero
+    new_line = re.sub(r'([-\s\,\*])0*1\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1one\2',new_line)   # one
     new_line = re.sub(r'([0-9\.])([de])([0-9\+\-]+)',r'\1e\3'+ext,new_line)   # other numbers not finished by real precision
-    new_line = re.sub(r'([\.])([0-9]+)([^a-zA-Z])',r'\1\2'+ext+r'\3',new_line)   # other numbers not finished by real precision
+    new_line = re.sub(r'([\.])([0-9]+)([\s\,\:\=\)\*])',r'\1\2'+ext+r'\3',new_line)   # other numbers not finished by real precision
+
     return new_line
 
 # Check if a line is a datatype line
@@ -1081,7 +1076,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     # This regex pattern defines 3 groups such that we can capture expressions
     # containing other brackets, such as real(ax(i)+2)*real(bx(6)+ety(4))
     fpref = r'(([^a-zA-Z0-9\_])'
-    findr = r'\(([^()]*(?:\([^()]*\))*[^()]*)\))'
+    findr = r'\((([^()]*(?:\([^()]*\))*[^()]*)+)\))'
 
     # Replace type-dependent intrinsics that require a KIND specification
     whole = re.sub(fpref+'int'+findr,r'\2int(\3,KIND='+ik+r')',whole) # int
@@ -1093,6 +1088,9 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     whole = re.sub(fpref+'cmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
     whole = re.sub(fpref+'dcmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
 
+    # After this is done, we can replace leftover intrinsic :: dble keywords with "real"
+    whole = re.sub(r'\bdble\b',r'real',whole) # dble
+
 
     body = whole.split('\n')
 
@@ -1101,7 +1099,10 @@ def rename_source_body(Source,Sources,external_funs,prefix):
        if is_directive_line(body[j]):
            body[j] = lines[j]
        else:
+           # Ensure data conversion
+           body[j] = replace_la_constants(body[j],Source.file_name)
            body[j] = rename_parameter_line(body[j],Source,prefix)
+
 
     # Build dependency list
     dependency_list = []
@@ -1239,7 +1240,9 @@ def add_parameter_lines(Source,prefix,body):
 
     for i in range(len(Source.pname)):
         if not Source.pname[i] in mod_const:
-            new.append(INDENT + Source.ptype[i] + ", parameter :: " + Source.pname[i] + " = " + Source.pvalue[i])
+            line = Source.ptype[i] + ", parameter :: " + Source.pname[i] + " = " + Source.pvalue[i]
+            line = replace_la_constants(line,Source.file_name)
+            new.append(INDENT + line)
 
     for i in range(len(body)-start_line-1):
         if len(body[start_line+1+i])>0:
@@ -1247,8 +1250,8 @@ def add_parameter_lines(Source,prefix,body):
             if len(wrong_param)>0:
                 for j in range(len(wrong_param)):
                     line = re.sub(r"\b"+wrong_param[j]+r"\b",right_param[j],line)
-
             new.append(line)
+
 
     return new
 
@@ -1275,6 +1278,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     Source  = Fortran_Source()
     whereAt = Section.HEADER
     Source.is_free_form = free_form
+    Source.file_name = file_name
     open_loops = []  # Label of the open loop
     loop_lines  = [] # Starting line where the loop is opened
     loop_spaces = [] # Heading spaces of an open loop label
@@ -1386,6 +1390,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             else:
 
                if DEBUG: print(str(whereAt) + " reads: " + line)
+
+               line = Line.string
 
                # Check what section we're in
                match whereAt:

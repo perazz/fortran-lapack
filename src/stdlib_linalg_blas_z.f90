@@ -95,9 +95,8 @@ module stdlib_linalg_blas_z
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i, ix, iy
-     
            if (n <= 0) return
-           if (stdlib_dcabs1(za) == 0.0_dp) return
+           if (stdlib_dcabs1(za) == zero) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               do i = 1, n
@@ -173,8 +172,8 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, ix, iy
            ! .. intrinsic functions ..
            intrinsic :: conjg
-           ztemp = (0.0_dp, 0.0_dp)
-           stdlib_zdotc = (0.0_dp, 0.0_dp)
+           ztemp = (zero, zero)
+           stdlib_zdotc = (zero, zero)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -214,8 +213,8 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: ztemp
            integer(ilp) :: i, ix, iy
-           ztemp = (0.0_dp, 0.0_dp)
-           stdlib_zdotu = (0.0_dp, 0.0_dp)
+           ztemp = (zero, zero)
+           stdlib_zdotu = (zero, zero)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -305,13 +304,13 @@ module stdlib_linalg_blas_z
            if (incx == 1) then
               ! code for increment equal to 1
               do i = 1, n
-                 zx(i) = cmplx(da, 0.0_dp, KIND=dp)*zx(i)
+                 zx(i) = cmplx(da, zero, KIND=dp)*zx(i)
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
               do i = 1, nincx, incx
-                 zx(i) = cmplx(da, 0.0_dp, KIND=dp)*zx(i)
+                 zx(i) = cmplx(da, zero, KIND=dp)*zx(i)
               end do
            end if
            return
@@ -340,7 +339,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kup1, kx, ky, lenx, leny
            logical(lk) :: noconj
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! test the input parameters.
@@ -508,7 +506,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. local scalars ..
@@ -761,7 +758,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky, lenx, leny
            logical(lk) :: noconj
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! test the input parameters.
@@ -919,7 +915,6 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jy, kx
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! test the input parameters.
@@ -999,7 +994,6 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jy, kx
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
@@ -1080,9 +1074,8 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, conjg, max, min
+           intrinsic :: real, conjg, max, min
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -1241,9 +1234,8 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, conjg, max
+           intrinsic :: real, conjg, max
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, k, nrowa
@@ -1393,9 +1385,8 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, conjg, max
+           intrinsic :: real, conjg, max
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -1546,9 +1537,8 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, conjg, max
+           intrinsic :: real, conjg, max
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -1662,9 +1652,8 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, conjg, max
+           intrinsic :: real, conjg, max
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -1713,7 +1702,8 @@ module stdlib_linalg_blas_z
                            do i = 1, j - 1
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
-                           a(j, j) = real(a(j, j), KIND=dp) + dble(x(j)*temp1 + y(j)*temp2)
+                           a(j, j) = real(a(j, j), KIND=dp) + real(x(j)*temp1 + y(j)*temp2, KIND=dp)
+                                     
                        else
                            a(j, j) = real(a(j, j), KIND=dp)
                        end if
@@ -1730,7 +1720,8 @@ module stdlib_linalg_blas_z
                                ix = ix + incx
                                iy = iy + incy
                            end do
-                           a(j, j) = real(a(j, j), KIND=dp) + dble(x(jx)*temp1 + y(jy)*temp2)
+                           a(j, j) = real(a(j, j), KIND=dp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=dp)
+                                     
                        else
                            a(j, j) = real(a(j, j), KIND=dp)
                        end if
@@ -1745,7 +1736,8 @@ module stdlib_linalg_blas_z
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
-                           a(j, j) = real(a(j, j), KIND=dp) + dble(x(j)*temp1 + y(j)*temp2)
+                           a(j, j) = real(a(j, j), KIND=dp) + real(x(j)*temp1 + y(j)*temp2, KIND=dp)
+                                     
                            do i = j + 1, n
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
@@ -1758,7 +1750,8 @@ module stdlib_linalg_blas_z
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
-                           a(j, j) = real(a(j, j), KIND=dp) + dble(x(jx)*temp1 + y(jy)*temp2)
+                           a(j, j) = real(a(j, j), KIND=dp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=dp)
+                                     
                            ix = jx
                            iy = jy
                            do i = j + 1, n
@@ -1798,9 +1791,8 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, conjg, max
+           intrinsic :: real, conjg, max
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, j, l, nrowa
@@ -1896,8 +1888,8 @@ module stdlib_linalg_blas_z
                                do i = 1, j - 1
                                    c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do
-                               c(j, j) = real(c(j, j), KIND=dp) + dble(a(j, l)*temp1 + b(j, l)*temp2)
-                                         
+                               c(j, j) = real(c(j, j), KIND=dp) + real(a(j, l)*temp1 + b(j, l)*temp2, &
+                                         KIND=dp)
                            end if
                        end do
                    end do
@@ -1922,8 +1914,8 @@ module stdlib_linalg_blas_z
                                do i = j + 1, n
                                    c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do
-                               c(j, j) = real(c(j, j), KIND=dp) + dble(a(j, l)*temp1 + b(j, l)*temp2)
-                                         
+                               c(j, j) = real(c(j, j), KIND=dp) + real(a(j, l)*temp1 + b(j, l)*temp2, &
+                                         KIND=dp)
                            end if
                        end do
                    end do
@@ -2006,9 +1998,8 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, dcmplx, conjg, max
+           intrinsic :: real, dcmplx, conjg, max
            ! .. local scalars ..
            complex(dp) :: temp
            real(dp) :: rtemp
@@ -2204,9 +2195,8 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, conjg
+           intrinsic :: real, conjg
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -2363,9 +2353,8 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, conjg
+           intrinsic :: real, conjg
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -2486,9 +2475,8 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
-     
            ! .. intrinsic functions ..
-           intrinsic :: dble, conjg
+           intrinsic :: real, conjg
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -2537,8 +2525,8 @@ module stdlib_linalg_blas_z
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + dble(x(j)*temp1 + y(j)*temp2)
-                                     
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + real(x(j)*temp1 + y(j)*temp2, &
+                                     KIND=dp)
                        else
                            ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
                        end if
@@ -2556,8 +2544,8 @@ module stdlib_linalg_blas_z
                                ix = ix + incx
                                iy = iy + incy
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + dble(x(jx)*temp1 + y(jy)*temp2)
-                                     
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + real(x(jx)*temp1 + y(jy)*temp2, &
+                                     KIND=dp)
                        else
                            ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
                        end if
@@ -2573,7 +2561,8 @@ module stdlib_linalg_blas_z
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
-                           ap(kk) = real(ap(kk), KIND=dp) + dble(x(j)*temp1 + y(j)*temp2)
+                           ap(kk) = real(ap(kk), KIND=dp) + real(x(j)*temp1 + y(j)*temp2, KIND=dp)
+                                     
                            k = kk + 1
                            do i = j + 1, n
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
@@ -2589,7 +2578,8 @@ module stdlib_linalg_blas_z
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
-                           ap(kk) = real(ap(kk), KIND=dp) + dble(x(jx)*temp1 + y(jy)*temp2)
+                           ap(kk) = real(ap(kk), KIND=dp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=dp)
+                                     
                            ix = jx
                            iy = jy
                            do k = kk + 1, kk + n - j
@@ -2825,7 +2815,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -2974,7 +2963,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -3150,7 +3138,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -3319,7 +3306,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! test the input parameters.
@@ -3537,7 +3523,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! test the input parameters.
@@ -3752,7 +3737,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! test the input parameters.
@@ -3972,7 +3956,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! test the input parameters.
@@ -4187,7 +4170,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. local scalars ..
@@ -4432,7 +4414,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! test the input parameters.
@@ -4628,7 +4609,6 @@ module stdlib_linalg_blas_z
            ! .. array arguments ..
            complex(dp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. local scalars ..
@@ -4897,7 +4877,6 @@ module stdlib_linalg_blas_z
            complex(dp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
            logical(lk) :: noconj, nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! test the input parameters.
