@@ -173,7 +173,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
             # AUX: add procedure interfaces
             patch_lapack_aux(fid,prefix,INDENT)
         else: #elif module_name=='stdlib_linalg_lapack':
-            numeric_const,numeric_type = print_module_constants(fid,initials[m],INDENT)
+            numeric_const,numeric_type,rk = print_module_constants(fid,initials[m],INDENT)
 
         # Actual implementation
         fid.write("\n\n" + INDENT + "contains\n")
@@ -361,7 +361,7 @@ def print_module_constants(fid,prefix,INDENT):
     else:
         # aux module
         print("NO CONSTANTS FOR PREFIX " + prefix)
-        return const_names,const_types
+        return const_names,const_types,''
 
     rpr = real_prefix[i]
     cpr = cmpl_prefix[i]
@@ -405,7 +405,7 @@ def print_module_constants(fid,prefix,INDENT):
     if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: ssml   = rradix**(-floor((minexp-digits(zero))*half)) \n")
     if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: sbig   = rradix**(-ceiling((maxexp+digits(zero)-1)*half)) \n")
 
-    return const_names,const_types
+    return const_names,const_types,rk
 
 # Print function tree in a dependency-suitable way
 def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
@@ -844,6 +844,12 @@ def replace_la_constants(line,file_name):
     new_line = re.sub(r'\b1.0e0','one',new_line)
     new_line = re.sub(r'd0',ext,new_line)
     new_line = re.sub(r'e0',ext,new_line)
+
+    # AFTER parameters have been replaced, replace leftover numeric constants
+    new_line = re.sub(r'([-\s\,\*])0\.0[de]0',r'\1zero',new_line)  # zero
+    new_line = re.sub(r'([-\s\,\*])1\.0[de]0',r'\1one',new_line)   # one
+    new_line = re.sub(r'([0-9\.])([de])([0-9\+\-]+)',r'\1e\3'+ext,new_line)   # other numbers not finished by real precision
+    new_line = re.sub(r'([\.])([0-9]+)([^a-zA-Z])',r'\1\2'+ext+r'\3',new_line)   # other numbers not finished by real precision
     return new_line
 
 # Check if a line is a datatype line
@@ -1077,8 +1083,6 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     fpref = r'(([^a-zA-Z0-9\_])'
     findr = r'\(([^()]*(?:\([^()]*\))*[^()]*)\))'
 
-
-
     # Replace type-dependent intrinsics that require a KIND specification
     whole = re.sub(fpref+'int'+findr,r'\2int(\3,KIND='+ik+r')',whole) # int
     whole = re.sub(fpref+'nint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # nint
@@ -1088,6 +1092,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     # whole = re.sub(r'(real\()(.+)(\))',r'real(\2,KIND='+rk+r')',whole) # real
     whole = re.sub(fpref+'cmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
     whole = re.sub(fpref+'dcmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
+
 
     body = whole.split('\n')
 
@@ -1118,7 +1123,7 @@ def add_parameter_lines(Source,prefix,body):
     INDENT = "    "
 
     # Get standard numeric constants for this module
-    mod_const,mod_types = print_module_constants([],Source.old_name[0],INDENT)
+    mod_const,mod_types,rk = print_module_constants([],Source.old_name[0],INDENT)
 
     if len(Source.pname)<=0: return body;
 
@@ -1242,6 +1247,7 @@ def add_parameter_lines(Source,prefix,body):
             if len(wrong_param)>0:
                 for j in range(len(wrong_param)):
                     line = re.sub(r"\b"+wrong_param[j]+r"\b",right_param[j],line)
+
             new.append(line)
 
     return new
