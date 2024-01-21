@@ -520,7 +520,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, j, kd
            real(sp) :: bignum, rcmax, rcmin, smlnum
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, min, real
            ! .. statement functions ..
@@ -661,7 +660,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, j, kd
            real(sp) :: bignum, rcmax, rcmin, smlnum, radix, logrdx
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, log, real, aimag
            ! .. statement functions ..
@@ -796,7 +794,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, j, jp, ju, km, kv
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -886,7 +883,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: leftv, rightv
            integer(ilp) :: i, ii, k
            real(sp) :: s
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -985,14 +981,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sclfac = 2.0_sp
-           real(sp), parameter :: factor = 0.95_sp
+           real(sp), parameter :: sclfac = 2.0e+0_sp
+           real(sp), parameter :: factor = 0.95e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: noconv
            integer(ilp) :: i, ica, iexc, ira, j, k, l, m
            real(sp) :: c, ca, f, g, r, ra, s, sfmax1, sfmax2, sfmin1, sfmin2
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, min, real
            ! test the input parameters
@@ -1157,7 +1152,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, j
            real(sp) :: bignum, rcmax, rcmin, smlnum
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, min, real
            ! .. statement functions ..
@@ -1292,7 +1286,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, j
            real(sp) :: bignum, rcmax, rcmin, smlnum, radix, logrdx
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, log, real, aimag
            ! .. statement functions ..
@@ -1425,7 +1418,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, ip, ipv, j, jp, jpv
            real(sp) :: bignum, eps, smin, smlnum, xmax
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, cmplx, max
            ! .. executable statements ..
@@ -1513,7 +1505,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            real(sp) :: sfmin
            integer(ilp) :: i, j, jp
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -1583,7 +1574,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: leftv, rightv
            integer(ilp) :: i, k
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -1700,7 +1690,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sclfac = 1.0e+1
+           real(sp), parameter :: sclfac = 1.0e+1_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, icab, iflow, ip1, ir, irab, it, j, jc, jp1, k, kount, l, lcab, lm1, &
@@ -1708,7 +1698,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: alpha, basl, beta, cab, cmax, coef, coef2, coef5, cor, ew, ewc, gamma, &
                      pgamma, rab, sfmax, sfmin, sum, t, ta, tb, tc
            complex(sp) :: cdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, int, log10, max, min, real, sign
            ! .. statement functions ..
@@ -2002,7 +1991,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: mult, temp, zdum
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -2095,7 +2083,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            complex(sp) :: fact, temp, zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, real
            ! .. statement functions ..
@@ -2357,7 +2344,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i
            complex(sp) :: tmp
-     
            ! .. executable statements ..
            upper = stdlib_lsame(uplo, 'u')
            if (upper) then
@@ -2433,14 +2419,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i, imax, j, jmax, k, kk, kp, kstep
            real(sp) :: absakk, alpha, colmax, d, d11, d22, r1, rowmax, tt
            complex(sp) :: d12, d21, t, wk, wkm1, wkp1, zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, real, sqrt
            ! .. statement functions ..
@@ -2577,7 +2562,7 @@ module stdlib_linalg_lapack_c
                           end do
                           a(j, k) = wk
                           a(j, k - 1) = wkm1
-                          a(j, j) = cmplx(real(a(j, j)), 0.0_sp)
+                          a(j, j) = cmplx(real(a(j, j)), zero)
                        end do
                     end if
                  end if
@@ -2708,7 +2693,7 @@ module stdlib_linalg_lapack_c
                           end do
                           a(j, k) = wk
                           a(j, k + 1) = wkp1
-                          a(j, j) = cmplx(real(a(j, j)), 0.0_sp)
+                          a(j, j) = cmplx(real(a(j, j)), zero)
                        end do
                     end if
                  end if
@@ -2751,14 +2736,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), e(*)
         ! ======================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: done, upper
            integer(ilp) :: i, ii, imax, itemp, j, jmax, k, kk, kp, kstep, p
            real(sp) :: absakk, alpha, colmax, d, d11, d22, r1, stemp, rowmax, tt, sfmin
            complex(sp) :: d12, d21, t, wk, wkm1, wkp1, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, real, sqrt
            ! .. statement functions ..
@@ -3274,14 +3258,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *)
         ! ======================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: done, upper
            integer(ilp) :: i, ii, imax, itemp, j, jmax, k, kk, kp, kstep, p
            real(sp) :: absakk, alpha, colmax, d, d11, d22, r1, stemp, rowmax, tt, sfmin
            complex(sp) :: d12, d21, t, wk, wkm1, wkp1, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, real, sqrt
            ! .. statement functions ..
@@ -3760,7 +3743,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, k, kp, kstep
            real(sp) :: ak, akp1, d, t
            complex(sp) :: akkp1, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, real
            ! .. executable statements ..
@@ -3963,7 +3945,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, k, kp, kstep
            real(sp) :: ak, akp1, d, t
            complex(sp) :: akkp1, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, real
            ! .. executable statements ..
@@ -4236,7 +4217,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, j, k, kp
            real(sp) :: s
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, real
            ! .. executable statements ..
@@ -4394,7 +4374,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lower, normaltransr, nisodd, notrans
            integer(ilp) :: info, nrowa, j, nk, n1, n2
            complex(sp) :: calpha, cbeta
-     
            ! .. intrinsic functions ..
            intrinsic :: max, cmplx
            ! .. executable statements ..
@@ -4686,10 +4665,8 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, j1, j1j1, jj, k, k1, k1k1, kk
            real(sp) :: ajj, akk, bjj, bkk
            complex(sp) :: ct
-     
            ! .. intrinsic functions ..
            intrinsic :: real
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -4810,14 +4787,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i, imax, j, jmax, k, kc, kk, knc, kp, kpc, kstep, kx, npp
            real(sp) :: absakk, alpha, colmax, d, d11, d22, r1, rowmax, tt
            complex(sp) :: d12, d21, t, wk, wkm1, wkp1, zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, real, sqrt
            ! .. statement functions ..
@@ -4967,7 +4943,7 @@ module stdlib_linalg_lapack_c
                           end do
                           ap(j + (k - 1)*k/2) = wk
                           ap(j + (k - 2)*(k - 1)/2) = wkm1
-                          ap(j + (j - 1)*j/2) = cmplx(real(ap(j + (j - 1)*j/2)), 0.0_sp)
+                          ap(j + (j - 1)*j/2) = cmplx(real(ap(j + (j - 1)*j/2)), zero)
                                     
                        end do
                     end if
@@ -5119,7 +5095,7 @@ module stdlib_linalg_lapack_c
                           ap(j + (k - 1)*(2*n - k)/2) = wk
                           ap(j + k*(2*n - k - 1)/2) = wkp1
                           ap(j + (j - 1)*(2*n - j)/2) = cmplx(real(ap(j + (j - 1)*(2*n - j)/2 &
-                                    )), 0.0_sp)
+                                    )), zero)
                        end do
                     end if
                  end if
@@ -5162,7 +5138,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, k, kc, kcnext, kp, kpc, kstep, kx, npp
            real(sp) :: ak, akp1, d, t
            complex(sp) :: akkp1, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, real
            ! .. executable statements ..
@@ -5391,7 +5366,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: temp, safe1
            integer(ilp) :: i, info, iy, j, jx, kx, ky, lenx, leny, kd, ke
            complex(sp) :: cdum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, abs, real, aimag, sign
            ! .. statement functions
@@ -5458,16 +5432,16 @@ module stdlib_linalg_lapack_c
            if (incx == 1) then
               if (trans == stdlib_ilatrans('n')) then
                  do i = 1, leny
-                    if (beta == 0.0) then
+                    if (beta == czero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
-                    else if (y(iy) == 0.0) then
+                       y(iy) = czero
+                    else if (y(iy) == czero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= 0.0) then
+                    if (alpha /= czero) then
                        do j = max(i - kl, 1), min(i + ku, lenx)
                           temp = cabs1(ab(kd + i - j, j))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
@@ -5480,16 +5454,16 @@ module stdlib_linalg_lapack_c
                  end do
               else
                  do i = 1, leny
-                    if (beta == 0.0) then
+                    if (beta == czero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
-                    else if (y(iy) == 0.0) then
+                       y(iy) = czero
+                    else if (y(iy) == czero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= 0.0) then
+                    if (alpha /= czero) then
                        do j = max(i - kl, 1), min(i + ku, lenx)
                           temp = cabs1(ab(ke - i + j, i))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
@@ -5504,16 +5478,16 @@ module stdlib_linalg_lapack_c
            else
               if (trans == stdlib_ilatrans('n')) then
                  do i = 1, leny
-                    if (beta == 0.0) then
+                    if (beta == czero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
-                    else if (y(iy) == 0.0) then
+                       y(iy) = czero
+                    else if (y(iy) == czero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= 0.0) then
+                    if (alpha /= czero) then
                        jx = kx
                        do j = max(i - kl, 1), min(i + ku, lenx)
                           temp = cabs1(ab(kd + i - j, j))
@@ -5528,16 +5502,16 @@ module stdlib_linalg_lapack_c
                  end do
               else
                  do i = 1, leny
-                    if (beta == 0.0) then
+                    if (beta == czero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
-                    else if (y(iy) == 0.0) then
+                       y(iy) = czero
+                    else if (y(iy) == czero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= 0.0) then
+                    if (alpha /= czero) then
                        jx = kx
                        do j = max(i - kl, 1), min(i + ku, lenx)
                           temp = cabs1(ab(ke - i + j, i))
@@ -5583,18 +5557,18 @@ module stdlib_linalg_lapack_c
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
            ! .. executable statements ..
-           rpvgrw = 1.0
+           rpvgrw = one
            kd = ku + 1
            do j = 1, ncols
-              amax = 0.0
-              umax = 0.0
+              amax = zero
+              umax = zero
               do i = max(j - ku, 1), min(j + kl, n)
                  amax = max(cabs1(ab(kd + i - j, j)), amax)
               end do
               do i = max(j - ku, 1), j
                  umax = max(cabs1(afb(kd + i - j, j)), umax)
               end do
-              if (umax /= 0.0) then
+              if (umax /= zero) then
                  rpvgrw = min(amax/umax, rpvgrw)
               end if
            end do
@@ -5634,7 +5608,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: temp, safe1
            integer(ilp) :: i, info, iy, j, jx, kx, ky, lenx, leny
            complex(sp) :: cdum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, abs, real, aimag, sign
            ! .. statement functions ..
@@ -5695,16 +5668,16 @@ module stdlib_linalg_lapack_c
            if (incx == 1) then
               if (trans == stdlib_ilatrans('n')) then
                  do i = 1, leny
-                    if (beta == 0.0) then
+                    if (beta == czero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
-                    else if (y(iy) == 0.0) then
+                       y(iy) = czero
+                    else if (y(iy) == czero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= 0.0) then
+                    if (alpha /= czero) then
                        do j = 1, lenx
                           temp = cabs1(a(i, j))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
@@ -5717,16 +5690,16 @@ module stdlib_linalg_lapack_c
                  end do
               else
                  do i = 1, leny
-                    if (beta == 0.0) then
+                    if (beta == czero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
-                    else if (y(iy) == 0.0) then
+                       y(iy) = czero
+                    else if (y(iy) == czero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= 0.0) then
+                    if (alpha /= czero) then
                        do j = 1, lenx
                           temp = cabs1(a(j, i))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
@@ -5741,16 +5714,16 @@ module stdlib_linalg_lapack_c
            else
               if (trans == stdlib_ilatrans('n')) then
                  do i = 1, leny
-                    if (beta == 0.0) then
+                    if (beta == czero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
-                    else if (y(iy) == 0.0) then
+                       y(iy) = czero
+                    else if (y(iy) == czero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= 0.0) then
+                    if (alpha /= czero) then
                        jx = kx
                        do j = 1, lenx
                           temp = cabs1(a(i, j))
@@ -5765,16 +5738,16 @@ module stdlib_linalg_lapack_c
                  end do
               else
                  do i = 1, leny
-                    if (beta == 0.0) then
+                    if (beta == czero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
-                    else if (y(iy) == 0.0) then
+                       y(iy) = czero
+                    else if (y(iy) == czero) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= 0.0) then
+                    if (alpha /= czero) then
                        jx = kx
                        do j = 1, lenx
                           temp = cabs1(a(j, i))
@@ -5820,17 +5793,17 @@ module stdlib_linalg_lapack_c
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
            ! .. executable statements ..
-           rpvgrw = 1.0
+           rpvgrw = one
            do j = 1, ncols
-              amax = 0.0
-              umax = 0.0
+              amax = zero
+              umax = zero
               do i = 1, n
                  amax = max(cabs1(a(i, j)), amax)
               end do
               do i = 1, j
                  umax = max(cabs1(af(i, j)), umax)
               end do
-              if (umax /= 0.0) then
+              if (umax /= zero) then
                  rpvgrw = min(amax/umax, rpvgrw)
               end if
            end do
@@ -5868,7 +5841,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: temp, safe1
            integer(ilp) :: i, info, iy, j, jx, kx, ky
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, abs, sign, real, aimag
            ! .. statement functions ..
@@ -5920,7 +5892,7 @@ module stdlib_linalg_lapack_c
                  do i = 1, n
                     if (beta == zero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
+                       y(iy) = zero
                     else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
@@ -5946,7 +5918,7 @@ module stdlib_linalg_lapack_c
                  do i = 1, n
                     if (beta == zero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
+                       y(iy) = zero
                     else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
@@ -5974,7 +5946,7 @@ module stdlib_linalg_lapack_c
                  do i = 1, n
                     if (beta == zero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
+                       y(iy) = zero
                     else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
@@ -6003,7 +5975,7 @@ module stdlib_linalg_lapack_c
                  do i = 1, n
                     if (beta == zero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
+                       y(iy) = zero
                     else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
@@ -6056,7 +6028,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: cdum
            ! .. intrinsic functions ..
            intrinsic :: abs, real, aimag, max
-     
            ! .. statement functions ..
            complex(sp) :: cabs1
            ! .. statement function definitions ..
@@ -6068,14 +6039,14 @@ module stdlib_linalg_lapack_c
            safe1 = stdlib_slamch('safe minimum')
            safe1 = (nz + 1)*safe1
            do j = 1, nrhs
-              berr(j) = 0.0
+              berr(j) = zero
               do i = 1, n
-                 if (ayb(i, j) /= 0.0) then
+                 if (ayb(i, j) /= zero) then
                     tmp = (safe1 + cabs1(res(i, j)))/ayb(i, j)
                     berr(j) = max(berr(j), tmp)
                  end if
-           ! if ayb is exactly 0.0 (and if computed by cla_yyamv), then we know
-           ! the true residual also must be exactly 0.0.
+           ! if ayb is exactly zero (and if computed by cla_yyamv), then we know
+           ! the true residual also must be exactly zero.
               end do
            end do
            ! end of stdlib_cla_lin_berr
@@ -6104,7 +6075,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: amax, umax, rpvgrw
            logical(lk) :: upper
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, real, aimag
            ! .. statement functions ..
@@ -6116,9 +6086,9 @@ module stdlib_linalg_lapack_c
            ! stdlib_spotrf will have factored only the ncolsxncols leading minor, so
            ! we restrict the growth search to that minor and use only the first
            ! 2*ncols workspace entries.
-           rpvgrw = 1.0
+           rpvgrw = one
            do i = 1, 2*ncols
-              work(i) = 0.0
+              work(i) = zero
            end do
            ! find the max magnitude entry of each column.
            if (upper) then
@@ -6159,7 +6129,7 @@ module stdlib_linalg_lapack_c
               do i = 1, ncols
                  umax = work(i)
                  amax = work(ncols + i)
-                 if (umax /= 0.0) then
+                 if (umax /= zero) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -6167,7 +6137,7 @@ module stdlib_linalg_lapack_c
               do i = 1, ncols
                  umax = work(i)
                  amax = work(ncols + i)
-                 if (umax /= 0.0) then
+                 if (umax /= zero) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -6207,7 +6177,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: temp, safe1
            integer(ilp) :: i, info, iy, j, jx, kx, ky
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, abs, sign, real, aimag
            ! .. statement functions ..
@@ -6259,7 +6228,7 @@ module stdlib_linalg_lapack_c
                  do i = 1, n
                     if (beta == zero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
+                       y(iy) = zero
                     else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
@@ -6285,7 +6254,7 @@ module stdlib_linalg_lapack_c
                  do i = 1, n
                     if (beta == zero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
+                       y(iy) = zero
                     else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
@@ -6313,7 +6282,7 @@ module stdlib_linalg_lapack_c
                  do i = 1, n
                     if (beta == zero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
+                       y(iy) = zero
                     else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
@@ -6342,7 +6311,7 @@ module stdlib_linalg_lapack_c
                  do i = 1, n
                     if (beta == zero) then
                        symb_zero = .true.
-                       y(iy) = 0.0
+                       y(iy) = zero
                     else if (y(iy) == zero) then
                        symb_zero = .true.
                     else
@@ -6452,7 +6421,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, jlast
            real(sp) :: absxi, altsgn, estold, safmin, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, real
            ! .. executable statements ..
@@ -6573,7 +6541,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, iter, j, jlast, jump
            real(sp) :: absxi, altsgn, estold, safmin, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, real
            ! .. save statement ..
@@ -6692,7 +6659,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i, j
-     
            ! .. intrinsic functions ..
            intrinsic :: min
            ! .. executable statements ..
@@ -6734,7 +6700,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i, j
-     
            ! .. intrinsic functions ..
            intrinsic :: min
            ! .. executable statements ..
@@ -6781,7 +6746,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, j, l
            ! .. intrinsic functions ..
            intrinsic :: aimag, cmplx, real
-     
            ! .. executable statements ..
            ! quick return if possible.
            if ((m == 0) .or. (n == 0)) return
@@ -6871,7 +6835,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: zi, zr
-     
            ! .. intrinsic functions ..
            intrinsic :: aimag, cmplx, real
            ! .. executable statements ..
@@ -6902,12 +6865,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: q(ldq, *), q2(ldq2, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: mone = -1.0e0
+           real(sp), parameter :: mone = -1.0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, imax, j, jlam, jmax, jp, k2, n1, n1p1, n2
            real(sp) :: c, eps, s, t, tau, tol
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, sqrt
            ! .. executable statements ..
@@ -7100,7 +7062,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a, b, c, cs1, evscal, rt1, rt2, sn1
        ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: thresh = 0.1e0
+           real(sp), parameter :: thresh = 0.1_sp
            
            ! .. local scalars ..
            real(sp) :: babs, evnorm, tabs, z
@@ -7189,7 +7151,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            real(sp) :: t
            complex(sp) :: w
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, real
            ! .. executable statements ..
@@ -7253,7 +7214,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, j
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! .. executable statements ..
@@ -7395,13 +7355,12 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: imax, j, jb, jj, jmax, jp, k, kk, kkw, kp, kstep, kw
            real(sp) :: absakk, alpha, colmax, r1, rowmax, t
            complex(sp) :: d11, d21, d22, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, conjg, max, min, real, sqrt
            ! .. statement functions ..
@@ -7931,14 +7890,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), w(ldw, *), e(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: done
            integer(ilp) :: imax, itemp, ii, j, jb, jj, jmax, k, kk, kkw, kp, kstep, kw, p
            real(sp) :: absakk, alpha, colmax, stemp, r1, rowmax, t, sfmin
            complex(sp) :: d11, d21, d22, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, aimag, max, min, real, sqrt
            ! .. statement functions ..
@@ -8567,7 +8525,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: done
@@ -8575,7 +8533,6 @@ module stdlib_linalg_lapack_c
                      p
            real(sp) :: absakk, alpha, colmax, stemp, r1, rowmax, t, sfmin
            complex(sp) :: d11, d21, d22, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, aimag, max, min, real, sqrt
            ! .. statement functions ..
@@ -9248,7 +9205,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: alpha, cosine, sine
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, sqrt
-     
            ! .. executable statements ..
            eps = stdlib_slamch('epsilon')
            alpha = stdlib_cdotc(j, x, 1, w, 1)
@@ -9577,12 +9533,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: ab(ldab, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: thresh = 0.1_sp
+           real(sp), parameter :: thresh = 0.1e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: cj, large, small
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -9647,12 +9602,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: thresh = 0.1_sp
+           real(sp), parameter :: thresh = 0.1e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: cj, large, small
-     
            ! .. executable statements ..
            ! quick return if possible
            if (m <= 0 .or. n <= 0) then
@@ -9715,12 +9669,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: ab(ldab, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: thresh = 0.1_sp
+           real(sp), parameter :: thresh = 0.1e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: cj, large, small
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real
            ! .. executable statements ..
@@ -9778,12 +9731,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: thresh = 0.1_sp
+           real(sp), parameter :: thresh = 0.1e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: cj, large, small
-     
            ! .. intrinsic functions ..
            intrinsic :: real
            ! .. executable statements ..
@@ -9841,12 +9793,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: thresh = 0.1_sp
+           real(sp), parameter :: thresh = 0.1e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, jc
            real(sp) :: cj, large, small
-     
            ! .. intrinsic functions ..
            intrinsic :: real
            ! .. executable statements ..
@@ -9969,12 +9920,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: ab(ldab, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: thresh = 0.1_sp
+           real(sp), parameter :: thresh = 0.1e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: cj, large, small
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -10030,12 +9980,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: thresh = 0.1_sp
+           real(sp), parameter :: thresh = 0.1e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, jc
            real(sp) :: cj, large, small
-     
            ! .. executable statements ..
            ! quick return if possible
            if (n <= 0) then
@@ -10093,12 +10042,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: thresh = 0.1_sp
+           real(sp), parameter :: thresh = 0.1e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: cj, large, small
-     
            ! .. executable statements ..
            ! quick return if possible
            if (n <= 0) then
@@ -10171,7 +10119,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: sawnan1, sawnan2
            integer(ilp) :: i, indlpl, indp, inds, indumn, neg1, neg2, r1, r2
            real(sp) :: dminus, dplus, eps, s, tmp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, real
            ! .. executable statements ..
@@ -10430,7 +10377,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, j, l
            ! .. intrinsic functions ..
            intrinsic :: aimag, cmplx, real
-     
            ! .. executable statements ..
            ! quick return if possible.
            if ((m == 0) .or. (n == 0)) return
@@ -10487,7 +10433,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: applyleft
            integer(ilp) :: i, lastv, lastc
-     
            ! .. executable statements ..
            applyleft = stdlib_lsame(side, 'l')
            lastv = 0
@@ -10518,7 +10463,7 @@ module stdlib_linalg_lapack_c
                  lastc = stdlib_ilaclr(m, lastv, c, ldc)
               end if
            end if
-           ! note that lastc.eq.0 renders the blas operations null; no special
+           ! note that lastc.eq.0_sp renders the blas operations null; no special
            ! case is needed at this level.
            if (applyleft) then
               ! form  h * c
@@ -10561,7 +10506,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            character :: transt
            integer(ilp) :: i, j
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! .. executable statements ..
@@ -10880,7 +10824,6 @@ module stdlib_linalg_lapack_c
      ! arrays A, B and T. See Further Details section.
 
      subroutine stdlib_clarfb_gett(ident, m, n, k, t, ldt, a, lda, b, ldb, work, ldwork)
-     
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10894,7 +10837,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lnotident
            integer(ilp) :: i, j
-     
            ! .. executable statements ..
            ! quick return if possible
            if (m < 0 .or. n <= 0 .or. k == 0 .or. k > n) return
@@ -11038,10 +10980,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: j, knt
            real(sp) :: alphi, alphr, beta, rsafmn, safmin, xnorm
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, real, sign
-     
            ! .. executable statements ..
            if (n <= 0) then
               tau = zero
@@ -11114,10 +11054,8 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, knt
            real(sp) :: alphi, alphr, beta, bignum, smlnum, xnorm
            complex(sp) :: savealpha
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, real, sign
-     
            ! .. executable statements ..
            if (n <= 0) then
               tau = zero
@@ -11248,7 +11186,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, j, prevlastv, lastv
-     
            ! .. executable statements ..
            ! quick return if possible
            if (n == 0) return
@@ -11376,7 +11313,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j
            complex(sp) :: sum, t1, t10, t2, t3, t4, t5, t6, t7, t8, t9, v1, v10, v2, v3, v4, v5, &
                      v6, v7, v8, v9
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! .. executable statements ..
@@ -11877,7 +11813,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            complex(sp) :: alpha
-     
            ! .. executable statements ..
            if (tau == czero) return
            ! form  w:= c * v
@@ -11905,7 +11840,7 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            ! .. parameters ..
            integer(ilp), parameter :: lv = 128
-           real(sp), parameter :: twopi = 6.28318530717958647692528676655900576839_sp
+           real(sp), parameter :: twopi = 6.28318530717958647692528676655900576839e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, il, iv
@@ -11913,7 +11848,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: u(lv)
            ! .. intrinsic functions ..
            intrinsic :: cmplx, exp, log, min, sqrt
-     
            ! .. executable statements ..
            do 60 iv = 1, n, lv/2
               il = min(lv/2, n - iv + 1)
@@ -11923,12 +11857,12 @@ module stdlib_linalg_lapack_c
               if (idist == 1) then
                  ! copy generated numbers
                  do i = 1, il
-                    x(iv + i - 1) = cmplx(u(2*i - 1), u(2*i))
+                    x(iv + i - 1) = cmplx(u(2*i - 1), u(2*i), KIND=sp)
                  end do
               else if (idist == 2) then
                  ! convert generated numbers to uniform (-1,1) distribution
                  do i = 1, il
-                    x(iv + i - 1) = cmplx(two*u(2*i - 1) - one, two*u(2*i) - one)
+                    x(iv + i - 1) = cmplx(two*u(2*i - 1) - one, two*u(2*i) - one, KIND=sp)
                  end do
               else if (idist == 3) then
                  ! convert generated numbers to normal (0,1) distribution
@@ -12187,7 +12121,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            character :: transt
            integer(ilp) :: i, info, j
-     
            ! .. executable statements ..
            ! quick return if possible
            if (m <= 0 .or. n <= 0) return
@@ -12297,7 +12230,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, info, j
-     
            ! .. executable statements ..
            ! check for currently supported options
            info = 0
@@ -12357,10 +12289,8 @@ module stdlib_linalg_lapack_c
            logical(lk) :: done
            integer(ilp) :: i, itype, j, k1, k2, k3, k4
            real(sp) :: bignum, cfrom1, cfromc, cto1, ctoc, mul, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -12523,7 +12453,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i, j
-     
            ! .. intrinsic functions ..
            intrinsic :: min
            ! .. executable statements ..
@@ -12635,7 +12564,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: temp
            ! .. intrinsic functions ..
            intrinsic :: max
-     
            ! .. executable statements ..
            ! test the input parameters
            info = 0
@@ -13046,13 +12974,12 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            integer(ilp) :: imax, j, jb, jj, jmax, jp, k, kk, kkw, kp, kstep, kw
            real(sp) :: absakk, alpha, colmax, rowmax
            complex(sp) :: d11, d21, d22, r1, t, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, min, real, sqrt
            ! .. statement functions ..
@@ -13487,14 +13414,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), e(*), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: done
            integer(ilp) :: imax, itemp, j, jb, jj, jmax, k, kk, kw, kkw, kp, kstep, p, ii
            real(sp) :: absakk, alpha, colmax, rowmax, sfmin, stemp
            complex(sp) :: d11, d12, d21, d22, r1, t, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, min, real, sqrt
            ! .. statement functions ..
@@ -13931,7 +13857,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), w(ldw, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: done
@@ -13939,7 +13865,6 @@ module stdlib_linalg_lapack_c
                      ii
            real(sp) :: absakk, alpha, colmax, rowmax, stemp, sfmin
            complex(sp) :: d11, d12, d21, d22, r1, t, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, sqrt, aimag, real
            ! .. statement functions ..
@@ -14400,7 +14325,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, imax, j, jfirst, jinc, jlast, jlen, maind
            real(sp) :: bignum, grow, rec, smlnum, tjj, tmax, tscal, xbnd, xj, xmax
            complex(sp) :: csumj, tjjs, uscal, zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, min, real
            ! .. statement functions ..
@@ -14955,7 +14879,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, imax, ip, j, jfirst, jinc, jlast, jlen
            real(sp) :: bignum, grow, rec, smlnum, tjj, tmax, tscal, xbnd, xj, xmax
            complex(sp) :: csumj, tjjs, uscal, zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, min, real
            ! .. statement functions ..
@@ -15499,7 +15422,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, iw
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: min, real
            ! .. executable statements ..
@@ -15621,7 +15543,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, imax, j, jfirst, jinc, jlast
            real(sp) :: bignum, grow, rec, smlnum, tjj, tmax, tscal, xbnd, xj, xmax
            complex(sp) :: csumj, tjjs, uscal, zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, min, real
            ! .. statement functions ..
@@ -16137,7 +16058,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! .. executable statements ..
@@ -16216,7 +16136,6 @@ module stdlib_linalg_lapack_c
      ! vol. 41, no. 6, pp. 737-755, 1997.
 
      recursive subroutine stdlib_claunhr_col_getrfnp2(m, n, a, lda, d, info)
-     
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16230,7 +16149,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: sfmin
            integer(ilp) :: i, iinfo, n1, n2
            complex(sp) :: z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, real, cmplx, aimag, sign, max, min
            ! .. statement functions ..
@@ -16326,7 +16244,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i
            real(sp) :: aii
-     
            ! .. intrinsic functions ..
            intrinsic :: cmplx, max, real
            ! .. executable statements ..
@@ -16404,7 +16321,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i, ib, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -16491,7 +16407,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i, j
            real(sp) :: smin
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real, sqrt
            ! .. executable statements ..
@@ -16578,7 +16493,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: j, kld, km, m
            real(sp) :: ajj
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real, sqrt
            ! .. executable statements ..
@@ -16712,7 +16626,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: j, kld, kn
            real(sp) :: ajj
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real, sqrt
            ! .. executable statements ..
@@ -16801,7 +16714,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -16876,7 +16788,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            real(sp) :: smin
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real, sqrt
            ! .. executable statements ..
@@ -16956,7 +16867,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            real(sp) :: smin, base, tmp
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, sqrt, log, int
            ! .. executable statements ..
@@ -16979,7 +16889,7 @@ module stdlib_linalg_lapack_c
               return
            end if
            base = stdlib_slamch('b')
-           tmp = -0.5/log(base)
+           tmp = -0.5_sp/log(base)
            ! find the minimum and maximum diagonal elements.
            s(1) = real(a(1, 1))
            smin = s(1)
@@ -17033,7 +16943,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: j
            real(sp) :: ajj
-     
            ! .. intrinsic functions ..
            intrinsic :: max, real, sqrt
            ! .. executable statements ..
@@ -17133,7 +17042,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: n1, n2, iinfo
            real(sp) :: ajj
-     
            ! .. intrinsic functions ..
            intrinsic :: max, real, sqrt
            ! .. executable statements ..
@@ -17222,7 +17130,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            logical(lk) :: upper
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -17293,7 +17200,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i, jj
            real(sp) :: smin
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real, sqrt
            ! .. executable statements ..
@@ -17383,7 +17289,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: j, jc, jj
            real(sp) :: ajj
-     
            ! .. intrinsic functions ..
            intrinsic :: real, sqrt
            ! .. executable statements ..
@@ -17465,7 +17370,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -17541,7 +17445,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: ajj, sstop, stemp
            integer(ilp) :: i, itemp, j, pvt
            logical(lk) :: upper
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real, sqrt
            ! .. executable statements ..
@@ -17727,7 +17630,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, ix
            real(sp) :: ainvnm
-     
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. executable statements ..
@@ -17795,7 +17697,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, i4
            real(sp) :: eii, eir, f, g
-     
            ! .. intrinsic functions ..
            intrinsic :: aimag, cmplx, mod, real
            ! .. executable statements ..
@@ -17896,7 +17797,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i, j
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! .. executable statements ..
@@ -18043,7 +17943,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
            complex(sp) :: temp1, temp2
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -18201,7 +18100,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
            complex(sp) :: temp
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -18322,14 +18220,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i, imax, j, jmax, k, kc, kk, knc, kp, kpc, kstep, kx, npp
            real(sp) :: absakk, alpha, colmax, rowmax
            complex(sp) :: d11, d12, d21, d22, r1, t, wk, wkm1, wkp1, zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real, sqrt
            ! .. statement functions ..
@@ -18650,7 +18547,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: j, k, kc, kcnext, kp, kpc, kstep, kx, npp
            complex(sp) :: ak, akkp1, akp1, d, t, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. executable statements ..
@@ -18861,7 +18757,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: j, k, kc, kp
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -19079,7 +18974,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: done
            real(sp) :: bignum, cden, cden1, cnum, cnum1, mul, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. executable statements ..
@@ -19140,8 +19034,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: z(ldz, *)
        ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: odm3 = 1.0e-3
-           real(sp), parameter :: odm1 = 1.0e-1
+           real(sp), parameter :: odm3 = 1.0e-3_sp
+           real(sp), parameter :: odm1 = 1.0e-1_sp
            integer(ilp), parameter :: maxits = 5
            integer(ilp), parameter :: extra = 2
            
@@ -19152,7 +19046,6 @@ module stdlib_linalg_lapack_c
                      xjm
            ! .. local arrays ..
            integer(ilp) :: iseed(4)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, cmplx, max, real, sqrt
            ! .. executable statements ..
@@ -19349,7 +19242,6 @@ module stdlib_linalg_lapack_c
                      lm1, lsv, m, mm, mm1, nm1, nmaxit
            real(sp) :: anorm, b, c, eps, eps2, f, g, p, r, rt1, rt2, s, safmax, safmin, ssfmax, &
                      ssfmin, tst
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, sign, sqrt
            ! .. executable statements ..
@@ -19659,7 +19551,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            
            ! .. external subroutines ..
-     
            logical(lk) :: upper, convert
            integer(ilp) :: i, ip, j
            complex(sp) :: temp
@@ -19878,7 +19769,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            
            ! .. external subroutines ..
-     
            logical(lk) :: upper, convert
            integer(ilp) :: i, ip
            ! .. executable statements ..
@@ -20134,7 +20024,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            
            ! .. external subroutines ..
-     
            logical(lk) :: upper, convert
            integer(ilp) :: i, ip, ip2
            ! .. executable statements ..
@@ -20390,7 +20279,6 @@ module stdlib_linalg_lapack_c
                      scale, sumsq
            logical(lk) :: up
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, int, log, max, min, real, sqrt
            ! .. statement functions ..
@@ -20444,12 +20332,12 @@ module stdlib_linalg_lapack_c
               end do
            end if
            do j = 1, n
-              s(j) = 1.0/s(j)
+              s(j) = one/s(j)
            end do
-           tol = one/sqrt(2.0e0*n)
+           tol = one/sqrt(2.0_sp*n)
            do iter = 1, max_iter
-              scale = 0.0e0
-              sumsq = 0.0e0
+              scale = zero
+              sumsq = zero
               ! beta = |a|s
               do i = 1, n
                   work(i) = zero
@@ -20472,12 +20360,12 @@ module stdlib_linalg_lapack_c
                  end do
               end if
               ! avg = s^t beta / n
-              avg = 0.0e0
+              avg = zero
               do i = 1, n
                  avg = avg + real(s(i)*work(i))
               end do
               avg = avg/n
-              std = 0.0e0
+              std = zero
               do i = n + 1, 2*n
                  work(i) = s(i - n)*work(i - n) - avg
               end do
@@ -20561,7 +20449,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
            complex(sp) :: temp1, temp2
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -20715,7 +20602,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, info, ix, j, jx, kx
            complex(sp) :: temp
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -20817,7 +20703,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i
            complex(sp) :: tmp
-     
            ! .. executable statements ..
            upper = stdlib_lsame(uplo, 'u')
            if (upper) then
@@ -20889,14 +20774,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i, imax, j, jmax, k, kk, kp, kstep
            real(sp) :: absakk, alpha, colmax, rowmax
            complex(sp) :: d11, d12, d21, d22, r1, t, wk, wkm1, wkp1, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real, sqrt
            ! .. statement functions ..
@@ -21181,14 +21065,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), e(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: upper, done
            integer(ilp) :: i, imax, j, jmax, itemp, k, kk, kp, kstep, p, ii
            real(sp) :: absakk, alpha, colmax, rowmax, stemp, sfmin
            complex(sp) :: d11, d12, d21, d22, t, wk, wkm1, wkp1, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, sqrt, aimag, real
            ! .. statement functions ..
@@ -21634,14 +21517,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: sevten = 17.0_sp
+           real(sp), parameter :: sevten = 17.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: upper, done
            integer(ilp) :: i, imax, j, jmax, itemp, k, kk, kp, kstep, p, ii
            real(sp) :: absakk, alpha, colmax, rowmax, stemp, sfmin
            complex(sp) :: d11, d12, d21, d22, t, wk, wkm1, wkp1, z
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, sqrt, aimag, real
            ! .. statement functions ..
@@ -22052,7 +21934,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, upper
            integer(ilp) :: iinfo, iws, j, k, kb, ldwork, lwkopt, nb, nbmin
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -22180,7 +22061,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, upper
            integer(ilp) :: i, iinfo, ip, iws, k, kb, ldwork, lwkopt, nb, nbmin
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max
            ! .. executable statements ..
@@ -22346,7 +22226,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, upper
            integer(ilp) :: iinfo, iws, j, k, kb, ldwork, lwkopt, nb, nbmin
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -22472,7 +22351,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: k, kp, kstep
            complex(sp) :: ak, akkp1, akp1, d, t, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max
            ! .. executable statements ..
@@ -22660,7 +22538,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: k, kp, kstep
            complex(sp) :: ak, akkp1, akp1, d, t, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -22888,7 +22765,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: j, k, kp
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -23098,7 +22974,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i, iinfo, j, k, kp
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -23282,7 +23157,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i, j, k, kp
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max
            ! .. executable statements ..
@@ -23421,7 +23295,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            character :: uplo
            integer(ilp) :: n, nrhs, lda, ldb, lwork, info
@@ -23432,7 +23305,6 @@ module stdlib_linalg_lapack_c
            
            logical(lk) :: lquery, upper
            integer(ilp) :: k, kp, lwkopt
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -23551,7 +23423,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: j, k, kp
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -23781,10 +23652,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, min, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -24015,7 +23884,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: nounit, upper
            integer(ilp) :: j
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -24092,7 +23960,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lower, lside, misodd, nisodd, normaltransr, notrans
            integer(ilp) :: m1, m2, n1, n2, k, info, i, j
-     
            ! .. intrinsic functions ..
            intrinsic :: max, mod
            ! .. executable statements ..
@@ -24126,7 +23993,7 @@ module stdlib_linalg_lapack_c
            end if
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
-           ! quick return when alpha==(0_sp,0_sp)
+           ! quick return when alpha==(0e+0_sp,0e+0_sp)
            if (alpha == czero) then
               do j = 0, n - 1
                  do i = 0, m - 1
@@ -24589,7 +24456,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: n1, n2, k, nt
            integer(ilp) :: i, j, ij
            integer(ilp) :: ijp, jp, lda, js
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! .. intrinsic functions ..
@@ -24847,7 +24713,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lower, nisodd, normaltransr
            integer(ilp) :: n1, n2, k, nt, nx2, np1x2
            integer(ilp) :: i, j, l, ij
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, mod
            ! .. executable statements ..
@@ -25118,7 +24983,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: acoefa, acoeff, anorm, ascale, bcoefa, big, bignum, bnorm, bscale, dmin, &
                      safmin, sbeta, scale, small, temp, ulp, xmax
            complex(sp) :: bcoeff, ca, cb, d, salpha, sum, suma, sumb, x
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, min, real
            ! .. statement functions ..
@@ -25511,7 +25375,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), b(ldb, *), q(ldq, *), z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: twenty = 2.0e+1
+           real(sp), parameter :: twenty = 2.0e+1_sp
            integer(ilp), parameter :: ldst = 2
            logical(lk), parameter :: wands = .true.
            
@@ -25522,7 +25386,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: cdum, f, g, sq, sz
            ! .. local arrays ..
            complex(sp) :: s(ldst, ldst), t(ldst, ldst), work(8)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, real, sqrt
            ! .. executable statements ..
@@ -25651,7 +25514,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: here
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -25728,7 +25590,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j, p, mp, np
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -25844,7 +25705,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j, p, mp, np
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -25938,7 +25798,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j, mp, np, kp
            logical(lk) :: left, forward, column, right, backward, row
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg
            ! .. executable statements ..
@@ -26367,10 +26226,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -26608,7 +26465,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: nounit, upper
            integer(ilp) :: j, jc, jclast, jj
            complex(sp) :: ajj
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -26701,7 +26557,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: nounit, upper
            integer(ilp) :: j, jc
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -26773,7 +26628,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: n1, n2, k, nt
            integer(ilp) :: i, j, ij
            integer(ilp) :: ijp, jp, lda, js
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, mod
            ! .. executable statements ..
@@ -27029,7 +26883,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lower
            integer(ilp) :: i, j, k
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -27096,15 +26949,14 @@ module stdlib_linalg_lapack_c
            complex(sp) :: t(ldt, *), vl(ldvl, *), vr(ldvr, *), work(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(sp), parameter :: cmzero = (0.0_sp, 0.0_sp)
-           complex(sp), parameter :: cmone = (1.0_sp, 0.0_sp)
+           complex(sp), parameter :: cmzero = (zero, zero)
+           complex(sp), parameter :: cmone = (one, zero)
            
            ! .. local scalars ..
            logical(lk) :: allv, bothv, leftv, over, rightv, somev
            integer(ilp) :: i, ii, is, j, k, ki
            real(sp) :: ovfl, remax, scale, smin, smlnum, ulp, unfl
            complex(sp) :: cdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, real
            ! .. statement functions ..
@@ -27284,7 +27136,6 @@ module stdlib_linalg_lapack_c
 
      subroutine stdlib_ctrevc3(side, howmny, select, n, t, ldt, vl, ldvl, vr, ldvr, mm, m, work, &
                lwork, rwork, lrwork, info)
-     
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -27305,7 +27156,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, ii, is, j, k, ki, iv, maxwrk, nb
            real(sp) :: ovfl, remax, scale, smin, smlnum, ulp, unfl
            complex(sp) :: cdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, real, cmplx, conjg, aimag, max
            ! .. statement functions ..
@@ -27583,7 +27433,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: k, m1, m2, m3
            real(sp) :: cs
            complex(sp) :: sn, t11, t22, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -27669,10 +27518,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -27909,7 +27756,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            integer(ilp) :: isave(3)
            complex(sp) :: dummy(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
            ! .. statement functions ..
@@ -28050,7 +27896,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: nounit, upper
            integer(ilp) :: j
            complex(sp) :: ajj
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -28124,7 +27969,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: nounit, upper
            integer(ilp) :: j, jb, nb, nn
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -28212,7 +28056,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            logical(lk) :: nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -28271,7 +28114,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
            integer(ilp) :: i, ij, j, k, l, n1, n2, nt, nx2, np1x2
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, mod
            ! .. executable statements ..
@@ -28520,7 +28362,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lower
            integer(ilp) :: i, j, k
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -28588,13 +28429,12 @@ module stdlib_linalg_lapack_c
                      ), x12(ldx12, *), x21(ldx21, *), x22(ldx22, *)
         ! ====================================================================
            ! .. parameters ..
-           real(sp), parameter :: realone = 1.0e0
+           real(sp), parameter :: realone = 1.0_sp
            
            ! .. local scalars ..
            logical(lk) :: colmajor, lquery
            integer(ilp) :: i, lworkmin, lworkopt
            real(sp) :: z1, z2, z3, z4
-     
            ! .. intrinsic functions
            intrinsic :: atan2, cos, max, min, sin
            intrinsic :: cmplx, conjg
@@ -28657,20 +28497,20 @@ module stdlib_linalg_lapack_c
               ! reduce columns 1, ..., q of x11, x12, x21, and x22
               do i = 1, q
                  if (i == 1) then
-                    call stdlib_cscal(p - i + 1, cmplx(z1, 0.0e0, KIND=sp), x11(i, i), 1)
+                    call stdlib_cscal(p - i + 1, cmplx(z1, 0.0_sp, KIND=sp), x11(i, i), 1)
                  else
-                    call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0e0), x11(i, i), 1)
+                    call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0_sp), x11(i, i), 1)
                               
-                    call stdlib_caxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0e0), x12(i, i - 1), &
-                              1, x11(i, i), 1)
+                    call stdlib_caxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_sp), x12(i, i - 1), &
+                               1, x11(i, i), 1)
                  end if
                  if (i == 1) then
-                    call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0e0, KIND=sp), x21(i, i), 1)
+                    call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0_sp, KIND=sp), x21(i, i), 1)
                  else
-                    call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0e0), x21(i, i), 1)
+                    call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0_sp), x21(i, i), 1)
                               
-                    call stdlib_caxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0e0), x22(i, i - 1) &
-                              , 1, x21(i, i), 1)
+                    call stdlib_caxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_sp), x22(i, i - &
+                              1), 1, x21(i, i), 1)
                  end if
                  theta(i) = atan2(stdlib_scnrm2(m - p - i + 1, x21(i, i), 1), stdlib_scnrm2(p - i + 1, &
                            x11(i, i), 1))
@@ -28699,15 +28539,15 @@ module stdlib_linalg_lapack_c
                               i), ldx22, work)
                  end if
                  if (i < q) then
-                    call stdlib_cscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0e0), x11(i, i + 1), &
+                    call stdlib_cscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0_sp), x11(i, i + 1), &
                               ldx11)
-                    call stdlib_caxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0e0), x21(i, i + 1), ldx21, &
-                               x11(i, i + 1), ldx11)
+                    call stdlib_caxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0_sp), x21(i, i + 1), &
+                              ldx21, x11(i, i + 1), ldx11)
                  end if
-                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0e0), x12(i, i), ldx12 &
-                           )
-                 call stdlib_caxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0e0), x22(i, i), ldx22, &
-                           x12(i, i), ldx12)
+                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0_sp), x12(i, i), &
+                           ldx12)
+                 call stdlib_caxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0_sp), x22(i, i), ldx22, &
+                            x12(i, i), ldx12)
                  if (i < q) phi(i) = atan2(stdlib_scnrm2(q - i, x11(i, i + 1), ldx11), stdlib_scnrm2( &
                             m - q - i + 1, x12(i, i), ldx12))
                  if (i < q) then
@@ -28748,7 +28588,7 @@ module stdlib_linalg_lapack_c
               end do
               ! reduce columns q + 1, ..., p of x12, x22
               do i = q + 1, p
-                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4, 0.0e0, KIND=sp), x12(i, i), ldx12)
+                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4, 0.0_sp, KIND=sp), x12(i, i), ldx12)
                            
                  call stdlib_clacgv(m - q - i + 1, x12(i, i), ldx12)
                  if (i >= m - q) then
@@ -28767,8 +28607,8 @@ module stdlib_linalg_lapack_c
               end do
               ! reduce columns p + 1, ..., m - q of x12, x22
               do i = 1, m - p - q
-                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0e0, KIND=sp), x22(q + i, p + i), ldx22)
-                           
+                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0_sp, KIND=sp), x22(q + i, p + i), ldx22 &
+                           )
                  call stdlib_clacgv(m - p - q - i + 1, x22(q + i, p + i), ldx22)
                  call stdlib_clarfgp(m - p - q - i + 1, x22(q + i, p + i), x22(q + i, p + i + 1), ldx22, tauq2(p + i))
                            
@@ -28781,21 +28621,22 @@ module stdlib_linalg_lapack_c
               ! reduce columns 1, ..., q of x11, x12, x21, x22
               do i = 1, q
                  if (i == 1) then
-                    call stdlib_cscal(p - i + 1, cmplx(z1, 0.0e0, KIND=sp), x11(i, i), ldx11)
-                 else
-                    call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0e0), x11(i, i), ldx11)
+                    call stdlib_cscal(p - i + 1, cmplx(z1, 0.0_sp, KIND=sp), x11(i, i), ldx11)
                               
-                    call stdlib_caxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0e0), x12(i - 1, i), &
-                              ldx12, x11(i, i), ldx11)
+                 else
+                    call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0_sp), x11(i, i), ldx11)
+                              
+                    call stdlib_caxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_sp), x12(i - 1, i), &
+                               ldx12, x11(i, i), ldx11)
                  end if
                  if (i == 1) then
-                    call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0e0, KIND=sp), x21(i, i), ldx21)
+                    call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0_sp, KIND=sp), x21(i, i), ldx21)
                               
                  else
-                    call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0e0), x21(i, i), ldx21)
-                              
-                    call stdlib_caxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0e0), x22(i - 1, i) &
-                              , ldx22, x21(i, i), ldx21)
+                    call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0_sp), x21(i, i), ldx21 &
+                              )
+                    call stdlib_caxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_sp), x22(i - 1, &
+                              i), ldx22, x21(i, i), ldx21)
                  end if
                  theta(i) = atan2(stdlib_scnrm2(m - p - i + 1, x21(i, i), ldx21), stdlib_scnrm2(p - i + 1, &
                             x11(i, i), ldx11))
@@ -28820,15 +28661,15 @@ module stdlib_linalg_lapack_c
                  call stdlib_clacgv(p - i + 1, x11(i, i), ldx11)
                  call stdlib_clacgv(m - p - i + 1, x21(i, i), ldx21)
                  if (i < q) then
-                    call stdlib_cscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0e0), x11(i + 1, i), 1)
+                    call stdlib_cscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0_sp), x11(i + 1, i), 1)
                               
-                    call stdlib_caxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0e0), x21(i + 1, i), 1, &
+                    call stdlib_caxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0_sp), x21(i + 1, i), 1, &
                               x11(i + 1, i), 1)
                  end if
-                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0e0), x12(i, i), 1)
+                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0_sp), x12(i, i), 1)
                            
-                 call stdlib_caxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0e0), x22(i, i), 1, x12( &
-                           i, i), 1)
+                 call stdlib_caxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0_sp), x22(i, i), 1, &
+                           x12(i, i), 1)
                  if (i < q) phi(i) = atan2(stdlib_scnrm2(q - i, x11(i + 1, i), 1), stdlib_scnrm2(m - &
                            q - i + 1, x12(i, i), 1))
                  if (i < q) then
@@ -28852,7 +28693,8 @@ module stdlib_linalg_lapack_c
               end do
               ! reduce columns q + 1, ..., p of x12, x22
               do i = q + 1, p
-                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4, 0.0e0, KIND=sp), x12(i, i), 1)
+                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4, 0.0_sp, KIND=sp), x12(i, i), 1)
+                           
                  call stdlib_clarfgp(m - q - i + 1, x12(i, i), x12(i + 1, i), 1, tauq2(i))
                  x12(i, i) = cone
                  if (p > i) then
@@ -28864,7 +28706,7 @@ module stdlib_linalg_lapack_c
               end do
               ! reduce columns p + 1, ..., m - q of x12, x22
               do i = 1, m - p - q
-                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0e0, KIND=sp), x22(p + i, q + i), 1)
+                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0_sp, KIND=sp), x22(p + i, q + i), 1)
                            
                  call stdlib_clarfgp(m - p - q - i + 1, x22(p + i, q + i), x22(p + i + 1, q + i), 1, tauq2(p + i))
                            
@@ -28900,15 +28742,14 @@ module stdlib_linalg_lapack_c
            complex(sp) :: q1(ldq1, *), q2(ldq2, *), work(*), x1(*), x2(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: alphasq = 0.01e0
-           real(sp), parameter :: realone = 1.0e0
-           real(sp), parameter :: realzero = 0.0e0
-           complex(sp), parameter :: negone = (-1.0e0, 0.0e0)
+           real(sp), parameter :: alphasq = 0.01_sp
+           real(sp), parameter :: realone = 1.0_sp
+           real(sp), parameter :: realzero = 0.0_sp
+           complex(sp), parameter :: negone = (-1.0_sp, 0.0_sp)
            
            ! .. local scalars ..
            integer(ilp) :: i
            real(sp) :: normsq1, normsq2, scl1, scl2, ssq1, ssq2
-     
            ! .. intrinsic function ..
            intrinsic :: max
            ! .. executable statements ..
@@ -29024,7 +28865,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, ii, j, l
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -29087,7 +28927,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, j, l
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -29151,7 +28990,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, j, l
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -29222,10 +29060,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iinfo, iws, j, ki, kk, l, ldwork, lwkopt, nb, nbmin, nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -29339,10 +29175,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iinfo, iws, j, kk, l, ldwork, lwkopt, nb, nbmin, nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -29461,10 +29295,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iinfo, iws, j, ki, kk, l, ldwork, lwkopt, nb, nbmin, nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -29577,7 +29409,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, ii, j, l
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -29645,10 +29476,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, ib, ii, iinfo, iws, j, kk, l, ldwork, lwkopt, nb, nbmin, nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -29766,7 +29595,6 @@ module stdlib_linalg_lapack_c
      ! the order in which CLATSQR generates the output blocks.
 
      subroutine stdlib_cungtsqr_row(m, n, mb, nb, a, lda, t, ldt, work, lwork, info)
-     
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29782,7 +29610,6 @@ module stdlib_linalg_lapack_c
                       jb_t, ib, imb, kb, kb_last, knb, mb1
            ! .. local arrays ..
            complex(sp) :: dummy(1, 1)
-     
            ! .. intrinsic functions ..
            intrinsic :: cmplx, max, min
            ! .. executable statements ..
@@ -29897,7 +29724,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            character :: side, trans
            integer(ilp) :: m, n, n1, n2, ldq, ldc, lwork, info
@@ -29908,7 +29734,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, lquery, notran
            integer(ilp) :: i, ldwork, len, lwkopt, nb, nq, nw
-     
            ! .. intrinsic functions ..
            intrinsic :: cmplx, max, min
            ! .. executable statements ..
@@ -30099,7 +29924,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: left, notran
            integer(ilp) :: i, i1, i2, i3, mi, ni, nq
            complex(sp) :: aii, taui
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -30197,7 +30021,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: left, notran
            integer(ilp) :: i, i1, i2, i3, ic, jc, mi, ni, nq
            complex(sp) :: aii, taui
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -30299,7 +30122,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: left, notran
            integer(ilp) :: i, i1, i2, i3, ic, jc, mi, ni, nq
            complex(sp) :: aii, taui
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -30409,7 +30231,6 @@ module stdlib_linalg_lapack_c
            character :: transt
            integer(ilp) :: i, i1, i2, i3, ib, ic, iinfo, iwt, jc, ldwork, lwkopt, mi, nb, nbmin, &
                      ni, nq, nw
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -30556,7 +30377,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: left, lquery, notran
            integer(ilp) :: i, i1, i2, i3, ib, iinfo, iwt, ldwork, lwkopt, mi, nb, nbmin, ni, nq, &
                      nw
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -30694,7 +30514,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: left, lquery, notran
            integer(ilp) :: i, i1, i2, i3, ib, ic, iinfo, iwt, jc, ldwork, lwkopt, mi, nb, nbmin, &
                      ni, nq, nw
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -30828,7 +30647,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: left, notran
            integer(ilp) :: i, i1, i2, i3, mi, ni, nq
            complex(sp) :: aii, taui
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -30927,7 +30745,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: left, notran
            integer(ilp) :: i, i1, i2, i3, ic, ja, jc, mi, ni, nq
            complex(sp) :: taui
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -31036,7 +30853,6 @@ module stdlib_linalg_lapack_c
            character :: transt
            integer(ilp) :: i, i1, i2, i3, ib, iinfo, iwt, ldwork, lwkopt, mi, nb, nbmin, ni, nq, &
                      nw
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -31179,7 +30995,6 @@ module stdlib_linalg_lapack_c
            character :: transt
            integer(ilp) :: i, i1, i2, i3, ib, ic, iinfo, iwt, ja, jc, ldwork, lwkopt, mi, nb, &
                      nbmin, ni, nq, nw
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -31341,10 +31156,10 @@ module stdlib_linalg_lapack_c
         ! ===================================================================
            ! .. parameters ..
            integer(ilp), parameter :: maxitr = 6
-           real(sp), parameter :: hundred = 100.0e0
-           real(sp), parameter :: meighth = -0.125e0
-           complex(sp), parameter :: negonecomplex = (-1.0e0, 0.0e0)
-           real(sp), parameter :: piover2 = 1.57079632679489661923132169163975144210e0
+           real(sp), parameter :: hundred = 100.0_sp
+           real(sp), parameter :: meighth = -0.125_sp
+           complex(sp), parameter :: negonecomplex = (-1.0_sp, 0.0_sp)
+           real(sp), parameter :: piover2 = 1.57079632679489661923132169163975144210_sp
            
            ! .. local scalars ..
            logical(lk) :: colmajor, lquery, restart11, restart12, restart21, restart22, wantu1, &
@@ -31353,7 +31168,6 @@ module stdlib_linalg_lapack_c
                       iv2tsn, j, lrworkmin, lrworkopt, maxit, mini
            real(sp) :: b11bulge, b12bulge, b21bulge, b22bulge, dummy, eps, mu, nu, r, sigma11, &
                      sigma21, temp, thetamax, thetamin, thresh, tol, tolmul, unfl, x1, x2, y1, y2
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, atan2, cos, max, min, sin, sqrt
            ! .. executable statements ..
@@ -31508,7 +31322,7 @@ module stdlib_linalg_lapack_c
                     end if
                  else
                     nu = sigma21
-                    mu = sqrt(1.0 - nu**2)
+                    mu = sqrt(one - nu**2)
                     if (nu < thresh) then
                        mu = one
                        nu = zero
@@ -31951,10 +31765,10 @@ module stdlib_linalg_lapack_c
            complex(sp) :: c(ldc, *), u(ldu, *), vt(ldvt, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: negone = -1.0e0
-           real(sp), parameter :: hndrth = 0.01e0
-           real(sp), parameter :: hndrd = 100.0e0
-           real(sp), parameter :: meigth = -0.125e0
+           real(sp), parameter :: negone = -1.0_sp
+           real(sp), parameter :: hndrth = 0.01_sp
+           real(sp), parameter :: hndrd = 100.0_sp
+           real(sp), parameter :: meigth = -0.125_sp
            integer(ilp), parameter :: maxitr = 6
            
            ! .. local scalars ..
@@ -31963,7 +31777,6 @@ module stdlib_linalg_lapack_c
                      oldm
            real(sp) :: abse, abss, cosl, cosr, cs, eps, f, g, h, mu, oldcs, oldsn, r, shift, sigmn, &
                       sigmx, sinl, sinr, sll, smax, smin, sminl, sminoa, sn, thresh, tol, tolmul, unfl
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, real, sign, sqrt
            ! .. executable statements ..
@@ -32399,7 +32212,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: t, zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, min, real
            ! .. statement functions ..
@@ -32526,7 +32338,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: temp
            ! .. local arrays ..
            complex(sp) :: work13(ldwork, nbmax), work31(ldwork, nbmax)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -32772,7 +32583,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lnoti, notran
            integer(ilp) :: i, j, kd, l, lm
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -32883,7 +32693,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! .. executable statements ..
@@ -32991,7 +32800,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
            ! .. statement functions ..
@@ -33084,7 +32892,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! .. executable statements ..
@@ -33140,7 +32947,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, k
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -33195,10 +33001,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iinfo, iws, k, ldwork, lwkopt, nb, nbmin, nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -33292,7 +33096,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, i1, j, j1, m1, m2, iinfo
-     
            ! .. executable statements ..
            info = 0
            if (m < 0) then
@@ -33389,7 +33192,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran
            integer(ilp) :: i, ib, ldwork, kf, q
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -33486,7 +33288,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran
            integer(ilp) :: i, ib, ldwork, kf, q
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -33575,7 +33376,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, k
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! .. executable statements ..
@@ -33624,10 +33424,8 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iinfo, iws, k, ki, kk, ldwork, lwkopt, mu, nb, nbmin, nu, &
                      nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -33737,7 +33535,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, k
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! .. executable statements ..
@@ -33793,7 +33590,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, k
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min
            ! .. executable statements ..
@@ -33847,10 +33643,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iinfo, iws, k, ldwork, lwkopt, nb, nbmin, nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            k = min(m, n)
@@ -33952,10 +33746,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iinfo, iws, k, ldwork, lwkopt, nb, nbmin, nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -34048,7 +33840,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, k
            complex(sp) :: aii, alpha
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -34117,7 +33908,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, i1, j, j1, n1, n2, iinfo
-     
            ! .. executable statements ..
            info = 0
            if (n < 0) then
@@ -34204,7 +33994,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, k
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -34255,10 +34044,8 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iinfo, iws, k, ki, kk, ldwork, lwkopt, mu, nb, nbmin, nu, &
                      nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -34368,7 +34155,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, j
            real(sp) :: bignum, eps, smlnum
            complex(sp) :: temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, cmplx, real
            ! .. executable statements ..
@@ -34442,7 +34228,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: sfmin
            complex(sp) :: temp
            integer(ilp) :: i, iinfo, n1, n2
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -34543,7 +34328,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, iws, j, jb, jj, jp, ldwork, lwkopt, nb, nbmin, nn
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -34645,7 +34429,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            logical(lk) :: notran
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -34736,7 +34519,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: icompq, icompz, jcol, jrow
            real(sp) :: c
            complex(sp) :: ctemp, s
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -34859,7 +34641,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lopt, lwkopt, nb, nb1, nb2, nb3
-     
            ! .. intrinsic functions ..
            intrinsic :: int, max, min
            ! .. executable statements ..
@@ -34936,7 +34717,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lopt, lwkopt, nb, nb1, nb2, nb3
-     
            ! .. intrinsic functions ..
            intrinsic :: int, max, min
            ! .. executable statements ..
@@ -35001,7 +34781,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: notran
            integer(ilp) :: itrans, j, jb, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -35053,7 +34832,6 @@ module stdlib_linalg_lapack_c
 
      subroutine stdlib_chb2st_kernels(uplo, wantz, ttype, st, ed, sweep, n, nb, ib, a, lda, v, &
                tau, ldvt, work)
-     
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35069,10 +34847,8 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i, j1, j2, lm, ln, vpos, taupos, dpos, ofdpos, ajeter
            complex(sp) :: ctmp
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, mod
-     
            ! .. executable statements ..
            ajeter = ib + ldvt
            upper = stdlib_lsame(uplo, 'u')
@@ -35225,7 +35001,6 @@ module stdlib_linalg_lapack_c
                      scale, sumsq
            logical(lk) :: up
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, int, log, max, min, real, sqrt
            ! .. statement functions ..
@@ -35279,12 +35054,12 @@ module stdlib_linalg_lapack_c
               end do
            end if
            do j = 1, n
-              s(j) = 1.0e0/s(j)
+              s(j) = 1.0_sp/s(j)
            end do
-           tol = one/sqrt(2.0e0*n)
+           tol = one/sqrt(2.0_sp*n)
            do iter = 1, max_iter
-              scale = 0.0e0
-              sumsq = 0.0e0
+              scale = zero
+              sumsq = zero
               ! beta = |a|s
               do i = 1, n
                  work(i) = zero
@@ -35307,12 +35082,12 @@ module stdlib_linalg_lapack_c
                  end do
               end if
               ! avg = s^t beta / n
-              avg = 0.0e0
+              avg = zero
               do i = 1, n
                  avg = avg + real(s(i)*work(i))
               end do
               avg = avg/n
-              std = 0.0e0
+              std = zero
               do i = n + 1, 2*n
                  work(i) = s(i - n)*work(i - n) - avg
               end do
@@ -35400,10 +35175,8 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: k
            real(sp) :: akk, bkk
            complex(sp) :: ct
-     
            ! .. intrinsic functions ..
            intrinsic :: max
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -35532,10 +35305,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: k, kb, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -35670,7 +35441,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i
            complex(sp) :: alpha, taui
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real
            ! .. executable statements ..
@@ -35773,10 +35543,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, upper
            integer(ilp) :: i, iinfo, iws, j, kk, ldwork, lwkopt, nb, nbmin, nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max
-     
            ! .. executable statements ..
            ! test the input parameters
            info = 0
@@ -35890,7 +35658,6 @@ module stdlib_linalg_lapack_c
                lwork, info)
 #if defined(_OPENMP)
 #endif
-     
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35902,7 +35669,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: ab(ldab, *), hous(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = 0.0_sp
+           real(sp), parameter :: rzero = zero
            
            ! .. local scalars ..
            logical(lk) :: lquery, wantq, upper, afters1
@@ -35912,10 +35679,8 @@ module stdlib_linalg_lapack_c
                      indv, indtau, sicev, sizetau, ldv, lhmin, lwmin
            real(sp) :: abstmp
            complex(sp) :: tmp
-     
            ! .. intrinsic functions ..
            intrinsic :: min, max, ceiling, real
-     
            ! .. executable statements ..
            ! determine the minimal workspace size required.
            ! test the input parameters
@@ -36184,16 +35949,14 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), ab(ldab, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: rone = 1.0_sp
+           real(sp), parameter :: rone = one
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper
            integer(ilp) :: i, j, iinfo, lwmin, pn, pk, lk, ldt, ldw, lds2, lds1, ls2, ls1, lw, lt, &
                      tpos, wpos, s2pos, s1pos
-     
            ! .. intrinsic functions ..
            intrinsic :: min, max
-     
            ! .. executable statements ..
            ! determine the minimal workspace size required
            ! and test the input parameters
@@ -36367,7 +36130,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, upper
            integer(ilp) :: iinfo, iws, j, k, kb, ldwork, lwkopt, nb, nbmin
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -36495,7 +36257,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, upper
            integer(ilp) :: i, iinfo, ip, iws, k, kb, ldwork, lwkopt, nb, nbmin
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max
            ! .. executable statements ..
@@ -36661,7 +36422,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, upper
            integer(ilp) :: iinfo, iws, j, k, kb, ldwork, lwkopt, nb, nbmin
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -36788,7 +36548,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, k, kp
            real(sp) :: s
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real
            ! .. executable statements ..
@@ -37019,7 +36778,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, iinfo, j, k, kp
            real(sp) :: s
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real
            ! .. executable statements ..
@@ -37187,7 +36945,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            character :: uplo
            integer(ilp) :: n, nrhs, lda, ldb, lwork, info
@@ -37198,7 +36955,6 @@ module stdlib_linalg_lapack_c
            
            logical(lk) :: lquery, upper
            integer(ilp) :: k, kp, lwkopt
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -37328,7 +37084,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, k, kp
            real(sp) :: s
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real
            ! .. executable statements ..
@@ -37566,7 +37321,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: i, i1, i1i1, ii
            complex(sp) :: alpha, taui
-     
            ! .. intrinsic functions ..
            intrinsic :: real
            ! .. executable statements ..
@@ -37671,7 +37425,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, k, kc, kp
            real(sp) :: s
            complex(sp) :: ak, akm1, akm1k, bk, bkm1, denom
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, real
            ! .. executable statements ..
@@ -37915,7 +37668,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max
            ! .. statement functions ..
@@ -37923,7 +37675,7 @@ module stdlib_linalg_lapack_c
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
            ! .. executable statements ..
-           stdlib_cla_gbrcond_c = 0.0_sp
+           stdlib_cla_gbrcond_c = zero
            info = 0
            notrans = stdlib_lsame(trans, 'n')
            if (.not. notrans .and. .not. stdlib_lsame(trans, 't') .and. .not. stdlib_lsame( &
@@ -37945,12 +37697,12 @@ module stdlib_linalg_lapack_c
               return
            end if
            ! compute norm of op(a)*op2(c).
-           anorm = 0.0_sp
+           anorm = zero
            kd = ku + 1
            ke = kl + 1
            if (notrans) then
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = max(i - kl, 1), min(i + ku, n)
                        tmp = tmp + cabs1(ab(kd + i - j, j))/c(j)
@@ -37965,7 +37717,7 @@ module stdlib_linalg_lapack_c
               end do
            else
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = max(i - kl, 1), min(i + ku, n)
                        tmp = tmp + cabs1(ab(ke - i + j, i))/c(j)
@@ -37981,13 +37733,13 @@ module stdlib_linalg_lapack_c
            end if
            ! quick return if possible.
            if (n == 0) then
-              stdlib_cla_gbrcond_c = 1.0_sp
+              stdlib_cla_gbrcond_c = one
               return
-           else if (anorm == 0.0_sp) then
+           else if (anorm == zero) then
               return
            end if
            ! estimate the norm of inv(op(a)).
-           ainvnm = 0.0_sp
+           ainvnm = zero
            kase = 0
 10      continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
@@ -38032,7 +37784,7 @@ module stdlib_linalg_lapack_c
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= 0.0_sp) stdlib_cla_gbrcond_c = 1.0_sp/ainvnm
+           if (ainvnm /= zero) stdlib_cla_gbrcond_c = one/ainvnm
            return
            ! end of stdlib_cla_gbrcond_c
      end function stdlib_cla_gbrcond_c
@@ -38061,7 +37813,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, real, aimag
            ! .. statement functions ..
@@ -38069,7 +37820,7 @@ module stdlib_linalg_lapack_c
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
            ! .. executable statements ..
-           stdlib_cla_gercond_c = 0.0_sp
+           stdlib_cla_gercond_c = zero
            info = 0
            notrans = stdlib_lsame(trans, 'n')
            if (.not. notrans .and. .not. stdlib_lsame(trans, 't') .and. .not. stdlib_lsame( &
@@ -38087,10 +37838,10 @@ module stdlib_linalg_lapack_c
               return
            end if
            ! compute norm of op(a)*op2(c).
-           anorm = 0.0_sp
+           anorm = zero
            if (notrans) then
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = 1, n
                        tmp = tmp + cabs1(a(i, j))/c(j)
@@ -38105,7 +37856,7 @@ module stdlib_linalg_lapack_c
               end do
            else
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = 1, n
                        tmp = tmp + cabs1(a(j, i))/c(j)
@@ -38121,13 +37872,13 @@ module stdlib_linalg_lapack_c
            end if
            ! quick return if possible.
            if (n == 0) then
-              stdlib_cla_gercond_c = 1.0_sp
+              stdlib_cla_gercond_c = one
               return
-           else if (anorm == 0.0_sp) then
+           else if (anorm == zero) then
               return
            end if
            ! estimate the norm of inv(op(a)).
-           ainvnm = 0.0_sp
+           ainvnm = zero
            kase = 0
 10      continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
@@ -38172,7 +37923,7 @@ module stdlib_linalg_lapack_c
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= 0.0_sp) stdlib_cla_gercond_c = 1.0_sp/ainvnm
+           if (ainvnm /= zero) stdlib_cla_gercond_c = one/ainvnm
            return
            ! end of stdlib_cla_gercond_c
      end function stdlib_cla_gercond_c
@@ -38201,7 +37952,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max
            ! .. statement functions ..
@@ -38209,7 +37959,7 @@ module stdlib_linalg_lapack_c
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
            ! .. executable statements ..
-           stdlib_cla_hercond_c = 0.0_sp
+           stdlib_cla_hercond_c = zero
            info = 0
            upper = stdlib_lsame(uplo, 'u')
            if (.not. upper .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -38228,10 +37978,10 @@ module stdlib_linalg_lapack_c
            up = .false.
            if (stdlib_lsame(uplo, 'u')) up = .true.
            ! compute norm of op(a)*op2(c).
-           anorm = 0.0_sp
+           anorm = zero
            if (up) then
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = 1, i
                        tmp = tmp + cabs1(a(j, i))/c(j)
@@ -38252,7 +38002,7 @@ module stdlib_linalg_lapack_c
               end do
            else
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = 1, i
                        tmp = tmp + cabs1(a(i, j))/c(j)
@@ -38274,13 +38024,13 @@ module stdlib_linalg_lapack_c
            end if
            ! quick return if possible.
            if (n == 0) then
-              stdlib_cla_hercond_c = 1.0_sp
+              stdlib_cla_hercond_c = one
               return
-           else if (anorm == 0.0_sp) then
+           else if (anorm == zero) then
               return
            end if
            ! estimate the norm of inv(op(a)).
-           ainvnm = 0.0_sp
+           ainvnm = zero
            kase = 0
 10      continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
@@ -38321,7 +38071,7 @@ module stdlib_linalg_lapack_c
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= 0.0_sp) stdlib_cla_hercond_c = 1.0_sp/ainvnm
+           if (ainvnm /= zero) stdlib_cla_hercond_c = one/ainvnm
            return
            ! end of stdlib_cla_hercond_c
      end function stdlib_cla_hercond_c
@@ -38350,7 +38100,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: amax, umax, rpvgrw, tmp
            logical(lk) :: upper
            complex(sp) :: zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, real, aimag, max, min
            ! .. statement functions ..
@@ -38368,9 +38117,9 @@ module stdlib_linalg_lapack_c
            else
               ncols = info
            end if
-           rpvgrw = 1.0
+           rpvgrw = one
            do i = 1, 2*n
-              work(i) = 0.0
+              work(i) = zero
            end do
            ! find the max magnitude entry of each column of a.  compute the max
            ! for all n columns so we can apply the pivot permutation while
@@ -38500,7 +38249,7 @@ module stdlib_linalg_lapack_c
               do i = ncols, n
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= 0.0) then
+                 if (umax /= zero) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -38508,7 +38257,7 @@ module stdlib_linalg_lapack_c
               do i = 1, ncols
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= 0.0) then
+                 if (umax /= zero) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -38541,7 +38290,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, real, aimag
            ! .. statement functions ..
@@ -38549,7 +38297,7 @@ module stdlib_linalg_lapack_c
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
            ! .. executable statements ..
-           stdlib_cla_porcond_c = 0.0_sp
+           stdlib_cla_porcond_c = zero
            info = 0
            upper = stdlib_lsame(uplo, 'u')
            if (.not. upper .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -38568,10 +38316,10 @@ module stdlib_linalg_lapack_c
            up = .false.
            if (stdlib_lsame(uplo, 'u')) up = .true.
            ! compute norm of op(a)*op2(c).
-           anorm = 0.0_sp
+           anorm = zero
            if (up) then
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = 1, i
                        tmp = tmp + cabs1(a(j, i))/c(j)
@@ -38592,7 +38340,7 @@ module stdlib_linalg_lapack_c
               end do
            else
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = 1, i
                        tmp = tmp + cabs1(a(i, j))/c(j)
@@ -38614,13 +38362,13 @@ module stdlib_linalg_lapack_c
            end if
            ! quick return if possible.
            if (n == 0) then
-              stdlib_cla_porcond_c = 1.0_sp
+              stdlib_cla_porcond_c = one
               return
-           else if (anorm == 0.0_sp) then
+           else if (anorm == zero) then
               return
            end if
            ! estimate the norm of inv(op(a)).
-           ainvnm = 0.0_sp
+           ainvnm = zero
            kase = 0
 10      continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
@@ -38661,7 +38409,7 @@ module stdlib_linalg_lapack_c
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= 0.0_sp) stdlib_cla_porcond_c = 1.0_sp/ainvnm
+           if (ainvnm /= zero) stdlib_cla_porcond_c = one/ainvnm
            return
            ! end of stdlib_cla_porcond_c
      end function stdlib_cla_porcond_c
@@ -38691,7 +38439,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max
            ! .. statement functions ..
@@ -38699,7 +38446,7 @@ module stdlib_linalg_lapack_c
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
            ! .. executable statements ..
-           stdlib_cla_syrcond_c = 0.0_sp
+           stdlib_cla_syrcond_c = zero
            info = 0
            upper = stdlib_lsame(uplo, 'u')
            if (.not. upper .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -38718,10 +38465,10 @@ module stdlib_linalg_lapack_c
            up = .false.
            if (stdlib_lsame(uplo, 'u')) up = .true.
            ! compute norm of op(a)*op2(c).
-           anorm = 0.0_sp
+           anorm = zero
            if (up) then
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = 1, i
                        tmp = tmp + cabs1(a(j, i))/c(j)
@@ -38742,7 +38489,7 @@ module stdlib_linalg_lapack_c
               end do
            else
               do i = 1, n
-                 tmp = 0.0_sp
+                 tmp = zero
                  if (capply) then
                     do j = 1, i
                        tmp = tmp + cabs1(a(i, j))/c(j)
@@ -38764,13 +38511,13 @@ module stdlib_linalg_lapack_c
            end if
            ! quick return if possible.
            if (n == 0) then
-              stdlib_cla_syrcond_c = 1.0_sp
+              stdlib_cla_syrcond_c = one
               return
-           else if (anorm == 0.0_sp) then
+           else if (anorm == zero) then
               return
            end if
            ! estimate the norm of inv(op(a)).
-           ainvnm = 0.0_sp
+           ainvnm = zero
            kase = 0
 10      continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
@@ -38811,7 +38558,7 @@ module stdlib_linalg_lapack_c
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= 0.0_sp) stdlib_cla_syrcond_c = 1.0_sp/ainvnm
+           if (ainvnm /= zero) stdlib_cla_syrcond_c = one/ainvnm
            return
            ! end of stdlib_cla_syrcond_c
      end function stdlib_cla_syrcond_c
@@ -38842,7 +38589,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. intrinsic functions ..
            intrinsic :: abs, real, aimag, max, min
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -38858,9 +38604,9 @@ module stdlib_linalg_lapack_c
            else
               ncols = info
            end if
-           rpvgrw = 1.0
+           rpvgrw = one
            do i = 1, 2*n
-              work(i) = 0.0
+              work(i) = zero
            end do
            ! find the max magnitude entry of each column of a.  compute the max
            ! for all n columns so we can apply the pivot permutation while
@@ -38990,7 +38736,7 @@ module stdlib_linalg_lapack_c
               do i = ncols, n
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= 0.0) then
+                 if (umax /= zero) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -38998,7 +38744,7 @@ module stdlib_linalg_lapack_c
               do i = 1, ncols
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= 0.0) then
+                 if (umax /= zero) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -39029,7 +38775,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: min
            ! .. executable statements ..
@@ -39200,7 +38945,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: coltyp, curr, i, idlmda, indx, indxc, indxp, iq, iw, iz, k, n1, n2, &
                      ptr
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -39302,14 +39046,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: b(ldb, *), h(ldh, *), v(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: tenth = 1.0e-1
+           real(sp), parameter :: tenth = 1.0e-1_sp
            
            ! .. local scalars ..
            character :: normin, trans
            integer(ilp) :: i, ierr, its, j
            real(sp) :: growto, nrmsml, rootn, rtemp, scale, vnorm
            complex(sp) :: cdum, ei, ej, temp, x
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real, sqrt
            ! .. statement functions ..
@@ -39465,7 +39208,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: a, aua11, aua12, aua21, aua22, avb11, avb12, avb21, avb22, csl, csr, d, fb, &
                      fc, s1, s2, snl, snr, ua11r, ua22r, vb11r, vb22r
            complex(sp) :: b, c, d1, r, t, ua11, ua12, ua21, ua22, vb11, vb12, vb21, vb22
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, real
            ! .. statement functions ..
@@ -39641,7 +39383,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, i1, i2, its, itmax, j, jhi, jlo, k, l, m, nh, nz, kdefl
            ! .. local arrays ..
            complex(sp) :: v(2)
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. intrinsic functions ..
@@ -39915,7 +39656,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            complex(sp) :: ei
-     
            ! .. intrinsic functions ..
            intrinsic :: min
            ! .. executable statements ..
@@ -40023,12 +39763,11 @@ module stdlib_linalg_lapack_c
            complex(sp) :: b(ldb, *), bx(ldbx, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: negone = -1.0e0
+           real(sp), parameter :: negone = -1.0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, jcol, jrow, m, n, nlp1
            real(sp) :: diflj, difrj, dj, dsigj, dsigjp, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: aimag, cmplx, max, real
            ! .. executable statements ..
@@ -40138,7 +39877,8 @@ module stdlib_linalg_lapack_c
                     call stdlib_sgemv('t', k, nrhs, one, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
                               zero, rwork(1 + k + nrhs), 1)
                     do jcol = 1, nrhs
-                       b(j, jcol) = cmplx(rwork(jcol + k), rwork(jcol + k + nrhs))
+                       b(j, jcol) = cmplx(rwork(jcol + k), rwork(jcol + k + nrhs), KIND=sp)
+                                 
                     end do
                     call stdlib_clascl('g', 0, 0, temp, one, 1, nrhs, b(j, 1), ldb, info)
                               
@@ -40201,7 +39941,8 @@ module stdlib_linalg_lapack_c
                     call stdlib_sgemv('t', k, nrhs, one, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
                               zero, rwork(1 + k + nrhs), 1)
                     do jcol = 1, nrhs
-                       bx(j, jcol) = cmplx(rwork(jcol + k), rwork(jcol + k + nrhs))
+                       bx(j, jcol) = cmplx(rwork(jcol + k), rwork(jcol + k + nrhs), KIND=sp)
+                                 
                     end do
                  end do loop_180
               end if
@@ -40259,7 +40000,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, i1, ic, im1, inode, j, jcol, jimag, jreal, jrow, lf, ll, lvl, lvl2, &
                      nd, ndb1, ndiml, ndimr, nl, nlf, nlp1, nlvl, nr, nrf, nrp1, sqre
-     
            ! .. intrinsic functions ..
            intrinsic :: aimag, cmplx, real
            ! .. executable statements ..
@@ -40342,7 +40082,7 @@ module stdlib_linalg_lapack_c
                  do jrow = nlf, nlf + nl - 1
                     jreal = jreal + 1
                     jimag = jimag + 1
-                    bx(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag))
+                    bx(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag), KIND=sp)
                  end do
               end do
               ! since b and bx are complex, the following call to stdlib_sgemm
@@ -40373,7 +40113,7 @@ module stdlib_linalg_lapack_c
                  do jrow = nrf, nrf + nr - 1
                     jreal = jreal + 1
                     jimag = jimag + 1
-                    bx(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag))
+                    bx(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag), KIND=sp)
                  end do
               end do
            end do loop_130
@@ -40493,7 +40233,7 @@ module stdlib_linalg_lapack_c
                  do jrow = nlf, nlf + nlp1 - 1
                     jreal = jreal + 1
                     jimag = jimag + 1
-                    bx(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag))
+                    bx(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag), KIND=sp)
                  end do
               end do
               ! since b and bx are complex, the following call to stdlib_sgemm is
@@ -40524,7 +40264,7 @@ module stdlib_linalg_lapack_c
                  do jrow = nrf, nrf + nrp1 - 1
                     jreal = jreal + 1
                     jimag = jimag + 1
-                    bx(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag))
+                    bx(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag), KIND=sp)
                  end do
               end do
            end do loop_320
@@ -40568,7 +40308,6 @@ module stdlib_linalg_lapack_c
            irwb, irwib, irwrb, irwu, irwvt, irwwrk, iwk, j, jcol, jimag, jreal, jrow, k, nlvl, nm1, &
                      nrwork, nsize, nsub, perm, poles, s, sizei, smlszp, sqre, st, st1, u, vt, z
            real(sp) :: cs, eps, orgnrm, r, rcnd, sn, tol
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, int, log, real, sign
            ! .. executable statements ..
@@ -40682,7 +40421,7 @@ module stdlib_linalg_lapack_c
                  do jrow = 1, n
                     jreal = jreal + 1
                     jimag = jimag + 1
-                    b(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag))
+                    b(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag), KIND=sp)
                  end do
               end do
               tol = rcnd*abs(d(stdlib_isamax(n, d, 1)))
@@ -40724,7 +40463,7 @@ module stdlib_linalg_lapack_c
                  do jrow = 1, n
                     jreal = jreal + 1
                     jimag = jimag + 1
-                    b(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag))
+                    b(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag), KIND=sp)
                  end do
               end do
               ! unscale.
@@ -40833,7 +40572,7 @@ module stdlib_linalg_lapack_c
                        do jrow = st, st + nsize - 1
                           jreal = jreal + 1
                           jimag = jimag + 1
-                          b(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag))
+                          b(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag), KIND=sp)
                        end do
                     end do
                     call stdlib_clacpy('a', nsize, nrhs, b(st, 1), ldb, work(bx + st1), n)
@@ -40918,7 +40657,7 @@ module stdlib_linalg_lapack_c
                     do jrow = st, st + nsize - 1
                        jreal = jreal + 1
                        jimag = jimag + 1
-                       b(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag))
+                       b(jrow, jcol) = cmplx(rwork(jreal), rwork(jimag), KIND=sp)
                     end do
                  end do
               else
@@ -40959,7 +40698,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j, k, l
            real(sp) :: scale, sum, value, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, sqrt
            ! .. executable statements ..
@@ -41036,7 +40774,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: scale, sum, value, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, min, sqrt
            ! .. executable statements ..
@@ -41109,7 +40846,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            real(sp) :: anorm, scale, sum, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, sqrt
            ! .. executable statements ..
@@ -41188,7 +40924,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j, l
            real(sp) :: absa, scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, real, sqrt
            ! .. executable statements ..
@@ -41309,7 +41044,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: absa, scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, real, sqrt
            ! .. executable statements ..
@@ -41421,7 +41155,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j, ifm, ilu, noe, n1, k, l, lda
            real(sp) :: scale, s, value, aa, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, real, sqrt
            ! .. executable statements ..
@@ -42643,7 +42376,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j, k
            real(sp) :: absa, scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, real, sqrt
            ! .. executable statements ..
@@ -42773,7 +42505,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, min, sqrt
            ! .. executable statements ..
@@ -42847,7 +42578,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i
            real(sp) :: anorm, scale, sum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, sqrt
            ! .. executable statements ..
@@ -42912,7 +42642,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j, l
            real(sp) :: absa, scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, sqrt
            ! .. executable statements ..
@@ -43019,7 +42748,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j, k
            real(sp) :: absa, scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, real, sqrt
            ! .. executable statements ..
@@ -43154,7 +42882,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: i, j
            real(sp) :: absa, scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, sqrt
            ! .. executable statements ..
@@ -43253,7 +42980,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: udiag
            integer(ilp) :: i, j, l
            real(sp) :: scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, sqrt
            ! .. executable statements ..
@@ -43448,7 +43174,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: udiag
            integer(ilp) :: i, j, k
            real(sp) :: scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, sqrt
            ! .. executable statements ..
@@ -43656,7 +43381,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: udiag
            integer(ilp) :: i, j
            real(sp) :: scale, sum, value
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, min, sqrt
            ! .. executable statements ..
@@ -43847,7 +43571,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a11, a12, a22, c, tau
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg
-     
            ! .. executable statements ..
            ! quick return if possible
            if (n <= 1) then
@@ -43889,10 +43612,8 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, itemp, j, mn, offpi, pvt
            real(sp) :: temp, temp2, tol3z
            complex(sp) :: aii
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, min, sqrt
-     
            ! .. executable statements ..
            mn = min(m - offset, n)
            tol3z = sqrt(stdlib_slamch('epsilon'))
@@ -43976,10 +43697,8 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: itemp, j, k, lastrk, lsticc, pvt, rk
            real(sp) :: temp, temp2, tol3z
            complex(sp) :: akk
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, min, nint, real, sqrt
-     
            ! .. executable statements ..
            lastrk = min(m, n + offset)
            lsticc = 0
@@ -44098,7 +43817,6 @@ module stdlib_linalg_lapack_c
 
      subroutine stdlib_claqr5(wantt, wantz, kacc22, n, ktop, kbot, nshfts, s, h, ldh, iloz, ihiz, &
                z, ldz, v, ldv, u, ldu, nv, wv, ldwv, nh, wh, ldwh)
-     
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -44120,12 +43838,10 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i2, i4, incol, j, jbot, jcol, jlen, jrow, jtop, k, k1, kdu, kms, krcol, &
                      m, m22, mbot, mtop, nbmps, ndcol, ns, nu
            logical(lk) :: accum, bmp22
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, conjg, max, min, mod, real
            ! .. local arrays ..
            complex(sp) :: vt(3)
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -44498,7 +44214,6 @@ module stdlib_linalg_lapack_c
 
      subroutine stdlib_claqz1(ilq, ilz, k, istartm, istopm, ihi, a, lda, b, ldb, nq, qstart, q, &
                ldq, nz, zstart, z, ldz)
-     
            ! arguments
            logical(lk), intent(in) :: ilq, ilz
            integer(ilp), intent(in) :: k, lda, ldb, ldq, ldz, istartm, istopm, nq, nz, qstart, &
@@ -44508,7 +44223,6 @@ module stdlib_linalg_lapack_c
            ! local variables
            real(sp) :: c
            complex(sp) :: s, temp
-     
            if (k + 1 == ihi) then
               ! shift is located on the edge of the matrix, remove it
               call stdlib_clartg(b(ihi, ihi), b(ihi, ihi - 1), c, s, temp)
@@ -44554,7 +44268,6 @@ module stdlib_linalg_lapack_c
 
      subroutine stdlib_claqz3(ilschur, ilq, ilz, n, ilo, ihi, nshifts, nblock_desired, alpha, &
                beta, a, lda, b, ldb, q, ldq, z, ldz, qc, ldqc, zc, ldzc, work, lwork, info)
-     
            ! function arguments
            logical(lk), intent(in) :: ilschur, ilq, ilz
            integer(ilp), intent(in) :: n, ilo, ihi, lda, ldb, ldq, ldz, lwork, nshifts, &
@@ -44568,7 +44281,6 @@ module stdlib_linalg_lapack_c
                      ishift, nblock, npos
            real(sp) :: safmin, safmax, c, scale
            complex(sp) :: temp, temp2, temp3, s
-     
            info = 0
            if (nblock_desired < nshifts + 1) then
               info = -8
@@ -44818,7 +44530,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: count, i, ic, ix, iy, j
            real(sp) :: cs, d, di, dr, eps, f2, f2s, g2, g2s, safmin, safmn2, safmx2, scale
            complex(sp) :: f, ff, fs, g, gs, r, sn
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, int, log, max, real, sqrt
            ! .. statement functions ..
@@ -44881,7 +44592,7 @@ module stdlib_linalg_lapack_c
                     ! do complex/real division explicitly with two real
                     ! divisions
                     d = stdlib_slapy2(real(gs), aimag(gs))
-                    sn = cmplx(real(gs)/d, -aimag(gs)/d)
+                    sn = cmplx(real(gs)/d, -aimag(gs)/d, KIND=sp)
                     go to 50
                  end if
                  f2s = stdlib_slapy2(real(fs), aimag(fs))
@@ -44900,14 +44611,14 @@ module stdlib_linalg_lapack_c
                  ! do complex/real division explicitly with 2 real divisions
                  if (abs1(f) > one) then
                     d = stdlib_slapy2(real(f), aimag(f))
-                    ff = cmplx(real(f)/d, aimag(f)/d)
+                    ff = cmplx(real(f)/d, aimag(f)/d, KIND=sp)
                  else
                     dr = safmx2*real(f)
                     di = safmx2*aimag(f)
                     d = stdlib_slapy2(dr, di)
                     ff = cmplx(dr/d, di/d, KIND=sp)
                  end if
-                 sn = ff*cmplx(real(gs)/g2s, -aimag(gs)/g2s)
+                 sn = ff*cmplx(real(gs)/g2s, -aimag(gs)/g2s, KIND=sp)
                  r = cs*f + sn*g
               else
                  ! this is the most common case.
@@ -44916,11 +44627,11 @@ module stdlib_linalg_lapack_c
                  f2s = sqrt(one + g2/f2)
                  ! do the f2s(real)*fs(complex) multiply with two real
                  ! multiplies
-                 r = cmplx(f2s*real(fs), f2s*aimag(fs))
+                 r = cmplx(f2s*real(fs), f2s*aimag(fs), KIND=sp)
                  cs = one/f2s
                  d = f2 + g2
                  ! do complex/real division explicitly with two real divisions
-                 sn = cmplx(real(r)/d, aimag(r)/d)
+                 sn = cmplx(real(r)/d, aimag(r)/d, KIND=sp)
                  sn = sn*conjg(gs)
                  if (count /= 0) then
                     if (count > 0) then
@@ -44977,7 +44688,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: bstres, bstw, eps, fudge, gap, gaptol, gl, gu, lambda, left, lgap, mingma, &
            nrminv, resid, rgap, right, rqcorr, rqtol, savgap, sgndef, sigma, spdiam, ssigma, tau, &
                      tmp, tol, ztz
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, real, max, min
            intrinsic :: cmplx
@@ -45621,7 +45331,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            real(sp) :: rwork(maxdim)
            complex(sp) :: work(4*maxdim), xm(maxdim), xp(maxdim)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, real, sqrt
            ! .. executable statements ..
@@ -45740,7 +45449,6 @@ module stdlib_linalg_lapack_c
      ! vol. 85, pp. 3-31, 2015.
 
      subroutine stdlib_claunhr_col_getrfnp(m, n, a, lda, d, info)
-     
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -45752,7 +45460,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: iinfo, j, jb, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -45828,7 +45535,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, real
            ! .. statement functions ..
@@ -45930,10 +45636,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, min, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -46122,7 +45826,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, i2, i3, ib, ii, j, jj, nb
            ! .. local arrays ..
            complex(sp) :: work(ldwork, nbmax)
-     
            ! .. intrinsic functions ..
            intrinsic :: min
            ! .. executable statements ..
@@ -46313,7 +46016,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            logical(lk) :: lower, normaltransr
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -46377,7 +46079,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
            ! .. statement functions ..
@@ -46476,10 +46177,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -46660,7 +46359,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j, jb, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -46747,7 +46445,6 @@ module stdlib_linalg_lapack_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -46803,7 +46500,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, real
            ! .. statement functions ..
@@ -46900,10 +46596,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -47086,7 +46780,6 @@ module stdlib_linalg_lapack_c
            ! .. array arguments ..
            complex(sp) :: ap(*), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -47141,7 +46834,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: equil, nofact, rcequ
            integer(ilp) :: i, infequ, j
            real(sp) :: amax, anorm, bignum, scond, smax, smin, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -47272,7 +46964,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper
            integer(ilp) :: j, jc, jj, jjn
            real(sp) :: ajj
-     
            ! .. intrinsic functions ..
            intrinsic :: real
            ! .. executable statements ..
@@ -47347,7 +47038,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: ajj, sstop, stemp
            integer(ilp) :: i, itemp, j, jb, k, nb, pvt
            logical(lk) :: upper
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min, real, sqrt, maxloc
            ! .. executable statements ..
@@ -47659,7 +47349,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: iuplo, j, jb, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -47730,7 +47419,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: ainvnm
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -47813,10 +47501,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -48001,7 +47687,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: ipiv(*)
            complex(sp) :: ap(*), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -48055,7 +47740,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: nofact
            real(sp) :: anorm
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -48183,7 +47867,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: z(ldz, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: minrgp = 3.0e-3
+           real(sp), parameter :: minrgp = 3.0e-3_sp
            
            ! .. local scalars ..
            logical(lk) :: alleig, indeig, lquery, valeig, wantz, zquery
@@ -48192,7 +47876,6 @@ module stdlib_linalg_lapack_c
                        lwmin, nsplit, nzcmin, offset, wbegin, wend
            real(sp) :: bignum, cs, eps, pivmin, r1, r2, rmax, rmin, rtol1, rtol2, safmin, scale, &
                      smlnum, sn, thresh, tmp, tnrm, wl, wu
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, sqrt
            ! .. executable statements ..
@@ -48428,8 +48111,8 @@ module stdlib_linalg_lapack_c
                  ! stdlib_clarrv will refine the eigenvalue approximations, and we only
                  ! need less accurate initial bisection in stdlib_slarre.
                  ! note: these settings do only affect the subset case and stdlib_slarre
-                 rtol1 = max(sqrt(eps)*5.0e-2, four*eps)
-                 rtol2 = max(sqrt(eps)*5.0e-3, four*eps)
+                 rtol1 = max(sqrt(eps)*5.0e-2_sp, four*eps)
+                 rtol2 = max(sqrt(eps)*5.0e-3_sp, four*eps)
               end if
               call stdlib_slarre(range, n, wl, wu, iil, iiu, d, e, work(inde2), rtol1, rtol2, &
               thresh, nsplit, iwork(iinspl), m, w, work(inderr), work(indgp), iwork(iindbl), &
@@ -48566,7 +48249,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: ainvnm
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -48646,7 +48328,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: ainvnm
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -48728,10 +48409,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -48916,7 +48595,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lwkopt
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -48998,7 +48676,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lwkopt
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -49075,7 +48752,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lwkopt
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -49148,7 +48824,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery, nofact
            integer(ilp) :: lwkopt, nb
            real(sp) :: anorm
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -49247,7 +48922,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
            ! .. statement functions ..
@@ -49345,7 +49019,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
            integer(ilp) :: n1, n2, k
-     
            ! .. intrinsic functions ..
            intrinsic :: mod
            ! .. executable statements ..
@@ -49597,10 +49270,8 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, j, kcycle
            real(sp) :: a1, a3, b1, b3, csq, csu, csv, error, gamma, rwk, ssmin
            complex(sp) :: a2, b2, snq, snu, snv
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, min, real, huge
-     
            ! .. executable statements ..
            ! decode and test the input parameters
            initu = stdlib_lsame(jobu, 'i')
@@ -49810,7 +49481,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            integer(ilp) :: ipiv(ldz), jpiv(ldz)
            complex(sp) :: rhs(ldz), z(ldz, ldz)
-     
            ! .. intrinsic functions ..
            intrinsic :: cmplx, conjg, max
            ! .. executable statements ..
@@ -49999,7 +49669,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, ie, ifunc, iround, is, isolve, j, je, js, k, linfo, lwmin, mb, nb, p, &
                       pq, q
            real(sp) :: dscale, dsum, scale2, scaloc
-     
            ! .. intrinsic functions ..
            intrinsic :: cmplx, max, real, sqrt
            ! .. executable statements ..
@@ -50326,7 +49995,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
            ! .. statement functions ..
@@ -50418,7 +50086,6 @@ module stdlib_linalg_lapack_c
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i, ib, lb, nb, iinfo
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -50482,7 +50149,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran
            integer(ilp) :: i, ib, nb, lb, kf, ldaq
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -50599,7 +50265,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran
            integer(ilp) :: i, ib, mb, lb, kf, ldaq, ldvq
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -50716,7 +50381,6 @@ module stdlib_linalg_lapack_c
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i, ib, lb, mb, iinfo
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -50790,7 +50454,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
            ! .. statement functions ..
@@ -50896,7 +50559,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a11, suml, sumr, vec, x11
            ! .. local arrays ..
            real(sp) :: dum(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, min, real
            ! .. executable statements ..
@@ -51115,10 +50777,8 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iws, ki, kk, ldwork, lwkmin, lwkopt, m1, mu, nb, nbmin, &
                      nx
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -51237,7 +50897,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: childinfo, i, j
-     
            ! .. intrinsic function ..
            intrinsic :: max
            ! .. executable statements ..
@@ -51352,7 +51011,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: colmajor, defaultsigns, lquery, wantu1, wantu2, wantv1t, wantv2t
            integer(ilp) :: lrworkmin, lrworkopt
            logical(lk) :: lrquery
-     
            ! .. intrinsic functions
            intrinsic :: int, max, min
            ! .. executable statements ..
@@ -51616,7 +51274,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, iinfo, j, lwkopt, nb, nh
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -51707,7 +51364,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, upper
            integer(ilp) :: i, iinfo, j, lwkopt, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -51798,7 +51454,6 @@ module stdlib_linalg_lapack_c
      ! (same output format as CGEQRT).
 
      subroutine stdlib_cunhr_col(m, n, nb, a, lda, t, ldt, d, info)
-     
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51810,7 +51465,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, iinfo, j, jb, jbtemp1, jbtemp2, jnb, nplusone
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -51948,7 +51602,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, lquery
            integer(ilp) :: i1, i2, iinfo, lwkopt, mi, nb, nh, ni, nq, nw
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -52047,7 +51700,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, lquery, upper
            integer(ilp) :: i1, i2, iinfo, lwkopt, mi, nb, ni, nq, nw
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -52162,7 +51814,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i, iinfo, ij, j
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -52255,7 +51906,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: forwrd, left, notran, upper
            integer(ilp) :: i, i1, i2, i3, ic, ii, jc, mi, ni, nq
            complex(sp) :: aii, taui
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max
            ! .. executable statements ..
@@ -52409,10 +52059,8 @@ module stdlib_linalg_lapack_c
                      mu0, nr, nrt
            real(sp) :: abst, rc
            complex(sp) :: ra, rb, rs, t
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, min
-     
            ! .. executable statements ..
            ! test the input parameters
            wantb = stdlib_lsame(vect, 'b')
@@ -52691,10 +52339,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, min, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -52884,7 +52530,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: ipiv(*)
            complex(sp) :: ab(ldab, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -52949,7 +52594,6 @@ module stdlib_linalg_lapack_c
            character :: norm
            integer(ilp) :: i, infequ, j, j1, j2
            real(sp) :: amax, anorm, bignum, colcnd, rcmax, rcmin, rowcnd, rpvgrw, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min
            ! .. executable statements ..
@@ -53162,10 +52806,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, iinfo, j, ldwrkx, ldwrky, lwkopt, minmn, nb, nbmin, nx, ws
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real
-     
            ! .. executable statements ..
            ! test the input parameters
            info = 0
@@ -53273,10 +52915,8 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery
            integer(ilp) :: i, ib, iinfo, iwt, j, ldwork, lwkopt, nb, nbmin, nh, nx
            complex(sp) :: ei
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
-     
            ! .. executable statements ..
            ! test the input parameters
            info = 0
@@ -53397,7 +53037,6 @@ module stdlib_linalg_lapack_c
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i, ib, iinfo, k
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -53470,7 +53109,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: anrm, bignum, bnrm, smlnum
            ! .. local arrays ..
            real(sp) :: rwork(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real
            ! .. executable statements ..
@@ -53678,7 +53316,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery
            integer(ilp) :: fjb, iws, j, jb, lwkopt, minmn, minws, na, nb, nbmin, nfxd, nx, sm, &
                      sminmn, sn, topbmn
-     
            ! .. intrinsic functions ..
            intrinsic :: int, max, min
            ! .. executable statements ..
@@ -53892,7 +53529,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
            ! .. statement functions ..
@@ -54078,7 +53714,6 @@ module stdlib_linalg_lapack_c
            
            ! .. local scalars ..
            integer(ilp) :: i, iinfo, j, jb, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -54167,7 +53802,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, lopt, lwkmin, lwkopt, nb, nb1, nb2, nb3, nb4, np
-     
            ! .. intrinsic functions ..
            intrinsic :: int, max, min
            ! .. executable statements ..
@@ -54302,7 +53936,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            character :: compq, compz
            integer(ilp) :: ihi, ilo, info, lda, ldb, ldq, ldz, n, lwork
@@ -54317,7 +53950,6 @@ module stdlib_linalg_lapack_c
                      nblst, nbmin, nh, nnb, nx, ppw, ppwo, pw, top, topq
            real(sp) :: c
            complex(sp) :: c1, c2, ctemp, s, s1, s2, temp, temp1, temp2, temp3
-     
            ! .. intrinsic functions ..
            intrinsic :: real, cmplx, conjg, max
            ! .. executable statements ..
@@ -54829,7 +54461,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lopt, lwkmin, lwkopt, mn, nb, nb1, nb2, nb3, nb4, nr
-     
            ! .. intrinsic functions ..
            intrinsic :: int, max, min
            ! .. executable statements ..
@@ -54960,7 +54591,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: ainvnm
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: cmplx
            ! .. executable statements ..
@@ -55046,10 +54676,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -55248,7 +54876,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: nofact, notran
            character :: norm
            real(sp) :: anorm
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -55336,7 +54963,6 @@ module stdlib_linalg_lapack_c
                      nrt, nx
            real(sp) :: bii
            complex(sp) :: ra, ra1, t
-     
            ! .. intrinsic functions ..
            intrinsic :: conjg, max, min, real
            ! .. executable statements ..
@@ -56261,10 +55887,8 @@ module stdlib_linalg_lapack_c
                      jend, jin, jinc, k, kd1, kdm1, kdn, l, last, lend, nq, nr, nrt
            real(sp) :: abst
            complex(sp) :: t, temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, min, real
-     
            ! .. executable statements ..
            ! test the input parameters
            initq = stdlib_lsame(vect, 'v')
@@ -56628,7 +56252,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: ainvnm
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -56708,7 +56331,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: ainvnm
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -56782,7 +56404,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lower, lquery, wantz
            integer(ilp) :: iinfo, imax, inde, indtau, indwrk, iscale, llwork, lwkopt, nb
            real(sp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
            ! .. executable statements ..
@@ -56947,7 +56568,6 @@ module stdlib_linalg_lapack_c
                      llrwork, llwrkn, lrwmin, lwkopt, lwmin, nb, nsplit
            real(sp) :: abstll, anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, vll, &
                      vuu
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real, sqrt
            ! .. executable statements ..
@@ -57239,7 +56859,6 @@ module stdlib_linalg_lapack_c
                      indtau, indwrk, iscale, itmp1, j, jj, llwork, lwkmin, lwkopt, nb, nsplit
            real(sp) :: abstll, anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, vll, &
                      vuu
-     
            ! .. intrinsic functions ..
            intrinsic :: real, max, min, sqrt
            ! .. executable statements ..
@@ -57481,7 +57100,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery, upper, wantz
            character :: trans
            integer(ilp) :: lwkopt, nb, neig
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -57585,7 +57203,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: alleig, indeig, lquery, upper, valeig, wantz
            character :: trans
            integer(ilp) :: lwkopt, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -57714,10 +57331,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -57902,7 +57517,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lwkopt, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -57984,7 +57598,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lwkopt
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -58061,7 +57674,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lwkopt, nb
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -58134,7 +57746,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery, nofact
            integer(ilp) :: lwkopt, nb
            real(sp) :: anorm
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -58260,7 +57871,6 @@ module stdlib_linalg_lapack_c
                      tempr, ulp
            complex(sp) :: abi22, ad11, ad12, ad21, ad22, ctemp, ctemp2, ctemp3, eshift, s, shift, &
                      signbc, u12, x, abi12, y
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, min, real, sqrt
            ! .. statement functions ..
@@ -58566,7 +58176,7 @@ module stdlib_linalg_lapack_c
               ! t(ifirst:ilast,ifirst,ilast) are larger than btol (in
               ! magnitude)
               if ((iiter/10)*10 /= iiter) then
-                 ! the wilkinson shift (aep p.512), i.e., the eigenvalue of
+                 ! the wilkinson shift (aep p.512_sp), i.e., the eigenvalue of
                  ! the bottom-right 2x2 block of a inv(b) which is nearest to
                  ! the bottom-right element.
                  ! we factor b as u*d, where u has unit diagonals, and
@@ -58728,7 +58338,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: ainvnm
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -58802,7 +58411,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: wantz
            integer(ilp) :: iinfo, imax, inde, indrwk, indtau, indwrk, iscale
            real(sp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: sqrt
            ! .. executable statements ..
@@ -58907,7 +58515,6 @@ module stdlib_linalg_lapack_c
                      indtau, indwrk, iscale, itmp1, j, jj, nsplit
            real(sp) :: abstll, anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, vll, &
                      vuu
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real, sqrt
            ! .. executable statements ..
@@ -59117,7 +58724,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper, wantz
            character :: trans
            integer(ilp) :: j, neig
-     
            ! .. executable statements ..
            ! test the input parameters.
            wantz = stdlib_lsame(jobz, 'v')
@@ -59207,7 +58813,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: alleig, indeig, upper, valeig, wantz
            character :: trans
            integer(ilp) :: j
-     
            ! .. intrinsic functions ..
            intrinsic :: min
            ! .. executable statements ..
@@ -59321,10 +58926,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: zdum
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
-     
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
@@ -59509,7 +59112,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: ipiv(*)
            complex(sp) :: ap(*), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -59563,7 +59165,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: nofact
            real(sp) :: anorm
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -59637,14 +59238,13 @@ module stdlib_linalg_lapack_c
            complex(sp) :: h(ldh, *), vl(ldvl, *), vr(ldvr, *), w(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = 0.0_sp
+           real(sp), parameter :: rzero = zero
            
            ! .. local scalars ..
            logical(lk) :: bothv, fromqr, leftv, noinit, rightv
            integer(ilp) :: i, iinfo, k, kl, kln, kr, ks, ldwork
            real(sp) :: eps3, hnorm, smlnum, ulp, unfl
            complex(sp) :: cdum, wk
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real
            ! .. statement functions ..
@@ -59810,7 +59410,6 @@ module stdlib_linalg_lapack_c
            iq, iqptr, iwrem, j, k, lgn, ll, matsiz, msd2, smlsiz, smm1, spm1, spm2, submat, subpbs, &
                      tlvls
            real(sp) :: temp
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, int, log, max, real
            ! .. executable statements ..
@@ -59985,9 +59584,7 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran, lquery
            integer(ilp) :: i, ii, kk, lw, ctr
-     
            ! .. external subroutines ..
-     
            ! .. executable statements ..
            ! test the input arguments
            lquery = lwork < 0
@@ -60143,9 +59740,7 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran, lquery
            integer(ilp) :: i, ii, kk, lw, ctr, q
-     
            ! .. external subroutines ..
-     
            ! .. executable statements ..
            ! test the input arguments
            lquery = lwork < 0
@@ -60317,7 +59912,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: foo, safmax, safmin, smlnum, ulp
            integer(ilp) :: i, ifst, ilst, info, infqr, j, jw, kcol, kln, knt, krow, kwtop, ltop, &
                      lwk1, lwk2, lwkopt
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, int, max, min, real
            ! .. statement functions ..
@@ -60520,11 +60114,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, ii, kk, ctr
-     
            ! .. external subroutines ..
-     
            intrinsic :: max, min, mod
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -60607,9 +60198,7 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i, ii, kk, ctr
-     
            ! .. external subroutines ..
-     
            intrinsic :: max, min, mod
            ! .. executable statements ..
            ! test the input arguments
@@ -60691,7 +60280,6 @@ module stdlib_linalg_lapack_c
            ! .. array arguments ..
            complex(sp) :: ab(ldab, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -60751,7 +60339,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: equil, nofact, rcequ, upper
            integer(ilp) :: i, infequ, j, j1, j2
            real(sp) :: amax, anorm, bignum, scond, smax, smin, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -60902,7 +60489,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
            integer(ilp) :: n1, n2, k
-     
            ! .. intrinsic functions ..
            intrinsic :: mod
            ! .. executable statements ..
@@ -61074,7 +60660,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lower, nisodd, normaltransr
            integer(ilp) :: n1, n2, k
-     
            ! .. intrinsic functions ..
            intrinsic :: mod
            ! .. executable statements ..
@@ -61236,7 +60821,6 @@ module stdlib_linalg_lapack_c
            ! .. array arguments ..
            complex(sp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -61293,7 +60877,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: equil, nofact, rcequ
            integer(ilp) :: i, infequ, j
            real(sp) :: amax, anorm, bignum, scond, smax, smin, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -61434,7 +61017,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: count, i, ix, j, nz
            real(sp) :: eps, lstres, s, safe1, safe2, safmin
            complex(sp) :: bi, cx, dx, ex, zdum
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, max, real
            ! .. statement functions ..
@@ -61637,7 +61219,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: d(*)
            complex(sp) :: b(ldb, *), e(*)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -61688,7 +61269,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: nofact
            real(sp) :: anorm
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -61769,7 +61349,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: finish, i, icompz, ii, j, k, lgn, liwmin, ll, lrwmin, lwmin, m, smlsiz, &
                      start
            real(sp) :: eps, orgnrm, p, tiny
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, int, log, max, mod, real, sqrt
            ! .. executable statements ..
@@ -61984,7 +61563,6 @@ module stdlib_linalg_lapack_c
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: tryrac
-     
            ! .. executable statements ..
            info = 0
            tryrac = .false.
@@ -62038,7 +61616,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: temp1, temp2
            ! .. local arrays ..
            integer(ilp) :: isave(3)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, cmplx, conjg, max, sqrt
            ! .. executable statements ..
@@ -62301,7 +61878,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: yhax, yhbx
            ! .. local arrays ..
            complex(sp) :: dummy(1), dummy1(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, cmplx, max
            ! .. executable statements ..
@@ -62457,7 +62033,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            integer(ilp) :: isave(3)
            real(sp) :: rwork(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
            ! .. executable statements ..
@@ -62597,7 +62172,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: c, s
            integer(ilp) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5, lworkmin, lworkopt
            logical(lk) :: lquery
-     
            ! .. intrinsic function ..
            intrinsic :: atan2, cos, max, sin, sqrt
            ! .. executable statements ..
@@ -62697,13 +62271,12 @@ module stdlib_linalg_lapack_c
            complex(sp) :: taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, *)
         ! ====================================================================
            ! .. parameters ..
-           complex(sp), parameter :: negone = (-1.0e0, 0.0e0)
+           complex(sp), parameter :: negone = (-1.0_sp, 0.0_sp)
            
            ! .. local scalars ..
            real(sp) :: c, s
            integer(ilp) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5, lworkmin, lworkopt
            logical(lk) :: lquery
-     
            ! .. intrinsic function ..
            intrinsic :: atan2, cos, max, sin, sqrt
            ! .. executable statements ..
@@ -62817,7 +62390,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: c, s
            integer(ilp) :: childinfo, i, ilarf, iorbdb5, llarf, lorbdb5, lworkmin, lworkopt
            logical(lk) :: lquery
-     
            ! .. intrinsic function ..
            intrinsic :: atan2, cos, max, sin, sqrt
            ! .. executable statements ..
@@ -62927,14 +62499,13 @@ module stdlib_linalg_lapack_c
                      ldx21, *)
         ! ====================================================================
            ! .. parameters ..
-           complex(sp), parameter :: negone = (-1.0e0, 0.0e0)
+           complex(sp), parameter :: negone = (-1.0_sp, 0.0_sp)
            
            ! .. local scalars ..
            real(sp) :: c, s
            integer(ilp) :: childinfo, i, ilarf, iorbdb5, j, llarf, lorbdb5, lworkmin, &
                      lworkopt
            logical(lk) :: lquery
-     
            ! .. intrinsic function ..
            intrinsic :: atan2, cos, max, sin, sqrt
            ! .. executable statements ..
@@ -63090,7 +62661,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            real(sp) :: dum(1)
            complex(sp) :: cdum(1, 1)
-     
            ! .. intrinsic function ..
            intrinsic :: int, max, min
            ! .. executable statements ..
@@ -63516,7 +63086,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, wantq
            integer(ilp) :: i, iinfo, j, lwkopt, mn
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -63640,7 +63209,6 @@ module stdlib_linalg_lapack_c
      ! See the documentation for CLATSQR.
 
      subroutine stdlib_cungtsqr(m, n, mb, nb, a, lda, t, ldt, work, lwork, info)
-     
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -63653,7 +63221,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: iinfo, ldc, lworkopt, lc, lw, nblocal, j
-     
            ! .. intrinsic functions ..
            intrinsic :: cmplx, max, min
            ! .. executable statements ..
@@ -63769,7 +63336,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: applyq, left, lquery, notran
            character :: transt
            integer(ilp) :: i1, i2, iinfo, lwkopt, mi, nb, ni, nq, nw
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -63914,10 +63480,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, lminws, mint, minw
            integer(ilp) :: mb, nb, mintsz, nblcks, lwmin, lwopt, lwreq
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, mod
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -64066,7 +63630,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: iascl, ibscl, ie, il, itau, itaup, itauq, ldwork, liwork, lrwork, maxmn, &
                       maxwrk, minmn, minwrk, mm, mnthr, nlvl, nrwork, nwork, smlsiz
            real(sp) :: anrm, bignum, bnrm, eps, sfmin, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: int, log, max, min, real
            ! .. executable statements ..
@@ -64394,7 +63957,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: anrm, bignum, bnrm, eps, sfmin, smlnum, thr
            ! .. local arrays ..
            complex(sp) :: dum(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -64872,7 +64434,6 @@ module stdlib_linalg_lapack_c
                      nb4
            real(sp) :: anrm, bignum, bnrm, smax, smaxpr, smin, sminpr, smlnum, wsize
            complex(sp) :: c1, c2, s1, s2
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, real, cmplx
            ! .. executable statements ..
@@ -65061,7 +64622,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran, lquery
            integer(ilp) :: mb, nb, lw, nblcks, mn
-     
            ! .. intrinsic functions ..
            intrinsic :: int, max, min, mod
            ! .. executable statements ..
@@ -65157,7 +64717,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: left, right, tran, notran, lquery
            integer(ilp) :: mb, nb, lw, nblcks, mn
-     
            ! .. intrinsic functions ..
            intrinsic :: int, max, min, mod
            ! .. executable statements ..
@@ -65251,10 +64810,8 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery, lminws, mint, minw
            integer(ilp) :: mb, nb, mintsz, nblcks
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, mod
-     
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -65367,7 +64924,6 @@ module stdlib_linalg_lapack_c
 
      subroutine stdlib_cgesdd(jobz, m, n, a, lda, s, u, ldu, vt, ldvt, work, lwork, rwork, iwork, &
                info)
-     
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -65395,15 +64951,14 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: idum(1)
            real(sp) :: dum(1)
            complex(sp) :: cdum(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: int, max, min, sqrt
            ! .. executable statements ..
            ! test the input arguments
            info = 0
            minmn = min(m, n)
-           mnthr1 = int(minmn*17.0e0/9.0e0, KIND=ilp)
-           mnthr2 = int(minmn*5.0e0/3.0e0, KIND=ilp)
+           mnthr1 = int(minmn*17.0_sp/9.0_sp, KIND=ilp)
+           mnthr2 = int(minmn*5.0_sp/3.0_sp, KIND=ilp)
            wntqa = stdlib_lsame(jobz, 'a')
            wntqs = stdlib_lsame(jobz, 's')
            wntqas = wntqa .or. wntqs
@@ -66862,7 +66417,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: ipiv(*)
            complex(sp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -66927,7 +66481,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            real(sp) :: dum(1)
            complex(sp) :: cdum(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, sqrt
            ! .. executable statements ..
@@ -69349,7 +68902,6 @@ module stdlib_linalg_lapack_c
      subroutine stdlib_cgesvdq(joba, jobp, jobr, jobu, jobv, m, n, a, lda, s, u, ldu, v, ldv, &
                numrank, iwork, liwork, cwork, lcwork, rwork, lrwork, info)
            ! .. scalar arguments ..
-     
            character :: joba, jobp, jobr, jobu, jobv
            integer(ilp) :: m, n, lda, ldu, ldv, numrank, liwork, lcwork, lrwork, info
            ! .. array arguments ..
@@ -69370,7 +68922,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays
            complex(sp) :: cdummy(1)
            real(sp) :: rdummy(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, conjg, max, min, real, sqrt
            ! .. executable statements ..
@@ -70239,7 +69790,6 @@ module stdlib_linalg_lapack_c
            character :: norm
            integer(ilp) :: i, infequ, j
            real(sp) :: amax, anorm, bignum, colcnd, rcmax, rcmin, rowcnd, rpvgrw, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! .. executable statements ..
@@ -70451,7 +70001,6 @@ module stdlib_linalg_lapack_c
                      wsizeo, wsizem, info2
            real(sp) :: anrm, bignum, bnrm, smlnum, dum(1)
            complex(sp) :: tq(5), workq(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: real, max, min, int
            ! .. executable statements ..
@@ -70665,7 +70214,6 @@ module stdlib_linalg_lapack_c
      ! of CGEQRT for more details on the format.
 
      subroutine stdlib_cgetsqrhrt(m, n, mb1, nb1, nb2, a, lda, t, ldt, work, lwork, info)
-     
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -70679,7 +70227,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery
            integer(ilp) :: i, iinfo, j, lw1, lw2, lwt, ldwt, lworkopt, nb1local, nb2local, &
                      num_all_row_blocks
-     
            ! .. intrinsic functions ..
            intrinsic :: ceiling, real, cmplx, max, min
            ! .. executable statements ..
@@ -70819,7 +70366,6 @@ module stdlib_linalg_lapack_c
                      ldvsr, *), work(*)
            ! .. function arguments ..
            procedure(stdlib_selctg_c) :: selctg
-     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -70830,7 +70376,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            integer(ilp) :: idum(1)
            real(sp) :: dif(2)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
            ! .. executable statements ..
@@ -71077,7 +70622,6 @@ module stdlib_linalg_lapack_c
                      ldvsr, *), work(*)
            ! .. function arguments ..
            procedure(stdlib_selctg_c) :: selctg
-     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -71088,7 +70632,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: anrm, anrmto, bignum, bnrm, bnrmto, eps, pl, pr, smlnum
            ! .. local arrays ..
            real(sp) :: dif(2)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
            ! .. executable statements ..
@@ -71386,7 +70929,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: x
            ! .. local arrays ..
            logical(lk) :: ldumma(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real, sqrt
            ! .. statement functions ..
@@ -71668,7 +71210,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: x
            ! .. local arrays ..
            logical(lk) :: ldumma(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real, sqrt
            ! .. statement functions ..
@@ -71986,7 +71527,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lower, wantz
            integer(ilp) :: iinfo, imax, inde, indrwk, iscale
            real(sp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: sqrt
            ! .. executable statements ..
@@ -72100,7 +71640,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: iinfo, imax, inde, indwk2, indwrk, iscale, liwmin, llrwk, llwk2, lrwmin, &
                       lwmin
            real(sp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: sqrt
            ! .. executable statements ..
@@ -72248,7 +71787,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: abstll, anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum, tmp1, vll, &
                      vuu
            complex(sp) :: ctmp1
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min, real, sqrt
            ! .. executable statements ..
@@ -72471,7 +72009,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: upper, wantz
            character :: vect
            integer(ilp) :: iinfo, inde, indwrk
-     
            ! .. executable statements ..
            ! test the input parameters.
            wantz = stdlib_lsame(jobz, 'v')
@@ -72560,7 +72097,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery, upper, wantz
            character :: vect
            integer(ilp) :: iinfo, inde, indwk2, indwrk, liwmin, llrwk, llwk2, lrwmin, lwmin
-     
            ! .. executable statements ..
            ! test the input parameters.
            wantz = stdlib_lsame(jobz, 'v')
@@ -72684,7 +72220,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: i, iinfo, indd, inde, indee, indibl, indisp, indiwk, indrwk, indwrk, &
                      itmp1, j, jj, nsplit
            real(sp) :: tmp1
-     
            ! .. intrinsic functions ..
            intrinsic :: min
            ! .. executable statements ..
@@ -72873,7 +72408,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: iinfo, imax, inde, indrwk, indtau, indwk2, indwrk, iscale, liopt, &
                      liwmin, llrwk, llwork, llwrk2, lopt, lropt, lrwmin, lwmin
            real(sp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
            ! .. executable statements ..
@@ -73027,7 +72561,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery, upper, wantz
            character :: trans
            integer(ilp) :: liopt, liwmin, lopt, lropt, lrwmin, lwmin
-     
            ! .. intrinsic functions ..
            intrinsic :: max, real
            ! .. executable statements ..
@@ -73158,7 +72691,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: iinfo, imax, inde, indrwk, indtau, indwrk, iscale, liwmin, llrwk, llwrk, &
                       lrwmin, lwmin
            real(sp) :: anrm, bignum, eps, rmax, rmin, safmin, sigma, smlnum
-     
            ! .. intrinsic functions ..
            intrinsic :: sqrt
            ! .. executable statements ..
@@ -73300,7 +72832,6 @@ module stdlib_linalg_lapack_c
            logical(lk) :: lquery, upper, wantz
            character :: trans
            integer(ilp) :: j, liwmin, lrwmin, lwmin, neig
-     
            ! .. intrinsic functions ..
            intrinsic :: max, real
            ! .. executable statements ..
@@ -73426,7 +72957,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), vs(ldvs, *), w(*), work(*)
            ! .. function arguments ..
            procedure(stdlib_select_c) :: select
-     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -73436,7 +72966,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: anrm, bignum, cscale, eps, s, sep, smlnum
            ! .. local arrays ..
            real(sp) :: dum(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
            ! .. executable statements ..
@@ -73586,7 +73115,7 @@ module stdlib_linalg_lapack_c
      ! selected eigenvalues (RCONDV).  The leading columns of Z form an
      ! orthonormal basis for this invariant subspace.
      ! For further explanation of the reciprocal condition numbers RCONDE
-     ! and RCONDV, see Section 4.10 of the LAPACK Users' Guide (where
+     ! and RCONDV, see Section 4.10_sp of the LAPACK Users' Guide (where
      ! these quantities are called s and sep respectively).
      ! A complex matrix is in Schur form if it is upper triangular.
 
@@ -73605,7 +73134,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), vs(ldvs, *), w(*), work(*)
            ! .. function arguments ..
            procedure(stdlib_select_c) :: select
-     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -73615,7 +73143,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: anrm, bignum, cscale, eps, smlnum
            ! .. local arrays ..
            real(sp) :: dum(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
            ! .. executable statements ..
@@ -73791,7 +73318,6 @@ module stdlib_linalg_lapack_c
 
      subroutine stdlib_cgeev(jobvl, jobvr, n, a, lda, w, vl, ldvl, vr, ldvr, work, lwork, rwork, &
                info)
-     
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -73813,7 +73339,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            logical(lk) :: select(1)
            real(sp) :: dum(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: real, cmplx, conjg, aimag, max, sqrt
            ! .. executable statements ..
@@ -74049,12 +73574,11 @@ module stdlib_linalg_lapack_c
      ! reciprocal condition numbers correspond to the balanced matrix.
      ! Permuting rows and columns will not change the condition numbers
      ! (in exact arithmetic) but diagonal scaling will.  For further
-     ! explanation of balancing, see section 4.10.2 of the LAPACK
+     ! explanation of balancing, see section 4.10.2_sp of the LAPACK
      ! Users' Guide.
 
      subroutine stdlib_cgeevx(balanc, jobvl, jobvr, sense, n, a, lda, w, vl, ldvl, vr, ldvr, ilo, &
                ihi, scale, abnrm, rconde, rcondv, work, lwork, rwork, info)
-     
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -74077,7 +73601,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            logical(lk) :: select(1)
            real(sp) :: dum(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: real, cmplx, conjg, aimag, max, sqrt
            ! .. executable statements ..
@@ -74346,7 +73869,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-     
            integer(ilp) :: info, lda, ldu, ldv, lwork, lrwork, m, n
            ! .. array arguments ..
            complex(sp) :: a(lda, *), u(ldu, *), v(ldv, *), cwork(lwork)
@@ -74373,7 +73895,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: rdummy(1)
            ! .. intrinsic functions ..
            intrinsic :: abs, cmplx, conjg, log, max, min, real, nint, sqrt
-     
            ! test the input arguments
            lsvec = stdlib_lsame(jobu, 'u') .or. stdlib_lsame(jobu, 'f')
            jracc = stdlib_lsame(jobv, 'j')
@@ -75752,7 +75273,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            integer(ilp) :: info, lda, ldv, lwork, lrwork, m, mv, n
            character*1 joba, jobu, jobv
@@ -75774,11 +75294,8 @@ module stdlib_linalg_lapack_c
                      upper
            ! .. intrinsic functions ..
            intrinsic :: abs, max, min, conjg, real, sign, sqrt
-     
            ! from lapack
-     
            ! from lapack
-     
            ! .. executable statements ..
            ! test the input arguments
            lsvec = stdlib_lsame(jobu, 'u') .or. stdlib_lsame(jobu, 'f')
@@ -76626,7 +76143,6 @@ module stdlib_linalg_lapack_c
                      ldvsr, *), work(*)
            ! .. function arguments ..
            procedure(stdlib_selctg_c) :: selctg
-     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -76637,7 +76153,6 @@ module stdlib_linalg_lapack_c
            ! .. local arrays ..
            integer(ilp) :: idum(1)
            real(sp) :: dif(2)
-     
            ! .. intrinsic functions ..
            intrinsic :: max, sqrt
            ! .. executable statements ..
@@ -76880,7 +76395,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: x
            ! .. local arrays ..
            logical(lk) :: ldumma(1)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, max, real, sqrt
            ! .. statement functions ..
@@ -77123,7 +76637,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            integer(ilp) :: info, lda, ldv, lwork, m, mv, n, nsweep
            real(sp) :: eps, sfmin, tol
@@ -77142,9 +76655,7 @@ module stdlib_linalg_lapack_c
            logical(lk) :: applv, rotok, rsvec
            ! .. intrinsic functions ..
            intrinsic :: abs, max, conjg, real, min, sign, sqrt
-     
            ! from lapack
-     
            ! .. executable statements ..
            ! test the input parameters.
            applv = stdlib_lsame(jobv, 'a')
@@ -77703,9 +77214,7 @@ module stdlib_linalg_lapack_c
            logical(lk) :: applv, rotok, rsvec
            ! .. intrinsic functions ..
            intrinsic :: abs, max, conjg, real, min, sign, sqrt
-     
            ! .. from lapack
-     
            ! .. executable statements ..
            ! test the input parameters.
            applv = stdlib_lsame(jobv, 'a')
@@ -78054,7 +77563,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lwkopt, lwkopt_hetrf, lwkopt_hetrs
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -78111,7 +77619,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            character :: uplo
            integer(ilp) :: n, lda, lwork, info
@@ -78125,7 +77632,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, lwkopt
            integer(ilp) :: nb, mj, nj, k1, k2, j1, j2, j3, jb
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: real, conjg, max
            ! .. executable statements ..
@@ -78370,7 +77876,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: kbot, nmin
            logical(lk) :: initz, lquery, wantt, wantz
-     
            ! .. intrinsic functions ..
            intrinsic :: cmplx, max, min, real
            ! .. executable statements ..
@@ -78486,7 +77991,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            character :: uplo
            integer(ilp) :: m, nb, j1, lda, ldh
@@ -78498,7 +78002,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: j, k, k1, i1, i2, mj
            complex(sp) :: piv, alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: real, conjg, max
            ! .. executable statements ..
@@ -78765,10 +78268,8 @@ module stdlib_linalg_lapack_c
                      nwmax, nwr, nwupbd
            logical(lk) :: sorted
            character :: jbcmpz*2
-     
            ! .. local arrays ..
            complex(sp) :: zdum(1, 1)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, int, max, min, mod, real, sqrt
            ! .. statement functions ..
@@ -79095,7 +78596,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: foo, safmax, safmin, smlnum, ulp
            integer(ilp) :: i, ifst, ilst, info, infqr, j, jw, kcol, kln, knt, krow, kwtop, ltop, &
                      lwk1, lwk2, lwk3, lwkopt, nmin
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, conjg, int, max, min, real
            ! .. statement functions ..
@@ -79339,10 +78839,8 @@ module stdlib_linalg_lapack_c
                      nwmax, nwr, nwupbd
            logical(lk) :: sorted
            character :: jbcmpz*2
-     
            ! .. local arrays ..
            complex(sp) :: zdum(1, 1)
-     
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, cmplx, int, max, min, mod, real, sqrt
            ! .. statement functions ..
@@ -79675,7 +79173,6 @@ module stdlib_linalg_lapack_c
 
      recursive subroutine stdlib_claqz0(wants, wantq, wantz, n, ilo, ihi, a, lda, b, ldb, alpha, &
                beta, q, ldq, z, ldz, work, lwork, rwork, rec, info)
-     
            ! arguments
            character, intent(in) :: wants, wantq, wantz
            integer(ilp), intent(in) :: n, ilo, ihi, lda, ldb, ldq, ldz, lwork, rec
@@ -79693,7 +79190,6 @@ module stdlib_linalg_lapack_c
                      rcost
            logical(lk) :: ilschur, ilq, ilz
            character :: jbcmpz*3
-     
            if (stdlib_lsame(wants, 'e')) then
               ilschur = .false.
               iwants = 1
@@ -79990,7 +79486,6 @@ module stdlib_linalg_lapack_c
 
      recursive subroutine stdlib_claqz2(ilschur, ilq, ilz, n, ilo, ihi, nw, a, lda, b, ldb, q, &
                ldq, z, ldz, ns, nd, alpha, beta, qc, ldqc, zc, ldzc, work, lwork, rwork, rec, info)
-     
            ! arguments
            logical(lk), intent(in) :: ilschur, ilq, ilz
            integer(ilp), intent(in) :: n, ilo, ihi, nw, lda, ldb, ldq, ldz, ldqc, ldzc, lwork, &
@@ -80006,7 +79501,6 @@ module stdlib_linalg_lapack_c
                      lworkreq, qz_small_info
            real(sp) :: smlnum, ulp, safmin, safmax, c1, tempr
            complex(sp) :: s, s1, temp
-     
            info = 0
            ! set up deflation window
            jw = min(nw, ihi - ilo + 1)
@@ -80190,7 +79684,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            character :: uplo
            integer(ilp) :: m, nb, j1, lda, ldh
@@ -80202,7 +79695,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: j, k, k1, i1, i2, mj
            complex(sp) :: piv, alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -80438,7 +79930,6 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lwkopt, lwkopt_sytrf, lwkopt_sytrs
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..
@@ -80495,7 +79986,6 @@ module stdlib_linalg_lapack_c
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-     
            ! .. scalar arguments ..
            character :: uplo
            integer(ilp) :: n, lda, lwork, info
@@ -80509,7 +79999,6 @@ module stdlib_linalg_lapack_c
            integer(ilp) :: j, lwkopt
            integer(ilp) :: nb, mj, nj, k1, k2, j1, j2, j3, jb
            complex(sp) :: alpha
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. executable statements ..

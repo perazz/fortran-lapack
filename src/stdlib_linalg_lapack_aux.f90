@@ -104,12 +104,12 @@ module stdlib_linalg_lapack_aux
            integer(ilp) :: lwork
        ! =====================================================================
            ! .. intrinsic functions ..
-           intrinsic :: epsilon, dble, int
+           intrinsic :: epsilon, real, int
            ! .. executable statements ..
            stdlib_droundup_lwork = real(lwork, KIND=dp)
            if (int(stdlib_droundup_lwork, KIND=ilp) < lwork) then
                ! force round up of lwork
-               stdlib_droundup_lwork = stdlib_droundup_lwork*(1.0_dp + epsilon(0.0_dp))
+               stdlib_droundup_lwork = stdlib_droundup_lwork*(1.0_dp + epsilon(0.0e+0_dp))
                          
            end if
            return
@@ -267,7 +267,7 @@ module stdlib_linalg_lapack_aux
            complex(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           complex(sp), parameter :: zero = (0.0_sp, 0.0_sp)
+           complex(sp), parameter :: zero = (0.0e+0, 0.0e+0)
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -300,7 +300,7 @@ module stdlib_linalg_lapack_aux
            complex(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           complex(sp), parameter :: zero = (0.0_sp, 0.0_sp)
+           complex(sp), parameter :: zero = (0.0e+0, 0.0e+0)
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -366,7 +366,7 @@ module stdlib_linalg_lapack_aux
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
+           real(dp), parameter :: zero = 0.0d+0
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -399,7 +399,7 @@ module stdlib_linalg_lapack_aux
            real(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0_dp
+           real(dp), parameter :: zero = 0.0d+0
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -471,7 +471,7 @@ module stdlib_linalg_lapack_aux
            real(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
+           real(sp), parameter :: zero = 0.0e+0
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -504,7 +504,7 @@ module stdlib_linalg_lapack_aux
            real(sp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: zero = 0.0_sp
+           real(sp), parameter :: zero = 0.0e+0
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -603,7 +603,7 @@ module stdlib_linalg_lapack_aux
            complex(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
+           complex(dp), parameter :: zero = (0.0d+0, 0.0d+0)
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -636,7 +636,7 @@ module stdlib_linalg_lapack_aux
            complex(dp) :: a(lda, *)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0_dp, 0.0_dp)
+           complex(dp), parameter :: zero = (0.0d+0, 0.0d+0)
            
            ! .. local scalars ..
            integer(ilp) :: i, j
@@ -855,7 +855,6 @@ module stdlib_linalg_lapack_aux
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i
-     
            ! .. intrinsic functions ..
            intrinsic :: len
            ! .. executable statements ..
@@ -895,7 +894,7 @@ module stdlib_linalg_lapack_aux
            stdlib_sroundup_lwork = real(lwork)
            if (int(stdlib_sroundup_lwork, KIND=ilp) < lwork) then
                ! force round up of lwork
-               stdlib_sroundup_lwork = stdlib_sroundup_lwork*(1.0_sp + epsilon(0.0_sp))
+               stdlib_sroundup_lwork = stdlib_sroundup_lwork*(1.0_sp + epsilon(0.0e+0_sp))
                          
            end if
            return
@@ -930,7 +929,6 @@ module stdlib_linalg_lapack_aux
            character :: c1*1, c2*2, c4*2, c3*3, subnam*16
            ! .. intrinsic functions ..
            intrinsic :: char, ichar, int, min, real
-     
            ! .. executable statements ..
            go to(10, 10, 10, 80, 90, 100, 110, 120, 130, 140, 150, 160, 160, 160, 160, 160, 160) &
                      ispec
@@ -1395,7 +1393,6 @@ module stdlib_linalg_lapack_aux
      integer(ilp) function stdlib_iparam2stage(ispec, name, opts, ni, nbi, ibi, nxi)
 #if defined(_OPENMP)
 #endif
-     
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1410,7 +1407,6 @@ module stdlib_linalg_lapack_aux
            character :: prec*1, algo*3, stag*5, subnam*12, vect*1
            ! .. intrinsic functions ..
            intrinsic :: char, ichar, max
-     
            ! .. executable statements ..
            ! invalid value for ispec
            if ((ispec < 17) .or. (ispec > 21)) then
@@ -1605,7 +1601,6 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: iispec
-     
            ! .. executable statements ..
            go to(10, 10, 10, 10, 10) ispec
            ! invalid value for ispec

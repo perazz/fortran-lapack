@@ -147,7 +147,7 @@ module stdlib_linalg_blas_s
            ! .. intrinsic functions ..
            intrinsic :: mod
            if (n <= 0) return
-           if (sa == 0.0) return
+           if (sa == zero) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               ! clean-up loop
@@ -227,7 +227,7 @@ module stdlib_linalg_blas_s
      function stdlib_scnrm2(n, x, incx)
         integer, parameter :: wp = kind(1._sp)
         real(sp) :: stdlib_scnrm2
-        ! -- reference blas level1 routine (version 3.9.1) --
+        ! -- reference blas level1 routine (version 3.9.1_sp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
@@ -457,7 +457,7 @@ module stdlib_linalg_blas_s
            real(dp) :: dsdot
            integer(ilp) :: i, kx, ky, ns
            ! .. intrinsic functions ..
-           intrinsic :: dble
+           intrinsic :: real
            dsdot = sb
            if (n <= 0) then
               stdlib_sdsdot = dsdot
@@ -506,7 +506,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kup1, kx, ky, lenx, leny
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! test the input parameters.
@@ -660,7 +659,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -826,7 +824,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky, lenx, leny
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
@@ -970,7 +967,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i, info, ix, j, jy, kx
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
@@ -1039,7 +1035,7 @@ module stdlib_linalg_blas_s
      function stdlib_snrm2(n, x, incx)
         integer, parameter :: wp = kind(1._sp)
         real(sp) :: stdlib_snrm2
-        ! -- reference blas level1 routine (version 3.9.1) --
+        ! -- reference blas level1 routine (version 3.9.1_sp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
@@ -1245,10 +1241,10 @@ module stdlib_linalg_blas_s
      ! SX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX >= 0, ELSE
      ! LX = (-INCX)*N, AND SIMILARLY FOR SY USING USING LY AND INCY.
      ! WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
-     ! SFLAG=-1.E0     SFLAG=0.E0        SFLAG=1.E0     SFLAG=-2.E0
-     ! (SH11  SH12)    (1.E0  SH12)    (SH11  1.E0)    (1.E0  0.E0)
+     ! SFLAG=-1._sp     SFLAG=0._sp        SFLAG=1._sp     SFLAG=-2.E0
+     ! (SH11  SH12)    (1._sp  SH12)    (SH11  1._sp)    (1._sp  0._sp)
      ! H=(          )    (          )    (          )    (          )
-     ! (SH21  SH22),   (SH21  1.E0),   (-1.E0 SH22),   (0.E0  1.E0).
+     ! (SH21  SH22),   (SH21  1._sp),   (-1._sp SH22),   (0._sp  1._sp).
      ! SEE  SROTMG FOR A DESCRIPTION OF DATA STORAGE IN SPARAM.
 
      subroutine stdlib_srotm(n, sx, incx, sy, incy, sparam)
@@ -1264,7 +1260,7 @@ module stdlib_linalg_blas_s
            real(sp) :: sflag, sh11, sh12, sh21, sh22, two, w, z, zero
            integer(ilp) :: i, kx, ky, nsteps
            ! .. data statements ..
-           data zero, two/0.e0, 2.e0/
+           data zero, two/0._sp, 2._sp/
            sflag = sparam(1)
            if (n <= 0 .or. (sflag + two == zero)) return
            if (incx == incy .and. incx > 0) then
@@ -1348,12 +1344,12 @@ module stdlib_linalg_blas_s
      ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
      ! THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(SD1)*SX1,SQRT(SD2)    SY2)**T.
      ! WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
-     ! SFLAG=-1.E0     SFLAG=0.E0        SFLAG=1.E0     SFLAG=-2.E0
-     ! (SH11  SH12)    (1.E0  SH12)    (SH11  1.E0)    (1.E0  0.E0)
+     ! SFLAG=-1._sp     SFLAG=0._sp        SFLAG=1._sp     SFLAG=-2.E0
+     ! (SH11  SH12)    (1._sp  SH12)    (SH11  1._sp)    (1._sp  0._sp)
      ! H=(          )    (          )    (          )    (          )
-     ! (SH21  SH22),   (SH21  1.E0),   (-1.E0 SH22),   (0.E0  1.E0).
+     ! (SH21  SH22),   (SH21  1._sp),   (-1._sp SH22),   (0._sp  1._sp).
      ! LOCATIONS 2-4 OF SPARAM CONTAIN SH11,SH21,SH12, AND SH22
-     ! RESPECTIVELY. (VALUES OF 1.E0, -1.E0, OR 0.E0 IMPLIED BY THE
+     ! RESPECTIVELY. (VALUES OF 1._sp, -1._sp, OR 0._sp IMPLIED BY THE
      ! VALUE OF SPARAM(1) ARE NOT STORED IN SPARAM.)
      ! THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE
      ! INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
@@ -1374,8 +1370,8 @@ module stdlib_linalg_blas_s
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. data statements ..
-           data zero, one, two/0.e0, 1.e0, 2.e0/
-           data gam, gamsq, rgamsq/4096.e0, 1.67772e7, 5.96046e-8/
+           data zero, one, two/0._sp, 1._sp, 2._sp/
+           data gam, gamsq, rgamsq/4096._sp, 1.67772e7_sp, 5.96046e-8_sp/
            if (sd1 < zero) then
               ! go zero-h-d-and-sx1..
               sflag = -one
@@ -1527,7 +1523,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! test the input parameters.
@@ -1737,7 +1732,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
-     
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -1894,7 +1888,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
-     
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -2002,7 +1995,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
-     
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -2189,7 +2181,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -2339,7 +2330,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
@@ -2492,7 +2482,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
@@ -2596,7 +2585,6 @@ module stdlib_linalg_blas_s
            ! .. local scalars ..
            real(sp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
@@ -2719,7 +2707,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), b(ldb, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -2895,7 +2882,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), c(ldc, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -3064,7 +3050,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
            logical(lk) :: nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! test the input parameters.
@@ -3251,7 +3236,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
            logical(lk) :: nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: max, min
            ! test the input parameters.
@@ -3435,7 +3419,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
            logical(lk) :: nounit
-     
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -3620,7 +3603,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
            logical(lk) :: nounit
-     
            ! test the input parameters.
            info = 0
            if (.not. stdlib_lsame(uplo, 'u') .and. .not. stdlib_lsame(uplo, 'l')) then
@@ -3800,7 +3782,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -4010,7 +3991,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
            logical(lk) :: nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
@@ -4175,7 +4155,6 @@ module stdlib_linalg_blas_s
            ! .. array arguments ..
            real(sp) :: a(lda, *), b(ldb, *)
         ! =====================================================================
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
@@ -4411,7 +4390,6 @@ module stdlib_linalg_blas_s
            real(sp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
            logical(lk) :: nounit
-     
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
