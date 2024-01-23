@@ -33,6 +33,7 @@ def create_constants_module(module_name,out_folder):
     # Temporary: to be replaced with stdlib_kinds
     fid.write(INDENT + "integer, parameter :: sp  = selected_real_kind(6)\n")
     fid.write(INDENT + "integer, parameter :: dp  = selected_real_kind(15)\n")
+    fid.write(INDENT + "integer, parameter :: qp  = selected_real_kind(33)\n")
     fid.write(INDENT + "integer, parameter :: lk  = kind(.true.)\n")
     fid.write(INDENT + "! Integer size support for ILP64 builds should be done here\n")
     fid.write(INDENT + "integer, parameter :: ilp = int32\n")
@@ -68,23 +69,23 @@ def patch_lapack_aux(fid,prefix,indent):
     for i in range(len(initials)):
         if (i<=1):
             fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alphar,alphai,beta \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alphar,alphai \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
         else:
             fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alpha,beta) \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alpha,beta \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alpha) \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alpha \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
@@ -100,7 +101,6 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     from datetime import date
     from platform import os
-
 
     # Splitting by initials
     if split_by_initial:
@@ -159,7 +159,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         fid.write(INDENT + "private\n\n\n\n")
 
         # Public interface.
-        fid.write("\n\n\n" + INDENT + "public :: sp,dp,lk,ilp\n")
+        fid.write("\n\n\n" + INDENT + "public :: sp,dp,qp,lk,ilp\n")
         for function in fortran_functions:
             if function_in_module(initials[m],function.old_name):
                 fid.write(INDENT + "public :: " + function.new_name + "\n")
