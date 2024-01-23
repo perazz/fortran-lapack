@@ -6,6 +6,7 @@ The reference Fortran-77 library is automatically downloaded from its master rep
 Release 3.10.1 is currently targeted. Function interfaces are unchanged from the original implementation, and allow future extension to handle its usage through external implementations.
 The following refactorings are applied: 
 - All datatypes and accuracy constants standardized into a module (`stdlib`-compatible names)
+- Both libraries available for 32, 64 and 128-bit floats
 - Free format, lower-case style
 - `implicit none(type, external)` everywhere
 - Removed `DO 10 .... 10 CONTINUE`, replaced with `do..end do` loops or labelled `loop_10: do ... cycle loop_10 ... end do loop_10` in case control statements are present
