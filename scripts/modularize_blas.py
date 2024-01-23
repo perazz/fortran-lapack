@@ -170,11 +170,13 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         numeric_const = []
         if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
+            # AUX: add quadruple-precision procedure interfaces
+            fortran_functions = patch_blas_aux(fid,fortran_functions,prefix,INDENT,False)
             # AUX: add procedure interfaces
             patch_lapack_aux(fid,prefix,INDENT)
         if module_name+"_"+initials[m]=='stdlib_linalg_blas_aux':
             # AUX: add quadruple-precision procedure interfaces
-            fortran_functions = patch_blas_aux(fid,fortran_functions,prefix,INDENT)
+            fortran_functions = patch_blas_aux(fid,fortran_functions,prefix,INDENT,True)
 
         else:
             numeric_const,numeric_type,rk = print_module_constants(fid,initials[m],INDENT)
@@ -203,6 +205,10 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     # Write wrapper module
     if split_by_initial:
+
+        # Add quad-precision modules
+        initials = ['aux','s','d','q','c','z','w']
+
         module_file = module_name + ".f90"
         module_path = os.path.join(out_folder,module_file)
 
@@ -215,7 +221,6 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         for i in initials:
             fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
-        fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit='q'))
         fid.write(INDENT + "implicit none(type,external)\n")
         fid.write(INDENT + "public\n")
         # Close module
@@ -227,17 +232,26 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
     return old_names
 
 # Identify quad-precision functions
-def patch_blas_aux(fid,fortran_functions,prefix,INDENT):
+def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
 
     import copy
 
     double_initials = ['d','z']
     quad_initials = ['q','w']
 
-    blas_init = ['d','id','iz']
-    blas_newi = ['q','iq','iw']
-    blas_dble = ['dcabs1','idamax','izamax']
-    blas_quad = ['qcabs1','iqamax','iwamax']
+    if blas:
+        # Blas patches
+        blas_init = ['d','id','iz']
+        blas_newi = ['q','iq','iw']
+        blas_dble = ['dcabs1','idamax','izamax']
+        blas_quad = ['qcabs1','iqamax','iwamax']
+    else:
+        # Lapack patches
+        blas_init = ['d','iz','ilaz','ilaz','ilad','ilad']
+        blas_newi = ['q','iw','ilaw','ilaw','ilaq','ilaq']
+        blas_dble = ['droundup_lwork','izmax1','ilazlc','ilazlr','iladlc','iladlr']
+        blas_quad = ['qroundup_lwork','iwmax1','ilawlc','ilawlr','ilaqlc','ilaqlr']
+
 
     # Flagged functions:
     # - begin with double precision initial
@@ -295,6 +309,10 @@ def double_to_quad(lines,initial,newinit,prefix):
 
     dble_prefixes = ['d','z','id','iz']
     quad_prefixes = ['q','w','iq','iw']
+
+    if len(initial)>2:
+        dble_prefixes.append(initial)
+        quad_prefixes.append(newinit)
 
     # Merge
     whole = '\n'.join(lines)
@@ -567,8 +585,6 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
         functions[i].printed = functions[i].printed or \
                                not function_in_module(initial,functions[i].old_name)
 
-        print("function "+functions[i].old_name+" is printed = "+str(functions[i].printed))
-
     # Get dependency indices
     for i in range(len(functions)):
         for j in range(len(functions[i].deps)):
@@ -586,7 +602,6 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
     while attempt<MAXIT:
 
         attempt+=1
-        print("attempt" + str(attempt))
 
         for i in range(len(functions)):
 
@@ -603,10 +618,10 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
                     elif functions[dep].printed:
                         nprinted+=1
 
-                print("function "+functions[i].old_name+" printed="+str(nprinted)+", len="+str(len(functions[i].deps)))
+                #print("function "+functions[i].old_name+" printed="+str(nprinted)+", len="+str(len(functions[i].deps)))
 
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
-                   print(str(nprinted) + "deps printed already for " + functions[i].old_name)
+                   #print(str(nprinted) + "deps printed already for " + functions[i].old_name)
                    write_function_body(fid,functions[i].header," " * header_indentation(functions[i].body),MAX_LINE_LENGTH,False)
                    write_function_body(fid,functions[i].body,INDENT,MAX_LINE_LENGTH,True)
                    functions[i].printed = True
@@ -1794,12 +1809,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
