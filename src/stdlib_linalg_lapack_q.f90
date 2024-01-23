@@ -143,6 +143,7 @@ module stdlib_linalg_lapack_q
      public :: stdlib_qlaexc
      public :: stdlib_qlag2
      public :: stdlib_qlag2s
+     public :: stdlib_qlag2w
      public :: stdlib_qlags2
      public :: stdlib_qlagtf
      public :: stdlib_qlagtm
@@ -2548,6 +2549,37 @@ module stdlib_linalg_lapack_q
            return
            ! end of stdlib_qlag2s
      end subroutine stdlib_qlag2s
+
+     ! CLAG2Z converts a COMPLEX matrix, SA, to a DOUBLE COMPLEX matrix, A.
+     ! Note that while it is possible to overflow while converting
+     ! from double to single, it is not possible to overflow when
+     ! converting from single to double.
+     ! This is an auxiliary routine so there is no argument checking.
+     
+     subroutine stdlib_qlag2w(m, n, sa, ldsa, a, lda, info)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           integer(ilp) :: info, lda, ldsa, m, n
+           ! .. array arguments ..
+           complex(dp) :: sa(ldsa, *)
+           complex(qp) :: a(lda, *)
+        ! =====================================================================
+           ! .. local scalars ..
+           integer(ilp) :: i, j
+           ! .. executable statements ..
+           info = 0
+           do j = 1, n
+              do i = 1, m
+                 a(i, j) = sa(i, j)
+              end do
+           end do
+           return
+           ! end of stdlib_qlag2w
+     end subroutine stdlib_qlag2w
+     
+
 
      ! QLAGTM performs a matrix-vector product of the form
      ! B := alpha * A * X + beta * B
