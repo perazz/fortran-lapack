@@ -1480,7 +1480,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, ip, ipv, j, jp, jpv
            real(dp) :: bignum, eps, smin, smlnum, xmax
            ! .. intrinsic functions ..
-           intrinsic :: abs, dcmplx, max
+           intrinsic :: abs, cmplx, max
            ! .. executable statements ..
            info = 0
            ! quick return if possible
@@ -2488,7 +2488,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: absakk, alpha, colmax, d, d11, d22, r1, rowmax, tt
            complex(dp) :: d12, d21, t, wk, wkm1, wkp1, zdum
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, sqrt
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, sqrt
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -2628,7 +2628,7 @@ module stdlib_linalg_lapack_z
                           end do
                           a(j, k) = wk
                           a(j, k - 1) = wkm1
-                          a(j, j) = dcmplx(real(a(j, j), KIND=dp), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=dp), zero, KIND=dp)
                        end do
                     end if
                  end if
@@ -2764,7 +2764,7 @@ module stdlib_linalg_lapack_z
                           end do
                           a(j, k) = wk
                           a(j, k + 1) = wkp1
-                          a(j, j) = dcmplx(real(a(j, j), KIND=dp), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=dp), zero, KIND=dp)
                        end do
                     end if
                  end if
@@ -2815,7 +2815,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: absakk, alpha, colmax, d, d11, d22, r1, dtemp, rowmax, tt, sfmin
            complex(dp) :: d12, d21, t, wk, wkm1, wkp1, z
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, sqrt
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, sqrt
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -3050,7 +3050,7 @@ module stdlib_linalg_lapack_z
                           a(j, k) = wk/d
                           a(j, k - 1) = wkm1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = dcmplx(real(a(j, j), KIND=dp), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=dp), zero, KIND=dp)
                        end do
                     end if
                     ! copy superdiagonal elements of d(k) to e(k) and
@@ -3286,7 +3286,7 @@ module stdlib_linalg_lapack_z
                           a(j, k) = wk/d
                           a(j, k + 1) = wkp1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = dcmplx(real(a(j, j), KIND=dp), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=dp), zero, KIND=dp)
                        end do
                     end if
                     ! copy subdiagonal elements of d(k) to e(k) and
@@ -3341,7 +3341,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: absakk, alpha, colmax, d, d11, d22, r1, dtemp, rowmax, tt, sfmin
            complex(dp) :: d12, d21, t, wk, wkm1, wkp1, z
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, sqrt
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, sqrt
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -3563,7 +3563,7 @@ module stdlib_linalg_lapack_z
                           a(j, k) = wk/d
                           a(j, k - 1) = wkm1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = dcmplx(real(a(j, j), KIND=dp), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=dp), zero, KIND=dp)
                        end do
                     end if
                  end if
@@ -3780,7 +3780,7 @@ module stdlib_linalg_lapack_z
                           a(j, k) = wk/d
                           a(j, k + 1) = wkp1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = dcmplx(real(a(j, j), KIND=dp), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=dp), zero, KIND=dp)
                        end do
                     end if
                  end if
@@ -4454,7 +4454,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: info, nrowa, j, nk, n1, n2
            complex(dp) :: calpha, cbeta
            ! .. intrinsic functions ..
-           intrinsic :: max, dcmplx
+           intrinsic :: max, cmplx
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -4841,7 +4841,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: absakk, alpha, colmax, d, d11, d22, r1, rowmax, tt
            complex(dp) :: d12, d21, t, wk, wkm1, wkp1, zdum
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, sqrt
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, sqrt
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -4973,8 +4973,8 @@ module stdlib_linalg_lapack_z
                     if (k > 2) then
                        d = stdlib_dlapy2(real(ap(k - 1 + (k - 1)*k/2)), aimag(ap(k - 1 + (k - 1) &
                                  *k/2)))
-                       d22 = real(ap(k - 1 + (k - 2)*(k - 1)/2))/d
-                       d11 = real(ap(k + (k - 1)*k/2))/d
+                       d22 = real(ap(k - 1 + (k - 2)*(k - 1)/2), KIND=dp)/d
+                       d11 = real(ap(k + (k - 1)*k/2), KIND=dp)/d
                        tt = one/(d11*d22 - one)
                        d12 = ap(k - 1 + (k - 1)*k/2)/d
                        d = tt/d
@@ -4989,7 +4989,7 @@ module stdlib_linalg_lapack_z
                           end do
                           ap(j + (k - 1)*k/2) = wk
                           ap(j + (k - 2)*(k - 1)/2) = wkm1
-                          ap(j + (j - 1)*j/2) = dcmplx(real(ap(j + (j - 1)*j/2)), zero)
+                          ap(j + (j - 1)*j/2) = cmplx(real(ap(j + (j - 1)*j/2)), zero, KIND=dp)
                                     
                        end do
                     end if
@@ -5140,8 +5140,8 @@ module stdlib_linalg_lapack_z
                           end do
                           ap(j + (k - 1)*(2*n - k)/2) = wk
                           ap(j + k*(2*n - k - 1)/2) = wkp1
-                          ap(j + (j - 1)*(2*n - j)/2) = dcmplx(real(ap(j + (j - 1)*(2*n - j)/ &
-                                    2)), zero)
+                          ap(j + (j - 1)*(2*n - j)/2) = cmplx(real(ap(j + (j - 1)*(2*n - j)/ &
+                                    2)), zero, KIND=dp)
                        end do
                     end if
                  end if
@@ -6468,7 +6468,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, jlast
            real(dp) :: absxi, altsgn, estold, safmin, temp
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, aimag
+           intrinsic :: abs, real, cmplx, aimag
            ! .. executable statements ..
            safmin = stdlib_dlamch('safe minimum')
            if (kase == 0) then
@@ -6493,7 +6493,7 @@ module stdlib_linalg_lapack_z
            do i = 1, n
               absxi = abs(x(i))
               if (absxi > safmin) then
-                 x(i) = dcmplx(real(x(i), KIND=dp)/absxi, aimag(x(i))/absxi)
+                 x(i) = cmplx(real(x(i), KIND=dp)/absxi, aimag(x(i))/absxi, KIND=dp)
               else
                  x(i) = cone
               end if
@@ -6526,7 +6526,7 @@ module stdlib_linalg_lapack_z
            do i = 1, n
               absxi = abs(x(i))
               if (absxi > safmin) then
-                 x(i) = dcmplx(real(x(i), KIND=dp)/absxi, aimag(x(i))/absxi)
+                 x(i) = cmplx(real(x(i), KIND=dp)/absxi, aimag(x(i))/absxi, KIND=dp)
               else
                  x(i) = cone
               end if
@@ -6548,7 +6548,7 @@ module stdlib_linalg_lapack_z
 100    continue
            altsgn = one
            do i = 1, n
-              x(i) = dcmplx(altsgn*(one + real(i - 1, KIND=dp)/real(n - 1, KIND=dp)))
+              x(i) = cmplx(altsgn*(one + real(i - 1, KIND=dp)/real(n - 1, KIND=dp)), KIND=dp)
               altsgn = -altsgn
            end do
            kase = 1
@@ -6588,7 +6588,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, iter, j, jlast, jump
            real(dp) :: absxi, altsgn, estold, safmin, temp
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, aimag
+           intrinsic :: abs, real, cmplx, aimag
            ! .. save statement ..
            save
            ! .. executable statements ..
@@ -6615,7 +6615,7 @@ module stdlib_linalg_lapack_z
            do i = 1, n
               absxi = abs(x(i))
               if (absxi > safmin) then
-                 x(i) = dcmplx(real(x(i), KIND=dp)/absxi, aimag(x(i))/absxi)
+                 x(i) = cmplx(real(x(i), KIND=dp)/absxi, aimag(x(i))/absxi, KIND=dp)
               else
                  x(i) = cone
               end if
@@ -6648,7 +6648,7 @@ module stdlib_linalg_lapack_z
            do i = 1, n
               absxi = abs(x(i))
               if (absxi > safmin) then
-                 x(i) = dcmplx(real(x(i), KIND=dp)/absxi, aimag(x(i))/absxi)
+                 x(i) = cmplx(real(x(i), KIND=dp)/absxi, aimag(x(i))/absxi, KIND=dp)
               else
                  x(i) = cone
               end if
@@ -6669,7 +6669,7 @@ module stdlib_linalg_lapack_z
 100    continue
            altsgn = one
            do i = 1, n
-              x(i) = dcmplx(altsgn*(one + real(i - 1, KIND=dp)/real(n - 1, KIND=dp)))
+              x(i) = cmplx(altsgn*(one + real(i - 1, KIND=dp)/real(n - 1, KIND=dp)), KIND=dp)
               altsgn = -altsgn
            end do
            kase = 1
@@ -6791,7 +6791,7 @@ module stdlib_linalg_lapack_z
            ! .. local scalars ..
            integer(ilp) :: i, j, l
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, aimag
+           intrinsic :: real, cmplx, aimag
            ! .. executable statements ..
            ! quick return if possible.
            if ((m == 0) .or. (n == 0)) return
@@ -6817,7 +6817,7 @@ module stdlib_linalg_lapack_z
                      
            do j = 1, n
               do i = 1, m
-                 c(i, j) = dcmplx(real(c(i, j), KIND=dp), rwork(l + (j - 1)*m + i - 1))
+                 c(i, j) = cmplx(real(c(i, j), KIND=dp), rwork(l + (j - 1)*m + i - 1), KIND=dp)
               end do
            end do
            return
@@ -6882,7 +6882,7 @@ module stdlib_linalg_lapack_z
            ! .. local scalars ..
            real(dp) :: zi, zr
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, aimag
+           intrinsic :: real, cmplx, aimag
            ! .. executable statements ..
            call stdlib_dladiv(real(x, KIND=dp), aimag(x), real(y, KIND=dp), aimag(y), zr, &
                      zi)
@@ -10418,7 +10418,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: ci, sii, sir, t1i, t1r, t5, t6, xi, yi, zii, zir
            complex(dp) :: si, t2, t3, t4, zi
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, conjg, aimag
+           intrinsic :: real, cmplx, conjg, aimag
            ! .. executable statements ..
            ix = 1
            ic = 1
@@ -10468,7 +10468,7 @@ module stdlib_linalg_lapack_z
            ! .. local scalars ..
            integer(ilp) :: i, j, l
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, aimag
+           intrinsic :: real, cmplx, aimag
            ! .. executable statements ..
            ! quick return if possible.
            if ((m == 0) .or. (n == 0)) return
@@ -10494,7 +10494,7 @@ module stdlib_linalg_lapack_z
                      
            do j = 1, n
               do i = 1, m
-                 c(i, j) = dcmplx(real(c(i, j), KIND=dp), rwork(l + (j - 1)*m + i - 1))
+                 c(i, j) = cmplx(real(c(i, j), KIND=dp), rwork(l + (j - 1)*m + i - 1), KIND=dp)
               end do
            end do
            return
@@ -11073,7 +11073,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: j, knt
            real(dp) :: alphi, alphr, beta, rsafmn, safmin, xnorm
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, aimag, sign
+           intrinsic :: abs, real, cmplx, aimag, sign
            ! .. executable statements ..
            if (n <= 0) then
               tau = zero
@@ -11147,7 +11147,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: alphi, alphr, beta, bignum, smlnum, xnorm
            complex(dp) :: savealpha
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, aimag, sign
+           intrinsic :: abs, real, cmplx, aimag, sign
            ! .. executable statements ..
            if (n <= 0) then
               tau = zero
@@ -11940,7 +11940,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            real(dp) :: u(lv)
            ! .. intrinsic functions ..
-           intrinsic :: dcmplx, exp, log, min, sqrt
+           intrinsic :: cmplx, exp, log, min, sqrt
            ! .. executable statements ..
            do 60 iv = 1, n, lv/2
               il = min(lv/2, n - iv + 1)
@@ -14472,7 +14472,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: bignum, grow, rec, smlnum, tjj, tmax, tscal, xbnd, xj, xmax
            complex(dp) :: csumj, tjjs, uscal, zdum
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, min
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, min
            ! .. statement functions ..
            real(dp) :: cabs1, cabs2
            ! .. statement function definitions ..
@@ -15027,7 +15027,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: bignum, grow, rec, smlnum, tjj, tmax, tscal, xbnd, xj, xmax
            complex(dp) :: csumj, tjjs, uscal, zdum
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, min
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, min
            ! .. statement functions ..
            real(dp) :: cabs1, cabs2
            ! .. statement function definitions ..
@@ -15692,7 +15692,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: bignum, grow, rec, smlnum, tjj, tmax, tscal, xbnd, xj, xmax
            complex(dp) :: csumj, tjjs, uscal, zdum
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, min
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, min
            ! .. statement functions ..
            real(dp) :: cabs1, cabs2
            ! .. statement function definitions ..
@@ -16299,7 +16299,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, iinfo, n1, n2
            complex(dp) :: z
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, aimag, sign, max, min
+           intrinsic :: abs, real, cmplx, aimag, sign, max, min
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -16324,14 +16324,14 @@ module stdlib_linalg_lapack_z
               ! one row case, (also recursion termination case),
               ! use unblocked code
               ! transfer the sign
-              d(1) = dcmplx(-sign(one, real(a(1, 1), KIND=dp)))
+              d(1) = cmplx(-sign(one, real(a(1, 1), KIND=dp)), KIND=dp)
               ! construct the row of u
               a(1, 1) = a(1, 1) - d(1)
            else if (n == 1) then
               ! one column case, (also recursion termination case),
               ! use unblocked code
               ! transfer the sign
-              d(1) = dcmplx(-sign(one, real(a(1, 1), KIND=dp)))
+              d(1) = cmplx(-sign(one, real(a(1, 1), KIND=dp)), KIND=dp)
               ! construct the row of u
               a(1, 1) = a(1, 1) - d(1)
               ! scale the elements 2:m of the column
@@ -16394,7 +16394,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i
            real(dp) :: aii
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, max
+           intrinsic :: real, cmplx, max
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -18143,7 +18143,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, i4
            real(dp) :: eii, eir, f, g
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, aimag, mod
+           intrinsic :: real, cmplx, aimag, mod
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -19437,7 +19437,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            integer(ilp) :: iseed(4)
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, max, sqrt
+           intrinsic :: abs, real, cmplx, max, sqrt
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -25374,7 +25374,7 @@ module stdlib_linalg_lapack_z
                      safmin, sbeta, scale, small, temp, ulp, xmax
            complex(dp) :: bcoeff, ca, cb, d, salpha, sum, suma, sumb, x
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, min
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, min
            ! .. statement functions ..
            real(dp) :: abs1
            ! .. statement function definitions ..
@@ -27350,7 +27350,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: ovfl, remax, scale, smin, smlnum, ulp, unfl
            complex(dp) :: cdum
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max
+           intrinsic :: abs, real, cmplx, conjg, aimag, max
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -27549,7 +27549,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: ovfl, remax, scale, smin, smlnum, ulp, unfl
            complex(dp) :: cdum
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max
+           intrinsic :: abs, real, cmplx, conjg, aimag, max
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -28829,7 +28829,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: z1, z2, z3, z4
            ! .. intrinsic functions
            intrinsic :: atan2, cos, max, min, sin
-           intrinsic :: dcmplx, conjg
+           intrinsic :: cmplx, conjg
            ! .. executable statements ..
            ! test input arguments
            info = 0
@@ -28891,17 +28891,17 @@ module stdlib_linalg_lapack_z
                  if (i == 1) then
                     call stdlib_zscal(p - i + 1, cmplx(z1, 0.0_dp, KIND=dp), x11(i, i), 1)
                  else
-                    call stdlib_zscal(p - i + 1, dcmplx(z1*cos(phi(i - 1)), 0.0_dp), x11(i, i), 1)
+                    call stdlib_zscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0_dp, KIND=dp), x11(i, i), 1)
                               
-                    call stdlib_zaxpy(p - i + 1, dcmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_dp), x12(i, i - 1) &
+                    call stdlib_zaxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_dp, KIND=dp), x12(i, i - 1) &
                               , 1, x11(i, i), 1)
                  end if
                  if (i == 1) then
                     call stdlib_zscal(m - p - i + 1, cmplx(z2, 0.0_dp, KIND=dp), x21(i, i), 1)
                  else
-                    call stdlib_zscal(m - p - i + 1, dcmplx(z2*cos(phi(i - 1)), 0.0_dp), x21(i, i), 1)
+                    call stdlib_zscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0_dp, KIND=dp), x21(i, i), 1)
                               
-                    call stdlib_zaxpy(m - p - i + 1, dcmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_dp), x22(i, i - &
+                    call stdlib_zaxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_dp, KIND=dp), x22(i, i - &
                               1), 1, x21(i, i), 1)
                  end if
                  theta(i) = atan2(stdlib_dznrm2(m - p - i + 1, x21(i, i), 1), stdlib_dznrm2(p - i + 1, &
@@ -28931,14 +28931,14 @@ module stdlib_linalg_lapack_z
                               i), ldx22, work)
                  end if
                  if (i < q) then
-                    call stdlib_zscal(q - i, dcmplx(-z1*z3*sin(theta(i)), 0.0_dp), x11(i, i + 1), &
+                    call stdlib_zscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0_dp, KIND=dp), x11(i, i + 1), &
                               ldx11)
-                    call stdlib_zaxpy(q - i, dcmplx(z2*z3*cos(theta(i)), 0.0_dp), x21(i, i + 1), &
+                    call stdlib_zaxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0_dp, KIND=dp), x21(i, i + 1), &
                               ldx21, x11(i, i + 1), ldx11)
                  end if
-                 call stdlib_zscal(m - q - i + 1, dcmplx(-z1*z4*sin(theta(i)), 0.0_dp), x12(i, i), &
+                 call stdlib_zscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0_dp, KIND=dp), x12(i, i), &
                            ldx12)
-                 call stdlib_zaxpy(m - q - i + 1, dcmplx(z2*z4*cos(theta(i)), 0.0_dp), x22(i, i), &
+                 call stdlib_zaxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0_dp, KIND=dp), x22(i, i), &
                            ldx22, x12(i, i), ldx12)
                  if (i < q) phi(i) = atan2(stdlib_dznrm2(q - i, x11(i, i + 1), ldx11), stdlib_dznrm2( &
                             m - q - i + 1, x12(i, i), ldx12))
@@ -29016,18 +29016,18 @@ module stdlib_linalg_lapack_z
                     call stdlib_zscal(p - i + 1, cmplx(z1, 0.0_dp, KIND=dp), x11(i, i), ldx11)
                               
                  else
-                    call stdlib_zscal(p - i + 1, dcmplx(z1*cos(phi(i - 1)), 0.0_dp), x11(i, i), ldx11)
+                    call stdlib_zscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0_dp, KIND=dp), x11(i, i), ldx11)
                               
-                    call stdlib_zaxpy(p - i + 1, dcmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_dp), x12(i - 1, i) &
+                    call stdlib_zaxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_dp, KIND=dp), x12(i - 1, i) &
                               , ldx12, x11(i, i), ldx11)
                  end if
                  if (i == 1) then
                     call stdlib_zscal(m - p - i + 1, cmplx(z2, 0.0_dp, KIND=dp), x21(i, i), ldx21)
                               
                  else
-                    call stdlib_zscal(m - p - i + 1, dcmplx(z2*cos(phi(i - 1)), 0.0_dp), x21(i, i), &
+                    call stdlib_zscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0_dp, KIND=dp), x21(i, i), &
                               ldx21)
-                    call stdlib_zaxpy(m - p - i + 1, dcmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_dp), x22(i - 1, &
+                    call stdlib_zaxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_dp, KIND=dp), x22(i - 1, &
                               i), ldx22, x21(i, i), ldx21)
                  end if
                  theta(i) = atan2(stdlib_dznrm2(m - p - i + 1, x21(i, i), ldx21), stdlib_dznrm2(p - i + 1, &
@@ -29053,14 +29053,14 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlacgv(p - i + 1, x11(i, i), ldx11)
                  call stdlib_zlacgv(m - p - i + 1, x21(i, i), ldx21)
                  if (i < q) then
-                    call stdlib_zscal(q - i, dcmplx(-z1*z3*sin(theta(i)), 0.0_dp), x11(i + 1, i), 1)
+                    call stdlib_zscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0_dp, KIND=dp), x11(i + 1, i), 1)
                               
-                    call stdlib_zaxpy(q - i, dcmplx(z2*z3*cos(theta(i)), 0.0_dp), x21(i + 1, i), 1, &
+                    call stdlib_zaxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0_dp, KIND=dp), x21(i + 1, i), 1, &
                               x11(i + 1, i), 1)
                  end if
-                 call stdlib_zscal(m - q - i + 1, dcmplx(-z1*z4*sin(theta(i)), 0.0_dp), x12(i, i), 1)
+                 call stdlib_zscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0_dp, KIND=dp), x12(i, i), 1)
                            
-                 call stdlib_zaxpy(m - q - i + 1, dcmplx(z2*z4*cos(theta(i)), 0.0_dp), x22(i, i), 1, &
+                 call stdlib_zaxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0_dp, KIND=dp), x22(i, i), 1, &
                            x12(i, i), 1)
                  if (i < q) phi(i) = atan2(stdlib_dznrm2(q - i, x11(i + 1, i), 1), stdlib_dznrm2(m - &
                            q - i + 1, x12(i, i), 1))
@@ -30003,7 +30003,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            complex(dp) :: dummy(1, 1)
            ! .. intrinsic functions ..
-           intrinsic :: dcmplx, max, min
+           intrinsic :: cmplx, max, min
            ! .. executable statements ..
            ! test the input parameters
            info = 0
@@ -30127,7 +30127,7 @@ module stdlib_linalg_lapack_z
            logical(lk) :: left, lquery, notran
            integer(ilp) :: i, ldwork, len, lwkopt, nb, nq, nw
            ! .. intrinsic functions ..
-           intrinsic :: dcmplx, max, min
+           intrinsic :: cmplx, max, min
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -34544,7 +34544,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: bignum, eps, smlnum
            complex(dp) :: temp
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx
+           intrinsic :: abs, real, cmplx
            ! .. executable statements ..
            ! set constant to control overflow
            eps = stdlib_dlamch('p')
@@ -39589,7 +39589,7 @@ module stdlib_linalg_lapack_z
                      fc, s1, s2, snl, snr, ua11r, ua22r, vb11r, vb22r
            complex(dp) :: b, c, d1, r, t, ua11, ua12, ua21, ua22, vb11, vb12, vb21, vb22
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag
+           intrinsic :: abs, real, cmplx, conjg, aimag
            ! .. statement functions ..
            real(dp) :: abs1
            ! .. statement function definitions ..
@@ -40149,7 +40149,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, j, jcol, jrow, m, n, nlp1
            real(dp) :: diflj, difrj, dj, dsigj, dsigjp, temp
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, aimag, max
+           intrinsic :: real, cmplx, aimag, max
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -40381,7 +40381,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, i1, ic, im1, inode, j, jcol, jimag, jreal, jrow, lf, ll, lvl, lvl2, &
                      nd, ndb1, ndiml, ndimr, nl, nlf, nlp1, nlvl, nr, nrf, nrp1, sqre
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, aimag
+           intrinsic :: real, cmplx, aimag
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -40689,7 +40689,7 @@ module stdlib_linalg_lapack_z
                      nrwork, nsize, nsub, perm, poles, s, sizei, smlszp, sqre, st, st1, u, vt, z
            real(dp) :: cs, eps, orgnrm, rcnd, r, sn, tol
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, aimag, int, log, sign
+           intrinsic :: abs, real, cmplx, aimag, int, log, sign
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -44912,7 +44912,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: cs, d, di, dr, eps, f2, f2s, g2, g2s, safmin, safmn2, safmx2, scale
            complex(dp) :: f, ff, fs, g, gs, r, sn
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, int, log, max, sqrt
+           intrinsic :: abs, real, cmplx, conjg, aimag, int, log, max, sqrt
            ! .. statement functions ..
            real(dp) :: abs1, abssq
            ! .. save statement ..
@@ -45071,7 +45071,7 @@ module stdlib_linalg_lapack_z
                      tmp, tol, ztz
            ! .. intrinsic functions ..
            intrinsic :: abs, real, max, min
-           intrinsic :: dcmplx
+           intrinsic :: cmplx
            ! .. executable statements ..
            info = 0
            ! quick return if possible
@@ -49568,7 +49568,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: ipiv(ldz), jpiv(ldz)
            complex(dp) :: rhs(ldz), z(ldz, ldz)
            ! .. intrinsic functions ..
-           intrinsic :: dcmplx, conjg, max
+           intrinsic :: cmplx, conjg, max
            ! .. executable statements ..
            ! decode and test input parameters
            info = 0
@@ -49756,7 +49756,7 @@ module stdlib_linalg_lapack_z
                       pq, q
            real(dp) :: dscale, dsum, scale2, scaloc
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, max, sqrt
+           intrinsic :: real, cmplx, max, sqrt
            ! .. executable statements ..
            ! decode and test input parameters
            info = 0
@@ -50646,7 +50646,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            real(dp) :: dum(1)
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, min
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, min
            ! .. executable statements ..
            ! decode and test input parameters
            notrna = stdlib_lsame(trana, 'n')
@@ -54220,7 +54220,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: c
            complex(dp) :: c1, c2, ctemp, s, s1, s2, temp, temp1, temp2, temp3
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, conjg, max
+           intrinsic :: real, cmplx, conjg, max
            ! .. executable statements ..
            ! decode and test the input parameters.
            info = 0
@@ -54861,7 +54861,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            integer(ilp) :: isave(3)
            ! .. intrinsic functions ..
-           intrinsic :: dcmplx
+           intrinsic :: cmplx
            ! .. executable statements ..
            ! test the input arguments.
            info = 0
@@ -54946,7 +54946,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            integer(ilp) :: isave(3)
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, aimag, max
+           intrinsic :: abs, real, cmplx, aimag, max
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -58144,7 +58144,7 @@ module stdlib_linalg_lapack_z
            complex(dp) :: abi22, ad11, ad12, ad21, ad22, ctemp, ctemp2, ctemp3, eshift, s, shift, &
                      signbc, u12, x, abi12, y
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max, min, sqrt
+           intrinsic :: abs, real, cmplx, conjg, aimag, max, min, sqrt
            ! .. statement functions ..
            real(dp) :: abs1
            ! .. statement function definitions ..
@@ -60185,7 +60185,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, ifst, ilst, info, infqr, j, jw, kcol, kln, knt, krow, kwtop, ltop, &
                      lwk1, lwk2, lwkopt
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, int, max, min
+           intrinsic :: abs, real, cmplx, conjg, aimag, int, max, min
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -61290,7 +61290,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: eps, lstres, s, safe1, safe2, safmin
            complex(dp) :: bi, cx, dx, ex, zdum
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, max
+           intrinsic :: abs, real, cmplx, conjg, aimag, max
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -61889,7 +61889,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            integer(ilp) :: isave(3)
            ! .. intrinsic functions ..
-           intrinsic :: abs, dcmplx, conjg, max, sqrt
+           intrinsic :: abs, cmplx, conjg, max, sqrt
            ! .. executable statements ..
            ! decode and test the input parameters
            info = 0
@@ -62151,7 +62151,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            complex(dp) :: dummy(1), dummy1(1)
            ! .. intrinsic functions ..
-           intrinsic :: abs, dcmplx, max
+           intrinsic :: abs, cmplx, max
            ! .. executable statements ..
            ! decode and test the input parameters
            wantbh = stdlib_lsame(job, 'b')
@@ -63496,7 +63496,7 @@ module stdlib_linalg_lapack_z
            logical(lk) :: lquery
            integer(ilp) :: iinfo, ldc, lworkopt, lc, lw, nblocal, j
            ! .. intrinsic functions ..
-           intrinsic :: dcmplx, max, min
+           intrinsic :: cmplx, max, min
            ! .. executable statements ..
            ! test the input parameters
            lquery = lwork == -1
@@ -64891,7 +64891,7 @@ module stdlib_linalg_lapack_z
            real(dp) :: anrm, bignum, bnrm, smax, smaxpr, smin, sminpr, smlnum, wsize
            complex(dp) :: c1, c2, s1, s2
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, max, min
+           intrinsic :: abs, real, cmplx, max, min
            ! .. executable statements ..
            mn = min(m, n)
            ismin = mn + 1
@@ -70684,7 +70684,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, iinfo, j, lw1, lw2, lwt, ldwt, lworkopt, nb1local, nb2local, &
                      num_all_row_blocks
            ! .. intrinsic functions ..
-           intrinsic :: ceiling, real, dcmplx, max, min
+           intrinsic :: ceiling, real, cmplx, max, min
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -73797,7 +73797,7 @@ module stdlib_linalg_lapack_z
            logical(lk) :: select(1)
            real(dp) :: dum(1)
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, conjg, aimag, max, sqrt
+           intrinsic :: real, cmplx, conjg, aimag, max, sqrt
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -73974,7 +73974,7 @@ module stdlib_linalg_lapack_z
                  k = stdlib_idamax(n, rwork(irwork), 1)
                  tmp = conjg(vl(k, i))/sqrt(rwork(irwork + k - 1))
                  call stdlib_zscal(n, tmp, vl(1, i), 1)
-                 vl(k, i) = dcmplx(real(vl(k, i), KIND=dp), zero)
+                 vl(k, i) = cmplx(real(vl(k, i), KIND=dp), zero, KIND=dp)
               end do
            end if
            if (wantvr) then
@@ -73993,7 +73993,7 @@ module stdlib_linalg_lapack_z
                  k = stdlib_idamax(n, rwork(irwork), 1)
                  tmp = conjg(vr(k, i))/sqrt(rwork(irwork + k - 1))
                  call stdlib_zscal(n, tmp, vr(1, i), 1)
-                 vr(k, i) = dcmplx(real(vr(k, i), KIND=dp), zero)
+                 vr(k, i) = cmplx(real(vr(k, i), KIND=dp), zero, KIND=dp)
               end do
            end if
            ! undo scaling if necessary
@@ -74061,7 +74061,7 @@ module stdlib_linalg_lapack_z
            logical(lk) :: select(1)
            real(dp) :: dum(1)
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, conjg, aimag, max, sqrt
+           intrinsic :: real, cmplx, conjg, aimag, max, sqrt
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -74275,7 +74275,7 @@ module stdlib_linalg_lapack_z
                  k = stdlib_idamax(n, rwork, 1)
                  tmp = conjg(vl(k, i))/sqrt(rwork(k))
                  call stdlib_zscal(n, tmp, vl(1, i), 1)
-                 vl(k, i) = dcmplx(real(vl(k, i), KIND=dp), zero)
+                 vl(k, i) = cmplx(real(vl(k, i), KIND=dp), zero, KIND=dp)
               end do
            end if
            if (wantvr) then
@@ -74291,7 +74291,7 @@ module stdlib_linalg_lapack_z
                  k = stdlib_idamax(n, rwork, 1)
                  tmp = conjg(vr(k, i))/sqrt(rwork(k))
                  call stdlib_zscal(n, tmp, vr(1, i), 1)
-                 vr(k, i) = dcmplx(real(vr(k, i), KIND=dp), zero)
+                 vr(k, i) = cmplx(real(vr(k, i), KIND=dp), zero, KIND=dp)
               end do
            end if
            ! undo scaling if necessary
@@ -74353,7 +74353,7 @@ module stdlib_linalg_lapack_z
            complex(dp) :: cdummy(1)
            real(dp) :: rdummy(1)
            ! .. intrinsic functions ..
-           intrinsic :: abs, dcmplx, conjg, log, max, min, real, nint, sqrt
+           intrinsic :: abs, cmplx, conjg, log, max, min, real, nint, sqrt
            ! test the input arguments
            lsvec = stdlib_lsame(jobu, 'u') .or. stdlib_lsame(jobu, 'f')
            jracc = stdlib_lsame(jobv, 'j')
@@ -75106,7 +75106,7 @@ module stdlib_linalg_lapack_z
                     ! xsc = sqrt(small)
                     xsc = epsln/real(n, KIND=dp)
                     do q = 1, nr
-                       ctemp = dcmplx(xsc*abs(a(q, q)), zero)
+                       ctemp = cmplx(xsc*abs(a(q, q)), zero, KIND=dp)
                        do p = 1, n
                           if (((p > q) .and. (abs(a(p, q)) <= temp1)) .or. (p < q)) a(p, q) = &
                                     ctemp
@@ -75131,7 +75131,7 @@ module stdlib_linalg_lapack_z
                     ! xsc = sqrt(small)
                     xsc = epsln/real(n, KIND=dp)
                     do q = 1, nr
-                       ctemp = dcmplx(xsc*abs(a(q, q)), zero)
+                       ctemp = cmplx(xsc*abs(a(q, q)), zero, KIND=dp)
                        do p = 1, nr
                           if (((p > q) .and. (abs(a(p, q)) <= temp1)) .or. (p < q)) a(p, q) = &
                                     ctemp
@@ -75269,7 +75269,7 @@ module stdlib_linalg_lapack_z
                  if (l2pert) then
                     xsc = sqrt(small)
                     do q = 1, nr
-                       ctemp = dcmplx(xsc*abs(v(q, q)), zero)
+                       ctemp = cmplx(xsc*abs(v(q, q)), zero, KIND=dp)
                        do p = 1, n
                           if ((p > q) .and. (abs(v(p, q)) <= temp1) .or. (p < q)) v(p, q) = &
                                     ctemp
@@ -75308,7 +75308,7 @@ module stdlib_linalg_lapack_z
                        xsc = sqrt(small)/epsln
                        do p = 2, nr
                           do q = 1, p - 1
-                             ctemp = dcmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero)
+                             ctemp = cmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero, KIND=dp)
                              if (abs(v(q, p)) <= temp1) v(q, p) = ctemp
            ! $                     v(q,p) = temp1 * ( v(q,p) / abs(v(q,p)) )
                           end do
@@ -75343,7 +75343,7 @@ module stdlib_linalg_lapack_z
                        xsc = sqrt(small)
                        do p = 2, nr
                           do q = 1, p - 1
-                             ctemp = dcmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero)
+                             ctemp = cmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero, KIND=dp)
                              if (abs(v(q, p)) <= temp1) v(q, p) = ctemp
            ! $                     v(q,p) = temp1 * ( v(q,p) / abs(v(q,p)) )
                           end do
@@ -75354,7 +75354,7 @@ module stdlib_linalg_lapack_z
                        xsc = sqrt(small)
                        do p = 2, nr
                           do q = 1, p - 1
-                             ctemp = dcmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero)
+                             ctemp = cmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero, KIND=dp)
                               ! v(p,q) = - temp1*( v(q,p) / abs(v(q,p)) )
                              v(p, q) = -ctemp
                           end do
@@ -75604,7 +75604,7 @@ module stdlib_linalg_lapack_z
               if (l2pert) then
                  xsc = sqrt(small/epsln)
                  do q = 1, nr
-                    ctemp = dcmplx(xsc*abs(v(q, q)), zero)
+                    ctemp = cmplx(xsc*abs(v(q, q)), zero, KIND=dp)
                     do p = 1, n
                        if ((p > q) .and. (abs(v(p, q)) <= temp1) .or. (p < q)) v(p, q) = &
                                  ctemp
@@ -75626,7 +75626,7 @@ module stdlib_linalg_lapack_z
                  xsc = sqrt(small/epsln)
                  do q = 2, nr
                     do p = 1, q - 1
-                       ctemp = dcmplx(xsc*min(abs(u(p, p)), abs(u(q, q))), zero)
+                       ctemp = cmplx(xsc*min(abs(u(p, p)), abs(u(q, q))), zero, KIND=dp)
                         ! u(p,q) = - temp1 * ( u(q,p) / abs(u(q,p)) )
                        u(p, q) = -ctemp
                     end do
@@ -78334,13 +78334,13 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: kbot, nmin
            logical(lk) :: initz, lquery, wantt, wantz
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, max, min
+           intrinsic :: real, cmplx, max, min
            ! .. executable statements ..
            ! ==== decode and check the input parameters. ====
            wantt = stdlib_lsame(job, 's')
            initz = stdlib_lsame(compz, 'i')
            wantz = initz .or. stdlib_lsame(compz, 'v')
-           work(1) = dcmplx(real(max(1, n), KIND=dp), rzero)
+           work(1) = cmplx(real(max(1, n), KIND=dp), rzero, KIND=dp)
            lquery = lwork == -1
            info = 0
            if (.not. stdlib_lsame(job, 'e') .and. .not. wantt) then
@@ -78373,8 +78373,8 @@ module stdlib_linalg_lapack_z
                         lwork, info)
               ! ==== ensure reported workspace size is backward-compatible with
               ! .    previous lapack versions. ====
-              work(1) = dcmplx(max(real(work(1), KIND=dp), real(max(1, n), KIND=dp)), &
-                        rzero)
+              work(1) = cmplx(max(real(work(1), KIND=dp), real(max(1, n), KIND=dp)), &
+                        rzero, KIND=dp)
               return
            else
               ! ==== copy eigenvalues isolated by stdlib_zgebal ====
@@ -78429,8 +78429,8 @@ module stdlib_linalg_lapack_z
                         czero, h(3, 1), ldh)
               ! ==== ensure reported workspace size is backward-compatible with
               ! .    previous lapack versions. ====
-              work(1) = dcmplx(max(real(max(1, n), KIND=dp), real(work(1), KIND=dp)), &
-                        rzero)
+              work(1) = cmplx(max(real(max(1, n), KIND=dp), real(work(1), KIND=dp)), &
+                        rzero, KIND=dp)
            end if
            ! ==== end of stdlib_zhseqr ====
      end subroutine stdlib_zhseqr
@@ -78730,7 +78730,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            complex(dp) :: zdum(1, 1)
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, aimag, int, max, min, mod, sqrt
+           intrinsic :: abs, real, cmplx, aimag, int, max, min, mod, sqrt
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -79056,7 +79056,7 @@ module stdlib_linalg_lapack_z
            integer(ilp) :: i, ifst, ilst, info, infqr, j, jw, kcol, kln, knt, krow, kwtop, ltop, &
                      lwk1, lwk2, lwk3, lwkopt, nmin
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, conjg, aimag, int, max, min
+           intrinsic :: abs, real, cmplx, conjg, aimag, int, max, min
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
@@ -79301,7 +79301,7 @@ module stdlib_linalg_lapack_z
            ! .. local arrays ..
            complex(dp) :: zdum(1, 1)
            ! .. intrinsic functions ..
-           intrinsic :: abs, real, dcmplx, aimag, int, max, min, mod, sqrt
+           intrinsic :: abs, real, cmplx, aimag, int, max, min, mod, sqrt
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..

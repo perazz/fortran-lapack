@@ -299,7 +299,7 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            integer(ilp) :: i, nincx
            ! .. intrinsic functions ..
-           intrinsic :: dcmplx
+           intrinsic :: cmplx
            if (n <= 0 .or. incx <= 0) return
            if (incx == 1) then
               ! code for increment equal to 1
@@ -1999,7 +1999,7 @@ module stdlib_linalg_blas_z
            complex(dp) :: a(lda, *), c(ldc, *)
         ! =====================================================================
            ! .. intrinsic functions ..
-           intrinsic :: real, dcmplx, conjg, max
+           intrinsic :: real, cmplx, conjg, max
            ! .. local scalars ..
            complex(dp) :: temp
            real(dp) :: rtemp
