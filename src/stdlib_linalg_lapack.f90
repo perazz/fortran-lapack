@@ -4,9 +4,10 @@ module stdlib_linalg_lapack
      use stdlib_linalg_lapack_aux
      use stdlib_linalg_lapack_s
      use stdlib_linalg_lapack_d
+     use stdlib_linalg_lapack_q
      use stdlib_linalg_lapack_c
      use stdlib_linalg_lapack_z
-     use stdlib_linalg_lapack_q
+     use stdlib_linalg_lapack_w
      implicit none(type, external)
      public
 
