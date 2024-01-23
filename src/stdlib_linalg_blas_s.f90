@@ -4,7 +4,7 @@ module stdlib_linalg_blas_s
      implicit none(type, external)
      private
 
-     public :: sp, dp, lk, ilp
+     public :: sp, dp, qp, lk, ilp
      public :: stdlib_sasum
      public :: stdlib_saxpy
      public :: stdlib_scasum

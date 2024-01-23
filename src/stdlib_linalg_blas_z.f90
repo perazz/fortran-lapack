@@ -7,7 +7,7 @@ module stdlib_linalg_blas_z
      implicit none(type, external)
      private
 
-     public :: sp, dp, lk, ilp
+     public :: sp, dp, qp, lk, ilp
      public :: stdlib_zaxpy
      public :: stdlib_zcopy
      public :: stdlib_zdotc

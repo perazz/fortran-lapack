@@ -33,6 +33,7 @@ def create_constants_module(module_name,out_folder):
     # Temporary: to be replaced with stdlib_kinds
     fid.write(INDENT + "integer, parameter :: sp  = selected_real_kind(6)\n")
     fid.write(INDENT + "integer, parameter :: dp  = selected_real_kind(15)\n")
+    fid.write(INDENT + "integer, parameter :: qp  = selected_real_kind(33)\n")
     fid.write(INDENT + "integer, parameter :: lk  = kind(.true.)\n")
     fid.write(INDENT + "! Integer size support for ILP64 builds should be done here\n")
     fid.write(INDENT + "integer, parameter :: ilp = int32\n")
@@ -51,8 +52,8 @@ def patch_lapack_aux(fid,prefix,indent):
 
     INDENT          = "     "
 
-    initials = ['s','d','c','z']
-    datatypes = ['real(sp)','real(dp)','complex(sp)','complex(dp)']
+    initials = ['s','d','q','c','z','w']
+    datatypes = ['real(sp)','real(dp)','real(qp)','complex(sp)','complex(dp)','complex(qp)']
 
     for i in range(len(initials)):
         fid.write(INDENT + "public :: {prf}selctg_{int}\n".format(prf=prefix,int=initials[i]))
@@ -66,25 +67,25 @@ def patch_lapack_aux(fid,prefix,indent):
     fid.write(INDENT + "! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., \n")
     fid.write(INDENT + "abstract interface \n")
     for i in range(len(initials)):
-        if (i<=1):
+        if (i<=2):
             fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alphar,alphai,beta \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alphar,alphai \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
         else:
             fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alpha,beta) \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alpha,beta \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alpha) \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "       import sp,dp,lk \n")
+            fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alpha \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
@@ -100,7 +101,6 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     from datetime import date
     from platform import os
-
 
     # Splitting by initials
     if split_by_initial:
@@ -159,7 +159,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         fid.write(INDENT + "private\n\n\n\n")
 
         # Public interface.
-        fid.write("\n\n\n" + INDENT + "public :: sp,dp,lk,ilp\n")
+        fid.write("\n\n\n" + INDENT + "public :: sp,dp,qp,lk,ilp\n")
         for function in fortran_functions:
             if function_in_module(initials[m],function.old_name):
                 fid.write(INDENT + "public :: " + function.new_name + "\n")
@@ -170,9 +170,15 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         numeric_const = []
         if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
+            # AUX: add quadruple-precision procedure interfaces
+            fortran_functions = patch_blas_aux(fid,fortran_functions,prefix,INDENT,False)
             # AUX: add procedure interfaces
             patch_lapack_aux(fid,prefix,INDENT)
-        else: #elif module_name=='stdlib_linalg_lapack':
+        if module_name+"_"+initials[m]=='stdlib_linalg_blas_aux':
+            # AUX: add quadruple-precision procedure interfaces
+            fortran_functions = patch_blas_aux(fid,fortran_functions,prefix,INDENT,True)
+
+        else:
             numeric_const,numeric_type,rk = print_module_constants(fid,initials[m],INDENT)
 
         # Actual implementation
@@ -180,14 +186,29 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         # Write functions
         old_names,new_names = function_namelists(fortran_functions,ext_functions,prefix)
+
+        for k in range(len(old_names)):
+            print(module_name+"_"+initials[m]+": function "+old_names[k])
+
         print_function_tree(fortran_functions,old_names,fid,INDENT,MAX_LINE_LENGTH,initials[m])
 
         # Close module
         fid.write("\n\n\nend module {}\n".format(this_module))
         fid.close()
 
+        # Double -> Quadruple precision module
+        if initials[m]=='d' or initials[m]=='z':
+           double_precision_module(module_name,out_folder,initials[m],prefix)
+
+
+
+
     # Write wrapper module
     if split_by_initial:
+
+        # Add quad-precision modules
+        initials = ['aux','s','d','q','c','z','w']
+
         module_file = module_name + ".f90"
         module_path = os.path.join(out_folder,module_file)
 
@@ -209,6 +230,146 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     # Return list of all functions defined in this module, including the external ones
     return old_names
+
+# Identify quad-precision functions
+def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
+
+    import copy
+
+    double_initials = ['d','z']
+    quad_initials = ['q','w']
+
+    if blas:
+        # Blas patches
+        blas_init = ['d','id','iz']
+        blas_newi = ['q','iq','iw']
+        blas_dble = ['dcabs1','idamax','izamax']
+        blas_quad = ['qcabs1','iqamax','iwamax']
+    else:
+        # Lapack patches
+        blas_init = ['d','iz','ilaz','ilaz','ilad','ilad']
+        blas_newi = ['q','iw','ilaw','ilaw','ilaq','ilaq']
+        blas_dble = ['droundup_lwork','izmax1','ilazlc','ilazlr','iladlc','iladlr']
+        blas_quad = ['qroundup_lwork','iwmax1','ilawlc','ilawlr','ilaqlc','ilaqlr']
+
+
+    # Flagged functions:
+    # - begin with double precision initial
+    # - begin with i+double precision initial
+    new_functions = []
+
+    # index of dcabs
+    index = -999
+    for ff in range(len(fortran_functions)):
+        if fortran_functions[ff].old_name=='dcabs1': index = ff
+
+    if index>=0: print("before loop, dcabs1 = "+fortran_functions[index].old_name)
+
+    for ff in range(len(fortran_functions)):
+
+        f = copy.copy(fortran_functions[ff])
+        if (f.old_name=='daxpy'): print("0after daxpy:"+fortran_functions[ff+1].old_name)
+        if function_in_module('aux',f.old_name):
+            if f.old_name in blas_dble:
+                i = blas_dble.index(f.old_name)
+
+                new_name = blas_quad[i]
+                initial  = blas_init[i]
+                f.old_name = new_name
+                f.new_name = prefix+new_name
+                f.body   = double_to_quad(f.body,initial,blas_newi[i],prefix)
+                f.header = double_to_quad(f.header,initial,blas_newi[i],prefix)
+
+                for j in range(len(f.deps)):
+                   dold = f.deps[j].strip().lower()
+                   if dold in blas_dble:
+                       k = blas_dble.index(dold)
+                       f.deps[j] = blas_quad[k].strip()
+
+                new_functions.append(f)
+                fid.write(INDENT + "public :: " + f.new_name + "\n")
+        print("at end of "+fortran_functions[ff].old_name+", dcabs1 = "+fortran_functions[index].old_name)
+
+
+    # Return new list of functions
+    new_list = []
+    for i in range(len(fortran_functions)):
+        new_list.append(fortran_functions[i])
+        if (new_list[-1].old_name=='daxpy'): print("OLD after daxpy:"+fortran_functions[i+1].old_name)
+    for i in range(len(new_functions)):
+        new_list.append(new_functions[i])
+        if (new_list[-1].old_name=='daxpy'): print("NEW after daxpy:"+fortran_functions[i+1].old_name)
+
+    return new_list
+
+# Rename double precision
+def double_to_quad(lines,initial,newinit,prefix):
+
+    import re
+
+    dble_prefixes = ['d','z','id','iz']
+    quad_prefixes = ['q','w','iq','iw']
+
+    if len(initial)>2:
+        dble_prefixes.append(initial)
+        quad_prefixes.append(newinit)
+
+    # Merge
+    whole = '\n'.join(lines)
+
+    # Simple function replacements: precision initial
+    for i in range(len(dble_prefixes)):
+        initial = dble_prefixes[i]
+        newinit = quad_prefixes[i]
+        whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
+        whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
+        # Module header function names
+        whole = re.sub(r'\! '+initial.upper(),r'! '+newinit.upper(),whole)
+
+    whole = re.sub(r'64\-bit',r'128-bit',whole)
+    whole = re.sub(r'double precision',r'quad precision',whole)
+    whole = re.sub(r'\(dp\)',r'(qp)',whole)
+    whole = re.sub(r'KIND\=dp',r'KIND=qp',whole)
+
+    # Split in lines
+    whole = whole.splitlines()
+
+    return whole
+
+
+# Double precision of the current module, 64-bit -> 128-bit
+def double_precision_module(module_name,out_folder,initial,prefix):
+
+        import re
+
+        if initial=='d':
+            newinit = 'q'
+        elif initial=='z':
+            newinit = 'w'
+        else:
+            print(initial + "is not a 64-bit type initial")
+            exit(1)
+
+        dble_module = module_name + "_" + initial
+        quad_module = module_name + "_" + newinit
+
+        dble_file = dble_module + ".f90"
+        module_path = os.path.join(out_folder,dble_file)
+        out_path = os.path.join(out_folder,quad_module + ".f90")
+
+        # Load whole module into a file
+        dble_file = []
+        with open(module_path, 'r') as file:
+            for line in file:
+                dble_file.append(line.rstrip())
+
+        whole = double_to_quad(dble_file,initial,newinit,prefix)
+
+        # Write to disk
+        fid = open(out_path,"w")
+        fid.write('\n'.join(whole))
+        fid.close()
+
 
 def function_module_initial(function_name):
    initials = ['aux','c','s','d','z']
@@ -427,7 +588,14 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
     # Get dependency indices
     for i in range(len(functions)):
         for j in range(len(functions[i].deps)):
-           functions[i].ideps.append(fun_names.index(functions[i].deps[j].lower()))
+           thisdep = functions[i].deps[j].lower().rstrip()
+           if thisdep in fun_names:
+               functions[i].ideps.append(fun_names.index(thisdep))
+           else:
+               print('initial = '+initial)
+               print("dependency "+thisdep+" in function "+functions[i].old_name+" is not in list: ")
+               print('\n'.join(fun_names))
+               exit(1)
 
     attempt = 0
     MAXIT   = 50*len(functions)
@@ -450,8 +618,10 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
                     elif functions[dep].printed:
                         nprinted+=1
 
+                #print("function "+functions[i].old_name+" printed="+str(nprinted)+", len="+str(len(functions[i].deps)))
+
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
-                   print(str(nprinted) + "deps printed already for " + functions[i].old_name)
+                   #print(str(nprinted) + "deps printed already for " + functions[i].old_name)
                    write_function_body(fid,functions[i].header," " * header_indentation(functions[i].body),MAX_LINE_LENGTH,False)
                    write_function_body(fid,functions[i].body,INDENT,MAX_LINE_LENGTH,True)
                    functions[i].printed = True
@@ -937,14 +1107,16 @@ def function_namelists(Sources,external_funs,prefix):
     old_names = []
     new_names = []
     for Source in Sources:
-        old_names.append(Source.old_name.lower())
-        new_names.append(Source.new_name.lower())
+        old_names.append(Source.old_name.lower().strip())
+        new_names.append(Source.new_name.lower().strip())
+        #print("append old "+Source.old_name)
 
     # Add list of external functions to that of the names
     if external_funs is not None:
         for ext in external_funs:
-            old_names.append(ext.lower())
-            new_names.append(prefix+ext.lower())
+            #print("append external "+ext.lower())
+            old_names.append(ext.lower().strip())
+            new_names.append(prefix+ext.lower().strip())
 
     return old_names,new_names
 
@@ -953,8 +1125,8 @@ def rename_parameter_line(line,Source,prefix):
 
     import re
 
-    datatypes = ['real(sp)','real(dp)','complex(sp)','complex(dp)','integer(ilp)','logical(lk)']
-    dataregex = ['real\(sp\)','real\(dp\)','complex\(sp\)','complex\(dp\)','integer\(ilp\)','logical\(lk\)']
+    datatypes = ['real(sp)','real(dp)','real(qp)','complex(sp)','complex(dp)','complex(qp)','integer(ilp)','logical(lk)']
+    dataregex = ['real\(sp\)','real\(dp\)','real\(qp\)','complex\(sp\)','complex\(dp\)','complex\(qp\)','integer\(ilp\)','logical\(lk\)']
 
     ll = line.lower().strip()
 
@@ -1021,6 +1193,9 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     decl  = Source.decl
 
     initial = name[0]
+    if initial=='w' or initial=='q':
+        ik = 'ilp'
+        rk = 'qp'
     if initial=='c' or initial=='s':
         ik = 'ilp'
         rk = 'sp'

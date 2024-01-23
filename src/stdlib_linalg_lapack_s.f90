@@ -5,7 +5,7 @@ module stdlib_linalg_lapack_s
      implicit none(type, external)
      private
 
-     public :: sp, dp, lk, ilp
+     public :: sp, dp, qp, lk, ilp
      public :: stdlib_sbbcsd
      public :: stdlib_sbdsdc
      public :: stdlib_sbdsqr
