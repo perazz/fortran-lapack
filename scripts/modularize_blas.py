@@ -172,6 +172,9 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
             # AUX: add procedure interfaces
             patch_lapack_aux(fid,prefix,INDENT)
+        if module_name+"_"+initials[m]=='stdlib_linalg_blas_aux':
+            # AUX: add quadruple-precision procedure interfaces
+            patch_blas_aux(fid,fortran_functions,prefix,INDENT)
         else:
             numeric_const,numeric_type,rk = print_module_constants(fid,initials[m],INDENT)
 
@@ -187,8 +190,8 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         fid.close()
 
         # Double -> Quadruple precision module
-        if initials[m]=='d':
-           double_precision_module(module_name,out_folder)
+        if initials[m]=='d' or initials[m]=='z':
+           double_precision_module(module_name,out_folder,initials[m],prefix)
 
 
 
@@ -218,14 +221,91 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
     # Return list of all functions defined in this module, including the external ones
     return old_names
 
-# Double precision of the current module, 64-bit -> 128-bit
-def double_precision_module(module_name,out_folder):
+# Identify quad-precision functions
+def patch_blas_aux(fid,fortran_functions,prefix,INDENT):
+
+    double_initials = ['d','z']
+    quad_initials = ['q','w']
+
+    # Flagged functions:
+    # - begin with double precision initial
+    # - begin with i+double precision initial
+    new_functions = []
+
+    for function in fortran_functions:
+        if function_in_module('aux',function.old_name):
+
+            for i in range(len(double_initials)):
+                if function.old_name.startswith(double_initials[i]):
+                    new_name = quad_initials[i] + function.old_name[1:]
+                    function.body   = double_to_quad(function.body,double_initials[i],prefix)
+                    function.header = double_to_quad(function.header,double_initials[i],prefix)
+                    function.deps   = double_to_quad(function.deps,double_initials[i],prefix)
+                    new_functions.append(function)
+                elif function.old_name.startswith('i'+double_initials[i]):
+                    new_name = 'i' + quad_initials[i] + function.old_name[2:]
+                    function.body   = double_to_quad(function.body,double_initials[i],prefix)
+                    function.header = double_to_quad(function.header,double_initials[i],prefix)
+                    function.deps   = double_to_quad(function.deps,double_initials[i],prefix)
+                    new_functions.append(function)
+
+
+    for function in new_functions:
+        fortran_functions.append(function)
+
+
+# Rename double precision
+def double_to_quad(lines,initial,prefix):
 
         import re
 
+        if initial=='d':
+            newinit = 'q'
+        elif initial=='z':
+            newinit = 'w'
+        else:
+            print(initial + "is not a 64-bit type initial")
+            exit(1)
 
-        dble_module = module_name + "_d"
-        quad_module = module_name + "_q"
+
+        # Merge
+        whole = '\n'.join(lines)
+
+        # Simple string replacements: precision initial
+        whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
+
+        print(prefix[:-1]+r'\_'+initial)
+        print(prefix+newinit)
+
+        whole = re.sub(r'64\-bit',r'128-bit',whole)
+        whole = re.sub(r'double precision',r'quad precision',whole)
+        whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
+        whole = re.sub(r'\(dp\)',r'(qp)',whole)
+
+        # Module header function names
+        whole = re.sub(r'\! '+initial.upper(),r'! '+newinit.upper(),whole)
+
+        # Split in lines
+        whole = whole.splitlines()
+
+        return whole
+
+
+# Double precision of the current module, 64-bit -> 128-bit
+def double_precision_module(module_name,out_folder,initial,prefix):
+
+        import re
+
+        if initial=='d':
+            newinit = 'q'
+        elif initial=='z':
+            newinit = 'w'
+        else:
+            print(initial + "is not a 64-bit type initial")
+            exit(1)
+
+        dble_module = module_name + "_" + initial
+        quad_module = module_name + "_" + newinit
 
         dble_file = dble_module + ".f90"
         module_path = os.path.join(out_folder,dble_file)
@@ -235,21 +315,13 @@ def double_precision_module(module_name,out_folder):
         dble_file = []
         with open(module_path, 'r') as file:
             for line in file:
-                dble_file.append(line)
+                dble_file.append(line.rstrip())
 
-        # Merge
-        whole = ''.join(dble_file)
-
-        # Simple string replacements: precision initial
-        whole = re.sub(r'\_d',r'_q',whole)
-        whole = re.sub(r'\(dp\)',r'(qp)',whole)
-
-        # Module header function names
-        whole = re.sub(r'\! D',r'! Q',whole)
+        whole = double_to_quad(dble_file,initial,prefix)
 
         # Write to disk
         fid = open(out_path,"w")
-        fid.write(whole)
+        fid.write('\n'.join(whole))
         fid.close()
 
 

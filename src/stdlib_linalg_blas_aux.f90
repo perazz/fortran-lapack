@@ -16,21 +16,21 @@ module stdlib_linalg_blas_aux
 
      contains
 
-     ! DCABS1 computes |Re(.)| + |Im(.)| of a double complex number
+     ! QCABS1 computes |Re(.)| + |Im(.)| of a double complex number
 
-     real(dp) function stdlib_dcabs1(z)
+     real(qp) function stdlib_qcabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(dp) :: z
+           complex(qp) :: z
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: abs, real, aimag
-           stdlib_dcabs1 = abs(real(z, KIND=dp)) + abs(aimag(z))
+           stdlib_qcabs1 = abs(real(z, KIND=dp)) + abs(aimag(z))
            return
-           ! end of stdlib_dcabs1
-     end function stdlib_dcabs1
+           ! end of stdlib_qcabs1
+     end function stdlib_qcabs1
 
      ! IDAMAX finds the index of the first element having maximum absolute value.
 
@@ -41,10 +41,10 @@ module stdlib_linalg_blas_aux
            ! .. scalar arguments ..
            integer(ilp) :: incx, n
            ! .. array arguments ..
-           real(dp) :: dx(*)
+           real(qp) :: dx(*)
         ! =====================================================================
            ! .. local scalars ..
-           real(dp) :: dmax
+           real(qp) :: dmax
            integer(ilp) :: i, ix
            ! .. intrinsic functions ..
            intrinsic :: abs
@@ -133,10 +133,10 @@ module stdlib_linalg_blas_aux
            ! .. scalar arguments ..
            integer(ilp) :: incx, n
            ! .. array arguments ..
-           complex(dp) :: zx(*)
+           complex(qp) :: zx(*)
         ! =====================================================================
            ! .. local scalars ..
-           real(dp) :: dmax
+           real(qp) :: dmax
            integer(ilp) :: i, ix
            stdlib_izamax = 0
            if (n < 1 .or. incx <= 0) return
