@@ -6,7 +6,7 @@ module stdlib_linalg_blas_c
      implicit none(type, external)
      private
 
-     public :: sp, dp, lk, ilp
+     public :: sp, dp, qp, lk, ilp
      public :: stdlib_caxpy
      public :: stdlib_ccopy
      public :: stdlib_cdotc

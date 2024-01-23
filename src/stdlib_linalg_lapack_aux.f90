@@ -866,7 +866,7 @@ module stdlib_linalg_lapack_aux
               if (.not. stdlib_lsame(ca(i:i), cb(i:i))) go to 20
            end do
            stdlib_lsamen = .true.
-20      continue
+20 continue
            return
            ! end of stdlib_lsamen
      end function stdlib_lsamen
@@ -935,7 +935,7 @@ module stdlib_linalg_lapack_aux
            ! invalid value for ispec
            stdlib_ilaenv = -1
            return
-10      continue
+10 continue
            ! convert name to upper case if the first character is lower case.
            stdlib_ilaenv = 1
            subnam = name
@@ -980,7 +980,7 @@ module stdlib_linalg_lapack_aux
            c4 = c3(2:3)
            twostage = len(subnam) >= 11 .and. subnam(11:11) == '2'
            go to(50, 60, 70) ispec
-50      continue
+50 continue
            ! ispec = 1:  block size
            ! in these examples, separate code is provided for setting nb for
            ! real and complex.  we assume that nb will take the same value in
@@ -1205,7 +1205,7 @@ module stdlib_linalg_lapack_aux
            end if
            stdlib_ilaenv = nb
            return
-60      continue
+60 continue
            ! ispec = 2:  minimum block size
            nbmin = 2
            if (c2 == 'ge') then
@@ -1280,7 +1280,7 @@ module stdlib_linalg_lapack_aux
            end if
            stdlib_ilaenv = nbmin
            return
-70      continue
+70 continue
            ! ispec = 3:  crossover point
            nx = 0
            if (c2 == 'ge') then
@@ -1333,33 +1333,33 @@ module stdlib_linalg_lapack_aux
            end if
            stdlib_ilaenv = nx
            return
-80      continue
+80 continue
            ! ispec = 4:  number of shifts (used by xhseqr)
            stdlib_ilaenv = 6
            return
-90      continue
+90 continue
            ! ispec = 5:  minimum column dimension (not used)
            stdlib_ilaenv = 2
            return
-100    continue
+100 continue
            ! ispec = 6:  crossover point for svd (used by xgelss and xgesvd)
            stdlib_ilaenv = int(real(min(n1, n2))*1.6e0)
            return
-110    continue
+110 continue
            ! ispec = 7:  number of processors (not used)
            stdlib_ilaenv = 1
            return
-120    continue
+120 continue
            ! ispec = 8:  crossover point for multishift (used by xhseqr)
            stdlib_ilaenv = 50
            return
-130    continue
+130 continue
            ! ispec = 9:  maximum size of the subproblems at the bottom of the
                        ! computation tree in the divide-and-conquer algorithm
                        ! (used by xgelsd and xgesdd)
            stdlib_ilaenv = 25
            return
-140    continue
+140 continue
            ! ispec = 10: ieee and infinity nan arithmetic can be trusted not to trap
            ! stdlib_ilaenv = 0
            stdlib_ilaenv = 1
@@ -1367,7 +1367,7 @@ module stdlib_linalg_lapack_aux
               stdlib_ilaenv = stdlib_ieeeck(1, 0.0, 1.0)
            end if
            return
-150    continue
+150 continue
            ! ispec = 11: ieee infinity arithmetic can be trusted not to trap
            ! stdlib_ilaenv = 0
            stdlib_ilaenv = 1
@@ -1375,7 +1375,7 @@ module stdlib_linalg_lapack_aux
               stdlib_ilaenv = stdlib_ieeeck(0, 0.0, 1.0)
            end if
            return
-160    continue
+160 continue
            ! 12 <= ispec <= 17: xhseqr or related subroutines.
            stdlib_ilaenv = stdlib_iparmq(ispec, name, opts, n1, n2, n3, n4)
            return
@@ -1606,7 +1606,7 @@ module stdlib_linalg_lapack_aux
            ! invalid value for ispec
            stdlib_ilaenv2stage = -1
            return
-10      continue
+10 continue
            ! 2stage eigenvalues and svd or related subroutines.
            iispec = 16 + ispec
            stdlib_ilaenv2stage = stdlib_iparam2stage(iispec, name, opts, n1, n2, n3, n4)

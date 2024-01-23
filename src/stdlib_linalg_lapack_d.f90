@@ -761,7 +761,7 @@ module stdlib_linalg_lapack_d
            ! backward permutation
            ! for  i = ilo-1 step -1 until 1,
                     ! ihi+1 step 1 until n do --
-30      continue
+30 continue
            if (stdlib_lsame(job, 'p') .or. stdlib_lsame(job, 'b')) then
               if (rightv) then
                  loop_40: do ii = 1, n
@@ -858,7 +858,7 @@ module stdlib_linalg_lapack_d
               end if
            end if
            ! backward permutation
-30      continue
+30 continue
            if (stdlib_lsame(job, 'p') .or. stdlib_lsame(job, 'b')) then
               ! backward permutation on right eigenvectors
               if (rightv) then
@@ -868,7 +868,7 @@ module stdlib_linalg_lapack_d
                     if (k == i) cycle loop_40
                     call stdlib_dswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_40
-50      continue
+50 continue
                  if (ihi == n) go to 70
                  loop_60: do i = ihi + 1, n
                     k = int(rscale(i), KIND=ilp)
@@ -877,7 +877,7 @@ module stdlib_linalg_lapack_d
                  end do loop_60
               end if
               ! backward permutation on left eigenvectors
-70      continue
+70 continue
               if (leftv) then
                  if (ilo == 1) go to 90
                  loop_80: do i = ilo - 1, 1, -1
@@ -885,7 +885,7 @@ module stdlib_linalg_lapack_d
                     if (k == i) cycle loop_80
                     call stdlib_dswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_80
-90      continue
+90 continue
                  if (ihi == n) go to 110
                  loop_100: do i = ihi + 1, n
                     k = int(lscale(i), KIND=ilp)
@@ -894,7 +894,7 @@ module stdlib_linalg_lapack_d
                  end do loop_100
               end if
            end if
-110    continue
+110 continue
            return
            ! end of stdlib_dggbak
      end subroutine stdlib_dggbak
@@ -1053,7 +1053,7 @@ module stdlib_linalg_lapack_d
            ! back solve with the matrix u from the factorization.
            if (nrhs <= 2) then
               j = 1
-70      continue
+70 continue
               b(n, j) = b(n, j)/d(n)
               if (n > 1) b(n - 1, j) = (b(n - 1, j) - du(n - 1)*b(n, j))/d(n - 1)
               do i = n - 2, 1, -1
@@ -1164,7 +1164,7 @@ module stdlib_linalg_lapack_d
                  go to 50
               end if
            end do
-50      continue
+50 continue
            return
            ! end of stdlib_dgttrf
      end subroutine stdlib_dgttrf
@@ -1195,7 +1195,7 @@ module stdlib_linalg_lapack_d
               ! overwriting each right hand side vector with its solution.
               if (nrhs <= 1) then
                  j = 1
-10      continue
+10 continue
                  ! solve l*x = b.
                  do i = 1, n - 1
                     ip = ipiv(i)
@@ -1240,7 +1240,7 @@ module stdlib_linalg_lapack_d
               if (nrhs <= 1) then
                  ! solve u**t*x = b.
                  j = 1
-70      continue
+70 continue
                  b(1, j) = b(1, j)/d(1)
                  if (n > 1) b(2, j) = (b(2, j) - du(1)*b(1, j))/d(2)
                  do i = 3, n
@@ -1385,7 +1385,7 @@ module stdlib_linalg_lapack_d
              s = (s + s) - s
              y(i) = ((x(i) - s) + w(i)) + y(i)
              x(i) = s
-10    continue
+10 continue
            return
            ! end of stdlib_dla_wwaddw
      end subroutine stdlib_dla_wwaddw
@@ -1453,7 +1453,7 @@ module stdlib_linalg_lapack_d
            go to(20, 40, 70, 110, 140) isave(1)
            ! ................ entry   (isave( 1 ) = 1)
            ! first iteration.  x has been overwritten by a*x.
-20      continue
+20 continue
            if (n == 1) then
               v(1) = x(1)
               est = abs(v(1))
@@ -1474,11 +1474,11 @@ module stdlib_linalg_lapack_d
            return
            ! ................ entry   (isave( 1 ) = 2)
            ! first iteration.  x has been overwritten by transpose(a)*x.
-40      continue
+40 continue
            isave(2) = stdlib_idamax(n, x, 1)
            isave(3) = 2
            ! main loop - iterations 2,3,...,itmax.
-50      continue
+50 continue
            do i = 1, n
               x(i) = zero
            end do
@@ -1488,7 +1488,7 @@ module stdlib_linalg_lapack_d
            return
            ! ................ entry   (isave( 1 ) = 3)
            ! x has been overwritten by a*x.
-70      continue
+70 continue
            call stdlib_dcopy(n, x, 1, v, 1)
            estold = est
            est = stdlib_dasum(n, v, 1)
@@ -1502,7 +1502,7 @@ module stdlib_linalg_lapack_d
            end do
            ! repeated sign vector detected, hence algorithm has converged.
            go to 120
-90      continue
+90 continue
            ! test for cycling.
            if (est <= estold) go to 120
            do i = 1, n
@@ -1518,7 +1518,7 @@ module stdlib_linalg_lapack_d
            return
            ! ................ entry   (isave( 1 ) = 4)
            ! x has been overwritten by transpose(a)*x.
-110    continue
+110 continue
            jlast = isave(2)
            isave(2) = stdlib_idamax(n, x, 1)
            if ((x(jlast) /= abs(x(isave(2)))) .and. (isave(3) < itmax)) then
@@ -1526,7 +1526,7 @@ module stdlib_linalg_lapack_d
               go to 50
            end if
            ! iteration complete.  final stage.
-120    continue
+120 continue
            altsgn = one
            do i = 1, n
               x(i) = altsgn*(one + real(i - 1, KIND=dp)/real(n - 1, KIND=dp))
@@ -1537,13 +1537,13 @@ module stdlib_linalg_lapack_d
            return
            ! ................ entry   (isave( 1 ) = 5)
            ! x has been overwritten by a*x.
-140    continue
+140 continue
            temp = two*(stdlib_dasum(n, x, 1)/real(3*n, KIND=dp))
            if (temp > est) then
               call stdlib_dcopy(n, x, 1, v, 1)
               est = temp
            end if
-150    continue
+150 continue
            kase = 0
            return
            ! end of stdlib_dlacn2
@@ -1585,7 +1585,7 @@ module stdlib_linalg_lapack_d
            go to(20, 40, 70, 110, 140) jump
            ! ................ entry   (jump = 1)
            ! first iteration.  x has been overwritten by a*x.
-20      continue
+20 continue
            if (n == 1) then
               v(1) = x(1)
               est = abs(v(1))
@@ -1602,11 +1602,11 @@ module stdlib_linalg_lapack_d
            return
            ! ................ entry   (jump = 2)
            ! first iteration.  x has been overwritten by transpose(a)*x.
-40      continue
+40 continue
            j = stdlib_idamax(n, x, 1)
            iter = 2
            ! main loop - iterations 2,3,...,itmax.
-50      continue
+50 continue
            do i = 1, n
               x(i) = zero
            end do
@@ -1616,7 +1616,7 @@ module stdlib_linalg_lapack_d
            return
            ! ................ entry   (jump = 3)
            ! x has been overwritten by a*x.
-70      continue
+70 continue
            call stdlib_dcopy(n, x, 1, v, 1)
            estold = est
            est = stdlib_dasum(n, v, 1)
@@ -1625,7 +1625,7 @@ module stdlib_linalg_lapack_d
            end do
            ! repeated sign vector detected, hence algorithm has converged.
            go to 120
-90      continue
+90 continue
            ! test for cycling.
            if (est <= estold) go to 120
            do i = 1, n
@@ -1637,7 +1637,7 @@ module stdlib_linalg_lapack_d
            return
            ! ................ entry   (jump = 4)
            ! x has been overwritten by transpose(a)*x.
-110    continue
+110 continue
            jlast = j
            j = stdlib_idamax(n, x, 1)
            if ((x(jlast) /= abs(x(j))) .and. (iter < itmax)) then
@@ -1645,7 +1645,7 @@ module stdlib_linalg_lapack_d
               go to 50
            end if
            ! iteration complete.  final stage.
-120    continue
+120 continue
            altsgn = one
            do i = 1, n
               x(i) = altsgn*(one + real(i - 1, KIND=dp)/real(n - 1, KIND=dp))
@@ -1656,13 +1656,13 @@ module stdlib_linalg_lapack_d
            return
            ! ................ entry   (jump = 5)
            ! x has been overwritten by a*x.
-140    continue
+140 continue
            temp = two*(stdlib_dasum(n, x, 1)/real(3*n, KIND=dp))
            if (temp > est) then
               call stdlib_dcopy(n, x, 1, v, 1)
               est = temp
            end if
-150    continue
+150 continue
            kase = 0
            return
            ! end of stdlib_dlacon
@@ -2056,7 +2056,7 @@ module stdlib_linalg_lapack_d
               if (kf > kl) go to 140
            end do loop_130
            ! converged
-140    continue
+140 continue
            info = max(kl + 1 - kf, 0)
            mout = kl
            return
@@ -2544,7 +2544,7 @@ module stdlib_linalg_lapack_d
               end do
            end do
            info = 0
-30      continue
+30 continue
            return
            ! end of stdlib_dlag2s
      end subroutine stdlib_dlag2s
@@ -2774,7 +2774,7 @@ module stdlib_linalg_lapack_d
            end if
            i = 1
            ! while ( (n1sv > 0)
-10      continue
+10 continue
            if (n1sv > 0 .and. n2sv > 0) then
               if (a(ind1) <= a(ind2)) then
                  index(i) = ind1
@@ -2970,7 +2970,7 @@ module stdlib_linalg_lapack_d
                  j = i
                  k(j) = -k(j)
                  in = k(j)
-20      continue
+20 continue
                  if (k(in) > 0) go to 40
                  do jj = 1, n
                     temp = x(j, jj)
@@ -2981,7 +2981,7 @@ module stdlib_linalg_lapack_d
                  j = in
                  in = k(in)
                  go to 20
-40      continue
+40 continue
               end do
            else
               ! backward permutation
@@ -2989,7 +2989,7 @@ module stdlib_linalg_lapack_d
                  if (k(i) > 0) go to 80
                  k(i) = -k(i)
                  j = k(i)
-60      continue
+60 continue
                  if (j == i) go to 80
                  do jj = 1, n
                     temp = x(i, jj)
@@ -2999,7 +2999,7 @@ module stdlib_linalg_lapack_d
                  k(j) = -k(j)
                  j = k(j)
                  go to 60
-80      continue
+80 continue
               end do
            end if
            return
@@ -3039,7 +3039,7 @@ module stdlib_linalg_lapack_d
                  j = i
                  k(j) = -k(j)
                  in = k(j)
-20      continue
+20 continue
                  if (k(in) > 0) go to 40
                  do ii = 1, m
                     temp = x(ii, j)
@@ -3050,7 +3050,7 @@ module stdlib_linalg_lapack_d
                  j = in
                  in = k(in)
                  go to 20
-40      continue
+40 continue
               end do
            else
               ! backward permutation
@@ -3058,7 +3058,7 @@ module stdlib_linalg_lapack_d
                  if (k(i) > 0) go to 80
                  k(i) = -k(i)
                  j = k(i)
-60      continue
+60 continue
                  if (j == i) go to 80
                  do ii = 1, m
                     temp = x(ii, i)
@@ -3068,7 +3068,7 @@ module stdlib_linalg_lapack_d
                  k(j) = -k(j)
                  j = k(j)
                  go to 60
-80      continue
+80 continue
               end do
            end if
            return
@@ -4213,14 +4213,14 @@ module stdlib_linalg_lapack_d
               ! code for general m
               call stdlib_dlarf(side, m, n, v, 1, tau, c, ldc, work)
               go to 410
-10      continue
+10 continue
               ! special code for 1 x 1 householder
               t1 = one - tau*v(1)*v(1)
               do j = 1, n
                  c(1, j) = t1*c(1, j)
               end do
               go to 410
-30      continue
+30 continue
               ! special code for 2 x 2 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4232,7 +4232,7 @@ module stdlib_linalg_lapack_d
                  c(2, j) = c(2, j) - sum*t2
               end do
               go to 410
-50      continue
+50 continue
               ! special code for 3 x 3 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4247,7 +4247,7 @@ module stdlib_linalg_lapack_d
                  c(3, j) = c(3, j) - sum*t3
               end do
               go to 410
-70      continue
+70 continue
               ! special code for 4 x 4 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4265,7 +4265,7 @@ module stdlib_linalg_lapack_d
                  c(4, j) = c(4, j) - sum*t4
               end do
               go to 410
-90      continue
+90 continue
               ! special code for 5 x 5 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4287,7 +4287,7 @@ module stdlib_linalg_lapack_d
                  c(5, j) = c(5, j) - sum*t5
               end do
               go to 410
-110    continue
+110 continue
               ! special code for 6 x 6 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4312,7 +4312,7 @@ module stdlib_linalg_lapack_d
                  c(6, j) = c(6, j) - sum*t6
               end do
               go to 410
-130    continue
+130 continue
               ! special code for 7 x 7 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4340,7 +4340,7 @@ module stdlib_linalg_lapack_d
                  c(7, j) = c(7, j) - sum*t7
               end do
               go to 410
-150    continue
+150 continue
               ! special code for 8 x 8 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4371,7 +4371,7 @@ module stdlib_linalg_lapack_d
                  c(8, j) = c(8, j) - sum*t8
               end do
               go to 410
-170    continue
+170 continue
               ! special code for 9 x 9 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4405,7 +4405,7 @@ module stdlib_linalg_lapack_d
                  c(9, j) = c(9, j) - sum*t9
               end do
               go to 410
-190    continue
+190 continue
               ! special code for 10 x 10 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4448,14 +4448,14 @@ module stdlib_linalg_lapack_d
               ! code for general n
               call stdlib_dlarf(side, m, n, v, 1, tau, c, ldc, work)
               go to 410
-210    continue
+210 continue
               ! special code for 1 x 1 householder
               t1 = one - tau*v(1)*v(1)
               do j = 1, m
                  c(j, 1) = t1*c(j, 1)
               end do
               go to 410
-230    continue
+230 continue
               ! special code for 2 x 2 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4467,7 +4467,7 @@ module stdlib_linalg_lapack_d
                  c(j, 2) = c(j, 2) - sum*t2
               end do
               go to 410
-250    continue
+250 continue
               ! special code for 3 x 3 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4482,7 +4482,7 @@ module stdlib_linalg_lapack_d
                  c(j, 3) = c(j, 3) - sum*t3
               end do
               go to 410
-270    continue
+270 continue
               ! special code for 4 x 4 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4500,7 +4500,7 @@ module stdlib_linalg_lapack_d
                  c(j, 4) = c(j, 4) - sum*t4
               end do
               go to 410
-290    continue
+290 continue
               ! special code for 5 x 5 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4522,7 +4522,7 @@ module stdlib_linalg_lapack_d
                  c(j, 5) = c(j, 5) - sum*t5
               end do
               go to 410
-310    continue
+310 continue
               ! special code for 6 x 6 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4547,7 +4547,7 @@ module stdlib_linalg_lapack_d
                  c(j, 6) = c(j, 6) - sum*t6
               end do
               go to 410
-330    continue
+330 continue
               ! special code for 7 x 7 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4575,7 +4575,7 @@ module stdlib_linalg_lapack_d
                  c(j, 7) = c(j, 7) - sum*t7
               end do
               go to 410
-350    continue
+350 continue
               ! special code for 8 x 8 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4606,7 +4606,7 @@ module stdlib_linalg_lapack_d
                  c(j, 8) = c(j, 8) - sum*t8
               end do
               go to 410
-370    continue
+370 continue
               ! special code for 9 x 9 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4640,7 +4640,7 @@ module stdlib_linalg_lapack_d
                  c(j, 9) = c(j, 9) - sum*t9
               end do
               go to 410
-390    continue
+390 continue
               ! special code for 10 x 10 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4678,7 +4678,7 @@ module stdlib_linalg_lapack_d
               end do
               go to 410
            end if
-410    continue
+410 continue
            return
            ! end of stdlib_dlarfx
      end subroutine stdlib_dlarfx
@@ -4990,7 +4990,7 @@ module stdlib_linalg_lapack_d
                  ! make sure that [left,right] contains the desired eigenvalue
                  ! do while( cnt(left)>i-1 )
                  fac = one
-20    continue
+20 continue
                  cnt = 0
                  s = left
                  dplus = d(1) - s
@@ -5006,7 +5006,7 @@ module stdlib_linalg_lapack_d
                  end if
                  ! do while( cnt(right)<i )
                  fac = one
-50    continue
+50 continue
                  cnt = 0
                  s = right
                  dplus = d(1) - s
@@ -5031,7 +5031,7 @@ module stdlib_linalg_lapack_d
            ! do while( nint>0 ), i.e. there are still unconverged intervals
            ! and while (iter<maxitr)
            iter = 0
-80    continue
+80 continue
            prev = i1 - 1
            i = i1
            olnint = nint
@@ -5139,7 +5139,7 @@ module stdlib_linalg_lapack_d
            left = gl - fudge*tnorm*eps*n - fudge*two*pivmin
            right = gu + fudge*tnorm*eps*n + fudge*two*pivmin
            it = 0
-10    continue
+10 continue
            ! check if interval converged or maximum number of iterations reached
            tmp1 = abs(right - left)
            tmp2 = max(abs(right), abs(left))
@@ -5166,7 +5166,7 @@ module stdlib_linalg_lapack_d
               left = mid
            end if
            goto 10
-30    continue
+30 continue
            ! converged or maximum number of iterations reached
            w = half*(left + right)
            werr = half*abs(right - left)
@@ -5237,7 +5237,7 @@ module stdlib_linalg_lapack_d
               tmp = tmp2
               offdig = offdig2
            end do
-11    continue
+11 continue
            if (yesrel) then
               info = 0
               return
@@ -5373,7 +5373,7 @@ module stdlib_linalg_lapack_d
               scale = max(abs(f1), abs(g1))
               if (scale >= safmx2) then
                  count = 0
-10      continue
+10 continue
                  count = count + 1
                  f1 = f1*safmn2
                  g1 = g1*safmn2
@@ -5387,7 +5387,7 @@ module stdlib_linalg_lapack_d
                  end do
               else if (scale <= safmn2) then
                  count = 0
-30      continue
+30 continue
                  count = count + 1
                  f1 = f1*safmx2
                  g1 = g1*safmx2
@@ -5665,7 +5665,7 @@ module stdlib_linalg_lapack_d
            i3 = iseed(3)
            i4 = iseed(4)
            loop_10: do i = 1, min(n, lv)
-20     continue
+20 continue
               ! multiply the seed by i-th power of the multiplier modulo 2**48
               it4 = i4*mm(i, 4)
               it3 = it4/ipw2
@@ -6257,7 +6257,7 @@ module stdlib_linalg_lapack_d
                        a2 = a2 + b2
                        if (hundrd*max(b2, b1) < a2 .or. cnst1 < a2) go to 20
                     end do
-20      continue
+20 continue
                     a2 = cnst3*a2
                     ! rayleigh quotient residual bound.
                     if (a2 < cnst1) s = gam*(one - sqrt(a2))/(one + a2)
@@ -6285,7 +6285,7 @@ module stdlib_linalg_lapack_d
                        a2 = a2 + b2
                        if (hundrd*max(b2, b1) < a2 .or. cnst1 < a2) go to 40
                     end do
-40      continue
+40 continue
                     a2 = cnst3*a2
                  end if
                  if (a2 < cnst1) s = gam*(one - sqrt(a2))/(one + a2)
@@ -6318,7 +6318,7 @@ module stdlib_linalg_lapack_d
                     b2 = b2 + b1
                     if (hundrd*max(b1, a2) < b2) go to 60
                  end do
-60      continue
+60 continue
                  b2 = sqrt(cnst3*b2)
                  a2 = dmin1/(one + b2**2)
                  gap2 = half*dmin2 - a2
@@ -6350,7 +6350,7 @@ module stdlib_linalg_lapack_d
                     b2 = b2 + b1
                     if (hundrd*b1 < b2) go to 80
                  end do
-80      continue
+80 continue
                  b2 = sqrt(cnst3*b2)
                  a2 = dmin2/(one + b2**2)
                  gap2 = z(nn - 7) + z(nn - 9) - sqrt(z(nn - 11))*sqrt(z(nn - 9)) - a2
@@ -7016,7 +7016,7 @@ module stdlib_linalg_lapack_d
            stkpnt = 1
            stack(1, 1) = 1
            stack(2, 1) = n
-10      continue
+10 continue
            start = stack(1, stkpnt)
            endd = stack(2, stkpnt)
            stkpnt = stkpnt - 1
@@ -7077,11 +7077,11 @@ module stdlib_linalg_lapack_d
                  ! sort into decreasing order
                  i = start - 1
                  j = endd + 1
-60      continue
-70      continue
+60 continue
+70 continue
                  j = j - 1
                  if (d(j) < dmnmx) go to 70
-80      continue
+80 continue
                  i = i + 1
                  if (d(i) > dmnmx) go to 80
                  if (i < j) then
@@ -7109,11 +7109,11 @@ module stdlib_linalg_lapack_d
                  ! sort into increasing order
                  i = start - 1
                  j = endd + 1
-90      continue
-100    continue
+90 continue
+100 continue
                  j = j - 1
                  if (d(j) > dmnmx) go to 100
-110    continue
+110 continue
                  i = i + 1
                  if (d(i) < dmnmx) go to 110
                  if (i < j) then
@@ -7515,7 +7515,7 @@ module stdlib_linalg_lapack_d
            k = n1 + n1 + n2 - 2
            go to(10, 20, 30, 50) k
            ! 1 by 1: tl11*x + sgn*x*tr11 = b11
-10      continue
+10 continue
            tau1 = tl(1, 1) + sgn*tr(1, 1)
            bet = abs(tau1)
            if (bet <= smlnum) then
@@ -7532,7 +7532,7 @@ module stdlib_linalg_lapack_d
            ! 1 by 2:
            ! tl11*[x11 x12] + isgn*[x11 x12]*op[tr11 tr12]  = [b11 b12]
                                              ! [tr21 tr22]
-20      continue
+20 continue
            smin = max(eps*max(abs(tl(1, 1)), abs(tr(1, 1)), abs(tr(1, 2)), abs(tr( &
                      2, 1)), abs(tr(2, 2))), smlnum)
            tmp(1) = tl(1, 1) + sgn*tr(1, 1)
@@ -7550,7 +7550,7 @@ module stdlib_linalg_lapack_d
            ! 2 by 1:
                 ! op[tl11 tl12]*[x11] + isgn* [x11]*tr11  = [b11]
                   ! [tl21 tl22] [x21]         [x21]         [b21]
-30      continue
+30 continue
            smin = max(eps*max(abs(tr(1, 1)), abs(tl(1, 1)), abs(tl(1, 2)), abs(tl( &
                      2, 1)), abs(tl(2, 2))), smlnum)
            tmp(1) = tl(1, 1) + sgn*tr(1, 1)
@@ -7564,7 +7564,7 @@ module stdlib_linalg_lapack_d
            end if
            btmp(1) = b(1, 1)
            btmp(2) = b(2, 1)
-40      continue
+40 continue
            ! solve 2 by 2 system using complete pivoting.
            ! set pivots less than smin to smin.
            ipiv = stdlib_idamax(4, tmp, 1)
@@ -7617,7 +7617,7 @@ module stdlib_linalg_lapack_d
              ! [tl21 tl22] [x21 x22]        [x21 x22]   [tr21 tr22]   [b21 b22]
            ! solve equivalent 4 by 4 system using complete pivoting.
            ! set pivots less than smin to smin.
-50      continue
+50 continue
            smin = max(abs(tr(1, 1)), abs(tr(1, 2)), abs(tr(2, 1)), abs(tr(2, 2)))
                      
            smin = max(smin, abs(tl(1, 1)), abs(tl(1, 2)), abs(tl(2, 1)), abs(tl(2, &
@@ -7769,7 +7769,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               ! kw is the column of w which corresponds to column k of a
               k = n
-10      continue
+10 continue
               kw = nb + k - n
               ! exit from loop
               if ((k <= n - nb + 1 .and. nb < n) .or. k < 1) go to 30
@@ -7923,7 +7923,7 @@ module stdlib_linalg_lapack_d
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30 continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -7941,7 +7941,7 @@ module stdlib_linalg_lapack_d
               ! put u12 in standard form by partially undoing the interchanges
               ! in columns k+1:n looping backwards from k+1 to n
               j = k + 1
-60      continue
+60 continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -7966,7 +7966,7 @@ module stdlib_linalg_lapack_d
               ! for use in updating a22
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70 continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               ! copy column k of a to column k of w and update it
@@ -8119,7 +8119,7 @@ module stdlib_linalg_lapack_d
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90 continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -8137,7 +8137,7 @@ module stdlib_linalg_lapack_d
               ! put l21 in standard form by partially undoing the interchanges
               ! of rows in columns 1:k-1 looping backwards from k-1 to 1
               j = k - 1
-120    continue
+120 continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -8210,7 +8210,7 @@ module stdlib_linalg_lapack_d
               e(1) = zero
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10      continue
+10 continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -8251,7 +8251,7 @@ module stdlib_linalg_lapack_d
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12 continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_dcopy(imax, a(1, imax), 1, w(1, kw - 1), 1)
@@ -8385,7 +8385,7 @@ module stdlib_linalg_lapack_d
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30 continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -8410,7 +8410,7 @@ module stdlib_linalg_lapack_d
               e(n) = zero
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70 continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -8449,7 +8449,7 @@ module stdlib_linalg_lapack_d
                  else
                     done = .false.
                     ! loop until pivot found
-72      continue
+72 continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_dcopy(imax - k, a(imax, k), lda, w(k, k + 1), 1)
@@ -8578,7 +8578,7 @@ module stdlib_linalg_lapack_d
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90 continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -8647,7 +8647,7 @@ module stdlib_linalg_lapack_d
               ! for use in updating a11
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10      continue
+10 continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -8686,7 +8686,7 @@ module stdlib_linalg_lapack_d
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12 continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_dcopy(imax, a(1, imax), 1, w(1, kw - 1), 1)
@@ -8813,7 +8813,7 @@ module stdlib_linalg_lapack_d
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30 continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -8831,7 +8831,7 @@ module stdlib_linalg_lapack_d
               ! put u12 in standard form by partially undoing the interchanges
               ! in columns k+1:n
               j = k + 1
-60      continue
+60 continue
                  kstep = 1
                  jp1 = 1
                  jj = j
@@ -8857,7 +8857,7 @@ module stdlib_linalg_lapack_d
               ! for use in updating a22
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70 continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -8894,7 +8894,7 @@ module stdlib_linalg_lapack_d
                  else
                     done = .false.
                     ! loop until pivot found
-72      continue
+72 continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_dcopy(imax - k, a(imax, k), lda, w(k, k + 1), 1)
@@ -9016,7 +9016,7 @@ module stdlib_linalg_lapack_d
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90 continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -9034,7 +9034,7 @@ module stdlib_linalg_lapack_d
               ! put l21 in standard form by partially undoing the interchanges
               ! in columns 1:k-1
               j = k - 1
-120    continue
+120 continue
                  kstep = 1
                  jp1 = 1
                  jj = j
@@ -9105,7 +9105,7 @@ module stdlib_linalg_lapack_d
                  end do
               end do
            end if
-50      continue
+50 continue
            return
            ! end of stdlib_dlat2s
      end subroutine stdlib_dlat2s
@@ -9258,7 +9258,7 @@ module stdlib_linalg_lapack_d
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-50      continue
+50 continue
            else
               ! compute the growth in a**t * x = b.
               if (upper) then
@@ -9305,7 +9305,7 @@ module stdlib_linalg_lapack_d
                     grow = grow/xj
                  end do
               end if
-80      continue
+80 continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -9373,7 +9373,7 @@ module stdlib_linalg_lapack_d
                        scale = zero
                        xmax = zero
                     end if
-100    continue
+100 continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -9510,7 +9510,7 @@ module stdlib_linalg_lapack_d
                           scale = zero
                           xmax = zero
                        end if
-150    continue
+150 continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - sumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -9673,7 +9673,7 @@ module stdlib_linalg_lapack_d
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-50      continue
+50 continue
            else
               ! compute the growth in a**t * x = b.
               if (upper) then
@@ -9722,7 +9722,7 @@ module stdlib_linalg_lapack_d
                     grow = grow/xj
                  end do
               end if
-80      continue
+80 continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -9791,7 +9791,7 @@ module stdlib_linalg_lapack_d
                        scale = zero
                        xmax = zero
                     end if
-100    continue
+100 continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -9924,7 +9924,7 @@ module stdlib_linalg_lapack_d
                           scale = zero
                           xmax = zero
                        end if
-150    continue
+150 continue
                     else
                        ! compute x(j) := x(j) / a(j,j)  - sumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -10084,7 +10084,7 @@ module stdlib_linalg_lapack_d
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-50      continue
+50 continue
            else
               ! compute the growth in a**t * x = b.
               if (upper) then
@@ -10129,7 +10129,7 @@ module stdlib_linalg_lapack_d
                     grow = grow/xj
                  end do
               end if
-80      continue
+80 continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -10197,7 +10197,7 @@ module stdlib_linalg_lapack_d
                        scale = zero
                        xmax = zero
                     end if
-100    continue
+100 continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -10326,7 +10326,7 @@ module stdlib_linalg_lapack_d
                           scale = zero
                           xmax = zero
                        end if
-150    continue
+150 continue
                     else
                        ! compute x(j) := x(j) / a(j,j)  - sumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -13054,7 +13054,7 @@ module stdlib_linalg_lapack_d
               end do
            end if
            return
-50      continue
+50 continue
            info = j
            return
            ! end of stdlib_dpbstf
@@ -13141,7 +13141,7 @@ module stdlib_linalg_lapack_d
               end do
            end if
            return
-30      continue
+30 continue
            info = j
            return
            ! end of stdlib_dpbtf2
@@ -13599,9 +13599,9 @@ module stdlib_linalg_lapack_d
               end do
            end if
            go to 40
-30      continue
+30 continue
            info = j
-40      continue
+40 continue
            return
            ! end of stdlib_dpptrf
      end subroutine stdlib_dpptrf
@@ -13816,7 +13816,7 @@ module stdlib_linalg_lapack_d
            end do loop_20
            ! check d(n) for positive definiteness.
            if (d(n) <= zero) info = n
-30      continue
+30 continue
            return
            ! end of stdlib_dpttrf
      end subroutine stdlib_dpttrf
@@ -13892,7 +13892,7 @@ module stdlib_linalg_lapack_d
            ! initialize the denominator to sa and the numerator to 1.
            cden = sa
            cnum = one
-10      continue
+10 continue
            cden1 = cden*smlnum
            cnum1 = cnum/bignum
            if (abs(cden1) > abs(cnum) .and. cnum /= zero) then
@@ -14028,7 +14028,7 @@ module stdlib_linalg_lapack_d
            ! to avoid duplicating code, the two loops are merged.
            update = .true.
            i = n + 1
-10      continue
+10 continue
            if (update) then
               i = i - 1
               kbt = min(kb, i - 1)
@@ -14414,7 +14414,7 @@ module stdlib_linalg_lapack_d
               end if
            end if
            go to 10
-480    continue
+480 continue
            ! **************************** phase 2 *****************************
            ! the logical structure of this phase is:
            ! update = .true.
@@ -14429,7 +14429,7 @@ module stdlib_linalg_lapack_d
            ! to avoid duplicating code, the two loops are merged.
            update = .true.
            i = 0
-490    continue
+490 continue
            if (update) then
               i = i + 1
               kbt = min(kb, m - i)
@@ -15584,7 +15584,7 @@ module stdlib_linalg_lapack_d
               ! 1 or 2
               k = n
               kc = (n - 1)*n/2 + 1
-10      continue
+10 continue
               knc = kc
               ! if k < 1, exit from loop
               if (k < 1) go to 110
@@ -15718,7 +15718,7 @@ module stdlib_linalg_lapack_d
               k = 1
               kc = 1
               npp = n*(n + 1)/2
-60      continue
+60 continue
               knc = kc
               ! if k > n, exit from loop
               if (k > n) go to 110
@@ -15852,7 +15852,7 @@ module stdlib_linalg_lapack_d
               kc = knc + n - k + 2
               go to 60
            end if
-110    continue
+110 continue
            return
            ! end of stdlib_dsptrf
      end subroutine stdlib_dsptrf
@@ -15917,7 +15917,7 @@ module stdlib_linalg_lapack_d
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-30      continue
+30 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               kcnext = kc + k
@@ -15984,7 +15984,7 @@ module stdlib_linalg_lapack_d
               k = k + kstep
               kc = kcnext
               go to 30
-50      continue
+50 continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
@@ -15992,7 +15992,7 @@ module stdlib_linalg_lapack_d
               npp = n*(n + 1)/2
               k = n
               kc = npp
-60      continue
+60 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 80
               kcnext = kc - (n - k + 2)
@@ -16061,7 +16061,7 @@ module stdlib_linalg_lapack_d
               k = k - kstep
               kc = kcnext
               go to 60
-80      continue
+80 continue
            end if
            return
            ! end of stdlib_dsptri
@@ -16114,7 +16114,7 @@ module stdlib_linalg_lapack_d
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-10      continue
+10 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               kc = kc - k
@@ -16156,13 +16156,13 @@ module stdlib_linalg_lapack_d
                  k = k - 2
               end if
               go to 10
-30      continue
+30 continue
               ! next solve u**t*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-40      continue
+40 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -16191,7 +16191,7 @@ module stdlib_linalg_lapack_d
                  k = k + 2
               end if
               go to 40
-50      continue
+50 continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
@@ -16199,7 +16199,7 @@ module stdlib_linalg_lapack_d
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-60      continue
+60 continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -16243,13 +16243,13 @@ module stdlib_linalg_lapack_d
                  k = k + 2
               end if
               go to 60
-80      continue
+80 continue
               ! next solve l**t*x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-90      continue
+90 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               kc = kc - (n - k + 1)
@@ -16280,7 +16280,7 @@ module stdlib_linalg_lapack_d
                  k = k - 2
               end if
               go to 90
-100    continue
+100 continue
            end if
            return
            ! end of stdlib_dsptrs
@@ -17545,7 +17545,7 @@ module stdlib_linalg_lapack_d
                  s(i) = si
               end do
            end do
-999   continue
+999 continue
            smlnum = stdlib_dlamch('safemin')
            bignum = one/smlnum
            smin = bignum
@@ -17947,7 +17947,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 34
               kstep = 1
@@ -17981,7 +17981,7 @@ module stdlib_linalg_lapack_d
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -18134,7 +18134,7 @@ module stdlib_linalg_lapack_d
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-34      continue
+34 continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! initialize the unused last entry of the subdiagonal array e.
@@ -18142,7 +18142,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40 continue
               ! if k > n, exit from loop
               if (k > n) go to 64
               kstep = 1
@@ -18175,7 +18175,7 @@ module stdlib_linalg_lapack_d
                  else
                     done = .false.
                     ! loop until pivot found
-42      continue
+42 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -18333,7 +18333,7 @@ module stdlib_linalg_lapack_d
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 40
-64      continue
+64 continue
            end if
            return
            ! end of stdlib_dsytf2_rk
@@ -18392,7 +18392,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
@@ -18424,7 +18424,7 @@ module stdlib_linalg_lapack_d
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -18568,7 +18568,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40 continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
@@ -18599,7 +18599,7 @@ module stdlib_linalg_lapack_d
                  else
                     done = .false.
                     ! loop until pivot found
-42      continue
+42 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -18744,7 +18744,7 @@ module stdlib_linalg_lapack_d
               k = k + kstep
               go to 40
            end if
-70      continue
+70 continue
            return
            ! end of stdlib_dsytf2_rook
      end subroutine stdlib_dsytf2_rook
@@ -18820,7 +18820,7 @@ module stdlib_linalg_lapack_d
               ! kb, where kb is the number of columns factorized by stdlib_dlasyf_rk;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 15
               if (k > nb) then
@@ -18856,14 +18856,14 @@ module stdlib_linalg_lapack_d
               go to 10
               ! this label is the exit from main loop over k decreasing
               ! from n to 1 in steps of kb
-15      continue
+15 continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! k is the main loop index, increasing from 1 to n in steps of
               ! kb, where kb is the number of columns factorized by stdlib_dlasyf_rk;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20 continue
               ! if k > n, exit from loop
               if (k > n) go to 35
               if (k <= n - nb) then
@@ -18907,7 +18907,7 @@ module stdlib_linalg_lapack_d
               go to 20
               ! this label is the exit from main loop over k increasing
               ! from 1 to n in steps of kb
-35      continue
+35 continue
            ! end lower
            end if
            work(1) = lwkopt
@@ -18985,7 +18985,7 @@ module stdlib_linalg_lapack_d
               ! kb, where kb is the number of columns factorized by stdlib_dlasyf_rook;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -19010,7 +19010,7 @@ module stdlib_linalg_lapack_d
               ! kb, where kb is the number of columns factorized by stdlib_dlasyf_rook;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20 continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -19037,7 +19037,7 @@ module stdlib_linalg_lapack_d
               k = k + kb
               go to 20
            end if
-40      continue
+40 continue
            work(1) = lwkopt
            return
            ! end of stdlib_dsytrf_rook
@@ -19100,7 +19100,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30      continue
+30 continue
               ! if k > n, exit from loop.
               if (k > n) go to 40
               if (ipiv(k) > 0) then
@@ -19159,13 +19159,13 @@ module stdlib_linalg_lapack_d
               end if
               k = k + kstep
               go to 30
-40      continue
+40 continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-50      continue
+50 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 60
               if (ipiv(k) > 0) then
@@ -19224,7 +19224,7 @@ module stdlib_linalg_lapack_d
               end if
               k = k - kstep
               go to 50
-60      continue
+60 continue
            end if
            return
            ! end of stdlib_dsytri
@@ -19287,7 +19287,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30      continue
+30 continue
               ! if k > n, exit from loop.
               if (k > n) go to 40
               if (ipiv(k) > 0) then
@@ -19366,13 +19366,13 @@ module stdlib_linalg_lapack_d
               end if
               k = k + 1
               go to 30
-40      continue
+40 continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-50      continue
+50 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 60
               if (ipiv(k) > 0) then
@@ -19451,7 +19451,7 @@ module stdlib_linalg_lapack_d
               end if
               k = k - 1
               go to 50
-60      continue
+60 continue
            end if
            return
            ! end of stdlib_dsytri_rook
@@ -19505,7 +19505,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10      continue
+10 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -19545,12 +19545,12 @@ module stdlib_linalg_lapack_d
                  k = k - 2
               end if
               go to 10
-30      continue
+30 continue
               ! next solve u**t *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40      continue
+40 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -19577,14 +19577,14 @@ module stdlib_linalg_lapack_d
                  k = k + 2
               end if
               go to 40
-50      continue
+50 continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60      continue
+60 continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -19626,12 +19626,12 @@ module stdlib_linalg_lapack_d
                  k = k + 2
               end if
               go to 60
-80      continue
+80 continue
               ! next solve l**t *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90      continue
+90 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -19660,7 +19660,7 @@ module stdlib_linalg_lapack_d
                  k = k - 2
               end if
               go to 90
-100    continue
+100 continue
            end if
            return
            ! end of stdlib_dsytrs
@@ -20163,7 +20163,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10      continue
+10 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -20207,12 +20207,12 @@ module stdlib_linalg_lapack_d
                  k = k - 2
               end if
               go to 10
-30      continue
+30 continue
               ! next solve u**t *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40      continue
+40 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -20243,14 +20243,14 @@ module stdlib_linalg_lapack_d
                  k = k + 2
               end if
               go to 40
-50      continue
+50 continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60      continue
+60 continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -20294,12 +20294,12 @@ module stdlib_linalg_lapack_d
                  k = k + 2
               end if
               go to 60
-80      continue
+80 continue
               ! next solve l**t *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90      continue
+90 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -20330,7 +20330,7 @@ module stdlib_linalg_lapack_d
                  k = k - 2
               end if
               go to 90
-100    continue
+100 continue
            end if
            return
            ! end of stdlib_dsytrs_rook
@@ -20542,7 +20542,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-210    continue
+210 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -22259,7 +22259,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-210    continue
+210 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -22949,7 +22949,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-210    continue
+210 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -23512,7 +23512,7 @@ module stdlib_linalg_lapack_d
            stdlib_dzsum1 = stemp
            return
            ! code for increment equal to 1
-20      continue
+20 continue
            do i = 1, n
               ! next line modified.
               stemp = stemp + abs(cx(i))
@@ -24559,7 +24559,7 @@ module stdlib_linalg_lapack_d
            kd = kl + ku + 1
            lnoti = kl > 0
            kase = 0
-10      continue
+10 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -24609,7 +24609,7 @@ module stdlib_linalg_lapack_d
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-40      continue
+40 continue
            return
            ! end of stdlib_dgbcon
      end subroutine stdlib_dgbcon
@@ -24965,7 +24965,7 @@ module stdlib_linalg_lapack_d
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -25048,7 +25048,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-100    continue
+100 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -25393,7 +25393,7 @@ module stdlib_linalg_lapack_d
               kase1 = 2
            end if
            kase = 0
-10      continue
+10 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -25423,7 +25423,7 @@ module stdlib_linalg_lapack_d
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20 continue
            return
            ! end of stdlib_dgecon
      end subroutine stdlib_dgecon
@@ -26455,13 +26455,13 @@ module stdlib_linalg_lapack_d
            go to 30
            ! permute the matrices a and b to isolate the eigenvalues.
            ! find row with one nonzero in columns 1 through l
-20      continue
+20 continue
            l = lm1
            if (l /= 1) go to 30
            rscale(1) = one
            lscale(1) = one
            go to 190
-30      continue
+30 continue
            lm1 = l - 1
            loop_80: do i = l, 1, -1
               do j = 1, lm1
@@ -26470,21 +26470,21 @@ module stdlib_linalg_lapack_d
               end do
               j = l
               go to 70
-50      continue
+50 continue
               do j = jp1, l
                  if (a(i, j) /= zero .or. b(i, j) /= zero) cycle loop_80
               end do
               j = jp1 - 1
-70      continue
+70 continue
               m = l
               iflow = 1
               go to 160
            end do loop_80
            go to 100
            ! find column with one nonzero in rows k through n
-90      continue
+90 continue
            k = k + 1
-100    continue
+100 continue
            loop_150: do j = k, l
               do i = k, lm1
                  ip1 = i + 1
@@ -26492,32 +26492,32 @@ module stdlib_linalg_lapack_d
               end do
               i = l
               go to 140
-120    continue
+120 continue
               do i = ip1, l
                  if (a(i, j) /= zero .or. b(i, j) /= zero) cycle loop_150
               end do
               i = ip1 - 1
-140    continue
+140 continue
               m = k
               iflow = 2
               go to 160
            end do loop_150
            go to 190
            ! permute rows m and i
-160    continue
+160 continue
            lscale(m) = i
            if (i == m) go to 170
            call stdlib_dswap(n - k + 1, a(i, k), lda, a(m, k), lda)
            call stdlib_dswap(n - k + 1, b(i, k), ldb, b(m, k), ldb)
            ! permute columns m and j
-170    continue
+170 continue
            rscale(m) = j
            if (j == m) go to 180
            call stdlib_dswap(l, a(1, j), 1, a(1, m), 1)
            call stdlib_dswap(l, b(1, j), 1, b(1, m), 1)
-180    continue
+180 continue
            go to(20, 90) iflow
-190    continue
+190 continue
            ilo = k
            ihi = l
            if (stdlib_lsame(job, 'p')) then
@@ -26548,10 +26548,10 @@ module stdlib_linalg_lapack_d
                  ta = a(i, j)
                  if (ta == zero) go to 210
                  ta = log10(abs(ta))/basl
-210    continue
+210 continue
                  if (tb == zero) go to 220
                  tb = log10(abs(tb))/basl
-220    continue
+220 continue
                  work(i + 4*n) = work(i + 4*n) - ta - tb
                  work(j + 5*n) = work(j + 5*n) - ta - tb
               end do
@@ -26563,7 +26563,7 @@ module stdlib_linalg_lapack_d
            beta = zero
            it = 1
            ! start generalized conjugate gradient iteration
-250    continue
+250 continue
            gamma = stdlib_ddot(nr, work(ilo + 4*n), 1, work(ilo + 4*n), 1) + stdlib_ddot(nr, &
                      work(ilo + 5*n), 1, work(ilo + 5*n), 1)
            ew = zero
@@ -26593,7 +26593,7 @@ module stdlib_linalg_lapack_d
                  if (a(i, j) == zero) go to 280
                  kount = kount + 1
                  sum = sum + work(j)
-280    continue
+280 continue
                  if (b(i, j) == zero) cycle loop_290
                  kount = kount + 1
                  sum = sum + work(j)
@@ -26607,7 +26607,7 @@ module stdlib_linalg_lapack_d
                  if (a(i, j) == zero) go to 310
                  kount = kount + 1
                  sum = sum + work(i + n)
-310    continue
+310 continue
                  if (b(i, j) == zero) cycle loop_320
                  kount = kount + 1
                  sum = sum + work(i + n)
@@ -26634,7 +26634,7 @@ module stdlib_linalg_lapack_d
            it = it + 1
            if (it <= nrp2) go to 250
            ! end generalized conjugate gradient iteration
-350    continue
+350 continue
            sfmin = stdlib_dlamch('s')
            sfmax = one/sfmin
            lsfmin = int(log10(sfmin)/basl + one, KIND=ilp)
@@ -27166,7 +27166,7 @@ module stdlib_linalg_lapack_d
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -27495,7 +27495,7 @@ module stdlib_linalg_lapack_d
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -27696,7 +27696,7 @@ module stdlib_linalg_lapack_d
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -28050,7 +28050,7 @@ module stdlib_linalg_lapack_d
            ainvnm = zero
            normin = 'n'
            kase = 0
-10      continue
+10 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -28522,7 +28522,7 @@ module stdlib_linalg_lapack_d
               end if
            end do loop_50
            info = 1
-60      continue
+60 continue
            ! undo scaling
            if (scale) tau = tau*sclinv
            return
@@ -28880,7 +28880,7 @@ module stdlib_linalg_lapack_d
                     end if
                     ak = a(k)
                     pert = sign(tol, ak)
-40      continue
+40 continue
                     absak = abs(ak)
                     if (absak < one) then
                        if (absak < sfmin) then
@@ -28941,7 +28941,7 @@ module stdlib_linalg_lapack_d
                     end if
                     ak = a(k)
                     pert = sign(tol, ak)
-70      continue
+70 continue
                     absak = abs(ak)
                     if (absak < one) then
                        if (absak < sfmin) then
@@ -29823,7 +29823,7 @@ module stdlib_linalg_lapack_d
                           end do
                           work(j) = work(j) + s
                        end do
-10      continue
+10 continue
                        value = work(0)
                        do i = 1, n - 1
                           temp = work(i)
@@ -31897,7 +31897,7 @@ module stdlib_linalg_lapack_d
               s = work(inds + i) - lambda
            end do
            sawnan1 = stdlib_disnan(s)
-60    continue
+60 continue
            if (sawnan1) then
               ! runs a slower version of the above loop if a nan is detected
               neg1 = 0
@@ -31982,7 +31982,7 @@ module stdlib_linalg_lapack_d
                  end if
                  ztz = ztz + z(i)*z(i)
               end do
-220   continue
+220 continue
            else
               ! run slower loop if nan occurred.
               do i = r - 1, b1, -1
@@ -31998,7 +31998,7 @@ module stdlib_linalg_lapack_d
                  end if
                  ztz = ztz + z(i)*z(i)
               end do
-240   continue
+240 continue
            end if
            ! compute the fp vector downwards from r in blocks of size blksiz
            if (.not. sawnan1 .and. .not. sawnan2) then
@@ -32011,7 +32011,7 @@ module stdlib_linalg_lapack_d
                  end if
                  ztz = ztz + z(i + 1)*z(i + 1)
               end do
-260   continue
+260 continue
            else
               ! run slower loop if nan occurred.
               do i = r, bn - 1
@@ -32027,7 +32027,7 @@ module stdlib_linalg_lapack_d
                  end if
                  ztz = ztz + z(i + 1)*z(i + 1)
               end do
-280   continue
+280 continue
            end if
            ! compute quantities for convergence test
            tmp = one/ztz
@@ -32085,7 +32085,7 @@ module stdlib_linalg_lapack_d
               if (abs(beta) < safmin) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
                  rsafmn = one/safmin
-10      continue
+10 continue
                  knt = knt + 1
                  call stdlib_dscal(n - 1, rsafmn, x, incx)
                  beta = beta*rsafmn
@@ -32166,7 +32166,7 @@ module stdlib_linalg_lapack_d
               if (abs(beta) < smlnum) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
                  bignum = one/smlnum
-10      continue
+10 continue
                  knt = knt + 1
                  call stdlib_dscal(n - 1, bignum, x, incx)
                  beta = beta*bignum
@@ -32265,7 +32265,7 @@ module stdlib_linalg_lapack_d
                     x(iv + i - 1) = sqrt(-two*log(u(2*i - 1)))*cos(twopi*u(2*i))
                  end do
               end if
-40      continue
+40 continue
            return
            ! end of stdlib_dlarnv
      end subroutine stdlib_dlarnv
@@ -32332,7 +32332,7 @@ module stdlib_linalg_lapack_d
               ! compute negcount from dstqds facto l+d+l+^t = l d l^t - left
               ! do while( negcnt(left)>i-1 )
               back = werr(ii)
-20    continue
+20 continue
               negcnt = stdlib_dlaneg(n, d, lld, left, pivmin, r)
               if (negcnt > i - 1) then
                  left = left - back
@@ -32342,7 +32342,7 @@ module stdlib_linalg_lapack_d
               ! do while( negcnt(right)<i )
               ! compute negcount from dstqds facto l+d+l+^t = l d l^t - right
               back = werr(ii)
-50    continue
+50 continue
               negcnt = stdlib_dlaneg(n, d, lld, right, pivmin, r)
                if (negcnt < i) then
                   right = right + back
@@ -32374,7 +32374,7 @@ module stdlib_linalg_lapack_d
            ! do while( nint>0 ), i.e. there are still unconverged intervals
            ! and while (iter<maxitr)
            iter = 0
-80    continue
+80 continue
            prev = i1 - 1
            i = i1
            olnint = nint
@@ -32987,7 +32987,7 @@ module stdlib_linalg_lapack_d
            ! while (ktry <= ktrymax)
            ktry = 0
            growthbound = maxgrowth1*spdiam
-5     continue
+5 continue
            sawnan1 = .false.
            sawnan2 = .false.
            ! ensure that we do not back off too much of the initial shifts
@@ -33129,7 +33129,7 @@ module stdlib_linalg_lapack_d
               end if
            end if
            end if
-50    continue
+50 continue
            if (ktry < ktrymax) then
               ! if we are here, both shifts failed also the rrr test.
               ! back off to the outside
@@ -33152,7 +33152,7 @@ module stdlib_linalg_lapack_d
                  return
               end if
            end if
-100   continue
+100 continue
            if (shift == sleft) then
            elseif (shift == sright) then
               ! store new l and d back into dplus, lplus
@@ -33261,7 +33261,7 @@ module stdlib_linalg_lapack_d
               ! find the eigenvectors of the submatrix indexed ibegin
               ! through iend.
               wend = wbegin - 1
-15    continue
+15 continue
               if (wend < m) then
                  if (iblock(wend + 1) == jblk) then
                     wend = wend + 1
@@ -33329,7 +33329,7 @@ module stdlib_linalg_lapack_d
               ! loop while( idone<im )
               ! generate the representation tree for the current block and
               ! compute the eigenvectors
-40      continue
+40 continue
               if (idone < im) then
                  ! this is a crude protection against infinitely deep trees
                  if (ndepth > m) then
@@ -33618,7 +33618,7 @@ module stdlib_linalg_lapack_d
                           usedrq = .false.
                           ! bisection is initially turned off unless it is forced
                           needbs = .not. tryrqc
-120   continue
+120 continue
                           ! check if bisection should be used to refine eigenvalue
                           if (needbs) then
                              ! take the bisection as new iterate
@@ -33752,7 +33752,7 @@ module stdlib_linalg_lapack_d
                              end do
                           end if
                           call stdlib_dscal(zto - zfrom + 1, nrminv, z(zfrom, windex), 1)
-125   continue
+125 continue
                           ! update w
                           w(windex) = lambda + sigma
                           ! recompute the gaps on the left and right
@@ -33774,7 +33774,7 @@ module stdlib_linalg_lapack_d
                           idone = idone + 1
                        end if
                        ! here ends the code for the current child
-139   continue
+139 continue
                        ! proceed to any remaining child nodes
                        newfst = j + 1
                     end do loop_140
@@ -33867,7 +33867,7 @@ module stdlib_linalg_lapack_d
            bignum = one/smlnum
            cfromc = cfrom
            ctoc = cto
-10      continue
+10 continue
            cfrom1 = cfromc*smlnum
            if (cfrom1 == cfromc) then
               ! cfromc is an inf.  multiply by a correctly signed zero for
@@ -34679,7 +34679,7 @@ module stdlib_linalg_lapack_d
               ! return with info = 1, niter = maxit and not converged
               info = 1
            end if
-240    continue
+240 continue
            return
            ! end of stdlib_dlasd4
      end subroutine stdlib_dlasd4
@@ -34807,9 +34807,9 @@ module stdlib_linalg_lapack_d
                  go to 70
               end if
            end do
-70      continue
+70 continue
            j = jprev
-80      continue
+80 continue
            j = j + 1
            if (j > n) go to 90
            if (abs(z(j)) <= tol) then
@@ -34859,13 +34859,13 @@ module stdlib_linalg_lapack_d
               end if
            end if
            go to 80
-90      continue
+90 continue
            ! record the last singular value.
            k = k + 1
            zw(k) = z(jprev)
            dsigma(k) = d(jprev)
            idxp(k) = jprev
-100    continue
+100 continue
            ! sort the singular values into dsigma. the singular values which
            ! were not deflated go into the first k slots of dsigma, except
            ! that dsigma(1) is treated separately.
@@ -35087,7 +35087,7 @@ module stdlib_linalg_lapack_d
            tol = eps*hundrd
            tol2 = tol**2
            ! check for deflation.
-10      continue
+10 continue
            if (n0 < i0) return
            if (n0 == i0) go to 20
            nn = 4*n0 + pp
@@ -35095,14 +35095,14 @@ module stdlib_linalg_lapack_d
            ! check whether e(n0-1) is negligible, 1 eigenvalue.
            if (z(nn - 5) > tol2*(sigma + z(nn - 3)) .and. z(nn - 2*pp - 4) > tol2*z(nn - 7)) go to &
                      30
-20      continue
+20 continue
            z(4*n0 - 3) = z(4*n0 + pp - 3) + sigma
            n0 = n0 - 1
            go to 10
            ! check  whether e(n0-2) is negligible, 2 eigenvalues.
-30      continue
+30 continue
            if (z(nn - 9) > tol2*sigma .and. z(nn - 2*pp - 8) > tol2*z(nn - 11)) go to 50
-40      continue
+40 continue
            if (z(nn - 3) > z(nn - 7)) then
               s = z(nn - 3)
               z(nn - 3) = z(nn - 7)
@@ -35124,7 +35124,7 @@ module stdlib_linalg_lapack_d
            z(4*n0 - 3) = z(nn - 3) + sigma
            n0 = n0 - 2
            go to 10
-50      continue
+50 continue
            if (pp == 2) pp = 0
            ! reverse the qd-array, if warranted.
            if (dmin <= zero .or. n0 < n0in) then
@@ -35159,7 +35159,7 @@ module stdlib_linalg_lapack_d
            call stdlib_dlasq4(i0, n0, z, pp, n0in, dmin, dmin1, dmin2, dn, dn1, dn2, tau, ttype, &
                      g)
            ! call dqds until dmin > 0.
-70      continue
+70 continue
            call stdlib_dlasq5(i0, n0, z, pp, tau, sigma, dmin, dmin1, dmin2, dn, dn1, dn2, ieee, &
                      eps)
            ndiv = ndiv + (n0 - i0 + 2)
@@ -35203,12 +35203,12 @@ module stdlib_linalg_lapack_d
               go to 80
            end if
            ! risk of underflow.
-80      continue
+80 continue
            call stdlib_dlasq6(i0, n0, z, pp, dmin, dmin1, dmin2, dn, dn1, dn2)
            ndiv = ndiv + (n0 - i0 + 2)
            iter = iter + 1
            tau = zero
-90      continue
+90 continue
            if (tau < sigma) then
               desig = desig + tau
               t = sigma + desig
@@ -36549,7 +36549,7 @@ module stdlib_linalg_lapack_d
            ! estimate the 1-norm of the inverse.
            kase = 0
            normin = 'n'
-10      continue
+10 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (upper) then
@@ -36580,7 +36580,7 @@ module stdlib_linalg_lapack_d
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20 continue
            return
            ! end of stdlib_dpbcon
      end subroutine stdlib_dpbcon
@@ -36657,7 +36657,7 @@ module stdlib_linalg_lapack_d
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_dcopy(n, b(1, j), 1, work(n + 1), 1)
@@ -36744,7 +36744,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-100    continue
+100 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -36884,7 +36884,7 @@ module stdlib_linalg_lapack_d
            ! estimate the 1-norm of inv(a).
            kase = 0
            normin = 'n'
-10      continue
+10 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (upper) then
@@ -36915,7 +36915,7 @@ module stdlib_linalg_lapack_d
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20 continue
            return
            ! end of stdlib_dpocon
      end subroutine stdlib_dpocon
@@ -36990,7 +36990,7 @@ module stdlib_linalg_lapack_d
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_dcopy(n, b(1, j), 1, work(n + 1), 1)
@@ -37074,7 +37074,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-100    continue
+100 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -37184,9 +37184,9 @@ module stdlib_linalg_lapack_d
               end do
            end if
            go to 40
-30      continue
+30 continue
            info = j
-40      continue
+40 continue
            return
            ! end of stdlib_dpotf2
      end subroutine stdlib_dpotf2
@@ -37386,7 +37386,7 @@ module stdlib_linalg_lapack_d
            ! estimate the 1-norm of the inverse.
            kase = 0
            normin = 'n'
-10      continue
+10 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (upper) then
@@ -37417,7 +37417,7 @@ module stdlib_linalg_lapack_d
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20 continue
            return
            ! end of stdlib_dppcon
      end subroutine stdlib_dppcon
@@ -37488,7 +37488,7 @@ module stdlib_linalg_lapack_d
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_dcopy(n, b(1, j), 1, work(n + 1), 1)
@@ -37579,7 +37579,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-100    continue
+100 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -38026,12 +38026,12 @@ module stdlib_linalg_lapack_d
            ! ran to completion, a has full rank
            rank = n
            go to 170
-160    continue
+160 continue
            ! rank is number of steps completed.  set info = 1 to signal
            ! that the factorization cannot be used to solve a system.
            rank = j - 1
            info = 1
-170    continue
+170 continue
            return
            ! end of stdlib_dpstf2
      end subroutine stdlib_dpstf2
@@ -38301,7 +38301,7 @@ module stdlib_linalg_lapack_d
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -38380,7 +38380,7 @@ module stdlib_linalg_lapack_d
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_dcopy(n, b(1, j), 1, work(n + 1), 1)
@@ -38471,7 +38471,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-100    continue
+100 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -38779,7 +38779,7 @@ module stdlib_linalg_lapack_d
                     go to 30
                  end if
               end do
-30      continue
+30 continue
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_dstein', -info)
@@ -38826,7 +38826,7 @@ module stdlib_linalg_lapack_d
               ortol = odm3*onenrm
               dtpcrt = sqrt(odm1/blksiz)
               ! loop through eigenvalues of block nblk.
-60      continue
+60 continue
               jblk = 0
               loop_150: do j = j1, m
                  if (iblock(j) /= nblk) then
@@ -38861,7 +38861,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dlagtf(blksiz, work(indrv4 + 1), xj, work(indrv2 + 2), work(indrv3 + &
                            1), tol, work(indrv5 + 1), iwork, iinfo)
                  ! update iteration count.
-70      continue
+70 continue
                  its = its + 1
                  if (its > maxits) go to 100
                  ! normalize and scale the righthand side vector pb.
@@ -38883,7 +38883,7 @@ module stdlib_linalg_lapack_d
                     end do
                  end if
                  ! check the infinity norm of the iterate.
-90      continue
+90 continue
                  jmax = stdlib_idamax(blksiz, work(indrv1 + 1), 1)
                  nrm = abs(work(indrv1 + jmax))
                  ! continue for additional iterations after norm reaches
@@ -38894,16 +38894,16 @@ module stdlib_linalg_lapack_d
                  go to 110
                  ! if stopping criterion was not satisfied, update info and
                  ! store eigenvector number in array ifail.
-100    continue
+100 continue
                  info = info + 1
                  ifail(info) = j
                  ! accept iterate as jth eigenvector.
-110    continue
+110 continue
                  scl = one/stdlib_dnrm2(blksiz, work(indrv1 + 1), 1)
                  jmax = stdlib_idamax(blksiz, work(indrv1 + 1), 1)
                  if (work(indrv1 + jmax) < zero) scl = -scl
                  call stdlib_dscal(blksiz, scl, work(indrv1 + 1), 1)
-120    continue
+120 continue
                  do i = 1, n
                     z(i, j) = zero
                  end do
@@ -38991,7 +38991,7 @@ module stdlib_linalg_lapack_d
            ! element is smaller.
            l1 = 1
            nm1 = n - 1
-10      continue
+10 continue
            if (l1 > n) go to 160
            if (l1 > 1) e(l1 - 1) = zero
            if (l1 <= nm1) then
@@ -39005,7 +39005,7 @@ module stdlib_linalg_lapack_d
               end do
            end if
            m = n
-30      continue
+30 continue
            l = l1
            lsv = l
            lend = m
@@ -39033,7 +39033,7 @@ module stdlib_linalg_lapack_d
            if (lend > l) then
               ! ql iteration
               ! look for small subdiagonal element.
-40      continue
+40 continue
               if (l /= lend) then
                  lendm1 = lend - 1
                  do m = l, lendm1
@@ -39042,7 +39042,7 @@ module stdlib_linalg_lapack_d
                  end do
               end if
               m = lend
-60      continue
+60 continue
               if (m < lend) e(m) = zero
               p = d(l)
               if (m == l) go to 80
@@ -39102,7 +39102,7 @@ module stdlib_linalg_lapack_d
               e(l) = g
               go to 40
               ! eigenvalue found.
-80      continue
+80 continue
               d(l) = p
               l = l + 1
               if (l <= lend) go to 40
@@ -39110,7 +39110,7 @@ module stdlib_linalg_lapack_d
            else
               ! qr iteration
               ! look for small superdiagonal element.
-90      continue
+90 continue
               if (l /= lend) then
                  lendp1 = lend + 1
                  do m = l, lendp1, -1
@@ -39119,7 +39119,7 @@ module stdlib_linalg_lapack_d
                  end do
               end if
               m = lend
-110    continue
+110 continue
               if (m > lend) e(m - 1) = zero
               p = d(l)
               if (m == l) go to 130
@@ -39179,14 +39179,14 @@ module stdlib_linalg_lapack_d
               e(lm1) = g
               go to 90
               ! eigenvalue found.
-130    continue
+130 continue
               d(l) = p
               l = l - 1
               if (l >= lend) go to 90
               go to 140
            end if
            ! undo scaling if necessary
-140    continue
+140 continue
            if (iscale == 1) then
               call stdlib_dlascl('g', 0, 0, ssfmax, anorm, lendsv - lsv + 1, 1, d(lsv), n, info)
                         
@@ -39206,7 +39206,7 @@ module stdlib_linalg_lapack_d
            end do
            go to 190
            ! order eigenvalues and eigenvectors.
-160    continue
+160 continue
            if (icompz == 0) then
               ! use quick sort
               call stdlib_dlasrt('i', n, d, info)
@@ -39229,7 +39229,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
            end if
-190    continue
+190 continue
            return
            ! end of stdlib_dsteqr
      end subroutine stdlib_dsteqr
@@ -39281,7 +39281,7 @@ module stdlib_linalg_lapack_d
            ! for each block, according to whether top or bottom diagonal
            ! element is smaller.
            l1 = 1
-10      continue
+10 continue
            if (l1 > n) go to 170
            if (l1 > 1) e(l1 - 1) = zero
            do m = l1, n - 1
@@ -39292,7 +39292,7 @@ module stdlib_linalg_lapack_d
               end if
            end do
            m = n
-30      continue
+30 continue
            l = l1
            lsv = l
            lend = m
@@ -39323,14 +39323,14 @@ module stdlib_linalg_lapack_d
            if (lend >= l) then
               ! ql iteration
               ! look for small subdiagonal element.
-50      continue
+50 continue
               if (l /= lend) then
                  do m = l, lend - 1
                     if (abs(e(m)) <= eps2*abs(d(m)*d(m + 1))) go to 70
                  end do
               end if
               m = lend
-70      continue
+70 continue
               if (m < lend) e(m) = zero
               p = d(l)
               if (m == l) go to 90
@@ -39379,7 +39379,7 @@ module stdlib_linalg_lapack_d
               d(l) = sigma + gamma
               go to 50
               ! eigenvalue found.
-90      continue
+90 continue
               d(l) = p
               l = l + 1
               if (l <= lend) go to 50
@@ -39387,12 +39387,12 @@ module stdlib_linalg_lapack_d
            else
               ! qr iteration
               ! look for small superdiagonal element.
-100    continue
+100 continue
               do m = l, lend + 1, -1
                  if (abs(e(m - 1)) <= eps2*abs(d(m)*d(m - 1))) go to 120
               end do
               m = lend
-120    continue
+120 continue
               if (m > lend) e(m - 1) = zero
               p = d(l)
               if (m == l) go to 140
@@ -39441,14 +39441,14 @@ module stdlib_linalg_lapack_d
               d(l) = sigma + gamma
               go to 100
               ! eigenvalue found.
-140    continue
+140 continue
               d(l) = p
               l = l - 1
               if (l >= lend) go to 100
               go to 150
            end if
            ! undo scaling if necessary
-150    continue
+150 continue
            if (iscale == 1) call stdlib_dlascl('g', 0, 0, ssfmax, anorm, lendsv - lsv + 1, 1, d(lsv), &
                      n, info)
            if (iscale == 2) call stdlib_dlascl('g', 0, 0, ssfmin, anorm, lendsv - lsv + 1, 1, d(lsv), &
@@ -39461,9 +39461,9 @@ module stdlib_linalg_lapack_d
            end do
            go to 180
            ! sort eigenvalues in increasing order.
-170    continue
+170 continue
            call stdlib_dlasrt('i', n, d, info)
-180    continue
+180 continue
            return
            ! end of stdlib_dsterf
      end subroutine stdlib_dsterf
@@ -39702,7 +39702,7 @@ module stdlib_linalg_lapack_d
                         indwrk), iwork(indiwo), ifail, info)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-20      continue
+20 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -39808,7 +39808,7 @@ module stdlib_linalg_lapack_d
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -39888,7 +39888,7 @@ module stdlib_linalg_lapack_d
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -39970,7 +39970,7 @@ module stdlib_linalg_lapack_d
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_dcopy(n, b(1, j), 1, work(n + 1), 1)
@@ -40054,7 +40054,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-100    continue
+100 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -40381,7 +40381,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
@@ -40496,7 +40496,7 @@ module stdlib_linalg_lapack_d
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40 continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
@@ -40609,7 +40609,7 @@ module stdlib_linalg_lapack_d
               k = k + kstep
               go to 40
            end if
-70      continue
+70 continue
            return
            ! end of stdlib_dsytf2
      end subroutine stdlib_dsytf2
@@ -41065,7 +41065,7 @@ module stdlib_linalg_lapack_d
               ! kb, where kb is the number of columns factorized by stdlib_dlasyf;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -41088,7 +41088,7 @@ module stdlib_linalg_lapack_d
               ! kb, where kb is the number of columns factorized by stdlib_dlasyf;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20 continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -41115,7 +41115,7 @@ module stdlib_linalg_lapack_d
               k = k + kb
               go to 20
            end if
-40      continue
+40 continue
            work(1) = lwkopt
            return
            ! end of stdlib_dsytrf
@@ -41194,7 +41194,7 @@ module stdlib_linalg_lapack_d
                  kase1 = 2
               end if
               kase = 0
-10      continue
+10 continue
               call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -41219,7 +41219,7 @@ module stdlib_linalg_lapack_d
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20      continue
+20 continue
            return
            ! end of stdlib_dtbcon
      end subroutine stdlib_dtbcon
@@ -41504,7 +41504,7 @@ module stdlib_linalg_lapack_d
            pq = 0
            p = 0
            i = 1
-10      continue
+10 continue
            if (i > m) go to 20
            p = p + 1
            iwork(p) = i
@@ -41515,12 +41515,12 @@ module stdlib_linalg_lapack_d
               i = i + 1
            end if
            go to 10
-20      continue
+20 continue
            iwork(p + 1) = m + 1
            ! determine block structure of b
            q = p + 1
            j = 1
-30      continue
+30 continue
            if (j > n) go to 40
            q = q + 1
            iwork(q) = j
@@ -41531,7 +41531,7 @@ module stdlib_linalg_lapack_d
               j = j + 1
            end if
            go to 30
-40      continue
+40 continue
            iwork(q + 1) = n + 1
            pq = p*(q - p - 1)
            if (notran) then
@@ -42209,7 +42209,7 @@ module stdlib_linalg_lapack_d
            ! determine block structure of a
            p = 0
            i = 1
-40      continue
+40 continue
            if (i > m) go to 50
            p = p + 1
            iwork(p) = i
@@ -42217,13 +42217,13 @@ module stdlib_linalg_lapack_d
            if (i >= m) go to 50
            if (a(i, i - 1) /= zero) i = i + 1
            go to 40
-50      continue
+50 continue
            iwork(p + 1) = m + 1
            if (iwork(p) == iwork(p + 1)) p = p - 1
            ! determine block structure of b
            q = p + 1
            j = 1
-60      continue
+60 continue
            if (j > n) go to 70
            q = q + 1
            iwork(q) = j
@@ -42231,7 +42231,7 @@ module stdlib_linalg_lapack_d
            if (j >= n) go to 70
            if (b(j, j - 1) /= zero) j = j + 1
            go to 60
-70      continue
+70 continue
            iwork(q + 1) = n + 1
            if (iwork(q) == iwork(q + 1)) q = q - 1
            if (notran) then
@@ -42441,7 +42441,7 @@ module stdlib_linalg_lapack_d
                  kase1 = 2
               end if
               kase = 0
-10      continue
+10 continue
               call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -42466,7 +42466,7 @@ module stdlib_linalg_lapack_d
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20      continue
+20 continue
            return
            ! end of stdlib_dtpcon
      end subroutine stdlib_dtpcon
@@ -42961,7 +42961,7 @@ module stdlib_linalg_lapack_d
                  kase1 = 2
               end if
               kase = 0
-10      continue
+10 continue
               call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -42986,7 +42986,7 @@ module stdlib_linalg_lapack_d
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20      continue
+20 continue
            return
            ! end of stdlib_dtrcon
      end subroutine stdlib_dtrcon
@@ -43320,18 +43320,18 @@ module stdlib_linalg_lapack_d
            ! permutation to isolate eigenvalues if possible
            go to 50
            ! row and column exchange.
-20      continue
+20 continue
            scale(m) = j
            if (j == m) go to 30
            call stdlib_dswap(l, a(1, j), 1, a(1, m), 1)
            call stdlib_dswap(n - k + 1, a(j, k), lda, a(m, k), lda)
-30      continue
+30 continue
            go to(40, 80) iexc
            ! search for rows isolating an eigenvalue and push them down.
-40      continue
+40 continue
            if (l == 1) go to 210
            l = l - 1
-50      continue
+50 continue
            loop_70: do j = l, 1, -1
               loop_60: do i = 1, l
                  if (i == j) cycle loop_60
@@ -43343,9 +43343,9 @@ module stdlib_linalg_lapack_d
            end do loop_70
            go to 90
            ! search for columns isolating an eigenvalue and push them left.
-80      continue
+80 continue
            k = k + 1
-90      continue
+90 continue
            loop_110: do j = k, l
               loop_100: do i = k, l
                  if (i == j) cycle loop_100
@@ -43355,7 +43355,7 @@ module stdlib_linalg_lapack_d
               iexc = 2
               go to 20
            end do loop_110
-120    continue
+120 continue
            do i = k, l
               scale(i) = one
            end do
@@ -43366,7 +43366,7 @@ module stdlib_linalg_lapack_d
            sfmax1 = one/sfmin1
            sfmin2 = sfmin1*sclfac
            sfmax2 = one/sfmin2
-140    continue
+140 continue
            noconv = .false.
            loop_200: do i = k, l
               c = stdlib_dnrm2(l - k + 1, a(k, i), 1)
@@ -43380,7 +43380,7 @@ module stdlib_linalg_lapack_d
               g = r/sclfac
               f = one
               s = c + r
-160    continue
+160 continue
               if (c >= g .or. max(f, c, ca) >= sfmax2 .or. min(r, g, ra) <= sfmin2) go to 170
                  if (stdlib_disnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
@@ -43395,9 +43395,9 @@ module stdlib_linalg_lapack_d
               g = g/sclfac
               ra = ra/sclfac
               go to 160
-170    continue
+170 continue
               g = c/sclfac
-180    continue
+180 continue
               if (g < r .or. max(r, ra) >= sfmax2 .or. min(f, c, g, ca) <= sfmin2) go to 190
               f = f/sclfac
               c = c/sclfac
@@ -43407,7 +43407,7 @@ module stdlib_linalg_lapack_d
               ra = ra*sclfac
               go to 180
               ! now balance.
-190    continue
+190 continue
               if ((c + r) >= factor*s) cycle loop_200
               if (f < one .and. scale(i) < one) then
                  if (f*scale(i) <= sfmin1) cycle loop_200
@@ -43422,7 +43422,7 @@ module stdlib_linalg_lapack_d
               call stdlib_dscal(l, f, a(1, i), 1)
            end do loop_200
            if (noconv) go to 140
-210    continue
+210 continue
            ilo = k
            ihi = l
            return
@@ -44498,7 +44498,7 @@ module stdlib_linalg_lapack_d
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -44578,7 +44578,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-100    continue
+100 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -45858,7 +45858,7 @@ module stdlib_linalg_lapack_d
                              end if
                           end do loop_2002
            ! end q-loop
-2103  continue
+2103 continue
            ! bailed out of q-loop
                           sva(p) = aapp
                        else
@@ -46104,7 +46104,7 @@ module stdlib_linalg_lapack_d
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203  continue
+2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
@@ -46114,7 +46114,7 @@ module stdlib_linalg_lapack_d
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011  continue
+2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
                     sva(p) = abs(sva(p))
@@ -46143,12 +46143,12 @@ module stdlib_linalg_lapack_d
            ! number of iterations.
            info = nsweep - 1
            go to 1995
-1994  continue
+1994 continue
        ! #:) reaching this point means that during the i-th sweep all pivots were
            ! below the given tolerance, causing early exit.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995  continue
+1995 continue
            ! sort the vector d.
            do p = 1, n - 1
               q = stdlib_idamax(n - p + 1, sva(p), 1) + p - 1
@@ -46531,7 +46531,7 @@ module stdlib_linalg_lapack_d
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203  continue
+2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
@@ -46542,7 +46542,7 @@ module stdlib_linalg_lapack_d
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011  continue
+2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
                     sva(p) = abs(sva(p))
@@ -46572,12 +46572,12 @@ module stdlib_linalg_lapack_d
            ! number of sweeps.
            info = nsweep - 1
            go to 1995
-1994  continue
+1994 continue
        ! #:) reaching this point means that during the i-th sweep all pivots were
            ! below the given threshold, causing early exit.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995  continue
+1995 continue
            ! sort the vector d
            do p = 1, n - 1
               q = stdlib_idamax(n - p + 1, sva(p), 1) + p - 1
@@ -46656,7 +46656,7 @@ module stdlib_linalg_lapack_d
               kase1 = 2
            end if
            kase = 0
-20      continue
+20 continue
            call stdlib_dlacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -46750,7 +46750,7 @@ module stdlib_linalg_lapack_d
            loop_110: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -46840,7 +46840,7 @@ module stdlib_linalg_lapack_d
                  end if
               end do
               kase = 0
-70      continue
+70 continue
               call stdlib_dlacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -47286,7 +47286,7 @@ module stdlib_linalg_lapack_d
               go to 420
               ! t(ilast,ilast)=0 -- clear h(ilast,ilast-1) to split off a
               ! 1x1 block.
-70      continue
+70 continue
               temp = h(ilast, ilast)
               call stdlib_dlartg(temp, h(ilast, ilast - 1), c, s, h(ilast, ilast))
               h(ilast, ilast - 1) = zero
@@ -47297,7 +47297,7 @@ module stdlib_linalg_lapack_d
               if (ilz) call stdlib_drot(n, z(1, ilast), 1, z(1, ilast - 1), 1, c, s)
               ! h(ilast,ilast-1)=0 -- standardize b, set alphar, alphai,
                                     ! and beta
-80      continue
+80 continue
               if (t(ilast, ilast) < zero) then
                  if (ilschr) then
                     do j = ifrstm, ilast
@@ -47331,7 +47331,7 @@ module stdlib_linalg_lapack_d
               ! qz step
               ! this iteration only involves rows/columns ifirst:ilast. we
               ! assume ifirst < ilast, and that the diagonal of b is non-zero.
-110    continue
+110 continue
               iiter = iiter + 1
               if (.not. ilschr) then
                  ifrstm = ifirst
@@ -47393,7 +47393,7 @@ module stdlib_linalg_lapack_d
                  if (abs((ascale*h(j + 1, j))*temp) <= (ascale*atol)*temp2) go to 130
               end do
               istart = ifirst
-130    continue
+130 continue
               ! do an implicit single-shift qz sweep.
               ! initial q
               temp = s1*h(istart, istart) - wr*t(istart, istart)
@@ -47448,7 +47448,7 @@ module stdlib_linalg_lapack_d
                     ! but only if the block is at least 3x3.
                     ! this code may break if this point is reached with
                     ! a 2x2 block with real eigenvalues.
-200    continue
+200 continue
               if (ifirst + 1 == ilast) then
                  ! special case -- 2x2 block with complex eigenvectors
                  ! step 1: standardize, that is, rotate so that
@@ -47712,7 +47712,7 @@ module stdlib_linalg_lapack_d
                     ! solve
                     u2 = (scale*u2)/w22
                     u1 = (scale*u1 - w12*u2)/w11
-250    continue
+250 continue
                     if (ilpivt) then
                        temp = u2
                        u2 = u1
@@ -47796,13 +47796,13 @@ module stdlib_linalg_lapack_d
               end if
               go to 350
               ! end of iteration loop
-350    continue
+350 continue
            end do loop_360
            ! drop-through = non-convergence
            info = ilast
            go to 420
            ! successful completion of all qz steps
-380    continue
+380 continue
            ! set eigenvalues 1:ilo-1
            do j = 1, ilo - 1
               if (t(j, j) < zero) then
@@ -47828,7 +47828,7 @@ module stdlib_linalg_lapack_d
            ! normal termination
            info = 0
            ! exit (other than argument error) -- return optimal workspace size
-420    continue
+420 continue
            work(1) = real(n, KIND=dp)
            return
            ! end of stdlib_dhgeqz
@@ -48628,7 +48628,7 @@ module stdlib_linalg_lapack_d
                  dlam = d(ip1) + tau
               end if
            end if
-250    continue
+250 continue
            return
            ! end of stdlib_dlaed4
      end subroutine stdlib_dlaed4
@@ -48757,7 +48757,7 @@ module stdlib_linalg_lapack_d
                  go to 80
               end if
            end do
-80      continue
+80 continue
            j = j + 1
            if (j > n) go to 100
            if (rho*abs(z(j)) <= tol) then
@@ -48793,7 +48793,7 @@ module stdlib_linalg_lapack_d
                  d(jlam) = t
                  k2 = k2 - 1
                  i = 1
-90      continue
+90 continue
                  if (k2 + i <= n) then
                     if (d(jlam) < d(indxp(k2 + i))) then
                        indxp(k2 + i - 1) = indxp(k2 + i)
@@ -48816,13 +48816,13 @@ module stdlib_linalg_lapack_d
               end if
            end if
            go to 80
-100    continue
+100 continue
            ! record the last eigenvalue.
            k = k + 1
            w(k) = z(jlam)
            dlamda(k) = d(jlam)
            indxp(k) = jlam
-110    continue
+110 continue
            ! sort the eigenvalues and corresponding eigenvectors into dlamda
            ! and q2 respectively.  the eigenvalues/vectors which were not
            ! deflated go into the first k slots of dlamda and q2 respectively,
@@ -48955,7 +48955,7 @@ module stdlib_linalg_lapack_d
                  s(i, j) = q(i, j)/temp
               end do
            end do
-120    continue
+120 continue
            return
            ! end of stdlib_dlaed9
      end subroutine stdlib_dlaed9
@@ -49089,7 +49089,7 @@ module stdlib_linalg_lapack_d
               end do
               ! failure to find eigenvector in n iterations.
               info = 1
-120    continue
+120 continue
               ! normalize eigenvector.
               i = stdlib_idamax(n, vr, 1)
               call stdlib_dscal(n, one/abs(vr(i)), vr, 1)
@@ -49291,7 +49291,7 @@ module stdlib_linalg_lapack_d
               end do loop_270
               ! failure to find eigenvector in n iterations
               info = 1
-280    continue
+280 continue
               ! normalize eigenvector.
               vnorm = zero
               do i = 1, n
@@ -50461,7 +50461,7 @@ module stdlib_linalg_lapack_d
                  ! make diagonal elements equal.
                  count = 0
                  sigma = b + c
-10      continue
+10 continue
                  count = count + 1
                  scale = max(abs(temp), abs(sigma))
                  if (scale >= safmx2) then
@@ -50685,7 +50685,7 @@ module stdlib_linalg_lapack_d
            k = 0
            tol3z = sqrt(stdlib_dlamch('epsilon'))
            ! beginning of while loop.
-10      continue
+10 continue
            if ((k < nb) .and. (lsticc == 0)) then
               k = k + 1
               rk = offset + k
@@ -50771,7 +50771,7 @@ module stdlib_linalg_lapack_d
                         lda, f(kb + 1, 1), ldf, one, a(rk + 1, kb + 1), lda)
            end if
            ! recomputation of difficult columns.
-40      continue
+40 continue
            if (lsticc > 0) then
               itemp = nint(vn2(lsticc), KIND=ilp)
               vn1(lsticc) = stdlib_dnrm2(m - rk, a(rk + 1, lsticc), 1)
@@ -51802,7 +51802,7 @@ module stdlib_linalg_lapack_d
            call stdlib_dgemm('n', 'n', nr, k, ctemp, one, u2(nlp2, ktemp), ldu2, q(ktemp, 1), &
                      ldq, zero, u(nlp2, 1), ldu)
            ! generate the right singular vectors.
-100    continue
+100 continue
            do i = 1, k
               temp = stdlib_dnrm2(k, vt(1, i), 1)
               q(i, 1) = vt(1, i)/temp
@@ -53583,7 +53583,7 @@ module stdlib_linalg_lapack_d
               end if
            end if
            return
-150    continue
+150 continue
            return
            ! end of stdlib_dpbtrf
      end subroutine stdlib_dpbtrf
@@ -53833,9 +53833,9 @@ module stdlib_linalg_lapack_d
               end if
            end if
            go to 40
-30      continue
+30 continue
            info = info + j - 1
-40      continue
+40 continue
            return
            ! end of stdlib_dpotrf
      end subroutine stdlib_dpotrf
@@ -54040,12 +54040,12 @@ module stdlib_linalg_lapack_d
            ! ran to completion, a has full rank
            rank = n
            go to 200
-190    continue
+190 continue
            ! rank is the number of steps completed.  set info = 1 to signal
            ! that the factorization cannot be used to solve a system.
            rank = j - 1
            info = 1
-200    continue
+200 continue
            return
            ! end of stdlib_dpstrf
      end subroutine stdlib_dpstrf
@@ -54108,7 +54108,7 @@ module stdlib_linalg_lapack_d
            loop_90: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x.  also compute
               ! abs(a)*abs(x) + abs(b) for use in the backward error bound.
@@ -54617,7 +54617,7 @@ module stdlib_linalg_lapack_d
               end do
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-30      continue
+30 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -54887,7 +54887,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dgemv('n', n, n, one, q, ldq, work, 1, zero, z(1, j), 1)
               end do
            end if
-30      continue
+30 continue
            ! if eigenvalues are not in order, then sort them, along with
            ! eigenvectors.
            if (wantz) then
@@ -55044,7 +55044,7 @@ module stdlib_linalg_lapack_d
            ! stopping criterion. we are good to exit.
            iter = 0
            return
-10      continue
+10 continue
            loop_30: do iiter = 1, itermax
               ! convert r (in work) from double precision to single precision
               ! and store the result in sx.
@@ -55077,14 +55077,14 @@ module stdlib_linalg_lapack_d
               ! stopping criterion, we are good to exit.
               iter = iiter
               return
-20      continue
+20 continue
            end do loop_30
            ! if we are at this place of the code, this is because we have
            ! performed iter=itermax iterations and never satisfied the
            ! stopping criterion, set up the iter flag accordingly and follow up
            ! on double precision routine.
            iter = -itermax - 1
-40      continue
+40 continue
            ! single-precision iterative refinement failed to converge to a
            ! satisfactory solution, so we resort to double precision.
            call stdlib_dgetrf(n, n, a, lda, ipiv, info)
@@ -55359,7 +55359,7 @@ module stdlib_linalg_lapack_d
                          iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-20      continue
+20 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -55719,7 +55719,7 @@ module stdlib_linalg_lapack_d
            ! stopping criterion. we are good to exit.
            iter = 0
            return
-10      continue
+10 continue
            loop_30: do iiter = 1, itermax
               ! convert r (in work) from double precision to single precision
               ! and store the result in sx.
@@ -55750,14 +55750,14 @@ module stdlib_linalg_lapack_d
               ! stopping criterion, we are good to exit.
               iter = iiter
               return
-20      continue
+20 continue
            end do loop_30
            ! if we are at this place of the code, this is because we have
            ! performed iter=itermax iterations and never satisfied the
            ! stopping criterion, set up the iter flag accordingly and follow
            ! up on double precision routine.
            iter = -itermax - 1
-40      continue
+40 continue
            ! single-precision iterative refinement failed to converge to a
            ! satisfactory solution, so we resort to double precision.
            call stdlib_dpotrf(uplo, n, a, lda, info)
@@ -56077,7 +56077,7 @@ module stdlib_linalg_lapack_d
                         indwkn), llwrkn, iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-40      continue
+40 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -57774,7 +57774,7 @@ module stdlib_linalg_lapack_d
               return
            end if
            ! exit with info = 1 if swap was rejected.
-70      continue
+70 continue
            info = 1
            return
            ! end of stdlib_dtgex2
@@ -57872,7 +57872,7 @@ module stdlib_linalg_lapack_d
               if (nbf == 2 .and. nbl == 1) ilst = ilst - 1
               if (nbf == 1 .and. nbl == 2) ilst = ilst + 1
               here = ifst
-10      continue
+10 continue
               ! swap with next one below.
               if (nbf == 1 .or. nbf == 2) then
                  ! current block either 1-by-1 or 2-by-2.
@@ -57947,7 +57947,7 @@ module stdlib_linalg_lapack_d
               if (here < ilst) go to 10
            else
               here = ifst
-20      continue
+20 continue
               ! swap with next one below.
               if (nbf == 1 .or. nbf == 2) then
                  ! current block either 1-by-1 or 2-by-2.
@@ -58266,7 +58266,7 @@ module stdlib_linalg_lapack_d
                  ijb = 0
                  mn2 = 2*n1*n2
                  ! 1-norm-based estimate of difu.
-40      continue
+40 continue
                  call stdlib_dlacn2(mn2, work(mn2 + 1), work, iwork, dif(1), kase, isave)
                            
                  if (kase /= 0) then
@@ -58285,7 +58285,7 @@ module stdlib_linalg_lapack_d
                  end if
                  dif(1) = dscale/dif(1)
                  ! 1-norm-based estimate of difl.
-50      continue
+50 continue
                  call stdlib_dlacn2(mn2, work(mn2 + 1), work, iwork, dif(2), kase, isave)
                            
                  if (kase /= 0) then
@@ -58305,7 +58305,7 @@ module stdlib_linalg_lapack_d
                  dif(2) = dscale/dif(2)
               end if
            end if
-60      continue
+60 continue
            ! compute generalized eigenvalues of reordered pair (a, b) and
            ! normalize the generalized schur form.
            pair = .false.
@@ -58544,7 +58544,7 @@ module stdlib_linalg_lapack_d
            ! the algorithm has not converged after maxit cycles.
            info = 1
            go to 100
-50      continue
+50 continue
            ! if error <= min(tola,tolb), then the algorithm has converged.
            ! compute the generalized singular value pairs (alpha, beta), and
            ! set the triangular matrix r to array a.
@@ -58586,7 +58586,7 @@ module stdlib_linalg_lapack_d
                  beta(i) = zero
               end do
            end if
-100    continue
+100 continue
            ncycle = kcycle
            return
            ! end of stdlib_dtgsja
@@ -59090,7 +59090,7 @@ module stdlib_linalg_lapack_d
                  if (ki == 1) go to 40
                  if (t(ki, ki - 1) == zero) go to 40
                  ip = -1
-40      continue
+40 continue
                  if (somev) then
                     if (ip == 0) then
                        if (.not. select(ki)) go to 130
@@ -59314,7 +59314,7 @@ module stdlib_linalg_lapack_d
                  end if
                  is = is - 1
                  if (ip /= 0) is = is - 1
-130    continue
+130 continue
                  if (ip == 1) ip = 0
                  if (ip == -1) ip = 1
               end do loop_140
@@ -59328,7 +59328,7 @@ module stdlib_linalg_lapack_d
                  if (ki == n) go to 150
                  if (t(ki + 1, ki) == zero) go to 150
                  ip = 1
-150    continue
+150 continue
                  if (somev) then
                     if (.not. select(ki)) go to 250
                  end if
@@ -59563,7 +59563,7 @@ module stdlib_linalg_lapack_d
                  end if
                  is = is + 1
                  if (ip /= 0) is = is + 1
-250    continue
+250 continue
                  if (ip == -1) ip = 0
                  if (ip == 1) ip = -1
               end do loop_260
@@ -61662,7 +61662,7 @@ module stdlib_linalg_lapack_d
            else if (ibscl == 2) then
               call stdlib_dlascl('g', 0, 0, bignum, bnrm, scllen, nrhs, b, ldb, info)
            end if
-50      continue
+50 continue
            work(1) = real(wsize, KIND=dp)
            return
            ! end of stdlib_dgels
@@ -61987,7 +61987,7 @@ module stdlib_linalg_lapack_d
                  j = nfxd + 1
                  ! compute factorization: while loop.
                  topbmn = minmn - nx
-30      continue
+30 continue
                  if (j <= topbmn) then
                     jb = min(nb, topbmn - j + 1)
                     ! factorize jb columns among columns j:n.
@@ -62720,7 +62720,7 @@ module stdlib_linalg_lapack_d
                              end if
                           end do loop_2002
            ! end q-loop
-2103  continue
+2103 continue
            ! bailed out of q-loop
                           sva(p) = aapp
                        else
@@ -62969,7 +62969,7 @@ module stdlib_linalg_lapack_d
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203  continue
+2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
@@ -62979,7 +62979,7 @@ module stdlib_linalg_lapack_d
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011  continue
+2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
                     sva(p) = abs(sva(p))
@@ -63008,12 +63008,12 @@ module stdlib_linalg_lapack_d
        ! #:( reaching this point means that the procedure has not converged.
            info = nsweep - 1
            go to 1995
-1994  continue
+1994 continue
        ! #:) reaching this point means numerical convergence after the i-th
            ! sweep.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995  continue
+1995 continue
            ! sort the singular values and find how many are above
            ! the underflow threshold.
            n2 = 0
@@ -63603,7 +63603,7 @@ module stdlib_linalg_lapack_d
                  lastsl = cursl
               end do
            end if
-50      continue
+50 continue
            work(1) = maxwrk
            return
            ! end of stdlib_dgges
@@ -63972,7 +63972,7 @@ module stdlib_linalg_lapack_d
                  lastsl = cursl
               end do
            end if
-60      continue
+60 continue
            work(1) = maxwrk
            iwork(1) = liwmin
            return
@@ -64264,7 +64264,7 @@ module stdlib_linalg_lapack_d
               ! end of eigenvector calculation
            end if
            ! undo scaling if necessary
-110    continue
+110 continue
            if (ilascl) then
               call stdlib_dlascl('g', 0, 0, anrmto, anrm, n, 1, alphar, n, ierr)
               call stdlib_dlascl('g', 0, 0, anrmto, anrm, n, 1, alphai, n, ierr)
@@ -64658,7 +64658,7 @@ module stdlib_linalg_lapack_d
               end do loop_120
            end if
            ! undo scaling if necessary
-130    continue
+130 continue
            if (ilascl) then
               call stdlib_dlascl('g', 0, 0, anrmto, anrm, n, 1, alphar, n, ierr)
               call stdlib_dlascl('g', 0, 0, anrmto, anrm, n, 1, alphai, n, ierr)
@@ -65045,13 +65045,13 @@ module stdlib_linalg_lapack_d
                     do i = k, kl + 1, -1
                        if (h(i, i - 1) == zero) go to 30
                     end do
-30      continue
+30 continue
                     kl = i
                     if (k > kr) then
                        do i = k, n - 1
                           if (h(i + 1, i) == zero) go to 50
                        end do
-50      continue
+50 continue
                        kr = i
                     end if
                  end if
@@ -65074,7 +65074,7 @@ module stdlib_linalg_lapack_d
                  ! h(kl:kr,kl:kr). close roots are modified by eps3.
                  wkr = wr(k)
                  wki = wi(k)
-60      continue
+60 continue
                  do i = k - 1, kl, -1
                     if (select(i) .and. abs(wr(i) - wkr) + abs(wi(i) - wki) < eps3) &
                               then
@@ -65349,7 +65349,7 @@ module stdlib_linalg_lapack_d
               end do
            end do
            ! compute the updated eigenvectors.
-110    continue
+110 continue
            n2 = n - n1
            n12 = ctot(1) + ctot(2)
            n23 = ctot(2) + ctot(3)
@@ -65367,7 +65367,7 @@ module stdlib_linalg_lapack_d
            else
               call stdlib_dlaset('a', n1, k, zero, zero, q(1, 1), ldq)
            end if
-120    continue
+120 continue
            return
            ! end of stdlib_dlaed3
      end subroutine stdlib_dlaed3
@@ -65499,7 +65499,7 @@ module stdlib_linalg_lapack_d
                  indxq(i) = i
               end do
            end if
-30      continue
+30 continue
            return
            ! end of stdlib_dlaed7
      end subroutine stdlib_dlaed7
@@ -65576,7 +65576,7 @@ module stdlib_linalg_lapack_d
               ! swap the adjacent diagonal blocks.
               k = n1 + n1 + n2 - 3
               go to(10, 20, 30) k
-10      continue
+10 continue
               ! n1 = 1, n2 = 2: generate elementary reflector h so that:
               ! ( scale, x11, x12 ) h = ( 0, 0, * )
               u(1) = scale
@@ -65602,7 +65602,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dlarfx('r', n, 3, u, tau, q(1, j1), ldq, work)
               end if
               go to 40
-20      continue
+20 continue
               ! n1 = 2, n2 = 1: generate elementary reflector h so that:
               ! h (  -x11 ) = ( * )
                 ! (  -x21 ) = ( 0 )
@@ -65630,7 +65630,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dlarfx('r', n, 3, u, tau, q(1, j1), ldq, work)
               end if
               go to 40
-30      continue
+30 continue
               ! n1 = 2, n2 = 2: generate elementary reflectors h(1) and h(2) so
               ! that:
               ! h(2) h(1) (  -x11  -x12 ) = (  *  * )
@@ -65670,7 +65670,7 @@ module stdlib_linalg_lapack_d
                  call stdlib_dlarfx('r', n, 3, u1, tau1, q(1, j1), ldq, work)
                  call stdlib_dlarfx('r', n, 3, u2, tau2, q(1, j2), ldq, work)
               end if
-40      continue
+40 continue
               if (n2 == 2) then
                  ! standardize new 2-by-2 block t11
                  call stdlib_dlanv2(t(j1, j1), t(j1, j2), t(j2, j1), t(j2, j2), wr1, wi1, &
@@ -65693,7 +65693,7 @@ module stdlib_linalg_lapack_d
            end if
            return
            ! exit with info = 1 if swap was rejected.
-50      continue
+50 continue
            info = 1
            return
            ! end of stdlib_dlaexc
@@ -65768,7 +65768,7 @@ module stdlib_linalg_lapack_d
            ! eigenvalues i+1 to ihi have already converged. either l = ilo or
            ! h(l,l-1) is negligible so that the matrix splits.
            i = ihi
-20      continue
+20 continue
            l = ilo
            if (i < ilo) go to 160
            ! perform qr iterations on rows and columns ilo to i until a
@@ -65796,7 +65796,7 @@ module stdlib_linalg_lapack_d
                     if (ba*(ab/s) <= max(smlnum, ulp*(bb*(aa/s)))) go to 40
                  end if
               end do
-40      continue
+40 continue
               l = k
               if (l > ilo) then
                  ! h(l,l-1) is negligible
@@ -65890,7 +65890,7 @@ module stdlib_linalg_lapack_d
                  if (abs(h(m, m - 1))*(abs(v(2)) + abs(v(3))) <= ulp*abs(v(1))*(abs( &
                            h(m - 1, m - 1)) + abs(h(m, m)) + abs(h(m + 1, m + 1)))) go to 60
               end do
-60      continue
+60 continue
               ! double-shift qr step
               loop_130: do k = m, i - 1
                  ! the first iteration of this loop determines a reflection g
@@ -65973,7 +65973,7 @@ module stdlib_linalg_lapack_d
            ! failure to converge in remaining number of iterations
            info = i
            return
-150    continue
+150 continue
            if (l == i) then
               ! h(i,i-1) is negligible: one eigenvalue has converged.
               wr(i) = h(i, i)
@@ -66000,7 +66000,7 @@ module stdlib_linalg_lapack_d
            ! return to start of the main loop with new value of i.
            i = l - 1
            go to 20
-160    continue
+160 continue
            return
            ! end of stdlib_dlahqr
      end subroutine stdlib_dlahqr
@@ -66132,9 +66132,9 @@ module stdlib_linalg_lapack_d
                  go to 90
               end if
            end do
-90      continue
+90 continue
            j = jprev
-100    continue
+100 continue
            j = j + 1
            if (j > n) go to 110
            if (abs(z(j)) <= tol) then
@@ -66183,13 +66183,13 @@ module stdlib_linalg_lapack_d
               end if
            end if
            go to 100
-110    continue
+110 continue
            ! record the last singular value.
            k = k + 1
            u2(k, 1) = z(jprev)
            dsigma(k) = d(jprev)
            idxp(k) = jprev
-120    continue
+120 continue
            ! count up the total number of the various types of columns, then
            ! form a permutation which positions the four column types into
            ! four groups of uniform structure (although one or more of these
@@ -67414,7 +67414,7 @@ module stdlib_linalg_lapack_d
               if (nbf == 2 .and. nbl == 1) ilst = ilst - 1
               if (nbf == 1 .and. nbl == 2) ilst = ilst + 1
               here = ifst
-10      continue
+10 continue
               ! swap block with next one below
               if (nbf == 1 .or. nbf == 2) then
                  ! current block either 1 by 1 or 2 by 2
@@ -67476,7 +67476,7 @@ module stdlib_linalg_lapack_d
               if (here < ilst) go to 10
            else
               here = ifst
-20      continue
+20 continue
               ! swap block with next one above
               if (nbf == 1 .or. nbf == 2) then
                  ! current block either 1 by 1 or 2 by 2
@@ -67702,7 +67702,7 @@ module stdlib_linalg_lapack_d
               ! estimate sep(t11,t22).
               est = zero
               kase = 0
-30      continue
+30 continue
               call stdlib_dlacn2(nn, work(nn + 1), work, iwork, est, kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -67718,7 +67718,7 @@ module stdlib_linalg_lapack_d
               end if
               sep = scale/est
            end if
-40      continue
+40 continue
            ! store the output eigenvalues in wr and wi.
            do k = 1, n
               wr(k) = t(k, k)
@@ -67942,7 +67942,7 @@ module stdlib_linalg_lapack_d
                     ! estimate norm(inv(c**t))
                     est = zero
                     kase = 0
-50      continue
+50 continue
                     call stdlib_dlacn2(nn, work(1, n + 2), work(1, n + 4), iwork, est, kase, &
                               isave)
                     if (kase /= 0) then
@@ -68396,7 +68396,7 @@ module stdlib_linalg_lapack_d
                     go to 3002
                  end if
               end do
-3002  continue
+3002 continue
            else if (l2rank) then
               ! .. similarly as above, only slightly more gentle (less aggressive).
               ! sudden drop on the diagonal of r1 is used as the criterion for
@@ -68407,7 +68407,7 @@ module stdlib_linalg_lapack_d
                            l2kill .and. (abs(a(p, p)) < temp1))) go to 3402
                  nr = nr + 1
               end do
-3402  continue
+3402 continue
            else
               ! the goal is high relative accuracy. however, if the matrix
               ! has high scaled condition number the relative accuracy is in
@@ -68422,7 +68422,7 @@ module stdlib_linalg_lapack_d
                            3302
                  nr = nr + 1
               end do
-3302  continue
+3302 continue
            end if
            almort = .false.
            if (nr == n) then
@@ -69351,7 +69351,7 @@ module stdlib_linalg_lapack_d
            else
               rank = 1
            end if
-10      continue
+10 continue
            if (rank < mn) then
               i = rank + 1
               call stdlib_dlaic1(imin, rank, work(ismin), smin, a(1, i), a(i, i), sminpr, &
@@ -69420,7 +69420,7 @@ module stdlib_linalg_lapack_d
            else if (ibscl == 2) then
               call stdlib_dlascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
-70      continue
+70 continue
            work(1) = lwkopt
            return
            ! end of stdlib_dgelsy
@@ -69769,7 +69769,7 @@ module stdlib_linalg_lapack_d
            else if (ibscl == 2) then
              call stdlib_dlascl('g', 0, 0, bignum, bnrm, scllen, nrhs, b, ldb, info)
            end if
-50      continue
+50 continue
            work(1) = real(tszo + lwo, KIND=dp)
            return
            ! end of stdlib_dgetsls
@@ -70021,7 +70021,7 @@ module stdlib_linalg_lapack_d
                  go to 80
               end if
            end do
-80      continue
+80 continue
            j = j + 1
            nj = indx(j)
            if (j > n) go to 100
@@ -70052,7 +70052,7 @@ module stdlib_linalg_lapack_d
                  d(pj) = t
                  k2 = k2 - 1
                  i = 1
-90      continue
+90 continue
                  if (k2 + i <= n) then
                     if (d(pj) < d(indxp(k2 + i))) then
                        indxp(k2 + i - 1) = indxp(k2 + i)
@@ -70075,7 +70075,7 @@ module stdlib_linalg_lapack_d
               end if
            end if
            go to 80
-100    continue
+100 continue
            ! record the last eigenvalue.
            k = k + 1
            dlamda(k) = d(pj)
@@ -70156,7 +70156,7 @@ module stdlib_linalg_lapack_d
            do j = 1, 4
               coltyp(j) = ctot(j)
            end do
-190    continue
+190 continue
            return
            ! end of stdlib_dlaed2
      end subroutine stdlib_dlaed2
@@ -70271,7 +70271,7 @@ module stdlib_linalg_lapack_d
            ! ==== deflation detection loop ====
            ns = jw
            ilst = infqr + 1
-20      continue
+20 continue
            if (ilst <= ns) then
               if (ns == 1) then
                  bulge = .false.
@@ -70322,7 +70322,7 @@ module stdlib_linalg_lapack_d
               ! .    exchange failures. ====
               sorted = .false.
               i = ns + 1
-30      continue
+30 continue
               if (sorted) go to 50
               sorted = .true.
               kend = i - 1
@@ -70334,7 +70334,7 @@ module stdlib_linalg_lapack_d
               else
                  k = i + 2
               end if
-40      continue
+40 continue
               if (k <= kend) then
                  if (k == i + 1) then
                     evi = abs(t(i, i))
@@ -70373,11 +70373,11 @@ module stdlib_linalg_lapack_d
                  go to 40
               end if
               go to 30
-50      continue
+50 continue
            end if
            ! ==== restore shift/eigenvalue array from t ====
            i = jw
-60      continue
+60 continue
            if (i >= infqr + 1) then
               if (i == infqr + 1) then
                  sr(kwtop + i - 1) = t(i, i)
@@ -70673,7 +70673,7 @@ module stdlib_linalg_lapack_d
                  indxq(i) = i
               end do
            end if
-20      continue
+20 continue
            return
            ! end of stdlib_dlaed1
      end subroutine stdlib_dlaed1
@@ -70726,7 +70726,7 @@ module stdlib_linalg_lapack_d
            iwork(1) = n
            subpbs = 1
            tlvls = 0
-10      continue
+10 continue
            if (iwork(subpbs) > smlsiz) then
               do j = subpbs, 1, -1
                  iwork(2*j) = (iwork(j) + 1)/2
@@ -70808,7 +70808,7 @@ module stdlib_linalg_lapack_d
            ! into eigensystem for the corresponding larger matrix.
            ! while ( subpbs > 1 )
            curlvl = 1
-80      continue
+80 continue
            if (subpbs > 1) then
               spm2 = subpbs - 2
               loop_90: do i = 0, spm2, 2
@@ -70874,9 +70874,9 @@ module stdlib_linalg_lapack_d
               call stdlib_dcopy(n, work, 1, d, 1)
            end if
            go to 140
-130    continue
+130 continue
            info = submat*(n + 1) + submat + matsiz - 1
-140    continue
+140 continue
            return
            ! end of stdlib_dlaed0
      end subroutine stdlib_dlaed0
@@ -71007,7 +71007,7 @@ module stdlib_linalg_lapack_d
               eps = stdlib_dlamch('epsilon')
               start = 1
               ! while ( start <= n )
-10      continue
+10 continue
               if (start <= n) then
                  ! let finish be the position of the next subdiagonal entry
                  ! such that e( finish ) <= tiny or finish = n if no such
@@ -71015,7 +71015,7 @@ module stdlib_linalg_lapack_d
                  ! between start and finish constitutes an independent
                  ! sub-problem.
                  finish = start
-20      continue
+20 continue
                  if (finish < n) then
                     tiny = eps*sqrt(abs(d(finish)))*sqrt(abs(d(finish + 1)))
                     if (abs(e(finish)) > tiny) then
@@ -71098,7 +71098,7 @@ module stdlib_linalg_lapack_d
                 end do
               end if
            end if
-50      continue
+50 continue
            work(1) = lwmin
            iwork(1) = liwmin
            return
@@ -72171,7 +72171,7 @@ module stdlib_linalg_lapack_d
            end do loop_30
            ! unscale
            call stdlib_dlascl('g', 0, 0, one, orgnrm, n, 1, d, n, ierr)
-40      continue
+40 continue
            ! use selection sort to minimize swaps of singular vectors
            do ii = 2, n
               i = ii - 1
@@ -72347,7 +72347,7 @@ module stdlib_linalg_lapack_d
                  sminoa = min(sminoa, mu)
                  if (sminoa == zero) go to 50
               end do
-50      continue
+50 continue
               sminoa = sminoa/sqrt(real(n, KIND=dp))
               thresh = max(tol*sminoa, maxitr*(n*(n*unfl)))
            else
@@ -72365,7 +72365,7 @@ module stdlib_linalg_lapack_d
            ! m points to last element of unconverged part of matrix
            m = n
            ! begin main iteration loop
-60      continue
+60 continue
            ! check for convergence or exceeding iteration count
            if (m <= 1) go to 160
            if (iter >= n) then
@@ -72388,7 +72388,7 @@ module stdlib_linalg_lapack_d
            end do
            ll = 0
            go to 90
-80      continue
+80 continue
            e(ll) = zero
            ! matrix splits since e(ll) = 0
            if (ll == m - 1) then
@@ -72396,7 +72396,7 @@ module stdlib_linalg_lapack_d
               m = m - 1
               go to 60
            end if
-90      continue
+90 continue
            ll = ll + 1
            ! e(ll) through e(m-1) are nonzero, e(ll-1) is zero
            if (ll == m - 1) then
@@ -72627,7 +72627,7 @@ module stdlib_linalg_lapack_d
            ! qr iteration finished, go back and check convergence
            go to 60
            ! all singular values converged, so make them positive
-160    continue
+160 continue
            do i = 1, n
               if (d(i) < zero) then
                  d(i) = -d(i)
@@ -72660,12 +72660,12 @@ module stdlib_linalg_lapack_d
            end do
            go to 220
            ! maximum number of iterations exceeded, failure to converge
-200    continue
+200 continue
            info = 0
            do i = 1, n - 1
               if (e(i) /= zero) info = info + 1
            end do
-220    continue
+220 continue
            return
            ! end of stdlib_dbdsqr
      end subroutine stdlib_dbdsqr
@@ -73451,7 +73451,7 @@ module stdlib_linalg_lapack_d
               end do
            end if
            ! undo scaling if necessary
-50      continue
+50 continue
            if (scalea) then
               call stdlib_dlascl('g', 0, 0, cscale, anrm, n - info, 1, wr(info + 1), max(n - info, 1 &
                         ), ierr)
@@ -73759,7 +73759,7 @@ module stdlib_linalg_lapack_d
               end do
            end if
            ! undo scaling if necessary
-50      continue
+50 continue
            if (scalea) then
               call stdlib_dlascl('g', 0, 0, cscale, anrm, n - info, 1, wr(info + 1), max(n - info, 1 &
                         ), ierr)
@@ -74094,7 +74094,7 @@ module stdlib_linalg_lapack_d
            else if (ibscl == 2) then
               call stdlib_dlascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
-10      continue
+10 continue
            work(1) = maxwrk
            iwork(1) = liwork
            return
@@ -74536,7 +74536,7 @@ module stdlib_linalg_lapack_d
            else if (ibscl == 2) then
               call stdlib_dlascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
-70      continue
+70 continue
            work(1) = maxwrk
            return
            ! end of stdlib_dgelss
@@ -78170,7 +78170,7 @@ module stdlib_linalg_lapack_d
                  if (abs(a(p, p)) < (rtmp*abs(a(1, 1)))) go to 3002
                     nr = nr + 1
               end do
-3002  continue
+3002 continue
            elseif (acclm) then
               ! .. similarly as above, only slightly more gentle (less aggressive).
               ! sudden drop on the diagonal of r is used as the criterion for being
@@ -78184,7 +78184,7 @@ module stdlib_linalg_lapack_d
                            to 3402
                  nr = nr + 1
               end do
-3402  continue
+3402 continue
            else
               ! .. rrqr not authorized to determine numerical rank except in the
               ! obvious case of zero pivots.
@@ -78195,7 +78195,7 @@ module stdlib_linalg_lapack_d
                  if (abs(a(p, p)) == zero) go to 3502
                  nr = nr + 1
               end do
-3502  continue
+3502 continue
               if (conda) then
                  ! estimate the scaled condition number of a. use the fact that it is
                  ! the same as the scaled condition number of r.
@@ -78614,7 +78614,7 @@ module stdlib_linalg_lapack_d
                if (s(q) > zero) go to 4002
                nr = nr - 1
            end do
-4002  continue
+4002 continue
            ! .. if numerical rank deficiency is detected, the truncated
            ! singular values are set to zero.
            if (nr < n) call stdlib_dlaset('g', n - nr, 1, zero, zero, s(nr + 1), n)
@@ -78939,7 +78939,7 @@ module stdlib_linalg_lapack_d
                  lastsl = cursl
               end do
            end if
-50      continue
+50 continue
            work(1) = lwkopt
            return
            ! end of stdlib_dgges3
@@ -79231,7 +79231,7 @@ module stdlib_linalg_lapack_d
               ! end of eigenvector calculation
            end if
            ! undo scaling if necessary
-110    continue
+110 continue
            if (ilascl) then
               call stdlib_dlascl('g', 0, 0, anrmto, anrm, n, 1, alphar, n, ierr)
               call stdlib_dlascl('g', 0, 0, anrmto, anrm, n, 1, alphai, n, ierr)
@@ -79511,7 +79511,7 @@ module stdlib_linalg_lapack_d
            end do
            go to 90
            ! icompq = 1: applying back the right singular vector factors.
-50      continue
+50 continue
            ! first now go through the right singular vector matrices of all
            ! the tree nodes top-down.
            j = 0
@@ -79567,7 +79567,7 @@ module stdlib_linalg_lapack_d
               call stdlib_dgemm('t', 'n', nrp1, nrhs, nrp1, one, vt(nrf, 1), ldu, b(nrf, 1), &
                         ldb, zero, bx(nrf, 1), ldbx)
            end do
-90      continue
+90 continue
            return
            ! end of stdlib_dlalsa
      end subroutine stdlib_dlalsa
@@ -79984,7 +79984,7 @@ module stdlib_linalg_lapack_d
                     if (h(k, k - 1) == zero) go to 20
                  end do
                  k = ilo
-20      continue
+20 continue
                  ktop = k
                  ! ==== select deflation window size:
                  ! .    typical case:
@@ -80134,7 +80134,7 @@ module stdlib_linalg_lapack_d
                                 end if
                              end do
                           end do
-60      continue
+60 continue
                        end if
                        ! ==== shuffle shifts into pairs of real shifts
                        ! .    and pairs of complex conjugate shifts
@@ -80205,7 +80205,7 @@ module stdlib_linalg_lapack_d
               ! ==== iteration limit exceeded.  set info to show where
               ! .    the problem occurred and exit. ====
               info = kbot
-90      continue
+90 continue
            end if
            ! ==== return the optimal value of lwork. ====
            work(1) = real(lwkopt, KIND=dp)
@@ -80330,7 +80330,7 @@ module stdlib_linalg_lapack_d
            ! ==== deflation detection loop ====
            ns = jw
            ilst = infqr + 1
-20      continue
+20 continue
            if (ilst <= ns) then
               if (ns == 1) then
                  bulge = .false.
@@ -80381,7 +80381,7 @@ module stdlib_linalg_lapack_d
               ! .    exchange failures. ====
               sorted = .false.
               i = ns + 1
-30      continue
+30 continue
               if (sorted) go to 50
               sorted = .true.
               kend = i - 1
@@ -80393,7 +80393,7 @@ module stdlib_linalg_lapack_d
               else
                  k = i + 2
               end if
-40      continue
+40 continue
               if (k <= kend) then
                  if (k == i + 1) then
                     evi = abs(t(i, i))
@@ -80432,11 +80432,11 @@ module stdlib_linalg_lapack_d
                  go to 40
               end if
               go to 30
-50      continue
+50 continue
            end if
            ! ==== restore shift/eigenvalue array from t ====
            i = jw
-60      continue
+60 continue
            if (i >= infqr + 1) then
               if (i == infqr + 1) then
                  sr(kwtop + i - 1) = t(i, i)
@@ -80669,7 +80669,7 @@ module stdlib_linalg_lapack_d
                     if (h(k, k - 1) == zero) go to 20
                  end do
                  k = ilo
-20      continue
+20 continue
                  ktop = k
                  ! ==== select deflation window size:
                  ! .    typical case:
@@ -80814,7 +80814,7 @@ module stdlib_linalg_lapack_d
                                 end if
                              end do
                           end do
-60      continue
+60 continue
                        end if
                        ! ==== shuffle shifts into pairs of real shifts
                        ! .    and pairs of complex conjugate shifts
@@ -80885,7 +80885,7 @@ module stdlib_linalg_lapack_d
               ! ==== iteration limit exceeded.  set info to show where
               ! .    the problem occurred and exit. ====
               info = kbot
-90      continue
+90 continue
            end if
            ! ==== return the optimal value of lwork. ====
            work(1) = real(lwkopt, KIND=dp)
@@ -81279,7 +81279,7 @@ module stdlib_linalg_lapack_d
            ! if all the eigenvalues have been found, stdlib_dhgeqz will not do any iterations
            ! and only normalize the blocks. in case of a rare convergence failure,
            ! the single shift might perform better.
-80      call stdlib_dhgeqz(wants, wantq, wantz, n, ilo, ihi, a, lda, b, ldb, alphar, alphai, &
+80 call stdlib_dhgeqz(wants, wantq, wantz, n, ilo, ihi, a, lda, b, ldb, alphar, alphai, &
                   beta, q, ldq, z, ldz, work, lwork, norm_info)
            info = norm_info
      end subroutine stdlib_dlaqz0
@@ -81751,7 +81751,7 @@ module stdlib_linalg_lapack_d
                        goto 21
                     end if
                  end do
-21    continue
+21 continue
                  if (mb == 0) then
                     ! no eigenvalue in the current block lies in the desired range
                     ! e( iend ) holds the shift for the initial rrr
@@ -81950,7 +81950,7 @@ module stdlib_linalg_lapack_d
               ! found in maxtry iterations.
               info = 2
               return
-83    continue
+83 continue
               ! at this point, we have found an initial base representation
               ! t - sigma i = l d l^t with not too much element growth.
               ! store the shift.
@@ -82922,7 +82922,7 @@ module stdlib_linalg_lapack_d
                  emin = min(emin, z(i4 - 5))
               end do
               i4 = 4
-100    continue
+100 continue
               i0 = i4/4
               pp = 0
               if (n0 - i0 > 1) then
@@ -83001,7 +83001,7 @@ module stdlib_linalg_lapack_d
               ! this might need to be done for several blocks
               i1 = i0
               n1 = n0
-145   continue
+145 continue
               tempq = z(4*i0 - 3)
               z(4*i0 - 3) = z(4*i0 - 3) + sigma
               do k = i0 + 1, n0
@@ -83032,12 +83032,12 @@ module stdlib_linalg_lapack_d
               end do
               return
               ! end iwhilb
-150    continue
+150 continue
            end do loop_160
            info = 3
            return
            ! end iwhila
-170    continue
+170 continue
            ! move q's to the front.
            do k = 2, n
               z(k) = z(4*k - 3)
@@ -83095,7 +83095,7 @@ module stdlib_linalg_lapack_d
               ! .....................................................
               ! factorize a as u**t*d*u using the upper triangle of a
               ! .....................................................
-10    continue
+10 continue
               if (j > min(m, nb)) go to 20
               ! k is the column to be factorized
                ! when being called from stdlib_dsytrf_aa,
@@ -83188,12 +83188,12 @@ module stdlib_linalg_lapack_d
               end if
               j = j + 1
               go to 10
-20    continue
+20 continue
            else
               ! .....................................................
               ! factorize a as l*d*l**t using the lower triangle of a
               ! .....................................................
-30    continue
+30 continue
               if (j > min(m, nb)) go to 40
               ! k is the column to be factorized
                ! when being called from stdlib_dsytrf_aa,
@@ -83286,7 +83286,7 @@ module stdlib_linalg_lapack_d
               end if
               j = j + 1
               go to 30
-40    continue
+40 continue
            end if
            return
            ! end of stdlib_dlasyf_aa
@@ -83777,7 +83777,7 @@ module stdlib_linalg_lapack_d
                     in = iend - ibegin + 1
                     wend = wbegin - 1
                     ! check if any eigenvalues have to be refined in this block
-36    continue
+36 continue
                     if (wend < m) then
                        if (iwork(iindbl + wend) == jblk) then
                           wend = wend + 1
@@ -84054,7 +84054,7 @@ module stdlib_linalg_lapack_d
                         iwork(indiwo), iwork(indifl), info)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-10      continue
+10 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -84377,7 +84377,7 @@ module stdlib_linalg_lapack_d
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
         ! jump here if stdlib_dstemr/stdlib_dstein succeeded.
-30      continue
+30 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -84558,7 +84558,7 @@ module stdlib_linalg_lapack_d
               ! jb, where jb is the number of columns factorized by stdlib_dlasyf;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-10    continue
+10 continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -84635,7 +84635,7 @@ module stdlib_linalg_lapack_d
               ! jb, where jb is the number of columns factorized by stdlib_dlasyf;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-11    continue
+11 continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -84701,7 +84701,7 @@ module stdlib_linalg_lapack_d
               end if
               go to 11
            end if
-20      continue
+20 continue
            work(1) = lwkopt
            return
            ! end of stdlib_dsytrf_aa

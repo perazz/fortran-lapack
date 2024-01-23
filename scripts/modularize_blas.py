@@ -172,7 +172,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
             # AUX: add procedure interfaces
             patch_lapack_aux(fid,prefix,INDENT)
-        else: #elif module_name=='stdlib_linalg_lapack':
+        else:
             numeric_const,numeric_type,rk = print_module_constants(fid,initials[m],INDENT)
 
         # Actual implementation
@@ -185,6 +185,13 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         # Close module
         fid.write("\n\n\nend module {}\n".format(this_module))
         fid.close()
+
+        # Double -> Quadruple precision module
+        if initials[m]=='d':
+           double_precision_module(module_name,out_folder)
+
+
+
 
     # Write wrapper module
     if split_by_initial:
@@ -200,6 +207,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         for i in initials:
             fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
+        fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit='q'))
         fid.write(INDENT + "implicit none(type,external)\n")
         fid.write(INDENT + "public\n")
         # Close module
@@ -209,6 +217,41 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     # Return list of all functions defined in this module, including the external ones
     return old_names
+
+# Double precision of the current module, 64-bit -> 128-bit
+def double_precision_module(module_name,out_folder):
+
+        import re
+
+
+        dble_module = module_name + "_d"
+        quad_module = module_name + "_q"
+
+        dble_file = dble_module + ".f90"
+        module_path = os.path.join(out_folder,dble_file)
+        out_path = os.path.join(out_folder,quad_module + ".f90")
+
+        # Load whole module into a file
+        dble_file = []
+        with open(module_path, 'r') as file:
+            for line in file:
+                dble_file.append(line)
+
+        # Merge
+        whole = ''.join(dble_file)
+
+        # Simple string replacements: precision initial
+        whole = re.sub(r'\_d',r'_q',whole)
+        whole = re.sub(r'\(dp\)',r'(qp)',whole)
+
+        # Module header function names
+        whole = re.sub(r'\! D',r'! Q',whole)
+
+        # Write to disk
+        fid = open(out_path,"w")
+        fid.write(whole)
+        fid.close()
+
 
 def function_module_initial(function_name):
    initials = ['aux','c','s','d','z']
@@ -1634,12 +1677,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 

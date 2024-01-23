@@ -3,7 +3,7 @@ module stdlib_linalg_blas_aux
      implicit none(type, external)
      private
 
-     public :: sp, dp, lk, ilp
+     public :: sp, dp, qp, lk, ilp
      public :: stdlib_dcabs1
      public :: stdlib_icamax
      public :: stdlib_idamax
