@@ -2,7 +2,7 @@ module stdlib_linalg_blas_w
      use stdlib_linalg_constants
      use stdlib_linalg_blas_aux
      use stdlib_linalg_blas_s
-     use stdlib_linalg_blas_d
+     use stdlib_linalg_blas_q
      use stdlib_linalg_blas_c
      implicit none(type, external)
      private
@@ -45,19 +45,19 @@ module stdlib_linalg_blas_w
      public :: stdlib_wtrsv
 
      ! 128-bit real constants
-     real(qp), parameter, private :: zero = 0.00_dp
-     real(qp), parameter, private :: half = 0.50_dp
-     real(qp), parameter, private :: one = 1.00_dp
-     real(qp), parameter, private :: two = 2.00_dp
-     real(qp), parameter, private :: three = 3.00_dp
-     real(qp), parameter, private :: four = 4.00_dp
-     real(qp), parameter, private :: eight = 8.00_dp
-     real(qp), parameter, private :: ten = 10.00_dp
+     real(qp), parameter, private :: zero = 0.00_qp
+     real(qp), parameter, private :: half = 0.50_qp
+     real(qp), parameter, private :: one = 1.00_qp
+     real(qp), parameter, private :: two = 2.00_qp
+     real(qp), parameter, private :: three = 3.00_qp
+     real(qp), parameter, private :: four = 4.00_qp
+     real(qp), parameter, private :: eight = 8.00_qp
+     real(qp), parameter, private :: ten = 10.00_qp
 
      ! 128-bit complex constants
-     complex(qp), parameter, private :: czero = (0.0_dp, 0.0_dp)
-     complex(qp), parameter, private :: chalf = (0.5_dp, 0.0_dp)
-     complex(qp), parameter, private :: cone = (1.0_dp, 0.0_dp)
+     complex(qp), parameter, private :: czero = (0.0_qp, 0.0_qp)
+     complex(qp), parameter, private :: chalf = (0.5_qp, 0.0_qp)
+     complex(qp), parameter, private :: cone = (1.0_qp, 0.0_qp)
 
      ! 128-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
@@ -96,7 +96,7 @@ module stdlib_linalg_blas_w
            ! .. local scalars ..
            integer(ilp) :: i, ix, iy
            if (n <= 0) return
-           if (stdlib_dcabs1(za) == zero) return
+           if (stdlib_qcabs1(za) == zero) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               do i = 1, n
@@ -304,13 +304,13 @@ module stdlib_linalg_blas_w
            if (incx == 1) then
               ! code for increment equal to 1
               do i = 1, n
-                 zx(i) = cmplx(da, zero, KIND=dp)*zx(i)
+                 zx(i) = cmplx(da, zero, KIND=qp)*zx(i)
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
               do i = 1, nincx, incx
-                 zx(i) = cmplx(da, zero, KIND=dp)*zx(i)
+                 zx(i) = cmplx(da, zero, KIND=qp)*zx(i)
               end do
            end if
            return
@@ -1150,7 +1150,7 @@ module stdlib_linalg_blas_w
                            y(i) = y(i) + temp1*a(l + i, j)
                            temp2 = temp2 + conjg(a(l + i, j))*x(i)
                        end do
-                       y(j) = y(j) + temp1*real(a(kplus1, j), KIND=dp) + alpha*temp2
+                       y(j) = y(j) + temp1*real(a(kplus1, j), KIND=qp) + alpha*temp2
                    end do
                else
                    jx = kx
@@ -1167,7 +1167,7 @@ module stdlib_linalg_blas_w
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*real(a(kplus1, j), KIND=dp) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(a(kplus1, j), KIND=qp) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        if (j > k) then
@@ -1182,7 +1182,7 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = czero
-                       y(j) = y(j) + temp1*real(a(1, j), KIND=dp)
+                       y(j) = y(j) + temp1*real(a(1, j), KIND=qp)
                        l = 1 - j
                        do i = j + 1, min(n, j + k)
                            y(i) = y(i) + temp1*a(l + i, j)
@@ -1196,7 +1196,7 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = czero
-                       y(jy) = y(jy) + temp1*real(a(1, j), KIND=dp)
+                       y(jy) = y(jy) + temp1*real(a(1, j), KIND=qp)
                        l = 1 - j
                        ix = jx
                        iy = jy
@@ -1301,9 +1301,9 @@ module stdlib_linalg_blas_w
                                temp2 = temp2 + b(k, j)*conjg(a(k, i))
                            end do
                            if (beta == czero) then
-                               c(i, j) = temp1*real(a(i, i), KIND=dp) + alpha*temp2
+                               c(i, j) = temp1*real(a(i, i), KIND=qp) + alpha*temp2
                            else
-                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i), KIND=dp) + &
+                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i), KIND=qp) + &
                                          alpha*temp2
                            end if
                        end do
@@ -1318,9 +1318,9 @@ module stdlib_linalg_blas_w
                                temp2 = temp2 + b(k, j)*conjg(a(k, i))
                            end do
                            if (beta == czero) then
-                               c(i, j) = temp1*real(a(i, i), KIND=dp) + alpha*temp2
+                               c(i, j) = temp1*real(a(i, i), KIND=qp) + alpha*temp2
                            else
-                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i), KIND=dp) + &
+                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i), KIND=qp) + &
                                          alpha*temp2
                            end if
                        end do
@@ -1329,7 +1329,7 @@ module stdlib_linalg_blas_w
            else
               ! form  c := alpha*b*a + beta*c.
                loop_170: do j = 1, n
-                   temp1 = alpha*real(a(j, j), KIND=dp)
+                   temp1 = alpha*real(a(j, j), KIND=qp)
                    if (beta == czero) then
                        do i = 1, m
                            c(i, j) = temp1*b(i, j)
@@ -1458,7 +1458,7 @@ module stdlib_linalg_blas_w
                            y(i) = y(i) + temp1*a(i, j)
                            temp2 = temp2 + conjg(a(i, j))*x(i)
                        end do
-                       y(j) = y(j) + temp1*real(a(j, j), KIND=dp) + alpha*temp2
+                       y(j) = y(j) + temp1*real(a(j, j), KIND=qp) + alpha*temp2
                    end do
                else
                    jx = kx
@@ -1474,7 +1474,7 @@ module stdlib_linalg_blas_w
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*real(a(j, j), KIND=dp) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(a(j, j), KIND=qp) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                    end do
@@ -1485,7 +1485,7 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = czero
-                       y(j) = y(j) + temp1*real(a(j, j), KIND=dp)
+                       y(j) = y(j) + temp1*real(a(j, j), KIND=qp)
                        do i = j + 1, n
                            y(i) = y(i) + temp1*a(i, j)
                            temp2 = temp2 + conjg(a(i, j))*x(i)
@@ -1498,7 +1498,7 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = czero
-                       y(jy) = y(jy) + temp1*real(a(j, j), KIND=dp)
+                       y(jy) = y(jy) + temp1*real(a(j, j), KIND=qp)
                        ix = jx
                        iy = jy
                        do i = j + 1, n
@@ -1555,7 +1555,7 @@ module stdlib_linalg_blas_w
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == real(czero, KIND=dp))) return
+           if ((n == 0) .or. (alpha == real(czero, KIND=qp))) return
            ! set the start point in x if the increment is not unity.
            if (incx <= 0) then
                kx = 1 - (n - 1)*incx
@@ -1574,9 +1574,9 @@ module stdlib_linalg_blas_w
                            do i = 1, j - 1
                                a(i, j) = a(i, j) + x(i)*temp
                            end do
-                           a(j, j) = real(a(j, j), KIND=dp) + real(x(j)*temp, KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp) + real(x(j)*temp, KIND=qp)
                        else
-                           a(j, j) = real(a(j, j), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp)
                        end if
                    end do
                else
@@ -1589,9 +1589,9 @@ module stdlib_linalg_blas_w
                                a(i, j) = a(i, j) + x(ix)*temp
                                ix = ix + incx
                            end do
-                           a(j, j) = real(a(j, j), KIND=dp) + real(x(jx)*temp, KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp) + real(x(jx)*temp, KIND=qp)
                        else
-                           a(j, j) = real(a(j, j), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp)
                        end if
                        jx = jx + incx
                    end do
@@ -1602,12 +1602,12 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        if (x(j) /= czero) then
                            temp = alpha*conjg(x(j))
-                           a(j, j) = real(a(j, j), KIND=dp) + real(temp*x(j), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp) + real(temp*x(j), KIND=qp)
                            do i = j + 1, n
                                a(i, j) = a(i, j) + x(i)*temp
                            end do
                        else
-                           a(j, j) = real(a(j, j), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp)
                        end if
                    end do
                else
@@ -1615,14 +1615,14 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        if (x(jx) /= czero) then
                            temp = alpha*conjg(x(jx))
-                           a(j, j) = real(a(j, j), KIND=dp) + real(temp*x(jx), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp) + real(temp*x(jx), KIND=qp)
                            ix = jx
                            do i = j + 1, n
                                ix = ix + incx
                                a(i, j) = a(i, j) + x(ix)*temp
                            end do
                        else
-                           a(j, j) = real(a(j, j), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp)
                        end if
                        jx = jx + incx
                    end do
@@ -1702,10 +1702,10 @@ module stdlib_linalg_blas_w
                            do i = 1, j - 1
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
-                           a(j, j) = real(a(j, j), KIND=dp) + real(x(j)*temp1 + y(j)*temp2, KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp) + real(x(j)*temp1 + y(j)*temp2, KIND=qp)
 
                        else
-                           a(j, j) = real(a(j, j), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp)
                        end if
                    end do
                else
@@ -1720,10 +1720,10 @@ module stdlib_linalg_blas_w
                                ix = ix + incx
                                iy = iy + incy
                            end do
-                           a(j, j) = real(a(j, j), KIND=dp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=qp)
 
                        else
-                           a(j, j) = real(a(j, j), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -1736,13 +1736,13 @@ module stdlib_linalg_blas_w
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
-                           a(j, j) = real(a(j, j), KIND=dp) + real(x(j)*temp1 + y(j)*temp2, KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp) + real(x(j)*temp1 + y(j)*temp2, KIND=qp)
 
                            do i = j + 1, n
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
                        else
-                           a(j, j) = real(a(j, j), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp)
                        end if
                    end do
                else
@@ -1750,7 +1750,7 @@ module stdlib_linalg_blas_w
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
-                           a(j, j) = real(a(j, j), KIND=dp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=qp)
 
                            ix = jx
                            iy = jy
@@ -1760,7 +1760,7 @@ module stdlib_linalg_blas_w
                                a(i, j) = a(i, j) + x(ix)*temp1 + y(iy)*temp2
                            end do
                        else
-                           a(j, j) = real(a(j, j), KIND=dp)
+                           a(j, j) = real(a(j, j), KIND=qp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -1831,7 +1831,7 @@ module stdlib_linalg_blas_w
            ! and when  alpha.eq.czero.
            if (alpha == czero) then
                if (upper) then
-                   if (beta == real(czero, KIND=dp)) then
+                   if (beta == real(czero, KIND=qp)) then
                        do j = 1, n
                            do i = 1, j
                                c(i, j) = czero
@@ -1842,11 +1842,11 @@ module stdlib_linalg_blas_w
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j), KIND=dp)
+                           c(j, j) = beta*real(c(j, j), KIND=qp)
                        end do
                    end if
                else
-                   if (beta == real(czero, KIND=dp)) then
+                   if (beta == real(czero, KIND=qp)) then
                        do j = 1, n
                            do i = j, n
                                c(i, j) = czero
@@ -1854,7 +1854,7 @@ module stdlib_linalg_blas_w
                        end do
                    else
                        do j = 1, n
-                           c(j, j) = beta*real(c(j, j), KIND=dp)
+                           c(j, j) = beta*real(c(j, j), KIND=qp)
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
@@ -1869,7 +1869,7 @@ module stdlib_linalg_blas_w
                          ! c.
                if (upper) then
                    do j = 1, n
-                       if (beta == real(czero, KIND=dp)) then
+                       if (beta == real(czero, KIND=qp)) then
                            do i = 1, j
                                c(i, j) = czero
                            end do
@@ -1877,9 +1877,9 @@ module stdlib_linalg_blas_w
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j), KIND=dp)
+                           c(j, j) = beta*real(c(j, j), KIND=qp)
                        else
-                           c(j, j) = real(c(j, j), KIND=dp)
+                           c(j, j) = real(c(j, j), KIND=qp)
                        end if
                        do l = 1, k
                            if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
@@ -1888,14 +1888,14 @@ module stdlib_linalg_blas_w
                                do i = 1, j - 1
                                    c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do
-                               c(j, j) = real(c(j, j), KIND=dp) + real(a(j, l)*temp1 + b(j, l)*temp2, &
-                                         KIND=dp)
+                               c(j, j) = real(c(j, j), KIND=qp) + real(a(j, l)*temp1 + b(j, l)*temp2, &
+                                         KIND=qp)
                            end if
                        end do
                    end do
                else
                    do j = 1, n
-                       if (beta == real(czero, KIND=dp)) then
+                       if (beta == real(czero, KIND=qp)) then
                            do i = j, n
                                c(i, j) = czero
                            end do
@@ -1903,9 +1903,9 @@ module stdlib_linalg_blas_w
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j), KIND=dp)
+                           c(j, j) = beta*real(c(j, j), KIND=qp)
                        else
-                           c(j, j) = real(c(j, j), KIND=dp)
+                           c(j, j) = real(c(j, j), KIND=qp)
                        end if
                        do l = 1, k
                            if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
@@ -1914,8 +1914,8 @@ module stdlib_linalg_blas_w
                                do i = j + 1, n
                                    c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do
-                               c(j, j) = real(c(j, j), KIND=dp) + real(a(j, l)*temp1 + b(j, l)*temp2, &
-                                         KIND=dp)
+                               c(j, j) = real(c(j, j), KIND=qp) + real(a(j, l)*temp1 + b(j, l)*temp2, &
+                                         KIND=qp)
                            end if
                        end do
                    end do
@@ -1933,14 +1933,14 @@ module stdlib_linalg_blas_w
                                temp2 = temp2 + conjg(b(l, i))*a(l, j)
                            end do
                            if (i == j) then
-                               if (beta == real(czero, KIND=dp)) then
-                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2, KIND=dp)
+                               if (beta == real(czero, KIND=qp)) then
+                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2, KIND=qp)
                                else
-                                   c(j, j) = beta*real(c(j, j), KIND=dp) + real(alpha*temp1 + conjg( &
-                                             alpha)*temp2, KIND=dp)
+                                   c(j, j) = beta*real(c(j, j), KIND=qp) + real(alpha*temp1 + conjg( &
+                                             alpha)*temp2, KIND=qp)
                                end if
                            else
-                               if (beta == real(czero, KIND=dp)) then
+                               if (beta == real(czero, KIND=qp)) then
                                    c(i, j) = alpha*temp1 + conjg(alpha)*temp2
                                else
                                    c(i, j) = beta*c(i, j) + alpha*temp1 + conjg(alpha)*temp2
@@ -1958,14 +1958,14 @@ module stdlib_linalg_blas_w
                                temp2 = temp2 + conjg(b(l, i))*a(l, j)
                            end do
                            if (i == j) then
-                               if (beta == real(czero, KIND=dp)) then
-                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2, KIND=dp)
+                               if (beta == real(czero, KIND=qp)) then
+                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2, KIND=qp)
                                else
-                                   c(j, j) = beta*real(c(j, j), KIND=dp) + real(alpha*temp1 + conjg( &
-                                             alpha)*temp2, KIND=dp)
+                                   c(j, j) = beta*real(c(j, j), KIND=qp) + real(alpha*temp1 + conjg( &
+                                             alpha)*temp2, KIND=qp)
                                end if
                            else
-                               if (beta == real(czero, KIND=dp)) then
+                               if (beta == real(czero, KIND=qp)) then
                                    c(i, j) = alpha*temp1 + conjg(alpha)*temp2
                                else
                                    c(i, j) = beta*c(i, j) + alpha*temp1 + conjg(alpha)*temp2
@@ -2048,7 +2048,7 @@ module stdlib_linalg_blas_w
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j), KIND=dp)
+                           c(j, j) = beta*real(c(j, j), KIND=qp)
                        end do
                    end if
                else
@@ -2060,7 +2060,7 @@ module stdlib_linalg_blas_w
                        end do
                    else
                        do j = 1, n
-                           c(j, j) = beta*real(c(j, j), KIND=dp)
+                           c(j, j) = beta*real(c(j, j), KIND=qp)
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
@@ -2082,17 +2082,17 @@ module stdlib_linalg_blas_w
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j), KIND=dp)
+                           c(j, j) = beta*real(c(j, j), KIND=qp)
                        else
-                           c(j, j) = real(c(j, j), KIND=dp)
+                           c(j, j) = real(c(j, j), KIND=qp)
                        end if
                        do l = 1, k
-                           if (a(j, l) /= cmplx(zero, KIND=dp)) then
+                           if (a(j, l) /= cmplx(zero, KIND=qp)) then
                                temp = alpha*conjg(a(j, l))
                                do i = 1, j - 1
                                    c(i, j) = c(i, j) + temp*a(i, l)
                                end do
-                               c(j, j) = real(c(j, j), KIND=dp) + real(temp*a(i, l), KIND=dp)
+                               c(j, j) = real(c(j, j), KIND=qp) + real(temp*a(i, l), KIND=qp)
                            end if
                        end do
                    end do
@@ -2103,17 +2103,17 @@ module stdlib_linalg_blas_w
                                c(i, j) = zero
                            end do
                        else if (beta /= one) then
-                           c(j, j) = beta*real(c(j, j), KIND=dp)
+                           c(j, j) = beta*real(c(j, j), KIND=qp)
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
                        else
-                           c(j, j) = real(c(j, j), KIND=dp)
+                           c(j, j) = real(c(j, j), KIND=qp)
                        end if
                        do l = 1, k
-                           if (a(j, l) /= cmplx(zero, KIND=dp)) then
+                           if (a(j, l) /= cmplx(zero, KIND=qp)) then
                                temp = alpha*conjg(a(j, l))
-                               c(j, j) = real(c(j, j), KIND=dp) + real(temp*a(j, l), KIND=dp)
+                               c(j, j) = real(c(j, j), KIND=qp) + real(temp*a(j, l), KIND=qp)
                                do i = j + 1, n
                                    c(i, j) = c(i, j) + temp*a(i, l)
                                end do
@@ -2143,7 +2143,7 @@ module stdlib_linalg_blas_w
                        if (beta == zero) then
                            c(j, j) = alpha*rtemp
                        else
-                           c(j, j) = alpha*rtemp + beta*real(c(j, j), KIND=dp)
+                           c(j, j) = alpha*rtemp + beta*real(c(j, j), KIND=qp)
                        end if
                    end do
                else
@@ -2155,7 +2155,7 @@ module stdlib_linalg_blas_w
                        if (beta == zero) then
                            c(j, j) = alpha*rtemp
                        else
-                           c(j, j) = alpha*rtemp + beta*real(c(j, j), KIND=dp)
+                           c(j, j) = alpha*rtemp + beta*real(c(j, j), KIND=qp)
                        end if
                        do i = j + 1, n
                            temp = zero
@@ -2268,7 +2268,7 @@ module stdlib_linalg_blas_w
                            temp2 = temp2 + conjg(ap(k))*x(i)
                            k = k + 1
                        end do
-                       y(j) = y(j) + temp1*real(ap(kk + j - 1), KIND=dp) + alpha*temp2
+                       y(j) = y(j) + temp1*real(ap(kk + j - 1), KIND=qp) + alpha*temp2
                        kk = kk + j
                    end do
                else
@@ -2285,7 +2285,7 @@ module stdlib_linalg_blas_w
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*real(ap(kk + j - 1), KIND=dp) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(ap(kk + j - 1), KIND=qp) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        kk = kk + j
@@ -2297,7 +2297,7 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = czero
-                       y(j) = y(j) + temp1*real(ap(kk), KIND=dp)
+                       y(j) = y(j) + temp1*real(ap(kk), KIND=qp)
                        k = kk + 1
                        do i = j + 1, n
                            y(i) = y(i) + temp1*ap(k)
@@ -2313,7 +2313,7 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = czero
-                       y(jy) = y(jy) + temp1*real(ap(kk), KIND=dp)
+                       y(jy) = y(jy) + temp1*real(ap(kk), KIND=qp)
                        ix = jx
                        iy = jy
                        do k = kk + 1, kk + n - j
@@ -2369,7 +2369,7 @@ module stdlib_linalg_blas_w
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == real(czero, KIND=dp))) return
+           if ((n == 0) .or. (alpha == real(czero, KIND=qp))) return
            ! set the start point in x if the increment is not unity.
            if (incx <= 0) then
                kx = 1 - (n - 1)*incx
@@ -2390,9 +2390,9 @@ module stdlib_linalg_blas_w
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + real(x(j)*temp, KIND=dp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp) + real(x(j)*temp, KIND=qp)
                        else
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp)
                        end if
                        kk = kk + j
                    end do
@@ -2406,10 +2406,10 @@ module stdlib_linalg_blas_w
                                ap(k) = ap(k) + x(ix)*temp
                                ix = ix + incx
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + real(x(jx)*temp, KIND=dp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp) + real(x(jx)*temp, KIND=qp)
 
                        else
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp)
                        end if
                        jx = jx + incx
                        kk = kk + j
@@ -2421,14 +2421,14 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        if (x(j) /= czero) then
                            temp = alpha*conjg(x(j))
-                           ap(kk) = real(ap(kk), KIND=dp) + real(temp*x(j), KIND=dp)
+                           ap(kk) = real(ap(kk), KIND=qp) + real(temp*x(j), KIND=qp)
                            k = kk + 1
                            do i = j + 1, n
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
                            end do
                        else
-                           ap(kk) = real(ap(kk), KIND=dp)
+                           ap(kk) = real(ap(kk), KIND=qp)
                        end if
                        kk = kk + n - j + 1
                    end do
@@ -2437,14 +2437,14 @@ module stdlib_linalg_blas_w
                    do j = 1, n
                        if (x(jx) /= czero) then
                            temp = alpha*conjg(x(jx))
-                           ap(kk) = real(ap(kk), KIND=dp) + real(temp*x(jx), KIND=dp)
+                           ap(kk) = real(ap(kk), KIND=qp) + real(temp*x(jx), KIND=qp)
                            ix = jx
                            do k = kk + 1, kk + n - j
                                ix = ix + incx
                                ap(k) = ap(k) + x(ix)*temp
                            end do
                        else
-                           ap(kk) = real(ap(kk), KIND=dp)
+                           ap(kk) = real(ap(kk), KIND=qp)
                        end if
                        jx = jx + incx
                        kk = kk + n - j + 1
@@ -2525,10 +2525,10 @@ module stdlib_linalg_blas_w
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + real(x(j)*temp1 + y(j)*temp2, &
-                                     KIND=dp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp) + real(x(j)*temp1 + y(j)*temp2, &
+                                     KIND=qp)
                        else
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp)
                        end if
                        kk = kk + j
                    end do
@@ -2544,10 +2544,10 @@ module stdlib_linalg_blas_w
                                ix = ix + incx
                                iy = iy + incy
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp) + real(x(jx)*temp1 + y(jy)*temp2, &
-                                     KIND=dp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp) + real(x(jx)*temp1 + y(jy)*temp2, &
+                                     KIND=qp)
                        else
-                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=dp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -2561,7 +2561,7 @@ module stdlib_linalg_blas_w
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
-                           ap(kk) = real(ap(kk), KIND=dp) + real(x(j)*temp1 + y(j)*temp2, KIND=dp)
+                           ap(kk) = real(ap(kk), KIND=qp) + real(x(j)*temp1 + y(j)*temp2, KIND=qp)
 
                            k = kk + 1
                            do i = j + 1, n
@@ -2569,7 +2569,7 @@ module stdlib_linalg_blas_w
                                k = k + 1
                            end do
                        else
-                           ap(kk) = real(ap(kk), KIND=dp)
+                           ap(kk) = real(ap(kk), KIND=qp)
                        end if
                        kk = kk + n - j + 1
                    end do
@@ -2578,7 +2578,7 @@ module stdlib_linalg_blas_w
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
-                           ap(kk) = real(ap(kk), KIND=dp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=dp)
+                           ap(kk) = real(ap(kk), KIND=qp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=qp)
 
                            ix = jx
                            iy = jy
@@ -2588,7 +2588,7 @@ module stdlib_linalg_blas_w
                                ap(k) = ap(k) + x(ix)*temp1 + y(iy)*temp2
                            end do
                        else
-                           ap(kk) = real(ap(kk), KIND=dp)
+                           ap(kk) = real(ap(kk), KIND=qp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -2616,23 +2616,23 @@ module stdlib_linalg_blas_w
      ! if the signs of a and b are not the same.
 
      subroutine stdlib_wrotg(a, b, c, s)
-        integer, parameter :: wp = kind(1._dp)
+        integer, parameter :: wp = kind(1._qp)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        real(qp), parameter :: zero = 0.0_dp
-        real(qp), parameter :: one = 1.0_dp
-        complex(qp), parameter :: czero = 0.0_dp
+        real(qp), parameter :: zero = 0.0_qp
+        real(qp), parameter :: one = 1.0_qp
+        complex(qp), parameter :: czero = 0.0_qp
         ! .. scaling constants ..
-     real(qp), parameter :: safmin = real(radix(0._dp), wp)**max(minexponent(0._dp) - 1, 1 - &
-               maxexponent(0._dp))
-     real(qp), parameter :: safmax = real(radix(0._dp), wp)**max(1 - minexponent(0._dp), maxexponent( &
-               0._dp) - 1)
-     real(qp), parameter :: rtmin = sqrt(real(radix(0._dp), wp)**max(minexponent(0._dp) - 1, 1 - &
-               maxexponent(0._dp))/epsilon(0._dp))
-     real(qp), parameter :: rtmax = sqrt(real(radix(0._dp), wp)**max(1 - minexponent(0._dp), &
-               maxexponent(0._dp) - 1)*epsilon(0._dp))
+     real(qp), parameter :: safmin = real(radix(0._qp), wp)**max(minexponent(0._qp) - 1, 1 - &
+               maxexponent(0._qp))
+     real(qp), parameter :: safmax = real(radix(0._qp), wp)**max(1 - minexponent(0._qp), maxexponent( &
+               0._qp) - 1)
+     real(qp), parameter :: rtmin = sqrt(real(radix(0._qp), wp)**max(minexponent(0._qp) - 1, 1 - &
+               maxexponent(0._qp))/epsilon(0._qp))
+     real(qp), parameter :: rtmax = sqrt(real(radix(0._qp), wp)**max(1 - minexponent(0._qp), &
+               maxexponent(0._qp) - 1)*epsilon(0._qp))
         ! .. scalar arguments ..
         real(qp) :: c
         complex(qp) :: a, b, s

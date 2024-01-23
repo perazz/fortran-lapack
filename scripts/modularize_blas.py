@@ -52,8 +52,8 @@ def patch_lapack_aux(fid,prefix,indent):
 
     INDENT          = "     "
 
-    initials = ['s','d','c','z']
-    datatypes = ['real(sp)','real(dp)','complex(sp)','complex(dp)']
+    initials = ['s','d','q','c','z','w']
+    datatypes = ['real(sp)','real(dp)','real(qp)','complex(sp)','complex(dp)','complex(qp)']
 
     for i in range(len(initials)):
         fid.write(INDENT + "public :: {prf}selctg_{int}\n".format(prf=prefix,int=initials[i]))
@@ -67,7 +67,7 @@ def patch_lapack_aux(fid,prefix,indent):
     fid.write(INDENT + "! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e., \n")
     fid.write(INDENT + "abstract interface \n")
     for i in range(len(initials)):
-        if (i<=1):
+        if (i<=2):
             fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
@@ -174,7 +174,8 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
             patch_lapack_aux(fid,prefix,INDENT)
         if module_name+"_"+initials[m]=='stdlib_linalg_blas_aux':
             # AUX: add quadruple-precision procedure interfaces
-            patch_blas_aux(fid,fortran_functions,prefix,INDENT)
+            fortran_functions = patch_blas_aux(fid,fortran_functions,prefix,INDENT)
+
         else:
             numeric_const,numeric_type,rk = print_module_constants(fid,initials[m],INDENT)
 
@@ -183,6 +184,10 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         # Write functions
         old_names,new_names = function_namelists(fortran_functions,ext_functions,prefix)
+
+        for k in range(len(old_names)):
+            print(module_name+"_"+initials[m]+": function "+old_names[k])
+
         print_function_tree(fortran_functions,old_names,fid,INDENT,MAX_LINE_LENGTH,initials[m])
 
         # Close module
@@ -224,71 +229,94 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 # Identify quad-precision functions
 def patch_blas_aux(fid,fortran_functions,prefix,INDENT):
 
+    import copy
+
     double_initials = ['d','z']
     quad_initials = ['q','w']
+
+    blas_init = ['d','id','iz']
+    blas_newi = ['q','iq','iw']
+    blas_dble = ['dcabs1','idamax','izamax']
+    blas_quad = ['qcabs1','iqamax','iwamax']
 
     # Flagged functions:
     # - begin with double precision initial
     # - begin with i+double precision initial
     new_functions = []
 
-    for function in fortran_functions:
-        if function_in_module('aux',function.old_name):
+    # index of dcabs
+    index = -999
+    for ff in range(len(fortran_functions)):
+        if fortran_functions[ff].old_name=='dcabs1': index = ff
 
-            for i in range(len(double_initials)):
-                if function.old_name.startswith(double_initials[i]):
-                    new_name = quad_initials[i] + function.old_name[1:]
-                    function.body   = double_to_quad(function.body,double_initials[i],prefix)
-                    function.header = double_to_quad(function.header,double_initials[i],prefix)
-                    function.deps   = double_to_quad(function.deps,double_initials[i],prefix)
-                    new_functions.append(function)
-                elif function.old_name.startswith('i'+double_initials[i]):
-                    new_name = 'i' + quad_initials[i] + function.old_name[2:]
-                    function.body   = double_to_quad(function.body,double_initials[i],prefix)
-                    function.header = double_to_quad(function.header,double_initials[i],prefix)
-                    function.deps   = double_to_quad(function.deps,double_initials[i],prefix)
-                    new_functions.append(function)
+    if index>=0: print("before loop, dcabs1 = "+fortran_functions[index].old_name)
+
+    for ff in range(len(fortran_functions)):
+
+        f = copy.copy(fortran_functions[ff])
+        if (f.old_name=='daxpy'): print("0after daxpy:"+fortran_functions[ff+1].old_name)
+        if function_in_module('aux',f.old_name):
+            if f.old_name in blas_dble:
+                i = blas_dble.index(f.old_name)
+
+                new_name = blas_quad[i]
+                initial  = blas_init[i]
+                f.old_name = new_name
+                f.new_name = prefix+new_name
+                f.body   = double_to_quad(f.body,initial,blas_newi[i],prefix)
+                f.header = double_to_quad(f.header,initial,blas_newi[i],prefix)
+
+                for j in range(len(f.deps)):
+                   dold = f.deps[j].strip().lower()
+                   if dold in blas_dble:
+                       k = blas_dble.index(dold)
+                       f.deps[j] = blas_quad[k].strip()
+
+                new_functions.append(f)
+                fid.write(INDENT + "public :: " + f.new_name + "\n")
+        print("at end of "+fortran_functions[ff].old_name+", dcabs1 = "+fortran_functions[index].old_name)
 
 
-    for function in new_functions:
-        fortran_functions.append(function)
+    # Return new list of functions
+    new_list = []
+    for i in range(len(fortran_functions)):
+        new_list.append(fortran_functions[i])
+        if (new_list[-1].old_name=='daxpy'): print("OLD after daxpy:"+fortran_functions[i+1].old_name)
+    for i in range(len(new_functions)):
+        new_list.append(new_functions[i])
+        if (new_list[-1].old_name=='daxpy'): print("NEW after daxpy:"+fortran_functions[i+1].old_name)
 
+    return new_list
 
 # Rename double precision
-def double_to_quad(lines,initial,prefix):
+def double_to_quad(lines,initial,newinit,prefix):
 
-        import re
+    import re
 
-        if initial=='d':
-            newinit = 'q'
-        elif initial=='z':
-            newinit = 'w'
-        else:
-            print(initial + "is not a 64-bit type initial")
-            exit(1)
+    dble_prefixes = ['d','z','id','iz']
+    quad_prefixes = ['q','w','iq','iw']
 
+    # Merge
+    whole = '\n'.join(lines)
 
-        # Merge
-        whole = '\n'.join(lines)
-
-        # Simple string replacements: precision initial
+    # Simple function replacements: precision initial
+    for i in range(len(dble_prefixes)):
+        initial = dble_prefixes[i]
+        newinit = quad_prefixes[i]
         whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
-
-        print(prefix[:-1]+r'\_'+initial)
-        print(prefix+newinit)
-
-        whole = re.sub(r'64\-bit',r'128-bit',whole)
-        whole = re.sub(r'double precision',r'quad precision',whole)
         whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
-        whole = re.sub(r'\(dp\)',r'(qp)',whole)
-
         # Module header function names
         whole = re.sub(r'\! '+initial.upper(),r'! '+newinit.upper(),whole)
 
-        # Split in lines
-        whole = whole.splitlines()
+    whole = re.sub(r'64\-bit',r'128-bit',whole)
+    whole = re.sub(r'double precision',r'quad precision',whole)
+    whole = re.sub(r'\(dp\)',r'(qp)',whole)
+    whole = re.sub(r'KIND\=dp',r'KIND=qp',whole)
 
-        return whole
+    # Split in lines
+    whole = whole.splitlines()
+
+    return whole
 
 
 # Double precision of the current module, 64-bit -> 128-bit
@@ -317,7 +345,7 @@ def double_precision_module(module_name,out_folder,initial,prefix):
             for line in file:
                 dble_file.append(line.rstrip())
 
-        whole = double_to_quad(dble_file,initial,prefix)
+        whole = double_to_quad(dble_file,initial,newinit,prefix)
 
         # Write to disk
         fid = open(out_path,"w")
@@ -539,16 +567,26 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
         functions[i].printed = functions[i].printed or \
                                not function_in_module(initial,functions[i].old_name)
 
+        print("function "+functions[i].old_name+" is printed = "+str(functions[i].printed))
+
     # Get dependency indices
     for i in range(len(functions)):
         for j in range(len(functions[i].deps)):
-           functions[i].ideps.append(fun_names.index(functions[i].deps[j].lower()))
+           thisdep = functions[i].deps[j].lower().rstrip()
+           if thisdep in fun_names:
+               functions[i].ideps.append(fun_names.index(thisdep))
+           else:
+               print('initial = '+initial)
+               print("dependency "+thisdep+" in function "+functions[i].old_name+" is not in list: ")
+               print('\n'.join(fun_names))
+               exit(1)
 
     attempt = 0
     MAXIT   = 50*len(functions)
     while attempt<MAXIT:
 
         attempt+=1
+        print("attempt" + str(attempt))
 
         for i in range(len(functions)):
 
@@ -564,6 +602,8 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
                         nprinted+=1
                     elif functions[dep].printed:
                         nprinted+=1
+
+                print("function "+functions[i].old_name+" printed="+str(nprinted)+", len="+str(len(functions[i].deps)))
 
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
                    print(str(nprinted) + "deps printed already for " + functions[i].old_name)
@@ -1052,14 +1092,16 @@ def function_namelists(Sources,external_funs,prefix):
     old_names = []
     new_names = []
     for Source in Sources:
-        old_names.append(Source.old_name.lower())
-        new_names.append(Source.new_name.lower())
+        old_names.append(Source.old_name.lower().strip())
+        new_names.append(Source.new_name.lower().strip())
+        #print("append old "+Source.old_name)
 
     # Add list of external functions to that of the names
     if external_funs is not None:
         for ext in external_funs:
-            old_names.append(ext.lower())
-            new_names.append(prefix+ext.lower())
+            #print("append external "+ext.lower())
+            old_names.append(ext.lower().strip())
+            new_names.append(prefix+ext.lower().strip())
 
     return old_names,new_names
 
@@ -1068,8 +1110,8 @@ def rename_parameter_line(line,Source,prefix):
 
     import re
 
-    datatypes = ['real(sp)','real(dp)','complex(sp)','complex(dp)','integer(ilp)','logical(lk)']
-    dataregex = ['real\(sp\)','real\(dp\)','complex\(sp\)','complex\(dp\)','integer\(ilp\)','logical\(lk\)']
+    datatypes = ['real(sp)','real(dp)','real(qp)','complex(sp)','complex(dp)','complex(qp)','integer(ilp)','logical(lk)']
+    dataregex = ['real\(sp\)','real\(dp\)','real\(qp\)','complex\(sp\)','complex\(dp\)','complex\(qp\)','integer\(ilp\)','logical\(lk\)']
 
     ll = line.lower().strip()
 
@@ -1136,6 +1178,9 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     decl  = Source.decl
 
     initial = name[0]
+    if initial=='w' or initial=='q':
+        ik = 'ilp'
+        rk = 'qp'
     if initial=='c' or initial=='s':
         ik = 'ilp'
         rk = 'sp'

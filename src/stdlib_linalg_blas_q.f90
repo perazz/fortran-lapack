@@ -1548,7 +1548,7 @@ module stdlib_linalg_blas_q
            ! code for equal, positive, non-unit increments.
               ns = n*incx
               do i = 1, ns, incx
-                 stdlib_qsdot = stdlib_qsdot + real(sx(i), KIND=dp)*real(sy(i), KIND=dp)
+                 stdlib_qsdot = stdlib_qsdot + real(sx(i), KIND=qp)*real(sy(i), KIND=qp)
               end do
            else
            ! code for unequal or nonpositive increments.
@@ -1557,7 +1557,7 @@ module stdlib_linalg_blas_q
               if (incx < 0) kx = 1 + (1 - n)*incx
               if (incy < 0) ky = 1 + (1 - n)*incy
               do i = 1, n
-                 stdlib_qsdot = stdlib_qsdot + real(sx(kx), KIND=dp)*real(sy(ky), KIND=dp)
+                 stdlib_qsdot = stdlib_qsdot + real(sx(kx), KIND=qp)*real(sy(ky), KIND=qp)
                  kx = kx + incx
                  ky = ky + incy
               end do
