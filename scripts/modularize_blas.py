@@ -328,8 +328,11 @@ def double_to_quad(lines,initial,newinit,prefix):
 
     whole = re.sub(r'64\-bit',r'128-bit',whole)
     whole = re.sub(r'double precision',r'quad precision',whole)
+    whole = re.sub(r'single precision',r'double precision',whole)
     whole = re.sub(r'\(dp\)',r'(qp)',whole)
     whole = re.sub(r'KIND\=dp',r'KIND=qp',whole)
+    whole = re.sub(r'\(sp\)',r'(dp)',whole)
+    whole = re.sub(r'KIND\=sp',r'KIND=dp',whole)
 
     # Split in lines
     whole = whole.splitlines()
