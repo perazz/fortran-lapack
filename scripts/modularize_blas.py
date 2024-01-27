@@ -2,6 +2,7 @@
 # and creates a Fortran module out of them
 
 from enum import Enum
+import re
 
 # Create linear algebra constants module
 def create_constants_module(module_name,out_folder):
@@ -200,36 +201,82 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         if initials[m]=='d' or initials[m]=='z':
            double_precision_module(module_name,out_folder,initials[m],prefix)
 
-
-
-
     # Write wrapper module
-    if split_by_initial:
-
-        # Add quad-precision modules
-        initials = ['aux','s','d','q','c','z','w']
-
-        module_file = module_name + ".f90"
-        module_path = os.path.join(out_folder,module_file)
-
-        fid = open(module_path,"w")
-
-        # Header
-        fid.write("module {}\n".format(module_name))
-        for used in used_modules:
-            fid.write(INDENT + "use " + used + "\n")
-
-        for i in initials:
-            fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
-        fid.write(INDENT + "implicit none(type,external)\n")
-        fid.write(INDENT + "public\n")
-        # Close module
-        fid.write("\n\n\nend module {}\n".format(module_name))
-        fid.close()
+    if split_by_initial: write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix)
 
 
     # Return list of all functions defined in this module, including the external ones
     return old_names
+
+# Write interface module wrapping the whole library
+def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix):
+
+    # Add quad-precision modules
+    initials = ['aux','s','d','q','c','z','w']
+
+    interfaces = ['gemv']
+
+    module_file = module_name + ".f90"
+    module_path = os.path.join(out_folder,module_file)
+
+    fid = open(module_path,"w")
+
+    # Header
+    fid.write("module {}\n".format(module_name))
+    for used in used_modules:
+        fid.write(INDENT + "use " + used + "\n")
+
+    for i in initials:
+        fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
+    fid.write(INDENT + "implicit none(type,external)\n")
+    fid.write(INDENT + "public\n")
+
+    # Type-agnostic procedure interfaces
+    interf_functions = []
+    for f in fortran_functions:
+        for j in range(len(interfaces)):
+            if interfaces[j] == f.old_name[1:]:
+                interf_functions.append(f)
+
+    # Write interface
+    if len(interf_functions)>0: write_interface(fid,interfaces[0],interf_functions,INDENT,prefix)
+
+
+    # Close module
+    fid.write("\n\n\nend module {}\n".format(module_name))
+    fid.close()
+
+# write interface
+def write_interface(fid,name,functions,INDENT,prefix):
+
+    # Ensure all functions are sorted
+    functions.sort(key=lambda x: x.old_name, reverse=False)
+
+    fid.write(INDENT+INDENT+"interface {}\n".format(name))
+
+    # The external blas interface is fine-grained to each function, because external
+    # implementations may not offer the double precision or quad precision implementation
+    for f in functions:
+
+        # Get declaration
+        declaration, arguments = f.declaration(prefix)
+
+        # External blas interface
+        fid.write("#ifdef STDLIB_EXTERNAL_BLAS\n".format(name))
+        fid.write(INDENT*3+"{}\n".format(declaration))
+        fid.write(INDENT*4+"import sp,dp,qp,ilp,lk \n")
+        fid.write(INDENT*4+"implicit none(type,external) \n")
+        for a in arguments:
+            fid.write(INDENT*4+a+" \n")
+
+        fid.write(INDENT*3+"end {ptype} {pname}\n".format(ptype=f.procedure_type(),pname=f.old_name))
+        # Local implementation
+        fid.write("#else\n".format(name))
+        fid.write(INDENT*3+"module procedure {}\n".format(f.new_name))
+        fid.write("#endif\n".format(name))
+
+    # Close interface
+    fid.write(INDENT*2+"end interface {}\n".format(name))
 
 # Identify quad-precision functions
 def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
@@ -869,6 +916,88 @@ class Fortran_Source:
         self.ptype = []
         self.pvalue = []
         self.header = []
+
+    # Return subroutine/function string
+    def procedure_type(self):
+        if self.is_function:
+            return "function"
+        else:
+            return "subroutine"
+
+    # Return declaration line of a function
+    def declaration(self,strip_prefix):
+
+        # Find header
+        head = ""
+        for i in range(len(self.body)):
+            stripped = self.body[i].strip().lower()
+            if stripped.find('subroutine')>=0 or stripped.find('function')>=0:
+                head = stripped
+                if not (strip_prefix is None): head = re.sub(strip_prefix,"",head)
+                break
+
+        if len(head)<=0:
+            print("ERROR: Procedure declaration not found in function "+self.old_name)
+            exit(1)
+
+        # Strip, lower
+        head = head.lower().strip()
+
+        # extract arguments
+        if self.is_function:
+           m = re.search(r'(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
+           print(m.groups())
+           print(head)
+           exit(1)
+        else:
+           m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)',head)
+           args = m.group(3).split(",")
+
+
+        # extract all variables
+        var_types = []
+        var_names = []
+        var_decl  = []
+        for i in range(len(self.decl)):
+            line = self.decl[i].lower().strip()
+            m = re.search(r'\s*(\S+)\s+\:{2}\s+(.+)',line)
+
+            if not (m is None):
+                datatype = m.group(1)
+                variables = m.group(2)
+
+                # Extract variable declarations
+                v = re.findall(r'([a-zA-Z0-9\_]+(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
+
+                # Add to variables
+                for k in range(len(v)):
+
+                    # Clean trailing commas
+                    if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
+
+                    # Extract name with no (*) or other arguments
+                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}',v[k])
+                    name = vname.group(1)
+
+                    # Add to list if this is an argument
+                    if name in args:
+                        var_names.append(v[k])
+                        var_types.append(datatype)
+                        var_decl.append(datatype+" :: "+v[k])
+                    else:
+                        print("variable <"+v[k]+"> not in args")
+
+
+#                print("datatype = "+datatype)
+#                print(v)
+#                print(variables)
+#                exit(1)
+
+        return head,var_decl
+
+
+
+
 
 class Fortran_Line:
     def __init(self):
@@ -1809,12 +1938,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
