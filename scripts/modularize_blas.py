@@ -214,7 +214,35 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
     # Add quad-precision modules
     initials = ['aux','s','d','q','c','z','w']
 
-    interfaces = ['gemv']
+#     public :: stdlib_drot
+#     public :: stdlib_drotg
+#     public :: stdlib_drotm
+#     public :: stdlib_drotmg
+#     public :: stdlib_dsbmv
+#     public :: stdlib_dscal
+#     public :: stdlib_dsdot
+#     public :: stdlib_dspmv
+#     public :: stdlib_dspr
+#     public :: stdlib_dspr2
+#     public :: stdlib_dswap
+#     public :: stdlib_dsymm
+#     public :: stdlib_dsymv
+#     public :: stdlib_dsyr
+#     public :: stdlib_dsyr2
+#     public :: stdlib_dsyr2k
+#     public :: stdlib_dsyrk
+#     public :: stdlib_dtbmv
+#     public :: stdlib_dtbsv
+#     public :: stdlib_dtpmv
+#     public :: stdlib_dtpsv
+#     public :: stdlib_dtrmm
+#     public :: stdlib_dtrmv
+#     public :: stdlib_dtrsm
+#     public :: stdlib_dtrsv
+#     public :: stdlib_dzasum
+#     public :: stdlib_dznrm2
+
+    interfaces = ['axpy','copy','gbmv','gemm','gemv','ger']
 
     module_file = module_name + ".f90"
     module_path = os.path.join(out_folder,module_file)
@@ -232,14 +260,14 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
     fid.write(INDENT + "public\n")
 
     # Type-agnostic procedure interfaces
-    interf_functions = []
-    for f in fortran_functions:
-        for j in range(len(interfaces)):
+    for j in range(len(interfaces)):
+        interf_functions = []
+        for f in fortran_functions:
             if interfaces[j] == f.old_name[1:]:
                 interf_functions.append(f)
 
-    # Write interface
-    if len(interf_functions)>0: write_interface(fid,interfaces[0],interf_functions,INDENT,prefix)
+        # Write interface
+        if len(interf_functions)>0: write_interface(fid,interfaces[j],interf_functions,INDENT,prefix)
 
 
     # Close module
@@ -284,7 +312,7 @@ def write_interface(fid,name,functions,INDENT,prefix):
         fid.write("#endif\n".format(name))
 
     # Close interface
-    fid.write(INDENT*2+"end interface {}\n".format(name))
+    fid.write(INDENT*2+"end interface {}\n\n\n".format(name))
 
 # Identify quad-precision functions
 def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
