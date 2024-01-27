@@ -56,6 +56,33 @@ module stdlib_linalg_blas
 
 
 
+          ! DOT forms the dot product of two vectors.
+          ! uses unrolled loops for increments equal to one.
+          interface dot
+#ifdef STDLIB_EXTERNAL_BLAS
+               real(dp) function ddot(n,dx,incx,dy,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    integer(ilp) :: incx,incy,n,i 
+                    real(dp) :: dx(*),dy(*) 
+               end function ddot
+#else
+               module procedure stdlib_ddot
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               real(sp) function sdot(n,sx,incx,sy,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    integer(ilp) :: incx,incy,n,i 
+                    real(sp) :: sx(*),sy(*) 
+               end function sdot
+#else
+               module procedure stdlib_sdot
+#endif
+          end interface dot
+
+
+
           ! COPY copies a vector x to a vector y.
           interface copy
 #ifdef STDLIB_EXTERNAL_BLAS

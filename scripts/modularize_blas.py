@@ -242,7 +242,7 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
 #     public :: stdlib_dzasum
 #     public :: stdlib_dznrm2
 
-    interfaces = ['axpy','copy','gbmv','gemm','gemv','ger']
+    interfaces = ['axpy','dot','copy','gbmv','gemm','gemv','ger']
 
     module_file = module_name + ".f90"
     module_path = os.path.join(out_folder,module_file)
@@ -981,10 +981,22 @@ class Fortran_Source:
 
         # extract arguments
         if self.is_function:
-           m = re.search(r'(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
-           print(m.groups())
-           print(head)
-           exit(1)
+           m = re.search(r'(\S+)\s+(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
+
+           has_type   = not m.group(1) is None
+           has_result = not m.group(5) is None
+
+           args = m.group(4)
+
+           # If the type is not declared here, it must be found in the list of arguments, ensure it is added
+           if not has_type:
+               if has_result:
+                  # Parse name
+                  result = re.search(r'(?:\s*result\s*)\((.+)\)',m.group(5))
+                  args = args + "," + result.group(1)
+               else:
+                  args = args + "," + m.group(3)
+
         else:
            m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)',head)
            args = m.group(3).split(",")
