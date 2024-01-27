@@ -214,35 +214,9 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
     # Add quad-precision modules
     initials = ['aux','s','d','q','c','z','w']
 
-#     public :: stdlib_drot
-#     public :: stdlib_drotg
-#     public :: stdlib_drotm
-#     public :: stdlib_drotmg
-#     public :: stdlib_dsbmv
-#     public :: stdlib_dscal
-#     public :: stdlib_dsdot
-#     public :: stdlib_dspmv
-#     public :: stdlib_dspr
-#     public :: stdlib_dspr2
-#     public :: stdlib_dswap
-#     public :: stdlib_dsymm
-#     public :: stdlib_dsymv
-#     public :: stdlib_dsyr
-#     public :: stdlib_dsyr2
-#     public :: stdlib_dsyr2k
-#     public :: stdlib_dsyrk
-#     public :: stdlib_dtbmv
-#     public :: stdlib_dtbsv
-#     public :: stdlib_dtpmv
-#     public :: stdlib_dtpsv
-#     public :: stdlib_dtrmm
-#     public :: stdlib_dtrmv
-#     public :: stdlib_dtrsm
-#     public :: stdlib_dtrsv
-#     public :: stdlib_dzasum
-#     public :: stdlib_dznrm2
-
-    interfaces = ['axpy','dot','copy','gbmv','gemm','gemv','ger']
+    interfaces = ['asu,','axpy','copy','dot','gbmv','demm','demv','ger','nrm2','rot','rotg','rotm','rotmg', \
+                  'sbmv','scal','sdot','spmv','spr','spr2','swap','symm','symv','syr','syr2','syr2k','syrk', \
+                  'tbmv','tbsv','tpmv','tpsv','trmm','trmv','trsm','trsv','zasum','znrm2']
 
     module_file = module_name + ".f90"
     module_path = os.path.join(out_folder,module_file)
@@ -981,7 +955,13 @@ class Fortran_Source:
 
         # extract arguments
         if self.is_function:
-           m = re.search(r'(\S+)\s+(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
+           m = re.search(r'(\S*\s+)*(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
+
+           if m is None:
+               print(m)
+               print(head)
+               print("ERROR")
+               exit(1)
 
            has_type   = not m.group(1) is None
            has_result = not m.group(5) is None
@@ -997,9 +977,18 @@ class Fortran_Source:
                else:
                   args = args + "," + m.group(3)
 
+           args = args.split(",")
+
         else:
            m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)',head)
            args = m.group(3).split(",")
+
+        print(args)
+        if len(args)>1:
+            for a in range(len(args)):
+                args[a] = args[a].strip()
+        else:
+            args = args.strip()
 
 
         # extract all variables
@@ -1011,8 +1000,8 @@ class Fortran_Source:
             m = re.search(r'\s*(\S+)\s+\:{2}\s+(.+)',line)
 
             if not (m is None):
-                datatype = m.group(1)
-                variables = m.group(2)
+                datatype = m.group(1).strip()
+                variables = m.group(2).strip()
 
                 # Extract variable declarations
                 v = re.findall(r'([a-zA-Z0-9\_]+(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
@@ -1020,12 +1009,15 @@ class Fortran_Source:
                 # Add to variables
                 for k in range(len(v)):
 
+                    v[k] = v[k].strip()
+
                     # Clean trailing commas
                     if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
 
                     # Extract name with no (*) or other arguments
                     vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}',v[k])
-                    name = vname.group(1)
+                    name = vname.group(1).strip()
+                    print(name)
 
                     # Add to list if this is an argument
                     if name in args:
