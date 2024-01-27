@@ -16,12 +16,8 @@ module stdlib_linalg_blas
                subroutine caxpy(n,ca,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    complex(sp) :: ca 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: n 
-                    complex(sp) :: cx(*) 
-                    complex(sp) :: cy(*) 
+                    complex(sp) :: ca,cx(*),cy(*) 
+                    integer(ilp) :: incx,incy,n 
                end subroutine caxpy
 #else
                module procedure stdlib_caxpy
@@ -30,12 +26,8 @@ module stdlib_linalg_blas
                subroutine daxpy(n,da,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(dp) :: da 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: n 
-                    real(dp) :: dx(*) 
-                    real(dp) :: dy(*) 
+                    real(dp) :: da,dx(*),dy(*) 
+                    integer(ilp) :: incx,incy,n 
                end subroutine daxpy
 #else
                module procedure stdlib_daxpy
@@ -44,12 +36,8 @@ module stdlib_linalg_blas
                subroutine saxpy(n,sa,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(sp) :: sa 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: n 
-                    real(sp) :: sx(*) 
-                    real(sp) :: sy(*) 
+                    real(sp) :: sa,sx(*),sy(*) 
+                    integer(ilp) :: incx,incy,n 
                end subroutine saxpy
 #else
                module procedure stdlib_saxpy
@@ -58,12 +46,8 @@ module stdlib_linalg_blas
                subroutine zaxpy(n,za,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    complex(dp) :: za 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: n 
-                    complex(dp) :: zx(*) 
-                    complex(dp) :: zy(*) 
+                    complex(dp) :: za,zx(*),zy(*) 
+                    integer(ilp) :: incx,incy,n 
                end subroutine zaxpy
 #else
                module procedure stdlib_zaxpy
@@ -78,11 +62,8 @@ module stdlib_linalg_blas
                subroutine ccopy(n,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: n 
-                    complex(sp) :: cx(*) 
-                    complex(sp) :: cy(*) 
+                    integer(ilp) :: incx,incy,n 
+                    complex(sp) :: cx(*),cy(*) 
                end subroutine ccopy
 #else
                module procedure stdlib_ccopy
@@ -91,11 +72,8 @@ module stdlib_linalg_blas
                subroutine dcopy(n,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: n 
-                    real(dp) :: dx(*) 
-                    real(dp) :: dy(*) 
+                    integer(ilp) :: incx,incy,n 
+                    real(dp) :: dx(*),dy(*) 
                end subroutine dcopy
 #else
                module procedure stdlib_dcopy
@@ -104,11 +82,8 @@ module stdlib_linalg_blas
                subroutine scopy(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: n 
-                    real(sp) :: sx(*) 
-                    real(sp) :: sy(*) 
+                    integer(ilp) :: incx,incy,n 
+                    real(sp) :: sx(*),sy(*) 
                end subroutine scopy
 #else
                module procedure stdlib_scopy
@@ -117,11 +92,8 @@ module stdlib_linalg_blas
                subroutine zcopy(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: n 
-                    complex(dp) :: zx(*) 
-                    complex(dp) :: zy(*) 
+                    integer(ilp) :: incx,incy,n 
+                    complex(dp) :: zx(*),zy(*) 
                end subroutine zcopy
 #else
                module procedure stdlib_zcopy
@@ -140,19 +112,9 @@ module stdlib_linalg_blas
                subroutine cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    complex(sp) :: alpha 
-                    complex(sp) :: beta 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: kl 
-                    integer(ilp) :: ku 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
+                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,kl,ku,lda,m,n 
                     character :: trans 
-                    complex(sp) :: a(lda,*) 
-                    complex(sp) :: x(*) 
-                    complex(sp) :: y(*) 
                end subroutine cgbmv
 #else
                module procedure stdlib_cgbmv
@@ -161,19 +123,9 @@ module stdlib_linalg_blas
                subroutine dgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(dp) :: alpha 
-                    real(dp) :: beta 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: kl 
-                    integer(ilp) :: ku 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
+                    real(dp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,kl,ku,lda,m,n 
                     character :: trans 
-                    real(dp) :: a(lda,*) 
-                    real(dp) :: x(*) 
-                    real(dp) :: y(*) 
                end subroutine dgbmv
 #else
                module procedure stdlib_dgbmv
@@ -182,19 +134,9 @@ module stdlib_linalg_blas
                subroutine sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(sp) :: alpha 
-                    real(sp) :: beta 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: kl 
-                    integer(ilp) :: ku 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
+                    real(sp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,kl,ku,lda,m,n 
                     character :: trans 
-                    real(sp) :: a(lda,*) 
-                    real(sp) :: x(*) 
-                    real(sp) :: y(*) 
                end subroutine sgbmv
 #else
                module procedure stdlib_sgbmv
@@ -203,19 +145,9 @@ module stdlib_linalg_blas
                subroutine zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    complex(dp) :: alpha 
-                    complex(dp) :: beta 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: kl 
-                    integer(ilp) :: ku 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
+                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,kl,ku,lda,m,n 
                     character :: trans 
-                    complex(dp) :: a(lda,*) 
-                    complex(dp) :: x(*) 
-                    complex(dp) :: y(*) 
                end subroutine zgbmv
 #else
                module procedure stdlib_zgbmv
@@ -235,19 +167,9 @@ module stdlib_linalg_blas
                subroutine cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    complex(sp) :: alpha 
-                    complex(sp) :: beta 
-                    integer(ilp) :: k 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: ldb 
-                    integer(ilp) :: ldc 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
-                    character :: transa 
-                    character :: transb 
-                    complex(sp) :: a(lda,*) 
-                    complex(sp) :: b(ldb,*) 
-                    complex(sp) :: c(ldc,*) 
+                    complex(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: k,lda,ldb,ldc,m,n 
+                    character :: transa,transb 
                end subroutine cgemm
 #else
                module procedure stdlib_cgemm
@@ -256,19 +178,9 @@ module stdlib_linalg_blas
                subroutine dgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(dp) :: alpha 
-                    real(dp) :: beta 
-                    integer(ilp) :: k 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: ldb 
-                    integer(ilp) :: ldc 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
-                    character :: transa 
-                    character :: transb 
-                    real(dp) :: a(lda,*) 
-                    real(dp) :: b(ldb,*) 
-                    real(dp) :: c(ldc,*) 
+                    real(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: k,lda,ldb,ldc,m,n 
+                    character :: transa,transb 
                end subroutine dgemm
 #else
                module procedure stdlib_dgemm
@@ -277,19 +189,9 @@ module stdlib_linalg_blas
                subroutine sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(sp) :: alpha 
-                    real(sp) :: beta 
-                    integer(ilp) :: k 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: ldb 
-                    integer(ilp) :: ldc 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
-                    character :: transa 
-                    character :: transb 
-                    real(sp) :: a(lda,*) 
-                    real(sp) :: b(ldb,*) 
-                    real(sp) :: c(ldc,*) 
+                    real(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: k,lda,ldb,ldc,m,n 
+                    character :: transa,transb 
                end subroutine sgemm
 #else
                module procedure stdlib_sgemm
@@ -298,19 +200,9 @@ module stdlib_linalg_blas
                subroutine zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    complex(dp) :: alpha 
-                    complex(dp) :: beta 
-                    integer(ilp) :: k 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: ldb 
-                    integer(ilp) :: ldc 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
-                    character :: transa 
-                    character :: transb 
-                    complex(dp) :: a(lda,*) 
-                    complex(dp) :: b(ldb,*) 
-                    complex(dp) :: c(ldc,*) 
+                    complex(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: k,lda,ldb,ldc,m,n 
+                    character :: transa,transb 
                end subroutine zgemm
 #else
                module procedure stdlib_zgemm
@@ -329,17 +221,9 @@ module stdlib_linalg_blas
                subroutine cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    complex(sp) :: alpha 
-                    complex(sp) :: beta 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
+                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
                     character :: trans 
-                    complex(sp) :: a(lda,*) 
-                    complex(sp) :: x(*) 
-                    complex(sp) :: y(*) 
                end subroutine cgemv
 #else
                module procedure stdlib_cgemv
@@ -348,17 +232,9 @@ module stdlib_linalg_blas
                subroutine dgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(dp) :: alpha 
-                    real(dp) :: beta 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
+                    real(dp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
                     character :: trans 
-                    real(dp) :: a(lda,*) 
-                    real(dp) :: x(*) 
-                    real(dp) :: y(*) 
                end subroutine dgemv
 #else
                module procedure stdlib_dgemv
@@ -367,17 +243,9 @@ module stdlib_linalg_blas
                subroutine sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(sp) :: alpha 
-                    real(sp) :: beta 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
+                    real(sp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
                     character :: trans 
-                    real(sp) :: a(lda,*) 
-                    real(sp) :: x(*) 
-                    real(sp) :: y(*) 
                end subroutine sgemv
 #else
                module procedure stdlib_sgemv
@@ -386,17 +254,9 @@ module stdlib_linalg_blas
                subroutine zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    complex(dp) :: alpha 
-                    complex(dp) :: beta 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
+                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
                     character :: trans 
-                    complex(dp) :: a(lda,*) 
-                    complex(dp) :: x(*) 
-                    complex(dp) :: y(*) 
                end subroutine zgemv
 #else
                module procedure stdlib_zgemv
@@ -414,15 +274,8 @@ module stdlib_linalg_blas
                subroutine dger(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(dp) :: alpha 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
-                    real(dp) :: a(lda,*) 
-                    real(dp) :: x(*) 
-                    real(dp) :: y(*) 
+                    real(dp) :: alpha,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
                end subroutine dger
 #else
                module procedure stdlib_dger
@@ -431,15 +284,8 @@ module stdlib_linalg_blas
                subroutine sger(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
-                    real(sp) :: alpha 
-                    integer(ilp) :: incx 
-                    integer(ilp) :: incy 
-                    integer(ilp) :: lda 
-                    integer(ilp) :: m 
-                    integer(ilp) :: n 
-                    real(sp) :: a(lda,*) 
-                    real(sp) :: x(*) 
-                    real(sp) :: y(*) 
+                    real(sp) :: alpha,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
                end subroutine sger
 #else
                module procedure stdlib_sger

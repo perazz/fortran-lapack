@@ -1019,7 +1019,14 @@ class Fortran_Source:
                     if name in args:
                         var_names.append(v[k])
                         var_types.append(datatype)
-                        var_decl.append(datatype+" :: "+v[k])
+
+                        # Declarations are combined by datatype
+                        exists = False
+                        for d in range(len(var_decl)):
+                            if var_decl[d].startswith(datatype):
+                                exists = True
+                                var_decl[d] = var_decl[d] + "," + v[k]
+                        if not exists: var_decl.append(datatype+" :: "+v[k])
                     else:
                         print("variable <"+v[k]+"> not in args")
 
