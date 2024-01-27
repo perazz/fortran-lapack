@@ -9,6 +9,12 @@ module stdlib_linalg_blas
      use stdlib_linalg_blas_w
      implicit none(type,external)
      public
+
+          ! GEMV performs one of the matrix-vector operations
+          ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
+          ! y := alpha*A**H*x + beta*y,
+          ! where alpha and beta are scalars, x and y are vectors and A is an
+          ! m by n matrix.
           interface gemv
 #ifdef STDLIB_EXTERNAL_BLAS
                subroutine cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)

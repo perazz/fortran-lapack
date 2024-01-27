@@ -249,10 +249,18 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
 # write interface
 def write_interface(fid,name,functions,INDENT,prefix):
 
+    MAX_LINE_LENGTH = 150 # No line limits for the comments
+
     # Ensure all functions are sorted
     functions.sort(key=lambda x: x.old_name, reverse=False)
 
-    fid.write(INDENT+INDENT+"interface {}\n".format(name))
+    # Write comment header
+    for h in range(len(functions[0].header)):
+       functions[0].header[h] = re.sub(functions[0].old_name.upper(),name.upper(),functions[0].header[h])
+
+    write_function_body(fid,functions[0].header,INDENT*2,MAX_LINE_LENGTH,False)
+
+    fid.write(INDENT*2+"interface {}\n".format(name))
 
     # The external blas interface is fine-grained to each function, because external
     # implementations may not offer the double precision or quad precision implementation
