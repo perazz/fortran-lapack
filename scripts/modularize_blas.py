@@ -1242,8 +1242,6 @@ def replace_f77_types(line,is_free_form):
     new_line = re.sub(r'\bdimag\b',r'aimag',new_line)
     new_line = re.sub(r'\bDCONJG\b',r'CONJG',new_line) # conjg
     new_line = re.sub(r'\bdconjg\b',r'conjg',new_line)
-    new_line = re.sub(r'\bDCONJG\b',r'CONJG',new_line)
-    new_line = re.sub(r'\bdconjg\b',r'conjg',new_line)
 
     return new_line
 
