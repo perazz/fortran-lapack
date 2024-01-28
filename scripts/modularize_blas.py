@@ -679,8 +679,7 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
                functions[i].ideps.append(fun_names.index(thisdep))
            else:
                print('initial = '+initial)
-               print("dependency "+thisdep+" in function "+functions[i].old_name+" is not in list. ")
-               exit(1)
+               print("warning! dependency "+thisdep+" in function "+functions[i].old_name+" is not in list. ")
 
     attempt = 0
     MAXIT   = 50*len(functions)
@@ -1555,7 +1554,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     # This regex pattern defines 3 groups such that we can capture expressions
     # containing other brackets, such as real(ax(i)+2)*real(bx(6)+ety(4))
     fpref = r'(([^a-zA-Z0-9\_])'
-    findr = r'\((([^()]*(?:\([^()]*\))*[^()]*)+)\))'
+    findr = r'(?:\(([^()]+(?:\([^()]+(?:\((?:[^()]+(?:\([^()]+\))*)+\))*\))*[^()]*)\))+)'
 
     # Replace type-dependent intrinsics that require a KIND specification
     whole = re.sub(fpref+'int'+findr,r'\2int(\3,KIND='+ik+r')',whole) # int
@@ -1563,7 +1562,6 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     whole = re.sub(fpref+'idnint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # idnint
     whole = re.sub(fpref+'dble'+findr,r'\2real(\3,KIND='+rk+r')',whole) # dble
     whole = re.sub(fpref+'float'+findr,r'\2real(\3,KIND='+rk+r')',whole) # float
-    # whole = re.sub(r'(real\()(.+)(\))',r'real(\2,KIND='+rk+r')',whole) # real
     whole = re.sub(fpref+'cmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
     whole = re.sub(fpref+'dcmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
 
