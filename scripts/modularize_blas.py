@@ -1392,7 +1392,7 @@ def rename_intrinsics_line(line):
 
 
 
-    src = re.search(r'(intrinsic\s*::\s*)(.+)',line)
+    src = re.search(r'(\s*intrinsic\s*::\s*)(.+)',line)
 
     if not src is None:
 
