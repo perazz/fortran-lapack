@@ -176,8 +176,6 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         numeric_const = []
         if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
-            # AUX: add quadruple-precision procedure interfaces
-            fortran_functions = patch_blas_aux(fid,fortran_functions,prefix,INDENT,False)
             # AUX: add procedure interfaces
             patch_lapack_aux(fid,prefix,INDENT)
         if module_name+"_"+initials[m]=='stdlib_linalg_blas_aux':
@@ -202,13 +200,8 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         fid.write("\n\n\nend module {}\n".format(this_module))
         fid.close()
 
-#        # Double -> Quadruple precision module
-#        if initials[m]=='d' or initials[m]=='z':
-#           quad_precision_module(module_name,out_folder,initials[m],prefix)
-
     # Write wrapper module
     if split_by_initial: write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix)
-
 
     # Return list of all functions defined in this module, including the external ones
     return old_names
@@ -321,10 +314,10 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
         blas_quad = []
     else:
         # Lapack patches
-        blas_init = ['d','iz','ilaz','ilaz','ilad','ilad']
-        blas_newi = ['q','iw','ilaw','ilaw','ilaq','ilaq']
-        blas_dble = ['droundup_lwork','izmax1','ilazlc','ilazlr','iladlc','iladlr']
-        blas_quad = ['qroundup_lwork','iwmax1','ilawlc','ilawlr','ilaqlc','ilaqlr']
+        blas_init = ['iz','ilaz','ilaz','ilad','ilad']
+        blas_newi = ['iw','ilaw','ilaw','ilaq','ilaq']
+        blas_dble = ['izmax1','ilazlc','ilazlr','iladlc','iladlr']
+        blas_quad = ['iwmax1','ilawlc','ilawlr','ilaqlc','ilaqlr']
 
 
     # Flagged functions:
@@ -369,10 +362,8 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
     new_list = []
     for i in range(len(fortran_functions)):
         new_list.append(fortran_functions[i])
-        if (new_list[-1].old_name=='daxpy'): print("OLD after daxpy:"+fortran_functions[i+1].old_name)
     for i in range(len(new_functions)):
         new_list.append(new_functions[i])
-        if (new_list[-1].old_name=='daxpy'): print("NEW after daxpy:"+fortran_functions[i+1].old_name)
 
     return new_list
 
@@ -381,9 +372,9 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
 
     import re
 
-    sing_prefixes = ['s','c','is','ic']
-    dble_prefixes = ['d','z','id','iz']
-    quad_prefixes = ['q','w','iq','iw']
+    sing_prefixes = ['s','c','is','ic','ilas','ilac']
+    dble_prefixes = ['d','z','id','iz','ilad','ilaz']
+    quad_prefixes = ['q','w','iq','iw','ilaq','ilaw']
 
     if len(initial)>2:
         dble_prefixes.append(initial)
@@ -493,6 +484,7 @@ def function_in_module(initial,function_name):
    elif    oname.endswith("amax") \
         or oname.endswith("abs") \
         or oname.endswith("roundup_lwork") \
+        or oname.endswith("chla_transtype") \
         or oname.endswith("abs1") :
        in_module = initial[0].lower() == 'a'
    # PATCH: exclude functions
@@ -687,8 +679,7 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
                functions[i].ideps.append(fun_names.index(thisdep))
            else:
                print('initial = '+initial)
-               print("dependency "+thisdep+" in function "+functions[i].old_name+" is not in list: ")
-               print('\n'.join(fun_names))
+               print("dependency "+thisdep+" in function "+functions[i].old_name+" is not in list. ")
                exit(1)
 
     attempt = 0
@@ -973,22 +964,22 @@ class Fortran_Source:
     # Check if this is a double precision function
     def is_double_precision(self):
         old = self.old_name.lower()
-        return old.startswith('d') or old.startswith('id') or \
-               old.startswith('z') or old.startswith('iz')
+        return old.startswith('d') or old.startswith('id') or old.startswith('ilad') or\
+               old.startswith('z') or old.startswith('iz') or old.startswith('ilaz')
 
     # Check if this is a quadruple precision function
     def is_quad_precision(self):
         old = self.old_name.lower()
-        return old.startswith('q') or old.startswith('iq') or \
-               old.startswith('w') or old.startswith('iw')
+        return old.startswith('q') or old.startswith('iq') or old.startswith('ilaq') or \
+               old.startswith('w') or old.startswith('iw') or old.startswith('ilaw')
 
 
     # Convert a double precision function to quad precision
     def to_quad_precision(self):
 
-        sing_prefixes = ['is','ic','s','c']
-        dble_prefixes = ['id','iz','d','z']
-        quad_prefixes = ['iq','iw','q','w']
+        sing_prefixes = ['is','ic','s','c','ilas','ilac']
+        dble_prefixes = ['id','iz','d','z','ilad','ilaz']
+        quad_prefixes = ['iq','iw','q','w','ilaq','ilaw']
 
         # Deep copy
         q = copy.copy(self)
@@ -1388,8 +1379,6 @@ def function_namelists(Sources,external_funs,prefix):
 # Given a list of intrinsic functions, ensure there are no duplicates and no kind-dependent ones
 def rename_intrinsics_line(line):
 
-
-
     src = re.search(r'(\s*intrinsic\s*::\s*)(.+)',line)
 
     if not src is None:
@@ -1420,6 +1409,20 @@ def rename_intrinsics_line(line):
     else:
        return line
 
+
+# If this is a labelled CONTINUE line, ensure it is indented similar to the previous line
+def align_labelled_continue(line,previous=None):
+
+    m = re.search(r'(\s*[0-9]+)(?:\s*)(continue)(?:\s*)',line)
+
+    if m is None or previous is None:
+        return line
+    else:
+        label = m.group(1).strip()
+
+        nspaces = len(previous)-len(previous.lstrip())
+
+        return " "*nspaces + label + " continue"
 
 # Given the list of all variables, extract those that are module constants
 def rename_parameter_line(line,Source,prefix):
@@ -1575,6 +1578,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
            body[j] = replace_la_constants(body[j],Source.file_name)
            body[j] = rename_parameter_line(body[j],Source,prefix)
            body[j] = rename_intrinsics_line(body[j])
+           if j>0: body[j] = align_labelled_continue(body[j],body[j-1])
 
 
     # Build dependency list
@@ -2105,12 +2109,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
