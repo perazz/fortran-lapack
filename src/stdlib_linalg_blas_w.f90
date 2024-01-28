@@ -2,8 +2,10 @@ module stdlib_linalg_blas_w
      use stdlib_linalg_constants
      use stdlib_linalg_blas_aux
      use stdlib_linalg_blas_s
-     use stdlib_linalg_blas_q
      use stdlib_linalg_blas_c
+     use stdlib_linalg_blas_d
+     use stdlib_linalg_blas_z
+     use stdlib_linalg_blas_q
      implicit none(type, external)
      private
 
@@ -62,7 +64,7 @@ module stdlib_linalg_blas_w
      ! 128-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
      integer, parameter, private :: minexp = minexponent(zero)
-     real(qp), parameter, private :: rradix = real(radix(zero), dp)
+     real(qp), parameter, private :: rradix = real(radix(zero), qp)
      real(qp), parameter, private :: ulp = epsilon(zero)
      real(qp), parameter, private :: eps = ulp*half
      real(qp), parameter, private :: safmin = rradix**max(minexp - 1, 1 - maxexp)
@@ -334,7 +336,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kup1, kx, ky, lenx, leny
@@ -512,7 +514,7 @@ module stdlib_linalg_blas_w
            complex(qp) :: temp
            integer(ilp) :: i, info, j, l, nrowa, nrowb
            logical(lk) :: conja, conjb, nota, notb
-
+           
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! conjugated or transposed, set  conja and conjb  as true if  a  and
            ! b  respectively are to be  transposed but  not conjugated  and set
@@ -753,7 +755,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky, lenx, leny
@@ -911,7 +913,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jy, kx
@@ -990,7 +992,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jy, kx
@@ -1070,7 +1072,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
@@ -1240,7 +1242,7 @@ module stdlib_linalg_blas_w
            complex(qp) :: temp1, temp2
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: upper
-
+           
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side, 'l')) then
                nrowa = m
@@ -1381,7 +1383,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
@@ -1533,7 +1535,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
@@ -1648,7 +1650,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
@@ -1703,7 +1705,7 @@ module stdlib_linalg_blas_w
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
                            a(j, j) = real(a(j, j), KIND=qp) + real(x(j)*temp1 + y(j)*temp2, KIND=qp)
-
+                                     
                        else
                            a(j, j) = real(a(j, j), KIND=qp)
                        end if
@@ -1721,7 +1723,7 @@ module stdlib_linalg_blas_w
                                iy = iy + incy
                            end do
                            a(j, j) = real(a(j, j), KIND=qp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=qp)
-
+                                     
                        else
                            a(j, j) = real(a(j, j), KIND=qp)
                        end if
@@ -1737,7 +1739,7 @@ module stdlib_linalg_blas_w
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
                            a(j, j) = real(a(j, j), KIND=qp) + real(x(j)*temp1 + y(j)*temp2, KIND=qp)
-
+                                     
                            do i = j + 1, n
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
@@ -1751,7 +1753,7 @@ module stdlib_linalg_blas_w
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
                            a(j, j) = real(a(j, j), KIND=qp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=qp)
-
+                                     
                            ix = jx
                            iy = jy
                            do i = j + 1, n
@@ -1797,7 +1799,7 @@ module stdlib_linalg_blas_w
            complex(qp) :: temp1, temp2
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-
+           
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
                nrowa = n
@@ -2005,7 +2007,7 @@ module stdlib_linalg_blas_w
            real(qp) :: rtemp
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-
+           
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
                nrowa = n
@@ -2191,7 +2193,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: ap(*), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
@@ -2349,7 +2351,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: ap(*), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
@@ -2407,7 +2409,7 @@ module stdlib_linalg_blas_w
                                ix = ix + incx
                            end do
                            ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp) + real(x(jx)*temp, KIND=qp)
-
+                                     
                        else
                            ap(kk + j - 1) = real(ap(kk + j - 1), KIND=qp)
                        end if
@@ -2471,7 +2473,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: ap(*), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
@@ -2562,7 +2564,7 @@ module stdlib_linalg_blas_w
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
                            ap(kk) = real(ap(kk), KIND=qp) + real(x(j)*temp1 + y(j)*temp2, KIND=qp)
-
+                                     
                            k = kk + 1
                            do i = j + 1, n
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
@@ -2579,7 +2581,7 @@ module stdlib_linalg_blas_w
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
                            ap(kk) = real(ap(kk), KIND=qp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=qp)
-
+                                     
                            ix = jx
                            iy = jy
                            do k = kk + 1, kk + n - j
@@ -2821,7 +2823,7 @@ module stdlib_linalg_blas_w
            complex(qp) :: temp1, temp2
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: upper
-
+           
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side, 'l')) then
                nrowa = m
@@ -2969,7 +2971,7 @@ module stdlib_linalg_blas_w
            complex(qp) :: temp1, temp2
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-
+           
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
                nrowa = n
@@ -3144,7 +3146,7 @@ module stdlib_linalg_blas_w
            complex(qp) :: temp
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-
+           
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
                nrowa = n
@@ -3301,7 +3303,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
@@ -3518,7 +3520,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
@@ -3732,7 +3734,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: ap(*), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
@@ -3951,7 +3953,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: ap(*), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
@@ -4176,7 +4178,7 @@ module stdlib_linalg_blas_w
            complex(qp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, noconj, nounit, upper
-
+           
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
            if (lside) then
@@ -4409,7 +4411,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
@@ -4615,7 +4617,7 @@ module stdlib_linalg_blas_w
            complex(qp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, noconj, nounit, upper
-
+           
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
            if (lside) then
@@ -4872,7 +4874,7 @@ module stdlib_linalg_blas_w
            ! .. array arguments ..
            complex(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx

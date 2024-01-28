@@ -2,6 +2,8 @@
 # and creates a Fortran module out of them
 
 from enum import Enum
+import re
+import copy
 
 # Create linear algebra constants module
 def create_constants_module(module_name,out_folder):
@@ -104,7 +106,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     # Splitting by initials
     if split_by_initial:
-        initials = ['aux','s','d','c','z']
+        initials = ['aux','s','c','d','z','q','w']
         modules = []
         for i in range(len(initials)):
             modules.append(module_name+"_"+initials[i])
@@ -137,6 +139,10 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
     # Rename all procedures
     for function in fortran_functions:
         function.body,function.deps = rename_source_body(function,fortran_functions,ext_functions,prefix)
+
+    # Add quad-precision procedures
+    for function in fortran_functions:
+        if function.is_double_precision(): fortran_functions.append(function.to_quad_precision())
 
     # Create modules
     for m in range(len(modules)):
@@ -196,55 +202,123 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         fid.write("\n\n\nend module {}\n".format(this_module))
         fid.close()
 
-        # Double -> Quadruple precision module
-        if initials[m]=='d' or initials[m]=='z':
-           double_precision_module(module_name,out_folder,initials[m],prefix)
-
-
-
+#        # Double -> Quadruple precision module
+#        if initials[m]=='d' or initials[m]=='z':
+#           quad_precision_module(module_name,out_folder,initials[m],prefix)
 
     # Write wrapper module
-    if split_by_initial:
-
-        # Add quad-precision modules
-        initials = ['aux','s','d','q','c','z','w']
-
-        module_file = module_name + ".f90"
-        module_path = os.path.join(out_folder,module_file)
-
-        fid = open(module_path,"w")
-
-        # Header
-        fid.write("module {}\n".format(module_name))
-        for used in used_modules:
-            fid.write(INDENT + "use " + used + "\n")
-
-        for i in initials:
-            fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
-        fid.write(INDENT + "implicit none(type,external)\n")
-        fid.write(INDENT + "public\n")
-        # Close module
-        fid.write("\n\n\nend module {}\n".format(module_name))
-        fid.close()
+    if split_by_initial: write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix)
 
 
     # Return list of all functions defined in this module, including the external ones
     return old_names
 
+# Write interface module wrapping the whole library
+def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix):
+
+    quad_precision = True
+
+    # Add quad-precision modules
+    initials = ['aux','s','d','q','c','z','w']
+
+    interfaces = ['asu','axpy','copy','dot','gbmv','gemm','gemv','ger','nrm2','rot','rotg','rotm','rotmg', \
+                  'sbmv','scal','sdot','spmv','spr','spr2','swap','symm','symv','syr','syr2','syr2k','syrk', \
+                  'tbmv','tbsv','tpmv','tpsv','trmm','trmv','trsm','trsv', \
+                  'dotc','dotu','gerc','geru','hbmv','hemm','hemv','her','her2','her2k','herk','hpmv', \
+                  'hpr','hpr2','srot','sscal']
+    interfaces.sort()
+
+
+    module_file = module_name + ".f90"
+    module_path = os.path.join(out_folder,module_file)
+
+    fid = open(module_path,"w")
+
+    # Header
+    fid.write("module {}\n".format(module_name))
+    for used in used_modules:
+        fid.write(INDENT + "use " + used + "\n")
+
+    for i in initials:
+        fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
+    fid.write(INDENT + "implicit none(type,external)\n")
+    fid.write(INDENT + "public\n")
+
+    # Type-agnostic procedure interfaces
+    for j in range(len(interfaces)):
+        interf_functions = []
+        for f in fortran_functions:
+            if interfaces[j] == f.old_name[1:]:
+                interf_functions.append(f)
+
+        # Write interface
+        if len(interf_functions)>0: write_interface(fid,interfaces[j],interf_functions,INDENT,prefix)
+
+
+    # Close module
+    fid.write("\n\n\nend module {}\n".format(module_name))
+    fid.close()
+
+# write interface
+def write_interface(fid,name,functions,INDENT,prefix):
+
+    MAX_LINE_LENGTH = 150 # No line limits for the comments
+
+    # Ensure all functions are sorted
+    functions.sort(key=lambda x: x.old_name, reverse=False)
+
+    # Write comment header
+    for h in range(len(functions[0].header)):
+       functions[0].header[h] = re.sub(functions[0].old_name.upper(),name.upper(),functions[0].header[h])
+
+    write_function_body(fid,functions[0].header,INDENT*2,MAX_LINE_LENGTH,False)
+
+    fid.write(INDENT*2+"interface {}\n".format(name))
+
+    # The external blas interface is fine-grained to each function, because external
+    # implementations may not offer the double precision or quad precision implementation
+    for f in functions:
+
+        # Get declaration
+        declaration, arguments = f.declaration(prefix)
+
+        # Quad precision functions only support the internal implementation
+        has_external = not f.is_quad_precision()
+
+        # External blas interface
+        if has_external:
+           fid.write("#ifdef STDLIB_EXTERNAL_BLAS\n".format(name))
+           fid.write(INDENT*3+"{}\n".format(declaration))
+           fid.write(INDENT*4+"import sp,dp,qp,ilp,lk \n")
+           fid.write(INDENT*4+"implicit none(type,external) \n")
+           for a in arguments:
+               fid.write(INDENT*4+a+" \n")
+           fid.write(INDENT*3+"end {ptype} {pname}\n".format(ptype=f.procedure_type(),pname=f.old_name))
+
+           fid.write("#else\n".format(name))
+
+
+        # Local implementation
+        fid.write(INDENT*3+"module procedure {}\n".format(f.new_name))
+
+        if has_external:
+           fid.write("#endif\n".format(name))
+
+    # Close interface
+    fid.write(INDENT*2+"end interface {}\n\n\n".format(name))
+
 # Identify quad-precision functions
 def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
-
-    import copy
 
     double_initials = ['d','z']
     quad_initials = ['q','w']
 
     if blas:
         # Blas patches
-        blas_init = ['d','id','iz']
-        blas_newi = ['q','iq','iw']
-        blas_dble = ['dcabs1','idamax','izamax']
-        blas_quad = ['qcabs1','iqamax','iwamax']
+        blas_init = []
+        blas_newi = []
+        blas_dble = []
+        blas_quad = []
     else:
         # Lapack patches
         blas_init = ['d','iz','ilaz','ilaz','ilad','ilad']
@@ -303,10 +377,11 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
     return new_list
 
 # Rename double precision
-def double_to_quad(lines,initial,newinit,prefix):
+def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
 
     import re
 
+    sing_prefixes = ['s','c','is','ic']
     dble_prefixes = ['d','z','id','iz']
     quad_prefixes = ['q','w','iq','iw']
 
@@ -323,14 +398,30 @@ def double_to_quad(lines,initial,newinit,prefix):
         newinit = quad_prefixes[i]
         whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
         whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
-        # Module header function names
-        whole = re.sub(r'\! '+initial.upper(),r'! '+newinit.upper(),whole)
+
+    # Module header function names [old, new]
+    if not (procedure_name is None):
+        whole = re.sub(r'\! '+procedure_name[0].upper(),r'! '+procedure_name[1].upper(),whole)
 
     whole = re.sub(r'64\-bit',r'128-bit',whole)
     whole = re.sub(r'double precision',r'quad precision',whole)
     whole = re.sub(r'single precision',r'double precision',whole)
     whole = re.sub(r'\(dp\)',r'(qp)',whole)
     whole = re.sub(r'KIND\=dp',r'KIND=qp',whole)
+    whole = re.sub(r'\(sp\)',r'(dp)',whole)
+    whole = re.sub(r'KIND\=sp',r'KIND=dp',whole)
+
+
+    # After all double precision constants have been promoted to quad precision, we need to
+    # promote all single precision constants to double precision (for mixed-precision routines only)
+    for i in range(len(sing_prefixes)):
+        initial = sing_prefixes[i]
+        newinit = dble_prefixes[i]
+        whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
+        whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
+
+    whole = re.sub(r'32\-bit',r'64-bit',whole)
+    whole = re.sub(r'single precision',r'double precision',whole)
     whole = re.sub(r'\(sp\)',r'(dp)',whole)
     whole = re.sub(r'KIND\=sp',r'KIND=dp',whole)
 
@@ -341,7 +432,7 @@ def double_to_quad(lines,initial,newinit,prefix):
 
 
 # Double precision of the current module, 64-bit -> 128-bit
-def double_precision_module(module_name,out_folder,initial,prefix):
+def quad_precision_module(module_name,out_folder,initial,prefix):
 
         import re
 
@@ -435,10 +526,10 @@ def function_in_module(initial,function_name):
           or oname.endswith('_2stage') \
           or oname.endswith('ssysv_rk')):
        in_module = False
-   elif initial[0].lower() in ['c','s','d','z'] :
+   elif initial[0].lower() in ['c','s','d','z','q','w'] :
        in_module = oname[0]==initial[0].lower()
    else:
-       in_module = not (oname[0] in ['c','s','d','z'])
+       in_module = not (oname[0] in ['c','s','d','z','q','w'])
    return in_module
 
 # Enum for file sections
@@ -508,9 +599,9 @@ def print_lapack_constants(fid,INDENT):
 # Print LAPACK constants
 def print_module_constants(fid,prefix,INDENT):
 
-    real_prefix = ['s','d']
-    cmpl_prefix = ['c','z']
-    precision   = ['32-bit','64-bit']
+    real_prefix = ['s','d','q']
+    cmpl_prefix = ['c','z','w']
+    precision   = ['32-bit','64-bit','128-bit']
 
     real_const = ['zero','half','one','two','three','four','eight','ten']
     real_val   = [0.0,0.5,1.0,2.0,3.0,4.0,8.0,10.0]
@@ -624,7 +715,6 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
                 #print("function "+functions[i].old_name+" printed="+str(nprinted)+", len="+str(len(functions[i].deps)))
 
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
-                   #print(str(nprinted) + "deps printed already for " + functions[i].old_name)
                    write_function_body(fid,functions[i].header," " * header_indentation(functions[i].body),MAX_LINE_LENGTH,False)
                    write_function_body(fid,functions[i].body,INDENT,MAX_LINE_LENGTH,True)
                    functions[i].printed = True
@@ -851,7 +941,7 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
                if not continued:
                    fid.write(line + "\n")
                else:
-                   fid.write(INDENT + INDENT + line + "\n")
+                   fid.write(INDENT*2 + line + "\n")
 
 # This class represents the contents of a 1-function/1-subroutine Fortran source file parsed from BLAS/LAPACK
 class Fortran_Source:
@@ -872,6 +962,180 @@ class Fortran_Source:
         self.ptype = []
         self.pvalue = []
         self.header = []
+
+    # Return subroutine/function string
+    def procedure_type(self):
+        if self.is_function:
+            return "function"
+        else:
+            return "subroutine"
+
+    # Check if this is a double precision function
+    def is_double_precision(self):
+        old = self.old_name.lower()
+        return old.startswith('d') or old.startswith('id') or \
+               old.startswith('z') or old.startswith('iz')
+
+    # Check if this is a quadruple precision function
+    def is_quad_precision(self):
+        old = self.old_name.lower()
+        return old.startswith('q') or old.startswith('iq') or \
+               old.startswith('w') or old.startswith('iw')
+
+
+    # Convert a double precision function to quad precision
+    def to_quad_precision(self):
+
+        sing_prefixes = ['is','ic','s','c']
+        dble_prefixes = ['id','iz','d','z']
+        quad_prefixes = ['iq','iw','q','w']
+
+        # Deep copy
+        q = copy.copy(self)
+
+        # Check initial
+        oname = self.old_name.lower()
+
+        initial = None
+        newi = None
+        for j in range(len(dble_prefixes)):
+            if oname.startswith(dble_prefixes[j]):
+                initial = dble_prefixes[j]
+                newi    = quad_prefixes[j]
+        if initial is None:
+            print("function "+self.old_name+" cannot be converted to quadruple precision: it must be double")
+            exit(1)
+
+        q.old_name = newi + self.old_name[len(initial):]
+
+        # Extract prefix
+        i = self.new_name.index(self.old_name)
+        prefix = self.new_name[:i]
+        q.new_name = prefix + q.old_name
+
+        # Body, header
+        q.header   = double_to_quad(q.header,initial,newi,prefix,[self.old_name,q.old_name])
+        q.body     = double_to_quad(q.body,initial,newi,prefix)
+        q.decl     = double_to_quad(q.decl,initial,newi,prefix)
+
+        # Parameters: we only rename type and value
+        q.ptype    = double_to_quad(q.ptype,initial,newi,prefix)
+        q.pvalue   = double_to_quad(q.pvalue,initial,newi,prefix)
+
+        # Dependencies: need to rename all initials
+        for i in range(len(self.deps)):
+            for j in range(len(dble_prefixes)):
+                this = self.deps[i]
+                if this.startswith(dble_prefixes[j]):
+                    self.deps[i] = quad_prefixes[j]+this[len(dble_prefixes[j]):]
+                elif this.startswith(sing_prefixes[j]):
+                    self.deps[i] = dble_prefixes[j]+this[len(dble_prefixes[j]):]
+
+        return q
+
+
+
+    # Return declaration line of a function
+    def declaration(self,strip_prefix):
+
+        # Find header
+        head = ""
+        for i in range(len(self.body)):
+            stripped = self.body[i].strip().lower()
+            if stripped.find('subroutine')>=0 or stripped.find('function')>=0:
+                head = stripped
+                if not (strip_prefix is None): head = re.sub(strip_prefix,"",head)
+                break
+
+        if len(head)<=0:
+            print("ERROR: Procedure declaration not found in function "+self.old_name)
+            exit(1)
+
+        # Strip, lower
+        head = head.lower().strip()
+
+        # extract arguments
+        if self.is_function:
+           m = re.search(r'(\S*\s+)*(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
+
+           if m is None:
+               print(m)
+               print(head)
+               print("ERROR")
+               exit(1)
+
+           has_type   = not m.group(1) is None
+           has_result = not m.group(5) is None
+
+           args = m.group(4)
+
+           # If the type is not declared here, it must be found in the list of arguments, ensure it is added
+           if not has_type:
+               if has_result:
+                  # Parse name
+                  result = re.search(r'(?:\s*result\s*)\((.+)\)',m.group(5))
+                  args = args + "," + result.group(1)
+               else:
+                  args = args + "," + m.group(3)
+
+           args = args.split(",")
+
+        else:
+           m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)',head)
+           args = m.group(3).split(",")
+
+        print(args)
+        if len(args)>1:
+            for a in range(len(args)):
+                args[a] = args[a].strip()
+        else:
+            args = args.strip()
+
+
+        # extract all variables
+        var_types = []
+        var_names = []
+        var_decl  = []
+        for i in range(len(self.decl)):
+            line = self.decl[i].lower().strip()
+            m = re.search(r'\s*(\S+)\s+\:{2}\s+(.+)',line)
+
+            if not (m is None):
+                datatype = m.group(1).strip()
+                variables = m.group(2).strip()
+
+                # Extract variable declarations
+                v = re.findall(r'([a-zA-Z0-9\_]+(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
+
+                # Add to variables
+                for k in range(len(v)):
+
+                    v[k] = v[k].strip()
+
+                    # Clean trailing commas
+                    if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
+
+                    # Extract name with no (*) or other arguments
+                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}',v[k])
+                    name = vname.group(1).strip()
+                    print(name)
+
+                    # Add to list if this is an argument
+                    if name in args:
+                        var_names.append(v[k])
+                        var_types.append(datatype)
+
+                        # Declarations are combined by datatype
+                        exists = False
+                        for d in range(len(var_decl)):
+                            if var_decl[d].startswith(datatype):
+                                exists = True
+                                var_decl[d] = var_decl[d] + "," + v[k]
+                        if not exists: var_decl.append(datatype+" :: "+v[k])
+                    else:
+                        print("variable <"+v[k]+"> not in args")
+
+        return head,var_decl
 
 class Fortran_Line:
     def __init(self):
@@ -1359,8 +1623,6 @@ def add_parameter_lines(Source,prefix,body):
     preal = ['one','zero','half']
     pcmpl = ['cone','czero','chalf']
 
-
-
     if Source.old_name[0]=='c' or Source.old_name[0]=='z':
 
        if Source.old_name[0]=='c':
@@ -1812,12 +2074,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
