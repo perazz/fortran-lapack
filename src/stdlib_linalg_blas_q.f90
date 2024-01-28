@@ -2,6 +2,9 @@ module stdlib_linalg_blas_q
      use stdlib_linalg_constants
      use stdlib_linalg_blas_aux
      use stdlib_linalg_blas_s
+     use stdlib_linalg_blas_c
+     use stdlib_linalg_blas_d
+     use stdlib_linalg_blas_z
      implicit none(type, external)
      private
 
@@ -61,7 +64,7 @@ module stdlib_linalg_blas_q
      ! 128-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
      integer, parameter, private :: minexp = minexponent(zero)
-     real(qp), parameter, private :: rradix = real(radix(zero), dp)
+     real(qp), parameter, private :: rradix = real(radix(zero), qp)
      real(qp), parameter, private :: ulp = epsilon(zero)
      real(qp), parameter, private :: eps = ulp*half
      real(qp), parameter, private :: safmin = rradix**max(minexp - 1, 1 - maxexp)
@@ -308,7 +311,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kup1, kx, ky, lenx, leny
@@ -471,7 +474,7 @@ module stdlib_linalg_blas_q
            real(qp) :: temp
            integer(ilp) :: i, info, j, l, nrowa, nrowb
            logical(lk) :: nota, notb
-
+           
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! transposed and set  nrowa and nrowb  as the number of rows of  a
            ! and  b  respectively.
@@ -626,7 +629,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky, lenx, leny
@@ -769,7 +772,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, j, jy, kx
@@ -1044,10 +1047,10 @@ module stdlib_linalg_blas_q
      ! APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
      ! (DX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF DX ARE IN
      ! (DY**T)
-     ! QX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX >= 0, ELSE
+     ! DX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX >= 0, ELSE
      ! LX = (-INCX)*N, AND SIMILARLY FOR SY USING LY AND INCY.
      ! WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
-     ! QFLAG=-1._qp     DFLAG=0._qp        DFLAG=1._qp     DFLAG=-2.D0
+     ! DFLAG=-1._qp     DFLAG=0._qp        DFLAG=1._qp     DFLAG=-2.D0
      ! (DH11  DH12)    (1._qp  DH12)    (DH11  1._qp)    (1._qp  0._qp)
      ! H=(          )    (          )    (          )    (          )
      ! (DH21  DH22),   (DH21  1._qp),   (-1._qp DH22),   (0._qp  1._qp).
@@ -1150,7 +1153,7 @@ module stdlib_linalg_blas_q
      ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
      ! THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(DD1)*DX1,SQRT(DD2)    DY2)**T.
      ! WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
-     ! QFLAG=-1._qp     DFLAG=0._qp        DFLAG=1._qp     DFLAG=-2.D0
+     ! DFLAG=-1._qp     DFLAG=0._qp        DFLAG=1._qp     DFLAG=-2.D0
      ! (DH11  DH12)    (1._qp  DH12)    (DH11  1._qp)    (1._qp  0._qp)
      ! H=(          )    (          )    (          )    (          )
      ! (DH21  DH22),   (DH21  1._qp),   (-1._qp DH22),   (0._qp  1._qp).
@@ -1325,7 +1328,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
@@ -1532,7 +1535,7 @@ module stdlib_linalg_blas_q
            ! .. scalar arguments ..
            integer(ilp) :: incx, incy, n
            ! .. array arguments ..
-           real(sp) :: sx(*), sy(*)
+           real(dp) :: sx(*), sy(*)
         ! authors:
         ! ========
         ! lawson, c. l., (jpl), hanson, r. j., (snla),
@@ -1582,7 +1585,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: ap(*), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
@@ -1738,7 +1741,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: ap(*), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
@@ -1845,7 +1848,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: ap(*), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
@@ -2041,7 +2044,7 @@ module stdlib_linalg_blas_q
            real(qp) :: temp1, temp2
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: upper
-
+           
            ! set nrowa as the number of rows of a.
            if (stdlib_lsame(side, 'l')) then
                nrowa = m
@@ -2180,7 +2183,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
@@ -2332,7 +2335,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
@@ -2435,7 +2438,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*), y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp1, temp2
            integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
@@ -2567,7 +2570,7 @@ module stdlib_linalg_blas_q
            real(qp) :: temp1, temp2
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-
+           
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
                nrowa = n
@@ -2742,7 +2745,7 @@ module stdlib_linalg_blas_q
            real(qp) :: temp
            integer(ilp) :: i, info, j, l, nrowa
            logical(lk) :: upper
-
+           
            ! test the input parameters.
            if (stdlib_lsame(trans, 'n')) then
                nrowa = n
@@ -2899,7 +2902,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
@@ -3085,7 +3088,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
@@ -3268,7 +3271,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: ap(*), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
@@ -3452,7 +3455,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: ap(*), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, k, kk, kx
@@ -3642,7 +3645,7 @@ module stdlib_linalg_blas_q
            real(qp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, nounit, upper
-
+           
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
            if (lside) then
@@ -3840,7 +3843,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx
@@ -4015,7 +4018,7 @@ module stdlib_linalg_blas_q
            real(qp) :: temp
            integer(ilp) :: i, info, j, k, nrowa
            logical(lk) :: lside, nounit, upper
-
+           
            ! test the input parameters.
            lside = stdlib_lsame(side, 'l')
            if (lside) then
@@ -4239,7 +4242,7 @@ module stdlib_linalg_blas_q
            ! .. array arguments ..
            real(qp) :: a(lda, *), x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(qp) :: temp
            integer(ilp) :: i, info, ix, j, jx, kx

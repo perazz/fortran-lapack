@@ -3,6 +3,7 @@
 
 from enum import Enum
 import re
+import copy
 
 # Create linear algebra constants module
 def create_constants_module(module_name,out_folder):
@@ -105,7 +106,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
     # Splitting by initials
     if split_by_initial:
-        initials = ['aux','s','d','c','z']
+        initials = ['aux','s','c','d','z','q','w']
         modules = []
         for i in range(len(initials)):
             modules.append(module_name+"_"+initials[i])
@@ -138,6 +139,10 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
     # Rename all procedures
     for function in fortran_functions:
         function.body,function.deps = rename_source_body(function,fortran_functions,ext_functions,prefix)
+
+    # Add quad-precision procedures
+    for function in fortran_functions:
+        if function.is_double_precision(): fortran_functions.append(function.to_quad_precision())
 
     # Create modules
     for m in range(len(modules)):
@@ -197,9 +202,9 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         fid.write("\n\n\nend module {}\n".format(this_module))
         fid.close()
 
-        # Double -> Quadruple precision module
-        if initials[m]=='d' or initials[m]=='z':
-           double_precision_module(module_name,out_folder,initials[m],prefix)
+#        # Double -> Quadruple precision module
+#        if initials[m]=='d' or initials[m]=='z':
+#           quad_precision_module(module_name,out_folder,initials[m],prefix)
 
     # Write wrapper module
     if split_by_initial: write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix)
@@ -210,6 +215,8 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
 # Write interface module wrapping the whole library
 def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix):
+
+    quad_precision = True
 
     # Add quad-precision modules
     initials = ['aux','s','d','q','c','z','w']
@@ -275,19 +282,27 @@ def write_interface(fid,name,functions,INDENT,prefix):
         # Get declaration
         declaration, arguments = f.declaration(prefix)
 
-        # External blas interface
-        fid.write("#ifdef STDLIB_EXTERNAL_BLAS\n".format(name))
-        fid.write(INDENT*3+"{}\n".format(declaration))
-        fid.write(INDENT*4+"import sp,dp,qp,ilp,lk \n")
-        fid.write(INDENT*4+"implicit none(type,external) \n")
-        for a in arguments:
-            fid.write(INDENT*4+a+" \n")
+        # Quad precision functions only support the internal implementation
+        has_external = not f.is_quad_precision()
 
-        fid.write(INDENT*3+"end {ptype} {pname}\n".format(ptype=f.procedure_type(),pname=f.old_name))
+        # External blas interface
+        if has_external:
+           fid.write("#ifdef STDLIB_EXTERNAL_BLAS\n".format(name))
+           fid.write(INDENT*3+"{}\n".format(declaration))
+           fid.write(INDENT*4+"import sp,dp,qp,ilp,lk \n")
+           fid.write(INDENT*4+"implicit none(type,external) \n")
+           for a in arguments:
+               fid.write(INDENT*4+a+" \n")
+           fid.write(INDENT*3+"end {ptype} {pname}\n".format(ptype=f.procedure_type(),pname=f.old_name))
+
+           fid.write("#else\n".format(name))
+
+
         # Local implementation
-        fid.write("#else\n".format(name))
         fid.write(INDENT*3+"module procedure {}\n".format(f.new_name))
-        fid.write("#endif\n".format(name))
+
+        if has_external:
+           fid.write("#endif\n".format(name))
 
     # Close interface
     fid.write(INDENT*2+"end interface {}\n\n\n".format(name))
@@ -295,17 +310,15 @@ def write_interface(fid,name,functions,INDENT,prefix):
 # Identify quad-precision functions
 def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
 
-    import copy
-
     double_initials = ['d','z']
     quad_initials = ['q','w']
 
     if blas:
         # Blas patches
-        blas_init = ['d','id','iz']
-        blas_newi = ['q','iq','iw']
-        blas_dble = ['dcabs1','idamax','izamax']
-        blas_quad = ['qcabs1','iqamax','iwamax']
+        blas_init = []
+        blas_newi = []
+        blas_dble = []
+        blas_quad = []
     else:
         # Lapack patches
         blas_init = ['d','iz','ilaz','ilaz','ilad','ilad']
@@ -364,10 +377,11 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
     return new_list
 
 # Rename double precision
-def double_to_quad(lines,initial,newinit,prefix):
+def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
 
     import re
 
+    sing_prefixes = ['s','c','is','ic']
     dble_prefixes = ['d','z','id','iz']
     quad_prefixes = ['q','w','iq','iw']
 
@@ -384,13 +398,29 @@ def double_to_quad(lines,initial,newinit,prefix):
         newinit = quad_prefixes[i]
         whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
         whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
-        # Module header function names
-        whole = re.sub(r'\! '+initial.upper(),r'! '+newinit.upper(),whole)
+
+    # Module header function names [old, new]
+    if not (procedure_name is None):
+        whole = re.sub(r'\! '+procedure_name[0].upper(),r'! '+procedure_name[1].upper(),whole)
 
     whole = re.sub(r'64\-bit',r'128-bit',whole)
     whole = re.sub(r'double precision',r'quad precision',whole)
     whole = re.sub(r'\(dp\)',r'(qp)',whole)
     whole = re.sub(r'KIND\=dp',r'KIND=qp',whole)
+
+
+    # After all double precision constants have been promoted to quad precision, we need to
+    # promote all single precision constants to double precision (for mixed-precision routines only)
+    for i in range(len(sing_prefixes)):
+        initial = sing_prefixes[i]
+        newinit = dble_prefixes[i]
+        whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
+        whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
+
+    whole = re.sub(r'32\-bit',r'64-bit',whole)
+    whole = re.sub(r'single precision',r'double precision',whole)
+    whole = re.sub(r'\(sp\)',r'(dp)',whole)
+    whole = re.sub(r'KIND\=sp',r'KIND=dp',whole)
 
     # Split in lines
     whole = whole.splitlines()
@@ -399,7 +429,7 @@ def double_to_quad(lines,initial,newinit,prefix):
 
 
 # Double precision of the current module, 64-bit -> 128-bit
-def double_precision_module(module_name,out_folder,initial,prefix):
+def quad_precision_module(module_name,out_folder,initial,prefix):
 
         import re
 
@@ -493,10 +523,10 @@ def function_in_module(initial,function_name):
           or oname.endswith('_2stage') \
           or oname.endswith('ssysv_rk')):
        in_module = False
-   elif initial[0].lower() in ['c','s','d','z'] :
+   elif initial[0].lower() in ['c','s','d','z','q','w'] :
        in_module = oname[0]==initial[0].lower()
    else:
-       in_module = not (oname[0] in ['c','s','d','z'])
+       in_module = not (oname[0] in ['c','s','d','z','q','w'])
    return in_module
 
 # Enum for file sections
@@ -566,9 +596,9 @@ def print_lapack_constants(fid,INDENT):
 # Print LAPACK constants
 def print_module_constants(fid,prefix,INDENT):
 
-    real_prefix = ['s','d']
-    cmpl_prefix = ['c','z']
-    precision   = ['32-bit','64-bit']
+    real_prefix = ['s','d','q']
+    cmpl_prefix = ['c','z','w']
+    precision   = ['32-bit','64-bit','128-bit']
 
     real_const = ['zero','half','one','two','three','four','eight','ten']
     real_val   = [0.0,0.5,1.0,2.0,3.0,4.0,8.0,10.0]
@@ -682,7 +712,6 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
                 #print("function "+functions[i].old_name+" printed="+str(nprinted)+", len="+str(len(functions[i].deps)))
 
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
-                   #print(str(nprinted) + "deps printed already for " + functions[i].old_name)
                    write_function_body(fid,functions[i].header," " * header_indentation(functions[i].body),MAX_LINE_LENGTH,False)
                    write_function_body(fid,functions[i].body,INDENT,MAX_LINE_LENGTH,True)
                    functions[i].printed = True
@@ -909,7 +938,7 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
                if not continued:
                    fid.write(line + "\n")
                else:
-                   fid.write(INDENT + INDENT + line + "\n")
+                   fid.write(INDENT*2 + line + "\n")
 
 # This class represents the contents of a 1-function/1-subroutine Fortran source file parsed from BLAS/LAPACK
 class Fortran_Source:
@@ -937,6 +966,71 @@ class Fortran_Source:
             return "function"
         else:
             return "subroutine"
+
+    # Check if this is a double precision function
+    def is_double_precision(self):
+        old = self.old_name.lower()
+        return old.startswith('d') or old.startswith('id') or \
+               old.startswith('z') or old.startswith('iz')
+
+    # Check if this is a quadruple precision function
+    def is_quad_precision(self):
+        old = self.old_name.lower()
+        return old.startswith('q') or old.startswith('iq') or \
+               old.startswith('w') or old.startswith('iw')
+
+
+    # Convert a double precision function to quad precision
+    def to_quad_precision(self):
+
+        sing_prefixes = ['is','ic','s','c']
+        dble_prefixes = ['id','iz','d','z']
+        quad_prefixes = ['iq','iw','q','w']
+
+        # Deep copy
+        q = copy.copy(self)
+
+        # Check initial
+        oname = self.old_name.lower()
+
+        initial = None
+        newi = None
+        for j in range(len(dble_prefixes)):
+            if oname.startswith(dble_prefixes[j]):
+                initial = dble_prefixes[j]
+                newi    = quad_prefixes[j]
+        if initial is None:
+            print("function "+self.old_name+" cannot be converted to quadruple precision: it must be double")
+            exit(1)
+
+        q.old_name = newi + self.old_name[len(initial):]
+
+        # Extract prefix
+        i = self.new_name.index(self.old_name)
+        prefix = self.new_name[:i]
+        q.new_name = prefix + q.old_name
+
+        # Body, header
+        q.header   = double_to_quad(q.header,initial,newi,prefix,[self.old_name,q.old_name])
+        q.body     = double_to_quad(q.body,initial,newi,prefix)
+        q.decl     = double_to_quad(q.decl,initial,newi,prefix)
+
+        # Parameters: we only rename type and value
+        q.ptype    = double_to_quad(q.ptype,initial,newi,prefix)
+        q.pvalue   = double_to_quad(q.pvalue,initial,newi,prefix)
+
+        # Dependencies: need to rename all initials
+        for i in range(len(self.deps)):
+            for j in range(len(dble_prefixes)):
+                this = self.deps[i]
+                if this.startswith(dble_prefixes[j]):
+                    self.deps[i] = quad_prefixes[j]+this[len(dble_prefixes[j]):]
+                elif this.startswith(sing_prefixes[j]):
+                    self.deps[i] = dble_prefixes[j]+this[len(dble_prefixes[j]):]
+
+        return q
+
+
 
     # Return declaration line of a function
     def declaration(self,strip_prefix):
@@ -1038,17 +1132,7 @@ class Fortran_Source:
                     else:
                         print("variable <"+v[k]+"> not in args")
 
-
-#                print("datatype = "+datatype)
-#                print(v)
-#                print(variables)
-#                exit(1)
-
         return head,var_decl
-
-
-
-
 
 class Fortran_Line:
     def __init(self):
@@ -1535,8 +1619,6 @@ def add_parameter_lines(Source,prefix,body):
 
     preal = ['one','zero','half']
     pcmpl = ['cone','czero','chalf']
-
-
 
     if Source.old_name[0]=='c' or Source.old_name[0]=='z':
 
