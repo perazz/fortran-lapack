@@ -1387,6 +1387,42 @@ def function_namelists(Sources,external_funs,prefix):
 
     return old_names,new_names
 
+# Given a list of intrinsic functions, ensure there are no duplicates and no kind-dependent ones
+def rename_intrinsics_line(line):
+
+
+
+    src = re.search(r'(intrinsic\s*::\s*)(.+)',line)
+
+    if not src is None:
+
+       mvars = src.group(2).replace(" ","").lower().split(",")
+
+       # Rename kind-dependent first
+       for i in range(len(mvars)):
+          if mvars[i]=='dble':
+              mvars[i] = 'real'
+          elif mvars[i]=='dcmplx':
+              mvars[i] = 'cmplx'
+
+       unique = []
+       # Remove duplicates
+       for i in range(len(mvars)):
+          found = False
+          for j in range(i+1,len(mvars)):
+             if mvars[i]==mvars[j]:
+                 found = True
+                 break
+          if not found: unique.append(mvars[i])
+
+       # Build final string
+       fixed = src.group(1) + ','.join(unique)
+
+       return fixed
+    else:
+       return line
+
+
 # Given the list of all variables, extract those that are module constants
 def rename_parameter_line(line,Source,prefix):
 
@@ -1530,10 +1566,6 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     whole = re.sub(fpref+'cmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
     whole = re.sub(fpref+'dcmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
 
-    # After this is done, we can replace leftover intrinsic :: dble keywords with "real"
-    whole = re.sub(r'\bdble\b',r'real',whole) # dble
-
-
     body = whole.split('\n')
 
     # Restore directive lines cases
@@ -1544,6 +1576,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
            # Ensure data conversion
            body[j] = replace_la_constants(body[j],Source.file_name)
            body[j] = rename_parameter_line(body[j],Source,prefix)
+           body[j] = rename_intrinsics_line(body[j])
 
 
     # Build dependency list
