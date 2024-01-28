@@ -214,9 +214,13 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
     # Add quad-precision modules
     initials = ['aux','s','d','q','c','z','w']
 
-    interfaces = ['asu,','axpy','copy','dot','gbmv','demm','demv','ger','nrm2','rot','rotg','rotm','rotmg', \
+    interfaces = ['asu','axpy','copy','dot','gbmv','gemm','gemv','ger','nrm2','rot','rotg','rotm','rotmg', \
                   'sbmv','scal','sdot','spmv','spr','spr2','swap','symm','symv','syr','syr2','syr2k','syrk', \
-                  'tbmv','tbsv','tpmv','tpsv','trmm','trmv','trsm','trsv','zasum','znrm2']
+                  'tbmv','tbsv','tpmv','tpsv','trmm','trmv','trsm','trsv', \
+                  'dotc','dotu','gerc','geru','hbmv','hemm','hemv','her','her2','her2k','herk','hpmv', \
+                  'hpr','hpr2','srot','sscal']
+    interfaces.sort()
+
 
     module_file = module_name + ".f90"
     module_path = os.path.join(out_folder,module_file)

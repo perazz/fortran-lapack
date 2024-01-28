@@ -129,6 +129,60 @@ module stdlib_linalg_blas
 
 
 
+          ! DOTC forms the dot product of two complex vectors
+          ! DOTC = X^H * Y
+          interface dotc
+#ifdef STDLIB_EXTERNAL_BLAS
+               complex(sp) function cdotc(n,cx,incx,cy,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    integer(ilp) :: incx,incy,n 
+                    complex(sp) :: cx(*),cy(*) 
+               end function cdotc
+#else
+               module procedure stdlib_cdotc
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               complex(dp) function zdotc(n,zx,incx,zy,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    integer(ilp) :: incx,incy,n 
+                    complex(dp) :: zx(*),zy(*) 
+               end function zdotc
+#else
+               module procedure stdlib_zdotc
+#endif
+          end interface dotc
+
+
+
+          ! DOTU forms the dot product of two complex vectors
+          ! DOTU = X^T * Y
+          interface dotu
+#ifdef STDLIB_EXTERNAL_BLAS
+               complex(sp) function cdotu(n,cx,incx,cy,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    integer(ilp) :: incx,incy,n 
+                    complex(sp) :: cx(*),cy(*) 
+               end function cdotu
+#else
+               module procedure stdlib_cdotu
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               complex(dp) function zdotu(n,zx,incx,zy,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    integer(ilp) :: incx,incy,n 
+                    complex(dp) :: zx(*),zy(*) 
+               end function zdotu
+#else
+               module procedure stdlib_zdotu
+#endif
+          end interface dotu
+
+
+
           ! GBMV  performs one of the matrix-vector operations
           ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
           ! y := alpha*A**H*x + beta*y,
@@ -183,6 +237,115 @@ module stdlib_linalg_blas
 
 
 
+          ! GEMM  performs one of the matrix-matrix operations
+          ! C := alpha*op( A )*op( B ) + beta*C,
+          ! where  op( X ) is one of
+          ! op( X ) = X   or   op( X ) = X**T   or   op( X ) = X**H,
+          ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
+          ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
+          interface gemm
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: k,lda,ldb,ldc,m,n 
+                    character :: transa,transb 
+               end subroutine cgemm
+#else
+               module procedure stdlib_cgemm
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine dgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: k,lda,ldb,ldc,m,n 
+                    character :: transa,transb 
+               end subroutine dgemm
+#else
+               module procedure stdlib_dgemm
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: k,lda,ldb,ldc,m,n 
+                    character :: transa,transb 
+               end subroutine sgemm
+#else
+               module procedure stdlib_sgemm
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: k,lda,ldb,ldc,m,n 
+                    character :: transa,transb 
+               end subroutine zgemm
+#else
+               module procedure stdlib_zgemm
+#endif
+          end interface gemm
+
+
+
+          ! GEMV performs one of the matrix-vector operations
+          ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
+          ! y := alpha*A**H*x + beta*y,
+          ! where alpha and beta are scalars, x and y are vectors and A is an
+          ! m by n matrix.
+          interface gemv
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
+                    character :: trans 
+               end subroutine cgemv
+#else
+               module procedure stdlib_cgemv
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine dgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(dp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
+                    character :: trans 
+               end subroutine dgemv
+#else
+               module procedure stdlib_dgemv
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(sp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
+                    character :: trans 
+               end subroutine sgemv
+#else
+               module procedure stdlib_sgemv
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
+                    character :: trans 
+               end subroutine zgemv
+#else
+               module procedure stdlib_zgemv
+#endif
+          end interface gemv
+
+
+
           ! GER   performs the rank 1 operation
           ! A := alpha*x*y**T + A,
           ! where alpha is a scalar, x is an m element vector, y is an n element
@@ -209,6 +372,390 @@ module stdlib_linalg_blas
                module procedure stdlib_sger
 #endif
           end interface ger
+
+
+
+          ! GERC  performs the rank 1 operation
+          ! A := alpha*x*y**H + A,
+          ! where alpha is a scalar, x is an m element vector, y is an n element
+          ! vector and A is an m by n matrix.
+          interface gerc
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine cgerc(m,n,alpha,x,incx,y,incy,a,lda)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
+               end subroutine cgerc
+#else
+               module procedure stdlib_cgerc
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zgerc(m,n,alpha,x,incx,y,incy,a,lda)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
+               end subroutine zgerc
+#else
+               module procedure stdlib_zgerc
+#endif
+          end interface gerc
+
+
+
+          ! GERU  performs the rank 1 operation
+          ! A := alpha*x*y**T + A,
+          ! where alpha is a scalar, x is an m element vector, y is an n element
+          ! vector and A is an m by n matrix.
+          interface geru
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine cgeru(m,n,alpha,x,incx,y,incy,a,lda)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
+               end subroutine cgeru
+#else
+               module procedure stdlib_cgeru
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zgeru(m,n,alpha,x,incx,y,incy,a,lda)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,m,n 
+               end subroutine zgeru
+#else
+               module procedure stdlib_zgeru
+#endif
+          end interface geru
+
+
+
+          ! HBMV  performs the matrix-vector  operation
+          ! y := alpha*A*x + beta*y,
+          ! where alpha and beta are scalars, x and y are n element vectors and
+          ! A is an n by n hermitian band matrix, with k super-diagonals.
+          interface hbmv
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,k,lda,n 
+                    character :: uplo 
+               end subroutine chbmv
+#else
+               module procedure stdlib_chbmv
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,k,lda,n 
+                    character :: uplo 
+               end subroutine zhbmv
+#else
+               module procedure stdlib_zhbmv
+#endif
+          end interface hbmv
+
+
+
+          ! HEMM  performs one of the matrix-matrix operations
+          ! C := alpha*A*B + beta*C,
+          ! or
+          ! C := alpha*B*A + beta*C,
+          ! where alpha and beta are scalars, A is an hermitian matrix and  B and
+          ! C are m by n matrices.
+          interface hemm
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: lda,ldb,ldc,m,n 
+                    character :: side,uplo 
+               end subroutine chemm
+#else
+               module procedure stdlib_chemm
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*) 
+                    integer(ilp) :: lda,ldb,ldc,m,n 
+                    character :: side,uplo 
+               end subroutine zhemm
+#else
+               module procedure stdlib_zhemm
+#endif
+          end interface hemm
+
+
+
+          ! HEMV  performs the matrix-vector  operation
+          ! y := alpha*A*x + beta*y,
+          ! where alpha and beta are scalars, x and y are n element vectors and
+          ! A is an n by n hermitian matrix.
+          interface hemv
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,n 
+                    character :: uplo 
+               end subroutine chemv
+#else
+               module procedure stdlib_chemv
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,n 
+                    character :: uplo 
+               end subroutine zhemv
+#else
+               module procedure stdlib_zhemv
+#endif
+          end interface hemv
+
+
+
+          ! HER   performs the hermitian rank 1 operation
+          ! A := alpha*x*x**H + A,
+          ! where alpha is a real scalar, x is an n element vector and A is an
+          ! n by n hermitian matrix.
+          interface her
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine cher(uplo,n,alpha,x,incx,a,lda)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(sp) :: alpha 
+                    integer(ilp) :: incx,lda,n 
+                    character :: uplo 
+                    complex(sp) :: a(lda,*),x(*) 
+               end subroutine cher
+#else
+               module procedure stdlib_cher
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zher(uplo,n,alpha,x,incx,a,lda)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(dp) :: alpha 
+                    integer(ilp) :: incx,lda,n 
+                    character :: uplo 
+                    complex(dp) :: a(lda,*),x(*) 
+               end subroutine zher
+#else
+               module procedure stdlib_zher
+#endif
+          end interface her
+
+
+
+          ! HER2  performs the hermitian rank 2 operation
+          ! A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
+          ! where alpha is a scalar, x and y are n element vectors and A is an n
+          ! by n hermitian matrix.
+          interface her2
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,n 
+                    character :: uplo 
+               end subroutine cher2
+#else
+               module procedure stdlib_cher2
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,a(lda,*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,lda,n 
+                    character :: uplo 
+               end subroutine zher2
+#else
+               module procedure stdlib_zher2
+#endif
+          end interface her2
+
+
+
+          ! HER2K  performs one of the hermitian rank 2k operations
+          ! C := alpha*A*B**H + conjg( alpha )*B*A**H + beta*C,
+          ! or
+          ! C := alpha*A**H*B + conjg( alpha )*B**H*A + beta*C,
+          ! where  alpha and beta  are scalars with  beta  real,  C is an  n by n
+          ! hermitian matrix and  A and B  are  n by k matrices in the first case
+          ! and  k by n  matrices in the second case.
+          interface her2k
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,a(lda,*),b(ldb,*),c(ldc,*) 
+                    real(sp) :: beta 
+                    integer(ilp) :: k,lda,ldb,ldc,n 
+                    character :: trans,uplo 
+               end subroutine cher2k
+#else
+               module procedure stdlib_cher2k
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,a(lda,*),b(ldb,*),c(ldc,*) 
+                    real(dp) :: beta 
+                    integer(ilp) :: k,lda,ldb,ldc,n 
+                    character :: trans,uplo 
+               end subroutine zher2k
+#else
+               module procedure stdlib_zher2k
+#endif
+          end interface her2k
+
+
+
+          ! HERK  performs one of the hermitian rank k operations
+          ! C := alpha*A*A**H + beta*C,
+          ! or
+          ! C := alpha*A**H*A + beta*C,
+          ! where  alpha and beta  are  real scalars,  C is an  n by n  hermitian
+          ! matrix and  A  is an  n by k  matrix in the  first case and a  k by n
+          ! matrix in the second case.
+          interface herk
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(sp) :: alpha,beta 
+                    integer(ilp) :: k,lda,ldc,n 
+                    character :: trans,uplo 
+                    complex(sp) :: a(lda,*),c(ldc,*) 
+               end subroutine cherk
+#else
+               module procedure stdlib_cherk
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(dp) :: alpha,beta 
+                    integer(ilp) :: k,lda,ldc,n 
+                    character :: trans,uplo 
+                    complex(dp) :: a(lda,*),c(ldc,*) 
+               end subroutine zherk
+#else
+               module procedure stdlib_zherk
+#endif
+          end interface herk
+
+
+
+          ! HPMV  performs the matrix-vector operation
+          ! y := alpha*A*x + beta*y,
+          ! where alpha and beta are scalars, x and y are n element vectors and
+          ! A is an n by n hermitian matrix, supplied in packed form.
+          interface hpmv
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,beta,ap(*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,n 
+                    character :: uplo 
+               end subroutine chpmv
+#else
+               module procedure stdlib_chpmv
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,beta,ap(*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,n 
+                    character :: uplo 
+               end subroutine zhpmv
+#else
+               module procedure stdlib_zhpmv
+#endif
+          end interface hpmv
+
+
+
+          ! HPR    performs the hermitian rank 1 operation
+          ! A := alpha*x*x**H + A,
+          ! where alpha is a real scalar, x is an n element vector and A is an
+          ! n by n hermitian matrix, supplied in packed form.
+          interface hpr
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine chpr(uplo,n,alpha,x,incx,ap)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(sp) :: alpha 
+                    integer(ilp) :: incx,n 
+                    character :: uplo 
+                    complex(sp) :: ap(*),x(*) 
+               end subroutine chpr
+#else
+               module procedure stdlib_chpr
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zhpr(uplo,n,alpha,x,incx,ap)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(dp) :: alpha 
+                    integer(ilp) :: incx,n 
+                    character :: uplo 
+                    complex(dp) :: ap(*),x(*) 
+               end subroutine zhpr
+#else
+               module procedure stdlib_zhpr
+#endif
+          end interface hpr
+
+
+
+          ! HPR2  performs the hermitian rank 2 operation
+          ! A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
+          ! where alpha is a scalar, x and y are n element vectors and A is an
+          ! n by n hermitian matrix, supplied in packed form.
+          interface hpr2
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine chpr2(uplo,n,alpha,x,incx,y,incy,ap)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(sp) :: alpha,ap(*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,n 
+                    character :: uplo 
+               end subroutine chpr2
+#else
+               module procedure stdlib_chpr2
+#endif
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    complex(dp) :: alpha,ap(*),x(*),y(*) 
+                    integer(ilp) :: incx,incy,n 
+                    character :: uplo 
+               end subroutine zhpr2
+#else
+               module procedure stdlib_zhpr2
+#endif
+          end interface hpr2
 
 
 
@@ -584,6 +1131,42 @@ module stdlib_linalg_blas
                module procedure stdlib_sspr2
 #endif
           end interface spr2
+
+
+
+          ! SROT applies a plane rotation, where the cos and sin (c and s) are real
+          ! and the vectors cx and cy are complex.
+          ! jack dongarra, linpack, 3/11/78.
+          interface srot
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine csrot( n, cx, incx, cy, incy, c, s )
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    integer(ilp) :: incx,incy,n 
+                    real(sp) :: c,s 
+                    complex(sp) :: cx,cy 
+               end subroutine csrot
+#else
+               module procedure stdlib_csrot
+#endif
+          end interface srot
+
+
+
+          ! SSCAL scales a complex vector by a real constant.
+          interface sscal
+#ifdef STDLIB_EXTERNAL_BLAS
+               subroutine csscal(n,sa,cx,incx)
+                    import sp,dp,qp,ilp,lk 
+                    implicit none(type,external) 
+                    real(sp) :: sa 
+                    integer(ilp) :: incx,n 
+                    complex(sp) :: cx(*) 
+               end subroutine csscal
+#else
+               module procedure stdlib_csscal
+#endif
+          end interface sscal
 
 
 
@@ -1324,43 +1907,6 @@ module stdlib_linalg_blas
                module procedure stdlib_ztrsv
 #endif
           end interface trsv
-
-
-
-          ! ZASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
-          ! returns a double precision result.
-          interface zasum
-#ifdef STDLIB_EXTERNAL_BLAS
-               real(dp) function dzasum(n,zx,incx)
-                    import sp,dp,qp,ilp,lk 
-                    implicit none(type,external) 
-                    integer(ilp) :: incx,n 
-                    complex(dp) :: zx(*) 
-               end function dzasum
-#else
-               module procedure stdlib_dzasum
-#endif
-          end interface zasum
-
-
-
-          ! !
-          ! ZNRM2 returns the euclidean norm of a vector via the function
-          ! name, so that
-          ! ZNRM2 := sqrt( x**H*x )
-          interface znrm2
-#ifdef STDLIB_EXTERNAL_BLAS
-               function dznrm2( n, x, incx )
-                    import sp,dp,qp,ilp,lk 
-                    implicit none(type,external) 
-                    real(dp) :: dznrm2 
-                    integer(ilp) :: incx,n 
-                    complex(dp) :: x(*) 
-               end function dznrm2
-#else
-               module procedure stdlib_dznrm2
-#endif
-          end interface znrm2
 
 
 
