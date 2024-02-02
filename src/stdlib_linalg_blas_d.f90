@@ -45,6 +45,7 @@ module stdlib_linalg_blas_d
      public :: stdlib_dznrm2
 
      ! 64-bit real constants
+     real(dp), parameter, private :: negone = -1.00_dp
      real(dp), parameter, private :: zero = 0.00_dp
      real(dp), parameter, private :: half = 0.50_dp
      real(dp), parameter, private :: one = 1.00_dp
@@ -58,6 +59,7 @@ module stdlib_linalg_blas_d
      complex(dp), parameter, private :: czero = (0.0_dp, 0.0_dp)
      complex(dp), parameter, private :: chalf = (0.5_dp, 0.0_dp)
      complex(dp), parameter, private :: cone = (1.0_dp, 0.0_dp)
+     complex(dp), parameter, private :: cnegone = (-1.0_dp, 0.0_dp)
 
      ! 64-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
@@ -127,7 +129,6 @@ module stdlib_linalg_blas_d
            end if
            stdlib_dasum = dtemp
            return
-           ! end of stdlib_dasum
      end function stdlib_dasum
 
      ! DAXPY constant times a vector plus a vector.
@@ -148,7 +149,7 @@ module stdlib_linalg_blas_d
            ! .. intrinsic functions ..
            intrinsic :: mod
            if (n <= 0) return
-           if (da == zero) return
+           if (da == 0.0_dp) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               ! clean-up loop
@@ -180,7 +181,6 @@ module stdlib_linalg_blas_d
               end do
            end if
            return
-           ! end of stdlib_daxpy
      end subroutine stdlib_daxpy
 
      ! DCOPY copies a vector, x, to a vector, y.
@@ -234,7 +234,6 @@ module stdlib_linalg_blas_d
               end do
            end if
            return
-           ! end of stdlib_dcopy
      end subroutine stdlib_dcopy
 
      ! DDOT forms the dot product of two vectors.
@@ -290,7 +289,6 @@ module stdlib_linalg_blas_d
            end if
            stdlib_ddot = dtemp
            return
-           ! end of stdlib_ddot
      end function stdlib_ddot
 
      ! DGBMV  performs one of the matrix-vector operations
@@ -445,7 +443,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dgbmv
      end subroutine stdlib_dgbmv
 
      ! DGEMM  performs one of the matrix-matrix operations
@@ -608,7 +605,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dgemm
      end subroutine stdlib_dgemm
 
      ! DGEMV  performs one of the matrix-vector operations
@@ -752,7 +748,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dgemv
      end subroutine stdlib_dgemv
 
      ! DGER   performs the rank 1 operation
@@ -831,7 +826,6 @@ module stdlib_linalg_blas_d
                end do
            end if
            return
-           ! end of stdlib_dger
      end subroutine stdlib_dger
 
      ! !
@@ -972,7 +966,6 @@ module stdlib_linalg_blas_d
               end do
            end if
            return
-           ! end of stdlib_drot
      end subroutine stdlib_drot
 
      ! !
@@ -1145,7 +1138,6 @@ module stdlib_linalg_blas_d
               end if
            end if
            return
-           ! end of stdlib_drotm
      end subroutine stdlib_drotm
 
      ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
@@ -1307,7 +1299,6 @@ module stdlib_linalg_blas_d
            end if
            dparam(1) = dflag
            return
-           ! end of stdlib_drotmg
      end subroutine stdlib_drotmg
 
      ! DSBMV  performs the matrix-vector  operation
@@ -1469,7 +1460,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dsbmv
      end subroutine stdlib_dsbmv
 
      ! DSCAL scales a vector by a constant.
@@ -1516,7 +1506,6 @@ module stdlib_linalg_blas_d
               end do
            end if
            return
-           ! end of stdlib_dscal
      end subroutine stdlib_dscal
 
      ! Compute the inner product of two vectors with extended
@@ -1564,7 +1553,6 @@ module stdlib_linalg_blas_d
               end do
            end if
            return
-           ! end of stdlib_dsdot
      end function stdlib_dsdot
 
      ! DSPMV  performs the matrix-vector operation
@@ -1720,7 +1708,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dspmv
      end subroutine stdlib_dspmv
 
      ! DSPR    performs the symmetric rank 1 operation
@@ -1827,7 +1814,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dspr
      end subroutine stdlib_dspr
 
      ! DSPR2  performs the symmetric rank 2 operation
@@ -1954,7 +1940,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dspr2
      end subroutine stdlib_dspr2
 
      ! DSWAP interchanges two vectors.
@@ -2015,7 +2000,6 @@ module stdlib_linalg_blas_d
               end do
            end if
            return
-           ! end of stdlib_dswap
      end subroutine stdlib_dswap
 
      ! DSYMM  performs one of the matrix-matrix operations
@@ -2162,7 +2146,6 @@ module stdlib_linalg_blas_d
                end do loop_170
            end if
            return
-           ! end of stdlib_dsymm
      end subroutine stdlib_dsymm
 
      ! DSYMV  performs the matrix-vector  operation
@@ -2314,7 +2297,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dsymv
      end subroutine stdlib_dsymv
 
      ! DSYR   performs the symmetric rank 1 operation
@@ -2417,7 +2399,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dsyr
      end subroutine stdlib_dsyr
 
      ! DSYR2  performs the symmetric rank 2 operation
@@ -2540,7 +2521,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dsyr2
      end subroutine stdlib_dsyr2
 
      ! DSYR2K  performs one of the symmetric rank 2k operations
@@ -2715,7 +2695,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dsyr2k
      end subroutine stdlib_dsyr2k
 
      ! DSYRK  performs one of the symmetric rank k operations
@@ -2882,7 +2861,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dsyrk
      end subroutine stdlib_dsyrk
 
      ! DTBMV  performs one of the matrix-vector operations
@@ -3065,7 +3043,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dtbmv
      end subroutine stdlib_dtbmv
 
      ! DTBSV  solves one of the systems of equations
@@ -3251,7 +3228,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dtbsv
      end subroutine stdlib_dtbsv
 
      ! DTPMV  performs one of the matrix-vector operations
@@ -3433,7 +3409,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dtpmv
      end subroutine stdlib_dtpmv
 
      ! DTPSV  solves one of the systems of equations
@@ -3617,7 +3592,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dtpsv
      end subroutine stdlib_dtpsv
 
      ! DTRMM  performs one of the matrix-matrix operations
@@ -3823,7 +3797,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dtrmm
      end subroutine stdlib_dtrmm
 
      ! DTRMV  performs one of the matrix-vector operations
@@ -3989,7 +3962,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dtrmv
      end subroutine stdlib_dtrmv
 
      ! DTRSM  solves one of the matrix equations
@@ -4220,7 +4192,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dtrsm
      end subroutine stdlib_dtrsm
 
      ! DTRSV  solves one of the systems of equations
@@ -4388,7 +4359,6 @@ module stdlib_linalg_blas_d
                end if
            end if
            return
-           ! end of stdlib_dtrsv
      end subroutine stdlib_dtrsv
 
      ! DZASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
@@ -4423,7 +4393,6 @@ module stdlib_linalg_blas_d
            end if
            stdlib_dzasum = stemp
            return
-           ! end of stdlib_dzasum
      end function stdlib_dzasum
 
      ! !
@@ -4478,7 +4447,7 @@ module stdlib_linalg_blas_d
         ix = 1
         if (incx < 0) ix = 1 - (n - 1)*incx
         do i = 1, n
-           ax = abs(real(x(ix)))
+           ax = abs(real(x(ix), KIND=dp))
            if (ax > tbig) then
               abig = abig + (ax*sbig)**2
               notbig = .false.

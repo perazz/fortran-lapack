@@ -43,6 +43,7 @@ module stdlib_linalg_blas_c
      public :: stdlib_ctrsv
 
      ! 32-bit real constants
+     real(sp), parameter, private :: negone = -1.00_sp
      real(sp), parameter, private :: zero = 0.00_sp
      real(sp), parameter, private :: half = 0.50_sp
      real(sp), parameter, private :: one = 1.00_sp
@@ -56,6 +57,7 @@ module stdlib_linalg_blas_c
      complex(sp), parameter, private :: czero = (0.0_sp, 0.0_sp)
      complex(sp), parameter, private :: chalf = (0.5_sp, 0.0_sp)
      complex(sp), parameter, private :: cone = (1.0_sp, 0.0_sp)
+     complex(sp), parameter, private :: cnegone = (-1.0_sp, 0.0_sp)
 
      ! 32-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
@@ -114,7 +116,6 @@ module stdlib_linalg_blas_c
               end do
            end if
            return
-           ! end of stdlib_caxpy
      end subroutine stdlib_caxpy
 
      ! CCOPY copies a vector x to a vector y.
@@ -150,7 +151,6 @@ module stdlib_linalg_blas_c
               end do
            end if
            return
-           ! end of stdlib_ccopy
      end subroutine stdlib_ccopy
 
      ! CDOTC forms the dot product of two complex vectors
@@ -170,8 +170,8 @@ module stdlib_linalg_blas_c
            integer(ilp) :: i, ix, iy
            ! .. intrinsic functions ..
            intrinsic :: conjg
-           ctemp = (zero, zero)
-           stdlib_cdotc = (zero, zero)
+           ctemp = (0.0_sp, 0.0_sp)
+           stdlib_cdotc = (0.0_sp, 0.0_sp)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -193,7 +193,6 @@ module stdlib_linalg_blas_c
            end if
            stdlib_cdotc = ctemp
            return
-           ! end of stdlib_cdotc
      end function stdlib_cdotc
 
      ! CDOTU forms the dot product of two complex vectors
@@ -211,8 +210,8 @@ module stdlib_linalg_blas_c
            ! .. local scalars ..
            complex(sp) :: ctemp
            integer(ilp) :: i, ix, iy
-           ctemp = (zero, zero)
-           stdlib_cdotu = (zero, zero)
+           ctemp = (0.0_sp, 0.0_sp)
+           stdlib_cdotu = (0.0_sp, 0.0_sp)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -234,7 +233,6 @@ module stdlib_linalg_blas_c
            end if
            stdlib_cdotu = ctemp
            return
-           ! end of stdlib_cdotu
      end function stdlib_cdotu
 
      ! CGBMV  performs one of the matrix-vector operations
@@ -405,7 +403,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_cgbmv
      end subroutine stdlib_cgbmv
 
      ! CGEMM  performs one of the matrix-matrix operations
@@ -653,7 +650,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_cgemm
      end subroutine stdlib_cgemm
 
      ! CGEMV performs one of the matrix-vector operations
@@ -813,7 +809,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_cgemv
      end subroutine stdlib_cgemv
 
      ! CGERC  performs the rank 1 operation
@@ -892,7 +887,6 @@ module stdlib_linalg_blas_c
                end do
            end if
            return
-           ! end of stdlib_cgerc
      end subroutine stdlib_cgerc
 
      ! CGERU  performs the rank 1 operation
@@ -971,7 +965,6 @@ module stdlib_linalg_blas_c
                end do
            end if
            return
-           ! end of stdlib_cgeru
      end subroutine stdlib_cgeru
 
      ! CHBMV  performs the matrix-vector  operation
@@ -1070,7 +1063,7 @@ module stdlib_linalg_blas_c
                            y(i) = y(i) + temp1*a(l + i, j)
                            temp2 = temp2 + conjg(a(l + i, j))*x(i)
                        end do
-                       y(j) = y(j) + temp1*real(a(kplus1, j)) + alpha*temp2
+                       y(j) = y(j) + temp1*real(a(kplus1, j), KIND=sp) + alpha*temp2
                    end do
                else
                    jx = kx
@@ -1087,7 +1080,7 @@ module stdlib_linalg_blas_c
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*real(a(kplus1, j)) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(a(kplus1, j), KIND=sp) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        if (j > k) then
@@ -1102,7 +1095,7 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = czero
-                       y(j) = y(j) + temp1*real(a(1, j))
+                       y(j) = y(j) + temp1*real(a(1, j), KIND=sp)
                        l = 1 - j
                        do i = j + 1, min(n, j + k)
                            y(i) = y(i) + temp1*a(l + i, j)
@@ -1116,7 +1109,7 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = czero
-                       y(jy) = y(jy) + temp1*real(a(1, j))
+                       y(jy) = y(jy) + temp1*real(a(1, j), KIND=sp)
                        l = 1 - j
                        ix = jx
                        iy = jy
@@ -1133,7 +1126,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_chbmv
      end subroutine stdlib_chbmv
 
      ! CHEMM  performs one of the matrix-matrix operations
@@ -1221,9 +1213,10 @@ module stdlib_linalg_blas_c
                                temp2 = temp2 + b(k, j)*conjg(a(k, i))
                            end do
                            if (beta == czero) then
-                               c(i, j) = temp1*real(a(i, i)) + alpha*temp2
+                               c(i, j) = temp1*real(a(i, i), KIND=sp) + alpha*temp2
                            else
-                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i)) + alpha*temp2
+                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i), KIND=sp) + &
+                                         alpha*temp2
                            end if
                        end do
                    end do
@@ -1237,9 +1230,10 @@ module stdlib_linalg_blas_c
                                temp2 = temp2 + b(k, j)*conjg(a(k, i))
                            end do
                            if (beta == czero) then
-                               c(i, j) = temp1*real(a(i, i)) + alpha*temp2
+                               c(i, j) = temp1*real(a(i, i), KIND=sp) + alpha*temp2
                            else
-                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i)) + alpha*temp2
+                               c(i, j) = beta*c(i, j) + temp1*real(a(i, i), KIND=sp) + &
+                                         alpha*temp2
                            end if
                        end do
                    end do
@@ -1247,7 +1241,7 @@ module stdlib_linalg_blas_c
            else
               ! form  c := alpha*b*a + beta*c.
                loop_170: do j = 1, n
-                   temp1 = alpha*real(a(j, j))
+                   temp1 = alpha*real(a(j, j), KIND=sp)
                    if (beta == czero) then
                        do i = 1, m
                            c(i, j) = temp1*b(i, j)
@@ -1280,7 +1274,6 @@ module stdlib_linalg_blas_c
                end do loop_170
            end if
            return
-           ! end of stdlib_chemm
      end subroutine stdlib_chemm
 
      ! CHEMV  performs the matrix-vector  operation
@@ -1376,7 +1369,7 @@ module stdlib_linalg_blas_c
                            y(i) = y(i) + temp1*a(i, j)
                            temp2 = temp2 + conjg(a(i, j))*x(i)
                        end do
-                       y(j) = y(j) + temp1*real(a(j, j)) + alpha*temp2
+                       y(j) = y(j) + temp1*real(a(j, j), KIND=sp) + alpha*temp2
                    end do
                else
                    jx = kx
@@ -1392,7 +1385,7 @@ module stdlib_linalg_blas_c
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*real(a(j, j)) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(a(j, j), KIND=sp) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                    end do
@@ -1403,7 +1396,7 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = czero
-                       y(j) = y(j) + temp1*real(a(j, j))
+                       y(j) = y(j) + temp1*real(a(j, j), KIND=sp)
                        do i = j + 1, n
                            y(i) = y(i) + temp1*a(i, j)
                            temp2 = temp2 + conjg(a(i, j))*x(i)
@@ -1416,7 +1409,7 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = czero
-                       y(jy) = y(jy) + temp1*real(a(j, j))
+                       y(jy) = y(jy) + temp1*real(a(j, j), KIND=sp)
                        ix = jx
                        iy = jy
                        do i = j + 1, n
@@ -1432,7 +1425,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_chemv
      end subroutine stdlib_chemv
 
      ! CHER   performs the hermitian rank 1 operation
@@ -1473,7 +1465,7 @@ module stdlib_linalg_blas_c
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == real(czero))) return
+           if ((n == 0) .or. (alpha == real(czero, KIND=sp))) return
            ! set the start point in x if the increment is not unity.
            if (incx <= 0) then
                kx = 1 - (n - 1)*incx
@@ -1492,9 +1484,9 @@ module stdlib_linalg_blas_c
                            do i = 1, j - 1
                                a(i, j) = a(i, j) + x(i)*temp
                            end do
-                           a(j, j) = real(a(j, j)) + real(x(j)*temp)
+                           a(j, j) = real(a(j, j), KIND=sp) + real(x(j)*temp, KIND=sp)
                        else
-                           a(j, j) = real(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=sp)
                        end if
                    end do
                else
@@ -1507,9 +1499,9 @@ module stdlib_linalg_blas_c
                                a(i, j) = a(i, j) + x(ix)*temp
                                ix = ix + incx
                            end do
-                           a(j, j) = real(a(j, j)) + real(x(jx)*temp)
+                           a(j, j) = real(a(j, j), KIND=sp) + real(x(jx)*temp, KIND=sp)
                        else
-                           a(j, j) = real(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=sp)
                        end if
                        jx = jx + incx
                    end do
@@ -1520,12 +1512,12 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        if (x(j) /= czero) then
                            temp = alpha*conjg(x(j))
-                           a(j, j) = real(a(j, j)) + real(temp*x(j))
+                           a(j, j) = real(a(j, j), KIND=sp) + real(temp*x(j), KIND=sp)
                            do i = j + 1, n
                                a(i, j) = a(i, j) + x(i)*temp
                            end do
                        else
-                           a(j, j) = real(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=sp)
                        end if
                    end do
                else
@@ -1533,21 +1525,20 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        if (x(jx) /= czero) then
                            temp = alpha*conjg(x(jx))
-                           a(j, j) = real(a(j, j)) + real(temp*x(jx))
+                           a(j, j) = real(a(j, j), KIND=sp) + real(temp*x(jx), KIND=sp)
                            ix = jx
                            do i = j + 1, n
                                ix = ix + incx
                                a(i, j) = a(i, j) + x(ix)*temp
                            end do
                        else
-                           a(j, j) = real(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=sp)
                        end if
                        jx = jx + incx
                    end do
                end if
            end if
            return
-           ! end of stdlib_cher
      end subroutine stdlib_cher
 
      ! CHER2  performs the hermitian rank 2 operation
@@ -1620,9 +1611,10 @@ module stdlib_linalg_blas_c
                            do i = 1, j - 1
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
-                           a(j, j) = real(a(j, j)) + real(x(j)*temp1 + y(j)*temp2)
+                           a(j, j) = real(a(j, j), KIND=sp) + real(x(j)*temp1 + y(j)*temp2, KIND=sp)
+                                     
                        else
-                           a(j, j) = real(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=sp)
                        end if
                    end do
                else
@@ -1637,9 +1629,10 @@ module stdlib_linalg_blas_c
                                ix = ix + incx
                                iy = iy + incy
                            end do
-                           a(j, j) = real(a(j, j)) + real(x(jx)*temp1 + y(jy)*temp2)
+                           a(j, j) = real(a(j, j), KIND=sp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=sp)
+                                     
                        else
-                           a(j, j) = real(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=sp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -1652,12 +1645,13 @@ module stdlib_linalg_blas_c
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
-                           a(j, j) = real(a(j, j)) + real(x(j)*temp1 + y(j)*temp2)
+                           a(j, j) = real(a(j, j), KIND=sp) + real(x(j)*temp1 + y(j)*temp2, KIND=sp)
+                                     
                            do i = j + 1, n
                                a(i, j) = a(i, j) + x(i)*temp1 + y(i)*temp2
                            end do
                        else
-                           a(j, j) = real(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=sp)
                        end if
                    end do
                else
@@ -1665,7 +1659,8 @@ module stdlib_linalg_blas_c
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
-                           a(j, j) = real(a(j, j)) + real(x(jx)*temp1 + y(jy)*temp2)
+                           a(j, j) = real(a(j, j), KIND=sp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=sp)
+                                     
                            ix = jx
                            iy = jy
                            do i = j + 1, n
@@ -1674,7 +1669,7 @@ module stdlib_linalg_blas_c
                                a(i, j) = a(i, j) + x(ix)*temp1 + y(iy)*temp2
                            end do
                        else
-                           a(j, j) = real(a(j, j))
+                           a(j, j) = real(a(j, j), KIND=sp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -1682,7 +1677,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_cher2
      end subroutine stdlib_cher2
 
      ! CHER2K  performs one of the hermitian rank 2k operations
@@ -1745,7 +1739,7 @@ module stdlib_linalg_blas_c
            ! and when  alpha.eq.czero.
            if (alpha == czero) then
                if (upper) then
-                   if (beta == real(czero)) then
+                   if (beta == real(czero, KIND=sp)) then
                        do j = 1, n
                            do i = 1, j
                                c(i, j) = czero
@@ -1756,11 +1750,11 @@ module stdlib_linalg_blas_c
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=sp)
                        end do
                    end if
                else
-                   if (beta == real(czero)) then
+                   if (beta == real(czero, KIND=sp)) then
                        do j = 1, n
                            do i = j, n
                                c(i, j) = czero
@@ -1768,7 +1762,7 @@ module stdlib_linalg_blas_c
                        end do
                    else
                        do j = 1, n
-                           c(j, j) = beta*real(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=sp)
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
@@ -1783,7 +1777,7 @@ module stdlib_linalg_blas_c
                          ! c.
                if (upper) then
                    do j = 1, n
-                       if (beta == real(czero)) then
+                       if (beta == real(czero, KIND=sp)) then
                            do i = 1, j
                                c(i, j) = czero
                            end do
@@ -1791,9 +1785,9 @@ module stdlib_linalg_blas_c
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=sp)
                        else
-                           c(j, j) = real(c(j, j))
+                           c(j, j) = real(c(j, j), KIND=sp)
                        end if
                        do l = 1, k
                            if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
@@ -1802,13 +1796,14 @@ module stdlib_linalg_blas_c
                                do i = 1, j - 1
                                    c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do
-                               c(j, j) = real(c(j, j)) + real(a(j, l)*temp1 + b(j, l)*temp2)
+                               c(j, j) = real(c(j, j), KIND=sp) + real(a(j, l)*temp1 + b(j, l)*temp2, &
+                                         KIND=sp)
                            end if
                        end do
                    end do
                else
                    do j = 1, n
-                       if (beta == real(czero)) then
+                       if (beta == real(czero, KIND=sp)) then
                            do i = j, n
                                c(i, j) = czero
                            end do
@@ -1816,9 +1811,9 @@ module stdlib_linalg_blas_c
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=sp)
                        else
-                           c(j, j) = real(c(j, j))
+                           c(j, j) = real(c(j, j), KIND=sp)
                        end if
                        do l = 1, k
                            if ((a(j, l) /= czero) .or. (b(j, l) /= czero)) then
@@ -1827,7 +1822,8 @@ module stdlib_linalg_blas_c
                                do i = j + 1, n
                                    c(i, j) = c(i, j) + a(i, l)*temp1 + b(i, l)*temp2
                                end do
-                               c(j, j) = real(c(j, j)) + real(a(j, l)*temp1 + b(j, l)*temp2)
+                               c(j, j) = real(c(j, j), KIND=sp) + real(a(j, l)*temp1 + b(j, l)*temp2, &
+                                         KIND=sp)
                            end if
                        end do
                    end do
@@ -1845,14 +1841,14 @@ module stdlib_linalg_blas_c
                                temp2 = temp2 + conjg(b(l, i))*a(l, j)
                            end do
                            if (i == j) then
-                               if (beta == real(czero)) then
-                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2)
+                               if (beta == real(czero, KIND=sp)) then
+                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2, KIND=sp)
                                else
-                                   c(j, j) = beta*real(c(j, j)) + real(alpha*temp1 + conjg(alpha) &
-                                             *temp2)
+                                   c(j, j) = beta*real(c(j, j), KIND=sp) + real(alpha*temp1 + conjg( &
+                                             alpha)*temp2, KIND=sp)
                                end if
                            else
-                               if (beta == real(czero)) then
+                               if (beta == real(czero, KIND=sp)) then
                                    c(i, j) = alpha*temp1 + conjg(alpha)*temp2
                                else
                                    c(i, j) = beta*c(i, j) + alpha*temp1 + conjg(alpha)*temp2
@@ -1870,14 +1866,14 @@ module stdlib_linalg_blas_c
                                temp2 = temp2 + conjg(b(l, i))*a(l, j)
                            end do
                            if (i == j) then
-                               if (beta == real(czero)) then
-                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2)
+                               if (beta == real(czero, KIND=sp)) then
+                                   c(j, j) = real(alpha*temp1 + conjg(alpha)*temp2, KIND=sp)
                                else
-                                   c(j, j) = beta*real(c(j, j)) + real(alpha*temp1 + conjg(alpha) &
-                                             *temp2)
+                                   c(j, j) = beta*real(c(j, j), KIND=sp) + real(alpha*temp1 + conjg( &
+                                             alpha)*temp2, KIND=sp)
                                end if
                            else
-                               if (beta == real(czero)) then
+                               if (beta == real(czero, KIND=sp)) then
                                    c(i, j) = alpha*temp1 + conjg(alpha)*temp2
                                else
                                    c(i, j) = beta*c(i, j) + alpha*temp1 + conjg(alpha)*temp2
@@ -1888,7 +1884,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_cher2k
      end subroutine stdlib_cher2k
 
      ! CHERK  performs one of the hermitian rank k operations
@@ -1960,7 +1955,7 @@ module stdlib_linalg_blas_c
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=sp)
                        end do
                    end if
                else
@@ -1972,7 +1967,7 @@ module stdlib_linalg_blas_c
                        end do
                    else
                        do j = 1, n
-                           c(j, j) = beta*real(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=sp)
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
@@ -1994,9 +1989,9 @@ module stdlib_linalg_blas_c
                            do i = 1, j - 1
                                c(i, j) = beta*c(i, j)
                            end do
-                           c(j, j) = beta*real(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=sp)
                        else
-                           c(j, j) = real(c(j, j))
+                           c(j, j) = real(c(j, j), KIND=sp)
                        end if
                        do l = 1, k
                            if (a(j, l) /= cmplx(zero, KIND=sp)) then
@@ -2004,7 +1999,7 @@ module stdlib_linalg_blas_c
                                do i = 1, j - 1
                                    c(i, j) = c(i, j) + temp*a(i, l)
                                end do
-                               c(j, j) = real(c(j, j)) + real(temp*a(i, l))
+                               c(j, j) = real(c(j, j), KIND=sp) + real(temp*a(i, l), KIND=sp)
                            end if
                        end do
                    end do
@@ -2015,17 +2010,17 @@ module stdlib_linalg_blas_c
                                c(i, j) = zero
                            end do
                        else if (beta /= one) then
-                           c(j, j) = beta*real(c(j, j))
+                           c(j, j) = beta*real(c(j, j), KIND=sp)
                            do i = j + 1, n
                                c(i, j) = beta*c(i, j)
                            end do
                        else
-                           c(j, j) = real(c(j, j))
+                           c(j, j) = real(c(j, j), KIND=sp)
                        end if
                        do l = 1, k
                            if (a(j, l) /= cmplx(zero, KIND=sp)) then
                                temp = alpha*conjg(a(j, l))
-                               c(j, j) = real(c(j, j)) + real(temp*a(j, l))
+                               c(j, j) = real(c(j, j), KIND=sp) + real(temp*a(j, l), KIND=sp)
                                do i = j + 1, n
                                    c(i, j) = c(i, j) + temp*a(i, l)
                                end do
@@ -2055,7 +2050,7 @@ module stdlib_linalg_blas_c
                        if (beta == zero) then
                            c(j, j) = alpha*rtemp
                        else
-                           c(j, j) = alpha*rtemp + beta*real(c(j, j))
+                           c(j, j) = alpha*rtemp + beta*real(c(j, j), KIND=sp)
                        end if
                    end do
                else
@@ -2067,7 +2062,7 @@ module stdlib_linalg_blas_c
                        if (beta == zero) then
                            c(j, j) = alpha*rtemp
                        else
-                           c(j, j) = alpha*rtemp + beta*real(c(j, j))
+                           c(j, j) = alpha*rtemp + beta*real(c(j, j), KIND=sp)
                        end if
                        do i = j + 1, n
                            temp = zero
@@ -2084,7 +2079,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_cherk
      end subroutine stdlib_cherk
 
      ! CHPMV  performs the matrix-vector operation
@@ -2180,7 +2174,7 @@ module stdlib_linalg_blas_c
                            temp2 = temp2 + conjg(ap(k))*x(i)
                            k = k + 1
                        end do
-                       y(j) = y(j) + temp1*real(ap(kk + j - 1)) + alpha*temp2
+                       y(j) = y(j) + temp1*real(ap(kk + j - 1), KIND=sp) + alpha*temp2
                        kk = kk + j
                    end do
                else
@@ -2197,7 +2191,7 @@ module stdlib_linalg_blas_c
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*real(ap(kk + j - 1)) + alpha*temp2
+                       y(jy) = y(jy) + temp1*real(ap(kk + j - 1), KIND=sp) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        kk = kk + j
@@ -2209,7 +2203,7 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        temp1 = alpha*x(j)
                        temp2 = czero
-                       y(j) = y(j) + temp1*real(ap(kk))
+                       y(j) = y(j) + temp1*real(ap(kk), KIND=sp)
                        k = kk + 1
                        do i = j + 1, n
                            y(i) = y(i) + temp1*ap(k)
@@ -2225,7 +2219,7 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        temp1 = alpha*x(jx)
                        temp2 = czero
-                       y(jy) = y(jy) + temp1*real(ap(kk))
+                       y(jy) = y(jy) + temp1*real(ap(kk), KIND=sp)
                        ix = jx
                        iy = jy
                        do k = kk + 1, kk + n - j
@@ -2242,7 +2236,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_chpmv
      end subroutine stdlib_chpmv
 
      ! CHPR    performs the hermitian rank 1 operation
@@ -2281,7 +2274,7 @@ module stdlib_linalg_blas_c
                return
            end if
            ! quick return if possible.
-           if ((n == 0) .or. (alpha == real(czero))) return
+           if ((n == 0) .or. (alpha == real(czero, KIND=sp))) return
            ! set the start point in x if the increment is not unity.
            if (incx <= 0) then
                kx = 1 - (n - 1)*incx
@@ -2302,9 +2295,9 @@ module stdlib_linalg_blas_c
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1)) + real(x(j)*temp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=sp) + real(x(j)*temp, KIND=sp)
                        else
-                           ap(kk + j - 1) = real(ap(kk + j - 1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=sp)
                        end if
                        kk = kk + j
                    end do
@@ -2318,9 +2311,10 @@ module stdlib_linalg_blas_c
                                ap(k) = ap(k) + x(ix)*temp
                                ix = ix + incx
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1)) + real(x(jx)*temp)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=sp) + real(x(jx)*temp, KIND=sp)
+                                     
                        else
-                           ap(kk + j - 1) = real(ap(kk + j - 1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=sp)
                        end if
                        jx = jx + incx
                        kk = kk + j
@@ -2332,14 +2326,14 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        if (x(j) /= czero) then
                            temp = alpha*conjg(x(j))
-                           ap(kk) = real(ap(kk)) + real(temp*x(j))
+                           ap(kk) = real(ap(kk), KIND=sp) + real(temp*x(j), KIND=sp)
                            k = kk + 1
                            do i = j + 1, n
                                ap(k) = ap(k) + x(i)*temp
                                k = k + 1
                            end do
                        else
-                           ap(kk) = real(ap(kk))
+                           ap(kk) = real(ap(kk), KIND=sp)
                        end if
                        kk = kk + n - j + 1
                    end do
@@ -2348,14 +2342,14 @@ module stdlib_linalg_blas_c
                    do j = 1, n
                        if (x(jx) /= czero) then
                            temp = alpha*conjg(x(jx))
-                           ap(kk) = real(ap(kk)) + real(temp*x(jx))
+                           ap(kk) = real(ap(kk), KIND=sp) + real(temp*x(jx), KIND=sp)
                            ix = jx
                            do k = kk + 1, kk + n - j
                                ix = ix + incx
                                ap(k) = ap(k) + x(ix)*temp
                            end do
                        else
-                           ap(kk) = real(ap(kk))
+                           ap(kk) = real(ap(kk), KIND=sp)
                        end if
                        jx = jx + incx
                        kk = kk + n - j + 1
@@ -2363,7 +2357,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_chpr
      end subroutine stdlib_chpr
 
      ! CHPR2  performs the hermitian rank 2 operation
@@ -2436,9 +2429,10 @@ module stdlib_linalg_blas_c
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1)) + real(x(j)*temp1 + y(j)*temp2)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=sp) + real(x(j)*temp1 + y(j)*temp2, &
+                                     KIND=sp)
                        else
-                           ap(kk + j - 1) = real(ap(kk + j - 1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=sp)
                        end if
                        kk = kk + j
                    end do
@@ -2454,9 +2448,10 @@ module stdlib_linalg_blas_c
                                ix = ix + incx
                                iy = iy + incy
                            end do
-                           ap(kk + j - 1) = real(ap(kk + j - 1)) + real(x(jx)*temp1 + y(jy)*temp2)
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=sp) + real(x(jx)*temp1 + y(jy)*temp2, &
+                                     KIND=sp)
                        else
-                           ap(kk + j - 1) = real(ap(kk + j - 1))
+                           ap(kk + j - 1) = real(ap(kk + j - 1), KIND=sp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -2470,14 +2465,15 @@ module stdlib_linalg_blas_c
                        if ((x(j) /= czero) .or. (y(j) /= czero)) then
                            temp1 = alpha*conjg(y(j))
                            temp2 = conjg(alpha*x(j))
-                           ap(kk) = real(ap(kk)) + real(x(j)*temp1 + y(j)*temp2)
+                           ap(kk) = real(ap(kk), KIND=sp) + real(x(j)*temp1 + y(j)*temp2, KIND=sp)
+                                     
                            k = kk + 1
                            do i = j + 1, n
                                ap(k) = ap(k) + x(i)*temp1 + y(i)*temp2
                                k = k + 1
                            end do
                        else
-                           ap(kk) = real(ap(kk))
+                           ap(kk) = real(ap(kk), KIND=sp)
                        end if
                        kk = kk + n - j + 1
                    end do
@@ -2486,7 +2482,8 @@ module stdlib_linalg_blas_c
                        if ((x(jx) /= czero) .or. (y(jy) /= czero)) then
                            temp1 = alpha*conjg(y(jy))
                            temp2 = conjg(alpha*x(jx))
-                           ap(kk) = real(ap(kk)) + real(x(jx)*temp1 + y(jy)*temp2)
+                           ap(kk) = real(ap(kk), KIND=sp) + real(x(jx)*temp1 + y(jy)*temp2, KIND=sp)
+                                     
                            ix = jx
                            iy = jy
                            do k = kk + 1, kk + n - j
@@ -2495,7 +2492,7 @@ module stdlib_linalg_blas_c
                                ap(k) = ap(k) + x(ix)*temp1 + y(iy)*temp2
                            end do
                        else
-                           ap(kk) = real(ap(kk))
+                           ap(kk) = real(ap(kk), KIND=sp)
                        end if
                        jx = jx + incx
                        jy = jy + incy
@@ -2504,7 +2501,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_chpr2
      end subroutine stdlib_chpr2
 
      ! !
@@ -2551,7 +2547,7 @@ module stdlib_linalg_blas_c
         ! .. statement functions ..
         real(sp) :: abssq
         ! .. statement function definitions ..
-        abssq(t) = real(t)**2 + aimag(t)**2
+        abssq(t) = real(t, KIND=sp)**2 + aimag(t)**2
         ! .. executable statements ..
         f = a
         g = b
@@ -2561,7 +2557,7 @@ module stdlib_linalg_blas_c
            r = f
         else if (f == czero) then
            c = zero
-           g1 = max(abs(real(g)), abs(aimag(g)))
+           g1 = max(abs(real(g, KIND=sp)), abs(aimag(g)))
            if (g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
               g2 = abssq(g)
@@ -2579,8 +2575,8 @@ module stdlib_linalg_blas_c
               r = d*u
            end if
         else
-           f1 = max(abs(real(f)), abs(aimag(f)))
-           g1 = max(abs(real(g)), abs(aimag(g)))
+           f1 = max(abs(real(f, KIND=sp)), abs(aimag(f)))
+           g1 = max(abs(real(g, KIND=sp)), abs(aimag(g)))
      if (f1 > rtmin .and. f1 < rtmax .and. g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
               f2 = abssq(f)
@@ -2660,7 +2656,6 @@ module stdlib_linalg_blas_c
               end do
            end if
            return
-           ! end of stdlib_cscal
      end subroutine stdlib_cscal
 
      ! CSROT applies a plane rotation, where the cos and sin (c and s) are real
@@ -2705,7 +2700,6 @@ module stdlib_linalg_blas_c
               end do
            end if
            return
-           ! end of stdlib_csrot
      end subroutine stdlib_csrot
 
      ! CSSCAL scales a complex vector by a real constant.
@@ -2728,17 +2722,16 @@ module stdlib_linalg_blas_c
            if (incx == 1) then
               ! code for increment equal to 1
               do i = 1, n
-                 cx(i) = cmplx(sa*real(cx(i)), sa*aimag(cx(i)))
+                 cx(i) = cmplx(sa*real(cx(i), KIND=sp), sa*aimag(cx(i)), KIND=sp)
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
               do i = 1, nincx, incx
-                 cx(i) = cmplx(sa*real(cx(i)), sa*aimag(cx(i)))
+                 cx(i) = cmplx(sa*real(cx(i), KIND=sp), sa*aimag(cx(i)), KIND=sp)
               end do
            end if
            return
-           ! end of stdlib_csscal
      end subroutine stdlib_csscal
 
      ! CSWAP interchanges two vectors.
@@ -2779,7 +2772,6 @@ module stdlib_linalg_blas_c
               end do
            end if
            return
-           ! end of stdlib_cswap
      end subroutine stdlib_cswap
 
      ! CSYMM  performs one of the matrix-matrix operations
@@ -2926,7 +2918,6 @@ module stdlib_linalg_blas_c
                end do loop_170
            end if
            return
-           ! end of stdlib_csymm
      end subroutine stdlib_csymm
 
      ! CSYR2K  performs one of the symmetric rank 2k operations
@@ -3101,7 +3092,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_csyr2k
      end subroutine stdlib_csyr2k
 
      ! CSYRK  performs one of the symmetric rank k operations
@@ -3268,7 +3258,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_csyrk
      end subroutine stdlib_csyrk
 
      ! CTBMV  performs one of the matrix-vector operations
@@ -3482,7 +3471,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_ctbmv
      end subroutine stdlib_ctbmv
 
      ! CTBSV  solves one of the systems of equations
@@ -3699,7 +3687,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_ctbsv
      end subroutine stdlib_ctbsv
 
      ! CTPMV  performs one of the matrix-vector operations
@@ -3916,7 +3903,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_ctpmv
      end subroutine stdlib_ctpmv
 
      ! CTPSV  solves one of the systems of equations
@@ -4135,7 +4121,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_ctpsv
      end subroutine stdlib_ctpsv
 
      ! CTRMM  performs one of the matrix-matrix operations
@@ -4376,7 +4361,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_ctrmm
      end subroutine stdlib_ctrmm
 
      ! CTRMV  performs one of the matrix-vector operations
@@ -4573,7 +4557,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_ctrmv
      end subroutine stdlib_ctrmv
 
      ! CTRSM  solves one of the matrix equations
@@ -4837,7 +4820,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_ctrsm
      end subroutine stdlib_ctrsm
 
      ! CTRSV  solves one of the systems of equations
@@ -5036,7 +5018,6 @@ module stdlib_linalg_blas_c
                end if
            end if
            return
-           ! end of stdlib_ctrsv
      end subroutine stdlib_ctrsv
 
 end module stdlib_linalg_blas_c

@@ -62,7 +62,6 @@ module stdlib_linalg_blas_aux
               end do
            end if
            return
-           ! end of stdlib_isamax
      end function stdlib_isamax
 
      ! LSAME returns .TRUE. if CA is the same letter as CB regardless of
@@ -110,7 +109,6 @@ module stdlib_linalg_blas_aux
            end if
            stdlib_lsame = inta == intb
            ! return
-           ! end of stdlib_lsame
      end function stdlib_lsame
 
      ! SCABS1 computes |Re(.)| + |Im(.)| of a complex number
@@ -124,9 +122,8 @@ module stdlib_linalg_blas_aux
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, real
-           stdlib_scabs1 = abs(real(z)) + abs(aimag(z))
+           stdlib_scabs1 = abs(real(z, KIND=sp)) + abs(aimag(z))
            return
-           ! end of stdlib_scabs1
      end function stdlib_scabs1
 
      ! XERBLA  is an error handler for the LAPACK routines.
@@ -150,7 +147,6 @@ module stdlib_linalg_blas_aux
            stop
 9999  format(' ** on entry to ', a, ' parameter number ', i2, ' had ', 'an illegal value')
                 
-           ! end of stdlib_xerbla
      end subroutine stdlib_xerbla
 
      ! XERBLA_ARRAY assists other languages in calling XERBLA, the LAPACK
@@ -192,7 +188,6 @@ module stdlib_linalg_blas_aux
            end do
            call stdlib_xerbla(srname, info)
            return
-           ! end of stdlib_xerbla_array
      end subroutine stdlib_xerbla_array
 
      ! QCABS1 computes |Re(.)| + |Im(.)| of a double complex number
@@ -208,7 +203,6 @@ module stdlib_linalg_blas_aux
            intrinsic :: abs, real, aimag
            stdlib_qcabs1 = abs(real(z, KIND=qp)) + abs(aimag(z))
            return
-           ! end of stdlib_qcabs1
      end function stdlib_qcabs1
 
      ! IQAMAX finds the index of the first element having maximum absolute value.
@@ -254,7 +248,6 @@ module stdlib_linalg_blas_aux
               end do
            end if
            return
-           ! end of stdlib_iqamax
      end function stdlib_iqamax
 
      ! IWAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
@@ -298,7 +291,6 @@ module stdlib_linalg_blas_aux
               end do
            end if
            return
-           ! end of stdlib_iwamax
      end function stdlib_iwamax
 
      ! DCABS1 computes |Re(.)| + |Im(.)| of a double complex number
@@ -314,7 +306,6 @@ module stdlib_linalg_blas_aux
            intrinsic :: abs, real, aimag
            stdlib_dcabs1 = abs(real(z, KIND=dp)) + abs(aimag(z))
            return
-           ! end of stdlib_dcabs1
      end function stdlib_dcabs1
 
      ! ICAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
@@ -358,7 +349,6 @@ module stdlib_linalg_blas_aux
               end do
            end if
            return
-           ! end of stdlib_icamax
      end function stdlib_icamax
 
      ! IDAMAX finds the index of the first element having maximum absolute value.
@@ -404,7 +394,6 @@ module stdlib_linalg_blas_aux
               end do
            end if
            return
-           ! end of stdlib_idamax
      end function stdlib_idamax
 
      ! IZAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
@@ -448,7 +437,6 @@ module stdlib_linalg_blas_aux
               end do
            end if
            return
-           ! end of stdlib_izamax
      end function stdlib_izamax
 
 end module stdlib_linalg_blas_aux

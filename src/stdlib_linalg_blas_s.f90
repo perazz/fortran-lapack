@@ -43,6 +43,7 @@ module stdlib_linalg_blas_s
      public :: stdlib_strsv
 
      ! 32-bit real constants
+     real(sp), parameter, private :: negone = -1.00_sp
      real(sp), parameter, private :: zero = 0.00_sp
      real(sp), parameter, private :: half = 0.50_sp
      real(sp), parameter, private :: one = 1.00_sp
@@ -56,6 +57,7 @@ module stdlib_linalg_blas_s
      complex(sp), parameter, private :: czero = (0.0_sp, 0.0_sp)
      complex(sp), parameter, private :: chalf = (0.5_sp, 0.0_sp)
      complex(sp), parameter, private :: cone = (1.0_sp, 0.0_sp)
+     complex(sp), parameter, private :: cnegone = (-1.0_sp, 0.0_sp)
 
      ! 32-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
@@ -126,7 +128,6 @@ module stdlib_linalg_blas_s
            end if
            stdlib_sasum = stemp
            return
-           ! end of stdlib_sasum
      end function stdlib_sasum
 
      ! SAXPY constant times a vector plus a vector.
@@ -147,7 +148,7 @@ module stdlib_linalg_blas_s
            ! .. intrinsic functions ..
            intrinsic :: mod
            if (n <= 0) return
-           if (sa == zero) return
+           if (sa == 0.0_sp) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               ! clean-up loop
@@ -179,7 +180,6 @@ module stdlib_linalg_blas_s
               end do
            end if
            return
-           ! end of stdlib_saxpy
      end subroutine stdlib_saxpy
 
      ! SCASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
@@ -205,18 +205,17 @@ module stdlib_linalg_blas_s
            if (incx == 1) then
               ! code for increment equal to 1
               do i = 1, n
-                 stemp = stemp + abs(real(cx(i))) + abs(aimag(cx(i)))
+                 stemp = stemp + abs(real(cx(i), KIND=sp)) + abs(aimag(cx(i)))
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
               do i = 1, nincx, incx
-                 stemp = stemp + abs(real(cx(i))) + abs(aimag(cx(i)))
+                 stemp = stemp + abs(real(cx(i), KIND=sp)) + abs(aimag(cx(i)))
               end do
            end if
            stdlib_scasum = stemp
            return
-           ! end of stdlib_scasum
      end function stdlib_scasum
 
      ! !
@@ -271,7 +270,7 @@ module stdlib_linalg_blas_s
         ix = 1
         if (incx < 0) ix = 1 - (n - 1)*incx
         do i = 1, n
-           ax = abs(real(x(ix)))
+           ax = abs(real(x(ix), KIND=sp))
            if (ax > tbig) then
               abig = abig + (ax*sbig)**2
               notbig = .false.
@@ -378,7 +377,6 @@ module stdlib_linalg_blas_s
               end do
            end if
            return
-           ! end of stdlib_scopy
      end subroutine stdlib_scopy
 
      ! SDOT forms the dot product of two vectors.
@@ -434,7 +432,6 @@ module stdlib_linalg_blas_s
            end if
            stdlib_sdot = stemp
            return
-           ! end of stdlib_sdot
      end function stdlib_sdot
 
      ! Compute the inner product of two vectors with extended
@@ -483,7 +480,6 @@ module stdlib_linalg_blas_s
            end if
            stdlib_sdsdot = dsdot
            return
-           ! end of stdlib_sdsdot
      end function stdlib_sdsdot
 
      ! SGBMV  performs one of the matrix-vector operations
@@ -638,7 +634,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_sgbmv
      end subroutine stdlib_sgbmv
 
      ! SGEMM  performs one of the matrix-matrix operations
@@ -801,7 +796,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_sgemm
      end subroutine stdlib_sgemm
 
      ! SGEMV  performs one of the matrix-vector operations
@@ -945,7 +939,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_sgemv
      end subroutine stdlib_sgemv
 
      ! SGER   performs the rank 1 operation
@@ -1024,7 +1017,6 @@ module stdlib_linalg_blas_s
                end do
            end if
            return
-           ! end of stdlib_sger
      end subroutine stdlib_sger
 
      ! !
@@ -1165,7 +1157,6 @@ module stdlib_linalg_blas_s
               end do
            end if
            return
-           ! end of stdlib_srot
      end subroutine stdlib_srot
 
      ! !
@@ -1338,7 +1329,6 @@ module stdlib_linalg_blas_s
               end if
            end if
            return
-           ! end of stdlib_srotm
      end subroutine stdlib_srotm
 
      ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
@@ -1500,7 +1490,6 @@ module stdlib_linalg_blas_s
            end if
            sparam(1) = sflag
            return
-           ! end of stdlib_srotmg
      end subroutine stdlib_srotmg
 
      ! SSBMV  performs the matrix-vector  operation
@@ -1662,7 +1651,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_ssbmv
      end subroutine stdlib_ssbmv
 
      ! SSCAL scales a vector by a constant.
@@ -1709,7 +1697,6 @@ module stdlib_linalg_blas_s
               end do
            end if
            return
-           ! end of stdlib_sscal
      end subroutine stdlib_sscal
 
      ! SSPMV  performs the matrix-vector operation
@@ -1865,7 +1852,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_sspmv
      end subroutine stdlib_sspmv
 
      ! SSPR    performs the symmetric rank 1 operation
@@ -1972,7 +1958,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_sspr
      end subroutine stdlib_sspr
 
      ! SSPR2  performs the symmetric rank 2 operation
@@ -2099,7 +2084,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_sspr2
      end subroutine stdlib_sspr2
 
      ! SSWAP interchanges two vectors.
@@ -2160,7 +2144,6 @@ module stdlib_linalg_blas_s
               end do
            end if
            return
-           ! end of stdlib_sswap
      end subroutine stdlib_sswap
 
      ! SSYMM  performs one of the matrix-matrix operations
@@ -2307,7 +2290,6 @@ module stdlib_linalg_blas_s
                end do loop_170
            end if
            return
-           ! end of stdlib_ssymm
      end subroutine stdlib_ssymm
 
      ! SSYMV  performs the matrix-vector  operation
@@ -2459,7 +2441,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_ssymv
      end subroutine stdlib_ssymv
 
      ! SSYR   performs the symmetric rank 1 operation
@@ -2562,7 +2543,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_ssyr
      end subroutine stdlib_ssyr
 
      ! SSYR2  performs the symmetric rank 2 operation
@@ -2685,7 +2665,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_ssyr2
      end subroutine stdlib_ssyr2
 
      ! SSYR2K  performs one of the symmetric rank 2k operations
@@ -2860,7 +2839,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_ssyr2k
      end subroutine stdlib_ssyr2k
 
      ! SSYRK  performs one of the symmetric rank k operations
@@ -3027,7 +3005,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_ssyrk
      end subroutine stdlib_ssyrk
 
      ! STBMV  performs one of the matrix-vector operations
@@ -3210,7 +3187,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_stbmv
      end subroutine stdlib_stbmv
 
      ! STBSV  solves one of the systems of equations
@@ -3396,7 +3372,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_stbsv
      end subroutine stdlib_stbsv
 
      ! STPMV  performs one of the matrix-vector operations
@@ -3578,7 +3553,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_stpmv
      end subroutine stdlib_stpmv
 
      ! STPSV  solves one of the systems of equations
@@ -3762,7 +3736,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_stpsv
      end subroutine stdlib_stpsv
 
      ! STRMM  performs one of the matrix-matrix operations
@@ -3968,7 +3941,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_strmm
      end subroutine stdlib_strmm
 
      ! STRMV  performs one of the matrix-vector operations
@@ -4134,7 +4106,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_strmv
      end subroutine stdlib_strmv
 
      ! STRSM  solves one of the matrix equations
@@ -4365,7 +4336,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_strsm
      end subroutine stdlib_strsm
 
      ! STRSV  solves one of the systems of equations
@@ -4533,7 +4503,6 @@ module stdlib_linalg_blas_s
                end if
            end if
            return
-           ! end of stdlib_strsv
      end subroutine stdlib_strsv
 
 end module stdlib_linalg_blas_s

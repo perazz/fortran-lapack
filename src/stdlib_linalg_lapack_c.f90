@@ -3,7 +3,6 @@ module stdlib_linalg_lapack_c
      use stdlib_linalg_blas
      use stdlib_linalg_lapack_aux
      use stdlib_linalg_lapack_s
-     use stdlib_linalg_lapack_d
      implicit none(type, external)
      private
 
@@ -147,7 +146,6 @@ module stdlib_linalg_lapack_c
      public :: stdlib_chetrs_rook
      public :: stdlib_chfrk
      public :: stdlib_chgeqz
-     public :: stdlib_chla_transtype
      public :: stdlib_chpcon
      public :: stdlib_chpev
      public :: stdlib_chpevd
@@ -458,6 +456,7 @@ module stdlib_linalg_lapack_c
      public :: stdlib_cupmtr
 
      ! 32-bit real constants
+     real(sp), parameter, private :: negone = -1.00_sp
      real(sp), parameter, private :: zero = 0.00_sp
      real(sp), parameter, private :: half = 0.50_sp
      real(sp), parameter, private :: one = 1.00_sp
@@ -471,6 +470,7 @@ module stdlib_linalg_lapack_c
      complex(sp), parameter, private :: czero = (0.0_sp, 0.0_sp)
      complex(sp), parameter, private :: chalf = (0.5_sp, 0.0_sp)
      complex(sp), parameter, private :: cone = (1.0_sp, 0.0_sp)
+     complex(sp), parameter, private :: cnegone = (-1.0_sp, 0.0_sp)
 
      ! 32-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
@@ -525,7 +525,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters
            info = 0
@@ -625,7 +625,6 @@ module stdlib_linalg_lapack_c
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            return
-           ! end of stdlib_cgbequ
      end subroutine stdlib_cgbequ
 
      ! CGBEQUB computes row and column scalings intended to equilibrate an
@@ -665,7 +664,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -709,7 +708,7 @@ module stdlib_linalg_lapack_c
            end do
            do i = 1, m
               if (r(i) > zero) then
-                 r(i) = radix**int(log(r(i))/logrdx)
+                 r(i) = radix**int(log(r(i))/logrdx, KIND=ilp)
               end if
            end do
            ! find the maximum and minimum scale factors.
@@ -747,7 +746,7 @@ module stdlib_linalg_lapack_c
                  c(j) = max(c(j), cabs1(ab(kd + i - j, j))*r(i))
               end do
               if (c(j) > zero) then
-                 c(j) = radix**int(log(c(j))/logrdx)
+                 c(j) = radix**int(log(c(j))/logrdx, KIND=ilp)
               end if
            end do
            ! find the maximum and minimum scale factors.
@@ -774,7 +773,6 @@ module stdlib_linalg_lapack_c
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            return
-           ! end of stdlib_cgbequb
      end subroutine stdlib_cgbequb
 
      ! CGBTF2 computes an LU factorization of a complex m-by-n band matrix
@@ -860,7 +858,6 @@ module stdlib_linalg_lapack_c
               end if
            end do loop_40
            return
-           ! end of stdlib_cgbtf2
      end subroutine stdlib_cgbtf2
 
      ! CGEBAK forms the right or left eigenvectors of a complex general
@@ -933,7 +930,7 @@ module stdlib_linalg_lapack_c
            ! backward permutation
            ! for  i = ilo-1 step -1 until 1,
                     ! ihi+1 step 1 until n do --
-30      continue
+30   continue
            if (stdlib_lsame(job, 'p') .or. stdlib_lsame(job, 'b')) then
               if (rightv) then
                  loop_40: do ii = 1, n
@@ -957,7 +954,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cgebak
      end subroutine stdlib_cgebak
 
      ! CGEBAL balances a general complex matrix A.  This involves, first,
@@ -1017,22 +1013,23 @@ module stdlib_linalg_lapack_c
            ! permutation to isolate eigenvalues if possible
            go to 50
            ! row and column exchange.
-20      continue
+20   continue
            scale(m) = j
            if (j == m) go to 30
            call stdlib_cswap(l, a(1, j), 1, a(1, m), 1)
            call stdlib_cswap(n - k + 1, a(j, k), lda, a(m, k), lda)
-30      continue
+30         continue
            go to(40, 80) iexc
            ! search for rows isolating an eigenvalue and push them down.
-40      continue
+40   continue
            if (l == 1) go to 210
            l = l - 1
-50      continue
+50         continue
            loop_70: do j = l, 1, -1
               loop_60: do i = 1, l
                  if (i == j) cycle loop_60
-                 if (real(a(j, i)) /= zero .or. aimag(a(j, i)) /= zero) cycle loop_70
+                 if (real(a(j, i), KIND=sp) /= zero .or. aimag(a(j, i)) /= zero) cycle &
+                           loop_70
               end do loop_60
               m = l
               iexc = 1
@@ -1040,19 +1037,20 @@ module stdlib_linalg_lapack_c
            end do loop_70
            go to 90
            ! search for columns isolating an eigenvalue and push them left.
-80      continue
+80   continue
            k = k + 1
-90      continue
+90         continue
            loop_110: do j = k, l
               loop_100: do i = k, l
                  if (i == j) cycle loop_100
-                 if (real(a(i, j)) /= zero .or. aimag(a(i, j)) /= zero) cycle loop_110
+                 if (real(a(i, j), KIND=sp) /= zero .or. aimag(a(i, j)) /= zero) cycle &
+                           loop_110
               end do loop_100
               m = k
               iexc = 2
               go to 20
            end do loop_110
-120    continue
+120        continue
            do i = k, l
               scale(i) = one
            end do
@@ -1063,7 +1061,7 @@ module stdlib_linalg_lapack_c
            sfmax1 = one/sfmin1
            sfmin2 = sfmin1*sclfac
            sfmax2 = one/sfmin2
-140    continue
+140        continue
            noconv = .false.
            loop_200: do i = k, l
               c = stdlib_scnrm2(l - k + 1, a(k, i), 1)
@@ -1077,7 +1075,7 @@ module stdlib_linalg_lapack_c
               g = r/sclfac
               f = one
               s = c + r
-160    continue
+160           continue
               if (c >= g .or. max(f, c, ca) >= sfmax2 .or. min(r, g, ra) <= sfmin2) go to 170
                  if (stdlib_sisnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
@@ -1092,9 +1090,9 @@ module stdlib_linalg_lapack_c
               g = g/sclfac
               ra = ra/sclfac
               go to 160
-170    continue
+170           continue
               g = c/sclfac
-180    continue
+180           continue
               if (g < r .or. max(r, ra) >= sfmax2 .or. min(f, c, g, ca) <= sfmin2) go to 190
               f = f/sclfac
               c = c/sclfac
@@ -1104,7 +1102,7 @@ module stdlib_linalg_lapack_c
               ra = ra*sclfac
               go to 180
               ! now balance.
-190    continue
+190  continue
               if ((c + r) >= factor*s) cycle loop_200
               if (f < one .and. scale(i) < one) then
                  if (f*scale(i) <= sfmin1) cycle loop_200
@@ -1119,11 +1117,10 @@ module stdlib_linalg_lapack_c
               call stdlib_csscal(l, f, a(1, i), 1)
            end do loop_200
            if (noconv) go to 140
-210    continue
+210        continue
            ilo = k
            ihi = l
            return
-           ! end of stdlib_cgebal
      end subroutine stdlib_cgebal
 
      ! CGEEQU computes row and column scalings intended to equilibrate an
@@ -1157,7 +1154,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -1251,7 +1248,6 @@ module stdlib_linalg_lapack_c
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            return
-           ! end of stdlib_cgeequ
      end subroutine stdlib_cgeequ
 
      ! CGEEQUB computes row and column scalings intended to equilibrate an
@@ -1291,7 +1287,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -1330,7 +1326,7 @@ module stdlib_linalg_lapack_c
            end do
            do i = 1, m
               if (r(i) > zero) then
-                 r(i) = radix**int(log(r(i))/logrdx)
+                 r(i) = radix**int(log(r(i))/logrdx, KIND=ilp)
               end if
            end do
            ! find the maximum and minimum scale factors.
@@ -1368,7 +1364,7 @@ module stdlib_linalg_lapack_c
                  c(j) = max(c(j), cabs1(a(i, j))*r(i))
               end do
               if (c(j) > zero) then
-                 c(j) = radix**int(log(c(j))/logrdx)
+                 c(j) = radix**int(log(c(j))/logrdx, KIND=ilp)
               end if
            end do
            ! find the maximum and minimum scale factors.
@@ -1395,7 +1391,6 @@ module stdlib_linalg_lapack_c
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            return
-           ! end of stdlib_cgeequb
      end subroutine stdlib_cgeequb
 
      ! CGETC2 computes an LU factorization, using complete pivoting, of the
@@ -1469,7 +1464,7 @@ module stdlib_linalg_lapack_c
                  a(j, i) = a(j, i)/a(i, i)
               end do
               call stdlib_cgeru(n - i, n - i, -cmplx(one, KIND=sp), a(i + 1, i), 1, a(i, i + 1), lda, &
-                         a(i + 1, i + 1), lda)
+                        a(i + 1, i + 1), lda)
            end do loop_40
            if (abs(a(n, n)) < smin) then
               info = n
@@ -1479,7 +1474,6 @@ module stdlib_linalg_lapack_c
            ipiv(n) = n
            jpiv(n) = n
            return
-           ! end of stdlib_cgetc2
      end subroutine stdlib_cgetc2
 
      ! CGETF2 computes an LU factorization of a general m-by-n matrix A
@@ -1552,7 +1546,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_cgetf2
      end subroutine stdlib_cgetf2
 
      ! CGGBAK forms the right or left eigenvectors of a complex generalized
@@ -1626,7 +1619,7 @@ module stdlib_linalg_lapack_c
               end if
            end if
            ! backward permutation
-30      continue
+30   continue
            if (stdlib_lsame(job, 'p') .or. stdlib_lsame(job, 'b')) then
               ! backward permutation on right eigenvectors
               if (rightv) then
@@ -1636,7 +1629,7 @@ module stdlib_linalg_lapack_c
                     if (k == i) cycle loop_40
                     call stdlib_cswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_40
-50      continue
+50               continue
                  if (ihi == n) go to 70
                  loop_60: do i = ihi + 1, n
                     k = rscale(i)
@@ -1645,7 +1638,7 @@ module stdlib_linalg_lapack_c
                  end do loop_60
               end if
               ! backward permutation on left eigenvectors
-70      continue
+70   continue
               if (leftv) then
                  if (ilo == 1) go to 90
                  loop_80: do i = ilo - 1, 1, -1
@@ -1653,7 +1646,7 @@ module stdlib_linalg_lapack_c
                     if (k == i) cycle loop_80
                     call stdlib_cswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_80
-90      continue
+90               continue
                  if (ihi == n) go to 110
                  loop_100: do i = ihi + 1, n
                     k = lscale(i)
@@ -1662,9 +1655,8 @@ module stdlib_linalg_lapack_c
                  end do loop_100
               end if
            end if
-110    continue
+110        continue
            return
-           ! end of stdlib_cggbak
      end subroutine stdlib_cggbak
 
      ! CGGBAL balances a pair of general complex matrices (A,B).  This
@@ -1703,7 +1695,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! test the input parameters
            info = 0
@@ -1749,13 +1741,13 @@ module stdlib_linalg_lapack_c
            go to 30
            ! permute the matrices a and b to isolate the eigenvalues.
            ! find row with one nonzero in columns 1 through l
-20      continue
+20   continue
            l = lm1
            if (l /= 1) go to 30
            rscale(1) = one
            lscale(1) = one
            go to 190
-30      continue
+30         continue
            lm1 = l - 1
            loop_80: do i = l, 1, -1
               do j = 1, lm1
@@ -1764,21 +1756,21 @@ module stdlib_linalg_lapack_c
               end do
               j = l
               go to 70
-50      continue
+50            continue
               do j = jp1, l
                  if (a(i, j) /= czero .or. b(i, j) /= czero) cycle loop_80
               end do
               j = jp1 - 1
-70      continue
+70            continue
               m = l
               iflow = 1
               go to 160
            end do loop_80
            go to 100
            ! find column with one nonzero in rows k through n
-90      continue
+90   continue
            k = k + 1
-100    continue
+100        continue
            loop_150: do j = k, l
               do i = k, lm1
                  ip1 = i + 1
@@ -1786,32 +1778,32 @@ module stdlib_linalg_lapack_c
               end do
               i = l
               go to 140
-120    continue
+120           continue
               do i = ip1, l
                  if (a(i, j) /= czero .or. b(i, j) /= czero) cycle loop_150
               end do
               i = ip1 - 1
-140    continue
+140           continue
               m = k
               iflow = 2
               go to 160
            end do loop_150
            go to 190
            ! permute rows m and i
-160    continue
+160  continue
            lscale(m) = i
            if (i == m) go to 170
            call stdlib_cswap(n - k + 1, a(i, k), lda, a(m, k), lda)
            call stdlib_cswap(n - k + 1, b(i, k), ldb, b(m, k), ldb)
            ! permute columns m and j
-170    continue
+170  continue
            rscale(m) = j
            if (j == m) go to 180
            call stdlib_cswap(l, a(1, j), 1, a(1, m), 1)
            call stdlib_cswap(l, b(1, j), 1, b(1, m), 1)
-180    continue
+180        continue
            go to(20, 90) iflow
-190    continue
+190        continue
            ilo = k
            ihi = l
            if (stdlib_lsame(job, 'p')) then
@@ -1843,25 +1835,25 @@ module stdlib_linalg_lapack_c
                     go to 210
                  end if
                  ta = log10(cabs1(a(i, j)))/basl
-210    continue
+210              continue
                  if (b(i, j) == czero) then
                     tb = zero
                     go to 220
                  end if
                  tb = log10(cabs1(b(i, j)))/basl
-220    continue
+220              continue
                  work(i + 4*n) = work(i + 4*n) - ta - tb
                  work(j + 5*n) = work(j + 5*n) - ta - tb
               end do
            end do
-           coef = one/real(2*nr)
+           coef = one/real(2*nr, KIND=sp)
            coef2 = coef*coef
            coef5 = half*coef2
            nrp2 = nr + 2
            beta = zero
            it = 1
            ! start generalized conjugate gradient iteration
-250    continue
+250  continue
            gamma = stdlib_sdot(nr, work(ilo + 4*n), 1, work(ilo + 4*n), 1) + stdlib_sdot(nr, &
                      work(ilo + 5*n), 1, work(ilo + 5*n), 1)
            ew = zero
@@ -1891,12 +1883,12 @@ module stdlib_linalg_lapack_c
                  if (a(i, j) == czero) go to 280
                  kount = kount + 1
                  sum = sum + work(j)
-280    continue
+280              continue
                  if (b(i, j) == czero) cycle loop_290
                  kount = kount + 1
                  sum = sum + work(j)
               end do loop_290
-              work(i + 2*n) = real(kount)*work(i + n) + sum
+              work(i + 2*n) = real(kount, KIND=sp)*work(i + n) + sum
            end do
            do j = ilo, ihi
               kount = 0
@@ -1905,12 +1897,12 @@ module stdlib_linalg_lapack_c
                  if (a(i, j) == czero) go to 310
                  kount = kount + 1
                  sum = sum + work(i + n)
-310    continue
+310              continue
                  if (b(i, j) == czero) cycle loop_320
                  kount = kount + 1
                  sum = sum + work(i + n)
               end do loop_320
-              work(j + 3*n) = real(kount)*work(j) + sum
+              work(j + 3*n) = real(kount, KIND=sp)*work(j) + sum
            end do
            sum = stdlib_sdot(nr, work(ilo + n), 1, work(ilo + 2*n), 1) + stdlib_sdot(nr, work( &
                      ilo), 1, work(ilo + 3*n), 1)
@@ -1932,7 +1924,7 @@ module stdlib_linalg_lapack_c
            it = it + 1
            if (it <= nrp2) go to 250
            ! end generalized conjugate gradient iteration
-350    continue
+350  continue
            sfmin = stdlib_slamch('s')
            sfmax = one/sfmin
            lsfmin = int(log10(sfmin)/basl + one, KIND=ilp)
@@ -1966,7 +1958,6 @@ module stdlib_linalg_lapack_c
               call stdlib_csscal(ihi, rscale(j), b(1, j), 1)
            end do
            return
-           ! end of stdlib_cggbal
      end subroutine stdlib_cggbal
 
      ! CGTSV  solves the equation
@@ -1994,7 +1985,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            info = 0
            if (n < 0) then
@@ -2058,7 +2049,6 @@ module stdlib_linalg_lapack_c
               end do
            end do
            return
-           ! end of stdlib_cgtsv
      end subroutine stdlib_cgtsv
 
      ! CGTTRF computes an LU factorization of a complex tridiagonal matrix A
@@ -2088,7 +2078,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            info = 0
            if (n < 0) then
@@ -2151,9 +2141,8 @@ module stdlib_linalg_lapack_c
                  go to 50
               end if
            end do
-50      continue
+50         continue
            return
-           ! end of stdlib_cgttrf
      end subroutine stdlib_cgttrf
 
      ! CGTTS2 solves one of the systems of equations
@@ -2184,7 +2173,7 @@ module stdlib_linalg_lapack_c
               ! overwriting each right hand side vector with its solution.
               if (nrhs <= 1) then
                  j = 1
-10      continue
+10               continue
                  ! solve l*x = b.
                  do i = 1, n - 1
                     if (ipiv(i) == i) then
@@ -2231,7 +2220,7 @@ module stdlib_linalg_lapack_c
               ! solve a**t * x = b.
               if (nrhs <= 1) then
                  j = 1
-70      continue
+70               continue
                  ! solve u**t * x = b.
                  b(1, j) = b(1, j)/d(1)
                  if (n > 1) b(2, j) = (b(2, j) - du(1)*b(1, j))/d(2)
@@ -2278,7 +2267,7 @@ module stdlib_linalg_lapack_c
               ! solve a**h * x = b.
               if (nrhs <= 1) then
                  j = 1
-130    continue
+130              continue
                  ! solve u**h * x = b.
                  b(1, j) = b(1, j)/conjg(d(1))
                  if (n > 1) b(2, j) = (b(2, j) - conjg(du(1))*b(1, j))/conjg(d(2))
@@ -2324,7 +2313,6 @@ module stdlib_linalg_lapack_c
                  end do
               end if
            end if
-           ! end of stdlib_cgtts2
      end subroutine stdlib_cgtts2
 
      ! CHESWAPR applies an elementary permutation on the rows and the columns of
@@ -2431,7 +2419,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -2454,13 +2442,13 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 90
               kstep = 1
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(a(k, k)))
+              absakk = abs(real(a(k, k), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -2475,7 +2463,7 @@ module stdlib_linalg_lapack_c
                  ! set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(a(k, k))
+                 a(k, k) = real(a(k, k), KIND=sp)
               else
                  if (absakk >= alpha*colmax) then
                     ! no interchange, use 1-by-1 pivot block
@@ -2492,7 +2480,7 @@ module stdlib_linalg_lapack_c
                     if (absakk >= alpha*colmax*(colmax/rowmax)) then
                        ! no interchange, use 1-by-1 pivot block
                        kp = k
-                    else if (abs(real(a(imax, imax))) >= alpha*rowmax) then
+                    else if (abs(real(a(imax, imax), KIND=sp)) >= alpha*rowmax) then
                        ! interchange rows and columns k and imax, use 1-by-1
                        ! pivot block
                        kp = imax
@@ -2514,18 +2502,18 @@ module stdlib_linalg_lapack_c
                        a(kp, j) = t
                     end do
                     a(kp, kk) = conjg(a(kp, kk))
-                    r1 = real(a(kk, kk))
-                    a(kk, kk) = real(a(kp, kp))
+                    r1 = real(a(kk, kk), KIND=sp)
+                    a(kk, kk) = real(a(kp, kp), KIND=sp)
                     a(kp, kp) = r1
                     if (kstep == 2) then
-                       a(k, k) = real(a(k, k))
+                       a(k, k) = real(a(k, k), KIND=sp)
                        t = a(k - 1, k)
                        a(k - 1, k) = a(kp, k)
                        a(kp, k) = t
                     end if
                  else
-                    a(k, k) = real(a(k, k))
-                    if (kstep == 2) a(k - 1, k - 1) = real(a(k - 1, k - 1))
+                    a(k, k) = real(a(k, k), KIND=sp)
+                    if (kstep == 2) a(k - 1, k - 1) = real(a(k - 1, k - 1), KIND=sp)
                  end if
                  ! update the leading submatrix
                  if (kstep == 1) then
@@ -2534,7 +2522,7 @@ module stdlib_linalg_lapack_c
                     ! where u(k) is the k-th column of u
                     ! perform a rank-1 update of a(1:k-1,1:k-1) as
                     ! a := a - u(k)*d(k)*u(k)**h = a - w(k)*1/d(k)*w(k)**h
-                    r1 = one/real(a(k, k))
+                    r1 = one/real(a(k, k), KIND=sp)
                     call stdlib_cher(uplo, k - 1, -r1, a(1, k), 1, a, lda)
                     ! store u(k) in column k
                     call stdlib_csscal(k - 1, r1, a(1, k), 1)
@@ -2547,9 +2535,10 @@ module stdlib_linalg_lapack_c
                     ! a := a - ( u(k-1) u(k) )*d(k)*( u(k-1) u(k) )**h
                        ! = a - ( w(k-1) w(k) )*inv(d(k))*( w(k-1) w(k) )**h
                     if (k > 2) then
-                       d = stdlib_slapy2(real(a(k - 1, k)), aimag(a(k - 1, k)))
-                       d22 = real(a(k - 1, k - 1))/d
-                       d11 = real(a(k, k))/d
+                       d = stdlib_slapy2(real(a(k - 1, k), KIND=sp), aimag(a(k - 1, k)))
+                                 
+                       d22 = real(a(k - 1, k - 1), KIND=sp)/d
+                       d11 = real(a(k, k), KIND=sp)/d
                        tt = one/(d11*d22 - one)
                        d12 = a(k - 1, k)/d
                        d = tt/d
@@ -2562,7 +2551,7 @@ module stdlib_linalg_lapack_c
                           end do
                           a(j, k) = wk
                           a(j, k - 1) = wkm1
-                          a(j, j) = cmplx(real(a(j, j)), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=sp), zero, KIND=sp)
                        end do
                     end if
                  end if
@@ -2582,13 +2571,13 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-50      continue
+50            continue
               ! if k > n, exit from loop
               if (k > n) go to 90
               kstep = 1
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(a(k, k)))
+              absakk = abs(real(a(k, k), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -2603,7 +2592,7 @@ module stdlib_linalg_lapack_c
                  ! set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(a(k, k))
+                 a(k, k) = real(a(k, k), KIND=sp)
               else
                  if (absakk >= alpha*colmax) then
                     ! no interchange, use 1-by-1 pivot block
@@ -2620,7 +2609,7 @@ module stdlib_linalg_lapack_c
                     if (absakk >= alpha*colmax*(colmax/rowmax)) then
                        ! no interchange, use 1-by-1 pivot block
                        kp = k
-                    else if (abs(real(a(imax, imax))) >= alpha*rowmax) then
+                    else if (abs(real(a(imax, imax), KIND=sp)) >= alpha*rowmax) then
                        ! interchange rows and columns k and imax, use 1-by-1
                        ! pivot block
                        kp = imax
@@ -2643,18 +2632,18 @@ module stdlib_linalg_lapack_c
                        a(kp, j) = t
                     end do
                     a(kp, kk) = conjg(a(kp, kk))
-                    r1 = real(a(kk, kk))
-                    a(kk, kk) = real(a(kp, kp))
+                    r1 = real(a(kk, kk), KIND=sp)
+                    a(kk, kk) = real(a(kp, kp), KIND=sp)
                     a(kp, kp) = r1
                     if (kstep == 2) then
-                       a(k, k) = real(a(k, k))
+                       a(k, k) = real(a(k, k), KIND=sp)
                        t = a(k + 1, k)
                        a(k + 1, k) = a(kp, k)
                        a(kp, k) = t
                     end if
                  else
-                    a(k, k) = real(a(k, k))
-                    if (kstep == 2) a(k + 1, k + 1) = real(a(k + 1, k + 1))
+                    a(k, k) = real(a(k, k), KIND=sp)
+                    if (kstep == 2) a(k + 1, k + 1) = real(a(k + 1, k + 1), KIND=sp)
                  end if
                  ! update the trailing submatrix
                  if (kstep == 1) then
@@ -2664,7 +2653,7 @@ module stdlib_linalg_lapack_c
                     if (k < n) then
                        ! perform a rank-1 update of a(k+1:n,k+1:n) as
                        ! a := a - l(k)*d(k)*l(k)**h = a - w(k)*(1/d(k))*w(k)**h
-                       r1 = one/real(a(k, k))
+                       r1 = one/real(a(k, k), KIND=sp)
                        call stdlib_cher(uplo, n - k, -r1, a(k + 1, k), 1, a(k + 1, k + 1), lda)
                                  
                        ! store l(k) in column k
@@ -2678,9 +2667,10 @@ module stdlib_linalg_lapack_c
                           ! = a - ( w(k) w(k+1) )*inv(d(k))*( w(k) w(k+1) )**h
                        ! where l(k) and l(k+1) are the k-th and (k+1)-th
                        ! columns of l
-                       d = stdlib_slapy2(real(a(k + 1, k)), aimag(a(k + 1, k)))
-                       d11 = real(a(k + 1, k + 1))/d
-                       d22 = real(a(k, k))/d
+                       d = stdlib_slapy2(real(a(k + 1, k), KIND=sp), aimag(a(k + 1, k)))
+                                 
+                       d11 = real(a(k + 1, k + 1), KIND=sp)/d
+                       d22 = real(a(k, k), KIND=sp)/d
                        tt = one/(d11*d22 - one)
                        d21 = a(k + 1, k)/d
                        d = tt/d
@@ -2693,7 +2683,7 @@ module stdlib_linalg_lapack_c
                           end do
                           a(j, k) = wk
                           a(j, k + 1) = wkp1
-                          a(j, j) = cmplx(real(a(j, j)), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=sp), zero, KIND=sp)
                        end do
                     end if
                  end if
@@ -2709,9 +2699,8 @@ module stdlib_linalg_lapack_c
               k = k + kstep
               go to 50
            end if
-90      continue
+90         continue
            return
-           ! end of stdlib_chetf2
      end subroutine stdlib_chetf2
 
      ! CHETF2_RK computes the factorization of a complex Hermitian matrix A
@@ -2748,7 +2737,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -2776,14 +2765,14 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 34
               kstep = 1
               p = k
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(a(k, k)))
+              absakk = abs(real(a(k, k), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -2797,7 +2786,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(a(k, k))
+                 a(k, k) = real(a(k, k), KIND=sp)
                  ! set e( k ) to zero
                  if (k > 1) e(k) = czero
               else
@@ -2812,7 +2801,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -2833,9 +2822,10 @@ module stdlib_linalg_lapack_c
                        end if
                        ! case(2)
                        ! equivalent to testing for
-                       ! abs( real( w( imax,kw-1 ) ) )>=alpha*rowmax
+                       ! abs( real( w( imax,kw-1 ),KIND=sp) )>=alpha*rowmax
                        ! (used to handle nan and inf)
-                       if (.not. (abs(real(a(imax, imax))) < alpha*rowmax)) then
+                       if (.not. (abs(real(a(imax, imax), KIND=sp)) < alpha*rowmax)) &
+                                 then
                           ! interchange rows and columns k and imax,
                           ! use 1-by-1 pivot block
                           kp = imax
@@ -2877,8 +2867,8 @@ module stdlib_linalg_lapack_c
                     ! (3) swap and conjugate corner elements at row-col interserction
                     a(p, k) = conjg(a(p, k))
                     ! (4) swap diagonal elements at row-col intersection
-                    r1 = real(a(k, k))
-                    a(k, k) = real(a(p, p))
+                    r1 = real(a(k, k), KIND=sp)
+                    a(k, k) = real(a(p, p), KIND=sp)
                     a(p, p) = r1
                     ! convert upper triangle of a into u form by applying
                     ! the interchanges in columns k+1:n.
@@ -2898,12 +2888,12 @@ module stdlib_linalg_lapack_c
                     ! (3) swap and conjugate corner elements at row-col interserction
                     a(kp, kk) = conjg(a(kp, kk))
                     ! (4) swap diagonal elements at row-col intersection
-                    r1 = real(a(kk, kk))
-                    a(kk, kk) = real(a(kp, kp))
+                    r1 = real(a(kk, kk), KIND=sp)
+                    a(kk, kk) = real(a(kp, kp), KIND=sp)
                     a(kp, kp) = r1
                     if (kstep == 2) then
                        ! (*) make sure that diagonal element of pivot is real
-                       a(k, k) = real(a(k, k))
+                       a(k, k) = real(a(k, k), KIND=sp)
                        ! (5) swap row elements
                        t = a(k - 1, k)
                        a(k - 1, k) = a(kp, k)
@@ -2914,8 +2904,8 @@ module stdlib_linalg_lapack_c
                     if (k < n) call stdlib_cswap(n - k, a(kk, k + 1), lda, a(kp, k + 1), lda)
                  else
                     ! (*) make sure that diagonal element of pivot is real
-                    a(k, k) = real(a(k, k))
-                    if (kstep == 2) a(k - 1, k - 1) = real(a(k - 1, k - 1))
+                    a(k, k) = real(a(k, k), KIND=sp)
+                    if (kstep == 2) a(k - 1, k - 1) = real(a(k - 1, k - 1), KIND=sp)
                  end if
                  ! update the leading submatrix
                  if (kstep == 1) then
@@ -2925,17 +2915,17 @@ module stdlib_linalg_lapack_c
                     if (k > 1) then
                        ! perform a rank-1 update of a(1:k-1,1:k-1) and
                        ! store u(k) in column k
-                       if (abs(real(a(k, k))) >= sfmin) then
+                       if (abs(real(a(k, k), KIND=sp)) >= sfmin) then
                           ! perform a rank-1 update of a(1:k-1,1:k-1) as
                           ! a := a - u(k)*d(k)*u(k)**t
                              ! = a - w(k)*1/d(k)*w(k)**t
-                          d11 = one/real(a(k, k))
+                          d11 = one/real(a(k, k), KIND=sp)
                           call stdlib_cher(uplo, k - 1, -d11, a(1, k), 1, a, lda)
                           ! store u(k) in column k
                           call stdlib_csscal(k - 1, d11, a(1, k), 1)
                        else
                           ! store l(k) in column k
-                          d11 = real(a(k, k))
+                          d11 = real(a(k, k), KIND=sp)
                           do ii = 1, k - 1
                              a(ii, k) = a(ii, k)/d11
                           end do
@@ -2959,9 +2949,10 @@ module stdlib_linalg_lapack_c
                     ! and store l(k) and l(k+1) in columns k and k+1
                     if (k > 2) then
                        ! d = |a12|
-                       d = stdlib_slapy2(real(a(k - 1, k)), aimag(a(k - 1, k)))
-                       d11 = real(a(k, k)/d)
-                       d22 = real(a(k - 1, k - 1)/d)
+                       d = stdlib_slapy2(real(a(k - 1, k), KIND=sp), aimag(a(k - 1, k)))
+                                 
+                       d11 = real(a(k, k)/d, KIND=sp)
+                       d22 = real(a(k - 1, k - 1)/d, KIND=sp)
                        d12 = a(k - 1, k)/d
                        tt = one/(d11*d22 - one)
                        do j = k - 2, 1, -1
@@ -2977,7 +2968,7 @@ module stdlib_linalg_lapack_c
                           a(j, k) = wk/d
                           a(j, k - 1) = wkm1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = cmplx(real(a(j, j)), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=sp), zero, KIND=sp)
                        end do
                     end if
                     ! copy superdiagonal elements of d(k) to e(k) and
@@ -2998,7 +2989,7 @@ module stdlib_linalg_lapack_c
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-34      continue
+34            continue
            else
               ! factorize a as l*d*l**h using the lower triangle of a
               ! initialize the unused last entry of the subdiagonal array e.
@@ -3006,14 +2997,14 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop
               if (k > n) go to 64
               kstep = 1
               p = k
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(a(k, k)))
+              absakk = abs(real(a(k, k), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -3027,7 +3018,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(a(k, k))
+                 a(k, k) = real(a(k, k), KIND=sp)
                  ! set e( k ) to zero
                  if (k < n) e(k) = czero
               else
@@ -3042,7 +3033,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-42      continue
+42   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -3063,9 +3054,10 @@ module stdlib_linalg_lapack_c
                        end if
                        ! case(2)
                        ! equivalent to testing for
-                       ! abs( real( w( imax,kw-1 ) ) )>=alpha*rowmax
+                       ! abs( real( w( imax,kw-1 ),KIND=sp) )>=alpha*rowmax
                        ! (used to handle nan and inf)
-                       if (.not. (abs(real(a(imax, imax))) < alpha*rowmax)) then
+                       if (.not. (abs(real(a(imax, imax), KIND=sp)) < alpha*rowmax)) &
+                                 then
                           ! interchange rows and columns k and imax,
                           ! use 1-by-1 pivot block
                           kp = imax
@@ -3107,8 +3099,8 @@ module stdlib_linalg_lapack_c
                     ! (3) swap and conjugate corner elements at row-col interserction
                     a(p, k) = conjg(a(p, k))
                     ! (4) swap diagonal elements at row-col intersection
-                    r1 = real(a(k, k))
-                    a(k, k) = real(a(p, p))
+                    r1 = real(a(k, k), KIND=sp)
+                    a(k, k) = real(a(p, p), KIND=sp)
                     a(p, p) = r1
                     ! convert lower triangle of a into l form by applying
                     ! the interchanges in columns 1:k-1.
@@ -3129,12 +3121,12 @@ module stdlib_linalg_lapack_c
                     ! (3) swap and conjugate corner elements at row-col interserction
                     a(kp, kk) = conjg(a(kp, kk))
                     ! (4) swap diagonal elements at row-col intersection
-                    r1 = real(a(kk, kk))
-                    a(kk, kk) = real(a(kp, kp))
+                    r1 = real(a(kk, kk), KIND=sp)
+                    a(kk, kk) = real(a(kp, kp), KIND=sp)
                     a(kp, kp) = r1
                     if (kstep == 2) then
                        ! (*) make sure that diagonal element of pivot is real
-                       a(k, k) = real(a(k, k))
+                       a(k, k) = real(a(k, k), KIND=sp)
                        ! (5) swap row elements
                        t = a(k + 1, k)
                        a(k + 1, k) = a(kp, k)
@@ -3145,8 +3137,8 @@ module stdlib_linalg_lapack_c
                     if (k > 1) call stdlib_cswap(k - 1, a(kk, 1), lda, a(kp, 1), lda)
                  else
                     ! (*) make sure that diagonal element of pivot is real
-                    a(k, k) = real(a(k, k))
-                    if (kstep == 2) a(k + 1, k + 1) = real(a(k + 1, k + 1))
+                    a(k, k) = real(a(k, k), KIND=sp)
+                    if (kstep == 2) a(k + 1, k + 1) = real(a(k + 1, k + 1), KIND=sp)
                  end if
                  ! update the trailing submatrix
                  if (kstep == 1) then
@@ -3157,18 +3149,18 @@ module stdlib_linalg_lapack_c
                        ! perform a rank-1 update of a(k+1:n,k+1:n) and
                        ! store l(k) in column k
                        ! handle division by a small number
-                       if (abs(real(a(k, k))) >= sfmin) then
+                       if (abs(real(a(k, k), KIND=sp)) >= sfmin) then
                           ! perform a rank-1 update of a(k+1:n,k+1:n) as
                           ! a := a - l(k)*d(k)*l(k)**t
                              ! = a - w(k)*(1/d(k))*w(k)**t
-                          d11 = one/real(a(k, k))
+                          d11 = one/real(a(k, k), KIND=sp)
                           call stdlib_cher(uplo, n - k, -d11, a(k + 1, k), 1, a(k + 1, k + 1), lda)
                                     
                           ! store l(k) in column k
                           call stdlib_csscal(n - k, d11, a(k + 1, k), 1)
                        else
                           ! store l(k) in column k
-                          d11 = real(a(k, k))
+                          d11 = real(a(k, k), KIND=sp)
                           do ii = k + 1, n
                              a(ii, k) = a(ii, k)/d11
                           end do
@@ -3193,9 +3185,10 @@ module stdlib_linalg_lapack_c
                     ! and store l(k) and l(k+1) in columns k and k+1
                     if (k < n - 1) then
                        ! d = |a21|
-                       d = stdlib_slapy2(real(a(k + 1, k)), aimag(a(k + 1, k)))
-                       d11 = real(a(k + 1, k + 1))/d
-                       d22 = real(a(k, k))/d
+                       d = stdlib_slapy2(real(a(k + 1, k), KIND=sp), aimag(a(k + 1, k)))
+                                 
+                       d11 = real(a(k + 1, k + 1), KIND=sp)/d
+                       d22 = real(a(k, k), KIND=sp)/d
                        d21 = a(k + 1, k)/d
                        tt = one/(d11*d22 - one)
                        do j = k + 2, n
@@ -3211,7 +3204,7 @@ module stdlib_linalg_lapack_c
                           a(j, k) = wk/d
                           a(j, k + 1) = wkp1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = cmplx(real(a(j, j)), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=sp), zero, KIND=sp)
                        end do
                     end if
                     ! copy subdiagonal elements of d(k) to e(k) and
@@ -3232,10 +3225,9 @@ module stdlib_linalg_lapack_c
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 40
-64      continue
+64            continue
            end if
            return
-           ! end of stdlib_chetf2_rk
      end subroutine stdlib_chetf2_rk
 
      ! CHETF2_ROOK computes the factorization of a complex Hermitian matrix A
@@ -3270,7 +3262,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -3295,14 +3287,14 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
               p = k
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(a(k, k)))
+              absakk = abs(real(a(k, k), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -3316,7 +3308,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(a(k, k))
+                 a(k, k) = real(a(k, k), KIND=sp)
               else
                  ! ============================================================
                  ! begin pivot search
@@ -3329,7 +3321,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -3350,9 +3342,10 @@ module stdlib_linalg_lapack_c
                        end if
                        ! case(2)
                        ! equivalent to testing for
-                       ! abs( real( w( imax,kw-1 ) ) )>=alpha*rowmax
+                       ! abs( real( w( imax,kw-1 ),KIND=sp) )>=alpha*rowmax
                        ! (used to handle nan and inf)
-                       if (.not. (abs(real(a(imax, imax))) < alpha*rowmax)) then
+                       if (.not. (abs(real(a(imax, imax), KIND=sp)) < alpha*rowmax)) &
+                                 then
                           ! interchange rows and columns k and imax,
                           ! use 1-by-1 pivot block
                           kp = imax
@@ -3394,8 +3387,8 @@ module stdlib_linalg_lapack_c
                     ! (3) swap and conjugate corner elements at row-col interserction
                     a(p, k) = conjg(a(p, k))
                     ! (4) swap diagonal elements at row-col intersection
-                    r1 = real(a(k, k))
-                    a(k, k) = real(a(p, p))
+                    r1 = real(a(k, k), KIND=sp)
+                    a(k, k) = real(a(p, p), KIND=sp)
                     a(p, p) = r1
                  end if
                  ! for both 1x1 and 2x2 pivots, interchange rows and
@@ -3412,12 +3405,12 @@ module stdlib_linalg_lapack_c
                     ! (3) swap and conjugate corner elements at row-col interserction
                     a(kp, kk) = conjg(a(kp, kk))
                     ! (4) swap diagonal elements at row-col intersection
-                    r1 = real(a(kk, kk))
-                    a(kk, kk) = real(a(kp, kp))
+                    r1 = real(a(kk, kk), KIND=sp)
+                    a(kk, kk) = real(a(kp, kp), KIND=sp)
                     a(kp, kp) = r1
                     if (kstep == 2) then
                        ! (*) make sure that diagonal element of pivot is real
-                       a(k, k) = real(a(k, k))
+                       a(k, k) = real(a(k, k), KIND=sp)
                        ! (5) swap row elements
                        t = a(k - 1, k)
                        a(k - 1, k) = a(kp, k)
@@ -3425,8 +3418,8 @@ module stdlib_linalg_lapack_c
                     end if
                  else
                     ! (*) make sure that diagonal element of pivot is real
-                    a(k, k) = real(a(k, k))
-                    if (kstep == 2) a(k - 1, k - 1) = real(a(k - 1, k - 1))
+                    a(k, k) = real(a(k, k), KIND=sp)
+                    if (kstep == 2) a(k - 1, k - 1) = real(a(k - 1, k - 1), KIND=sp)
                  end if
                  ! update the leading submatrix
                  if (kstep == 1) then
@@ -3436,17 +3429,17 @@ module stdlib_linalg_lapack_c
                     if (k > 1) then
                        ! perform a rank-1 update of a(1:k-1,1:k-1) and
                        ! store u(k) in column k
-                       if (abs(real(a(k, k))) >= sfmin) then
+                       if (abs(real(a(k, k), KIND=sp)) >= sfmin) then
                           ! perform a rank-1 update of a(1:k-1,1:k-1) as
                           ! a := a - u(k)*d(k)*u(k)**t
                              ! = a - w(k)*1/d(k)*w(k)**t
-                          d11 = one/real(a(k, k))
+                          d11 = one/real(a(k, k), KIND=sp)
                           call stdlib_cher(uplo, k - 1, -d11, a(1, k), 1, a, lda)
                           ! store u(k) in column k
                           call stdlib_csscal(k - 1, d11, a(1, k), 1)
                        else
                           ! store l(k) in column k
-                          d11 = real(a(k, k))
+                          d11 = real(a(k, k), KIND=sp)
                           do ii = 1, k - 1
                              a(ii, k) = a(ii, k)/d11
                           end do
@@ -3468,9 +3461,10 @@ module stdlib_linalg_lapack_c
                     ! and store l(k) and l(k+1) in columns k and k+1
                     if (k > 2) then
                        ! d = |a12|
-                       d = stdlib_slapy2(real(a(k - 1, k)), aimag(a(k - 1, k)))
-                       d11 = real(a(k, k)/d)
-                       d22 = real(a(k - 1, k - 1)/d)
+                       d = stdlib_slapy2(real(a(k - 1, k), KIND=sp), aimag(a(k - 1, k)))
+                                 
+                       d11 = real(a(k, k)/d, KIND=sp)
+                       d22 = real(a(k - 1, k - 1)/d, KIND=sp)
                        d12 = a(k - 1, k)/d
                        tt = one/(d11*d22 - one)
                        do j = k - 2, 1, -1
@@ -3486,7 +3480,7 @@ module stdlib_linalg_lapack_c
                           a(j, k) = wk/d
                           a(j, k - 1) = wkm1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = cmplx(real(a(j, j)), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=sp), zero, KIND=sp)
                        end do
                     end if
                  end if
@@ -3506,14 +3500,14 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
               p = k
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(a(k, k)))
+              absakk = abs(real(a(k, k), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -3527,7 +3521,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(a(k, k))
+                 a(k, k) = real(a(k, k), KIND=sp)
               else
                  ! ============================================================
                  ! begin pivot search
@@ -3540,7 +3534,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-42      continue
+42   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -3561,9 +3555,10 @@ module stdlib_linalg_lapack_c
                        end if
                        ! case(2)
                        ! equivalent to testing for
-                       ! abs( real( w( imax,kw-1 ) ) )>=alpha*rowmax
+                       ! abs( real( w( imax,kw-1 ),KIND=sp) )>=alpha*rowmax
                        ! (used to handle nan and inf)
-                       if (.not. (abs(real(a(imax, imax))) < alpha*rowmax)) then
+                       if (.not. (abs(real(a(imax, imax), KIND=sp)) < alpha*rowmax)) &
+                                 then
                           ! interchange rows and columns k and imax,
                           ! use 1-by-1 pivot block
                           kp = imax
@@ -3605,8 +3600,8 @@ module stdlib_linalg_lapack_c
                     ! (3) swap and conjugate corner elements at row-col interserction
                     a(p, k) = conjg(a(p, k))
                     ! (4) swap diagonal elements at row-col intersection
-                    r1 = real(a(k, k))
-                    a(k, k) = real(a(p, p))
+                    r1 = real(a(k, k), KIND=sp)
+                    a(k, k) = real(a(p, p), KIND=sp)
                     a(p, p) = r1
                  end if
                  ! for both 1x1 and 2x2 pivots, interchange rows and
@@ -3624,12 +3619,12 @@ module stdlib_linalg_lapack_c
                     ! (3) swap and conjugate corner elements at row-col interserction
                     a(kp, kk) = conjg(a(kp, kk))
                     ! (4) swap diagonal elements at row-col intersection
-                    r1 = real(a(kk, kk))
-                    a(kk, kk) = real(a(kp, kp))
+                    r1 = real(a(kk, kk), KIND=sp)
+                    a(kk, kk) = real(a(kp, kp), KIND=sp)
                     a(kp, kp) = r1
                     if (kstep == 2) then
                        ! (*) make sure that diagonal element of pivot is real
-                       a(k, k) = real(a(k, k))
+                       a(k, k) = real(a(k, k), KIND=sp)
                        ! (5) swap row elements
                        t = a(k + 1, k)
                        a(k + 1, k) = a(kp, k)
@@ -3637,8 +3632,8 @@ module stdlib_linalg_lapack_c
                     end if
                  else
                     ! (*) make sure that diagonal element of pivot is real
-                    a(k, k) = real(a(k, k))
-                    if (kstep == 2) a(k + 1, k + 1) = real(a(k + 1, k + 1))
+                    a(k, k) = real(a(k, k), KIND=sp)
+                    if (kstep == 2) a(k + 1, k + 1) = real(a(k + 1, k + 1), KIND=sp)
                  end if
                  ! update the trailing submatrix
                  if (kstep == 1) then
@@ -3649,18 +3644,18 @@ module stdlib_linalg_lapack_c
                        ! perform a rank-1 update of a(k+1:n,k+1:n) and
                        ! store l(k) in column k
                        ! handle division by a small number
-                       if (abs(real(a(k, k))) >= sfmin) then
+                       if (abs(real(a(k, k), KIND=sp)) >= sfmin) then
                           ! perform a rank-1 update of a(k+1:n,k+1:n) as
                           ! a := a - l(k)*d(k)*l(k)**t
                              ! = a - w(k)*(1/d(k))*w(k)**t
-                          d11 = one/real(a(k, k))
+                          d11 = one/real(a(k, k), KIND=sp)
                           call stdlib_cher(uplo, n - k, -d11, a(k + 1, k), 1, a(k + 1, k + 1), lda)
                                     
                           ! store l(k) in column k
                           call stdlib_csscal(n - k, d11, a(k + 1, k), 1)
                        else
                           ! store l(k) in column k
-                          d11 = real(a(k, k))
+                          d11 = real(a(k, k), KIND=sp)
                           do ii = k + 1, n
                              a(ii, k) = a(ii, k)/d11
                           end do
@@ -3683,9 +3678,10 @@ module stdlib_linalg_lapack_c
                     ! and store l(k) and l(k+1) in columns k and k+1
                     if (k < n - 1) then
                        ! d = |a21|
-                       d = stdlib_slapy2(real(a(k + 1, k)), aimag(a(k + 1, k)))
-                       d11 = real(a(k + 1, k + 1))/d
-                       d22 = real(a(k, k))/d
+                       d = stdlib_slapy2(real(a(k + 1, k), KIND=sp), aimag(a(k + 1, k)))
+                                 
+                       d11 = real(a(k + 1, k + 1), KIND=sp)/d
+                       d22 = real(a(k, k), KIND=sp)/d
                        d21 = a(k + 1, k)/d
                        tt = one/(d11*d22 - one)
                        do j = k + 2, n
@@ -3701,7 +3697,7 @@ module stdlib_linalg_lapack_c
                           a(j, k) = wk/d
                           a(j, k + 1) = wkp1/d
                           ! (*) make sure that diagonal element of pivot is real
-                          a(j, j) = cmplx(real(a(j, j)), zero)
+                          a(j, j) = cmplx(real(a(j, j), KIND=sp), zero, KIND=sp)
                        end do
                     end if
                  end if
@@ -3717,9 +3713,8 @@ module stdlib_linalg_lapack_c
               k = k + kstep
               go to 40
            end if
-70      continue
+70         continue
            return
-           ! end of stdlib_chetf2_rook
      end subroutine stdlib_chetf2_rook
 
      ! CHETRI computes the inverse of a complex Hermitian indefinite matrix
@@ -3780,28 +3775,28 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30      continue
+30            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
                  ! 1 x 1 diagonal block
                  ! invert the diagonal block.
-                 a(k, k) = one/real(a(k, k))
+                 a(k, k) = one/real(a(k, k), KIND=sp)
                  ! compute column k of the inverse.
                  if (k > 1) then
                     call stdlib_ccopy(k - 1, a(1, k), 1, work, 1)
                     call stdlib_chemv(uplo, k - 1, -cone, a, lda, work, 1, czero, a(1, k), 1)
                               
-                    a(k, k) = a(k, k) - real(stdlib_cdotc(k - 1, work, 1, a(1, k), 1))
-                              
+                    a(k, k) = a(k, k) - real(stdlib_cdotc(k - 1, work, 1, a(1, k), 1), &
+                              KIND=sp)
                  end if
                  kstep = 1
               else
                  ! 2 x 2 diagonal block
                  ! invert the diagonal block.
                  t = abs(a(k, k + 1))
-                 ak = real(a(k, k))/t
-                 akp1 = real(a(k + 1, k + 1))/t
+                 ak = real(a(k, k), KIND=sp)/t
+                 akp1 = real(a(k + 1, k + 1), KIND=sp)/t
                  akkp1 = a(k, k + 1)/t
                  d = t*(ak*akp1 - one)
                  a(k, k) = akp1/d
@@ -3812,15 +3807,15 @@ module stdlib_linalg_lapack_c
                     call stdlib_ccopy(k - 1, a(1, k), 1, work, 1)
                     call stdlib_chemv(uplo, k - 1, -cone, a, lda, work, 1, czero, a(1, k), 1)
                               
-                    a(k, k) = a(k, k) - real(stdlib_cdotc(k - 1, work, 1, a(1, k), 1))
-                              
+                    a(k, k) = a(k, k) - real(stdlib_cdotc(k - 1, work, 1, a(1, k), 1), &
+                              KIND=sp)
                     a(k, k + 1) = a(k, k + 1) - stdlib_cdotc(k - 1, a(1, k), 1, a(1, k + 1), 1)
                               
                     call stdlib_ccopy(k - 1, a(1, k + 1), 1, work, 1)
                     call stdlib_chemv(uplo, k - 1, -cone, a, lda, work, 1, czero, a(1, k + 1), 1)
                               
                     a(k + 1, k + 1) = a(k + 1, k + 1) - real(stdlib_cdotc(k - 1, work, 1, a(1, k + 1), &
-                              1))
+                              1), KIND=sp)
                  end if
                  kstep = 2
               end if
@@ -3846,34 +3841,34 @@ module stdlib_linalg_lapack_c
               end if
               k = k + kstep
               go to 30
-50      continue
+50            continue
            else
               ! compute inv(a) from the factorization a = l*d*l**h.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-60      continue
+60            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 80
               if (ipiv(k) > 0) then
                  ! 1 x 1 diagonal block
                  ! invert the diagonal block.
-                 a(k, k) = one/real(a(k, k))
+                 a(k, k) = one/real(a(k, k), KIND=sp)
                  ! compute column k of the inverse.
                  if (k < n) then
                     call stdlib_ccopy(n - k, a(k + 1, k), 1, work, 1)
                     call stdlib_chemv(uplo, n - k, -cone, a(k + 1, k + 1), lda, work, 1, czero, a(k + &
                               1, k), 1)
-                    a(k, k) = a(k, k) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k), 1))
-                              
+                    a(k, k) = a(k, k) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k), 1), &
+                              KIND=sp)
                  end if
                  kstep = 1
               else
                  ! 2 x 2 diagonal block
                  ! invert the diagonal block.
                  t = abs(a(k, k - 1))
-                 ak = real(a(k - 1, k - 1))/t
-                 akp1 = real(a(k, k))/t
+                 ak = real(a(k - 1, k - 1), KIND=sp)/t
+                 akp1 = real(a(k, k), KIND=sp)/t
                  akkp1 = a(k, k - 1)/t
                  d = t*(ak*akp1 - one)
                  a(k - 1, k - 1) = akp1/d
@@ -3884,15 +3879,15 @@ module stdlib_linalg_lapack_c
                     call stdlib_ccopy(n - k, a(k + 1, k), 1, work, 1)
                     call stdlib_chemv(uplo, n - k, -cone, a(k + 1, k + 1), lda, work, 1, czero, a(k + &
                               1, k), 1)
-                    a(k, k) = a(k, k) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k), 1))
-                              
+                    a(k, k) = a(k, k) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k), 1), &
+                              KIND=sp)
                     a(k, k - 1) = a(k, k - 1) - stdlib_cdotc(n - k, a(k + 1, k), 1, a(k + 1, k - 1), 1 &
                               )
                     call stdlib_ccopy(n - k, a(k + 1, k - 1), 1, work, 1)
                     call stdlib_chemv(uplo, n - k, -cone, a(k + 1, k + 1), lda, work, 1, czero, a(k + &
                               1, k - 1), 1)
                     a(k - 1, k - 1) = a(k - 1, k - 1) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k - 1) &
-                              , 1))
+                              , 1), KIND=sp)
                  end if
                  kstep = 2
               end if
@@ -3918,10 +3913,9 @@ module stdlib_linalg_lapack_c
               end if
               k = k - kstep
               go to 60
-80      continue
+80            continue
            end if
            return
-           ! end of stdlib_chetri
      end subroutine stdlib_chetri
 
      ! CHETRI_ROOK computes the inverse of a complex Hermitian indefinite matrix
@@ -3982,28 +3976,28 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30      continue
+30            continue
               ! if k > n, exit from loop.
               if (k > n) go to 70
               if (ipiv(k) > 0) then
                  ! 1 x 1 diagonal block
                  ! invert the diagonal block.
-                 a(k, k) = one/real(a(k, k))
+                 a(k, k) = one/real(a(k, k), KIND=sp)
                  ! compute column k of the inverse.
                  if (k > 1) then
                     call stdlib_ccopy(k - 1, a(1, k), 1, work, 1)
                     call stdlib_chemv(uplo, k - 1, -cone, a, lda, work, 1, czero, a(1, k), 1)
                               
-                    a(k, k) = a(k, k) - real(stdlib_cdotc(k - 1, work, 1, a(1, k), 1))
-                              
+                    a(k, k) = a(k, k) - real(stdlib_cdotc(k - 1, work, 1, a(1, k), 1), &
+                              KIND=sp)
                  end if
                  kstep = 1
               else
                  ! 2 x 2 diagonal block
                  ! invert the diagonal block.
                  t = abs(a(k, k + 1))
-                 ak = real(a(k, k))/t
-                 akp1 = real(a(k + 1, k + 1))/t
+                 ak = real(a(k, k), KIND=sp)/t
+                 akp1 = real(a(k + 1, k + 1), KIND=sp)/t
                  akkp1 = a(k, k + 1)/t
                  d = t*(ak*akp1 - one)
                  a(k, k) = akp1/d
@@ -4014,15 +4008,15 @@ module stdlib_linalg_lapack_c
                     call stdlib_ccopy(k - 1, a(1, k), 1, work, 1)
                     call stdlib_chemv(uplo, k - 1, -cone, a, lda, work, 1, czero, a(1, k), 1)
                               
-                    a(k, k) = a(k, k) - real(stdlib_cdotc(k - 1, work, 1, a(1, k), 1))
-                              
+                    a(k, k) = a(k, k) - real(stdlib_cdotc(k - 1, work, 1, a(1, k), 1), &
+                              KIND=sp)
                     a(k, k + 1) = a(k, k + 1) - stdlib_cdotc(k - 1, a(1, k), 1, a(1, k + 1), 1)
                               
                     call stdlib_ccopy(k - 1, a(1, k + 1), 1, work, 1)
                     call stdlib_chemv(uplo, k - 1, -cone, a, lda, work, 1, czero, a(1, k + 1), 1)
                               
                     a(k + 1, k + 1) = a(k + 1, k + 1) - real(stdlib_cdotc(k - 1, work, 1, a(1, k + 1), &
-                              1))
+                              1), KIND=sp)
                  end if
                  kstep = 2
               end if
@@ -4080,34 +4074,34 @@ module stdlib_linalg_lapack_c
               end if
               k = k + 1
               go to 30
-70      continue
+70            continue
            else
               ! compute inv(a) from the factorization a = l*d*l**h.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-80      continue
+80            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 120
               if (ipiv(k) > 0) then
                  ! 1 x 1 diagonal block
                  ! invert the diagonal block.
-                 a(k, k) = one/real(a(k, k))
+                 a(k, k) = one/real(a(k, k), KIND=sp)
                  ! compute column k of the inverse.
                  if (k < n) then
                     call stdlib_ccopy(n - k, a(k + 1, k), 1, work, 1)
                     call stdlib_chemv(uplo, n - k, -cone, a(k + 1, k + 1), lda, work, 1, czero, a(k + &
                               1, k), 1)
-                    a(k, k) = a(k, k) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k), 1))
-                              
+                    a(k, k) = a(k, k) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k), 1), &
+                              KIND=sp)
                  end if
                  kstep = 1
               else
                  ! 2 x 2 diagonal block
                  ! invert the diagonal block.
                  t = abs(a(k, k - 1))
-                 ak = real(a(k - 1, k - 1))/t
-                 akp1 = real(a(k, k))/t
+                 ak = real(a(k - 1, k - 1), KIND=sp)/t
+                 akp1 = real(a(k, k), KIND=sp)/t
                  akkp1 = a(k, k - 1)/t
                  d = t*(ak*akp1 - one)
                  a(k - 1, k - 1) = akp1/d
@@ -4118,15 +4112,15 @@ module stdlib_linalg_lapack_c
                     call stdlib_ccopy(n - k, a(k + 1, k), 1, work, 1)
                     call stdlib_chemv(uplo, n - k, -cone, a(k + 1, k + 1), lda, work, 1, czero, a(k + &
                               1, k), 1)
-                    a(k, k) = a(k, k) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k), 1))
-                              
+                    a(k, k) = a(k, k) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k), 1), &
+                              KIND=sp)
                     a(k, k - 1) = a(k, k - 1) - stdlib_cdotc(n - k, a(k + 1, k), 1, a(k + 1, k - 1), 1 &
                               )
                     call stdlib_ccopy(n - k, a(k + 1, k - 1), 1, work, 1)
                     call stdlib_chemv(uplo, n - k, -cone, a(k + 1, k + 1), lda, work, 1, czero, a(k + &
                               1, k - 1), 1)
                     a(k - 1, k - 1) = a(k - 1, k - 1) - real(stdlib_cdotc(n - k, work, 1, a(k + 1, k - 1) &
-                              , 1))
+                              , 1), KIND=sp)
                  end if
                  kstep = 2
               end if
@@ -4184,10 +4178,9 @@ module stdlib_linalg_lapack_c
               end if
               k = k - 1
               go to 80
-120    continue
+120           continue
            end if
            return
-           ! end of stdlib_chetri_rook
      end subroutine stdlib_chetri_rook
 
      ! CHETRS_3 solves a system of linear equations A * X = B with a complex
@@ -4260,7 +4253,7 @@ module stdlib_linalg_lapack_c
               i = n
               do while (i >= 1)
                  if (ipiv(i) > 0) then
-                    s = real(cone)/real(a(i, i))
+                    s = real(cone, KIND=sp)/real(a(i, i), KIND=sp)
                     call stdlib_csscal(nrhs, s, b(i, 1), ldb)
                  else if (i > 1) then
                     akm1k = e(i)
@@ -4312,7 +4305,7 @@ module stdlib_linalg_lapack_c
               i = 1
               do while (i <= n)
                  if (ipiv(i) > 0) then
-                    s = real(cone)/real(a(i, i))
+                    s = real(cone, KIND=sp)/real(a(i, i), KIND=sp)
                     call stdlib_csscal(nrhs, s, b(i, 1), ldb)
                  else if (i < n) then
                     akm1k = e(i)
@@ -4346,7 +4339,6 @@ module stdlib_linalg_lapack_c
               ! end lower
            end if
            return
-           ! end of stdlib_chetrs_3
      end subroutine stdlib_chetrs_3
 
      ! Level 3 BLAS like routine for C in RFP Format.
@@ -4605,41 +4597,7 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_chfrk
      end subroutine stdlib_chfrk
-
-     ! This subroutine translates from a BLAST-specified integer constant to
-     ! the character string specifying a transposition operation.
-     ! CHLA_TRANSTYPE returns an CHARACTER*1.  If CHLA_TRANSTYPE is 'X',
-     ! then input is not an integer indicating a transposition operator.
-     ! Otherwise CHLA_TRANSTYPE returns the constant value corresponding to
-     ! TRANS.
-
-     character*1 function stdlib_chla_transtype(trans)
-        ! -- lapack computational routine --
-        ! -- lapack is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
-           integer(ilp) :: trans
-        ! =====================================================================
-           ! .. parameters ..
-           integer(ilp), parameter :: blas_no_trans = 111
-           integer(ilp), parameter :: blas_trans = 112
-           integer(ilp), parameter :: blas_conj_trans = 113
-           
-           ! .. executable statements ..
-           if (trans == blas_no_trans) then
-              stdlib_chla_transtype = 'n'
-           else if (trans == blas_trans) then
-              stdlib_chla_transtype = 't'
-           else if (trans == blas_conj_trans) then
-              stdlib_chla_transtype = 'c'
-           else
-              stdlib_chla_transtype = 'x'
-           end if
-           return
-           ! end of stdlib_chla_transtype
-     end function stdlib_chla_transtype
 
      ! CHPGST reduces a complex Hermitian-definite generalized
      ! eigenproblem to standard form, using packed storage.
@@ -4691,8 +4649,8 @@ module stdlib_linalg_lapack_c
                     j1 = jj + 1
                     jj = jj + j
                     ! compute the j-th column of the upper triangle of a
-                    ap(jj) = real(ap(jj))
-                    bjj = real(bp(jj))
+                    ap(jj) = real(ap(jj), KIND=sp)
+                    bjj = real(bp(jj), KIND=sp)
                     call stdlib_ctpsv(uplo, 'conjugate transpose', 'non-unit', j, bp, ap(j1), 1 &
                               )
                     call stdlib_chpmv(uplo, j - 1, -cone, ap, bp(j1), 1, cone, ap(j1), 1)
@@ -4708,8 +4666,8 @@ module stdlib_linalg_lapack_c
                  do k = 1, n
                     k1k1 = kk + n - k + 1
                     ! update the lower triangle of a(k:n,k:n)
-                    akk = real(ap(kk))
-                    bkk = real(bp(kk))
+                    akk = real(ap(kk), KIND=sp)
+                    bkk = real(bp(kk), KIND=sp)
                     akk = akk/bkk**2
                     ap(kk) = akk
                     if (k < n) then
@@ -4734,8 +4692,8 @@ module stdlib_linalg_lapack_c
                     k1 = kk + 1
                     kk = kk + k
                     ! update the upper triangle of a(1:k,1:k)
-                    akk = real(ap(kk))
-                    bkk = real(bp(kk))
+                    akk = real(ap(kk), KIND=sp)
+                    bkk = real(bp(kk), KIND=sp)
                     call stdlib_ctpmv(uplo, 'no transpose', 'non-unit', k - 1, bp, ap(k1), 1)
                               
                     ct = half*akk
@@ -4752,8 +4710,8 @@ module stdlib_linalg_lapack_c
                  do j = 1, n
                     j1j1 = jj + n - j + 1
                     ! compute the j-th column of the lower triangle of a
-                    ajj = real(ap(jj))
-                    bjj = real(bp(jj))
+                    ajj = real(ap(jj), KIND=sp)
+                    bjj = real(bp(jj), KIND=sp)
                     ap(jj) = ajj*bjj + stdlib_cdotc(n - j, ap(jj + 1), 1, bp(jj + 1), 1)
                     call stdlib_csscal(n - j, bjj, ap(jj + 1), 1)
                     call stdlib_chpmv(uplo, n - j, cone, ap(j1j1), bp(jj + 1), 1, cone, ap(jj + 1) &
@@ -4765,7 +4723,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_chpgst
      end subroutine stdlib_chpgst
 
      ! CHPTRF computes the factorization of a complex Hermitian packed
@@ -4799,7 +4756,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -4821,14 +4778,14 @@ module stdlib_linalg_lapack_c
               ! 1 or 2
               k = n
               kc = (n - 1)*n/2 + 1
-10      continue
+10            continue
               knc = kc
               ! if k < 1, exit from loop
               if (k < 1) go to 110
               kstep = 1
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(ap(kc + k - 1)))
+              absakk = abs(real(ap(kc + k - 1), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value
               if (k > 1) then
@@ -4841,7 +4798,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 ap(kc + k - 1) = real(ap(kc + k - 1))
+                 ap(kc + k - 1) = real(ap(kc + k - 1), KIND=sp)
               else
                  if (absakk >= alpha*colmax) then
                     ! no interchange, use 1-by-1 pivot block
@@ -4867,7 +4824,7 @@ module stdlib_linalg_lapack_c
                     if (absakk >= alpha*colmax*(colmax/rowmax)) then
                        ! no interchange, use 1-by-1 pivot block
                        kp = k
-                    else if (abs(real(ap(kpc + imax - 1))) >= alpha*rowmax) then
+                    else if (abs(real(ap(kpc + imax - 1), KIND=sp)) >= alpha*rowmax) then
                        ! interchange rows and columns k and imax, use 1-by-1
                        ! pivot block
                        kp = imax
@@ -4892,18 +4849,18 @@ module stdlib_linalg_lapack_c
                        ap(kx) = t
                     end do
                     ap(kx + kk - 1) = conjg(ap(kx + kk - 1))
-                    r1 = real(ap(knc + kk - 1))
-                    ap(knc + kk - 1) = real(ap(kpc + kp - 1))
+                    r1 = real(ap(knc + kk - 1), KIND=sp)
+                    ap(knc + kk - 1) = real(ap(kpc + kp - 1), KIND=sp)
                     ap(kpc + kp - 1) = r1
                     if (kstep == 2) then
-                       ap(kc + k - 1) = real(ap(kc + k - 1))
+                       ap(kc + k - 1) = real(ap(kc + k - 1), KIND=sp)
                        t = ap(kc + k - 2)
                        ap(kc + k - 2) = ap(kc + kp - 1)
                        ap(kc + kp - 1) = t
                     end if
                  else
-                    ap(kc + k - 1) = real(ap(kc + k - 1))
-                    if (kstep == 2) ap(kc - 1) = real(ap(kc - 1))
+                    ap(kc + k - 1) = real(ap(kc + k - 1), KIND=sp)
+                    if (kstep == 2) ap(kc - 1) = real(ap(kc - 1), KIND=sp)
                  end if
                  ! update the leading submatrix
                  if (kstep == 1) then
@@ -4912,7 +4869,7 @@ module stdlib_linalg_lapack_c
                     ! where u(k) is the k-th column of u
                     ! perform a rank-1 update of a(1:k-1,1:k-1) as
                     ! a := a - u(k)*d(k)*u(k)**h = a - w(k)*1/d(k)*w(k)**h
-                    r1 = one/real(ap(kc + k - 1))
+                    r1 = one/real(ap(kc + k - 1), KIND=sp)
                     call stdlib_chpr(uplo, k - 1, -r1, ap(kc), 1, ap)
                     ! store u(k) in column k
                     call stdlib_csscal(k - 1, r1, ap(kc), 1)
@@ -4925,10 +4882,10 @@ module stdlib_linalg_lapack_c
                     ! a := a - ( u(k-1) u(k) )*d(k)*( u(k-1) u(k) )**h
                        ! = a - ( w(k-1) w(k) )*inv(d(k))*( w(k-1) w(k) )**h
                     if (k > 2) then
-                       d = stdlib_slapy2(real(ap(k - 1 + (k - 1)*k/2)), aimag(ap(k - 1 + (k - 1) &
-                                 *k/2)))
-                       d22 = real(ap(k - 1 + (k - 2)*(k - 1)/2))/d
-                       d11 = real(ap(k + (k - 1)*k/2))/d
+                       d = stdlib_slapy2(real(ap(k - 1 + (k - 1)*k/2), KIND=sp), aimag(ap(k - 1 + ( &
+                                 k - 1)*k/2)))
+                       d22 = real(ap(k - 1 + (k - 2)*(k - 1)/2), KIND=sp)/d
+                       d11 = real(ap(k + (k - 1)*k/2), KIND=sp)/d
                        tt = one/(d11*d22 - one)
                        d12 = ap(k - 1 + (k - 1)*k/2)/d
                        d = tt/d
@@ -4943,8 +4900,8 @@ module stdlib_linalg_lapack_c
                           end do
                           ap(j + (k - 1)*k/2) = wk
                           ap(j + (k - 2)*(k - 1)/2) = wkm1
-                          ap(j + (j - 1)*j/2) = cmplx(real(ap(j + (j - 1)*j/2)), zero)
-                                    
+                          ap(j + (j - 1)*j/2) = cmplx(real(ap(j + (j - 1)*j/2), KIND=sp), &
+                                    zero, KIND=sp)
                        end do
                     end if
                  end if
@@ -4967,14 +4924,14 @@ module stdlib_linalg_lapack_c
               k = 1
               kc = 1
               npp = n*(n + 1)/2
-60      continue
+60            continue
               knc = kc
               ! if k > n, exit from loop
               if (k > n) go to 110
               kstep = 1
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(ap(kc)))
+              absakk = abs(real(ap(kc), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value
               if (k < n) then
@@ -4987,7 +4944,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 ap(kc) = real(ap(kc))
+                 ap(kc) = real(ap(kc), KIND=sp)
               else
                  if (absakk >= alpha*colmax) then
                     ! no interchange, use 1-by-1 pivot block
@@ -5012,7 +4969,7 @@ module stdlib_linalg_lapack_c
                     if (absakk >= alpha*colmax*(colmax/rowmax)) then
                        ! no interchange, use 1-by-1 pivot block
                        kp = k
-                    else if (abs(real(ap(kpc))) >= alpha*rowmax) then
+                    else if (abs(real(ap(kpc), KIND=sp)) >= alpha*rowmax) then
                        ! interchange rows and columns k and imax, use 1-by-1
                        ! pivot block
                        kp = imax
@@ -5038,18 +4995,18 @@ module stdlib_linalg_lapack_c
                        ap(kx) = t
                     end do
                     ap(knc + kp - kk) = conjg(ap(knc + kp - kk))
-                    r1 = real(ap(knc))
-                    ap(knc) = real(ap(kpc))
+                    r1 = real(ap(knc), KIND=sp)
+                    ap(knc) = real(ap(kpc), KIND=sp)
                     ap(kpc) = r1
                     if (kstep == 2) then
-                       ap(kc) = real(ap(kc))
+                       ap(kc) = real(ap(kc), KIND=sp)
                        t = ap(kc + 1)
                        ap(kc + 1) = ap(kc + kp - k)
                        ap(kc + kp - k) = t
                     end if
                  else
-                    ap(kc) = real(ap(kc))
-                    if (kstep == 2) ap(knc) = real(ap(knc))
+                    ap(kc) = real(ap(kc), KIND=sp)
+                    if (kstep == 2) ap(knc) = real(ap(knc), KIND=sp)
                  end if
                  ! update the trailing submatrix
                  if (kstep == 1) then
@@ -5059,7 +5016,7 @@ module stdlib_linalg_lapack_c
                     if (k < n) then
                        ! perform a rank-1 update of a(k+1:n,k+1:n) as
                        ! a := a - l(k)*d(k)*l(k)**h = a - w(k)*(1/d(k))*w(k)**h
-                       r1 = one/real(ap(kc))
+                       r1 = one/real(ap(kc), KIND=sp)
                        call stdlib_chpr(uplo, n - k, -r1, ap(kc + 1), 1, ap(kc + n - k + 1))
                        ! store l(k) in column k
                        call stdlib_csscal(n - k, r1, ap(kc + 1), 1)
@@ -5075,10 +5032,10 @@ module stdlib_linalg_lapack_c
                           ! = a - ( w(k) w(k+1) )*inv(d(k))*( w(k) w(k+1) )**h
                        ! where l(k) and l(k+1) are the k-th and (k+1)-th
                        ! columns of l
-                       d = stdlib_slapy2(real(ap(k + 1 + (k - 1)*(2*n - k)/2)), aimag(ap(k + 1 + ( &
-                                  k - 1)*(2*n - k)/2)))
-                       d11 = real(ap(k + 1 + k*(2*n - k - 1)/2))/d
-                       d22 = real(ap(k + (k - 1)*(2*n - k)/2))/d
+                       d = stdlib_slapy2(real(ap(k + 1 + (k - 1)*(2*n - k)/2), KIND=sp), aimag( &
+                                 ap(k + 1 + (k - 1)*(2*n - k)/2)))
+                       d11 = real(ap(k + 1 + k*(2*n - k - 1)/2), KIND=sp)/d
+                       d22 = real(ap(k + (k - 1)*(2*n - k)/2), KIND=sp)/d
                        tt = one/(d11*d22 - one)
                        d21 = ap(k + 1 + (k - 1)*(2*n - k)/2)/d
                        d = tt/d
@@ -5095,7 +5052,7 @@ module stdlib_linalg_lapack_c
                           ap(j + (k - 1)*(2*n - k)/2) = wk
                           ap(j + k*(2*n - k - 1)/2) = wkp1
                           ap(j + (j - 1)*(2*n - j)/2) = cmplx(real(ap(j + (j - 1)*(2*n - j)/2 &
-                                    )), zero)
+                                    ), KIND=sp), zero, KIND=sp)
                        end do
                     end if
                  end if
@@ -5112,9 +5069,8 @@ module stdlib_linalg_lapack_c
               kc = knc + n - k + 2
               go to 60
            end if
-110    continue
+110        continue
            return
-           ! end of stdlib_chptrf
      end subroutine stdlib_chptrf
 
      ! CHPTRI computes the inverse of a complex Hermitian indefinite matrix
@@ -5178,28 +5134,28 @@ module stdlib_linalg_lapack_c
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-30      continue
+30            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               kcnext = kc + k
               if (ipiv(k) > 0) then
                  ! 1 x 1 diagonal block
                  ! invert the diagonal block.
-                 ap(kc + k - 1) = one/real(ap(kc + k - 1))
+                 ap(kc + k - 1) = one/real(ap(kc + k - 1), KIND=sp)
                  ! compute column k of the inverse.
                  if (k > 1) then
                     call stdlib_ccopy(k - 1, ap(kc), 1, work, 1)
                     call stdlib_chpmv(uplo, k - 1, -cone, ap, work, 1, czero, ap(kc), 1)
-                    ap(kc + k - 1) = ap(kc + k - 1) - real(stdlib_cdotc(k - 1, work, 1, ap(kc), 1))
-                              
+                    ap(kc + k - 1) = ap(kc + k - 1) - real(stdlib_cdotc(k - 1, work, 1, ap(kc), 1), &
+                              KIND=sp)
                  end if
                  kstep = 1
               else
                  ! 2 x 2 diagonal block
                  ! invert the diagonal block.
                  t = abs(ap(kcnext + k - 1))
-                 ak = real(ap(kc + k - 1))/t
-                 akp1 = real(ap(kcnext + k))/t
+                 ak = real(ap(kc + k - 1), KIND=sp)/t
+                 akp1 = real(ap(kcnext + k), KIND=sp)/t
                  akkp1 = ap(kcnext + k - 1)/t
                  d = t*(ak*akp1 - one)
                  ap(kc + k - 1) = akp1/d
@@ -5209,15 +5165,15 @@ module stdlib_linalg_lapack_c
                  if (k > 1) then
                     call stdlib_ccopy(k - 1, ap(kc), 1, work, 1)
                     call stdlib_chpmv(uplo, k - 1, -cone, ap, work, 1, czero, ap(kc), 1)
-                    ap(kc + k - 1) = ap(kc + k - 1) - real(stdlib_cdotc(k - 1, work, 1, ap(kc), 1))
-                              
+                    ap(kc + k - 1) = ap(kc + k - 1) - real(stdlib_cdotc(k - 1, work, 1, ap(kc), 1), &
+                              KIND=sp)
                     ap(kcnext + k - 1) = ap(kcnext + k - 1) - stdlib_cdotc(k - 1, ap(kc), 1, ap( &
                               kcnext), 1)
                     call stdlib_ccopy(k - 1, ap(kcnext), 1, work, 1)
                     call stdlib_chpmv(uplo, k - 1, -cone, ap, work, 1, czero, ap(kcnext), 1)
                               
                     ap(kcnext + k) = ap(kcnext + k) - real(stdlib_cdotc(k - 1, work, 1, ap(kcnext &
-                              ), 1))
+                              ), 1), KIND=sp)
                  end if
                  kstep = 2
                  kcnext = kcnext + k + 1
@@ -5248,7 +5204,7 @@ module stdlib_linalg_lapack_c
               k = k + kstep
               kc = kcnext
               go to 30
-50      continue
+50            continue
            else
               ! compute inv(a) from the factorization a = l*d*l**h.
               ! k is the main loop index, increasing from 1 to n in steps of
@@ -5256,29 +5212,29 @@ module stdlib_linalg_lapack_c
               npp = n*(n + 1)/2
               k = n
               kc = npp
-60      continue
+60            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 80
               kcnext = kc - (n - k + 2)
               if (ipiv(k) > 0) then
                  ! 1 x 1 diagonal block
                  ! invert the diagonal block.
-                 ap(kc) = one/real(ap(kc))
+                 ap(kc) = one/real(ap(kc), KIND=sp)
                  ! compute column k of the inverse.
                  if (k < n) then
                     call stdlib_ccopy(n - k, ap(kc + 1), 1, work, 1)
                     call stdlib_chpmv(uplo, n - k, -cone, ap(kc + n - k + 1), work, 1, czero, ap(kc + 1) &
                               , 1)
-                    ap(kc) = ap(kc) - real(stdlib_cdotc(n - k, work, 1, ap(kc + 1), 1))
-                              
+                    ap(kc) = ap(kc) - real(stdlib_cdotc(n - k, work, 1, ap(kc + 1), 1), &
+                              KIND=sp)
                  end if
                  kstep = 1
               else
                  ! 2 x 2 diagonal block
                  ! invert the diagonal block.
                  t = abs(ap(kcnext + 1))
-                 ak = real(ap(kcnext))/t
-                 akp1 = real(ap(kc))/t
+                 ak = real(ap(kcnext), KIND=sp)/t
+                 akp1 = real(ap(kc), KIND=sp)/t
                  akkp1 = ap(kcnext + 1)/t
                  d = t*(ak*akp1 - one)
                  ap(kcnext) = akp1/d
@@ -5289,15 +5245,15 @@ module stdlib_linalg_lapack_c
                     call stdlib_ccopy(n - k, ap(kc + 1), 1, work, 1)
                     call stdlib_chpmv(uplo, n - k, -cone, ap(kc + (n - k + 1)), work, 1, czero, ap( &
                               kc + 1), 1)
-                    ap(kc) = ap(kc) - real(stdlib_cdotc(n - k, work, 1, ap(kc + 1), 1))
-                              
+                    ap(kc) = ap(kc) - real(stdlib_cdotc(n - k, work, 1, ap(kc + 1), 1), &
+                              KIND=sp)
                     ap(kcnext + 1) = ap(kcnext + 1) - stdlib_cdotc(n - k, ap(kc + 1), 1, ap(kcnext + &
                               2), 1)
                     call stdlib_ccopy(n - k, ap(kcnext + 2), 1, work, 1)
                     call stdlib_chpmv(uplo, n - k, -cone, ap(kc + (n - k + 1)), work, 1, czero, ap( &
                               kcnext + 2), 1)
                     ap(kcnext) = ap(kcnext) - real(stdlib_cdotc(n - k, work, 1, ap(kcnext + 2), &
-                              1))
+                              1), KIND=sp)
                  end if
                  kstep = 2
                  kcnext = kcnext - (n - k + 3)
@@ -5328,10 +5284,9 @@ module stdlib_linalg_lapack_c
               k = k - kstep
               kc = kcnext
               go to 60
-80      continue
+80            continue
            end if
            return
-           ! end of stdlib_chptri
      end subroutine stdlib_chptri
 
      ! CLA_GBAMV  performs one of the matrix-vector operations
@@ -5371,7 +5326,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -5432,16 +5387,16 @@ module stdlib_linalg_lapack_c
            if (incx == 1) then
               if (trans == stdlib_ilatrans('n')) then
                  do i = 1, leny
-                    if (beta == czero) then
+                    if (beta == 0.0_sp) then
                        symb_zero = .true.
                        y(iy) = czero
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == 0.0_sp) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= 0.0_sp) then
                        do j = max(i - kl, 1), min(i + ku, lenx)
                           temp = cabs1(ab(kd + i - j, j))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
@@ -5454,16 +5409,16 @@ module stdlib_linalg_lapack_c
                  end do
               else
                  do i = 1, leny
-                    if (beta == czero) then
+                    if (beta == 0.0_sp) then
                        symb_zero = .true.
                        y(iy) = czero
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == 0.0_sp) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= 0.0_sp) then
                        do j = max(i - kl, 1), min(i + ku, lenx)
                           temp = cabs1(ab(ke - i + j, i))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
@@ -5478,16 +5433,16 @@ module stdlib_linalg_lapack_c
            else
               if (trans == stdlib_ilatrans('n')) then
                  do i = 1, leny
-                    if (beta == czero) then
+                    if (beta == 0.0_sp) then
                        symb_zero = .true.
                        y(iy) = czero
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == 0.0_sp) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= 0.0_sp) then
                        jx = kx
                        do j = max(i - kl, 1), min(i + ku, lenx)
                           temp = cabs1(ab(kd + i - j, j))
@@ -5502,16 +5457,16 @@ module stdlib_linalg_lapack_c
                  end do
               else
                  do i = 1, leny
-                    if (beta == czero) then
+                    if (beta == 0.0_sp) then
                        symb_zero = .true.
                        y(iy) = czero
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == 0.0_sp) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= 0.0_sp) then
                        jx = kx
                        do j = max(i - kl, 1), min(i + ku, lenx)
                           temp = cabs1(ab(ke - i + j, i))
@@ -5527,7 +5482,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cla_gbamv
      end subroutine stdlib_cla_gbamv
 
      ! CLA_GBRPVGRW computes the reciprocal pivot growth factor
@@ -5555,7 +5509,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            rpvgrw = one
            kd = ku + 1
@@ -5568,12 +5522,11 @@ module stdlib_linalg_lapack_c
               do i = max(j - ku, 1), j
                  umax = max(cabs1(afb(kd + i - j, j)), umax)
               end do
-              if (umax /= zero) then
+              if (umax /= 0.0_sp) then
                  rpvgrw = min(amax/umax, rpvgrw)
               end if
            end do
            stdlib_cla_gbrpvgrw = rpvgrw
-           ! end of stdlib_cla_gbrpvgrw
      end function stdlib_cla_gbrpvgrw
 
      ! CLA_GEAMV  performs one of the matrix-vector operations
@@ -5613,7 +5566,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -5668,16 +5621,16 @@ module stdlib_linalg_lapack_c
            if (incx == 1) then
               if (trans == stdlib_ilatrans('n')) then
                  do i = 1, leny
-                    if (beta == czero) then
+                    if (beta == 0.0_sp) then
                        symb_zero = .true.
                        y(iy) = czero
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == 0.0_sp) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= 0.0_sp) then
                        do j = 1, lenx
                           temp = cabs1(a(i, j))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
@@ -5690,16 +5643,16 @@ module stdlib_linalg_lapack_c
                  end do
               else
                  do i = 1, leny
-                    if (beta == czero) then
+                    if (beta == 0.0_sp) then
                        symb_zero = .true.
                        y(iy) = czero
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == 0.0_sp) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= 0.0_sp) then
                        do j = 1, lenx
                           temp = cabs1(a(j, i))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
@@ -5714,16 +5667,16 @@ module stdlib_linalg_lapack_c
            else
               if (trans == stdlib_ilatrans('n')) then
                  do i = 1, leny
-                    if (beta == czero) then
+                    if (beta == 0.0_sp) then
                        symb_zero = .true.
                        y(iy) = czero
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == 0.0_sp) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= 0.0_sp) then
                        jx = kx
                        do j = 1, lenx
                           temp = cabs1(a(i, j))
@@ -5738,16 +5691,16 @@ module stdlib_linalg_lapack_c
                  end do
               else
                  do i = 1, leny
-                    if (beta == czero) then
+                    if (beta == 0.0_sp) then
                        symb_zero = .true.
                        y(iy) = czero
-                    else if (y(iy) == czero) then
+                    else if (y(iy) == 0.0_sp) then
                        symb_zero = .true.
                     else
                        symb_zero = .false.
                        y(iy) = beta*abs(y(iy))
                     end if
-                    if (alpha /= czero) then
+                    if (alpha /= 0.0_sp) then
                        jx = kx
                        do j = 1, lenx
                           temp = cabs1(a(j, i))
@@ -5763,7 +5716,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cla_geamv
      end subroutine stdlib_cla_geamv
 
      ! CLA_GERPVGRW computes the reciprocal pivot growth factor
@@ -5791,7 +5743,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            rpvgrw = one
            do j = 1, ncols
@@ -5803,12 +5755,11 @@ module stdlib_linalg_lapack_c
               do i = 1, j
                  umax = max(cabs1(af(i, j)), umax)
               end do
-              if (umax /= zero) then
+              if (umax /= 0.0_sp) then
                  rpvgrw = min(amax/umax, rpvgrw)
               end if
            end do
            stdlib_cla_gerpvgrw = rpvgrw
-           ! end of stdlib_cla_gerpvgrw
      end function stdlib_cla_gerpvgrw
 
      ! CLA_SYAMV  performs the matrix-vector operation
@@ -5846,7 +5797,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -6003,7 +5954,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cla_heamv
      end subroutine stdlib_cla_heamv
 
      ! CLA_LIN_BERR computes componentwise relative backward error from
@@ -6031,7 +5981,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            complex(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! adding safe1 to the numerator guards against spuriously zero
            ! residuals.  a similar safeguard is in the cla_yyamv routine used
@@ -6041,15 +5991,14 @@ module stdlib_linalg_lapack_c
            do j = 1, nrhs
               berr(j) = zero
               do i = 1, n
-                 if (ayb(i, j) /= zero) then
+                 if (ayb(i, j) /= 0.0_sp) then
                     tmp = (safe1 + cabs1(res(i, j)))/ayb(i, j)
                     berr(j) = max(berr(j), tmp)
                  end if
-           ! if ayb is exactly zero (and if computed by cla_yyamv), then we know
+           ! if ayb is exactly 0.0_sp (and if computed by cla_yyamv), then we know
            ! the true residual also must be exactly zero.
               end do
            end do
-           ! end of stdlib_cla_lin_berr
      end subroutine stdlib_cla_lin_berr
 
      ! CLA_PORPVGRW computes the reciprocal pivot growth factor
@@ -6080,7 +6029,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            upper = stdlib_lsame('upper', uplo)
            ! stdlib_spotrf will have factored only the ncolsxncols leading minor, so
@@ -6129,7 +6078,7 @@ module stdlib_linalg_lapack_c
               do i = 1, ncols
                  umax = work(i)
                  amax = work(ncols + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -6137,13 +6086,12 @@ module stdlib_linalg_lapack_c
               do i = 1, ncols
                  umax = work(i)
                  amax = work(ncols + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
            end if
            stdlib_cla_porpvgrw = rpvgrw
-           ! end of stdlib_cla_porpvgrw
      end function stdlib_cla_porpvgrw
 
      ! CLA_SYAMV  performs the matrix-vector operation
@@ -6182,7 +6130,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -6339,7 +6287,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cla_syamv
      end subroutine stdlib_cla_syamv
 
      ! CLA_WWADDW adds a vector W into a doubled-single vector (X, Y).
@@ -6364,9 +6311,8 @@ module stdlib_linalg_lapack_c
              s = (s + s) - s
              y(i) = ((x(i) - s) + w(i)) + y(i)
              x(i) = s
-10      continue
+10           continue
            return
-           ! end of stdlib_cla_wwaddw
      end subroutine stdlib_cla_wwaddw
 
      ! CLACGV conjugates a complex vector of length N.
@@ -6398,7 +6344,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_clacgv
      end subroutine stdlib_clacgv
 
      ! CLACN2 estimates the 1-norm of a square, complex matrix A.
@@ -6427,7 +6372,7 @@ module stdlib_linalg_lapack_c
            safmin = stdlib_slamch('safe minimum')
            if (kase == 0) then
               do i = 1, n
-                 x(i) = cmplx(one/real(n), KIND=sp)
+                 x(i) = cmplx(one/real(n, KIND=sp), KIND=sp)
               end do
               kase = 1
               isave(1) = 1
@@ -6436,7 +6381,7 @@ module stdlib_linalg_lapack_c
            go to(20, 40, 70, 90, 120) isave(1)
            ! ................ entry   (isave( 1 ) = 1)
            ! first iteration.  x has been overwritten by a*x.
-20      continue
+20   continue
            if (n == 1) then
               v(1) = x(1)
               est = abs(v(1))
@@ -6447,7 +6392,8 @@ module stdlib_linalg_lapack_c
            do i = 1, n
               absxi = abs(x(i))
               if (absxi > safmin) then
-                 x(i) = cmplx(real(x(i))/absxi, aimag(x(i))/absxi)
+                 x(i) = cmplx(real(x(i), KIND=sp)/absxi, aimag(x(i))/absxi, KIND=sp)
+                           
               else
                  x(i) = cone
               end if
@@ -6457,11 +6403,11 @@ module stdlib_linalg_lapack_c
            return
            ! ................ entry   (isave( 1 ) = 2)
            ! first iteration.  x has been overwritten by ctrans(a)*x.
-40      continue
+40   continue
            isave(2) = stdlib_icmax1(n, x, 1)
            isave(3) = 2
            ! main loop - iterations 2,3,...,itmax.
-50      continue
+50   continue
            do i = 1, n
               x(i) = czero
            end do
@@ -6471,7 +6417,7 @@ module stdlib_linalg_lapack_c
            return
            ! ................ entry   (isave( 1 ) = 3)
            ! x has been overwritten by a*x.
-70      continue
+70   continue
            call stdlib_ccopy(n, x, 1, v, 1)
            estold = est
            est = stdlib_scsum1(n, v, 1)
@@ -6480,7 +6426,8 @@ module stdlib_linalg_lapack_c
            do i = 1, n
               absxi = abs(x(i))
               if (absxi > safmin) then
-                 x(i) = cmplx(real(x(i))/absxi, aimag(x(i))/absxi)
+                 x(i) = cmplx(real(x(i), KIND=sp)/absxi, aimag(x(i))/absxi, KIND=sp)
+                           
               else
                  x(i) = cone
               end if
@@ -6490,7 +6437,7 @@ module stdlib_linalg_lapack_c
            return
            ! ................ entry   (isave( 1 ) = 4)
            ! x has been overwritten by ctrans(a)*x.
-90      continue
+90   continue
            jlast = isave(2)
            isave(2) = stdlib_icmax1(n, x, 1)
            if ((abs(x(jlast)) /= abs(x(isave(2)))) .and. (isave(3) < itmax)) &
@@ -6499,10 +6446,11 @@ module stdlib_linalg_lapack_c
               go to 50
            end if
            ! iteration complete.  final stage.
-100    continue
+100  continue
            altsgn = one
            do i = 1, n
-              x(i) = cmplx(altsgn*(one + real(i - 1)/real(n - 1)))
+              x(i) = cmplx(altsgn*(one + real(i - 1, KIND=sp)/real(n - 1, KIND=sp)), KIND=sp)
+                        
               altsgn = -altsgn
            end do
            kase = 1
@@ -6510,16 +6458,15 @@ module stdlib_linalg_lapack_c
            return
            ! ................ entry   (isave( 1 ) = 5)
            ! x has been overwritten by a*x.
-120    continue
-           temp = two*(stdlib_scsum1(n, x, 1)/real(3*n))
+120  continue
+           temp = two*(stdlib_scsum1(n, x, 1)/real(3*n, KIND=sp))
            if (temp > est) then
               call stdlib_ccopy(n, x, 1, v, 1)
               est = temp
            end if
-130    continue
+130        continue
            kase = 0
            return
-           ! end of stdlib_clacn2
      end subroutine stdlib_clacn2
 
      ! CLACON estimates the 1-norm of a square, complex matrix A.
@@ -6549,7 +6496,7 @@ module stdlib_linalg_lapack_c
            safmin = stdlib_slamch('safe minimum')
            if (kase == 0) then
               do i = 1, n
-                 x(i) = cmplx(one/real(n), KIND=sp)
+                 x(i) = cmplx(one/real(n, KIND=sp), KIND=sp)
               end do
               kase = 1
               jump = 1
@@ -6558,7 +6505,7 @@ module stdlib_linalg_lapack_c
            go to(20, 40, 70, 90, 120) jump
            ! ................ entry   (jump = 1)
            ! first iteration.  x has been overwritten by a*x.
-20      continue
+20   continue
            if (n == 1) then
               v(1) = x(1)
               est = abs(v(1))
@@ -6569,7 +6516,8 @@ module stdlib_linalg_lapack_c
            do i = 1, n
               absxi = abs(x(i))
               if (absxi > safmin) then
-                 x(i) = cmplx(real(x(i))/absxi, aimag(x(i))/absxi)
+                 x(i) = cmplx(real(x(i), KIND=sp)/absxi, aimag(x(i))/absxi, KIND=sp)
+                           
               else
                  x(i) = cone
               end if
@@ -6579,11 +6527,11 @@ module stdlib_linalg_lapack_c
            return
            ! ................ entry   (jump = 2)
            ! first iteration.  x has been overwritten by ctrans(a)*x.
-40      continue
+40   continue
            j = stdlib_icmax1(n, x, 1)
            iter = 2
            ! main loop - iterations 2,3,...,itmax.
-50      continue
+50   continue
            do i = 1, n
               x(i) = czero
            end do
@@ -6593,7 +6541,7 @@ module stdlib_linalg_lapack_c
            return
            ! ................ entry   (jump = 3)
            ! x has been overwritten by a*x.
-70      continue
+70   continue
            call stdlib_ccopy(n, x, 1, v, 1)
            estold = est
            est = stdlib_scsum1(n, v, 1)
@@ -6602,7 +6550,8 @@ module stdlib_linalg_lapack_c
            do i = 1, n
               absxi = abs(x(i))
               if (absxi > safmin) then
-                 x(i) = cmplx(real(x(i))/absxi, aimag(x(i))/absxi)
+                 x(i) = cmplx(real(x(i), KIND=sp)/absxi, aimag(x(i))/absxi, KIND=sp)
+                           
               else
                  x(i) = cone
               end if
@@ -6612,7 +6561,7 @@ module stdlib_linalg_lapack_c
            return
            ! ................ entry   (jump = 4)
            ! x has been overwritten by ctrans(a)*x.
-90      continue
+90   continue
            jlast = j
            j = stdlib_icmax1(n, x, 1)
            if ((abs(x(jlast)) /= abs(x(j))) .and. (iter < itmax)) then
@@ -6620,10 +6569,11 @@ module stdlib_linalg_lapack_c
               go to 50
            end if
            ! iteration complete.  final stage.
-100    continue
+100  continue
            altsgn = one
            do i = 1, n
-              x(i) = cmplx(altsgn*(one + real(i - 1)/real(n - 1)))
+              x(i) = cmplx(altsgn*(one + real(i - 1, KIND=sp)/real(n - 1, KIND=sp)), KIND=sp)
+                        
               altsgn = -altsgn
            end do
            kase = 1
@@ -6631,16 +6581,15 @@ module stdlib_linalg_lapack_c
            return
            ! ................ entry   (jump = 5)
            ! x has been overwritten by a*x.
-120    continue
-           temp = two*(stdlib_scsum1(n, x, 1)/real(3*n))
+120  continue
+           temp = two*(stdlib_scsum1(n, x, 1)/real(3*n, KIND=sp))
            if (temp > est) then
               call stdlib_ccopy(n, x, 1, v, 1)
               est = temp
            end if
-130    continue
+130        continue
            kase = 0
            return
-           ! end of stdlib_clacon
      end subroutine stdlib_clacon
 
      ! CLACP2 copies all or part of a real two-dimensional matrix A to a
@@ -6682,7 +6631,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_clacp2
      end subroutine stdlib_clacp2
 
      ! CLACPY copies all or part of a two-dimensional matrix A to another
@@ -6723,7 +6671,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_clacpy
      end subroutine stdlib_clacpy
 
      ! CLACRM performs a very simple matrix-matrix multiplication:
@@ -6751,7 +6698,7 @@ module stdlib_linalg_lapack_c
            if ((m == 0) .or. (n == 0)) return
            do j = 1, n
               do i = 1, m
-                 rwork((j - 1)*m + i) = real(a(i, j))
+                 rwork((j - 1)*m + i) = real(a(i, j), KIND=sp)
               end do
            end do
            l = m*n + 1
@@ -6771,11 +6718,11 @@ module stdlib_linalg_lapack_c
                      
            do j = 1, n
               do i = 1, m
-                 c(i, j) = cmplx(real(c(i, j)), rwork(l + (j - 1)*m + i - 1))
+                 c(i, j) = cmplx(real(c(i, j), KIND=sp), rwork(l + (j - 1)*m + i - 1), KIND=sp)
+                           
               end do
            end do
            return
-           ! end of stdlib_clacrm
      end subroutine stdlib_clacrm
 
      ! CLACRT performs the operation
@@ -6813,7 +6760,7 @@ module stdlib_linalg_lapack_c
            end do
            return
            ! code for both increments equal to 1
-20      continue
+20   continue
            do i = 1, n
               ctemp = c*cx(i) + s*cy(i)
               cy(i) = c*cy(i) - s*cx(i)
@@ -6838,10 +6785,10 @@ module stdlib_linalg_lapack_c
            ! .. intrinsic functions ..
            intrinsic :: aimag, cmplx, real
            ! .. executable statements ..
-           call stdlib_sladiv(real(x), aimag(x), real(y), aimag(y), zr, zi)
+           call stdlib_sladiv(real(x, KIND=sp), aimag(x), real(y, KIND=sp), aimag(y), zr, zi)
+                     
            stdlib_cladiv = cmplx(zr, zi, KIND=sp)
            return
-           ! end of stdlib_cladiv
      end function stdlib_cladiv
 
      ! CLAED8 merges the two sets of eigenvalues together into a single
@@ -6960,7 +6907,7 @@ module stdlib_linalg_lapack_c
                  go to 70
               end if
            end do
-70      continue
+70         continue
            j = j + 1
            if (j > n) go to 90
            if (rho*abs(z(j)) <= tol) then
@@ -6994,7 +6941,7 @@ module stdlib_linalg_lapack_c
                  d(jlam) = t
                  k2 = k2 - 1
                  i = 1
-80      continue
+80               continue
                  if (k2 + i <= n) then
                     if (d(jlam) < d(indxp(k2 + i))) then
                        indxp(k2 + i - 1) = indxp(k2 + i)
@@ -7017,13 +6964,13 @@ module stdlib_linalg_lapack_c
               end if
            end if
            go to 70
-90      continue
+90         continue
            ! record the last eigenvalue.
            k = k + 1
            w(k) = z(jlam)
            dlamda(k) = d(jlam)
            indxp(k) = jlam
-100    continue
+100        continue
            ! sort the eigenvalues and corresponding eigenvectors into dlamda
            ! and q2 respectively.  the eigenvalues/vectors which were not
            ! deflated go into the first k slots of dlamda and q2 respectively,
@@ -7041,7 +6988,6 @@ module stdlib_linalg_lapack_c
               call stdlib_clacpy('a', qsiz, n - k, q2(1, k + 1), ldq2, q(1, k + 1), ldq)
            end if
            return
-           ! end of stdlib_claed8
      end subroutine stdlib_claed8
 
      ! CLAESY computes the eigendecomposition of a 2-by-2 symmetric matrix
@@ -7127,7 +7073,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_claesy
      end subroutine stdlib_claesy
 
      ! CLAEV2 computes the eigendecomposition of a 2-by-2 Hermitian matrix
@@ -7159,10 +7104,10 @@ module stdlib_linalg_lapack_c
            else
               w = conjg(b)/abs(b)
            end if
-           call stdlib_slaev2(real(a), abs(b), real(c), rt1, rt2, cs1, t)
+           call stdlib_slaev2(real(a, KIND=sp), abs(b), real(c, KIND=sp), rt1, rt2, cs1, t)
+                     
            sn1 = w*t
            return
-           ! end of stdlib_claev2
      end subroutine stdlib_claev2
 
      ! CLAG2Z converts a COMPLEX matrix, SA, to a COMPLEX*16 matrix, A.
@@ -7191,7 +7136,6 @@ module stdlib_linalg_lapack_c
               end do
            end do
            return
-           ! end of stdlib_clag2z
      end subroutine stdlib_clag2z
 
      ! CLAGTM performs a matrix-vector product of the form
@@ -7326,7 +7270,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_clagtm
      end subroutine stdlib_clagtm
 
      ! CLAHEF computes a partial factorization of a complex Hermitian
@@ -7366,7 +7309,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            info = 0
            ! initialize alpha for use in choosing pivot block size.
@@ -7377,7 +7320,7 @@ module stdlib_linalg_lapack_c
               ! for use in updating a11 (note that conjg(w) is actually stored)
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10      continue
+10            continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -7385,15 +7328,15 @@ module stdlib_linalg_lapack_c
               kstep = 1
               ! copy column k of a to column kw of w and update it
               call stdlib_ccopy(k - 1, a(1, k), 1, w(1, kw), 1)
-              w(k, kw) = real(a(k, k))
+              w(k, kw) = real(a(k, k), KIND=sp)
               if (k < n) then
                  call stdlib_cgemv('no transpose', k, n - k, -cone, a(1, k + 1), lda, w(k, kw + 1), &
                            ldw, cone, w(1, kw), 1)
-                 w(k, kw) = real(w(k, kw))
+                 w(k, kw) = real(w(k, kw), KIND=sp)
               end if
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(w(k, kw)))
+              absakk = abs(real(w(k, kw), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -7407,7 +7350,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(a(k, k))
+                 a(k, k) = real(a(k, k), KIND=sp)
               else
                  ! ============================================================
                  ! begin pivot search
@@ -7419,14 +7362,14 @@ module stdlib_linalg_lapack_c
                     ! begin pivot search along imax row
                     ! copy column imax to column kw-1 of w and update it
                     call stdlib_ccopy(imax - 1, a(1, imax), 1, w(1, kw - 1), 1)
-                    w(imax, kw - 1) = real(a(imax, imax))
+                    w(imax, kw - 1) = real(a(imax, imax), KIND=sp)
                     call stdlib_ccopy(k - imax, a(imax, imax + 1), lda, w(imax + 1, kw - 1), 1)
                               
                     call stdlib_clacgv(k - imax, w(imax + 1, kw - 1), 1)
                     if (k < n) then
                        call stdlib_cgemv('no transpose', k, n - k, -cone, a(1, k + 1), lda, w(imax, &
                                   kw + 1), ldw, cone, w(1, kw - 1), 1)
-                       w(imax, kw - 1) = real(w(imax, kw - 1))
+                       w(imax, kw - 1) = real(w(imax, kw - 1), KIND=sp)
                     end if
                     ! jmax is the column-index of the largest off-diagonal
                     ! element in row imax, and rowmax is its absolute value.
@@ -7442,7 +7385,7 @@ module stdlib_linalg_lapack_c
                        ! no interchange, use 1-by-1 pivot block
                        kp = k
                     ! case(3)
-                    else if (abs(real(w(imax, kw - 1))) >= alpha*rowmax) then
+                    else if (abs(real(w(imax, kw - 1), KIND=sp)) >= alpha*rowmax) then
                        ! interchange rows and columns k and imax, use 1-by-1
                        ! pivot block
                        kp = imax
@@ -7470,7 +7413,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into column k
                     ! (or k and k-1 for 2-by-2 pivot) of a, since these columns
                     ! will be later overwritten.
-                    a(kp, kp) = real(a(kk, kk))
+                    a(kp, kp) = real(a(kk, kk), KIND=sp)
                     call stdlib_ccopy(kk - 1 - kp, a(kp + 1, kk), 1, a(kp, kp + 1), lda)
                     call stdlib_clacgv(kk - 1 - kp, a(kp, kp + 1), lda)
                     if (kp > 1) call stdlib_ccopy(kp - 1, a(1, kk), 1, a(1, kp), 1)
@@ -7492,14 +7435,14 @@ module stdlib_linalg_lapack_c
                        ! a(k,k) := d(k,k) = w(k,kw)
                        ! a(1:k-1,k) := u(1:k-1,k) = w(1:k-1,kw)/d(k,k)
                     ! (note: no need to use for hermitian matrix
-                    ! a( k, k ) = real( w( k, k) ,KIND=sp) to separately copy diagonal
+                    ! a( k, k ) = real( w( k, k),KIND=sp) to separately copy diagonal
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_ccopy(k, w(1, kw), 1, a(1, k), 1)
                     if (k > 1) then
                        ! (note: no need to check if a(k,k) is not zero,
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(4))
-                       r1 = one/real(a(k, k))
+                       r1 = one/real(a(k, k), KIND=sp)
                        call stdlib_csscal(k - 1, r1, a(1, k), 1)
                        ! (2) conjugate column w(kw)
                        call stdlib_clacgv(k - 1, w(1, kw), 1)
@@ -7550,7 +7493,7 @@ module stdlib_linalg_lapack_c
                        d21 = w(k - 1, kw)
                        d11 = w(k, kw)/conjg(d21)
                        d22 = w(k - 1, kw - 1)/d21
-                       t = one/(real(d11*d22) - one)
+                       t = one/(real(d11*d22, KIND=sp) - one)
                        d21 = t/d21
                        ! update elements in columns a(k-1) and a(k) as
                        ! dot products of rows of ( w(kw-1) w(kw) ) and columns
@@ -7579,7 +7522,7 @@ module stdlib_linalg_lapack_c
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30            continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**h = a11 - u12*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -7588,10 +7531,10 @@ module stdlib_linalg_lapack_c
                  jb = min(nb, k - j + 1)
                  ! update the upper triangle of the diagonal block
                  do jj = j, j + jb - 1
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                     call stdlib_cgemv('no transpose', jj - j + 1, n - k, -cone, a(j, k + 1), lda, w(jj, &
                                kw + 1), ldw, cone, a(j, jj), 1)
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                  end do
                  ! update the rectangular superdiagonal block
                  call stdlib_cgemm('no transpose', 'transpose', j - 1, jb, n - k, -cone, a(1, k + 1), &
@@ -7600,7 +7543,7 @@ module stdlib_linalg_lapack_c
               ! put u12 in standard form by partially undoing the interchanges
               ! in of rows in columns k+1:n looping backwards from k+1 to n
               j = k + 1
-60      continue
+60            continue
                  ! undo the interchanges (if any) of rows j and jp
                  ! at each step j
                  ! (here, j is a diagonal index)
@@ -7625,19 +7568,19 @@ module stdlib_linalg_lapack_c
               ! for use in updating a22 (note that conjg(w) is actually stored)
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70            continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
               ! copy column k of a to column k of w and update it
-              w(k, k) = real(a(k, k))
+              w(k, k) = real(a(k, k), KIND=sp)
               if (k < n) call stdlib_ccopy(n - k, a(k + 1, k), 1, w(k + 1, k), 1)
               call stdlib_cgemv('no transpose', n - k + 1, k - 1, -cone, a(k, 1), lda, w(k, 1), ldw, &
                          cone, w(k, k), 1)
-              w(k, k) = real(w(k, k))
+              w(k, k) = real(w(k, k), KIND=sp)
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(w(k, k)))
+              absakk = abs(real(w(k, k), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -7651,7 +7594,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(a(k, k))
+                 a(k, k) = real(a(k, k), KIND=sp)
               else
                  ! ============================================================
                  ! begin pivot search
@@ -7664,12 +7607,12 @@ module stdlib_linalg_lapack_c
                     ! copy column imax to column k+1 of w and update it
                     call stdlib_ccopy(imax - k, a(imax, k), lda, w(k, k + 1), 1)
                     call stdlib_clacgv(imax - k, w(k, k + 1), 1)
-                    w(imax, k + 1) = real(a(imax, imax))
+                    w(imax, k + 1) = real(a(imax, imax), KIND=sp)
                     if (imax < n) call stdlib_ccopy(n - imax, a(imax + 1, imax), 1, w(imax + 1, k + 1), &
                               1)
                     call stdlib_cgemv('no transpose', n - k + 1, k - 1, -cone, a(k, 1), lda, w(imax, &
                               1), ldw, cone, w(k, k + 1), 1)
-                    w(imax, k + 1) = real(w(imax, k + 1))
+                    w(imax, k + 1) = real(w(imax, k + 1), KIND=sp)
                     ! jmax is the column-index of the largest off-diagonal
                     ! element in row imax, and rowmax is its absolute value.
                     ! determine only rowmax.
@@ -7684,7 +7627,7 @@ module stdlib_linalg_lapack_c
                        ! no interchange, use 1-by-1 pivot block
                        kp = k
                     ! case(3)
-                    else if (abs(real(w(imax, k + 1))) >= alpha*rowmax) then
+                    else if (abs(real(w(imax, k + 1), KIND=sp)) >= alpha*rowmax) then
                        ! interchange rows and columns k and imax, use 1-by-1
                        ! pivot block
                        kp = imax
@@ -7710,7 +7653,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into column k
                     ! (or k and k+1 for 2-by-2 pivot) of a, since these columns
                     ! will be later overwritten.
-                    a(kp, kp) = real(a(kk, kk))
+                    a(kp, kp) = real(a(kk, kk), KIND=sp)
                     call stdlib_ccopy(kp - kk - 1, a(kk + 1, kk), 1, a(kp, kk + 1), lda)
                     call stdlib_clacgv(kp - kk - 1, a(kp, kk + 1), lda)
                     if (kp < n) call stdlib_ccopy(n - kp, a(kp + 1, kk), 1, a(kp + 1, kp), 1)
@@ -7733,14 +7676,14 @@ module stdlib_linalg_lapack_c
                        ! a(k,k) := d(k,k) = w(k,k)
                        ! a(k+1:n,k) := l(k+1:n,k) = w(k+1:n,k)/d(k,k)
                     ! (note: no need to use for hermitian matrix
-                    ! a( k, k ) = real( w( k, k) ,KIND=sp) to separately copy diagonal
+                    ! a( k, k ) = real( w( k, k),KIND=sp) to separately copy diagonal
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_ccopy(n - k + 1, w(k, k), 1, a(k, k), 1)
                     if (k < n) then
                        ! (note: no need to check if a(k,k) is not zero,
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(4))
-                       r1 = one/real(a(k, k))
+                       r1 = one/real(a(k, k), KIND=sp)
                        call stdlib_csscal(n - k, r1, a(k + 1, k), 1)
                        ! (2) conjugate column w(k)
                        call stdlib_clacgv(n - k, w(k + 1, k), 1)
@@ -7791,7 +7734,7 @@ module stdlib_linalg_lapack_c
                        d21 = w(k + 1, k)
                        d11 = w(k + 1, k + 1)/d21
                        d22 = w(k, k)/conjg(d21)
-                       t = one/(real(d11*d22) - one)
+                       t = one/(real(d11*d22, KIND=sp) - one)
                        d21 = t/d21
                        ! update elements in columns a(k) and a(k+1) as
                        ! dot products of rows of ( w(k) w(k+1) ) and columns
@@ -7820,7 +7763,7 @@ module stdlib_linalg_lapack_c
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90            continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**h = a22 - l21*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -7829,10 +7772,10 @@ module stdlib_linalg_lapack_c
                  jb = min(nb, n - j + 1)
                  ! update the lower triangle of the diagonal block
                  do jj = j, j + jb - 1
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                     call stdlib_cgemv('no transpose', j + jb - jj, k - 1, -cone, a(jj, 1), lda, w(jj, &
                                1), ldw, cone, a(jj, jj), 1)
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                  end do
                  ! update the rectangular subdiagonal block
                  if (j + jb <= n) call stdlib_cgemm('no transpose', 'transpose', n - j - jb + 1, jb, k - 1, - &
@@ -7841,7 +7784,7 @@ module stdlib_linalg_lapack_c
               ! put l21 in standard form by partially undoing the interchanges
               ! of rows in columns 1:k-1 looping backwards from k-1 to 1
               j = k - 1
-120    continue
+120           continue
                  ! undo the interchanges (if any) of rows j and jp
                  ! at each step j
                  ! (here, j is a diagonal index)
@@ -7862,7 +7805,6 @@ module stdlib_linalg_lapack_c
               kb = k - 1
            end if
            return
-           ! end of stdlib_clahef
      end subroutine stdlib_clahef
 
      ! CLAHEF_RK computes a partial factorization of a complex Hermitian
@@ -7902,7 +7844,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            info = 0
            ! initialize alpha for use in choosing pivot block size.
@@ -7918,7 +7860,7 @@ module stdlib_linalg_lapack_c
               e(1) = czero
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10      continue
+10            continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -7927,15 +7869,15 @@ module stdlib_linalg_lapack_c
               p = k
               ! copy column k of a to column kw of w and update it
               if (k > 1) call stdlib_ccopy(k - 1, a(1, k), 1, w(1, kw), 1)
-              w(k, kw) = real(a(k, k))
+              w(k, kw) = real(a(k, k), KIND=sp)
               if (k < n) then
                  call stdlib_cgemv('no transpose', k, n - k, -cone, a(1, k + 1), lda, w(k, kw + 1), &
                            ldw, cone, w(1, kw), 1)
-                 w(k, kw) = real(w(k, kw))
+                 w(k, kw) = real(w(k, kw), KIND=sp)
               end if
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(w(k, kw)))
+              absakk = abs(real(w(k, kw), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -7949,7 +7891,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(w(k, kw))
+                 a(k, k) = real(w(k, kw), KIND=sp)
                  if (k > 1) call stdlib_ccopy(k - 1, w(1, kw), 1, a(1, k), 1)
                  ! set e( k ) to zero
                  if (k > 1) e(k) = czero
@@ -7965,19 +7907,19 @@ module stdlib_linalg_lapack_c
                  else
                     ! lop until pivot found
                     done = .false.
-12      continue
+12                  continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        if (imax > 1) call stdlib_ccopy(imax - 1, a(1, imax), 1, w(1, kw - 1), 1)
                                  
-                       w(imax, kw - 1) = real(a(imax, imax))
+                       w(imax, kw - 1) = real(a(imax, imax), KIND=sp)
                        call stdlib_ccopy(k - imax, a(imax, imax + 1), lda, w(imax + 1, kw - 1), 1)
                                  
                        call stdlib_clacgv(k - imax, w(imax + 1, kw - 1), 1)
                        if (k < n) then
                           call stdlib_cgemv('no transpose', k, n - k, -cone, a(1, k + 1), lda, w( &
                                     imax, kw + 1), ldw, cone, w(1, kw - 1), 1)
-                          w(imax, kw - 1) = real(w(imax, kw - 1))
+                          w(imax, kw - 1) = real(w(imax, kw - 1), KIND=sp)
                        end if
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -7998,9 +7940,10 @@ module stdlib_linalg_lapack_c
                        end if
                        ! case(2)
                        ! equivalent to testing for
-                       ! abs( real( w( imax,kw-1 ) ) )>=alpha*rowmax
+                       ! abs( real( w( imax,kw-1 ),KIND=sp) )>=alpha*rowmax
                        ! (used to handle nan and inf)
-                       if (.not. (abs(real(w(imax, kw - 1))) < alpha*rowmax)) then
+                       if (.not. (abs(real(w(imax, kw - 1), KIND=sp)) < alpha*rowmax)) &
+                                 then
                           ! interchange rows and columns k and imax,
                           ! use 1-by-1 pivot block
                           kp = imax
@@ -8041,7 +7984,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into columns
                     ! k and k-1 of a for 2-by-2 pivot, since these columns
                     ! will be later overwritten.
-                    a(p, p) = real(a(k, k))
+                    a(p, p) = real(a(k, k), KIND=sp)
                     call stdlib_ccopy(k - 1 - p, a(p + 1, k), 1, a(p, p + 1), lda)
                     call stdlib_clacgv(k - 1 - p, a(p, p + 1), lda)
                     if (p > 1) call stdlib_ccopy(p - 1, a(1, k), 1, a(1, p), 1)
@@ -8059,7 +8002,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into column k
                     ! (or k and k-1 for 2-by-2 pivot) of a, since these columns
                     ! will be later overwritten.
-                    a(kp, kp) = real(a(kk, kk))
+                    a(kp, kp) = real(a(kk, kk), KIND=sp)
                     call stdlib_ccopy(kk - 1 - kp, a(kp + 1, kk), 1, a(kp, kp + 1), lda)
                     call stdlib_clacgv(kk - 1 - kp, a(kp, kp + 1), lda)
                     if (kp > 1) call stdlib_ccopy(kp - 1, a(1, kk), 1, a(1, kp), 1)
@@ -8081,7 +8024,7 @@ module stdlib_linalg_lapack_c
                        ! a(k,k) := d(k,k) = w(k,kw)
                        ! a(1:k-1,k) := u(1:k-1,k) = w(1:k-1,kw)/d(k,k)
                     ! (note: no need to use for hermitian matrix
-                    ! a( k, k ) = real( w( k, k) ) to separately copy diagonal
+                    ! a( k, k ) = real( w( k, k),KIND=sp) to separately copy diagonal
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_ccopy(k, w(1, kw), 1, a(1, k), 1)
                     if (k > 1) then
@@ -8089,7 +8032,7 @@ module stdlib_linalg_lapack_c
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(3))
                        ! handle division by a small number
-                       t = real(a(k, k))
+                       t = real(a(k, k), KIND=sp)
                        if (abs(t) >= sfmin) then
                           r1 = one/t
                           call stdlib_csscal(k - 1, r1, a(1, k), 1)
@@ -8151,7 +8094,7 @@ module stdlib_linalg_lapack_c
                        d21 = w(k - 1, kw)
                        d11 = w(k, kw)/conjg(d21)
                        d22 = w(k - 1, kw - 1)/d21
-                       t = one/(real(d11*d22) - one)
+                       t = one/(real(d11*d22, KIND=sp) - one)
                        ! update elements in columns a(k-1) and a(k) as
                        ! dot products of rows of ( w(kw-1) w(kw) ) and columns
                        ! of d**(-1)
@@ -8184,7 +8127,7 @@ module stdlib_linalg_lapack_c
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30            continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**h = a11 - u12*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -8193,10 +8136,10 @@ module stdlib_linalg_lapack_c
                  jb = min(nb, k - j + 1)
                  ! update the upper triangle of the diagonal block
                  do jj = j, j + jb - 1
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                     call stdlib_cgemv('no transpose', jj - j + 1, n - k, -cone, a(j, k + 1), lda, w(jj, &
                                kw + 1), ldw, cone, a(j, jj), 1)
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                  end do
                  ! update the rectangular superdiagonal block
                  if (j >= 2) call stdlib_cgemm('no transpose', 'transpose', j - 1, jb, n - k, -cone, a( &
@@ -8212,22 +8155,22 @@ module stdlib_linalg_lapack_c
               e(n) = czero
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70            continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
               p = k
               ! copy column k of a to column k of w and update column k of w
-              w(k, k) = real(a(k, k))
+              w(k, k) = real(a(k, k), KIND=sp)
               if (k < n) call stdlib_ccopy(n - k, a(k + 1, k), 1, w(k + 1, k), 1)
               if (k > 1) then
                  call stdlib_cgemv('no transpose', n - k + 1, k - 1, -cone, a(k, 1), lda, w(k, 1), &
                            ldw, cone, w(k, k), 1)
-                 w(k, k) = real(w(k, k))
+                 w(k, k) = real(w(k, k), KIND=sp)
               end if
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(w(k, k)))
+              absakk = abs(real(w(k, k), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -8241,7 +8184,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(w(k, k))
+                 a(k, k) = real(w(k, k), KIND=sp)
                  if (k < n) call stdlib_ccopy(n - k, w(k + 1, k), 1, a(k + 1, k), 1)
                  ! set e( k ) to zero
                  if (k < n) e(k) = czero
@@ -8257,18 +8200,18 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-72      continue
+72   continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_ccopy(imax - k, a(imax, k), lda, w(k, k + 1), 1)
                        call stdlib_clacgv(imax - k, w(k, k + 1), 1)
-                       w(imax, k + 1) = real(a(imax, imax))
+                       w(imax, k + 1) = real(a(imax, imax), KIND=sp)
                        if (imax < n) call stdlib_ccopy(n - imax, a(imax + 1, imax), 1, w(imax + 1, k + 1 &
                                  ), 1)
                        if (k > 1) then
                           call stdlib_cgemv('no transpose', n - k + 1, k - 1, -cone, a(k, 1), lda, w( &
                                     imax, 1), ldw, cone, w(k, k + 1), 1)
-                          w(imax, k + 1) = real(w(imax, k + 1))
+                          w(imax, k + 1) = real(w(imax, k + 1), KIND=sp)
                        end if
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -8289,9 +8232,10 @@ module stdlib_linalg_lapack_c
                        end if
                        ! case(2)
                        ! equivalent to testing for
-                       ! abs( real( w( imax,k+1 ) ) )>=alpha*rowmax
+                       ! abs( real( w( imax,k+1 ),KIND=sp) )>=alpha*rowmax
                        ! (used to handle nan and inf)
-                       if (.not. (abs(real(w(imax, k + 1))) < alpha*rowmax)) then
+                       if (.not. (abs(real(w(imax, k + 1), KIND=sp)) < alpha*rowmax)) &
+                                 then
                           ! interchange rows and columns k and imax,
                           ! use 1-by-1 pivot block
                           kp = imax
@@ -8330,7 +8274,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into columns
                     ! k and k+1 of a for 2-by-2 pivot, since these columns
                     ! will be later overwritten.
-                    a(p, p) = real(a(k, k))
+                    a(p, p) = real(a(k, k), KIND=sp)
                     call stdlib_ccopy(p - k - 1, a(k + 1, k), 1, a(p, k + 1), lda)
                     call stdlib_clacgv(p - k - 1, a(p, k + 1), lda)
                     if (p < n) call stdlib_ccopy(n - p, a(p + 1, k), 1, a(p + 1, p), 1)
@@ -8348,7 +8292,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into column k
                     ! (or k and k+1 for 2-by-2 pivot) of a, since these columns
                     ! will be later overwritten.
-                    a(kp, kp) = real(a(kk, kk))
+                    a(kp, kp) = real(a(kk, kk), KIND=sp)
                     call stdlib_ccopy(kp - kk - 1, a(kk + 1, kk), 1, a(kp, kk + 1), lda)
                     call stdlib_clacgv(kp - kk - 1, a(kp, kk + 1), lda)
                     if (kp < n) call stdlib_ccopy(n - kp, a(kp + 1, kk), 1, a(kp + 1, kp), 1)
@@ -8371,7 +8315,7 @@ module stdlib_linalg_lapack_c
                        ! a(k,k) := d(k,k) = w(k,k)
                        ! a(k+1:n,k) := l(k+1:n,k) = w(k+1:n,k)/d(k,k)
                     ! (note: no need to use for hermitian matrix
-                    ! a( k, k ) = real( w( k, k) ) to separately copy diagonal
+                    ! a( k, k ) = real( w( k, k),KIND=sp) to separately copy diagonal
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_ccopy(n - k + 1, w(k, k), 1, a(k, k), 1)
                     if (k < n) then
@@ -8379,7 +8323,7 @@ module stdlib_linalg_lapack_c
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(3))
                        ! handle division by a small number
-                       t = real(a(k, k))
+                       t = real(a(k, k), KIND=sp)
                        if (abs(t) >= sfmin) then
                           r1 = one/t
                           call stdlib_csscal(n - k, r1, a(k + 1, k), 1)
@@ -8441,7 +8385,7 @@ module stdlib_linalg_lapack_c
                        d21 = w(k + 1, k)
                        d11 = w(k + 1, k + 1)/d21
                        d22 = w(k, k)/conjg(d21)
-                       t = one/(real(d11*d22) - one)
+                       t = one/(real(d11*d22, KIND=sp) - one)
                        ! update elements in columns a(k) and a(k+1) as
                        ! dot products of rows of ( w(k) w(k+1) ) and columns
                        ! of d**(-1)
@@ -8474,7 +8418,7 @@ module stdlib_linalg_lapack_c
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90            continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**h = a22 - l21*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -8483,10 +8427,10 @@ module stdlib_linalg_lapack_c
                  jb = min(nb, n - j + 1)
                  ! update the lower triangle of the diagonal block
                  do jj = j, j + jb - 1
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                     call stdlib_cgemv('no transpose', j + jb - jj, k - 1, -cone, a(jj, 1), lda, w(jj, &
                                1), ldw, cone, a(jj, jj), 1)
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                  end do
                  ! update the rectangular subdiagonal block
                  if (j + jb <= n) call stdlib_cgemm('no transpose', 'transpose', n - j - jb + 1, jb, k - 1, - &
@@ -8496,7 +8440,6 @@ module stdlib_linalg_lapack_c
               kb = k - 1
            end if
            return
-           ! end of stdlib_clahef_rk
      end subroutine stdlib_clahef_rk
 
      ! CLAHEF_ROOK computes a partial factorization of a complex Hermitian
@@ -8538,7 +8481,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            info = 0
            ! initialize alpha for use in choosing pivot block size.
@@ -8551,7 +8494,7 @@ module stdlib_linalg_lapack_c
               ! for use in updating a11 (note that conjg(w) is actually stored)
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10      continue
+10            continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -8560,15 +8503,15 @@ module stdlib_linalg_lapack_c
               p = k
               ! copy column k of a to column kw of w and update it
               if (k > 1) call stdlib_ccopy(k - 1, a(1, k), 1, w(1, kw), 1)
-              w(k, kw) = real(a(k, k))
+              w(k, kw) = real(a(k, k), KIND=sp)
               if (k < n) then
                  call stdlib_cgemv('no transpose', k, n - k, -cone, a(1, k + 1), lda, w(k, kw + 1), &
                            ldw, cone, w(1, kw), 1)
-                 w(k, kw) = real(w(k, kw))
+                 w(k, kw) = real(w(k, kw), KIND=sp)
               end if
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(w(k, kw)))
+              absakk = abs(real(w(k, kw), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -8582,7 +8525,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(w(k, kw))
+                 a(k, k) = real(w(k, kw), KIND=sp)
                  if (k > 1) call stdlib_ccopy(k - 1, w(1, kw), 1, a(1, k), 1)
               else
                  ! ============================================================
@@ -8596,19 +8539,19 @@ module stdlib_linalg_lapack_c
                  else
                     ! lop until pivot found
                     done = .false.
-12      continue
+12                  continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        if (imax > 1) call stdlib_ccopy(imax - 1, a(1, imax), 1, w(1, kw - 1), 1)
                                  
-                       w(imax, kw - 1) = real(a(imax, imax))
+                       w(imax, kw - 1) = real(a(imax, imax), KIND=sp)
                        call stdlib_ccopy(k - imax, a(imax, imax + 1), lda, w(imax + 1, kw - 1), 1)
                                  
                        call stdlib_clacgv(k - imax, w(imax + 1, kw - 1), 1)
                        if (k < n) then
                           call stdlib_cgemv('no transpose', k, n - k, -cone, a(1, k + 1), lda, w( &
                                     imax, kw + 1), ldw, cone, w(1, kw - 1), 1)
-                          w(imax, kw - 1) = real(w(imax, kw - 1))
+                          w(imax, kw - 1) = real(w(imax, kw - 1), KIND=sp)
                        end if
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -8629,9 +8572,10 @@ module stdlib_linalg_lapack_c
                        end if
                        ! case(2)
                        ! equivalent to testing for
-                       ! abs( real( w( imax,kw-1 ) ) )>=alpha*rowmax
+                       ! abs( real( w( imax,kw-1 ),KIND=sp) )>=alpha*rowmax
                        ! (used to handle nan and inf)
-                       if (.not. (abs(real(w(imax, kw - 1))) < alpha*rowmax)) then
+                       if (.not. (abs(real(w(imax, kw - 1), KIND=sp)) < alpha*rowmax)) &
+                                 then
                           ! interchange rows and columns k and imax,
                           ! use 1-by-1 pivot block
                           kp = imax
@@ -8672,7 +8616,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into columns
                     ! k and k-1 of a for 2-by-2 pivot, since these columns
                     ! will be later overwritten.
-                    a(p, p) = real(a(k, k))
+                    a(p, p) = real(a(k, k), KIND=sp)
                     call stdlib_ccopy(k - 1 - p, a(p + 1, k), 1, a(p, p + 1), lda)
                     call stdlib_clacgv(k - 1 - p, a(p, p + 1), lda)
                     if (p > 1) call stdlib_ccopy(p - 1, a(1, k), 1, a(1, p), 1)
@@ -8690,7 +8634,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into column k
                     ! (or k and k-1 for 2-by-2 pivot) of a, since these columns
                     ! will be later overwritten.
-                    a(kp, kp) = real(a(kk, kk))
+                    a(kp, kp) = real(a(kk, kk), KIND=sp)
                     call stdlib_ccopy(kk - 1 - kp, a(kp + 1, kk), 1, a(kp, kp + 1), lda)
                     call stdlib_clacgv(kk - 1 - kp, a(kp, kp + 1), lda)
                     if (kp > 1) call stdlib_ccopy(kp - 1, a(1, kk), 1, a(1, kp), 1)
@@ -8712,7 +8656,7 @@ module stdlib_linalg_lapack_c
                        ! a(k,k) := d(k,k) = w(k,kw)
                        ! a(1:k-1,k) := u(1:k-1,k) = w(1:k-1,kw)/d(k,k)
                     ! (note: no need to use for hermitian matrix
-                    ! a( k, k ) = real( w( k, k) ) to separately copy diagonal
+                    ! a( k, k ) = real( w( k, k),KIND=sp) to separately copy diagonal
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_ccopy(k, w(1, kw), 1, a(1, k), 1)
                     if (k > 1) then
@@ -8720,7 +8664,7 @@ module stdlib_linalg_lapack_c
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(3))
                        ! handle division by a small number
-                       t = real(a(k, k))
+                       t = real(a(k, k), KIND=sp)
                        if (abs(t) >= sfmin) then
                           r1 = one/t
                           call stdlib_csscal(k - 1, r1, a(1, k), 1)
@@ -8780,7 +8724,7 @@ module stdlib_linalg_lapack_c
                        d21 = w(k - 1, kw)
                        d11 = w(k, kw)/conjg(d21)
                        d22 = w(k - 1, kw - 1)/d21
-                       t = one/(real(d11*d22) - one)
+                       t = one/(real(d11*d22, KIND=sp) - one)
                        ! update elements in columns a(k-1) and a(k) as
                        ! dot products of rows of ( w(kw-1) w(kw) ) and columns
                        ! of d**(-1)
@@ -8808,7 +8752,7 @@ module stdlib_linalg_lapack_c
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30            continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**h = a11 - u12*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -8817,10 +8761,10 @@ module stdlib_linalg_lapack_c
                  jb = min(nb, k - j + 1)
                  ! update the upper triangle of the diagonal block
                  do jj = j, j + jb - 1
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                     call stdlib_cgemv('no transpose', jj - j + 1, n - k, -cone, a(j, k + 1), lda, w(jj, &
                                kw + 1), ldw, cone, a(j, jj), 1)
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                  end do
                  ! update the rectangular superdiagonal block
                  if (j >= 2) call stdlib_cgemm('no transpose', 'transpose', j - 1, jb, n - k, -cone, a( &
@@ -8829,7 +8773,7 @@ module stdlib_linalg_lapack_c
               ! put u12 in standard form by partially undoing the interchanges
               ! in of rows in columns k+1:n looping backwards from k+1 to n
               j = k + 1
-60      continue
+60            continue
                  ! undo the interchanges (if any) of rows j and jp2
                  ! (or j and jp2, and j+1 and jp1) at each step j
                  kstep = 1
@@ -8861,22 +8805,22 @@ module stdlib_linalg_lapack_c
               ! for use in updating a22 (note that conjg(w) is actually stored)
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70            continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
               p = k
               ! copy column k of a to column k of w and update column k of w
-              w(k, k) = real(a(k, k))
+              w(k, k) = real(a(k, k), KIND=sp)
               if (k < n) call stdlib_ccopy(n - k, a(k + 1, k), 1, w(k + 1, k), 1)
               if (k > 1) then
                  call stdlib_cgemv('no transpose', n - k + 1, k - 1, -cone, a(k, 1), lda, w(k, 1), &
                            ldw, cone, w(k, k), 1)
-                 w(k, k) = real(w(k, k))
+                 w(k, k) = real(w(k, k), KIND=sp)
               end if
               ! determine rows and columns to be interchanged and whether
               ! a 1-by-1 or 2-by-2 pivot block will be used
-              absakk = abs(real(w(k, k)))
+              absakk = abs(real(w(k, k), KIND=sp))
               ! imax is the row-index of the largest off-diagonal element in
               ! column k, and colmax is its absolute value.
               ! determine both colmax and imax.
@@ -8890,7 +8834,7 @@ module stdlib_linalg_lapack_c
                  ! column k is zero or underflow: set info and continue
                  if (info == 0) info = k
                  kp = k
-                 a(k, k) = real(w(k, k))
+                 a(k, k) = real(w(k, k), KIND=sp)
                  if (k < n) call stdlib_ccopy(n - k, w(k + 1, k), 1, a(k + 1, k), 1)
               else
                  ! ============================================================
@@ -8904,18 +8848,18 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-72      continue
+72   continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_ccopy(imax - k, a(imax, k), lda, w(k, k + 1), 1)
                        call stdlib_clacgv(imax - k, w(k, k + 1), 1)
-                       w(imax, k + 1) = real(a(imax, imax))
+                       w(imax, k + 1) = real(a(imax, imax), KIND=sp)
                        if (imax < n) call stdlib_ccopy(n - imax, a(imax + 1, imax), 1, w(imax + 1, k + 1 &
                                  ), 1)
                        if (k > 1) then
                           call stdlib_cgemv('no transpose', n - k + 1, k - 1, -cone, a(k, 1), lda, w( &
                                     imax, 1), ldw, cone, w(k, k + 1), 1)
-                          w(imax, k + 1) = real(w(imax, k + 1))
+                          w(imax, k + 1) = real(w(imax, k + 1), KIND=sp)
                        end if
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -8936,9 +8880,10 @@ module stdlib_linalg_lapack_c
                        end if
                        ! case(2)
                        ! equivalent to testing for
-                       ! abs( real( w( imax,k+1 ) ) )>=alpha*rowmax
+                       ! abs( real( w( imax,k+1 ),KIND=sp) )>=alpha*rowmax
                        ! (used to handle nan and inf)
-                       if (.not. (abs(real(w(imax, k + 1))) < alpha*rowmax)) then
+                       if (.not. (abs(real(w(imax, k + 1), KIND=sp)) < alpha*rowmax)) &
+                                 then
                           ! interchange rows and columns k and imax,
                           ! use 1-by-1 pivot block
                           kp = imax
@@ -8977,7 +8922,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into columns
                     ! k and k+1 of a for 2-by-2 pivot, since these columns
                     ! will be later overwritten.
-                    a(p, p) = real(a(k, k))
+                    a(p, p) = real(a(k, k), KIND=sp)
                     call stdlib_ccopy(p - k - 1, a(k + 1, k), 1, a(p, k + 1), lda)
                     call stdlib_clacgv(p - k - 1, a(p, k + 1), lda)
                     if (p < n) call stdlib_ccopy(n - p, a(p + 1, k), 1, a(p + 1, p), 1)
@@ -8995,7 +8940,7 @@ module stdlib_linalg_lapack_c
                     ! at step k. no need to copy element into column k
                     ! (or k and k+1 for 2-by-2 pivot) of a, since these columns
                     ! will be later overwritten.
-                    a(kp, kp) = real(a(kk, kk))
+                    a(kp, kp) = real(a(kk, kk), KIND=sp)
                     call stdlib_ccopy(kp - kk - 1, a(kk + 1, kk), 1, a(kp, kk + 1), lda)
                     call stdlib_clacgv(kp - kk - 1, a(kp, kk + 1), lda)
                     if (kp < n) call stdlib_ccopy(n - kp, a(kp + 1, kk), 1, a(kp + 1, kp), 1)
@@ -9018,7 +8963,7 @@ module stdlib_linalg_lapack_c
                        ! a(k,k) := d(k,k) = w(k,k)
                        ! a(k+1:n,k) := l(k+1:n,k) = w(k+1:n,k)/d(k,k)
                     ! (note: no need to use for hermitian matrix
-                    ! a( k, k ) = real( w( k, k) ) to separately copy diagonal
+                    ! a( k, k ) = real( w( k, k),KIND=sp) to separately copy diagonal
                     ! element d(k,k) from w (potentially saves only one load))
                     call stdlib_ccopy(n - k + 1, w(k, k), 1, a(k, k), 1)
                     if (k < n) then
@@ -9026,7 +8971,7 @@ module stdlib_linalg_lapack_c
                         ! since that was ensured earlier in pivot search:
                         ! case a(k,k) = 0 falls into 2x2 pivot case(3))
                        ! handle division by a small number
-                       t = real(a(k, k))
+                       t = real(a(k, k), KIND=sp)
                        if (abs(t) >= sfmin) then
                           r1 = one/t
                           call stdlib_csscal(n - k, r1, a(k + 1, k), 1)
@@ -9086,7 +9031,7 @@ module stdlib_linalg_lapack_c
                        d21 = w(k + 1, k)
                        d11 = w(k + 1, k + 1)/d21
                        d22 = w(k, k)/conjg(d21)
-                       t = one/(real(d11*d22) - one)
+                       t = one/(real(d11*d22, KIND=sp) - one)
                        ! update elements in columns a(k) and a(k+1) as
                        ! dot products of rows of ( w(k) w(k+1) ) and columns
                        ! of d**(-1)
@@ -9114,7 +9059,7 @@ module stdlib_linalg_lapack_c
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90            continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**h = a22 - l21*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -9123,10 +9068,10 @@ module stdlib_linalg_lapack_c
                  jb = min(nb, n - j + 1)
                  ! update the lower triangle of the diagonal block
                  do jj = j, j + jb - 1
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                     call stdlib_cgemv('no transpose', j + jb - jj, k - 1, -cone, a(jj, 1), lda, w(jj, &
                                1), ldw, cone, a(jj, jj), 1)
-                    a(jj, jj) = real(a(jj, jj))
+                    a(jj, jj) = real(a(jj, jj), KIND=sp)
                  end do
                  ! update the rectangular subdiagonal block
                  if (j + jb <= n) call stdlib_cgemm('no transpose', 'transpose', n - j - jb + 1, jb, k - 1, - &
@@ -9135,7 +9080,7 @@ module stdlib_linalg_lapack_c
               ! put l21 in standard form by partially undoing the interchanges
               ! of rows in columns 1:k-1 looping backwards from k-1 to 1
               j = k - 1
-120    continue
+120           continue
                  ! undo the interchanges (if any) of rows j and jp2
                  ! (or j and jp2, and j-1 and jp1) at each step j
                  kstep = 1
@@ -9163,7 +9108,6 @@ module stdlib_linalg_lapack_c
               kb = k - 1
            end if
            return
-           ! end of stdlib_clahef_rook
      end subroutine stdlib_clahef_rook
 
      ! CLAIC1 applies one step of incremental condition estimation in
@@ -9223,7 +9167,7 @@ module stdlib_linalg_lapack_c
                  else
                     s = alpha/s1
                     c = gamma/s1
-                    tmp = real(sqrt(s*conjg(s) + c*conjg(c)))
+                    tmp = real(sqrt(s*conjg(s) + c*conjg(c)), KIND=sp)
                     s = s/tmp
                     c = c/tmp
                     sestpr = s1*tmp
@@ -9274,13 +9218,14 @@ module stdlib_linalg_lapack_c
                  b = (one - zeta1*zeta1 - zeta2*zeta2)*half
                  c = zeta1*zeta1
                  if (b > zero) then
-                    t = real(c/(b + sqrt(b*b + c)))
+                    t = real(c/(b + sqrt(b*b + c)), KIND=sp)
                  else
-                    t = real(sqrt(b*b + c) - b)
+                    t = real(sqrt(b*b + c) - b, KIND=sp)
                  end if
                  sine = -(alpha/absest)/t
                  cosine = -(gamma/absest)/(one + t)
-                 tmp = real(sqrt(sine*conjg(sine) + cosine*conjg(cosine)))
+                 tmp = real(sqrt(sine*conjg(sine) + cosine*conjg(cosine)), KIND=sp)
+                           
                  s = sine/tmp
                  c = cosine/tmp
                  sestpr = sqrt(t + one)*absest
@@ -9301,7 +9246,7 @@ module stdlib_linalg_lapack_c
                  s1 = max(abs(sine), abs(cosine))
                  s = sine/s1
                  c = cosine/s1
-                 tmp = real(sqrt(s*conjg(s) + c*conjg(c)))
+                 tmp = real(sqrt(s*conjg(s) + c*conjg(c)), KIND=sp)
                  s = s/tmp
                  c = c/tmp
                  return
@@ -9351,7 +9296,7 @@ module stdlib_linalg_lapack_c
                     ! root is close to zero, compute directly
                     b = (zeta1*zeta1 + zeta2*zeta2 + one)*half
                     c = zeta2*zeta2
-                    t = real(c/(b + sqrt(abs(b*b - c))))
+                    t = real(c/(b + sqrt(abs(b*b - c))), KIND=sp)
                     sine = (alpha/absest)/(one - t)
                     cosine = -(gamma/absest)/t
                     sestpr = sqrt(t + four*eps*eps*norma)*absest
@@ -9360,22 +9305,22 @@ module stdlib_linalg_lapack_c
                     b = (zeta2*zeta2 + zeta1*zeta1 - one)*half
                     c = zeta1*zeta1
                     if (b >= zero) then
-                       t = real(-c/(b + sqrt(b*b + c)))
+                       t = real(-c/(b + sqrt(b*b + c)), KIND=sp)
                     else
-                       t = real(b - sqrt(b*b + c))
+                       t = real(b - sqrt(b*b + c), KIND=sp)
                     end if
                     sine = -(alpha/absest)/t
                     cosine = -(gamma/absest)/(one + t)
                     sestpr = sqrt(one + t + four*eps*eps*norma)*absest
                  end if
-                 tmp = real(sqrt(sine*conjg(sine) + cosine*conjg(cosine)))
+                 tmp = real(sqrt(sine*conjg(sine) + cosine*conjg(cosine)), KIND=sp)
+                           
                  s = sine/tmp
                  c = cosine/tmp
                  return
               end if
            end if
            return
-           ! end of stdlib_claic1
      end subroutine stdlib_claic1
 
      ! CLAPMR rearranges the rows of the M by N matrix X as specified
@@ -9411,7 +9356,7 @@ module stdlib_linalg_lapack_c
                  j = i
                  k(j) = -k(j)
                  in = k(j)
-20      continue
+20               continue
                  if (k(in) > 0) go to 40
                  do jj = 1, n
                     temp = x(j, jj)
@@ -9422,7 +9367,7 @@ module stdlib_linalg_lapack_c
                  j = in
                  in = k(in)
                  go to 20
-40      continue
+40               continue
               end do
            else
               ! backward permutation
@@ -9430,7 +9375,7 @@ module stdlib_linalg_lapack_c
                  if (k(i) > 0) go to 80
                  k(i) = -k(i)
                  j = k(i)
-60      continue
+60               continue
                  if (j == i) go to 80
                  do jj = 1, n
                     temp = x(i, jj)
@@ -9440,11 +9385,10 @@ module stdlib_linalg_lapack_c
                  k(j) = -k(j)
                  j = k(j)
                  go to 60
-80      continue
+80               continue
               end do
            end if
            return
-           ! end of stdlib_clapmr
      end subroutine stdlib_clapmr
 
      ! CLAPMT rearranges the columns of the M by N matrix X as specified
@@ -9480,7 +9424,7 @@ module stdlib_linalg_lapack_c
                  j = i
                  k(j) = -k(j)
                  in = k(j)
-20      continue
+20               continue
                  if (k(in) > 0) go to 40
                  do ii = 1, m
                     temp = x(ii, j)
@@ -9491,7 +9435,7 @@ module stdlib_linalg_lapack_c
                  j = in
                  in = k(in)
                  go to 20
-40      continue
+40               continue
               end do
            else
               ! backward permutation
@@ -9499,7 +9443,7 @@ module stdlib_linalg_lapack_c
                  if (k(i) > 0) go to 100
                  k(i) = -k(i)
                  j = k(i)
-80      continue
+80               continue
                  if (j == i) go to 100
                  do ii = 1, m
                     temp = x(ii, i)
@@ -9509,11 +9453,10 @@ module stdlib_linalg_lapack_c
                  k(j) = -k(j)
                  j = k(j)
                  go to 80
-100    continue
+100              continue
               end do
            end if
            return
-           ! end of stdlib_clapmt
      end subroutine stdlib_clapmt
 
      ! CLAQGB equilibrates a general M by N band matrix A with KL
@@ -9583,7 +9526,6 @@ module stdlib_linalg_lapack_c
               equed = 'b'
            end if
            return
-           ! end of stdlib_claqgb
      end subroutine stdlib_claqgb
 
      ! CLAQGE equilibrates a general M by N matrix A using the row and
@@ -9650,7 +9592,6 @@ module stdlib_linalg_lapack_c
               equed = 'b'
            end if
            return
-           ! end of stdlib_claqge
      end subroutine stdlib_claqge
 
      ! CLAQHB equilibrates an Hermitian band matrix A using the scaling
@@ -9697,13 +9638,13 @@ module stdlib_linalg_lapack_c
                     do i = max(1, j - kd), j - 1
                        ab(kd + 1 + i - j, j) = cj*s(i)*ab(kd + 1 + i - j, j)
                     end do
-                    ab(kd + 1, j) = cj*cj*real(ab(kd + 1, j))
+                    ab(kd + 1, j) = cj*cj*real(ab(kd + 1, j), KIND=sp)
                  end do
               else
                  ! lower triangle of a is stored.
                  do j = 1, n
                     cj = s(j)
-                    ab(1, j) = cj*cj*real(ab(1, j))
+                    ab(1, j) = cj*cj*real(ab(1, j), KIND=sp)
                     do i = j + 1, min(n, j + kd)
                        ab(1 + i - j, j) = cj*s(i)*ab(1 + i - j, j)
                     end do
@@ -9712,7 +9653,6 @@ module stdlib_linalg_lapack_c
               equed = 'y'
            end if
            return
-           ! end of stdlib_claqhb
      end subroutine stdlib_claqhb
 
      ! CLAQHE equilibrates a Hermitian matrix A using the scaling factors
@@ -9759,13 +9699,13 @@ module stdlib_linalg_lapack_c
                     do i = 1, j - 1
                        a(i, j) = cj*s(i)*a(i, j)
                     end do
-                    a(j, j) = cj*cj*real(a(j, j))
+                    a(j, j) = cj*cj*real(a(j, j), KIND=sp)
                  end do
               else
                  ! lower triangle of a is stored.
                  do j = 1, n
                     cj = s(j)
-                    a(j, j) = cj*cj*real(a(j, j))
+                    a(j, j) = cj*cj*real(a(j, j), KIND=sp)
                     do i = j + 1, n
                        a(i, j) = cj*s(i)*a(i, j)
                     end do
@@ -9774,7 +9714,6 @@ module stdlib_linalg_lapack_c
               equed = 'y'
            end if
            return
-           ! end of stdlib_claqhe
      end subroutine stdlib_claqhe
 
      ! CLAQHP equilibrates a Hermitian matrix A using the scaling factors
@@ -9822,7 +9761,7 @@ module stdlib_linalg_lapack_c
                     do i = 1, j - 1
                        ap(jc + i - 1) = cj*s(i)*ap(jc + i - 1)
                     end do
-                    ap(jc + j - 1) = cj*cj*real(ap(jc + j - 1))
+                    ap(jc + j - 1) = cj*cj*real(ap(jc + j - 1), KIND=sp)
                     jc = jc + j
                  end do
               else
@@ -9830,7 +9769,7 @@ module stdlib_linalg_lapack_c
                  jc = 1
                  do j = 1, n
                     cj = s(j)
-                    ap(jc) = cj*cj*real(ap(jc))
+                    ap(jc) = cj*cj*real(ap(jc), KIND=sp)
                     do i = j + 1, n
                        ap(jc + i - j) = cj*s(i)*ap(jc + i - j)
                     end do
@@ -9840,7 +9779,6 @@ module stdlib_linalg_lapack_c
               equed = 'y'
            end if
            return
-           ! end of stdlib_claqhp
      end subroutine stdlib_claqhp
 
      ! Given a 2-by-2 or 3-by-3 matrix H, CLAQR1 sets v to a
@@ -9861,7 +9799,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: h(ldh, *), v(*)
         ! ================================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = zero
+           real(sp), parameter :: rzero = 0.0_sp
            
            ! .. local scalars ..
            complex(sp) :: cdum, h21s, h31s
@@ -9871,7 +9809,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! quick return if possible
            if (n /= 2 .and. n /= 3) then
@@ -9961,7 +9899,6 @@ module stdlib_linalg_lapack_c
               equed = 'y'
            end if
            return
-           ! end of stdlib_claqsb
      end subroutine stdlib_claqsb
 
      ! CLAQSP equilibrates a symmetric matrix A using the scaling factors
@@ -10023,7 +9960,6 @@ module stdlib_linalg_lapack_c
               equed = 'y'
            end if
            return
-           ! end of stdlib_claqsp
      end subroutine stdlib_claqsp
 
      ! CLAQSY equilibrates a symmetric matrix A using the scaling factors
@@ -10081,7 +10017,6 @@ module stdlib_linalg_lapack_c
               equed = 'y'
            end if
            return
-           ! end of stdlib_claqsy
      end subroutine stdlib_claqsy
 
      ! CLAR1V computes the (scaled) r-th column of the inverse of
@@ -10162,7 +10097,7 @@ module stdlib_linalg_lapack_c
               s = work(inds + i) - lambda
            end do
            sawnan1 = stdlib_sisnan(s)
-60    continue
+60         continue
            if (sawnan1) then
               ! runs a slower version of the above loop if a nan is detected
               neg1 = 0
@@ -10245,9 +10180,9 @@ module stdlib_linalg_lapack_c
                     isuppz(1) = i + 1
                     goto 220
                  end if
-                 ztz = ztz + real(z(i)*z(i))
+                 ztz = ztz + real(z(i)*z(i), KIND=sp)
               end do
-220   continue
+220           continue
            else
               ! run slower loop if nan occurred.
               do i = r - 1, b1, -1
@@ -10261,9 +10196,9 @@ module stdlib_linalg_lapack_c
                     isuppz(1) = i + 1
                     go to 240
                  end if
-                 ztz = ztz + real(z(i)*z(i))
+                 ztz = ztz + real(z(i)*z(i), KIND=sp)
               end do
-240   continue
+240           continue
            end if
            ! compute the fp vector downwards from r in blocks of size blksiz
            if (.not. sawnan1 .and. .not. sawnan2) then
@@ -10274,9 +10209,9 @@ module stdlib_linalg_lapack_c
                     isuppz(2) = i
                     go to 260
                  end if
-                 ztz = ztz + real(z(i + 1)*z(i + 1))
+                 ztz = ztz + real(z(i + 1)*z(i + 1), KIND=sp)
               end do
-260   continue
+260           continue
            else
               ! run slower loop if nan occurred.
               do i = r, bn - 1
@@ -10290,9 +10225,9 @@ module stdlib_linalg_lapack_c
                     isuppz(2) = i
                     go to 280
                  end if
-                 ztz = ztz + real(z(i + 1)*z(i + 1))
+                 ztz = ztz + real(z(i + 1)*z(i + 1), KIND=sp)
               end do
-280   continue
+280           continue
            end if
            ! compute quantities for convergence test
            tmp = one/ztz
@@ -10300,7 +10235,6 @@ module stdlib_linalg_lapack_c
            resid = abs(mingma)*nrminv
            rqcorr = mingma*tmp
            return
-           ! end of stdlib_clar1v
      end subroutine stdlib_clar1v
 
      ! CLAR2V applies a vector of complex plane rotations with real cosines
@@ -10331,14 +10265,14 @@ module stdlib_linalg_lapack_c
            ix = 1
            ic = 1
            do i = 1, n
-              xi = real(x(ix))
-              yi = real(y(ix))
+              xi = real(x(ix), KIND=sp)
+              yi = real(y(ix), KIND=sp)
               zi = z(ix)
-              zir = real(zi)
+              zir = real(zi, KIND=sp)
               zii = aimag(zi)
               ci = c(ic)
               si = s(ic)
-              sir = real(si)
+              sir = real(si, KIND=sp)
               sii = aimag(si)
               t1r = sir*zir - sii*zii
               t1i = sir*zii + sii*zir
@@ -10347,14 +10281,13 @@ module stdlib_linalg_lapack_c
               t4 = conjg(t2) + si*yi
               t5 = ci*xi + t1r
               t6 = ci*yi - t1r
-              x(ix) = ci*t5 + (sir*real(t4) + sii*aimag(t4))
-              y(ix) = ci*t6 - (sir*real(t3) - sii*aimag(t3))
+              x(ix) = ci*t5 + (sir*real(t4, KIND=sp) + sii*aimag(t4))
+              y(ix) = ci*t6 - (sir*real(t3, KIND=sp) - sii*aimag(t3))
               z(ix) = ci*t3 + conjg(si)*cmplx(t6, t1i, KIND=sp)
               ix = ix + incx
               ic = ic + incc
            end do
            return
-           ! end of stdlib_clar2v
      end subroutine stdlib_clar2v
 
      ! CLARCM performs a very simple matrix-matrix multiplication:
@@ -10382,7 +10315,7 @@ module stdlib_linalg_lapack_c
            if ((m == 0) .or. (n == 0)) return
            do j = 1, n
               do i = 1, m
-                 rwork((j - 1)*m + i) = real(b(i, j))
+                 rwork((j - 1)*m + i) = real(b(i, j), KIND=sp)
               end do
            end do
            l = m*n + 1
@@ -10402,11 +10335,11 @@ module stdlib_linalg_lapack_c
                      
            do j = 1, n
               do i = 1, m
-                 c(i, j) = cmplx(real(c(i, j)), rwork(l + (j - 1)*m + i - 1))
+                 c(i, j) = cmplx(real(c(i, j), KIND=sp), rwork(l + (j - 1)*m + i - 1), KIND=sp)
+                           
               end do
            end do
            return
-           ! end of stdlib_clarcm
      end subroutine stdlib_clarcm
 
      ! CLARF applies a complex elementary reflector H to a complex M-by-N
@@ -10485,7 +10418,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_clarf
      end subroutine stdlib_clarf
 
      ! CLARFB applies a complex block reflector H or its transpose H**H to a
@@ -10812,7 +10744,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_clarfb
      end subroutine stdlib_clarfb
 
      ! CLARFB_GETT applies a complex Householder block reflector H from the
@@ -10949,7 +10880,6 @@ module stdlib_linalg_lapack_c
               end do
            end do
            return
-           ! end of stdlib_clarfb_gett
      end subroutine stdlib_clarfb_gett
 
      ! CLARFG generates a complex elementary reflector H of order n, such
@@ -10988,7 +10918,7 @@ module stdlib_linalg_lapack_c
               return
            end if
            xnorm = stdlib_scnrm2(n - 1, x, incx)
-           alphr = real(alpha)
+           alphr = real(alpha, KIND=sp)
            alphi = aimag(alpha)
            if (xnorm == zero .and. alphi == zero) then
               ! h  =  i
@@ -11001,7 +10931,7 @@ module stdlib_linalg_lapack_c
               knt = 0
               if (abs(beta) < safmin) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
-10      continue
+10   continue
                  knt = knt + 1
                  call stdlib_csscal(n - 1, rsafmn, x, incx)
                  beta = beta*rsafmn
@@ -11023,7 +10953,6 @@ module stdlib_linalg_lapack_c
               alpha = beta
            end if
            return
-           ! end of stdlib_clarfg
      end subroutine stdlib_clarfg
 
      ! CLARFGP generates a complex elementary reflector H of order n, such
@@ -11062,7 +10991,7 @@ module stdlib_linalg_lapack_c
               return
            end if
            xnorm = stdlib_scnrm2(n - 1, x, incx)
-           alphr = real(alpha)
+           alphr = real(alpha, KIND=sp)
            alphi = aimag(alpha)
            if (xnorm == zero) then
               ! h  =  [1-alpha/abs(alpha) 0; 0 i], sign chosen so alpha >= 0.
@@ -11098,7 +11027,7 @@ module stdlib_linalg_lapack_c
               knt = 0
               if (abs(beta) < smlnum) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
-10      continue
+10   continue
                  knt = knt + 1
                  call stdlib_csscal(n - 1, bignum, x, incx)
                  beta = beta*bignum
@@ -11116,8 +11045,8 @@ module stdlib_linalg_lapack_c
                  beta = -beta
                  tau = -alpha/beta
               else
-                 alphr = alphi*(alphi/real(alpha))
-                 alphr = alphr + xnorm*(xnorm/real(alpha))
+                 alphr = alphi*(alphi/real(alpha, KIND=sp))
+                 alphr = alphr + xnorm*(xnorm/real(alpha, KIND=sp))
                  tau = cmplx(alphr/beta, -alphi/beta, KIND=sp)
                  alpha = cmplx(-alphr, alphi, KIND=sp)
               end if
@@ -11128,7 +11057,7 @@ module stdlib_linalg_lapack_c
                  ! to zero (or two or whatever makes a nonnegative real number for beta).
                  ! (bug report provided by pat quillen from mathworks on jul 29, 2009.)
                  ! (thanks pat. thanks mathworks.)
-                 alphr = real(savealpha)
+                 alphr = real(savealpha, KIND=sp)
                  alphi = aimag(savealpha)
                  if (alphi == zero) then
                     if (alphr >= zero) then
@@ -11138,7 +11067,7 @@ module stdlib_linalg_lapack_c
                        do j = 1, n - 1
                           x(1 + (j - 1)*incx) = zero
                        end do
-                       beta = real(-savealpha)
+                       beta = real(-savealpha, KIND=sp)
                     end if
                  else
                     xnorm = stdlib_slapy2(alphr, alphi)
@@ -11159,7 +11088,6 @@ module stdlib_linalg_lapack_c
               alpha = beta
            end if
            return
-           ! end of stdlib_clarfgp
      end subroutine stdlib_clarfgp
 
      ! CLARFT forms the triangular factor T of a complex block reflector H
@@ -11286,7 +11214,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_clarft
      end subroutine stdlib_clarft
 
      ! CLARFX applies a complex elementary reflector H to a complex m by n
@@ -11323,14 +11250,14 @@ module stdlib_linalg_lapack_c
               ! code for general m
               call stdlib_clarf(side, m, n, v, 1, tau, c, ldc, work)
               go to 410
-10      continue
+10            continue
               ! special code for 1 x 1 householder
               t1 = cone - tau*v(1)*conjg(v(1))
               do j = 1, n
                  c(1, j) = t1*c(1, j)
               end do
               go to 410
-30      continue
+30            continue
               ! special code for 2 x 2 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -11342,7 +11269,7 @@ module stdlib_linalg_lapack_c
                  c(2, j) = c(2, j) - sum*t2
               end do
               go to 410
-50      continue
+50            continue
               ! special code for 3 x 3 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -11357,7 +11284,7 @@ module stdlib_linalg_lapack_c
                  c(3, j) = c(3, j) - sum*t3
               end do
               go to 410
-70      continue
+70            continue
               ! special code for 4 x 4 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -11375,7 +11302,7 @@ module stdlib_linalg_lapack_c
                  c(4, j) = c(4, j) - sum*t4
               end do
               go to 410
-90      continue
+90            continue
               ! special code for 5 x 5 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -11397,7 +11324,7 @@ module stdlib_linalg_lapack_c
                  c(5, j) = c(5, j) - sum*t5
               end do
               go to 410
-110    continue
+110           continue
               ! special code for 6 x 6 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -11422,7 +11349,7 @@ module stdlib_linalg_lapack_c
                  c(6, j) = c(6, j) - sum*t6
               end do
               go to 410
-130    continue
+130           continue
               ! special code for 7 x 7 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -11450,7 +11377,7 @@ module stdlib_linalg_lapack_c
                  c(7, j) = c(7, j) - sum*t7
               end do
               go to 410
-150    continue
+150           continue
               ! special code for 8 x 8 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -11481,7 +11408,7 @@ module stdlib_linalg_lapack_c
                  c(8, j) = c(8, j) - sum*t8
               end do
               go to 410
-170    continue
+170           continue
               ! special code for 9 x 9 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -11515,7 +11442,7 @@ module stdlib_linalg_lapack_c
                  c(9, j) = c(9, j) - sum*t9
               end do
               go to 410
-190    continue
+190           continue
               ! special code for 10 x 10 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -11558,14 +11485,14 @@ module stdlib_linalg_lapack_c
               ! code for general n
               call stdlib_clarf(side, m, n, v, 1, tau, c, ldc, work)
               go to 410
-210    continue
+210           continue
               ! special code for 1 x 1 householder
               t1 = cone - tau*v(1)*conjg(v(1))
               do j = 1, m
                  c(j, 1) = t1*c(j, 1)
               end do
               go to 410
-230    continue
+230           continue
               ! special code for 2 x 2 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -11577,7 +11504,7 @@ module stdlib_linalg_lapack_c
                  c(j, 2) = c(j, 2) - sum*t2
               end do
               go to 410
-250    continue
+250           continue
               ! special code for 3 x 3 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -11592,7 +11519,7 @@ module stdlib_linalg_lapack_c
                  c(j, 3) = c(j, 3) - sum*t3
               end do
               go to 410
-270    continue
+270           continue
               ! special code for 4 x 4 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -11610,7 +11537,7 @@ module stdlib_linalg_lapack_c
                  c(j, 4) = c(j, 4) - sum*t4
               end do
               go to 410
-290    continue
+290           continue
               ! special code for 5 x 5 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -11632,7 +11559,7 @@ module stdlib_linalg_lapack_c
                  c(j, 5) = c(j, 5) - sum*t5
               end do
               go to 410
-310    continue
+310           continue
               ! special code for 6 x 6 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -11657,7 +11584,7 @@ module stdlib_linalg_lapack_c
                  c(j, 6) = c(j, 6) - sum*t6
               end do
               go to 410
-330    continue
+330           continue
               ! special code for 7 x 7 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -11685,7 +11612,7 @@ module stdlib_linalg_lapack_c
                  c(j, 7) = c(j, 7) - sum*t7
               end do
               go to 410
-350    continue
+350           continue
               ! special code for 8 x 8 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -11716,7 +11643,7 @@ module stdlib_linalg_lapack_c
                  c(j, 8) = c(j, 8) - sum*t8
               end do
               go to 410
-370    continue
+370           continue
               ! special code for 9 x 9 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -11750,7 +11677,7 @@ module stdlib_linalg_lapack_c
                  c(j, 9) = c(j, 9) - sum*t9
               end do
               go to 410
-390    continue
+390           continue
               ! special code for 10 x 10 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -11789,7 +11716,6 @@ module stdlib_linalg_lapack_c
               go to 410
            end if
 410    return
-           ! end of stdlib_clarfx
      end subroutine stdlib_clarfx
 
      ! CLARFY applies an elementary reflector, or Householder matrix, H,
@@ -11822,7 +11748,6 @@ module stdlib_linalg_lapack_c
            ! c := c - v * w' - w * v'
            call stdlib_cher2(uplo, n, -tau, v, incv, work, 1, c, ldc)
            return
-           ! end of stdlib_clarfy
      end subroutine stdlib_clarfy
 
      ! CLARNV returns a vector of n random complex numbers from a uniform or
@@ -11851,7 +11776,7 @@ module stdlib_linalg_lapack_c
            ! .. executable statements ..
            do 60 iv = 1, n, lv/2
               il = min(lv/2, n - iv + 1)
-              ! call stdlib_slaruv to generate 2*il real numbers from a uniform (0,1)
+              ! call stdlib_slaruv to generate 2*il realnumbers from a uniform (0,1,KIND=sp)
               ! distribution (2*il <= lv)
               call stdlib_slaruv(iseed, 2*il, u)
               if (idist == 1) then
@@ -11867,8 +11792,8 @@ module stdlib_linalg_lapack_c
               else if (idist == 3) then
                  ! convert generated numbers to normal (0,1) distribution
                  do i = 1, il
-                    x(iv + i - 1) = sqrt(-two*log(u(2*i - 1)))*exp(cmplx(zero, twopi*u(2*i) &
-                              , KIND=sp))
+                    x(iv + i - 1) = sqrt(-two*log(u(2*i - 1)))*exp(cmplx(zero, twopi*u(2*i), &
+                              KIND=sp))
                  end do
               else if (idist == 4) then
                  ! convert generated numbers to complex numbers uniformly
@@ -11884,9 +11809,8 @@ module stdlib_linalg_lapack_c
                     x(iv + i - 1) = exp(cmplx(zero, twopi*u(2*i), KIND=sp))
                  end do
               end if
-60      continue
+60            continue
            return
-           ! end of stdlib_clarnv
      end subroutine stdlib_clarnv
 
      ! !
@@ -11929,7 +11853,7 @@ module stdlib_linalg_lapack_c
         ! .. statement functions ..
         real(sp) :: abssq
         ! .. statement function definitions ..
-        abssq(t) = real(t)**2 + aimag(t)**2
+        abssq(t) = real(t, KIND=sp)**2 + aimag(t)**2
         ! .. executable statements ..
         if (g == czero) then
            c = one
@@ -11937,7 +11861,7 @@ module stdlib_linalg_lapack_c
            r = f
         else if (f == czero) then
            c = zero
-           g1 = max(abs(real(g)), abs(aimag(g)))
+           g1 = max(abs(real(g, KIND=sp)), abs(aimag(g)))
            if (g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
               g2 = abssq(g)
@@ -11955,8 +11879,8 @@ module stdlib_linalg_lapack_c
               r = d*u
            end if
         else
-           f1 = max(abs(real(f)), abs(aimag(f)))
-           g1 = max(abs(real(g)), abs(aimag(g)))
+           f1 = max(abs(real(f, KIND=sp)), abs(aimag(f)))
+           g1 = max(abs(real(g, KIND=sp)), abs(aimag(g)))
      if (f1 > rtmin .and. f1 < rtmax .and. g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
               f2 = abssq(f)
@@ -12041,7 +11965,6 @@ module stdlib_linalg_lapack_c
               ic = ic + incc
            end do
            return
-           ! end of stdlib_clartv
      end subroutine stdlib_clartv
 
      ! CLARZ applies a complex elementary reflector H to a complex
@@ -12099,7 +12022,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_clarz
      end subroutine stdlib_clarz
 
      ! CLARZB applies a complex block reflector H or its transpose H**H
@@ -12201,7 +12123,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_clarzb
      end subroutine stdlib_clarzb
 
      ! CLARZT forms the triangular factor T of a complex block reflector
@@ -12264,7 +12185,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_clarzt
      end subroutine stdlib_clarzt
 
      ! CLASCL multiplies the M by N complex matrix A by the real scalar
@@ -12345,7 +12265,7 @@ module stdlib_linalg_lapack_c
            bignum = one/smlnum
            cfromc = cfrom
            ctoc = cto
-10      continue
+10         continue
            cfrom1 = cfromc*smlnum
            if (cfrom1 == cfromc) then
               ! cfromc is an inf.  multiply by a correctly signed zero for
@@ -12434,7 +12354,6 @@ module stdlib_linalg_lapack_c
            end if
            if (.not. done) go to 10
            return
-           ! end of stdlib_clascl
      end subroutine stdlib_clascl
 
      ! CLASET initializes a 2-D array A to BETA on the diagonal and
@@ -12491,7 +12410,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_claset
      end subroutine stdlib_claset
 
      ! CLASR applies a sequence of real plane rotations to a complex matrix
@@ -12752,7 +12670,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_clasr
      end subroutine stdlib_clasr
 
      ! !
@@ -12812,7 +12729,7 @@ module stdlib_linalg_lapack_c
         ix = 1
         if (incx < 0) ix = 1 - (n - 1)*incx
         do i = 1, n
-           ax = abs(real(x(ix)))
+           ax = abs(real(x(ix), KIND=sp))
            if (ax > tbig) then
               abig = abig + (ax*sbig)**2
               notbig = .false.
@@ -12945,7 +12862,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_claswp
      end subroutine stdlib_claswp
 
      ! CLASYF computes a partial factorization of a complex symmetric matrix
@@ -12985,7 +12901,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            info = 0
            ! initialize alpha for use in choosing pivot block size.
@@ -12997,7 +12913,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               ! kw is the column of w which corresponds to column k of a
               k = n
-10      continue
+10            continue
               kw = nb + k - n
               ! exit from loop
               if ((k <= n - nb + 1 .and. nb < n) .or. k < 1) go to 30
@@ -13151,7 +13067,7 @@ module stdlib_linalg_lapack_c
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30            continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -13169,7 +13085,7 @@ module stdlib_linalg_lapack_c
               ! put u12 in standard form by partially undoing the interchanges
               ! in columns k+1:n looping backwards from k+1 to n
               j = k + 1
-60      continue
+60            continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -13194,7 +13110,7 @@ module stdlib_linalg_lapack_c
               ! for use in updating a22
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70            continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               ! copy column k of a to column k of w and update it
@@ -13347,7 +13263,7 @@ module stdlib_linalg_lapack_c
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90            continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -13365,7 +13281,7 @@ module stdlib_linalg_lapack_c
               ! put l21 in standard form by partially undoing the interchanges
               ! of rows in columns 1:k-1 looping backwards from k-1 to 1
               j = k - 1
-120    continue
+120           continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -13386,7 +13302,6 @@ module stdlib_linalg_lapack_c
               kb = k - 1
            end if
            return
-           ! end of stdlib_clasyf
      end subroutine stdlib_clasyf
 
      ! CLASYF_RK computes a partial factorization of a complex symmetric
@@ -13426,7 +13341,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            info = 0
            ! initialize alpha for use in choosing pivot block size.
@@ -13442,7 +13357,7 @@ module stdlib_linalg_lapack_c
               e(1) = czero
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10      continue
+10            continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -13483,7 +13398,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_ccopy(imax, a(1, imax), 1, w(1, kw - 1), 1)
@@ -13617,7 +13532,7 @@ module stdlib_linalg_lapack_c
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30            continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -13642,7 +13557,7 @@ module stdlib_linalg_lapack_c
               e(n) = czero
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70            continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -13681,7 +13596,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-72      continue
+72   continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_ccopy(imax - k, a(imax, k), lda, w(k, k + 1), 1)
@@ -13810,7 +13725,7 @@ module stdlib_linalg_lapack_c
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90            continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -13829,7 +13744,6 @@ module stdlib_linalg_lapack_c
               kb = k - 1
            end if
            return
-           ! end of stdlib_clasyf_rk
      end subroutine stdlib_clasyf_rk
 
      ! CLASYF_ROOK computes a partial factorization of a complex symmetric
@@ -13870,7 +13784,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            info = 0
            ! initialize alpha for use in choosing pivot block size.
@@ -13883,7 +13797,7 @@ module stdlib_linalg_lapack_c
               ! for use in updating a11
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10      continue
+10            continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -13922,7 +13836,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_ccopy(imax, a(1, imax), 1, w(1, kw - 1), 1)
@@ -14049,7 +13963,7 @@ module stdlib_linalg_lapack_c
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30            continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -14067,7 +13981,7 @@ module stdlib_linalg_lapack_c
               ! put u12 in standard form by partially undoing the interchanges
               ! in columns k+1:n
               j = k + 1
-60      continue
+60            continue
                  kstep = 1
                  jp1 = 1
                  jj = j
@@ -14093,7 +14007,7 @@ module stdlib_linalg_lapack_c
               ! for use in updating a22
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70            continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -14130,7 +14044,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-72      continue
+72   continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_ccopy(imax - k, a(imax, k), lda, w(k, k + 1), 1)
@@ -14252,7 +14166,7 @@ module stdlib_linalg_lapack_c
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90            continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -14270,7 +14184,7 @@ module stdlib_linalg_lapack_c
               ! put l21 in standard form by partially undoing the interchanges
               ! in columns 1:k-1
               j = k - 1
-120    continue
+120           continue
                  kstep = 1
                  jp1 = 1
                  jj = j
@@ -14292,7 +14206,6 @@ module stdlib_linalg_lapack_c
               kb = k - 1
            end if
            return
-           ! end of stdlib_clasyf_rook
      end subroutine stdlib_clasyf_rook
 
      ! CLATBS solves one of the triangular systems
@@ -14330,8 +14243,8 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1, cabs2
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
-           cabs2(zdum) = abs(real(zdum)/2.) + abs(aimag(zdum)/2.)
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
+           cabs2(zdum) = abs(real(zdum, KIND=sp)/2.) + abs(aimag(zdum)/2.)
            ! .. executable statements ..
            info = 0
            upper = stdlib_lsame(uplo, 'u')
@@ -14460,7 +14373,7 @@ module stdlib_linalg_lapack_c
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-60      continue
+60            continue
            else
               ! compute the growth in a**t * x = b  or  a**h * x = b.
               if (upper) then
@@ -14513,7 +14426,7 @@ module stdlib_linalg_lapack_c
                     grow = grow/xj
                  end do
               end if
-90      continue
+90            continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -14583,7 +14496,7 @@ module stdlib_linalg_lapack_c
                           scale = zero
                           xmax = zero
                        end if
-105    continue
+105                    continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -14721,7 +14634,7 @@ module stdlib_linalg_lapack_c
                              scale = zero
                              xmax = zero
                           end if
-145    continue
+145                       continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -14830,7 +14743,7 @@ module stdlib_linalg_lapack_c
                              scale = zero
                              xmax = zero
                           end if
-185    continue
+185                       continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -14846,7 +14759,6 @@ module stdlib_linalg_lapack_c
               call stdlib_sscal(n, one/tscal, cnorm, 1)
            end if
            return
-           ! end of stdlib_clatbs
      end subroutine stdlib_clatbs
 
      ! CLATPS solves one of the triangular systems
@@ -14884,8 +14796,8 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1, cabs2
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
-           cabs2(zdum) = abs(real(zdum)/2.) + abs(aimag(zdum)/2.)
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
+           cabs2(zdum) = abs(real(zdum, KIND=sp)/2.) + abs(aimag(zdum)/2.)
            ! .. executable statements ..
            info = 0
            upper = stdlib_lsame(uplo, 'u')
@@ -15011,7 +14923,7 @@ module stdlib_linalg_lapack_c
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-60      continue
+60            continue
            else
               ! compute the growth in a**t * x = b  or  a**h * x = b.
               if (upper) then
@@ -15066,7 +14978,7 @@ module stdlib_linalg_lapack_c
                     grow = grow/xj
                  end do
               end if
-90      continue
+90            continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -15137,7 +15049,7 @@ module stdlib_linalg_lapack_c
                           scale = zero
                           xmax = zero
                        end if
-105    continue
+105                    continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -15270,7 +15182,7 @@ module stdlib_linalg_lapack_c
                              scale = zero
                              xmax = zero
                           end if
-145    continue
+145                       continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -15376,7 +15288,7 @@ module stdlib_linalg_lapack_c
                              scale = zero
                              xmax = zero
                           end if
-185    continue
+185                       continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -15394,7 +15306,6 @@ module stdlib_linalg_lapack_c
               call stdlib_sscal(n, one/tscal, cnorm, 1)
            end if
            return
-           ! end of stdlib_clatps
      end subroutine stdlib_clatps
 
      ! CLATRD reduces NB rows and columns of a complex Hermitian matrix A to
@@ -15433,7 +15344,7 @@ module stdlib_linalg_lapack_c
                  iw = i - n + nb
                  if (i < n) then
                     ! update a(1:i,i)
-                    a(i, i) = real(a(i, i))
+                    a(i, i) = real(a(i, i), KIND=sp)
                     call stdlib_clacgv(n - i, w(i, iw + 1), ldw)
                     call stdlib_cgemv('no transpose', i, n - i, -cone, a(1, i + 1), lda, w(i, iw + 1 &
                               ), ldw, cone, a(1, i), 1)
@@ -15442,14 +15353,14 @@ module stdlib_linalg_lapack_c
                     call stdlib_cgemv('no transpose', i, n - i, -cone, w(1, iw + 1), ldw, a(i, i + 1 &
                               ), lda, cone, a(1, i), 1)
                     call stdlib_clacgv(n - i, a(i, i + 1), lda)
-                    a(i, i) = real(a(i, i))
+                    a(i, i) = real(a(i, i), KIND=sp)
                  end if
                  if (i > 1) then
                     ! generate elementary reflector h(i) to annihilate
                     ! a(1:i-2,i)
                     alpha = a(i - 1, i)
                     call stdlib_clarfg(i - 1, alpha, a(1, i), 1, tau(i - 1))
-                    e(i - 1) = real(alpha)
+                    e(i - 1) = real(alpha, KIND=sp)
                     a(i - 1, i) = cone
                     ! compute w(1:i-1,i)
                     call stdlib_chemv('upper', i - 1, cone, a, lda, a(1, i), 1, czero, w(1, iw), &
@@ -15474,7 +15385,7 @@ module stdlib_linalg_lapack_c
               ! reduce first nb columns of lower triangle
               loop_20: do i = 1, nb
                  ! update a(i:n,i)
-                 a(i, i) = real(a(i, i))
+                 a(i, i) = real(a(i, i), KIND=sp)
                  call stdlib_clacgv(i - 1, w(i, 1), ldw)
                  call stdlib_cgemv('no transpose', n - i + 1, i - 1, -cone, a(i, 1), lda, w(i, 1), &
                            ldw, cone, a(i, i), 1)
@@ -15483,13 +15394,13 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgemv('no transpose', n - i + 1, i - 1, -cone, w(i, 1), ldw, a(i, 1), &
                            lda, cone, a(i, i), 1)
                  call stdlib_clacgv(i - 1, a(i, 1), lda)
-                 a(i, i) = real(a(i, i))
+                 a(i, i) = real(a(i, i), KIND=sp)
                  if (i < n) then
                     ! generate elementary reflector h(i) to annihilate
                     ! a(i+2:n,i)
                     alpha = a(i + 1, i)
                     call stdlib_clarfg(n - i, alpha, a(min(i + 2, n), i), 1, tau(i))
-                    e(i) = real(alpha)
+                    e(i) = real(alpha, KIND=sp)
                     a(i + 1, i) = cone
                     ! compute w(i+1:n,i)
                     call stdlib_chemv('lower', n - i, cone, a(i + 1, i + 1), lda, a(i + 1, i), 1, &
@@ -15510,7 +15421,6 @@ module stdlib_linalg_lapack_c
               end do loop_20
            end if
            return
-           ! end of stdlib_clatrd
      end subroutine stdlib_clatrd
 
      ! CLATRS solves one of the triangular systems
@@ -15548,8 +15458,8 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1, cabs2
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
-           cabs2(zdum) = abs(real(zdum)/2.) + abs(aimag(zdum)/2.)
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
+           cabs2(zdum) = abs(real(zdum, KIND=sp)/2.) + abs(aimag(zdum)/2.)
            ! .. executable statements ..
            info = 0
            upper = stdlib_lsame(uplo, 'u')
@@ -15669,7 +15579,7 @@ module stdlib_linalg_lapack_c
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-60      continue
+60            continue
            else
               ! compute the growth in a**t * x = b  or  a**h * x = b.
               if (upper) then
@@ -15720,7 +15630,7 @@ module stdlib_linalg_lapack_c
                     grow = grow/xj
                  end do
               end if
-90      continue
+90            continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -15790,7 +15700,7 @@ module stdlib_linalg_lapack_c
                           scale = zero
                           xmax = zero
                        end if
-105    continue
+105                    continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -15919,7 +15829,7 @@ module stdlib_linalg_lapack_c
                              scale = zero
                              xmax = zero
                           end if
-145    continue
+145                       continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -16021,7 +15931,7 @@ module stdlib_linalg_lapack_c
                              scale = zero
                              xmax = zero
                           end if
-185    continue
+185                       continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -16037,7 +15947,6 @@ module stdlib_linalg_lapack_c
               call stdlib_sscal(n, one/tscal, cnorm, 1)
            end if
            return
-           ! end of stdlib_clatrs
      end subroutine stdlib_clatrs
 
      ! CLATRZ factors the M-by-(M+L) complex upper trapezoidal matrix
@@ -16083,7 +15992,6 @@ module stdlib_linalg_lapack_c
               a(i, i) = conjg(alpha)
            end do
            return
-           ! end of stdlib_clatrz
      end subroutine stdlib_clatrz
 
      ! CLAUNHR_COL_GETRFNP2 computes the modified LU factorization without
@@ -16154,7 +16062,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(dp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            ! test the input parameters
            info = 0
@@ -16175,14 +16083,14 @@ module stdlib_linalg_lapack_c
               ! one row case, (also recursion termination case),
               ! use unblocked code
               ! transfer the sign
-              d(1) = cmplx(-sign(one, real(a(1, 1))))
+              d(1) = cmplx(-sign(one, real(a(1, 1), KIND=sp)), KIND=sp)
               ! construct the row of u
               a(1, 1) = a(1, 1) - d(1)
            else if (n == 1) then
               ! one column case, (also recursion termination case),
               ! use unblocked code
               ! transfer the sign
-              d(1) = cmplx(-sign(one, real(a(1, 1))))
+              d(1) = cmplx(-sign(one, real(a(1, 1), KIND=sp)), KIND=sp)
               ! construct the row of u
               a(1, 1) = a(1, 1) - d(1)
               ! scale the elements 2:m of the column
@@ -16217,7 +16125,6 @@ module stdlib_linalg_lapack_c
                         
            end if
            return
-           ! end of stdlib_claunhr_col_getrfnp2
      end subroutine stdlib_claunhr_col_getrfnp2
 
      ! CLAUU2 computes the product U * U**H or L**H * L, where the triangular
@@ -16266,10 +16173,10 @@ module stdlib_linalg_lapack_c
            if (upper) then
               ! compute the product u * u**h.
               do i = 1, n
-                 aii = real(a(i, i))
+                 aii = real(a(i, i), KIND=sp)
                  if (i < n) then
                     a(i, i) = aii*aii + real(stdlib_cdotc(n - i, a(i, i + 1), lda, a(i, i + 1), &
-                              lda))
+                              lda), KIND=sp)
                     call stdlib_clacgv(n - i, a(i, i + 1), lda)
                     call stdlib_cgemv('no transpose', i - 1, n - i, cone, a(1, i + 1), lda, a(i, i + 1 &
                               ), lda, cmplx(aii, KIND=sp), a(1, i), 1)
@@ -16281,10 +16188,10 @@ module stdlib_linalg_lapack_c
            else
               ! compute the product l**h * l.
               do i = 1, n
-                 aii = real(a(i, i))
+                 aii = real(a(i, i), KIND=sp)
                  if (i < n) then
                     a(i, i) = aii*aii + real(stdlib_cdotc(n - i, a(i + 1, i), 1, a(i + 1, i), 1) &
-                               )
+                              , KIND=sp)
                     call stdlib_clacgv(i - 1, a(i, 1), lda)
                     call stdlib_cgemv('conjugate transpose', n - i, i - 1, cone, a(i + 1, 1), lda, a( &
                               i + 1, i), 1, cmplx(aii, KIND=sp), a(i, 1), lda)
@@ -16295,7 +16202,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_clauu2
      end subroutine stdlib_clauu2
 
      ! CLAUUM computes the product U * U**H or L**H * L, where the triangular
@@ -16378,7 +16284,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_clauum
      end subroutine stdlib_clauum
 
      ! CPBEQU computes row and column scalings intended to equilibrate a
@@ -16438,12 +16343,12 @@ module stdlib_linalg_lapack_c
               j = 1
            end if
            ! initialize smin and amax.
-           s(1) = real(ab(j, 1))
+           s(1) = real(ab(j, 1), KIND=sp)
            smin = s(1)
            amax = s(1)
            ! find the minimum and maximum diagonal elements.
            do i = 2, n
-              s(i) = real(ab(j, i))
+              s(i) = real(ab(j, i), KIND=sp)
               smin = min(smin, s(i))
               amax = max(amax, s(i))
            end do
@@ -16465,7 +16370,6 @@ module stdlib_linalg_lapack_c
               scond = sqrt(smin)/sqrt(amax)
            end if
            return
-           ! end of stdlib_cpbequ
      end subroutine stdlib_cpbequ
 
      ! CPBSTF computes a split Cholesky factorization of a complex
@@ -16521,7 +16425,7 @@ module stdlib_linalg_lapack_c
               ! factorize a(m+1:n,m+1:n) as l**h*l, and update a(1:m,1:m).
               do j = n, m + 1, -1
                  ! compute s(j,j) and test for non-positive-definiteness.
-                 ajj = real(ab(kd + 1, j))
+                 ajj = real(ab(kd + 1, j), KIND=sp)
                  if (ajj <= zero) then
                     ab(kd + 1, j) = ajj
                     go to 50
@@ -16538,7 +16442,7 @@ module stdlib_linalg_lapack_c
               ! factorize the updated submatrix a(1:m,1:m) as u**h*u.
               do j = 1, m
                  ! compute s(j,j) and test for non-positive-definiteness.
-                 ajj = real(ab(kd + 1, j))
+                 ajj = real(ab(kd + 1, j), KIND=sp)
                  if (ajj <= zero) then
                     ab(kd + 1, j) = ajj
                     go to 50
@@ -16560,7 +16464,7 @@ module stdlib_linalg_lapack_c
               ! factorize a(m+1:n,m+1:n) as l**h*l, and update a(1:m,1:m).
               do j = n, m + 1, -1
                  ! compute s(j,j) and test for non-positive-definiteness.
-                 ajj = real(ab(1, j))
+                 ajj = real(ab(1, j), KIND=sp)
                  if (ajj <= zero) then
                     ab(1, j) = ajj
                     go to 50
@@ -16579,7 +16483,7 @@ module stdlib_linalg_lapack_c
               ! factorize the updated submatrix a(1:m,1:m) as u**h*u.
               do j = 1, m
                  ! compute s(j,j) and test for non-positive-definiteness.
-                 ajj = real(ab(1, j))
+                 ajj = real(ab(1, j), KIND=sp)
                  if (ajj <= zero) then
                     ab(1, j) = ajj
                     go to 50
@@ -16596,10 +16500,9 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-50      continue
+50         continue
            info = j
            return
-           ! end of stdlib_cpbstf
      end subroutine stdlib_cpbstf
 
      ! CPBTF2 computes the Cholesky factorization of a complex Hermitian
@@ -16652,7 +16555,7 @@ module stdlib_linalg_lapack_c
               ! compute the cholesky factorization a = u**h * u.
               do j = 1, n
                  ! compute u(j,j) and test for non-positive-definiteness.
-                 ajj = real(ab(kd + 1, j))
+                 ajj = real(ab(kd + 1, j), KIND=sp)
                  if (ajj <= zero) then
                     ab(kd + 1, j) = ajj
                     go to 30
@@ -16674,7 +16577,7 @@ module stdlib_linalg_lapack_c
               ! compute the cholesky factorization a = l*l**h.
               do j = 1, n
                  ! compute l(j,j) and test for non-positive-definiteness.
-                 ajj = real(ab(1, j))
+                 ajj = real(ab(1, j), KIND=sp)
                  if (ajj <= zero) then
                     ab(1, j) = ajj
                     go to 30
@@ -16691,10 +16594,9 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-30      continue
+30         continue
            info = j
            return
-           ! end of stdlib_cpbtf2
      end subroutine stdlib_cpbtf2
 
      ! CPBTRS solves a system of linear equations A*X = B with a Hermitian
@@ -16761,7 +16663,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_cpbtrs
      end subroutine stdlib_cpbtrs
 
      ! CPOEQU computes row and column scalings intended to equilibrate a
@@ -16809,11 +16710,11 @@ module stdlib_linalg_lapack_c
               return
            end if
            ! find the minimum and maximum diagonal elements.
-           s(1) = real(a(1, 1))
+           s(1) = real(a(1, 1), KIND=sp)
            smin = s(1)
            amax = s(1)
            do i = 2, n
-              s(i) = real(a(i, i))
+              s(i) = real(a(i, i), KIND=sp)
               smin = min(smin, s(i))
               amax = max(amax, s(i))
            end do
@@ -16835,7 +16736,6 @@ module stdlib_linalg_lapack_c
               scond = sqrt(smin)/sqrt(amax)
            end if
            return
-           ! end of stdlib_cpoequ
      end subroutine stdlib_cpoequ
 
      ! CPOEQUB computes row and column scalings intended to equilibrate a
@@ -16891,11 +16791,11 @@ module stdlib_linalg_lapack_c
            base = stdlib_slamch('b')
            tmp = -0.5_sp/log(base)
            ! find the minimum and maximum diagonal elements.
-           s(1) = real(a(1, 1))
+           s(1) = real(a(1, 1), KIND=sp)
            smin = s(1)
            amax = s(1)
            do i = 2, n
-              s(i) = real(a(i, i))
+              s(i) = real(a(i, i), KIND=sp)
               smin = min(smin, s(i))
               amax = max(amax, s(i))
            end do
@@ -16911,13 +16811,12 @@ module stdlib_linalg_lapack_c
               ! set the scale factors to the reciprocals
               ! of the diagonal elements.
               do i = 1, n
-                 s(i) = base**int(tmp*log(s(i)))
+                 s(i) = base**int(tmp*log(s(i)), KIND=ilp)
               end do
               ! compute scond = min(s(i)) / max(s(i)).
               scond = sqrt(smin)/sqrt(amax)
            end if
            return
-           ! end of stdlib_cpoequb
      end subroutine stdlib_cpoequb
 
      ! CPOTF2 computes the Cholesky factorization of a complex Hermitian
@@ -16966,8 +16865,8 @@ module stdlib_linalg_lapack_c
               ! compute the cholesky factorization a = u**h *u.
               do j = 1, n
                  ! compute u(j,j) and test for non-positive-definiteness.
-                 ajj = real(real(a(j, j)) - stdlib_cdotc(j - 1, a(1, j), 1, a(1, j), 1))
-                           
+                 ajj = real(real(a(j, j), KIND=sp) - stdlib_cdotc(j - 1, a(1, j), 1, a(1, j), &
+                            1), KIND=sp)
                  if (ajj <= zero .or. stdlib_sisnan(ajj)) then
                     a(j, j) = ajj
                     go to 30
@@ -16987,8 +16886,8 @@ module stdlib_linalg_lapack_c
               ! compute the cholesky factorization a = l*l**h.
               do j = 1, n
                  ! compute l(j,j) and test for non-positive-definiteness.
-                 ajj = real(real(a(j, j)) - stdlib_cdotc(j - 1, a(j, 1), lda, a(j, 1), lda &
-                           ))
+                 ajj = real(real(a(j, j), KIND=sp) - stdlib_cdotc(j - 1, a(j, 1), lda, a(j, 1 &
+                           ), lda), KIND=sp)
                  if (ajj <= zero .or. stdlib_sisnan(ajj)) then
                     a(j, j) = ajj
                     go to 30
@@ -17006,11 +16905,10 @@ module stdlib_linalg_lapack_c
               end do
            end if
            go to 40
-30      continue
+30         continue
            info = j
-40      continue
+40         continue
            return
-           ! end of stdlib_cpotf2
      end subroutine stdlib_cpotf2
 
      ! CPOTRF2 computes the Cholesky factorization of a Hermitian
@@ -17064,7 +16962,7 @@ module stdlib_linalg_lapack_c
            ! n=1 case
            if (n == 1) then
               ! test for non-positive-definiteness
-              ajj = real(a(1, 1))
+              ajj = real(a(1, 1), KIND=sp)
               if (ajj <= zero .or. stdlib_sisnan(ajj)) then
                  info = 1
                  return
@@ -17110,7 +17008,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cpotrf2
      end subroutine stdlib_cpotrf2
 
      ! CPOTRS solves a system of linear equations A*X = B with a Hermitian
@@ -17171,7 +17068,6 @@ module stdlib_linalg_lapack_c
                          a, lda, b, ldb)
            end if
            return
-           ! end of stdlib_cpotrs
      end subroutine stdlib_cpotrs
 
      ! CPPEQU computes row and column scalings intended to equilibrate a
@@ -17222,7 +17118,7 @@ module stdlib_linalg_lapack_c
               return
            end if
            ! initialize smin and amax.
-           s(1) = real(ap(1))
+           s(1) = real(ap(1), KIND=sp)
            smin = s(1)
            amax = s(1)
            if (upper) then
@@ -17231,7 +17127,7 @@ module stdlib_linalg_lapack_c
               jj = 1
               do i = 2, n
                  jj = jj + i
-                 s(i) = real(ap(jj))
+                 s(i) = real(ap(jj), KIND=sp)
                  smin = min(smin, s(i))
                  amax = max(amax, s(i))
               end do
@@ -17241,7 +17137,7 @@ module stdlib_linalg_lapack_c
               jj = 1
               do i = 2, n
                  jj = jj + n - i + 2
-                 s(i) = real(ap(jj))
+                 s(i) = real(ap(jj), KIND=sp)
                  smin = min(smin, s(i))
                  amax = max(amax, s(i))
               end do
@@ -17264,7 +17160,6 @@ module stdlib_linalg_lapack_c
               scond = sqrt(smin)/sqrt(amax)
            end if
            return
-           ! end of stdlib_cppequ
      end subroutine stdlib_cppequ
 
      ! CPPTRF computes the Cholesky factorization of a complex Hermitian
@@ -17316,8 +17211,8 @@ module stdlib_linalg_lapack_c
                  if (j > 1) call stdlib_ctpsv('upper', 'conjugate transpose', 'non-unit', j - 1, ap, &
                            ap(jc), 1)
                  ! compute u(j,j) and test for non-positive-definiteness.
-                 ajj = real(real(ap(jj)) - stdlib_cdotc(j - 1, ap(jc), 1, ap(jc), 1))
-                           
+                 ajj = real(real(ap(jj), KIND=sp) - stdlib_cdotc(j - 1, ap(jc), 1, ap(jc), 1 &
+                           ), KIND=sp)
                  if (ajj <= zero) then
                     ap(jj) = ajj
                     go to 30
@@ -17329,7 +17224,7 @@ module stdlib_linalg_lapack_c
               jj = 1
               do j = 1, n
                  ! compute l(j,j) and test for non-positive-definiteness.
-                 ajj = real(ap(jj))
+                 ajj = real(ap(jj), KIND=sp)
                  if (ajj <= zero) then
                     ap(jj) = ajj
                     go to 30
@@ -17346,11 +17241,10 @@ module stdlib_linalg_lapack_c
               end do
            end if
            go to 40
-30      continue
+30         continue
            info = j
-40      continue
+40         continue
            return
-           ! end of stdlib_cpptrf
      end subroutine stdlib_cpptrf
 
      ! CPPTRS solves a system of linear equations A*X = B with a Hermitian
@@ -17413,7 +17307,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_cpptrs
      end subroutine stdlib_cpptrs
 
      ! CPSTF2 computes the Cholesky factorization with complete
@@ -17470,10 +17363,10 @@ module stdlib_linalg_lapack_c
            end do
            ! compute stopping value
            do i = 1, n
-              work(i) = real(a(i, i))
+              work(i) = real(a(i, i), KIND=sp)
            end do
            pvt = maxloc(work(1:n), 1)
-           ajj = real(a(pvt, pvt))
+           ajj = real(a(pvt, pvt), KIND=sp)
            if (ajj <= zero .or. stdlib_sisnan(ajj)) then
               rank = 0
               info = 1
@@ -17497,9 +17390,10 @@ module stdlib_linalg_lapack_c
               ! stored in the second chalf of work
                  do i = j, n
                     if (j > 1) then
-                       work(i) = work(i) + real(conjg(a(j - 1, i))*a(j - 1, i))
+                       work(i) = work(i) + real(conjg(a(j - 1, i))*a(j - 1, i), KIND=sp)
+                                 
                     end if
-                    work(n + i) = real(a(i, i)) - work(i)
+                    work(n + i) = real(a(i, i), KIND=sp) - work(i)
                  end do
                  if (j > 1) then
                     itemp = maxloc(work((n + j):(2*n)), 1)
@@ -17549,9 +17443,10 @@ module stdlib_linalg_lapack_c
               ! stored in the second chalf of work
                  do i = j, n
                     if (j > 1) then
-                       work(i) = work(i) + real(conjg(a(i, j - 1))*a(i, j - 1))
+                       work(i) = work(i) + real(conjg(a(i, j - 1))*a(i, j - 1), KIND=sp)
+                                 
                     end if
-                    work(n + i) = real(a(i, i)) - work(i)
+                    work(n + i) = real(a(i, i), KIND=sp) - work(i)
                  end do
                  if (j > 1) then
                     itemp = maxloc(work((n + j):(2*n)), 1)
@@ -17597,14 +17492,13 @@ module stdlib_linalg_lapack_c
            ! ran to completion, a has full rank
            rank = n
            go to 200
-190    continue
+190        continue
            ! rank is number of steps completed.  set info = 1 to signal
            ! that the factorization cannot be used to solve a system.
            rank = j - 1
            info = 1
-200    continue
+200        continue
            return
-           ! end of stdlib_cpstf2
      end subroutine stdlib_cpstf2
 
      ! CPTCON computes the reciprocal of the condition number (in the
@@ -17676,7 +17570,6 @@ module stdlib_linalg_lapack_c
            ! compute the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_cptcon
      end subroutine stdlib_cptcon
 
      ! CPTTRF computes the L*D*L**H factorization of a complex Hermitian
@@ -17716,7 +17609,7 @@ module stdlib_linalg_lapack_c
                  info = i
                  go to 20
               end if
-              eir = real(e(i))
+              eir = real(e(i), KIND=sp)
               eii = aimag(e(i))
               f = eir/d(i)
               g = eii/d(i)
@@ -17731,7 +17624,7 @@ module stdlib_linalg_lapack_c
                  go to 20
               end if
               ! solve for e(i) and d(i+1).
-              eir = real(e(i))
+              eir = real(e(i), KIND=sp)
               eii = aimag(e(i))
               f = eir/d(i)
               g = eii/d(i)
@@ -17742,7 +17635,7 @@ module stdlib_linalg_lapack_c
                  go to 20
               end if
               ! solve for e(i+1) and d(i+2).
-              eir = real(e(i + 1))
+              eir = real(e(i + 1), KIND=sp)
               eii = aimag(e(i + 1))
               f = eir/d(i + 1)
               g = eii/d(i + 1)
@@ -17753,7 +17646,7 @@ module stdlib_linalg_lapack_c
                  go to 20
               end if
               ! solve for e(i+2) and d(i+3).
-              eir = real(e(i + 2))
+              eir = real(e(i + 2), KIND=sp)
               eii = aimag(e(i + 2))
               f = eir/d(i + 2)
               g = eii/d(i + 2)
@@ -17764,7 +17657,7 @@ module stdlib_linalg_lapack_c
                  go to 20
               end if
               ! solve for e(i+3) and d(i+4).
-              eir = real(e(i + 3))
+              eir = real(e(i + 3), KIND=sp)
               eii = aimag(e(i + 3))
               f = eir/d(i + 3)
               g = eii/d(i + 3)
@@ -17773,9 +17666,8 @@ module stdlib_linalg_lapack_c
            end do loop_110
            ! check d(n) for positive definiteness.
            if (d(n) <= zero) info = n
-20      continue
+20         continue
            return
-           ! end of stdlib_cpttrf
      end subroutine stdlib_cpttrf
 
      ! CPTTS2 solves a tridiagonal system of the form
@@ -17810,7 +17702,7 @@ module stdlib_linalg_lapack_c
               ! overwriting each right hand side vector with its solution.
               if (nrhs <= 2) then
                  j = 1
-5        continue
+5                continue
                  ! solve u**h * x = b.
                  do i = 2, n
                     b(i, j) = b(i, j) - b(i - 1, j)*conjg(e(i - 1))
@@ -17844,7 +17736,7 @@ module stdlib_linalg_lapack_c
               ! overwriting each right hand side vector with its solution.
               if (nrhs <= 2) then
                  j = 1
-65      continue
+65               continue
                  ! solve l * x = b.
                  do i = 2, n
                     b(i, j) = b(i, j) - b(i - 1, j)*e(i - 1)
@@ -17875,7 +17767,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cptts2
      end subroutine stdlib_cptts2
 
      ! CROT   applies a plane rotation, where the cos (C) is real and the
@@ -17914,7 +17805,7 @@ module stdlib_linalg_lapack_c
            end do
            return
            ! code for both increments equal to 1
-20      continue
+20   continue
            do i = 1, n
               stemp = c*cx(i) + s*cy(i)
               cy(i) = c*cy(i) - conjg(s)*cx(i)
@@ -18077,7 +17968,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cspmv
      end subroutine stdlib_cspmv
 
      ! CSPR    performs the symmetric rank 1 operation
@@ -18197,7 +18087,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cspr
      end subroutine stdlib_cspr
 
      ! CSPTRF computes the factorization of a complex symmetric matrix A
@@ -18232,7 +18121,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -18254,7 +18143,7 @@ module stdlib_linalg_lapack_c
               ! 1 or 2
               k = n
               kc = (n - 1)*n/2 + 1
-10      continue
+10            continue
               knc = kc
               ! if k < 1, exit from loop
               if (k < 1) go to 110
@@ -18388,7 +18277,7 @@ module stdlib_linalg_lapack_c
               k = 1
               kc = 1
               npp = n*(n + 1)/2
-60      continue
+60            continue
               knc = kc
               ! if k > n, exit from loop
               if (k > n) go to 110
@@ -18522,9 +18411,8 @@ module stdlib_linalg_lapack_c
               kc = knc + n - k + 2
               go to 60
            end if
-110    continue
+110        continue
            return
-           ! end of stdlib_csptrf
      end subroutine stdlib_csptrf
 
      ! CSPTRI computes the inverse of a complex symmetric indefinite matrix
@@ -18587,7 +18475,7 @@ module stdlib_linalg_lapack_c
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-30      continue
+30            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               kcnext = kc + k
@@ -18654,7 +18542,7 @@ module stdlib_linalg_lapack_c
               k = k + kstep
               kc = kcnext
               go to 30
-50      continue
+50            continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
@@ -18662,7 +18550,7 @@ module stdlib_linalg_lapack_c
               npp = n*(n + 1)/2
               k = n
               kc = npp
-60      continue
+60            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 80
               kcnext = kc - (n - k + 2)
@@ -18731,10 +18619,9 @@ module stdlib_linalg_lapack_c
               k = k - kstep
               kc = kcnext
               go to 60
-80      continue
+80            continue
            end if
            return
-           ! end of stdlib_csptri
      end subroutine stdlib_csptri
 
      ! CSPTRS solves a system of linear equations A*X = B with a complex
@@ -18784,7 +18671,7 @@ module stdlib_linalg_lapack_c
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-10      continue
+10            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               kc = kc - k
@@ -18826,13 +18713,13 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 10
-30      continue
+30            continue
               ! next solve u**t*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-40      continue
+40            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -18861,7 +18748,7 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 40
-50      continue
+50            continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
@@ -18869,7 +18756,7 @@ module stdlib_linalg_lapack_c
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-60      continue
+60            continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -18913,13 +18800,13 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 60
-80      continue
+80            continue
               ! next solve l**t*x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-90      continue
+90            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               kc = kc - (n - k + 1)
@@ -18950,10 +18837,9 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 90
-100    continue
+100           continue
            end if
            return
-           ! end of stdlib_csptrs
      end subroutine stdlib_csptrs
 
      ! CSRSCL multiplies an n-element complex vector x by the real scalar
@@ -18986,7 +18872,7 @@ module stdlib_linalg_lapack_c
            ! initialize the denominator to sa and the numerator to 1.
            cden = sa
            cnum = one
-10      continue
+10         continue
            cden1 = cden*smlnum
            cnum1 = cnum/bignum
            if (abs(cden1) > abs(cnum) .and. cnum /= zero) then
@@ -19008,7 +18894,6 @@ module stdlib_linalg_lapack_c
            call stdlib_csscal(n, mul, sx, incx)
            if (.not. done) go to 10
            return
-           ! end of stdlib_csrscl
      end subroutine stdlib_csrscl
 
      ! CSTEIN computes the eigenvectors of a real symmetric tridiagonal
@@ -19071,7 +18956,7 @@ module stdlib_linalg_lapack_c
                     go to 30
                  end if
               end do
-30      continue
+30            continue
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_cstein', -info)
@@ -19118,7 +19003,7 @@ module stdlib_linalg_lapack_c
               ortol = odm3*onenrm
               stpcrt = sqrt(odm1/blksiz)
               ! loop through eigenvalues of block nblk.
-60      continue
+60   continue
               jblk = 0
               loop_170: do j = j1, m
                  if (iblock(j) /= nblk) then
@@ -19153,7 +19038,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_slagtf(blksiz, work(indrv4 + 1), xj, work(indrv2 + 2), work(indrv3 + &
                            1), tol, work(indrv5 + 1), iwork, iinfo)
                  ! update iteration count.
-70      continue
+70   continue
                  its = its + 1
                  if (its > maxits) go to 120
                  ! normalize and scale the righthand side vector pb.
@@ -19172,16 +19057,16 @@ module stdlib_linalg_lapack_c
                     do i = gpind, j - 1
                        ctr = zero
                        do jr = 1, blksiz
-                          ctr = ctr + work(indrv1 + jr)*real(z(b1 - 1 + jr, i))
+                          ctr = ctr + work(indrv1 + jr)*real(z(b1 - 1 + jr, i), KIND=sp)
                        end do
                        do jr = 1, blksiz
-                          work(indrv1 + jr) = work(indrv1 + jr) - ctr*real(z(b1 - 1 + jr, i))
-                                    
+                          work(indrv1 + jr) = work(indrv1 + jr) - ctr*real(z(b1 - 1 + jr, i), &
+                                    KIND=sp)
                        end do
                     end do
                  end if
                  ! check the infinity norm of the iterate.
-110    continue
+110  continue
                  jmax = stdlib_isamax(blksiz, work(indrv1 + 1), 1)
                  nrm = abs(work(indrv1 + jmax))
                  ! continue for additional iterations after norm reaches
@@ -19192,16 +19077,16 @@ module stdlib_linalg_lapack_c
                  go to 130
                  ! if stopping criterion was not satisfied, update info and
                  ! store eigenvector number in array ifail.
-120    continue
+120  continue
                  info = info + 1
                  ifail(info) = j
                  ! accept iterate as jth eigenvector.
-130    continue
+130  continue
                  scl = one/stdlib_snrm2(blksiz, work(indrv1 + 1), 1)
                  jmax = stdlib_isamax(blksiz, work(indrv1 + 1), 1)
                  if (work(indrv1 + jmax) < zero) scl = -scl
                  call stdlib_sscal(blksiz, scl, work(indrv1 + 1), 1)
-140    continue
+140              continue
                  do i = 1, n
                     z(i, j) = czero
                  end do
@@ -19214,7 +19099,6 @@ module stdlib_linalg_lapack_c
               end do loop_170
            end do loop_180
            return
-           ! end of stdlib_cstein
      end subroutine stdlib_cstein
 
      ! CSTEQR computes all eigenvalues and, optionally, eigenvectors of a
@@ -19290,7 +19174,7 @@ module stdlib_linalg_lapack_c
            ! element is smaller.
            l1 = 1
            nm1 = n - 1
-10      continue
+10         continue
            if (l1 > n) go to 160
            if (l1 > 1) e(l1 - 1) = zero
            if (l1 <= nm1) then
@@ -19304,7 +19188,7 @@ module stdlib_linalg_lapack_c
               end do
            end if
            m = n
-30      continue
+30         continue
            l = l1
            lsv = l
            lend = m
@@ -19332,7 +19216,7 @@ module stdlib_linalg_lapack_c
            if (lend > l) then
               ! ql iteration
               ! look for small subdiagonal element.
-40      continue
+40   continue
               if (l /= lend) then
                  lendm1 = lend - 1
                  do m = l, lendm1
@@ -19341,7 +19225,7 @@ module stdlib_linalg_lapack_c
                  end do
               end if
               m = lend
-60      continue
+60            continue
               if (m < lend) e(m) = zero
               p = d(l)
               if (m == l) go to 80
@@ -19401,7 +19285,7 @@ module stdlib_linalg_lapack_c
               e(l) = g
               go to 40
               ! eigenvalue found.
-80      continue
+80   continue
               d(l) = p
               l = l + 1
               if (l <= lend) go to 40
@@ -19409,7 +19293,7 @@ module stdlib_linalg_lapack_c
            else
               ! qr iteration
               ! look for small superdiagonal element.
-90      continue
+90   continue
               if (l /= lend) then
                  lendp1 = lend + 1
                  do m = l, lendp1, -1
@@ -19418,7 +19302,7 @@ module stdlib_linalg_lapack_c
                  end do
               end if
               m = lend
-110    continue
+110           continue
               if (m > lend) e(m - 1) = zero
               p = d(l)
               if (m == l) go to 130
@@ -19478,14 +19362,14 @@ module stdlib_linalg_lapack_c
               e(lm1) = g
               go to 90
               ! eigenvalue found.
-130    continue
+130  continue
               d(l) = p
               l = l - 1
               if (l >= lend) go to 90
               go to 140
            end if
            ! undo scaling if necessary
-140    continue
+140  continue
            if (iscale == 1) then
               call stdlib_slascl('g', 0, 0, ssfmax, anorm, lendsv - lsv + 1, 1, d(lsv), n, info)
                         
@@ -19507,7 +19391,7 @@ module stdlib_linalg_lapack_c
            end if
            go to 10
            ! order eigenvalues and eigenvectors.
-160    continue
+160  continue
            if (icompz == 0) then
               ! use quick sort
               call stdlib_slasrt('i', n, d, info)
@@ -19531,7 +19415,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_csteqr
      end subroutine stdlib_csteqr
 
      ! CSYCONV convert A given by TRF into L and D and vice-versa.
@@ -19735,7 +19618,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_csyconv
      end subroutine stdlib_csyconv
 
      ! If parameter WAY = 'C':
@@ -19992,7 +19874,6 @@ module stdlib_linalg_lapack_c
               ! end a is lower
            end if
            return
-           ! end of stdlib_csyconvf
      end subroutine stdlib_csyconvf
 
      ! If parameter WAY = 'C':
@@ -20247,7 +20128,6 @@ module stdlib_linalg_lapack_c
               ! end a is lower
            end if
            return
-           ! end of stdlib_csyconvf_rook
      end subroutine stdlib_csyconvf_rook
 
      ! CSYEQUB computes row and column scalings intended to equilibrate a
@@ -20284,7 +20164,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -20332,7 +20212,7 @@ module stdlib_linalg_lapack_c
               end do
            end if
            do j = 1, n
-              s(j) = one/s(j)
+              s(j) = 1.0_sp/s(j)
            end do
            tol = one/sqrt(2.0_sp*n)
            do iter = 1, max_iter
@@ -20362,7 +20242,7 @@ module stdlib_linalg_lapack_c
               ! avg = s^t beta / n
               avg = zero
               do i = 1, n
-                 avg = avg + real(s(i)*work(i))
+                 avg = avg + real(s(i)*work(i), KIND=sp)
               end do
               avg = avg/n
               std = zero
@@ -20376,8 +20256,8 @@ module stdlib_linalg_lapack_c
                  t = cabs1(a(i, i))
                  si = s(i)
                  c2 = (n - 1)*t
-                 c1 = real(n - 2)*(real(work(i)) - t*si)
-                 c0 = -(t*si)*si + 2*real(work(i))*si - n*avg
+                 c1 = real(n - 2, KIND=sp)*(real(work(i), KIND=sp) - t*si)
+                 c0 = -(t*si)*si + 2*real(work(i), KIND=sp)*si - n*avg
                  d = c1*c1 - 4*c0*c2
                  if (d <= 0) then
                     info = -1
@@ -20409,11 +20289,11 @@ module stdlib_linalg_lapack_c
                        work(j) = work(j) + d*t
                     end do
                  end if
-                 avg = avg + (u + real(work(i)))*d/n
+                 avg = avg + (u + real(work(i), KIND=sp))*d/n
                  s(i) = si
               end do
            end do
-999   continue
+999        continue
            smlnum = stdlib_slamch('safemin')
            bignum = one/smlnum
            smin = bignum
@@ -20422,7 +20302,7 @@ module stdlib_linalg_lapack_c
            base = stdlib_slamch('b')
            u = one/log(base)
            do i = 1, n
-              s(i) = base**int(u*log(s(i)*t))
+              s(i) = base**int(u*log(s(i)*t), KIND=ilp)
               smin = min(smin, s(i))
               smax = max(smax, s(i))
            end do
@@ -20579,7 +20459,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_csymv
      end subroutine stdlib_csymv
 
      ! CSYR   performs the symmetric rank 1 operation
@@ -20683,7 +20562,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_csyr
      end subroutine stdlib_csyr
 
      ! CSYSWAPR applies an elementary permutation on the rows and the columns of
@@ -20786,7 +20664,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -20809,7 +20687,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
@@ -20924,7 +20802,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
@@ -21038,9 +20916,8 @@ module stdlib_linalg_lapack_c
               k = k + kstep
               go to 40
            end if
-70      continue
+70         continue
            return
-           ! end of stdlib_csytf2
      end subroutine stdlib_csytf2
 
      ! CSYTF2_RK computes the factorization of a complex symmetric matrix A
@@ -21077,7 +20954,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -21105,7 +20982,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 34
               kstep = 1
@@ -21139,7 +21016,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -21292,7 +21169,7 @@ module stdlib_linalg_lapack_c
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-34      continue
+34            continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! initialize the unused last entry of the subdiagonal array e.
@@ -21300,7 +21177,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop
               if (k > n) go to 64
               kstep = 1
@@ -21333,7 +21210,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-42      continue
+42   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -21491,10 +21368,9 @@ module stdlib_linalg_lapack_c
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 40
-64      continue
+64            continue
            end if
            return
-           ! end of stdlib_csytf2_rk
      end subroutine stdlib_csytf2_rk
 
      ! CSYTF2_ROOK computes the factorization of a complex symmetric matrix A
@@ -21529,7 +21405,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(z) = abs(real(z)) + abs(aimag(z))
+           cabs1(z) = abs(real(z, KIND=sp)) + abs(aimag(z))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -21554,7 +21430,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
@@ -21586,7 +21462,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -21730,7 +21606,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
@@ -21761,7 +21637,7 @@ module stdlib_linalg_lapack_c
                  else
                     done = .false.
                     ! loop until pivot found
-42      continue
+42   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -21906,9 +21782,8 @@ module stdlib_linalg_lapack_c
               k = k + kstep
               go to 40
            end if
-70      continue
+70         continue
            return
-           ! end of stdlib_csytf2_rook
      end subroutine stdlib_csytf2_rook
 
      ! CSYTRF computes the factorization of a complex symmetric matrix A
@@ -21981,7 +21856,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clasyf;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -22004,7 +21879,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clasyf;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20            continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -22031,10 +21906,9 @@ module stdlib_linalg_lapack_c
               k = k + kb
               go to 20
            end if
-40      continue
+40         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_csytrf
      end subroutine stdlib_csytrf
 
      ! CSYTRF_RK computes the factorization of a complex symmetric matrix A
@@ -22108,7 +21982,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clasyf_rk;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 15
               if (k > nb) then
@@ -22144,14 +22018,14 @@ module stdlib_linalg_lapack_c
               go to 10
               ! this label is the exit from main loop over k decreasing
               ! from n to 1 in steps of kb
-15      continue
+15   continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! k is the main loop index, increasing from 1 to n in steps of
               ! kb, where kb is the number of columns factorized by stdlib_clasyf_rk;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20            continue
               ! if k > n, exit from loop
               if (k > n) go to 35
               if (k <= n - nb) then
@@ -22195,12 +22069,11 @@ module stdlib_linalg_lapack_c
               go to 20
               ! this label is the exit from main loop over k increasing
               ! from 1 to n in steps of kb
-35      continue
+35   continue
            ! end lower
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_csytrf_rk
      end subroutine stdlib_csytrf_rk
 
      ! CSYTRF_ROOK computes the factorization of a complex symmetric matrix A
@@ -22273,7 +22146,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clasyf_rook;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -22298,7 +22171,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clasyf_rook;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20            continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -22325,10 +22198,9 @@ module stdlib_linalg_lapack_c
               k = k + kb
               go to 20
            end if
-40      continue
+40         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_csytrf_rook
      end subroutine stdlib_csytrf_rook
 
      ! CSYTRI computes the inverse of a complex symmetric indefinite matrix
@@ -22388,7 +22260,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30      continue
+30            continue
               ! if k > n, exit from loop.
               if (k > n) go to 40
               if (ipiv(k) > 0) then
@@ -22447,13 +22319,13 @@ module stdlib_linalg_lapack_c
               end if
               k = k + kstep
               go to 30
-40      continue
+40            continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-50      continue
+50            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 60
               if (ipiv(k) > 0) then
@@ -22512,10 +22384,9 @@ module stdlib_linalg_lapack_c
               end if
               k = k - kstep
               go to 50
-60      continue
+60            continue
            end if
            return
-           ! end of stdlib_csytri
      end subroutine stdlib_csytri
 
      ! CSYTRI_ROOK computes the inverse of a complex symmetric
@@ -22575,7 +22446,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30      continue
+30            continue
               ! if k > n, exit from loop.
               if (k > n) go to 40
               if (ipiv(k) > 0) then
@@ -22654,13 +22525,13 @@ module stdlib_linalg_lapack_c
               end if
               k = k + 1
               go to 30
-40      continue
+40            continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-50      continue
+50            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 60
               if (ipiv(k) > 0) then
@@ -22739,10 +22610,9 @@ module stdlib_linalg_lapack_c
               end if
               k = k - 1
               go to 50
-60      continue
+60            continue
            end if
            return
-           ! end of stdlib_csytri_rook
      end subroutine stdlib_csytri_rook
 
      ! CSYTRS solves a system of linear equations A*X = B with a complex
@@ -22793,7 +22663,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -22833,12 +22703,12 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 10
-30      continue
+30            continue
               ! next solve u**t *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -22865,14 +22735,14 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 40
-50      continue
+50            continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60      continue
+60            continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -22914,12 +22784,12 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 60
-80      continue
+80            continue
               ! next solve l**t *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90      continue
+90            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -22948,10 +22818,9 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 90
-100    continue
+100           continue
            end if
            return
-           ! end of stdlib_csytrs
      end subroutine stdlib_csytrs
 
      ! CSYTRS2 solves a system of linear equations A*X = B with a complex
@@ -23128,7 +22997,6 @@ module stdlib_linalg_lapack_c
            ! revert a
            call stdlib_csyconv(uplo, 'r', n, a, lda, ipiv, work, iinfo)
            return
-           ! end of stdlib_csytrs2
      end subroutine stdlib_csytrs2
 
      ! CSYTRS_3 solves a system of linear equations A * X = B with a complex
@@ -23284,7 +23152,6 @@ module stdlib_linalg_lapack_c
               ! end lower
            end if
            return
-           ! end of stdlib_csytrs_3
      end subroutine stdlib_csytrs_3
 
      ! CSYTRS_AA solves a system of linear equations A*X = B with a complex
@@ -23400,7 +23267,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_csytrs_aa
      end subroutine stdlib_csytrs_aa
 
      ! CSYTRS_ROOK solves a system of linear equations A*X = B with
@@ -23451,7 +23317,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -23495,12 +23361,12 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 10
-30      continue
+30            continue
               ! next solve u**t *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -23531,14 +23397,14 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 40
-50      continue
+50            continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60      continue
+60            continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -23582,12 +23448,12 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 60
-80      continue
+80            continue
               ! next solve l**t *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90      continue
+90            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -23618,10 +23484,9 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 90
-100    continue
+100           continue
            end if
            return
-           ! end of stdlib_csytrs_rook
      end subroutine stdlib_csytrs_rook
 
      ! CTBRFS provides error bounds and backward error estimates for the
@@ -23657,7 +23522,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -23836,7 +23701,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-210    continue
+210           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -23862,7 +23727,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_250
            return
-           ! end of stdlib_ctbrfs
      end subroutine stdlib_ctbrfs
 
      ! CTBTRS solves a triangular system of the form
@@ -23933,7 +23797,6 @@ module stdlib_linalg_lapack_c
               call stdlib_ctbsv(uplo, trans, diag, n, kd, ab, ldab, b(1, j), 1)
            end do
            return
-           ! end of stdlib_ctbtrs
      end subroutine stdlib_ctbtrs
 
      ! Level 3 BLAS like routine for A in RFP Format.
@@ -24434,7 +24297,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_ctfsm
      end subroutine stdlib_ctfsm
 
      ! CTFTTP copies a triangular matrix A from rectangular full packed
@@ -24692,7 +24554,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_ctfttp
      end subroutine stdlib_ctfttp
 
      ! CTFTTR copies a triangular matrix A from rectangular full packed
@@ -24941,7 +24802,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_ctfttr
      end subroutine stdlib_ctfttr
 
      ! CTGEVC computes some or all of the right and/or left eigenvectors of
@@ -24988,7 +24848,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: abs1
            ! .. statement function definitions ..
-           abs1(x) = abs(real(x)) + abs(aimag(x))
+           abs1(x) = abs(real(x, KIND=sp)) + abs(aimag(x))
            ! .. executable statements ..
            ! decode and test the input parameters
            if (stdlib_lsame(howmny, 'a')) then
@@ -25106,8 +24966,8 @@ module stdlib_linalg_lapack_c
                  end if
                  if (ilcomp) then
                     ieig = ieig + 1
-                    if (abs1(s(je, je)) <= safmin .and. abs(real(p(je, je))) <= safmin) &
-                              then
+                    if (abs1(s(je, je)) <= safmin .and. abs(real(p(je, je), KIND=sp)) &
+                              <= safmin) then
                        ! singular matrix pencil -- return unit eigenvector
                        do jr = 1, n
                           vl(jr, ieig) = czero
@@ -25119,10 +24979,10 @@ module stdlib_linalg_lapack_c
                     ! compute coefficients  a  and  b  in
                          ! h
                        ! y  ( a a - b b ) = 0
-                    temp = one/max(abs1(s(je, je))*ascale, abs(real(p(je, je))) &
+                    temp = one/max(abs1(s(je, je))*ascale, abs(real(p(je, je), KIND=sp)) &
                               *bscale, safmin)
                     salpha = (temp*s(je, je))*ascale
-                    sbeta = (temp*real(p(je, je)))*bscale
+                    sbeta = (temp*real(p(je, je), KIND=sp))*bscale
                     acoeff = sbeta*ascale
                     bcoeff = salpha*bscale
                     ! scale to avoid underflow
@@ -25236,8 +25096,8 @@ module stdlib_linalg_lapack_c
                  end if
                  if (ilcomp) then
                     ieig = ieig - 1
-                    if (abs1(s(je, je)) <= safmin .and. abs(real(p(je, je))) <= safmin) &
-                              then
+                    if (abs1(s(je, je)) <= safmin .and. abs(real(p(je, je), KIND=sp)) &
+                              <= safmin) then
                        ! singular matrix pencil -- return unit eigenvector
                        do jr = 1, n
                           vr(jr, ieig) = czero
@@ -25248,10 +25108,10 @@ module stdlib_linalg_lapack_c
                     ! non-singular eigenvalue:
                     ! compute coefficients  a  and  b  in
                     ! ( a a - b b ) x  = 0
-                    temp = one/max(abs1(s(je, je))*ascale, abs(real(p(je, je))) &
+                    temp = one/max(abs1(s(je, je))*ascale, abs(real(p(je, je), KIND=sp)) &
                               *bscale, safmin)
                     salpha = (temp*s(je, je))*ascale
-                    sbeta = (temp*real(p(je, je)))*bscale
+                    sbeta = (temp*real(p(je, je), KIND=sp))*bscale
                     acoeff = sbeta*ascale
                     bcoeff = salpha*bscale
                     ! scale to avoid underflow
@@ -25351,7 +25211,6 @@ module stdlib_linalg_lapack_c
               end do loop_250
            end if
            return
-           ! end of stdlib_ctgevc
      end subroutine stdlib_ctgevc
 
      ! CTGEX2 swaps adjacent diagonal 1 by 1 blocks (A11,B11) and (A22,B22)
@@ -25401,8 +25260,8 @@ module stdlib_linalg_lapack_c
            ! compute the threshold for testing the acceptance of swapping.
            eps = stdlib_slamch('p')
            smlnum = stdlib_slamch('s')/eps
-           scale = real(czero)
-           sum = real(cone)
+           scale = real(czero, KIND=sp)
+           sum = real(cone, KIND=sp)
            call stdlib_clacpy('full', m, m, s, ldst, work, m)
            call stdlib_clacpy('full', m, m, t, ldst, work(m*m + 1), m)
            call stdlib_classq(m*m, work, 1, scale, sum)
@@ -25484,10 +25343,9 @@ module stdlib_linalg_lapack_c
            ! exit with info = 0 if swap was successfully performed.
            return
            ! exit with info = 1 if swap was rejected.
-20      continue
+20   continue
            info = 1
            return
-           ! end of stdlib_ctgex2
      end subroutine stdlib_ctgex2
 
      ! CTGEXC reorders the generalized Schur decomposition of a complex
@@ -25543,7 +25401,7 @@ module stdlib_linalg_lapack_c
            if (ifst == ilst) return
            if (ifst < ilst) then
               here = ifst
-10      continue
+10            continue
               ! swap with next one below
               call stdlib_ctgex2(wantq, wantz, n, a, lda, b, ldb, q, ldq, z, ldz, here, info)
                         
@@ -25556,7 +25414,7 @@ module stdlib_linalg_lapack_c
               here = here - 1
            else
               here = ifst - 1
-20      continue
+20            continue
               ! swap with next one above
               call stdlib_ctgex2(wantq, wantz, n, a, lda, b, ldb, q, ldq, z, ldz, here, info)
                         
@@ -25570,7 +25428,6 @@ module stdlib_linalg_lapack_c
            end if
            ilst = here
            return
-           ! end of stdlib_ctgexc
      end subroutine stdlib_ctgexc
 
      ! CTPLQT2 computes a LQ a factorization of a complex "triangular-pentagonal"
@@ -25685,7 +25542,6 @@ module stdlib_linalg_lapack_c
                  t(j, i) = czero
               end do
            end do
-           ! end of stdlib_ctplqt2
      end subroutine stdlib_ctplqt2
 
      ! CTPQRT2 computes a QR factorization of a complex "triangular-pentagonal"
@@ -25775,7 +25631,6 @@ module stdlib_linalg_lapack_c
               t(i, i) = t(i, 1)
               t(i, 1) = czero
            end do
-           ! end of stdlib_ctpqrt2
      end subroutine stdlib_ctpqrt2
 
      ! CTPRFB applies a complex "triangular-pentagonal" block reflector H or its
@@ -26195,7 +26050,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_ctprfb
      end subroutine stdlib_ctprfb
 
      ! CTPRFS provides error bounds and backward error estimates for the
@@ -26231,7 +26085,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -26418,7 +26272,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-210    continue
+210           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -26444,7 +26298,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_250
            return
-           ! end of stdlib_ctprfs
      end subroutine stdlib_ctprfs
 
      ! CTPTRI computes the inverse of a complex upper or lower triangular
@@ -26534,7 +26387,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_ctptri
      end subroutine stdlib_ctptri
 
      ! CTPTRS solves a triangular system of the form
@@ -26606,7 +26458,6 @@ module stdlib_linalg_lapack_c
               call stdlib_ctpsv(uplo, trans, diag, n, ap, b(1, j), 1)
            end do
            return
-           ! end of stdlib_ctptrs
      end subroutine stdlib_ctptrs
 
      ! CTPTTF copies a triangular matrix A from standard packed format (TP)
@@ -26863,7 +26714,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_ctpttf
      end subroutine stdlib_ctpttf
 
      ! CTPTTR copies a triangular matrix A from standard packed format (TP)
@@ -26916,7 +26766,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_ctpttr
      end subroutine stdlib_ctpttr
 
      ! CTREVC computes some or all of the right and/or left eigenvectors of
@@ -26949,8 +26798,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: t(ldt, *), vl(ldvl, *), vr(ldvr, *), work(*)
         ! =====================================================================
            ! .. parameters ..
-           complex(sp), parameter :: cmzero = (zero, zero)
-           complex(sp), parameter :: cmone = (one, zero)
+           complex(sp), parameter :: cmzero = (0.0e+0_sp, 0.0e+0_sp)
+           complex(sp), parameter :: cmone = (1.0e+0_sp, 0.0e+0_sp)
            
            ! .. local scalars ..
            logical(lk) :: allv, bothv, leftv, over, rightv, somev
@@ -26962,7 +26811,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! decode and test the input parameters
            bothv = stdlib_lsame(side, 'b')
@@ -27114,7 +26963,6 @@ module stdlib_linalg_lapack_c
               end do loop_130
            end if
            return
-           ! end of stdlib_ctrevc
      end subroutine stdlib_ctrevc
 
      ! CTREVC3 computes some or all of the right and/or left eigenvectors of
@@ -27161,7 +27009,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! decode and test the input parameters
            bothv = stdlib_lsame(side, 'b')
@@ -27408,7 +27256,6 @@ module stdlib_linalg_lapack_c
               end do loop_130
            end if
            return
-           ! end of stdlib_ctrevc3
      end subroutine stdlib_ctrevc3
 
      ! CTREXC reorders the Schur factorization of a complex matrix
@@ -27487,7 +27334,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_ctrexc
      end subroutine stdlib_ctrexc
 
      ! CTRRFS provides error bounds and backward error estimates for the
@@ -27523,7 +27369,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -27700,7 +27546,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-210    continue
+210           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -27726,7 +27572,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_250
            return
-           ! end of stdlib_ctrrfs
      end subroutine stdlib_ctrrfs
 
      ! CTRSNA estimates reciprocal condition numbers for specified
@@ -27761,7 +27606,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! decode and test the input parameters
            wantbh = stdlib_lsame(job, 'b')
@@ -27845,7 +27690,7 @@ module stdlib_linalg_lapack_c
                  est = zero
                  kase = 0
                  normin = 'n'
-30      continue
+30               continue
                  call stdlib_clacn2(n - 1, work(1, n + 1), work, est, kase, isave)
                  if (kase /= 0) then
                     if (kase == 1) then
@@ -27870,11 +27715,10 @@ module stdlib_linalg_lapack_c
                  end if
                  sep(ks) = one/max(est, smlnum)
               end if
-40      continue
+40            continue
               ks = ks + 1
            end do loop_50
            return
-           ! end of stdlib_ctrsna
      end subroutine stdlib_ctrsna
 
      ! CTRTI2 computes the inverse of a complex upper or lower triangular
@@ -27948,7 +27792,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_ctrti2
      end subroutine stdlib_ctrti2
 
      ! CTRTRI computes the inverse of a complex upper or lower triangular
@@ -28035,7 +27878,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_ctrtri
      end subroutine stdlib_ctrtri
 
      ! CTRTRS solves a triangular system of the form
@@ -28094,7 +27936,6 @@ module stdlib_linalg_lapack_c
            ! solve a * x = b,  a**t * x = b,  or  a**h * x = b.
            call stdlib_ctrsm('left', uplo, trans, diag, n, nrhs, cone, a, lda, b, ldb)
            return
-           ! end of stdlib_ctrtrs
      end subroutine stdlib_ctrtrs
 
      ! CTRTTF copies a triangular matrix A from standard full format (TR)
@@ -28342,7 +28183,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_ctrttf
      end subroutine stdlib_ctrttf
 
      ! CTRTTP copies a triangular matrix A from full format (TR) to standard
@@ -28395,7 +28235,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_ctrttp
      end subroutine stdlib_ctrttp
 
      ! CUNBDB simultaneously bidiagonalizes the blocks of an M-by-M
@@ -28499,18 +28338,18 @@ module stdlib_linalg_lapack_c
                  if (i == 1) then
                     call stdlib_cscal(p - i + 1, cmplx(z1, 0.0_sp, KIND=sp), x11(i, i), 1)
                  else
-                    call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0_sp), x11(i, i), 1)
-                              
-                    call stdlib_caxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_sp), x12(i, i - 1), &
-                               1, x11(i, i), 1)
+                    call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0_sp, KIND=sp), x11(i, i), &
+                              1)
+                    call stdlib_caxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_sp, KIND=sp), x12( &
+                              i, i - 1), 1, x11(i, i), 1)
                  end if
                  if (i == 1) then
                     call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0_sp, KIND=sp), x21(i, i), 1)
                  else
-                    call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0_sp), x21(i, i), 1)
-                              
-                    call stdlib_caxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_sp), x22(i, i - &
-                              1), 1, x21(i, i), 1)
+                    call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0_sp, KIND=sp), x21(i, i), &
+                               1)
+                    call stdlib_caxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_sp, KIND=sp), &
+                              x22(i, i - 1), 1, x21(i, i), 1)
                  end if
                  theta(i) = atan2(stdlib_scnrm2(m - p - i + 1, x21(i, i), 1), stdlib_scnrm2(p - i + 1, &
                            x11(i, i), 1))
@@ -28539,15 +28378,15 @@ module stdlib_linalg_lapack_c
                               i), ldx22, work)
                  end if
                  if (i < q) then
-                    call stdlib_cscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0_sp), x11(i, i + 1), &
-                              ldx11)
-                    call stdlib_caxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0_sp), x21(i, i + 1), &
-                              ldx21, x11(i, i + 1), ldx11)
+                    call stdlib_cscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0_sp, KIND=sp), x11(i, i + &
+                              1), ldx11)
+                    call stdlib_caxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0_sp, KIND=sp), x21(i, i + 1) &
+                              , ldx21, x11(i, i + 1), ldx11)
                  end if
-                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0_sp), x12(i, i), &
-                           ldx12)
-                 call stdlib_caxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0_sp), x22(i, i), ldx22, &
-                            x12(i, i), ldx12)
+                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0_sp, KIND=sp), x12(i, i) &
+                           , ldx12)
+                 call stdlib_caxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0_sp, KIND=sp), x22(i, i), &
+                            ldx22, x12(i, i), ldx12)
                  if (i < q) phi(i) = atan2(stdlib_scnrm2(q - i, x11(i, i + 1), ldx11), stdlib_scnrm2( &
                             m - q - i + 1, x12(i, i), ldx12))
                  if (i < q) then
@@ -28607,8 +28446,8 @@ module stdlib_linalg_lapack_c
               end do
               ! reduce columns p + 1, ..., m - q of x12, x22
               do i = 1, m - p - q
-                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0_sp, KIND=sp), x22(q + i, p + i), ldx22 &
-                           )
+                 call stdlib_cscal(m - p - q - i + 1, cmplx(z2*z4, 0.0_sp, KIND=sp), x22(q + i, p + i), ldx22)
+                           
                  call stdlib_clacgv(m - p - q - i + 1, x22(q + i, p + i), ldx22)
                  call stdlib_clarfgp(m - p - q - i + 1, x22(q + i, p + i), x22(q + i, p + i + 1), ldx22, tauq2(p + i))
                            
@@ -28622,21 +28461,20 @@ module stdlib_linalg_lapack_c
               do i = 1, q
                  if (i == 1) then
                     call stdlib_cscal(p - i + 1, cmplx(z1, 0.0_sp, KIND=sp), x11(i, i), ldx11)
-                              
                  else
-                    call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0_sp), x11(i, i), ldx11)
-                              
-                    call stdlib_caxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_sp), x12(i - 1, i), &
-                               ldx12, x11(i, i), ldx11)
+                    call stdlib_cscal(p - i + 1, cmplx(z1*cos(phi(i - 1)), 0.0_sp, KIND=sp), x11(i, i), &
+                              ldx11)
+                    call stdlib_caxpy(p - i + 1, cmplx(-z1*z3*z4*sin(phi(i - 1)), 0.0_sp, KIND=sp), x12( &
+                              i - 1, i), ldx12, x11(i, i), ldx11)
                  end if
                  if (i == 1) then
                     call stdlib_cscal(m - p - i + 1, cmplx(z2, 0.0_sp, KIND=sp), x21(i, i), ldx21)
                               
                  else
-                    call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0_sp), x21(i, i), ldx21 &
-                              )
-                    call stdlib_caxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_sp), x22(i - 1, &
-                              i), ldx22, x21(i, i), ldx21)
+                    call stdlib_cscal(m - p - i + 1, cmplx(z2*cos(phi(i - 1)), 0.0_sp, KIND=sp), x21(i, i), &
+                               ldx21)
+                    call stdlib_caxpy(m - p - i + 1, cmplx(-z2*z3*z4*sin(phi(i - 1)), 0.0_sp, KIND=sp), &
+                              x22(i - 1, i), ldx22, x21(i, i), ldx21)
                  end if
                  theta(i) = atan2(stdlib_scnrm2(m - p - i + 1, x21(i, i), ldx21), stdlib_scnrm2(p - i + 1, &
                             x11(i, i), ldx11))
@@ -28661,15 +28499,15 @@ module stdlib_linalg_lapack_c
                  call stdlib_clacgv(p - i + 1, x11(i, i), ldx11)
                  call stdlib_clacgv(m - p - i + 1, x21(i, i), ldx21)
                  if (i < q) then
-                    call stdlib_cscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0_sp), x11(i + 1, i), 1)
-                              
-                    call stdlib_caxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0_sp), x21(i + 1, i), 1, &
-                              x11(i + 1, i), 1)
+                    call stdlib_cscal(q - i, cmplx(-z1*z3*sin(theta(i)), 0.0_sp, KIND=sp), x11(i + 1, &
+                              i), 1)
+                    call stdlib_caxpy(q - i, cmplx(z2*z3*cos(theta(i)), 0.0_sp, KIND=sp), x21(i + 1, i) &
+                              , 1, x11(i + 1, i), 1)
                  end if
-                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0_sp), x12(i, i), 1)
-                           
-                 call stdlib_caxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0_sp), x22(i, i), 1, &
-                           x12(i, i), 1)
+                 call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4*sin(theta(i)), 0.0_sp, KIND=sp), x12(i, i) &
+                           , 1)
+                 call stdlib_caxpy(m - q - i + 1, cmplx(z2*z4*cos(theta(i)), 0.0_sp, KIND=sp), x22(i, i), &
+                            1, x12(i, i), 1)
                  if (i < q) phi(i) = atan2(stdlib_scnrm2(q - i, x11(i + 1, i), 1), stdlib_scnrm2(m - &
                            q - i + 1, x12(i, i), 1))
                  if (i < q) then
@@ -28694,7 +28532,6 @@ module stdlib_linalg_lapack_c
               ! reduce columns q + 1, ..., p of x12, x22
               do i = q + 1, p
                  call stdlib_cscal(m - q - i + 1, cmplx(-z1*z4, 0.0_sp, KIND=sp), x12(i, i), 1)
-                           
                  call stdlib_clarfgp(m - q - i + 1, x12(i, i), x12(i + 1, i), 1, tauq2(i))
                  x12(i, i) = cone
                  if (p > i) then
@@ -28718,7 +28555,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_cunbdb
      end subroutine stdlib_cunbdb
 
      ! CUNBDB6 orthogonalizes the column vector
@@ -28745,7 +28581,6 @@ module stdlib_linalg_lapack_c
            real(sp), parameter :: alphasq = 0.01_sp
            real(sp), parameter :: realone = 1.0_sp
            real(sp), parameter :: realzero = 0.0_sp
-           complex(sp), parameter :: negone = (-1.0_sp, 0.0_sp)
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -28793,8 +28628,8 @@ module stdlib_linalg_lapack_c
               call stdlib_cgemv('c', m1, n, cone, q1, ldq1, x1, incx1, czero, work, 1)
            end if
            call stdlib_cgemv('c', m2, n, cone, q2, ldq2, x2, incx2, cone, work, 1)
-           call stdlib_cgemv('n', m1, n, negone, q1, ldq1, work, 1, cone, x1, incx1)
-           call stdlib_cgemv('n', m2, n, negone, q2, ldq2, work, 1, cone, x2, incx2)
+           call stdlib_cgemv('n', m1, n, cnegone, q1, ldq1, work, 1, cone, x1, incx1)
+           call stdlib_cgemv('n', m2, n, cnegone, q2, ldq2, work, 1, cone, x2, incx2)
            scl1 = realzero
            ssq1 = realone
            call stdlib_classq(m1, x1, incx1, scl1, ssq1)
@@ -28823,8 +28658,8 @@ module stdlib_linalg_lapack_c
               call stdlib_cgemv('c', m1, n, cone, q1, ldq1, x1, incx1, czero, work, 1)
            end if
            call stdlib_cgemv('c', m2, n, cone, q2, ldq2, x2, incx2, cone, work, 1)
-           call stdlib_cgemv('n', m1, n, negone, q1, ldq1, work, 1, cone, x1, incx1)
-           call stdlib_cgemv('n', m2, n, negone, q2, ldq2, work, 1, cone, x2, incx2)
+           call stdlib_cgemv('n', m1, n, cnegone, q1, ldq1, work, 1, cone, x1, incx1)
+           call stdlib_cgemv('n', m2, n, cnegone, q2, ldq2, work, 1, cone, x2, incx2)
            scl1 = realzero
            ssq1 = realone
            call stdlib_classq(m1, x1, incx1, scl1, ssq1)
@@ -28844,7 +28679,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_cunbdb6
      end subroutine stdlib_cunbdb6
 
      ! CUNG2L generates an m by n complex matrix Q with orthonormal columns,
@@ -28906,7 +28740,6 @@ module stdlib_linalg_lapack_c
               end do
            end do
            return
-           ! end of stdlib_cung2l
      end subroutine stdlib_cung2l
 
      ! CUNG2R generates an m by n complex matrix Q with orthonormal columns,
@@ -28969,7 +28802,6 @@ module stdlib_linalg_lapack_c
               end do
            end do
            return
-           ! end of stdlib_cung2r
      end subroutine stdlib_cung2r
 
      ! CUNGL2 generates an m-by-n complex matrix Q with orthonormal rows,
@@ -29038,7 +28870,6 @@ module stdlib_linalg_lapack_c
               end do
            end do
            return
-           ! end of stdlib_cungl2
      end subroutine stdlib_cungl2
 
      ! CUNGLQ generates an M-by-N complex matrix Q with orthonormal rows,
@@ -29153,7 +28984,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = iws
            return
-           ! end of stdlib_cunglq
      end subroutine stdlib_cunglq
 
      ! CUNGQL generates an M-by-N complex matrix Q with orthonormal columns,
@@ -29273,7 +29103,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = iws
            return
-           ! end of stdlib_cungql
      end subroutine stdlib_cungql
 
      ! CUNGQR generates an M-by-N complex matrix Q with orthonormal columns,
@@ -29388,7 +29217,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = iws
            return
-           ! end of stdlib_cungqr
      end subroutine stdlib_cungqr
 
      ! CUNGR2 generates an m by n complex matrix Q with orthonormal rows,
@@ -29454,7 +29282,6 @@ module stdlib_linalg_lapack_c
               end do
            end do
            return
-           ! end of stdlib_cungr2
      end subroutine stdlib_cungr2
 
      ! CUNGRQ generates an M-by-N complex matrix Q with orthonormal rows,
@@ -29575,7 +29402,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = iws
            return
-           ! end of stdlib_cungrq
      end subroutine stdlib_cungrq
 
      ! CUNGTSQR_ROW generates an M-by-N complex matrix Q_out with
@@ -29716,7 +29542,6 @@ module stdlib_linalg_lapack_c
            end do
            work(1) = cmplx(lworkopt, KIND=sp)
            return
-           ! end of stdlib_cungtsqr_row
      end subroutine stdlib_cungtsqr_row
 
      subroutine stdlib_cunm22(side, trans, m, n, n1, n2, q, ldq, c, ldc, work, lwork, info)
@@ -29895,7 +29720,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = cmplx(lwkopt, KIND=sp)
            return
-           ! end of stdlib_cunm22
      end subroutine stdlib_cunm22
 
      ! CUNM2L overwrites the general complex m-by-n matrix C with
@@ -29992,7 +29816,6 @@ module stdlib_linalg_lapack_c
               a(nq - k + i, i) = aii
            end do
            return
-           ! end of stdlib_cunm2l
      end subroutine stdlib_cunm2l
 
      ! CUNM2R overwrites the general complex m-by-n matrix C with
@@ -30093,7 +29916,6 @@ module stdlib_linalg_lapack_c
               a(i, i) = aii
            end do
            return
-           ! end of stdlib_cunm2r
      end subroutine stdlib_cunm2r
 
      ! CUNML2 overwrites the general complex m-by-n matrix C with
@@ -30197,7 +30019,6 @@ module stdlib_linalg_lapack_c
               if (i < nq) call stdlib_clacgv(nq - i, a(i, i + 1), lda)
            end do
            return
-           ! end of stdlib_cunml2
      end subroutine stdlib_cunml2
 
      ! CUNMLQ overwrites the general complex M-by-N matrix C with
@@ -30344,7 +30165,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cunmlq
      end subroutine stdlib_cunmlq
 
      ! CUNMQL overwrites the general complex M-by-N matrix C with
@@ -30481,7 +30301,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cunmql
      end subroutine stdlib_cunmql
 
      ! CUNMQR overwrites the general complex M-by-N matrix C with
@@ -30618,7 +30437,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cunmqr
      end subroutine stdlib_cunmqr
 
      ! CUNMR2 overwrites the general complex m-by-n matrix C with
@@ -30717,7 +30535,6 @@ module stdlib_linalg_lapack_c
               call stdlib_clacgv(nq - k + i - 1, a(i, 1), lda)
            end do
            return
-           ! end of stdlib_cunmr2
      end subroutine stdlib_cunmr2
 
      ! CUNMR3 overwrites the general complex m by n matrix C with
@@ -30819,7 +30636,6 @@ module stdlib_linalg_lapack_c
                         
            end do
            return
-           ! end of stdlib_cunmr3
      end subroutine stdlib_cunmr3
 
      ! CUNMRQ overwrites the general complex M-by-N matrix C with
@@ -30961,7 +30777,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cunmrq
      end subroutine stdlib_cunmrq
 
      ! CUNMRZ overwrites the general complex M-by-N matrix C with
@@ -31115,7 +30930,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cunmrz
      end subroutine stdlib_cunmrz
 
      ! CBBCSD computes the CS decomposition of a unitary matrix in
@@ -31158,7 +30972,6 @@ module stdlib_linalg_lapack_c
            integer(ilp), parameter :: maxitr = 6
            real(sp), parameter :: hundred = 100.0_sp
            real(sp), parameter :: meighth = -0.125_sp
-           complex(sp), parameter :: negonecomplex = (-1.0_sp, 0.0_sp)
            real(sp), parameter :: piover2 = 1.57079632679489661923132169163975144210_sp
            
            ! .. local scalars ..
@@ -31322,7 +31135,7 @@ module stdlib_linalg_lapack_c
                     end if
                  else
                     nu = sigma21
-                    mu = sqrt(one - nu**2)
+                    mu = sqrt(1.0_sp - nu**2)
                     if (nu < thresh) then
                        mu = one
                        nu = zero
@@ -31622,9 +31435,9 @@ module stdlib_linalg_lapack_c
                  b21d(imax) = -b21d(imax)
                  if (wantv1t) then
                     if (colmajor) then
-                       call stdlib_cscal(q, negonecomplex, v1t(imax, 1), ldv1t)
+                       call stdlib_cscal(q, cnegone, v1t(imax, 1), ldv1t)
                     else
-                       call stdlib_cscal(q, negonecomplex, v1t(1, imax), 1)
+                       call stdlib_cscal(q, cnegone, v1t(1, imax), 1)
                     end if
                  end if
               end if
@@ -31638,9 +31451,9 @@ module stdlib_linalg_lapack_c
                  b12d(imax) = -b12d(imax)
                  if (wantu1) then
                     if (colmajor) then
-                       call stdlib_cscal(p, negonecomplex, u1(1, imax), 1)
+                       call stdlib_cscal(p, cnegone, u1(1, imax), 1)
                     else
-                       call stdlib_cscal(p, negonecomplex, u1(imax, 1), ldu1)
+                       call stdlib_cscal(p, cnegone, u1(imax, 1), ldu1)
                     end if
                  end if
               end if
@@ -31648,9 +31461,9 @@ module stdlib_linalg_lapack_c
                  b22d(imax) = -b22d(imax)
                  if (wantu2) then
                     if (colmajor) then
-                       call stdlib_cscal(m - p, negonecomplex, u2(1, imax), 1)
+                       call stdlib_cscal(m - p, cnegone, u2(1, imax), 1)
                     else
-                       call stdlib_cscal(m - p, negonecomplex, u2(imax, 1), ldu2)
+                       call stdlib_cscal(m - p, cnegone, u2(imax, 1), ldu2)
                     end if
                  end if
               end if
@@ -31658,9 +31471,9 @@ module stdlib_linalg_lapack_c
               if (b12d(imax) + b22d(imax) < 0) then
                  if (wantv2t) then
                     if (colmajor) then
-                       call stdlib_cscal(m - q, negonecomplex, v2t(imax, 1), ldv2t)
+                       call stdlib_cscal(m - q, cnegone, v2t(imax, 1), ldv2t)
                     else
-                       call stdlib_cscal(m - q, negonecomplex, v2t(1, imax), 1)
+                       call stdlib_cscal(m - q, cnegone, v2t(1, imax), 1)
                     end if
                  end if
               end if
@@ -31724,7 +31537,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_cbbcsd
      end subroutine stdlib_cbbcsd
 
      ! CBDSQR computes the singular values and, optionally, the right and/or
@@ -31765,7 +31577,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: c(ldc, *), u(ldu, *), vt(ldvt, *)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: negone = -1.0_sp
            real(sp), parameter :: hndrth = 0.01_sp
            real(sp), parameter :: hndrd = 100.0_sp
            real(sp), parameter :: meigth = -0.125_sp
@@ -31863,8 +31674,8 @@ module stdlib_linalg_lapack_c
                  sminoa = min(sminoa, mu)
                  if (sminoa == zero) go to 50
               end do
-50      continue
-              sminoa = sminoa/sqrt(real(n))
+50            continue
+              sminoa = sminoa/sqrt(real(n, KIND=sp))
               thresh = max(tol*sminoa, maxitr*n*n*unfl)
            else
               ! absolute accuracy desired
@@ -31880,7 +31691,7 @@ module stdlib_linalg_lapack_c
            ! m points to last element of unconverged part of matrix
            m = n
            ! begin main iteration loop
-60      continue
+60   continue
            ! check for convergence or exceeding iteration count
            if (m <= 1) go to 160
            if (iter > maxit) go to 200
@@ -31899,7 +31710,7 @@ module stdlib_linalg_lapack_c
            end do
            ll = 0
            go to 90
-80      continue
+80         continue
            e(ll) = zero
            ! matrix splits since e(ll) = 0
            if (ll == m - 1) then
@@ -31907,7 +31718,7 @@ module stdlib_linalg_lapack_c
               m = m - 1
               go to 60
            end if
-90      continue
+90         continue
            ll = ll + 1
            ! e(ll) through e(m-1) are nonzero, e(ll-1) is zero
            if (ll == m - 1) then
@@ -32139,7 +31950,7 @@ module stdlib_linalg_lapack_c
            ! qr iteration finished, go back and check convergence
            go to 60
            ! all singular values converged, so make them positive
-160    continue
+160  continue
            do i = 1, n
               if (d(i) < zero) then
                  d(i) = -d(i)
@@ -32172,14 +31983,13 @@ module stdlib_linalg_lapack_c
            end do
            go to 220
            ! maximum number of iterations exceeded, failure to converge
-200    continue
+200  continue
            info = 0
            do i = 1, n - 1
               if (e(i) /= zero) info = info + 1
            end do
-220    continue
+220        continue
            return
-           ! end of stdlib_cbdsqr
      end subroutine stdlib_cbdsqr
 
      ! CGBCON estimates the reciprocal of the condition number of a complex
@@ -32217,7 +32027,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -32259,7 +32069,7 @@ module stdlib_linalg_lapack_c
            kd = kl + ku + 1
            lnoti = kl > 0
            kase = 0
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -32309,9 +32119,8 @@ module stdlib_linalg_lapack_c
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-40      continue
+40         continue
            return
-           ! end of stdlib_cgbcon
      end subroutine stdlib_cgbcon
 
      ! CGBTRF computes an LU factorization of a complex m-by-n band matrix A
@@ -32560,7 +32369,6 @@ module stdlib_linalg_lapack_c
               end do loop_180
            end if
            return
-           ! end of stdlib_cgbtrf
      end subroutine stdlib_cgbtrf
 
      ! CGBTRS solves a system of linear equations
@@ -32672,7 +32480,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cgbtrs
      end subroutine stdlib_cgbtrs
 
      ! CGEBD2 reduces a complex general m by n matrix A to upper or lower
@@ -32715,7 +32522,7 @@ module stdlib_linalg_lapack_c
                  ! generate elementary reflector h(i) to annihilate a(i+1:m,i)
                  alpha = a(i, i)
                  call stdlib_clarfg(m - i + 1, alpha, a(min(i + 1, m), i), 1, tauq(i))
-                 d(i) = real(alpha)
+                 d(i) = real(alpha, KIND=sp)
                  a(i, i) = cone
                  ! apply h(i)**h to a(i:m,i+1:n) from the left
                  if (i < n) call stdlib_clarf('left', m - i + 1, n - i, a(i, i), 1, conjg(tauq(i)), &
@@ -32727,7 +32534,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacgv(n - i, a(i, i + 1), lda)
                     alpha = a(i, i + 1)
                     call stdlib_clarfg(n - i, alpha, a(i, min(i + 2, n)), lda, taup(i))
-                    e(i) = real(alpha)
+                    e(i) = real(alpha, KIND=sp)
                     a(i, i + 1) = cone
                     ! apply g(i) to a(i+1:m,i+1:n) from the right
                     call stdlib_clarf('right', m - i, n - i, a(i, i + 1), lda, taup(i), a(i + 1, i + 1 &
@@ -32745,7 +32552,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_clacgv(n - i + 1, a(i, i), lda)
                  alpha = a(i, i)
                  call stdlib_clarfg(n - i + 1, alpha, a(i, min(i + 1, n)), lda, taup(i))
-                 d(i) = real(alpha)
+                 d(i) = real(alpha, KIND=sp)
                  a(i, i) = cone
                  ! apply g(i) to a(i+1:m,i:n) from the right
                  if (i < m) call stdlib_clarf('right', m - i, n - i + 1, a(i, i), lda, taup(i), a(i + &
@@ -32757,7 +32564,7 @@ module stdlib_linalg_lapack_c
                     ! a(i+2:m,i)
                     alpha = a(i + 1, i)
                     call stdlib_clarfg(m - i, alpha, a(min(i + 2, m), i), 1, tauq(i))
-                    e(i) = real(alpha)
+                    e(i) = real(alpha, KIND=sp)
                     a(i + 1, i) = cone
                     ! apply h(i)**h to a(i+1:m,i+1:n) from the left
                     call stdlib_clarf('left', m - i, n - i, a(i + 1, i), 1, conjg(tauq(i)), a(i + &
@@ -32769,7 +32576,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_cgebd2
      end subroutine stdlib_cgebd2
 
      ! CGECON estimates the reciprocal of the condition number of a general
@@ -32805,7 +32611,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -32841,7 +32647,7 @@ module stdlib_linalg_lapack_c
               kase1 = 2
            end if
            kase = 0
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -32871,9 +32677,8 @@ module stdlib_linalg_lapack_c
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20         continue
            return
-           ! end of stdlib_cgecon
      end subroutine stdlib_cgecon
 
      ! CGEHD2 reduces a complex general matrix A to upper Hessenberg form H
@@ -32924,7 +32729,6 @@ module stdlib_linalg_lapack_c
               a(i + 1, i) = alpha
            end do
            return
-           ! end of stdlib_cgehd2
      end subroutine stdlib_cgehd2
 
      ! CGELQ2 computes an LQ factorization of a complex m-by-n matrix A:
@@ -32979,7 +32783,6 @@ module stdlib_linalg_lapack_c
               call stdlib_clacgv(n - i + 1, a(i, i), lda)
            end do
            return
-           ! end of stdlib_cgelq2
      end subroutine stdlib_cgelq2
 
      ! CGELQF computes an LQ factorization of a complex M-by-N matrix A:
@@ -33076,7 +32879,6 @@ module stdlib_linalg_lapack_c
                      
            work(1) = iws
            return
-           ! end of stdlib_cgelqf
      end subroutine stdlib_cgelqf
 
      ! CGELQT3 recursively computes a LQ factorization of a complex M-by-N
@@ -33165,7 +32967,6 @@ module stdlib_linalg_lapack_c
                                ! [ a(1:n1,j1:n)  l2 ]       [ 0 t2]
            end if
            return
-           ! end of stdlib_cgelqt3
      end subroutine stdlib_cgelqt3
 
      ! CGEMLQT overwrites the general complex M-by-N matrix C with
@@ -33261,7 +33062,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_cgemlqt
      end subroutine stdlib_cgemlqt
 
      ! CGEMQRT overwrites the general complex M-by-N matrix C with
@@ -33357,7 +33157,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_cgemqrt
      end subroutine stdlib_cgemqrt
 
      ! CGEQL2 computes a QL factorization of a complex m by n matrix A:
@@ -33405,7 +33204,6 @@ module stdlib_linalg_lapack_c
               a(m - k + i, n - k + i) = alpha
            end do
            return
-           ! end of stdlib_cgeql2
      end subroutine stdlib_cgeql2
 
      ! CGEQLF computes a QL factorization of a complex M-by-N matrix A:
@@ -33511,7 +33309,6 @@ module stdlib_linalg_lapack_c
            if (mu > 0 .and. nu > 0) call stdlib_cgeql2(mu, nu, a, lda, tau, work, iinfo)
            work(1) = iws
            return
-           ! end of stdlib_cgeqlf
      end subroutine stdlib_cgeqlf
 
      ! CGEQR2 computes a QR factorization of a complex m-by-n matrix A:
@@ -33565,7 +33362,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_cgeqr2
      end subroutine stdlib_cgeqr2
 
      ! CGEQR2P computes a QR factorization of a complex m-by-n matrix A:
@@ -33620,7 +33416,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_cgeqr2p
      end subroutine stdlib_cgeqr2p
 
      ! CGEQRF computes a QR factorization of a complex M-by-N matrix A:
@@ -33722,7 +33517,6 @@ module stdlib_linalg_lapack_c
                      
            work(1) = iws
            return
-           ! end of stdlib_cgeqrf
      end subroutine stdlib_cgeqrf
 
      ! CGEQR2P computes a QR factorization of a complex M-by-N matrix A:
@@ -33821,7 +33615,6 @@ module stdlib_linalg_lapack_c
                      
            work(1) = iws
            return
-           ! end of stdlib_cgeqrfp
      end subroutine stdlib_cgeqrfp
 
      ! CGEQRT2 computes a QR factorization of a complex M-by-N matrix A,
@@ -33888,7 +33681,6 @@ module stdlib_linalg_lapack_c
                  t(i, i) = t(i, 1)
                  t(i, 1) = czero
            end do
-           ! end of stdlib_cgeqrt2
      end subroutine stdlib_cgeqrt2
 
      ! CGEQRT3 recursively computes a QR factorization of a complex M-by-N matrix A,
@@ -33975,7 +33767,6 @@ module stdlib_linalg_lapack_c
                                ! [  0        r2     ]       [ 0 t2]
            end if
            return
-           ! end of stdlib_cgeqrt3
      end subroutine stdlib_cgeqrt3
 
      ! CGERQ2 computes an RQ factorization of a complex m by n matrix A:
@@ -34025,7 +33816,6 @@ module stdlib_linalg_lapack_c
               call stdlib_clacgv(n - k + i - 1, a(m - k + i, 1), lda)
            end do
            return
-           ! end of stdlib_cgerq2
      end subroutine stdlib_cgerq2
 
      ! CGERQF computes an RQ factorization of a complex M-by-N matrix A:
@@ -34131,7 +33921,6 @@ module stdlib_linalg_lapack_c
            if (mu > 0 .and. nu > 0) call stdlib_cgerq2(mu, nu, a, lda, tau, work, iinfo)
            work(1) = iws
            return
-           ! end of stdlib_cgerqf
      end subroutine stdlib_cgerqf
 
      ! CGESC2 solves a system of linear equations
@@ -34178,7 +33967,7 @@ module stdlib_linalg_lapack_c
            if (two*smlnum*abs(rhs(i)) > abs(a(n, n))) then
               temp = cmplx(one/two, zero, KIND=sp)/abs(rhs(i))
               call stdlib_cscal(n, temp, rhs(1), 1)
-              scale = scale*real(temp)
+              scale = scale*real(temp, KIND=sp)
            end if
            do i = n, 1, -1
               temp = cmplx(one, zero, KIND=sp)/a(i, i)
@@ -34190,7 +33979,6 @@ module stdlib_linalg_lapack_c
            ! apply permutations jpiv to the solution (rhs)
            call stdlib_claswp(1, rhs, lda, 1, n - 1, jpiv, -1)
            return
-           ! end of stdlib_cgesc2
      end subroutine stdlib_cgesc2
 
      ! CGETRF2 computes an LU factorization of a general M-by-N matrix A
@@ -34306,7 +34094,6 @@ module stdlib_linalg_lapack_c
               call stdlib_claswp(n1, a(1, 1), lda, n1 + 1, min(m, n), ipiv, 1)
            end if
            return
-           ! end of stdlib_cgetrf2
      end subroutine stdlib_cgetrf2
 
      ! CGETRI computes the inverse of a matrix using the LU factorization
@@ -34407,7 +34194,6 @@ module stdlib_linalg_lapack_c
            end do
            work(1) = iws
            return
-           ! end of stdlib_cgetri
      end subroutine stdlib_cgetri
 
      ! CGETRS solves a system of linear equations
@@ -34475,7 +34261,6 @@ module stdlib_linalg_lapack_c
               call stdlib_claswp(nrhs, b, ldb, 1, n, ipiv, -1)
            end if
            return
-           ! end of stdlib_cgetrs
      end subroutine stdlib_cgetrs
 
      ! CGGHRD reduces a pair of complex matrices (A,B) to generalized upper
@@ -34607,7 +34392,6 @@ module stdlib_linalg_lapack_c
               end do
            end do
            return
-           ! end of stdlib_cgghrd
      end subroutine stdlib_cgghrd
 
      ! CGGQRF computes a generalized QR factorization of an N-by-M matrix A
@@ -34674,7 +34458,7 @@ module stdlib_linalg_lapack_c
            end if
            ! qr factorization of n-by-m matrix a: a = q*r
            call stdlib_cgeqrf(n, m, a, lda, taua, work, lwork, info)
-           lopt = real(work(1))
+           lopt = real(work(1), KIND=sp)
            ! update b := q**h*b.
            call stdlib_cunmqr('left', 'conjugate transpose', n, p, min(n, m), a, lda, taua, b, &
                      ldb, work, lwork, info)
@@ -34683,7 +34467,6 @@ module stdlib_linalg_lapack_c
            call stdlib_cgerqf(n, p, b, ldb, taub, work, lwork, info)
            work(1) = max(lopt, int(work(1), KIND=ilp))
            return
-           ! end of stdlib_cggqrf
      end subroutine stdlib_cggqrf
 
      ! CGGRQF computes a generalized RQ factorization of an M-by-N matrix A
@@ -34750,7 +34533,7 @@ module stdlib_linalg_lapack_c
            end if
            ! rq factorization of m-by-n matrix a: a = r*q
            call stdlib_cgerqf(m, n, a, lda, taua, work, lwork, info)
-           lopt = real(work(1))
+           lopt = real(work(1), KIND=sp)
            ! update b := b*q**h
            call stdlib_cunmrq('right', 'conjugate transpose', p, n, min(m, n), a(max(1, m - n + 1 &
                      ), 1), lda, taua, b, ldb, work, lwork, info)
@@ -34759,7 +34542,6 @@ module stdlib_linalg_lapack_c
            call stdlib_cgeqrf(p, n, b, ldb, taub, work, lwork, info)
            work(1) = max(lopt, int(work(1), KIND=ilp))
            return
-           ! end of stdlib_cggrqf
      end subroutine stdlib_cggrqf
 
      ! CGTTRS solves one of the systems of equations
@@ -34824,7 +34606,6 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgtts2(itrans, n, jb, dl, d, du, du2, ipiv, b(1, j), ldb)
               end do
            end if
-           ! end of stdlib_cgttrs
      end subroutine stdlib_cgttrs
 
      ! CHB2ST_KERNELS is an internal routine used by the CHETRD_HB2ST
@@ -34969,7 +34750,6 @@ module stdlib_linalg_lapack_c
                end if
            end if
            return
-           ! end of stdlib_chb2st_kernels
      end subroutine stdlib_chb2st_kernels
 
      ! CHEEQUB computes row and column scalings intended to equilibrate a
@@ -35006,7 +34786,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -35084,7 +34864,7 @@ module stdlib_linalg_lapack_c
               ! avg = s^t beta / n
               avg = zero
               do i = 1, n
-                 avg = avg + real(s(i)*work(i))
+                 avg = avg + real(s(i)*work(i), KIND=sp)
               end do
               avg = avg/n
               std = zero
@@ -35098,8 +34878,8 @@ module stdlib_linalg_lapack_c
                  t = cabs1(a(i, i))
                  si = s(i)
                  c2 = (n - 1)*t
-                 c1 = real((n - 2)*(work(i) - t*si))
-                 c0 = real(-(t*si)*si + 2*work(i)*si - n*avg)
+                 c1 = real((n - 2)*(work(i) - t*si), KIND=sp)
+                 c0 = real(-(t*si)*si + 2*work(i)*si - n*avg, KIND=sp)
                  d = c1*c1 - 4*c0*c2
                  if (d <= 0) then
                     info = -1
@@ -35131,11 +34911,11 @@ module stdlib_linalg_lapack_c
                        work(j) = work(j) + d*t
                     end do
                  end if
-                 avg = avg + real((u + work(i))*d/n)
+                 avg = avg + real((u + work(i))*d/n, KIND=sp)
                  s(i) = si
               end do
            end do
-999   continue
+999        continue
            smlnum = stdlib_slamch('safemin')
            bignum = one/smlnum
            smin = bignum
@@ -35144,7 +34924,7 @@ module stdlib_linalg_lapack_c
            base = stdlib_slamch('b')
            u = one/log(base)
            do i = 1, n
-              s(i) = base**int(u*log(s(i)*t))
+              s(i) = base**int(u*log(s(i)*t), KIND=ilp)
               smin = min(smin, s(i))
               smax = max(smax, s(i))
            end do
@@ -35201,8 +34981,8 @@ module stdlib_linalg_lapack_c
                  ! compute inv(u**h)*a*inv(u)
                  do k = 1, n
                     ! update the upper triangle of a(k:n,k:n)
-                    akk = real(a(k, k))
-                    bkk = real(b(k, k))
+                    akk = real(a(k, k), KIND=sp)
+                    bkk = real(b(k, k), KIND=sp)
                     akk = akk/bkk**2
                     a(k, k) = akk
                     if (k < n) then
@@ -35224,8 +35004,8 @@ module stdlib_linalg_lapack_c
                  ! compute inv(l)*a*inv(l**h)
                  do k = 1, n
                     ! update the lower triangle of a(k:n,k:n)
-                    akk = real(a(k, k))
-                    bkk = real(b(k, k))
+                    akk = real(a(k, k), KIND=sp)
+                    bkk = real(b(k, k), KIND=sp)
                     akk = akk/bkk**2
                     a(k, k) = akk
                     if (k < n) then
@@ -35245,8 +35025,8 @@ module stdlib_linalg_lapack_c
                  ! compute u*a*u**h
                  do k = 1, n
                     ! update the upper triangle of a(1:k,1:k)
-                    akk = real(a(k, k))
-                    bkk = real(b(k, k))
+                    akk = real(a(k, k), KIND=sp)
+                    bkk = real(b(k, k), KIND=sp)
                     call stdlib_ctrmv(uplo, 'no transpose', 'non-unit', k - 1, b, ldb, a(1, k), 1 &
                               )
                     ct = half*akk
@@ -35261,8 +35041,8 @@ module stdlib_linalg_lapack_c
                  ! compute l**h *a*l
                  do k = 1, n
                     ! update the lower triangle of a(1:k,1:k)
-                    akk = real(a(k, k))
-                    bkk = real(b(k, k))
+                    akk = real(a(k, k), KIND=sp)
+                    bkk = real(b(k, k), KIND=sp)
                     call stdlib_clacgv(k - 1, a(k, 1), lda)
                     call stdlib_ctrmv(uplo, 'conjugate transpose', 'non-unit', k - 1, b, ldb, a(k, &
                               1), lda)
@@ -35280,7 +35060,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_chegs2
      end subroutine stdlib_chegs2
 
      ! CHEGST reduces a complex Hermitian-definite generalized
@@ -35418,7 +35197,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_chegst
      end subroutine stdlib_chegst
 
      ! CHETD2 reduces a complex Hermitian matrix A to real symmetric
@@ -35462,13 +35240,13 @@ module stdlib_linalg_lapack_c
            if (n <= 0) return
            if (upper) then
               ! reduce the upper triangle of a
-              a(n, n) = real(a(n, n))
+              a(n, n) = real(a(n, n), KIND=sp)
               do i = n - 1, 1, -1
                  ! generate elementary reflector h(i) = i - tau * v * v**h
                  ! to annihilate a(1:i-1,i+1)
                  alpha = a(i, i + 1)
                  call stdlib_clarfg(i, alpha, a(1, i + 1), 1, taui)
-                 e(i) = real(alpha)
+                 e(i) = real(alpha, KIND=sp)
                  if (taui /= czero) then
                     ! apply h(i) from both sides to a(1:i,1:i)
                     a(i, i + 1) = cone
@@ -35482,22 +35260,22 @@ module stdlib_linalg_lapack_c
                        ! a := a - v * w**h - w * v**h
                     call stdlib_cher2(uplo, i, -cone, a(1, i + 1), 1, tau, 1, a, lda)
                  else
-                    a(i, i) = real(a(i, i))
+                    a(i, i) = real(a(i, i), KIND=sp)
                  end if
                  a(i, i + 1) = e(i)
-                 d(i + 1) = real(a(i + 1, i + 1))
+                 d(i + 1) = real(a(i + 1, i + 1), KIND=sp)
                  tau(i) = taui
               end do
-              d(1) = real(a(1, 1))
+              d(1) = real(a(1, 1), KIND=sp)
            else
               ! reduce the lower triangle of a
-              a(1, 1) = real(a(1, 1))
+              a(1, 1) = real(a(1, 1), KIND=sp)
               do i = 1, n - 1
                  ! generate elementary reflector h(i) = i - tau * v * v**h
                  ! to annihilate a(i+2:n,i)
                  alpha = a(i + 1, i)
                  call stdlib_clarfg(n - i, alpha, a(min(i + 2, n), i), 1, taui)
-                 e(i) = real(alpha)
+                 e(i) = real(alpha, KIND=sp)
                  if (taui /= czero) then
                     ! apply h(i) from both sides to a(i+1:n,i+1:n)
                     a(i + 1, i) = cone
@@ -35512,16 +35290,15 @@ module stdlib_linalg_lapack_c
                     call stdlib_cher2(uplo, n - i, -cone, a(i + 1, i), 1, tau(i), 1, a(i + 1, i + 1) &
                               , lda)
                  else
-                    a(i + 1, i + 1) = real(a(i + 1, i + 1))
+                    a(i + 1, i + 1) = real(a(i + 1, i + 1), KIND=sp)
                  end if
                  a(i + 1, i) = e(i)
-                 d(i) = real(a(i, i))
+                 d(i) = real(a(i, i), KIND=sp)
                  tau(i) = taui
               end do
-              d(n) = real(a(n, n))
+              d(n) = real(a(n, n), KIND=sp)
            end if
            return
-           ! end of stdlib_chetd2
      end subroutine stdlib_chetd2
 
      ! CHETRD reduces a complex Hermitian matrix A to real symmetric
@@ -35617,7 +35394,7 @@ module stdlib_linalg_lapack_c
                  ! elements into d
                  do j = i, i + nb - 1
                     a(j - 1, j) = e(j - 1)
-                    d(j) = real(a(j, j))
+                    d(j) = real(a(j, j), KIND=sp)
                  end do
               end do
               ! use unblocked code to reduce the last or only block
@@ -35638,7 +35415,7 @@ module stdlib_linalg_lapack_c
                  ! elements into d
                  do j = i, i + nb - 1
                     a(j + 1, j) = e(j)
-                    d(j) = real(a(j, j))
+                    d(j) = real(a(j, j), KIND=sp)
                  end do
               end do
               ! use unblocked code to reduce the last or only block
@@ -35647,7 +35424,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_chetrd
      end subroutine stdlib_chetrd
 
      ! CHETRD_HB2ST reduces a complex Hermitian band matrix A to real symmetric
@@ -35669,7 +35445,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: ab(ldab, *), hous(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = zero
+           real(sp), parameter :: rzero = 0.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: lquery, wantq, upper, afters1
@@ -35761,7 +35537,7 @@ module stdlib_linalg_lapack_c
            ! in a parallel environment it might need two cores for d and e
            if (kd == 0) then
                do i = 1, n
-                   d(i) = real(ab(abdpos, i))
+                   d(i) = real(ab(abdpos, i), KIND=sp)
                end do
                do i = 1, n - 1
                    e(i) = rzero
@@ -35781,7 +35557,7 @@ module stdlib_linalg_lapack_c
            ! or not this might complicate the story.
            if (kd == 1) then
                do i = 1, n
-                   d(i) = real(ab(abdpos, i))
+                   d(i) = real(ab(abdpos, i), KIND=sp)
                end do
                ! make off-diagonal elements real and copy them to e
                if (upper) then
@@ -35826,9 +35602,9 @@ module stdlib_linalg_lapack_c
            thgrsiz = n
            grsiz = 1
            shift = 3
-           nbtiles = ceiling(real(n)/real(kd))
-           stepercol = ceiling(real(shift)/real(grsiz))
-           thgrnb = ceiling(real(n - 1)/real(thgrsiz))
+           nbtiles = ceiling(real(n, KIND=sp)/real(kd, KIND=sp))
+           stepercol = ceiling(real(shift, KIND=sp)/real(grsiz, KIND=sp))
+           thgrnb = ceiling(real(n - 1, KIND=sp)/real(thgrsiz, KIND=sp))
            call stdlib_clacpy("a", kd + 1, n, ab, ldab, work(apos), lda)
            call stdlib_claset("a", kd, n, czero, czero, work(awpos), lda)
            ! openmp parallelisation start here
@@ -35914,23 +35690,22 @@ module stdlib_linalg_lapack_c
            ! copy the diagonal from a to d. note that d is real thus only
            ! the real part is needed, the imaginary part should be czero.
            do i = 1, n
-               d(i) = real(work(dpos + (i - 1)*lda))
+               d(i) = real(work(dpos + (i - 1)*lda), KIND=sp)
            end do
            ! copy the off diagonal from a to e. note that e is real thus only
            ! the real part is needed, the imaginary part should be czero.
            if (upper) then
                do i = 1, n - 1
-                  e(i) = real(work(ofdpos + i*lda))
+                  e(i) = real(work(ofdpos + i*lda), KIND=sp)
                end do
            else
                do i = 1, n - 1
-                  e(i) = real(work(ofdpos + (i - 1)*lda))
+                  e(i) = real(work(ofdpos + (i - 1)*lda), KIND=sp)
                end do
            end if
            hous(1) = lhmin
            work(1) = lwmin
            return
-           ! end of stdlib_chetrd_hb2st
      end subroutine stdlib_chetrd_hb2st
 
      ! CHETRD_HE2HB reduces a complex Hermitian matrix A to complex Hermitian
@@ -35949,7 +35724,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: a(lda, *), ab(ldab, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: rone = one
+           real(sp), parameter :: rone = 1.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper
@@ -36093,7 +35868,7 @@ module stdlib_linalg_lapack_c
                    ! do 45 j = i, i+pk-1
                       ! lk = min( kd, n-j ) + 1
                       ! call stdlib_ccopy( lk, ab( 1, j ), 1, a( j, j ), 1 )
-         ! 45        continue
+45   continue
                   ! ==================================================================
                end do loop_40
               ! copy the lower band to ab which is the band storage matrix
@@ -36104,7 +35879,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwmin
            return
-           ! end of stdlib_chetrd_he2hb
      end subroutine stdlib_chetrd_he2hb
 
      ! CHETRF computes the factorization of a complex Hermitian matrix A
@@ -36177,7 +35951,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clahef;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -36200,7 +35974,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clahef;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20            continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -36227,10 +36001,9 @@ module stdlib_linalg_lapack_c
               k = k + kb
               go to 20
            end if
-40      continue
+40         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_chetrf
      end subroutine stdlib_chetrf
 
      ! CHETRF_RK computes the factorization of a complex Hermitian matrix A
@@ -36304,7 +36077,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clahef_rk;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 15
               if (k > nb) then
@@ -36340,14 +36113,14 @@ module stdlib_linalg_lapack_c
               go to 10
               ! this label is the exit from main loop over k decreasing
               ! from n to 1 in steps of kb
-15      continue
+15   continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! k is the main loop index, increasing from 1 to n in steps of
               ! kb, where kb is the number of columns factorized by stdlib_clahef_rk;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20            continue
               ! if k > n, exit from loop
               if (k > n) go to 35
               if (k <= n - nb) then
@@ -36391,12 +36164,11 @@ module stdlib_linalg_lapack_c
               go to 20
               ! this label is the exit from main loop over k increasing
               ! from 1 to n in steps of kb
-35      continue
+35   continue
            ! end lower
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_chetrf_rk
      end subroutine stdlib_chetrf_rk
 
      ! CHETRF_ROOK computes the factorization of a complex Hermitian matrix A
@@ -36469,7 +36241,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clahef_rook;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -36494,7 +36266,7 @@ module stdlib_linalg_lapack_c
               ! kb, where kb is the number of columns factorized by stdlib_clahef_rook;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20            continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -36521,10 +36293,9 @@ module stdlib_linalg_lapack_c
               k = k + kb
               go to 20
            end if
-40      continue
+40         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_chetrf_rook
      end subroutine stdlib_chetrf_rook
 
      ! CHETRS solves a system of linear equations A*X = B with a complex
@@ -36576,7 +36347,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -36589,7 +36360,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgeru(k - 1, nrhs, -cone, a(1, k), 1, b(k, 1), ldb, b(1, 1), ldb &
                            )
                  ! multiply by the inverse of the diagonal block.
-                 s = real(cone)/real(a(k, k))
+                 s = real(cone, KIND=sp)/real(a(k, k), KIND=sp)
                  call stdlib_csscal(nrhs, s, b(k, 1), ldb)
                  k = k - 1
               else
@@ -36617,12 +36388,12 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 10
-30      continue
+30            continue
               ! next solve u**h *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -36659,14 +36430,14 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 40
-50      continue
+50            continue
            else
               ! solve a*x = b, where a = l*d*l**h.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60      continue
+60            continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -36679,7 +36450,7 @@ module stdlib_linalg_lapack_c
                  if (k < n) call stdlib_cgeru(n - k, nrhs, -cone, a(k + 1, k), 1, b(k, 1), ldb, b( &
                            k + 1, 1), ldb)
                  ! multiply by the inverse of the diagonal block.
-                 s = real(cone)/real(a(k, k))
+                 s = real(cone, KIND=sp)/real(a(k, k), KIND=sp)
                  call stdlib_csscal(nrhs, s, b(k, 1), ldb)
                  k = k + 1
               else
@@ -36709,12 +36480,12 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 60
-80      continue
+80            continue
               ! next solve l**h *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90      continue
+90            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -36751,10 +36522,9 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 90
-100    continue
+100           continue
            end if
            return
-           ! end of stdlib_chetrs
      end subroutine stdlib_chetrs
 
      ! CHETRS2 solves a system of linear equations A*X = B with a complex
@@ -36828,7 +36598,7 @@ module stdlib_linalg_lapack_c
               i = n
               do while (i >= 1)
                  if (ipiv(i) > 0) then
-                   s = real(cone)/real(a(i, i))
+                   s = real(cone, KIND=sp)/real(a(i, i), KIND=sp)
                    call stdlib_csscal(nrhs, s, b(i, 1), ldb)
                  elseif (i > 1) then
                     if (ipiv(i - 1) == ipiv(i)) then
@@ -36893,7 +36663,7 @@ module stdlib_linalg_lapack_c
               i = 1
               do while (i <= n)
                  if (ipiv(i) > 0) then
-                   s = real(cone)/real(a(i, i))
+                   s = real(cone, KIND=sp)/real(a(i, i), KIND=sp)
                    call stdlib_csscal(nrhs, s, b(i, 1), ldb)
                  else
                        akm1k = work(i)
@@ -36934,7 +36704,6 @@ module stdlib_linalg_lapack_c
            ! revert a
            call stdlib_csyconv(uplo, 'r', n, a, lda, ipiv, work, iinfo)
            return
-           ! end of stdlib_chetrs2
      end subroutine stdlib_chetrs2
 
      ! CHETRS_AA solves a system of linear equations A*X = B with a complex
@@ -37060,7 +36829,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_chetrs_aa
      end subroutine stdlib_chetrs_aa
 
      ! CHETRS_ROOK solves a system of linear equations A*X = B with a complex
@@ -37112,7 +36880,7 @@ module stdlib_linalg_lapack_c
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -37125,7 +36893,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgeru(k - 1, nrhs, -cone, a(1, k), 1, b(k, 1), ldb, b(1, 1), ldb &
                            )
                  ! multiply by the inverse of the diagonal block.
-                 s = real(cone)/real(a(k, k))
+                 s = real(cone, KIND=sp)/real(a(k, k), KIND=sp)
                  call stdlib_csscal(nrhs, s, b(k, 1), ldb)
                  k = k - 1
               else
@@ -37155,12 +36923,12 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 10
-30      continue
+30            continue
               ! next solve u**h *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -37199,14 +36967,14 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 40
-50      continue
+50            continue
            else
               ! solve a*x = b, where a = l*d*l**h.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60      continue
+60            continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -37219,7 +36987,7 @@ module stdlib_linalg_lapack_c
                  if (k < n) call stdlib_cgeru(n - k, nrhs, -cone, a(k + 1, k), 1, b(k, 1), ldb, b( &
                            k + 1, 1), ldb)
                  ! multiply by the inverse of the diagonal block.
-                 s = real(cone)/real(a(k, k))
+                 s = real(cone, KIND=sp)/real(a(k, k), KIND=sp)
                  call stdlib_csscal(nrhs, s, b(k, 1), ldb)
                  k = k + 1
               else
@@ -37251,12 +37019,12 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 60
-80      continue
+80            continue
               ! next solve l**h *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90      continue
+90            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -37295,10 +37063,9 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 90
-100    continue
+100           continue
            end if
            return
-           ! end of stdlib_chetrs_rook
      end subroutine stdlib_chetrs_rook
 
      ! CHPTRD reduces a complex Hermitian matrix A stored in packed form to
@@ -37342,13 +37109,13 @@ module stdlib_linalg_lapack_c
               ! reduce the upper triangle of a.
               ! i1 is the index in ap of a(1,i+1).
               i1 = n*(n - 1)/2 + 1
-              ap(i1 + n - 1) = real(ap(i1 + n - 1))
+              ap(i1 + n - 1) = real(ap(i1 + n - 1), KIND=sp)
               do i = n - 1, 1, -1
                  ! generate elementary reflector h(i) = i - tau * v * v**h
                  ! to annihilate a(1:i-1,i+1)
                  alpha = ap(i1 + i - 1)
                  call stdlib_clarfg(i, alpha, ap(i1), 1, taui)
-                 e(i) = real(alpha)
+                 e(i) = real(alpha, KIND=sp)
                  if (taui /= czero) then
                     ! apply h(i) from both sides to a(1:i,1:i)
                     ap(i1 + i - 1) = cone
@@ -37362,23 +37129,23 @@ module stdlib_linalg_lapack_c
                     call stdlib_chpr2(uplo, i, -cone, ap(i1), 1, tau, 1, ap)
                  end if
                  ap(i1 + i - 1) = e(i)
-                 d(i + 1) = real(ap(i1 + i))
+                 d(i + 1) = real(ap(i1 + i), KIND=sp)
                  tau(i) = taui
                  i1 = i1 - i
               end do
-              d(1) = real(ap(1))
+              d(1) = real(ap(1), KIND=sp)
            else
               ! reduce the lower triangle of a. ii is the index in ap of
               ! a(i,i) and i1i1 is the index of a(i+1,i+1).
               ii = 1
-              ap(1) = real(ap(1))
+              ap(1) = real(ap(1), KIND=sp)
               do i = 1, n - 1
                  i1i1 = ii + n - i + 1
                  ! generate elementary reflector h(i) = i - tau * v * v**h
                  ! to annihilate a(i+2:n,i)
                  alpha = ap(ii + 1)
                  call stdlib_clarfg(n - i, alpha, ap(ii + 2), 1, taui)
-                 e(i) = real(alpha)
+                 e(i) = real(alpha, KIND=sp)
                  if (taui /= czero) then
                     ! apply h(i) from both sides to a(i+1:n,i+1:n)
                     ap(ii + 1) = cone
@@ -37394,14 +37161,13 @@ module stdlib_linalg_lapack_c
                               
                  end if
                  ap(ii + 1) = e(i)
-                 d(i) = real(ap(ii))
+                 d(i) = real(ap(ii), KIND=sp)
                  tau(i) = taui
                  ii = i1i1
               end do
-              d(n) = real(ap(ii))
+              d(n) = real(ap(ii), KIND=sp)
            end if
            return
-           ! end of stdlib_chptrd
      end subroutine stdlib_chptrd
 
      ! CHPTRS solves a system of linear equations A*X = B with a complex
@@ -37452,7 +37218,7 @@ module stdlib_linalg_lapack_c
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-10      continue
+10            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               kc = kc - k
@@ -37466,7 +37232,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgeru(k - 1, nrhs, -cone, ap(kc), 1, b(k, 1), ldb, b(1, 1), ldb)
                            
                  ! multiply by the inverse of the diagonal block.
-                 s = real(cone)/real(ap(kc + k - 1))
+                 s = real(cone, KIND=sp)/real(ap(kc + k - 1), KIND=sp)
                  call stdlib_csscal(nrhs, s, b(k, 1), ldb)
                  k = k - 1
               else
@@ -37495,13 +37261,13 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 10
-30      continue
+30            continue
               ! next solve u**h *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-40      continue
+40            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -37540,7 +37306,7 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 40
-50      continue
+50            continue
            else
               ! solve a*x = b, where a = l*d*l**h.
               ! first solve l*d*x = b, overwriting b with x.
@@ -37548,7 +37314,7 @@ module stdlib_linalg_lapack_c
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-60      continue
+60            continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -37561,7 +37327,7 @@ module stdlib_linalg_lapack_c
                  if (k < n) call stdlib_cgeru(n - k, nrhs, -cone, ap(kc + 1), 1, b(k, 1), ldb, b(k + &
                            1, 1), ldb)
                  ! multiply by the inverse of the diagonal block.
-                 s = real(cone)/real(ap(kc))
+                 s = real(cone, KIND=sp)/real(ap(kc), KIND=sp)
                  call stdlib_csscal(nrhs, s, b(k, 1), ldb)
                  kc = kc + n - k + 1
                  k = k + 1
@@ -37593,13 +37359,13 @@ module stdlib_linalg_lapack_c
                  k = k + 2
               end if
               go to 60
-80      continue
+80            continue
               ! next solve l**h *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-90      continue
+90            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               kc = kc - (n - k + 1)
@@ -37638,10 +37404,9 @@ module stdlib_linalg_lapack_c
                  k = k - 2
               end if
               go to 90
-100    continue
+100           continue
            end if
            return
-           ! end of stdlib_chptrs
      end subroutine stdlib_chptrs
 
      ! CLA_GBRCOND_C Computes the infinity norm condition number of
@@ -37673,7 +37438,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            stdlib_cla_gbrcond_c = zero
            info = 0
@@ -37741,7 +37506,7 @@ module stdlib_linalg_lapack_c
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -37786,7 +37551,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) stdlib_cla_gbrcond_c = one/ainvnm
            return
-           ! end of stdlib_cla_gbrcond_c
      end function stdlib_cla_gbrcond_c
 
      ! CLA_GERCOND_C computes the infinity norm condition number of
@@ -37818,7 +37582,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            stdlib_cla_gercond_c = zero
            info = 0
@@ -37880,7 +37644,7 @@ module stdlib_linalg_lapack_c
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -37925,7 +37689,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) stdlib_cla_gercond_c = one/ainvnm
            return
-           ! end of stdlib_cla_gercond_c
      end function stdlib_cla_gercond_c
 
      ! CLA_HERCOND_C computes the infinity norm condition number of
@@ -37957,7 +37720,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            stdlib_cla_hercond_c = zero
            info = 0
@@ -38032,7 +37795,7 @@ module stdlib_linalg_lapack_c
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -38073,7 +37836,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) stdlib_cla_hercond_c = one/ainvnm
            return
-           ! end of stdlib_cla_hercond_c
      end function stdlib_cla_hercond_c
 
      ! CLA_HERPVGRW computes the reciprocal pivot growth factor
@@ -38098,14 +37860,14 @@ module stdlib_linalg_lapack_c
            ! .. local scalars ..
            integer(ilp) :: ncols, i, j, k, kp
            real(sp) :: amax, umax, rpvgrw, tmp
-           logical(lk) :: upper
+           logical(lk) :: upper, lsame
            complex(sp) :: zdum
            ! .. intrinsic functions ..
            intrinsic :: abs, real, aimag, max, min
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            upper = stdlib_lsame('upper', uplo)
            if (info == 0) then
@@ -38249,7 +38011,7 @@ module stdlib_linalg_lapack_c
               do i = ncols, n
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -38257,13 +38019,12 @@ module stdlib_linalg_lapack_c
               do i = 1, ncols
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
            end if
            stdlib_cla_herpvgrw = rpvgrw
-           ! end of stdlib_cla_herpvgrw
      end function stdlib_cla_herpvgrw
 
      ! CLA_PORCOND_C Computes the infinity norm condition number of
@@ -38295,7 +38056,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            stdlib_cla_porcond_c = zero
            info = 0
@@ -38370,7 +38131,7 @@ module stdlib_linalg_lapack_c
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -38411,7 +38172,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) stdlib_cla_porcond_c = one/ainvnm
            return
-           ! end of stdlib_cla_porcond_c
      end function stdlib_cla_porcond_c
 
      ! CLA_SYRCOND_C Computes the infinity norm condition number of
@@ -38444,7 +38204,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            stdlib_cla_syrcond_c = zero
            info = 0
@@ -38519,7 +38279,7 @@ module stdlib_linalg_lapack_c
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -38560,7 +38320,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) stdlib_cla_syrcond_c = one/ainvnm
            return
-           ! end of stdlib_cla_syrcond_c
      end function stdlib_cla_syrcond_c
 
      ! CLA_SYRPVGRW computes the reciprocal pivot growth factor
@@ -38592,7 +38351,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            upper = stdlib_lsame('upper', uplo)
            if (info == 0) then
@@ -38736,7 +38495,7 @@ module stdlib_linalg_lapack_c
               do i = ncols, n
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -38744,13 +38503,12 @@ module stdlib_linalg_lapack_c
               do i = 1, ncols
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
            end if
            stdlib_cla_syrpvgrw = rpvgrw
-           ! end of stdlib_cla_syrpvgrw
      end function stdlib_cla_syrpvgrw
 
      ! CLABRD reduces the first NB rows and columns of a complex general
@@ -38793,7 +38551,7 @@ module stdlib_linalg_lapack_c
                  ! generate reflection q(i) to annihilate a(i+1:m,i)
                  alpha = a(i, i)
                  call stdlib_clarfg(m - i + 1, alpha, a(min(i + 1, m), i), 1, tauq(i))
-                 d(i) = real(alpha)
+                 d(i) = real(alpha, KIND=sp)
                  if (i < n) then
                     a(i, i) = cone
                     ! compute y(i+1:n,i)
@@ -38821,7 +38579,7 @@ module stdlib_linalg_lapack_c
                     ! generate reflection p(i) to annihilate a(i,i+2:n)
                     alpha = a(i, i + 1)
                     call stdlib_clarfg(n - i, alpha, a(i, min(i + 2, n)), lda, taup(i))
-                    e(i) = real(alpha)
+                    e(i) = real(alpha, KIND=sp)
                     a(i, i + 1) = cone
                     ! compute x(i+1:m,i)
                     call stdlib_cgemv('no transpose', m - i, n - i, cone, a(i + 1, i + 1), lda, a(i, i + &
@@ -38854,7 +38612,7 @@ module stdlib_linalg_lapack_c
                  ! generate reflection p(i) to annihilate a(i,i+1:n)
                  alpha = a(i, i)
                  call stdlib_clarfg(n - i + 1, alpha, a(i, min(i + 1, n)), lda, taup(i))
-                 d(i) = real(alpha)
+                 d(i) = real(alpha, KIND=sp)
                  if (i < m) then
                     a(i, i) = cone
                     ! compute x(i+1:m,i)
@@ -38880,7 +38638,7 @@ module stdlib_linalg_lapack_c
                     ! generate reflection q(i) to annihilate a(i+2:m,i)
                     alpha = a(i + 1, i)
                     call stdlib_clarfg(m - i, alpha, a(min(i + 2, m), i), 1, tauq(i))
-                    e(i) = real(alpha)
+                    e(i) = real(alpha, KIND=sp)
                     a(i + 1, i) = cone
                     ! compute y(i+1:n,i)
                     call stdlib_cgemv('conjugate transpose', m - i, n - i, cone, a(i + 1, i + 1), lda, &
@@ -38900,7 +38658,6 @@ module stdlib_linalg_lapack_c
               end do loop_20
            end if
            return
-           ! end of stdlib_clabrd
      end subroutine stdlib_clabrd
 
      ! CLAED7 computes the updated eigensystem of a diagonal
@@ -39024,7 +38781,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_claed7
      end subroutine stdlib_claed7
 
      ! CLAEIN uses inverse iteration to find a right or left eigenvector
@@ -39058,12 +38814,12 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            info = 0
            ! growto is the threshold used in the acceptance test for an
            ! eigenvector.
-           rootn = sqrt(real(n))
+           rootn = sqrt(real(n, KIND=sp))
            growto = tenth/rootn
            nrmsml = max(one, eps3*rootn)*smlnum
            ! form b = h - w*i (except that the subdiagonal elements are not
@@ -39160,12 +38916,11 @@ module stdlib_linalg_lapack_c
            end do
            ! failure to find eigenvector in n iterations.
            info = 1
-120    continue
+120        continue
            ! normalize eigenvector.
            i = stdlib_icamax(n, v, 1)
            call stdlib_csscal(n, one/cabs1(v(i)), v, 1)
            return
-           ! end of stdlib_claein
      end subroutine stdlib_claein
 
      ! CLAGS2 computes 2-by-2 unitary matrices U, V and Q, such
@@ -39213,7 +38968,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: abs1
            ! .. statement function definitions ..
-           abs1(t) = abs(real(t)) + abs(aimag(t))
+           abs1(t) = abs(real(t, KIND=sp)) + abs(aimag(t))
            ! .. executable statements ..
            if (upper) then
               ! input matrices a and b are upper triangular matrices
@@ -39351,7 +39106,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_clags2
      end subroutine stdlib_clags2
 
      ! CLAHQR is an auxiliary routine called by CHSEQR to update the
@@ -39371,8 +39125,8 @@ module stdlib_linalg_lapack_c
            complex(sp) :: h(ldh, *), w(*), z(ldz, *)
         ! =========================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = zero
-           real(sp), parameter :: rone = one
+           real(sp), parameter :: rzero = 0.0_sp
+           real(sp), parameter :: rone = 1.0_sp
            real(sp), parameter :: dat1 = 3.0_sp/4.0_sp
            integer(ilp), parameter :: kexsh = 10
            
@@ -39388,7 +39142,7 @@ module stdlib_linalg_lapack_c
            ! .. intrinsic functions ..
            intrinsic :: abs, aimag, conjg, max, min, real, sqrt
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            info = 0
            ! quick return if possible
@@ -39431,7 +39185,7 @@ module stdlib_linalg_lapack_c
            safmax = rone/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(nh)/ulp)
+           smlnum = safmin*(real(nh, KIND=sp)/ulp)
            ! i1 and i2 are the indices of the first row and last column of h
            ! to which transformations must be applied. if eigenvalues only are
            ! being computed, i1 and i2 are set inside the main loop.
@@ -39449,7 +39203,7 @@ module stdlib_linalg_lapack_c
            ! eigenvalues i+1 to ihi have already converged. either l = ilo, or
            ! h(l,l-1) is negligible so that the matrix splits.
            i = ihi
-30      continue
+30         continue
            if (i < ilo) go to 150
            ! perform qr iterations on rows and columns ilo to i until a
            ! submatrix of order 1 splits off at the bottom because a
@@ -39461,14 +39215,14 @@ module stdlib_linalg_lapack_c
                  if (cabs1(h(k, k - 1)) <= smlnum) go to 50
                  tst = cabs1(h(k - 1, k - 1)) + cabs1(h(k, k))
                  if (tst == czero) then
-                    if (k - 2 >= ilo) tst = tst + abs(real(h(k - 1, k - 2)))
-                    if (k + 1 <= ihi) tst = tst + abs(real(h(k + 1, k)))
+                    if (k - 2 >= ilo) tst = tst + abs(real(h(k - 1, k - 2), KIND=sp))
+                    if (k + 1 <= ihi) tst = tst + abs(real(h(k + 1, k), KIND=sp))
                  end if
                  ! ==== the following is a conservative small subdiagonal
                  ! .    deflation criterion due to ahues
                  ! .    1997). it has better mathematical foundation and
                  ! .    improves accuracy in some examples.  ====
-                 if (abs(real(h(k, k - 1))) <= ulp*tst) then
+                 if (abs(real(h(k, k - 1), KIND=sp)) <= ulp*tst) then
                     ab = max(cabs1(h(k, k - 1)), cabs1(h(k - 1, k)))
                     ba = min(cabs1(h(k, k - 1)), cabs1(h(k - 1, k)))
                     aa = max(cabs1(h(k, k)), cabs1(h(k - 1, k - 1) - h(k, k)))
@@ -39477,7 +39231,7 @@ module stdlib_linalg_lapack_c
                     if (ba*(ab/s) <= max(smlnum, ulp*(bb*(aa/s)))) go to 50
                  end if
               end do
-50      continue
+50            continue
               l = k
               if (l > ilo) then
                  ! h(l,l-1) is negligible
@@ -39495,11 +39249,11 @@ module stdlib_linalg_lapack_c
               end if
               if (mod(kdefl, 2*kexsh) == 0) then
                  ! exceptional shift.
-                 s = dat1*abs(real(h(i, i - 1)))
+                 s = dat1*abs(real(h(i, i - 1), KIND=sp))
                  t = s + h(i, i)
               else if (mod(kdefl, kexsh) == 0) then
                  ! exceptional shift.
-                 s = dat1*abs(real(h(l + 1, l)))
+                 s = dat1*abs(real(h(l + 1, l), KIND=sp))
                  t = s + h(l, l)
               else
                  ! wilkinson's shift.
@@ -39512,8 +39266,8 @@ module stdlib_linalg_lapack_c
                     s = max(s, cabs1(x))
                     y = s*sqrt((x/s)**2 + (u/s)**2)
                     if (sx > rzero) then
-                       if (real(x/sx)*real(y) + aimag(x/sx)*aimag(y) < rzero) y = - &
-                                 y
+                       if (real(x/sx, KIND=sp)*real(y, KIND=sp) + aimag(x/sx)*aimag(y) &
+                                 < rzero) y = -y
                     end if
                     t = t - u*stdlib_cladiv(u, (x + y))
                  end if
@@ -39526,26 +39280,26 @@ module stdlib_linalg_lapack_c
                  h11 = h(m, m)
                  h22 = h(m + 1, m + 1)
                  h11s = h11 - t
-                 h21 = real(h(m + 1, m))
+                 h21 = real(h(m + 1, m), KIND=sp)
                  s = cabs1(h11s) + abs(h21)
                  h11s = h11s/s
                  h21 = h21/s
                  v(1) = h11s
                  v(2) = h21
-                 h10 = real(h(m, m - 1))
+                 h10 = real(h(m, m - 1), KIND=sp)
                  if (abs(h10)*abs(h21) <= ulp*(cabs1(h11s)*(cabs1(h11) + cabs1(h22)))) &
                            go to 70
               end do
               h11 = h(l, l)
               h22 = h(l + 1, l + 1)
               h11s = h11 - t
-              h21 = real(h(l + 1, l))
+              h21 = real(h(l + 1, l), KIND=sp)
               s = cabs1(h11s) + abs(h21)
               h11s = h11s/s
               h21 = h21/s
               v(1) = h11s
               v(2) = h21
-70      continue
+70            continue
               ! single-shift qr step
               loop_120: do k = m, i - 1
                  ! the first iteration of this loop determines a reflection g
@@ -39564,7 +39318,7 @@ module stdlib_linalg_lapack_c
                     h(k + 1, k - 1) = czero
                  end if
                  v2 = v(2)
-                 t2 = real(t1*v2)
+                 t2 = real(t1*v2, KIND=sp)
                  ! apply g from the left to transform the rows of the matrix
                  ! in columns k to i2.
                  do j = k, i2
@@ -39623,7 +39377,7 @@ module stdlib_linalg_lapack_c
            ! failure to converge in remaining number of iterations
            info = i
            return
-140    continue
+140        continue
            ! h(i,i-1) is negligible: cone eigenvalue has converged.
            w(i) = h(i, i)
            ! reset deflation counter
@@ -39631,9 +39385,8 @@ module stdlib_linalg_lapack_c
            ! return to start of the main loop with new value of i.
            i = l - 1
            go to 30
-150    continue
+150        continue
            return
-           ! end of stdlib_clahqr
      end subroutine stdlib_clahqr
 
      ! CLAHR2 reduces the first NB columns of A complex general n-BY-(n-k+1)
@@ -39723,7 +39476,6 @@ module stdlib_linalg_lapack_c
            call stdlib_ctrmm('right', 'upper', 'no transpose', 'non-unit', k, nb, cone, t, ldt, y, &
                      ldy)
            return
-           ! end of stdlib_clahr2
      end subroutine stdlib_clahr2
 
      ! CLALS0 applies back the multiplying factors of either the left or the
@@ -39762,8 +39514,6 @@ module stdlib_linalg_lapack_c
                       *), z(*)
            complex(sp) :: b(ldb, *), bx(ldbx, *)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: negone = -1.0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, jcol, jrow, m, n, nlp1
@@ -39862,7 +39612,7 @@ module stdlib_linalg_lapack_c
                     do jcol = 1, nrhs
                        do jrow = 1, k
                           i = i + 1
-                          rwork(i) = real(bx(jrow, jcol))
+                          rwork(i) = real(bx(jrow, jcol), KIND=sp)
                        end do
                     end do
                     call stdlib_sgemv('t', k, nrhs, one, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
@@ -39878,7 +39628,6 @@ module stdlib_linalg_lapack_c
                               zero, rwork(1 + k + nrhs), 1)
                     do jcol = 1, nrhs
                        b(j, jcol) = cmplx(rwork(jcol + k), rwork(jcol + k + nrhs), KIND=sp)
-                                 
                     end do
                     call stdlib_clascl('g', 0, 0, temp, one, 1, nrhs, b(j, 1), ldb, info)
                               
@@ -39926,7 +39675,7 @@ module stdlib_linalg_lapack_c
                     do jcol = 1, nrhs
                        do jrow = 1, k
                           i = i + 1
-                          rwork(i) = real(b(jrow, jcol))
+                          rwork(i) = real(b(jrow, jcol), KIND=sp)
                        end do
                     end do
                     call stdlib_sgemv('t', k, nrhs, one, rwork(1 + k + nrhs*2), k, rwork(1), 1, &
@@ -39969,7 +39718,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_clals0
      end subroutine stdlib_clals0
 
      ! CLALSA is an itermediate step in solving the least squares problem
@@ -40062,7 +39810,7 @@ module stdlib_linalg_lapack_c
               do jcol = 1, nrhs
                  do jrow = nlf, nlf + nl - 1
                     j = j + 1
-                    rwork(j) = real(b(jrow, jcol))
+                    rwork(j) = real(b(jrow, jcol), KIND=sp)
                  end do
               end do
               call stdlib_sgemm('t', 'n', nl, nrhs, nl, one, u(nlf, 1), ldu, rwork(1 + nl*nrhs*2 &
@@ -40093,7 +39841,7 @@ module stdlib_linalg_lapack_c
               do jcol = 1, nrhs
                  do jrow = nrf, nrf + nr - 1
                     j = j + 1
-                    rwork(j) = real(b(jrow, jcol))
+                    rwork(j) = real(b(jrow, jcol), KIND=sp)
                  end do
               end do
               call stdlib_sgemm('t', 'n', nr, nrhs, nr, one, u(nrf, 1), ldu, rwork(1 + nr*nrhs*2 &
@@ -40154,7 +39902,7 @@ module stdlib_linalg_lapack_c
            end do
            go to 330
            ! icompq = 1: applying back the right singular vector factors.
-170    continue
+170  continue
            ! first now go through the right singular vector matrices of all
            ! the tree nodes top-down.
            j = 0
@@ -40213,7 +39961,7 @@ module stdlib_linalg_lapack_c
               do jcol = 1, nrhs
                  do jrow = nlf, nlf + nlp1 - 1
                     j = j + 1
-                    rwork(j) = real(b(jrow, jcol))
+                    rwork(j) = real(b(jrow, jcol), KIND=sp)
                  end do
               end do
               call stdlib_sgemm('t', 'n', nlp1, nrhs, nlp1, one, vt(nlf, 1), ldu, rwork(1 + &
@@ -40244,7 +39992,7 @@ module stdlib_linalg_lapack_c
               do jcol = 1, nrhs
                  do jrow = nrf, nrf + nrp1 - 1
                     j = j + 1
-                    rwork(j) = real(b(jrow, jcol))
+                    rwork(j) = real(b(jrow, jcol), KIND=sp)
                  end do
               end do
               call stdlib_sgemm('t', 'n', nrp1, nrhs, nrp1, one, vt(nrf, 1), ldu, rwork(1 + &
@@ -40268,9 +40016,8 @@ module stdlib_linalg_lapack_c
                  end do
               end do
            end do loop_320
-330    continue
+330        continue
            return
-           ! end of stdlib_clalsa
      end subroutine stdlib_clalsa
 
      ! CLALSD uses the singular value decomposition of A to solve the least
@@ -40401,7 +40148,7 @@ module stdlib_linalg_lapack_c
               do jcol = 1, nrhs
                  do jrow = 1, n
                     j = j + 1
-                    rwork(j) = real(b(jrow, jcol))
+                    rwork(j) = real(b(jrow, jcol), KIND=sp)
                  end do
               end do
               call stdlib_sgemm('t', 'n', n, nrhs, n, one, rwork(irwu), n, rwork(irwb), n, &
@@ -40443,7 +40190,7 @@ module stdlib_linalg_lapack_c
               do jcol = 1, nrhs
                  do jrow = 1, n
                     j = j + 1
-                    rwork(j) = real(b(jrow, jcol))
+                    rwork(j) = real(b(jrow, jcol), KIND=sp)
                  end do
               end do
               call stdlib_sgemm('t', 'n', n, nrhs, n, one, rwork(irwvt), n, rwork(irwb), n, &
@@ -40473,7 +40220,8 @@ module stdlib_linalg_lapack_c
               return
            end if
            ! book-keeping and setting up some constants.
-           nlvl = int(log(real(n)/real(smlsiz + 1))/log(two)) + 1
+           nlvl = int(log(real(n, KIND=sp)/real(smlsiz + 1, KIND=sp))/log(two), KIND=ilp) + &
+                     1
            smlszp = smlsiz + 1
            u = 1
            vt = 1 + smlsiz*n
@@ -40552,7 +40300,7 @@ module stdlib_linalg_lapack_c
                     do jcol = 1, nrhs
                        do jrow = st, st + nsize - 1
                           j = j + 1
-                          rwork(j) = real(b(jrow, jcol))
+                          rwork(j) = real(b(jrow, jcol), KIND=sp)
                        end do
                     end do
                     call stdlib_sgemm('t', 'n', nsize, nrhs, nsize, one, rwork(u + st1), n, rwork( &
@@ -40635,7 +40383,7 @@ module stdlib_linalg_lapack_c
                     j = j + n
                     do jrow = 1, nsize
                        jreal = jreal + 1
-                       rwork(jreal) = real(work(j + jrow))
+                       rwork(jreal) = real(work(j + jrow), KIND=sp)
                     end do
                  end do
                  call stdlib_sgemm('t', 'n', nsize, nrhs, nsize, one, rwork(vt + st1), n, rwork( &
@@ -40676,7 +40424,6 @@ module stdlib_linalg_lapack_c
            call stdlib_slasrt('d', n, d, info)
            call stdlib_clascl('g', 0, 0, orgnrm, one, n, nrhs, b, ldb, info)
            return
-           ! end of stdlib_clalsd
      end subroutine stdlib_clalsd
 
      ! CLANGB  returns the value of the one norm,  or the Frobenius norm, or
@@ -40752,7 +40499,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clangb = value
            return
-           ! end of stdlib_clangb
      end function stdlib_clangb
 
      ! CLANGE  returns the value of the one norm,  or the Frobenius norm, or
@@ -40825,7 +40571,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clange = value
            return
-           ! end of stdlib_clange
      end function stdlib_clange
 
      ! CLANGT  returns the value of the one norm,  or the Frobenius norm, or
@@ -40902,7 +40647,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clangt = anorm
            return
-           ! end of stdlib_clangt
      end function stdlib_clangt
 
      ! CLANHB  returns the value of the one norm,  or the Frobenius norm, or
@@ -40938,12 +40682,12 @@ module stdlib_linalg_lapack_c
                        sum = abs(ab(i, j))
                        if (value < sum .or. stdlib_sisnan(sum)) value = sum
                     end do
-                    sum = abs(real(ab(k + 1, j)))
+                    sum = abs(real(ab(k + 1, j), KIND=sp))
                     if (value < sum .or. stdlib_sisnan(sum)) value = sum
                  end do
               else
                  do j = 1, n
-                    sum = abs(real(ab(1, j)))
+                    sum = abs(real(ab(1, j), KIND=sp))
                     if (value < sum .or. stdlib_sisnan(sum)) value = sum
                     do i = 2, min(n + 1 - j, k + 1)
                        sum = abs(ab(i, j))
@@ -40964,7 +40708,7 @@ module stdlib_linalg_lapack_c
                        sum = sum + absa
                        work(i) = work(i) + absa
                     end do
-                    work(j) = sum + abs(real(ab(k + 1, j)))
+                    work(j) = sum + abs(real(ab(k + 1, j), KIND=sp))
                  end do
                  do i = 1, n
                     sum = work(i)
@@ -40975,7 +40719,7 @@ module stdlib_linalg_lapack_c
                     work(i) = zero
                  end do
                  do j = 1, n
-                    sum = work(j) + abs(real(ab(1, j)))
+                    sum = work(j) + abs(real(ab(1, j), KIND=sp))
                     l = 1 - j
                     do i = j + 1, min(n, j + k)
                        absa = abs(ab(l + i, j))
@@ -41008,8 +40752,8 @@ module stdlib_linalg_lapack_c
                  l = 1
               end if
               do j = 1, n
-                 if (real(ab(l, j)) /= zero) then
-                    absa = abs(real(ab(l, j)))
+                 if (real(ab(l, j), KIND=sp) /= zero) then
+                    absa = abs(real(ab(l, j), KIND=sp))
                     if (scale < absa) then
                        sum = one + sum*(scale/absa)**2
                        scale = absa
@@ -41022,7 +40766,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clanhb = value
            return
-           ! end of stdlib_clanhb
      end function stdlib_clanhb
 
      ! CLANHE  returns the value of the one norm,  or the Frobenius norm, or
@@ -41058,12 +40801,12 @@ module stdlib_linalg_lapack_c
                        sum = abs(a(i, j))
                        if (value < sum .or. stdlib_sisnan(sum)) value = sum
                     end do
-                    sum = abs(real(a(j, j)))
+                    sum = abs(real(a(j, j), KIND=sp))
                     if (value < sum .or. stdlib_sisnan(sum)) value = sum
                  end do
               else
                  do j = 1, n
-                    sum = abs(real(a(j, j)))
+                    sum = abs(real(a(j, j), KIND=sp))
                     if (value < sum .or. stdlib_sisnan(sum)) value = sum
                     do i = j + 1, n
                        sum = abs(a(i, j))
@@ -41083,7 +40826,7 @@ module stdlib_linalg_lapack_c
                        sum = sum + absa
                        work(i) = work(i) + absa
                     end do
-                    work(j) = sum + abs(real(a(j, j)))
+                    work(j) = sum + abs(real(a(j, j), KIND=sp))
                  end do
                  do i = 1, n
                     sum = work(i)
@@ -41094,7 +40837,7 @@ module stdlib_linalg_lapack_c
                     work(i) = zero
                  end do
                  do j = 1, n
-                    sum = work(j) + abs(real(a(j, j)))
+                    sum = work(j) + abs(real(a(j, j), KIND=sp))
                     do i = j + 1, n
                        absa = abs(a(i, j))
                        sum = sum + absa
@@ -41119,8 +40862,8 @@ module stdlib_linalg_lapack_c
               end if
               sum = 2*sum
               do i = 1, n
-                 if (real(a(i, i)) /= zero) then
-                    absa = abs(real(a(i, i)))
+                 if (real(a(i, i), KIND=sp) /= zero) then
+                    absa = abs(real(a(i, i), KIND=sp))
                     if (scale < absa) then
                        sum = one + sum*(scale/absa)**2
                        scale = absa
@@ -41133,7 +40876,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clanhe = value
            return
-           ! end of stdlib_clanhe
      end function stdlib_clanhe
 
      ! CLANHF  returns the value of the one norm,  or the Frobenius norm, or
@@ -41162,7 +40904,7 @@ module stdlib_linalg_lapack_c
               stdlib_clanhf = zero
               return
            else if (n == 1) then
-              stdlib_clanhf = abs(real(a(0)))
+              stdlib_clanhf = abs(real(a(0), KIND=sp))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -41200,7 +40942,7 @@ module stdlib_linalg_lapack_c
                        ! uplo ='l'
                        j = 0
                        ! -> l(0,0)
-                       temp = abs(real(a(j + j*lda)))
+                       temp = abs(real(a(j + j*lda), KIND=sp))
                        if (value < temp .or. stdlib_sisnan(temp)) value = temp
                        do i = 1, n - 1
                           temp = abs(a(i + j*lda))
@@ -41213,11 +40955,11 @@ module stdlib_linalg_lapack_c
                           end do
                           i = j - 1
                           ! l(k+j,k+j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           i = j
                           ! -> l(j,j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           do i = j + 1, n - 1
                              temp = abs(a(i + j*lda))
@@ -41233,11 +40975,11 @@ module stdlib_linalg_lapack_c
                           end do
                           i = k + j - 1
                           ! -> u(i,i)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           i = i + 1
                           ! =k+j; i -> u(j,j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           do i = k + j + 1, n - 1
                              temp = abs(a(i + j*lda))
@@ -41250,7 +40992,7 @@ module stdlib_linalg_lapack_c
                           ! j=k-1
                        end do
                        ! i=n-1 -> u(n-1,n-1)
-                       temp = abs(real(a(i + j*lda)))
+                       temp = abs(real(a(i + j*lda), KIND=sp))
                        if (value < temp .or. stdlib_sisnan(temp)) value = temp
                     end if
                  else
@@ -41264,11 +41006,11 @@ module stdlib_linalg_lapack_c
                           end do
                           i = j
                           ! l(i,i)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           i = j + 1
                           ! l(j+k,j+k)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           do i = j + 2, k - 1
                              temp = abs(a(i + j*lda))
@@ -41282,7 +41024,7 @@ module stdlib_linalg_lapack_c
                        end do
                        i = k - 1
                        ! -> l(i,i) is at a(i,j)
-                       temp = abs(real(a(i + j*lda)))
+                       temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                        do j = k, n - 1
                           do i = 0, k - 1
@@ -41300,7 +41042,7 @@ module stdlib_linalg_lapack_c
                        end do
                        j = k - 1
                        ! -> u(j,j) is at a(0,j)
-                       temp = abs(real(a(0 + j*lda)))
+                       temp = abs(real(a(0 + j*lda), KIND=sp))
                        if (value < temp .or. stdlib_sisnan(temp)) value = temp
                        do i = 1, k - 1
                           temp = abs(a(i + j*lda))
@@ -41313,11 +41055,11 @@ module stdlib_linalg_lapack_c
                           end do
                           i = j - k
                           ! -> u(i,i) at a(i,j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           i = j - k + 1
                           ! u(j,j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           do i = j - k + 2, k - 1
                              temp = abs(a(i + j*lda))
@@ -41334,9 +41076,9 @@ module stdlib_linalg_lapack_c
                        ! uplo ='l'
                        j = 0
                        ! -> l(k,k)
-                       temp = abs(real(a(j + j*lda)))
+                       temp = abs(real(a(j + j*lda), KIND=sp))
                        if (value < temp .or. stdlib_sisnan(temp)) value = temp
-                       temp = abs(real(a(j + 1 + j*lda)))
+                       temp = abs(real(a(j + 1 + j*lda), KIND=sp))
                        if (value < temp .or. stdlib_sisnan(temp)) value = temp
                        do i = 2, n
                           temp = abs(a(i + j*lda))
@@ -41349,11 +41091,11 @@ module stdlib_linalg_lapack_c
                           end do
                           i = j
                           ! l(k+j,k+j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           i = j + 1
                           ! -> l(j,j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           do i = j + 2, n
                              temp = abs(a(i + j*lda))
@@ -41369,11 +41111,11 @@ module stdlib_linalg_lapack_c
                           end do
                           i = k + j
                           ! -> u(i,i)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           i = i + 1
                           ! =k+j+1; i -> u(j,j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           do i = k + j + 2, n
                              temp = abs(a(i + j*lda))
@@ -41386,11 +41128,11 @@ module stdlib_linalg_lapack_c
                        ! j=k-1
                        end do
                        ! i=n-1 -> u(n-1,n-1)
-                       temp = abs(real(a(i + j*lda)))
+                       temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                        i = n
                        ! -> u(k-1,k-1)
-                       temp = abs(real(a(i + j*lda)))
+                       temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                     end if
                  else
@@ -41399,7 +41141,7 @@ module stdlib_linalg_lapack_c
                        ! uplo ='l'
                        j = 0
                        ! -> l(k,k) at a(0,0)
-                       temp = abs(real(a(j + j*lda)))
+                       temp = abs(real(a(j + j*lda), KIND=sp))
                        if (value < temp .or. stdlib_sisnan(temp)) value = temp
                        do i = 1, k - 1
                           temp = abs(a(i + j*lda))
@@ -41412,11 +41154,11 @@ module stdlib_linalg_lapack_c
                           end do
                           i = j - 1
                           ! l(i,i)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           i = j
                           ! l(j+k,j+k)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           do i = j + 1, k - 1
                              temp = abs(a(i + j*lda))
@@ -41430,7 +41172,7 @@ module stdlib_linalg_lapack_c
                        end do
                        i = k - 1
                        ! -> l(i,i) is at a(i,j)
-                       temp = abs(real(a(i + j*lda)))
+                       temp = abs(real(a(i + j*lda), KIND=sp))
                        if (value < temp .or. stdlib_sisnan(temp)) value = temp
                        do j = k + 1, n
                           do i = 0, k - 1
@@ -41448,7 +41190,7 @@ module stdlib_linalg_lapack_c
                        end do
                        j = k
                        ! -> u(j,j) is at a(0,j)
-                       temp = abs(real(a(0 + j*lda)))
+                       temp = abs(real(a(0 + j*lda), KIND=sp))
                        if (value < temp .or. stdlib_sisnan(temp)) value = temp
                        do i = 1, k - 1
                           temp = abs(a(i + j*lda))
@@ -41461,11 +41203,11 @@ module stdlib_linalg_lapack_c
                           end do
                           i = j - k - 1
                           ! -> u(i,i) at a(i,j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           i = j - k
                           ! u(j,j)
-                          temp = abs(real(a(i + j*lda)))
+                          temp = abs(real(a(i + j*lda), KIND=sp))
                           if (value < temp .or. stdlib_sisnan(temp)) value = temp
                           do i = j - k + 1, k - 1
                              temp = abs(a(i + j*lda))
@@ -41479,7 +41221,7 @@ module stdlib_linalg_lapack_c
                        end do
                        i = k - 1
                        ! u(k,k) at a(i,j)
-                       temp = abs(real(a(i + j*lda)))
+                       temp = abs(real(a(i + j*lda), KIND=sp))
                        if (value < temp .or. stdlib_sisnan(temp)) value = temp
                     end if
                  end if
@@ -41505,12 +41247,12 @@ module stdlib_linalg_lapack_c
                              s = s + aa
                              work(i) = work(i) + aa
                           end do
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! -> a(j+k,j+k)
                           work(j + k) = s + aa
                           if (i == k + k) go to 10
                           i = i + 1
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! -> a(j,j)
                           work(j) = work(j) + aa
                           s = zero
@@ -41523,7 +41265,7 @@ module stdlib_linalg_lapack_c
                           end do
                           work(j) = work(j) + s
                        end do
-10      continue
+10                     continue
                        value = work(0)
                        do i = 1, n - 1
                           temp = work(i)
@@ -41545,14 +41287,14 @@ module stdlib_linalg_lapack_c
                              work(i + k) = work(i + k) + aa
                           end do
                           if (j > 0) then
-                             aa = abs(real(a(i + j*lda)))
+                             aa = abs(real(a(i + j*lda), KIND=sp))
                              ! -> a(j+k,j+k)
                              s = s + aa
                              work(i + k) = work(i + k) + s
                              ! i=j
                              i = i + 1
                           end if
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! -> a(j,j)
                           work(j) = aa
                           s = zero
@@ -41586,11 +41328,11 @@ module stdlib_linalg_lapack_c
                              s = s + aa
                              work(i) = work(i) + aa
                           end do
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! -> a(j+k,j+k)
                           work(j + k) = s + aa
                           i = i + 1
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! -> a(j,j)
                           work(j) = work(j) + aa
                           s = zero
@@ -41621,13 +41363,13 @@ module stdlib_linalg_lapack_c
                              s = s + aa
                              work(i + k) = work(i + k) + aa
                           end do
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! -> a(j+k,j+k)
                           s = s + aa
                           work(i + k) = work(i + k) + s
                           ! i=j
                           i = i + 1
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! -> a(j,j)
                           work(j) = aa
                           s = zero
@@ -41672,7 +41414,7 @@ module stdlib_linalg_lapack_c
                           work(j) = s
                        end do
                        ! j=n1=k-1 is special
-                       s = abs(real(a(0 + j*lda)))
+                       s = abs(real(a(0 + j*lda), KIND=sp))
                        ! a(k-1,k-1)
                        do i = 1, k - 1
                           aa = abs(a(i + j*lda))
@@ -41690,12 +41432,12 @@ module stdlib_linalg_lapack_c
                              s = s + aa
                           end do
                           ! i=j-k
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! a(j-k,j-k)
                           s = s + aa
                           work(j - k) = work(j - k) + s
                           i = i + 1
-                          s = abs(real(a(i + j*lda)))
+                          s = abs(real(a(i + j*lda), KIND=sp))
                           ! a(j,j)
                           do l = j + 1, n - 1
                              i = i + 1
@@ -41727,14 +41469,14 @@ module stdlib_linalg_lapack_c
                              work(i) = work(i) + aa
                              s = s + aa
                           end do
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! i=j so process of a(j,j)
                           s = s + aa
                           work(j) = s
                           ! is initialised here
                           i = i + 1
                           ! i=j process a(j+k,j+k)
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           s = aa
                           do l = k + j + 1, n - 1
                              i = i + 1
@@ -41754,7 +41496,7 @@ module stdlib_linalg_lapack_c
                           s = s + aa
                        end do
                        ! i=k-1
-                       aa = abs(real(a(i + j*lda)))
+                       aa = abs(real(a(i + j*lda), KIND=sp))
                        ! a(k-1,k-1)
                        s = s + aa
                        work(i) = s
@@ -41794,7 +41536,7 @@ module stdlib_linalg_lapack_c
                           work(j) = s
                        end do
                        ! j=k
-                       aa = abs(real(a(0 + j*lda)))
+                       aa = abs(real(a(0 + j*lda), KIND=sp))
                        ! a(k,k)
                        s = aa
                        do i = 1, k - 1
@@ -41813,12 +41555,12 @@ module stdlib_linalg_lapack_c
                              s = s + aa
                           end do
                           ! i=j-1-k
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! a(j-k-1,j-k-1)
                           s = s + aa
                           work(j - k - 1) = work(j - k - 1) + s
                           i = i + 1
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! a(j,j)
                           s = aa
                           do l = j + 1, n - 1
@@ -41839,7 +41581,7 @@ module stdlib_linalg_lapack_c
                           s = s + aa
                        end do
                        ! i=k-1
-                       aa = abs(real(a(i + j*lda)))
+                       aa = abs(real(a(i + j*lda), KIND=sp))
                        ! a(k-1,k-1)
                        s = s + aa
                        work(i) = work(i) + s
@@ -41854,7 +41596,7 @@ module stdlib_linalg_lapack_c
                           work(i) = zero
                        end do
                        ! j=0 is special :process col a(k:n-1,k)
-                       s = abs(real(a(0)))
+                       s = abs(real(a(0), KIND=sp))
                        ! a(k,k)
                        do i = 1, k - 1
                           aa = abs(a(i))
@@ -41872,14 +41614,14 @@ module stdlib_linalg_lapack_c
                              work(i) = work(i) + aa
                              s = s + aa
                           end do
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           ! i=j-1 so process of a(j-1,j-1)
                           s = s + aa
                           work(j - 1) = s
                           ! is initialised here
                           i = i + 1
                           ! i=j process a(j+k,j+k)
-                          aa = abs(real(a(i + j*lda)))
+                          aa = abs(real(a(i + j*lda), KIND=sp))
                           s = aa
                           do l = k + j + 1, n - 1
                              i = i + 1
@@ -41899,7 +41641,7 @@ module stdlib_linalg_lapack_c
                           s = s + aa
                        end do
                        ! i=k-1
-                       aa = abs(real(a(i + j*lda)))
+                       aa = abs(real(a(i + j*lda), KIND=sp))
                        ! a(k-1,k-1)
                        s = s + aa
                        work(i) = s
@@ -41948,7 +41690,7 @@ module stdlib_linalg_lapack_c
                        l = k - 1
                        ! -> u(k,k) at a(k-1,0)
                        do i = 0, k - 2
-                          aa = real(a(l))
+                          aa = real(a(l), KIND=sp)
                           ! u(k+i,k+i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -41958,7 +41700,7 @@ module stdlib_linalg_lapack_c
                                 s = s + (aa/scale)**2
                              end if
                           end if
-                          aa = real(a(l + 1))
+                          aa = real(a(l + 1), KIND=sp)
                           ! u(i,i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -41970,7 +41712,7 @@ module stdlib_linalg_lapack_c
                           end if
                           l = l + lda + 1
                        end do
-                       aa = real(a(l))
+                       aa = real(a(l), KIND=sp)
                        ! u(n-1,n-1)
                        if (aa /= zero) then
                           if (scale < aa) then
@@ -41992,7 +41734,7 @@ module stdlib_linalg_lapack_c
                        end do
                        s = s + s
                        ! double s for the off diagonal elements
-                       aa = real(a(0))
+                       aa = real(a(0), KIND=sp)
                        ! l(0,0) at a(0,0)
                        if (aa /= zero) then
                           if (scale < aa) then
@@ -42005,7 +41747,7 @@ module stdlib_linalg_lapack_c
                        l = lda
                        ! -> l(k,k) at a(0,1)
                        do i = 1, k - 1
-                          aa = real(a(l))
+                          aa = real(a(l), KIND=sp)
                           ! l(k-1+i,k-1+i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42015,7 +41757,7 @@ module stdlib_linalg_lapack_c
                                 s = s + (aa/scale)**2
                              end if
                           end if
-                          aa = real(a(l + 1))
+                          aa = real(a(l + 1), KIND=sp)
                           ! l(i,i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42048,7 +41790,7 @@ module stdlib_linalg_lapack_c
                        ! double s for the off diagonal elements
                        l = 0 + k*lda - lda
                        ! -> u(k-1,k-1) at a(0,k-1)
-                       aa = real(a(l))
+                       aa = real(a(l), KIND=sp)
                        ! u(k-1,k-1)
                        if (aa /= zero) then
                           if (scale < aa) then
@@ -42061,7 +41803,7 @@ module stdlib_linalg_lapack_c
                        l = l + lda
                        ! -> u(0,0) at a(0,k)
                        do j = k, n - 1
-                          aa = real(a(l))
+                          aa = real(a(l), KIND=sp)
                           ! -> u(j-k,j-k)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42071,7 +41813,7 @@ module stdlib_linalg_lapack_c
                                 s = s + (aa/scale)**2
                              end if
                           end if
-                          aa = real(a(l + 1))
+                          aa = real(a(l + 1), KIND=sp)
                           ! -> u(j,j)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42102,7 +41844,7 @@ module stdlib_linalg_lapack_c
                        l = 0
                        ! -> l(0,0) at a(0,0)
                        do i = 0, k - 2
-                          aa = real(a(l))
+                          aa = real(a(l), KIND=sp)
                           ! l(i,i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42112,7 +41854,7 @@ module stdlib_linalg_lapack_c
                                 s = s + (aa/scale)**2
                              end if
                           end if
-                          aa = real(a(l + 1))
+                          aa = real(a(l + 1), KIND=sp)
                           ! l(k+i,k+i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42125,7 +41867,7 @@ module stdlib_linalg_lapack_c
                           l = l + lda + 1
                        end do
                        ! l-> k-1 + (k-1)*lda or l(k-1,k-1) at a(k-1,k-1)
-                       aa = real(a(l))
+                       aa = real(a(l), KIND=sp)
                        ! l(k-1,k-1) at a(k-1,k-1)
                        if (aa /= zero) then
                           if (scale < aa) then
@@ -42156,7 +41898,7 @@ module stdlib_linalg_lapack_c
                        l = k
                        ! -> u(k,k) at a(k,0)
                        do i = 0, k - 1
-                          aa = real(a(l))
+                          aa = real(a(l), KIND=sp)
                           ! u(k+i,k+i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42166,7 +41908,7 @@ module stdlib_linalg_lapack_c
                                 s = s + (aa/scale)**2
                              end if
                           end if
-                          aa = real(a(l + 1))
+                          aa = real(a(l + 1), KIND=sp)
                           ! u(i,i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42193,7 +41935,7 @@ module stdlib_linalg_lapack_c
                        l = 0
                        ! -> l(k,k) at a(0,0)
                        do i = 0, k - 1
-                          aa = real(a(l))
+                          aa = real(a(l), KIND=sp)
                           ! l(k-1+i,k-1+i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42203,7 +41945,7 @@ module stdlib_linalg_lapack_c
                                 s = s + (aa/scale)**2
                              end if
                           end if
-                          aa = real(a(l + 1))
+                          aa = real(a(l + 1), KIND=sp)
                           ! l(i,i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42236,7 +41978,7 @@ module stdlib_linalg_lapack_c
                        ! double s for the off diagonal elements
                        l = 0 + k*lda
                        ! -> u(k,k) at a(0,k)
-                       aa = real(a(l))
+                       aa = real(a(l), KIND=sp)
                        ! u(k,k)
                        if (aa /= zero) then
                           if (scale < aa) then
@@ -42249,7 +41991,7 @@ module stdlib_linalg_lapack_c
                        l = l + lda
                        ! -> u(0,0) at a(0,k+1)
                        do j = k + 1, n - 1
-                          aa = real(a(l))
+                          aa = real(a(l), KIND=sp)
                           ! -> u(j-k-1,j-k-1)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42259,7 +42001,7 @@ module stdlib_linalg_lapack_c
                                 s = s + (aa/scale)**2
                              end if
                           end if
-                          aa = real(a(l + 1))
+                          aa = real(a(l + 1), KIND=sp)
                           ! -> u(j,j)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42273,7 +42015,7 @@ module stdlib_linalg_lapack_c
                        end do
                        ! l=k-1+n*lda
                        ! -> u(k-1,k-1) at a(k-1,n)
-                       aa = real(a(l))
+                       aa = real(a(l), KIND=sp)
                        ! u(k,k)
                        if (aa /= zero) then
                           if (scale < aa) then
@@ -42301,7 +42043,7 @@ module stdlib_linalg_lapack_c
                        ! double s for the off diagonal elements
                        l = 0
                        ! -> l(k,k) at a(0,0)
-                       aa = real(a(l))
+                       aa = real(a(l), KIND=sp)
                        ! l(k,k) at a(0,0)
                        if (aa /= zero) then
                           if (scale < aa) then
@@ -42314,7 +42056,7 @@ module stdlib_linalg_lapack_c
                        l = lda
                        ! -> l(0,0) at a(0,1)
                        do i = 0, k - 2
-                          aa = real(a(l))
+                          aa = real(a(l), KIND=sp)
                           ! l(i,i)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42324,7 +42066,7 @@ module stdlib_linalg_lapack_c
                                 s = s + (aa/scale)**2
                              end if
                           end if
-                          aa = real(a(l + 1))
+                          aa = real(a(l + 1), KIND=sp)
                           ! l(k+i+1,k+i+1)
                           if (aa /= zero) then
                              if (scale < aa) then
@@ -42337,7 +42079,7 @@ module stdlib_linalg_lapack_c
                           l = l + lda + 1
                        end do
                        ! l-> k - 1 + k*lda or l(k-1,k-1) at a(k-1,k)
-                       aa = real(a(l))
+                       aa = real(a(l), KIND=sp)
                        ! l(k-1,k-1) at a(k-1,k)
                        if (aa /= zero) then
                           if (scale < aa) then
@@ -42354,7 +42096,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clanhf = value
            return
-           ! end of stdlib_clanhf
      end function stdlib_clanhf
 
      ! CLANHP  returns the value of the one norm,  or the Frobenius norm, or
@@ -42392,13 +42133,13 @@ module stdlib_linalg_lapack_c
                        if (value < sum .or. stdlib_sisnan(sum)) value = sum
                     end do
                     k = k + j
-                    sum = abs(real(ap(k)))
+                    sum = abs(real(ap(k), KIND=sp))
                     if (value < sum .or. stdlib_sisnan(sum)) value = sum
                  end do
               else
                  k = 1
                  do j = 1, n
-                    sum = abs(real(ap(k)))
+                    sum = abs(real(ap(k), KIND=sp))
                     if (value < sum .or. stdlib_sisnan(sum)) value = sum
                     do i = k + 1, k + n - j
                        sum = abs(ap(i))
@@ -42421,7 +42162,7 @@ module stdlib_linalg_lapack_c
                        work(i) = work(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(real(ap(k)))
+                    work(j) = sum + abs(real(ap(k), KIND=sp))
                     k = k + 1
                  end do
                  do i = 1, n
@@ -42433,7 +42174,7 @@ module stdlib_linalg_lapack_c
                     work(i) = zero
                  end do
                  do j = 1, n
-                    sum = work(j) + abs(real(ap(k)))
+                    sum = work(j) + abs(real(ap(k), KIND=sp))
                     k = k + 1
                     do i = j + 1, n
                        absa = abs(ap(k))
@@ -42464,8 +42205,8 @@ module stdlib_linalg_lapack_c
               sum = 2*sum
               k = 1
               do i = 1, n
-                 if (real(ap(k)) /= zero) then
-                    absa = abs(real(ap(k)))
+                 if (real(ap(k), KIND=sp) /= zero) then
+                    absa = abs(real(ap(k), KIND=sp))
                     if (scale < absa) then
                        sum = one + sum*(scale/absa)**2
                        scale = absa
@@ -42483,7 +42224,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clanhp = value
            return
-           ! end of stdlib_clanhp
      end function stdlib_clanhp
 
      ! CLANHS  returns the value of the one norm,  or the Frobenius norm, or
@@ -42556,7 +42296,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clanhs = value
            return
-           ! end of stdlib_clanhs
      end function stdlib_clanhs
 
      ! CLANHT  returns the value of the one norm,  or the Frobenius norm, or
@@ -42620,7 +42359,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clanht = anorm
            return
-           ! end of stdlib_clanht
      end function stdlib_clanht
 
      ! CLANSB  returns the value of the one norm,  or the Frobenius norm, or
@@ -42726,7 +42464,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clansb = value
            return
-           ! end of stdlib_clansb
      end function stdlib_clansb
 
      ! CLANSP  returns the value of the one norm,  or the Frobenius norm, or
@@ -42832,8 +42569,8 @@ module stdlib_linalg_lapack_c
               sum = 2*sum
               k = 1
               do i = 1, n
-                 if (real(ap(k)) /= zero) then
-                    absa = abs(real(ap(k)))
+                 if (real(ap(k), KIND=sp) /= zero) then
+                    absa = abs(real(ap(k), KIND=sp))
                     if (scale < absa) then
                        sum = one + sum*(scale/absa)**2
                        scale = absa
@@ -42860,7 +42597,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clansp = value
            return
-           ! end of stdlib_clansp
      end function stdlib_clansp
 
      ! CLANSY  returns the value of the one norm,  or the Frobenius norm, or
@@ -42957,7 +42693,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clansy = value
            return
-           ! end of stdlib_clansy
      end function stdlib_clansy
 
      ! CLANTB  returns the value of the one norm,  or the Frobenius norm, or
@@ -43151,7 +42886,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clantb = value
            return
-           ! end of stdlib_clantb
      end function stdlib_clantb
 
      ! CLANTP  returns the value of the one norm,  or the Frobenius norm, or
@@ -43358,7 +43092,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clantp = value
            return
-           ! end of stdlib_clantp
      end function stdlib_clantp
 
      ! CLANTR  returns the value of the one norm,  or the Frobenius norm, or
@@ -43545,7 +43278,6 @@ module stdlib_linalg_lapack_c
            end if
            stdlib_clantr = value
            return
-           ! end of stdlib_clantr
      end function stdlib_clantr
 
      ! Given two column vectors X and Y, let
@@ -43589,7 +43321,6 @@ module stdlib_linalg_lapack_c
            ! compute the svd of 2-by-2 upper triangular matrix.
            call stdlib_slas2(abs(a11), abs(a12), abs(a22), ssmin, ssmax)
            return
-           ! end of stdlib_clapll
      end subroutine stdlib_clapll
 
      ! CLAQP2 computes a QR factorization with column pivoting of
@@ -43668,7 +43399,6 @@ module stdlib_linalg_lapack_c
               end do
            end do loop_20
            return
-           ! end of stdlib_claqp2
      end subroutine stdlib_claqp2
 
      ! CLAQPS computes a step of QR factorization with column pivoting
@@ -43705,7 +43435,7 @@ module stdlib_linalg_lapack_c
            k = 0
            tol3z = sqrt(stdlib_slamch('epsilon'))
            ! beginning of while loop.
-10      continue
+10   continue
            if ((k < nb) .and. (lsticc == 0)) then
               k = k + 1
               rk = offset + k
@@ -43775,7 +43505,7 @@ module stdlib_linalg_lapack_c
                        temp = max(zero, (one + temp)*(one - temp))
                        temp2 = temp*(vn1(j)/vn2(j))**2
                        if (temp2 <= tol3z) then
-                          vn2(j) = real(lsticc)
+                          vn2(j) = real(lsticc, KIND=sp)
                           lsticc = j
                        else
                           vn1(j) = vn1(j)*sqrt(temp)
@@ -43797,7 +43527,7 @@ module stdlib_linalg_lapack_c
                         rk + 1, 1), lda, f(kb + 1, 1), ldf, cone, a(rk + 1, kb + 1), lda)
            end if
            ! recomputation of difficult columns.
-60      continue
+60   continue
            if (lsticc > 0) then
               itemp = nint(vn2(lsticc), KIND=ilp)
               vn1(lsticc) = stdlib_scnrm2(m - rk, a(rk + 1, lsticc), 1)
@@ -43809,7 +43539,6 @@ module stdlib_linalg_lapack_c
               go to 60
            end if
            return
-           ! end of stdlib_claqps
      end subroutine stdlib_claqps
 
      ! CLAQR5 called by CLAQR0 performs a
@@ -43829,8 +43558,8 @@ module stdlib_linalg_lapack_c
                      *), z(ldz, *)
         ! ================================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = zero
-           real(sp), parameter :: rone = one
+           real(sp), parameter :: rzero = 0.0_sp
+           real(sp), parameter :: rone = 1.0_sp
            
            ! .. local scalars ..
            complex(sp) :: alpha, beta, cdum, refsum
@@ -43845,7 +43574,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! ==== if there are no shifts, then there is nothing to do. ====
            if (nshfts < 2) return
@@ -43860,7 +43589,7 @@ module stdlib_linalg_lapack_c
            safmax = rone/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            ! ==== use accumulated reflections to update far-from-diagonal
            ! .    entries ? ====
            accum = (kacc22 == 1) .or. (kacc22 == 2)
@@ -44207,7 +43936,6 @@ module stdlib_linalg_lapack_c
                  end if
               end if
            end do loop_180
-           ! ==== end of stdlib_claqr5 ====
      end subroutine stdlib_claqr5
 
      ! CLAQZ1 chases a 1x1 shift bulge in a matrix pencil down a single position
@@ -44261,7 +43989,6 @@ module stdlib_linalg_lapack_c
                             s))
               end if
            end if
-           ! end of stdlib_claqz1
      end subroutine stdlib_claqz1
 
      ! CLAQZ3 Executes a single multishift QZ sweep
@@ -44539,15 +44266,15 @@ module stdlib_linalg_lapack_c
            ! .. data statements ..
            ! data               first / .true. /
            ! .. statement function definitions ..
-           abs1(ff) = max(abs(real(ff)), abs(aimag(ff)))
-           abssq(ff) = real(ff)**2 + aimag(ff)**2
+           abs1(ff) = max(abs(real(ff, KIND=sp)), abs(aimag(ff)))
+           abssq(ff) = real(ff, KIND=sp)**2 + aimag(ff)**2
            ! .. executable statements ..
            ! if( first ) then
               ! first = .false.
               safmin = stdlib_slamch('s')
               eps = stdlib_slamch('e')
               safmn2 = stdlib_slamch('b')**int(log(safmin/eps)/log(stdlib_slamch('b')) &
-                         /two)
+                         /two, KIND=ilp)
               safmx2 = one/safmn2
            ! end if
            ix = 1
@@ -44562,7 +44289,7 @@ module stdlib_linalg_lapack_c
               gs = g
               count = 0
               if (scale >= safmx2) then
-10      continue
+10            continue
                  count = count + 1
                  fs = fs*safmn2
                  gs = gs*safmn2
@@ -44575,7 +44302,7 @@ module stdlib_linalg_lapack_c
                     r = f
                     go to 50
                  end if
-20      continue
+20               continue
                  count = count - 1
                  fs = fs*safmx2
                  gs = gs*safmx2
@@ -44588,14 +44315,14 @@ module stdlib_linalg_lapack_c
                  ! this is a rare case: f is very small.
                  if (f == czero) then
                     cs = zero
-                    r = stdlib_slapy2(real(g), aimag(g))
+                    r = stdlib_slapy2(real(g, KIND=sp), aimag(g))
                     ! do complex/real division explicitly with two real
                     ! divisions
-                    d = stdlib_slapy2(real(gs), aimag(gs))
-                    sn = cmplx(real(gs)/d, -aimag(gs)/d, KIND=sp)
+                    d = stdlib_slapy2(real(gs, KIND=sp), aimag(gs))
+                    sn = cmplx(real(gs, KIND=sp)/d, -aimag(gs)/d, KIND=sp)
                     go to 50
                  end if
-                 f2s = stdlib_slapy2(real(fs), aimag(fs))
+                 f2s = stdlib_slapy2(real(fs, KIND=sp), aimag(fs))
                  ! g2 and g2s are accurate
                  ! g2 is at least safmin, and g2s is at least safmn2
                  g2s = sqrt(g2)
@@ -44610,15 +44337,15 @@ module stdlib_linalg_lapack_c
                  ! make sure abs(ff) = 1
                  ! do complex/real division explicitly with 2 real divisions
                  if (abs1(f) > one) then
-                    d = stdlib_slapy2(real(f), aimag(f))
-                    ff = cmplx(real(f)/d, aimag(f)/d, KIND=sp)
+                    d = stdlib_slapy2(real(f, KIND=sp), aimag(f))
+                    ff = cmplx(real(f, KIND=sp)/d, aimag(f)/d, KIND=sp)
                  else
-                    dr = safmx2*real(f)
+                    dr = safmx2*real(f, KIND=sp)
                     di = safmx2*aimag(f)
                     d = stdlib_slapy2(dr, di)
                     ff = cmplx(dr/d, di/d, KIND=sp)
                  end if
-                 sn = ff*cmplx(real(gs)/g2s, -aimag(gs)/g2s, KIND=sp)
+                 sn = ff*cmplx(real(gs, KIND=sp)/g2s, -aimag(gs)/g2s, KIND=sp)
                  r = cs*f + sn*g
               else
                  ! this is the most common case.
@@ -44627,11 +44354,11 @@ module stdlib_linalg_lapack_c
                  f2s = sqrt(one + g2/f2)
                  ! do the f2s(real)*fs(complex) multiply with two real
                  ! multiplies
-                 r = cmplx(f2s*real(fs), f2s*aimag(fs), KIND=sp)
+                 r = cmplx(f2s*real(fs, KIND=sp), f2s*aimag(fs), KIND=sp)
                  cs = one/f2s
                  d = f2 + g2
                  ! do complex/real division explicitly with two real divisions
-                 sn = cmplx(real(r)/d, aimag(r)/d, KIND=sp)
+                 sn = cmplx(real(r, KIND=sp)/d, aimag(r)/d, KIND=sp)
                  sn = sn*conjg(gs)
                  if (count /= 0) then
                     if (count > 0) then
@@ -44645,7 +44372,7 @@ module stdlib_linalg_lapack_c
                     end if
                  end if
               end if
-50      continue
+50            continue
               c(ic) = cs
               y(iy) = sn
               x(ix) = r
@@ -44654,7 +44381,6 @@ module stdlib_linalg_lapack_c
               ix = ix + incx
            end do loop_60
            return
-           ! end of stdlib_clargv
      end subroutine stdlib_clargv
 
      ! CLARRV computes the eigenvectors of the tridiagonal matrix
@@ -44759,7 +44485,7 @@ module stdlib_linalg_lapack_c
               ! find the eigenvectors of the submatrix indexed ibegin
               ! through iend.
               wend = wbegin - 1
-15    continue
+15            continue
               if (wend < m) then
                  if (iblock(wend + 1) == jblk) then
                     wend = wend + 1
@@ -44827,7 +44553,7 @@ module stdlib_linalg_lapack_c
               ! loop while( idone<im )
               ! generate the representation tree for the current block and
               ! compute the eigenvectors
-40      continue
+40   continue
               if (idone < im) then
                  ! this is a crude protection against infinitely deep trees
                  if (ndepth > m) then
@@ -44876,11 +44602,11 @@ module stdlib_linalg_lapack_c
                           end if
                        end if
                        do k = 1, in - 1
-                          d(ibegin + k - 1) = real(z(ibegin + k - 1, j))
-                          l(ibegin + k - 1) = real(z(ibegin + k - 1, j + 1))
+                          d(ibegin + k - 1) = real(z(ibegin + k - 1, j), KIND=sp)
+                          l(ibegin + k - 1) = real(z(ibegin + k - 1, j + 1), KIND=sp)
                        end do
-                       d(iend) = real(z(iend, j))
-                       sigma = real(z(iend, j + 1))
+                       d(iend) = real(z(iend, j), KIND=sp)
+                       sigma = real(z(iend, j + 1), KIND=sp)
                        ! set the corresponding entries in z to zero
                        call stdlib_claset('full', in, 2, czero, czero, z(ibegin, j), ldz)
                                  
@@ -45058,7 +44784,7 @@ module stdlib_linalg_lapack_c
                        else
                           ! compute eigenvector of singleton
                           iter = 0
-                          tol = four*log(real(in))*eps
+                          tol = four*log(real(in, KIND=sp))*eps
                           k = newfst
                           windex = wbegin + k - 1
                           windmn = max(windex - 1, 1)
@@ -45130,7 +44856,7 @@ module stdlib_linalg_lapack_c
                           usedrq = .false.
                           ! bisection is initially turned off unless it is forced
                           needbs = .not. tryrqc
-120   continue
+120                       continue
                           ! check if bisection should be used to refine eigenvalue
                           if (needbs) then
                              ! take the bisection as new iterate
@@ -45264,7 +44990,7 @@ module stdlib_linalg_lapack_c
                              end do
                           end if
                           call stdlib_csscal(zto - zfrom + 1, nrminv, z(zfrom, windex), 1)
-125   continue
+125                       continue
                           ! update w
                           w(windex) = lambda + sigma
                           ! recompute the gaps on the left and right
@@ -45286,7 +45012,7 @@ module stdlib_linalg_lapack_c
                           idone = idone + 1
                        end if
                        ! here ends the code for the current child
-139   continue
+139  continue
                        ! proceed to any remaining child nodes
                        newfst = j + 1
                     end do loop_140
@@ -45298,7 +45024,6 @@ module stdlib_linalg_lapack_c
               wbegin = wend + 1
            end do loop_170
            return
-           ! end of stdlib_clarrv
      end subroutine stdlib_clarrv
 
      ! CLATDF computes the contribution to the reciprocal Dif-estimate
@@ -45345,10 +45070,10 @@ module stdlib_linalg_lapack_c
                  splus = one
                  ! lockahead for l- part rhs(1:n-1) = +-1
                  ! splus and smin computed more efficiently than in bsolve[1].
-                 splus = splus + real(stdlib_cdotc(n - j, z(j + 1, j), 1, z(j + 1, j), 1))
+                 splus = splus + real(stdlib_cdotc(n - j, z(j + 1, j), 1, z(j + 1, j), 1), KIND=sp)
                            
-                 sminu = real(stdlib_cdotc(n - j, z(j + 1, j), 1, rhs(j + 1), 1))
-                 splus = splus*real(rhs(j))
+                 sminu = real(stdlib_cdotc(n - j, z(j + 1, j), 1, rhs(j + 1), 1), KIND=sp)
+                 splus = splus*real(rhs(j), KIND=sp)
                  if (splus > sminu) then
                     rhs(j) = bp
                  else if (sminu > splus) then
@@ -45411,7 +45136,6 @@ module stdlib_linalg_lapack_c
            ! compute the sum of squares
            call stdlib_classq(n, rhs, 1, rdscal, rdsum)
            return
-           ! end of stdlib_clatdf
      end subroutine stdlib_clatdf
 
      ! CLAUNHR_COL_GETRFNP computes the modified LU factorization without
@@ -45504,7 +45228,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_claunhr_col_getrfnp
      end subroutine stdlib_claunhr_col_getrfnp
 
      ! CPBCON estimates the reciprocal of the condition number (in the
@@ -45540,7 +45263,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -45572,7 +45295,7 @@ module stdlib_linalg_lapack_c
            ! estimate the 1-norm of the inverse.
            kase = 0
            normin = 'n'
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (upper) then
@@ -45603,9 +45326,8 @@ module stdlib_linalg_lapack_c
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20         continue
            return
-           ! end of stdlib_cpbcon
      end subroutine stdlib_cpbcon
 
      ! CPBRFS improves the computed solution to a system of linear
@@ -45641,7 +45363,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -45685,7 +45407,7 @@ module stdlib_linalg_lapack_c
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_ccopy(n, b(1, j), 1, work, 1)
@@ -45710,13 +45432,13 @@ module stdlib_linalg_lapack_c
                        rwork(i) = rwork(i) + cabs1(ab(l + i, k))*xk
                        s = s + cabs1(ab(l + i, k))*cabs1(x(i, j))
                     end do
-                    rwork(k) = rwork(k) + abs(real(ab(kd + 1, k)))*xk + s
+                    rwork(k) = rwork(k) + abs(real(ab(kd + 1, k), KIND=sp))*xk + s
                  end do
               else
                  do k = 1, n
                     s = zero
                     xk = cabs1(x(k, j))
-                    rwork(k) = rwork(k) + abs(real(ab(1, k)))*xk
+                    rwork(k) = rwork(k) + abs(real(ab(1, k), KIND=sp))*xk
                     l = 1 - k
                     do i = k + 1, min(n, k + kd)
                        rwork(i) = rwork(i) + cabs1(ab(l + i, k))*xk
@@ -45772,7 +45494,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -45798,7 +45520,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_cpbrfs
      end subroutine stdlib_cpbrfs
 
      ! CPBTRF computes the Cholesky factorization of a complex Hermitian
@@ -45994,9 +45715,8 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-150    continue
+150        continue
            return
-           ! end of stdlib_cpbtrf
      end subroutine stdlib_cpbtrf
 
      ! CPFTRS solves a system of linear equations A*X = B with a Hermitian
@@ -46049,7 +45769,6 @@ module stdlib_linalg_lapack_c
               call stdlib_ctfsm(transr, 'l', uplo, 'n', 'n', n, nrhs, cone, a, b, ldb)
            end if
            return
-           ! end of stdlib_cpftrs
      end subroutine stdlib_cpftrs
 
      ! CPOCON estimates the reciprocal of the condition number (in the
@@ -46084,7 +45803,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -46114,7 +45833,7 @@ module stdlib_linalg_lapack_c
            ! estimate the 1-norm of inv(a).
            kase = 0
            normin = 'n'
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (upper) then
@@ -46145,9 +45864,8 @@ module stdlib_linalg_lapack_c
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20         continue
            return
-           ! end of stdlib_cpocon
      end subroutine stdlib_cpocon
 
      ! CPORFS improves the computed solution to a system of linear
@@ -46182,7 +45900,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -46224,7 +45942,7 @@ module stdlib_linalg_lapack_c
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_ccopy(n, b(1, j), 1, work, 1)
@@ -46247,13 +45965,13 @@ module stdlib_linalg_lapack_c
                        rwork(i) = rwork(i) + cabs1(a(i, k))*xk
                        s = s + cabs1(a(i, k))*cabs1(x(i, j))
                     end do
-                    rwork(k) = rwork(k) + abs(real(a(k, k)))*xk + s
+                    rwork(k) = rwork(k) + abs(real(a(k, k), KIND=sp))*xk + s
                  end do
               else
                  do k = 1, n
                     s = zero
                     xk = cabs1(x(k, j))
-                    rwork(k) = rwork(k) + abs(real(a(k, k)))*xk
+                    rwork(k) = rwork(k) + abs(real(a(k, k), KIND=sp))*xk
                     do i = k + 1, n
                        rwork(i) = rwork(i) + cabs1(a(i, k))*xk
                        s = s + cabs1(a(i, k))*cabs1(x(i, j))
@@ -46308,7 +46026,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -46334,7 +46052,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_cporfs
      end subroutine stdlib_cporfs
 
      ! CPOTRF computes the Cholesky factorization of a complex Hermitian
@@ -46424,11 +46141,10 @@ module stdlib_linalg_lapack_c
               end if
            end if
            go to 40
-30      continue
+30         continue
            info = info + j - 1
-40      continue
+40         continue
            return
-           ! end of stdlib_cpotrf
      end subroutine stdlib_cpotrf
 
      ! CPOTRI computes the inverse of a complex Hermitian positive definite
@@ -46469,7 +46185,6 @@ module stdlib_linalg_lapack_c
            ! form inv(u) * inv(u)**h or inv(l)**h * inv(l).
            call stdlib_clauum(uplo, n, a, lda, info)
            return
-           ! end of stdlib_cpotri
      end subroutine stdlib_cpotri
 
      ! CPPCON estimates the reciprocal of the condition number (in the
@@ -46505,7 +46220,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -46533,7 +46248,7 @@ module stdlib_linalg_lapack_c
            ! estimate the 1-norm of the inverse.
            kase = 0
            normin = 'n'
-10      continue
+10         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (upper) then
@@ -46564,9 +46279,8 @@ module stdlib_linalg_lapack_c
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20         continue
            return
-           ! end of stdlib_cppcon
      end subroutine stdlib_cppcon
 
      ! CPPRFS improves the computed solution to a system of linear
@@ -46601,7 +46315,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -46639,7 +46353,7 @@ module stdlib_linalg_lapack_c
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_ccopy(n, b(1, j), 1, work, 1)
@@ -46665,14 +46379,14 @@ module stdlib_linalg_lapack_c
                        s = s + cabs1(ap(ik))*cabs1(x(i, j))
                        ik = ik + 1
                     end do
-                    rwork(k) = rwork(k) + abs(real(ap(kk + k - 1)))*xk + s
+                    rwork(k) = rwork(k) + abs(real(ap(kk + k - 1), KIND=sp))*xk + s
                     kk = kk + k
                  end do
               else
                  do k = 1, n
                     s = zero
                     xk = cabs1(x(k, j))
-                    rwork(k) = rwork(k) + abs(real(ap(kk)))*xk
+                    rwork(k) = rwork(k) + abs(real(ap(kk), KIND=sp))*xk
                     ik = kk + 1
                     do i = k + 1, n
                        rwork(i) = rwork(i) + cabs1(ap(ik))*xk
@@ -46730,7 +46444,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -46756,7 +46470,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_cpprfs
      end subroutine stdlib_cpprfs
 
      ! CPPSV computes the solution to a complex system of linear equations
@@ -46805,7 +46518,6 @@ module stdlib_linalg_lapack_c
               call stdlib_cpptrs(uplo, n, nrhs, ap, b, ldb, info)
            end if
            return
-           ! end of stdlib_cppsv
      end subroutine stdlib_cppsv
 
      ! CPPSVX uses the Cholesky factorization A = U**H*U or A = L*L**H to
@@ -46942,7 +46654,6 @@ module stdlib_linalg_lapack_c
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_cppsvx
      end subroutine stdlib_cppsvx
 
      ! CPPTRI computes the inverse of a complex Hermitian positive definite
@@ -46991,7 +46702,7 @@ module stdlib_linalg_lapack_c
                  jc = jj + 1
                  jj = jj + j
                  if (j > 1) call stdlib_chpr('upper', j - 1, one, ap(jc), 1, ap)
-                 ajj = real(ap(jj))
+                 ajj = real(ap(jj), KIND=sp)
                  call stdlib_csscal(j, ajj, ap(jc), 1)
               end do
            else
@@ -46999,14 +46710,13 @@ module stdlib_linalg_lapack_c
               jj = 1
               do j = 1, n
                  jjn = jj + n - j + 1
-                 ap(jj) = real(stdlib_cdotc(n - j + 1, ap(jj), 1, ap(jj), 1))
+                 ap(jj) = real(stdlib_cdotc(n - j + 1, ap(jj), 1, ap(jj), 1), KIND=sp)
                  if (j < n) call stdlib_ctpmv('lower', 'conjugate transpose', 'non-unit', n - j, ap( &
                            jjn), ap(jj + 1), 1)
                  jj = jjn
               end do
            end if
            return
-           ! end of stdlib_cpptri
      end subroutine stdlib_cpptri
 
      ! CPSTRF computes the Cholesky factorization with complete
@@ -47070,10 +46780,10 @@ module stdlib_linalg_lapack_c
               end do
            ! compute stopping value
               do i = 1, n
-                 work(i) = real(a(i, i))
+                 work(i) = real(a(i, i), KIND=sp)
               end do
               pvt = maxloc(work(1:n), 1)
-              ajj = real(a(pvt, pvt))
+              ajj = real(a(pvt, pvt), KIND=sp)
               if (ajj <= zero .or. stdlib_sisnan(ajj)) then
                  rank = 0
                  info = 1
@@ -47101,10 +46811,10 @@ module stdlib_linalg_lapack_c
                     ! stored in the second chalf of work
                        do i = j, n
                           if (j > k) then
-                             work(i) = work(i) + real(conjg(a(j - 1, i))*a(j - 1, i))
-                                       
+                             work(i) = work(i) + real(conjg(a(j - 1, i))*a(j - 1, i), &
+                                       KIND=sp)
                           end if
-                          work(n + i) = real(a(i, i)) - work(i)
+                          work(n + i) = real(a(i, i), KIND=sp) - work(i)
                        end do
                        if (j > 1) then
                           itemp = maxloc(work((n + j):(2*n)), 1)
@@ -47168,10 +46878,10 @@ module stdlib_linalg_lapack_c
                     ! stored in the second chalf of work
                        do i = j, n
                           if (j > k) then
-                             work(i) = work(i) + real(conjg(a(i, j - 1))*a(i, j - 1))
-                                       
+                             work(i) = work(i) + real(conjg(a(i, j - 1))*a(i, j - 1), &
+                                       KIND=sp)
                           end if
-                          work(n + i) = real(a(i, i)) - work(i)
+                          work(n + i) = real(a(i, i), KIND=sp) - work(i)
                        end do
                        if (j > 1) then
                           itemp = maxloc(work((n + j):(2*n)), 1)
@@ -47224,14 +46934,13 @@ module stdlib_linalg_lapack_c
            ! ran to completion, a has full rank
            rank = n
            go to 230
-220    continue
+220        continue
            ! rank is the number of steps completed.  set info = 1 to signal
            ! that the factorization cannot be used to solve a system.
            rank = j - 1
            info = 1
-230    continue
+230        continue
            return
-           ! end of stdlib_cpstrf
      end subroutine stdlib_cpstrf
 
      ! CPTEQR computes all eigenvalues and, optionally, eigenvectors of a
@@ -47325,7 +47034,6 @@ module stdlib_linalg_lapack_c
               info = n + info
            end if
            return
-           ! end of stdlib_cpteqr
      end subroutine stdlib_cpteqr
 
      ! CPTTRS solves a tridiagonal system of the form
@@ -47391,7 +47099,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_cpttrs
      end subroutine stdlib_cpttrs
 
      ! CSPCON estimates the reciprocal of the condition number (in the
@@ -47460,7 +47167,7 @@ module stdlib_linalg_lapack_c
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -47470,7 +47177,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_cspcon
      end subroutine stdlib_cspcon
 
      ! CSPRFS improves the computed solution to a system of linear
@@ -47506,7 +47212,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -47544,7 +47250,7 @@ module stdlib_linalg_lapack_c
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_ccopy(n, b(1, j), 1, work, 1)
@@ -47635,7 +47341,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -47661,7 +47367,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_csprfs
      end subroutine stdlib_csprfs
 
      ! CSPSV computes the solution to a complex system of linear equations
@@ -47712,7 +47417,6 @@ module stdlib_linalg_lapack_c
               call stdlib_csptrs(uplo, n, nrhs, ap, ipiv, b, ldb, info)
            end if
            return
-           ! end of stdlib_cspsv
      end subroutine stdlib_cspsv
 
      ! CSPSVX uses the diagonal pivoting factorization A = U*D*U**T or
@@ -47788,7 +47492,6 @@ module stdlib_linalg_lapack_c
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_cspsvx
      end subroutine stdlib_cspsvx
 
      ! CSTEMR computes selected eigenvalues and, optionally, eigenvectors
@@ -48156,7 +47859,7 @@ module stdlib_linalg_lapack_c
                     in = iend - ibegin + 1
                     wend = wbegin - 1
                     ! check if any eigenvalues have to be refined in this block
-36    continue
+36   continue
                     if (wend < m) then
                        if (iwork(iindbl + wend) == jblk) then
                           wend = wend + 1
@@ -48221,7 +47924,6 @@ module stdlib_linalg_lapack_c
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_cstemr
      end subroutine stdlib_cstemr
 
      ! CSYCON estimates the reciprocal of the condition number (in the
@@ -48290,7 +47992,7 @@ module stdlib_linalg_lapack_c
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -48300,7 +48002,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_csycon
      end subroutine stdlib_csycon
 
      ! CSYCON_ROOK estimates the reciprocal of the condition number (in the
@@ -48369,7 +48070,7 @@ module stdlib_linalg_lapack_c
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -48379,7 +48080,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_csycon_rook
      end subroutine stdlib_csycon_rook
 
      ! CSYRFS improves the computed solution to a system of linear
@@ -48414,7 +48114,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -48456,7 +48156,7 @@ module stdlib_linalg_lapack_c
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_ccopy(n, b(1, j), 1, work, 1)
@@ -48540,7 +48240,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -48566,7 +48266,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_csyrfs
      end subroutine stdlib_csyrfs
 
      ! CSYSV computes the solution to a complex system of linear equations
@@ -48619,7 +48318,7 @@ module stdlib_linalg_lapack_c
                  lwkopt = 1
               else
                  call stdlib_csytrf(uplo, n, a, lda, ipiv, work, -1, info)
-                 lwkopt = real(work(1))
+                 lwkopt = real(work(1), KIND=sp)
               end if
               work(1) = lwkopt
            end if
@@ -48643,7 +48342,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_csysv
      end subroutine stdlib_csysv
 
      ! CSYSV_RK computes the solution to a complex system of linear
@@ -48700,7 +48398,7 @@ module stdlib_linalg_lapack_c
                  lwkopt = 1
               else
                  call stdlib_csytrf_rk(uplo, n, a, lda, e, ipiv, work, -1, info)
-                 lwkopt = real(work(1))
+                 lwkopt = real(work(1), KIND=sp)
               end if
               work(1) = lwkopt
            end if
@@ -48718,7 +48416,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_csysv_rk
      end subroutine stdlib_csysv_rk
 
      ! CSYSV_ROOK computes the solution to a complex system of linear
@@ -48776,7 +48473,7 @@ module stdlib_linalg_lapack_c
                  lwkopt = 1
               else
                  call stdlib_csytrf_rook(uplo, n, a, lda, ipiv, work, -1, info)
-                 lwkopt = real(work(1))
+                 lwkopt = real(work(1), KIND=sp)
               end if
               work(1) = lwkopt
            end if
@@ -48795,7 +48492,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_csysv_rook
      end subroutine stdlib_csysv_rook
 
      ! CSYSVX uses the diagonal pivoting factorization to compute the
@@ -48890,7 +48586,6 @@ module stdlib_linalg_lapack_c
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            work(1) = lwkopt
            return
-           ! end of stdlib_csysvx
      end subroutine stdlib_csysvx
 
      ! CTBCON estimates the reciprocal of the condition number of a
@@ -48927,7 +48622,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -48957,7 +48652,7 @@ module stdlib_linalg_lapack_c
               return
            end if
            rcond = zero
-           smlnum = stdlib_slamch('safe minimum')*real(max(n, 1))
+           smlnum = stdlib_slamch('safe minimum')*real(max(n, 1), KIND=sp)
            ! compute the 1-norm of the triangular matrix a or a**h.
            anorm = stdlib_clantb(norm, uplo, diag, n, kd, ab, ldab, rwork)
            ! continue only if anorm > 0.
@@ -48971,7 +48666,7 @@ module stdlib_linalg_lapack_c
                  kase1 = 2
               end if
               kase = 0
-10      continue
+10            continue
               call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -48996,9 +48691,8 @@ module stdlib_linalg_lapack_c
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20      continue
+20         continue
            return
-           ! end of stdlib_ctbcon
      end subroutine stdlib_ctbcon
 
      ! CTFTRI computes the inverse of a triangular matrix A stored in RFP
@@ -49181,7 +48875,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_ctftri
      end subroutine stdlib_ctftri
 
      ! CTGSJA computes the generalized singular value decomposition (GSVD)
@@ -49321,10 +49014,10 @@ module stdlib_linalg_lapack_c
                     a1 = zero
                     a2 = czero
                     a3 = zero
-                    if (k + i <= m) a1 = real(a(k + i, n - l + i))
-                    if (k + j <= m) a3 = real(a(k + j, n - l + j))
-                    b1 = real(b(i, n - l + i))
-                    b3 = real(b(j, n - l + j))
+                    if (k + i <= m) a1 = real(a(k + i, n - l + i), KIND=sp)
+                    if (k + j <= m) a3 = real(a(k + j, n - l + j), KIND=sp)
+                    b1 = real(b(i, n - l + i), KIND=sp)
+                    b3 = real(b(j, n - l + j), KIND=sp)
                     if (upper) then
                        if (k + i <= m) a2 = a(k + i, n - l + j)
                        b2 = b(i, n - l + j)
@@ -49353,10 +49046,10 @@ module stdlib_linalg_lapack_c
                        b(j, n - l + i) = czero
                     end if
                     ! ensure that the diagonal elements of a and b are real.
-                    if (k + i <= m) a(k + i, n - l + i) = real(a(k + i, n - l + i))
-                    if (k + j <= m) a(k + j, n - l + j) = real(a(k + j, n - l + j))
-                    b(i, n - l + i) = real(b(i, n - l + i))
-                    b(j, n - l + j) = real(b(j, n - l + j))
+                    if (k + i <= m) a(k + i, n - l + i) = real(a(k + i, n - l + i), KIND=sp)
+                    if (k + j <= m) a(k + j, n - l + j) = real(a(k + j, n - l + j), KIND=sp)
+                    b(i, n - l + i) = real(b(i, n - l + i), KIND=sp)
+                    b(j, n - l + j) = real(b(j, n - l + j), KIND=sp)
                     ! update unitary matrices u, v, q, if desired.
                     if (wantu .and. k + j <= m) call stdlib_crot(m, u(1, k + j), 1, u(1, k + i), 1, &
                               csu, snu)
@@ -49384,7 +49077,7 @@ module stdlib_linalg_lapack_c
            ! the algorithm has not converged after maxit cycles.
            info = 1
            go to 100
-50      continue
+50         continue
            ! if error <= min(tola,tolb), then the algorithm has converged.
            ! compute the generalized singular value pairs (alpha, beta), and
            ! set the triangular matrix r to array a.
@@ -49393,8 +49086,8 @@ module stdlib_linalg_lapack_c
               beta(i) = zero
            end do
            do i = 1, min(l, m - k)
-              a1 = real(a(k + i, n - l + i))
-              b1 = real(b(i, n - l + i))
+              a1 = real(a(k + i, n - l + i), KIND=sp)
+              b1 = real(b(i, n - l + i), KIND=sp)
               gamma = b1/a1
               if ((gamma <= hugenum) .and. (gamma >= -hugenum)) then
                  if (gamma < zero) then
@@ -49425,10 +49118,9 @@ module stdlib_linalg_lapack_c
                  beta(i) = zero
               end do
            end if
-100    continue
+100        continue
            ncycle = kcycle
            return
-           ! end of stdlib_ctgsja
      end subroutine stdlib_ctgsja
 
      ! CTGSY2 solves the generalized Sylvester equation
@@ -49616,7 +49308,6 @@ module stdlib_linalg_lapack_c
               end do loop_80
            end if
            return
-           ! end of stdlib_ctgsy2
      end subroutine stdlib_ctgsy2
 
      ! CTGSYL solves the generalized Sylvester equation:
@@ -49758,9 +49449,9 @@ module stdlib_linalg_lapack_c
                             ldf, scale, dsum, dscale, info)
                  if (dscale /= zero) then
                     if (ijob == 1 .or. ijob == 3) then
-                       dif = sqrt(real(2*m*n))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(2*m*n, KIND=sp))/(dscale*sqrt(dsum))
                     else
-                       dif = sqrt(real(pq))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(pq, KIND=sp))/(dscale*sqrt(dsum))
                     end if
                  end if
                  if (isolve == 2 .and. iround == 1) then
@@ -49783,27 +49474,27 @@ module stdlib_linalg_lapack_c
            ! determine block structure of a
            p = 0
            i = 1
-40      continue
+40         continue
            if (i > m) go to 50
            p = p + 1
            iwork(p) = i
            i = i + mb
            if (i >= m) go to 50
            go to 40
-50      continue
+50         continue
            iwork(p + 1) = m + 1
            if (iwork(p) == iwork(p + 1)) p = p - 1
            ! determine block structure of b
            q = p + 1
            j = 1
-60      continue
+60         continue
            if (j > n) go to 70
            q = q + 1
            iwork(q) = j
            j = j + nb
            if (j >= n) go to 70
            go to 60
-70      continue
+70         continue
            iwork(q + 1) = n + 1
            if (iwork(q) == iwork(q + 1)) q = q - 1
            if (notran) then
@@ -49858,28 +49549,28 @@ module stdlib_linalg_lapack_c
                        end if
                        ! substitute r(i,j) and l(i,j) into remaining equation.
                        if (i > 1) then
-                          call stdlib_cgemm('n', 'n', is - 1, nb, mb, cmplx(-one, zero, KIND=sp), &
-                          a(1, is), lda, c(is, js), ldc, cmplx(one, zero, KIND=sp), c(1, js), &
+                          call stdlib_cgemm('n', 'n', is - 1, nb, mb, cmplx(-one, zero, KIND=sp), a( &
+                           1, is), lda, c(is, js), ldc, cmplx(one, zero, KIND=sp), c(1, js), &
                                      ldc)
-                          call stdlib_cgemm('n', 'n', is - 1, nb, mb, cmplx(-one, zero, KIND=sp), &
-                          d(1, is), ldd, c(is, js), ldc, cmplx(one, zero, KIND=sp), f(1, js), &
+                          call stdlib_cgemm('n', 'n', is - 1, nb, mb, cmplx(-one, zero, KIND=sp), d( &
+                           1, is), ldd, c(is, js), ldc, cmplx(one, zero, KIND=sp), f(1, js), &
                                      ldf)
                        end if
                        if (j < q) then
                           call stdlib_cgemm('n', 'n', mb, n - je, nb, cmplx(one, zero, KIND=sp), f( &
-                           is, js), ldf, b(js, je + 1), ldb, cmplx(one, zero, KIND=sp), c(is, je + &
-                                     1), ldc)
+                          is, js), ldf, b(js, je + 1), ldb, cmplx(one, zero, KIND=sp), c(is, je + 1 &
+                                    ), ldc)
                           call stdlib_cgemm('n', 'n', mb, n - je, nb, cmplx(one, zero, KIND=sp), f( &
-                           is, js), ldf, e(js, je + 1), lde, cmplx(one, zero, KIND=sp), f(is, je + &
-                                     1), ldf)
+                          is, js), ldf, e(js, je + 1), lde, cmplx(one, zero, KIND=sp), f(is, je + 1 &
+                                    ), ldf)
                        end if
                     end do loop_120
                  end do loop_130
                  if (dscale /= zero) then
                     if (ijob == 1 .or. ijob == 3) then
-                       dif = sqrt(real(2*m*n))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(2*m*n, KIND=sp))/(dscale*sqrt(dsum))
                     else
-                       dif = sqrt(real(pq))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(pq, KIND=sp))/(dscale*sqrt(dsum))
                     end if
                  end if
                  if (isolve == 2 .and. iround == 1) then
@@ -49944,27 +49635,26 @@ module stdlib_linalg_lapack_c
                     end if
                     ! substitute r(i,j) and l(i,j) into remaining equation.
                     if (j > p + 2) then
-                       call stdlib_cgemm('n', 'c', mb, js - 1, nb, cmplx(one, zero, KIND=sp), c( &
-                       is, js), ldc, b(1, js), ldb, cmplx(one, zero, KIND=sp), f(is, 1), ldf)
-                                 
-                       call stdlib_cgemm('n', 'c', mb, js - 1, nb, cmplx(one, zero, KIND=sp), f( &
-                       is, js), ldf, e(1, js), lde, cmplx(one, zero, KIND=sp), f(is, 1), ldf)
-                                 
+                       call stdlib_cgemm('n', 'c', mb, js - 1, nb, cmplx(one, zero, KIND=sp), c(is, &
+                        js), ldc, b(1, js), ldb, cmplx(one, zero, KIND=sp), f(is, 1), ldf)
+                                  
+                       call stdlib_cgemm('n', 'c', mb, js - 1, nb, cmplx(one, zero, KIND=sp), f(is, &
+                        js), ldf, e(1, js), lde, cmplx(one, zero, KIND=sp), f(is, 1), ldf)
+                                  
                     end if
                     if (i < p) then
                        call stdlib_cgemm('c', 'n', m - ie, nb, mb, cmplx(-one, zero, KIND=sp), a( &
                        is, ie + 1), lda, c(is, js), ldc, cmplx(one, zero, KIND=sp), c(ie + 1, js), &
-                                  ldc)
+                                 ldc)
                        call stdlib_cgemm('c', 'n', m - ie, nb, mb, cmplx(-one, zero, KIND=sp), d( &
                        is, ie + 1), ldd, f(is, js), ldf, cmplx(one, zero, KIND=sp), c(ie + 1, js), &
-                                  ldc)
+                                 ldc)
                     end if
                  end do loop_200
               end do loop_210
            end if
            work(1) = lwmin
            return
-           ! end of stdlib_ctgsyl
      end subroutine stdlib_ctgsyl
 
      ! CTPCON estimates the reciprocal of the condition number of a packed
@@ -50000,7 +49690,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -50026,7 +49716,7 @@ module stdlib_linalg_lapack_c
               return
            end if
            rcond = zero
-           smlnum = stdlib_slamch('safe minimum')*real(max(1, n))
+           smlnum = stdlib_slamch('safe minimum')*real(max(1, n), KIND=sp)
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_clantp(norm, uplo, diag, n, ap, rwork)
            ! continue only if anorm > 0.
@@ -50040,7 +49730,7 @@ module stdlib_linalg_lapack_c
                  kase1 = 2
               end if
               kase = 0
-10      continue
+10            continue
               call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -50065,9 +49755,8 @@ module stdlib_linalg_lapack_c
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20      continue
+20         continue
            return
-           ! end of stdlib_ctpcon
      end subroutine stdlib_ctpcon
 
      ! CTPLQT computes a blocked LQ factorization of a complex
@@ -50128,7 +49817,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_ctplqt
      end subroutine stdlib_ctplqt
 
      ! CTPMLQT applies a complex unitary matrix Q obtained from a
@@ -50244,7 +49932,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_ctpmlqt
      end subroutine stdlib_ctpmlqt
 
      ! CTPMQRT applies a complex orthogonal matrix Q obtained from a
@@ -50362,7 +50049,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_ctpmqrt
      end subroutine stdlib_ctpmqrt
 
      ! CTPQRT computes a blocked QR factorization of a complex
@@ -50423,7 +50109,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_ctpqrt
      end subroutine stdlib_ctpqrt
 
      ! CTRCON estimates the reciprocal of the condition number of a
@@ -50459,7 +50144,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -50487,7 +50172,7 @@ module stdlib_linalg_lapack_c
               return
            end if
            rcond = zero
-           smlnum = stdlib_slamch('safe minimum')*real(max(1, n))
+           smlnum = stdlib_slamch('safe minimum')*real(max(1, n), KIND=sp)
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_clantr(norm, uplo, diag, n, n, a, lda, rwork)
            ! continue only if anorm > 0.
@@ -50501,7 +50186,7 @@ module stdlib_linalg_lapack_c
                  kase1 = 2
               end if
               kase = 0
-10      continue
+10            continue
               call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -50526,9 +50211,8 @@ module stdlib_linalg_lapack_c
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20      continue
+20         continue
            return
-           ! end of stdlib_ctrcon
      end subroutine stdlib_ctrcon
 
      ! CTRSYL solves the complex Sylvester matrix equation:
@@ -50595,7 +50279,7 @@ module stdlib_linalg_lapack_c
            smlnum = stdlib_slamch('s')
            bignum = one/smlnum
            call stdlib_slabad(smlnum, bignum)
-           smlnum = smlnum*real(m*n)/eps
+           smlnum = smlnum*real(m*n, KIND=sp)/eps
            bignum = one/smlnum
            smin = max(smlnum, eps*stdlib_clange('m', m, m, a, lda, dum), eps*stdlib_clange('m', &
                       n, n, b, ldb, dum))
@@ -50617,13 +50301,13 @@ module stdlib_linalg_lapack_c
                     vec = c(k, l) - (suml + sgn*sumr)
                     scaloc = one
                     a11 = a(k, k) + sgn*b(l, l)
-                    da11 = abs(real(a11)) + abs(aimag(a11))
+                    da11 = abs(real(a11, KIND=sp)) + abs(aimag(a11))
                     if (da11 <= smin) then
                        a11 = smin
                        da11 = smin
                        info = 1
                     end if
-                    db = abs(real(vec)) + abs(aimag(vec))
+                    db = abs(real(vec, KIND=sp)) + abs(aimag(vec))
                     if (da11 < one .and. db > one) then
                        if (db > bignum*da11) scaloc = one/db
                     end if
@@ -50653,13 +50337,13 @@ module stdlib_linalg_lapack_c
                     vec = c(k, l) - (suml + sgn*sumr)
                     scaloc = one
                     a11 = conjg(a(k, k)) + sgn*b(l, l)
-                    da11 = abs(real(a11)) + abs(aimag(a11))
+                    da11 = abs(real(a11, KIND=sp)) + abs(aimag(a11))
                     if (da11 <= smin) then
                        a11 = smin
                        da11 = smin
                        info = 1
                     end if
-                    db = abs(real(vec)) + abs(aimag(vec))
+                    db = abs(real(vec, KIND=sp)) + abs(aimag(vec))
                     if (da11 < one .and. db > one) then
                        if (db > bignum*da11) scaloc = one/db
                     end if
@@ -50693,13 +50377,13 @@ module stdlib_linalg_lapack_c
                     vec = c(k, l) - (suml + sgn*conjg(sumr))
                     scaloc = one
                     a11 = conjg(a(k, k) + sgn*b(l, l))
-                    da11 = abs(real(a11)) + abs(aimag(a11))
+                    da11 = abs(real(a11, KIND=sp)) + abs(aimag(a11))
                     if (da11 <= smin) then
                        a11 = smin
                        da11 = smin
                        info = 1
                     end if
-                    db = abs(real(vec)) + abs(aimag(vec))
+                    db = abs(real(vec, KIND=sp)) + abs(aimag(vec))
                     if (da11 < one .and. db > one) then
                        if (db > bignum*da11) scaloc = one/db
                     end if
@@ -50731,13 +50415,13 @@ module stdlib_linalg_lapack_c
                     vec = c(k, l) - (suml + sgn*conjg(sumr))
                     scaloc = one
                     a11 = a(k, k) + sgn*conjg(b(l, l))
-                    da11 = abs(real(a11)) + abs(aimag(a11))
+                    da11 = abs(real(a11, KIND=sp)) + abs(aimag(a11))
                     if (da11 <= smin) then
                        a11 = smin
                        da11 = smin
                        info = 1
                     end if
-                    db = abs(real(vec)) + abs(aimag(vec))
+                    db = abs(real(vec, KIND=sp)) + abs(aimag(vec))
                     if (da11 < one .and. db > one) then
                        if (db > bignum*da11) scaloc = one/db
                     end if
@@ -50753,7 +50437,6 @@ module stdlib_linalg_lapack_c
               end do loop_120
            end if
            return
-           ! end of stdlib_ctrsyl
      end subroutine stdlib_ctrsyl
 
      ! CTZRZF reduces the M-by-N ( M<=N ) complex upper trapezoidal matrix A
@@ -50869,7 +50552,6 @@ module stdlib_linalg_lapack_c
            if (mu > 0) call stdlib_clatrz(mu, n, n - m, a, lda, tau, work)
            work(1) = lwkopt
            return
-           ! end of stdlib_ctzrzf
      end subroutine stdlib_ctzrzf
 
      ! CUNBDB5 orthogonalizes the column vector
@@ -50966,7 +50648,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_cunbdb5
      end subroutine stdlib_cunbdb5
 
      ! CUNCSD computes the CS decomposition of an M-by-M partitioned
@@ -51341,7 +51022,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cunghr
      end subroutine stdlib_cunghr
 
      ! CUNGTR generates a complex unitary matrix Q which is defined as the
@@ -51440,7 +51120,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cungtr
      end subroutine stdlib_cungtr
 
      ! CUNHR_COL takes an M-by-N complex matrix Q_in with orthonormal columns
@@ -51576,7 +51255,6 @@ module stdlib_linalg_lapack_c
                         ldt)
            end do
            return
-           ! end of stdlib_cunhr_col
      end subroutine stdlib_cunhr_col
 
      ! CUNMHR overwrites the general complex M-by-N matrix C with
@@ -51673,7 +51351,6 @@ module stdlib_linalg_lapack_c
                      i2), ldc, work, lwork, iinfo)
            work(1) = lwkopt
            return
-           ! end of stdlib_cunmhr
      end subroutine stdlib_cunmhr
 
      ! CUNMTR overwrites the general complex M-by-N matrix C with
@@ -51791,7 +51468,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cunmtr
      end subroutine stdlib_cunmtr
 
      ! CUPGTR generates a complex unitary matrix Q which is defined as the
@@ -51877,7 +51553,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cupgtr
      end subroutine stdlib_cupgtr
 
      ! CUPMTR overwrites the general complex M-by-N matrix C with
@@ -52032,7 +51707,6 @@ module stdlib_linalg_lapack_c
               end do loop_20
            end if
            return
-           ! end of stdlib_cupmtr
      end subroutine stdlib_cupmtr
 
      ! CGBBRD reduces a complex general m-by-n band matrix A to real upper
@@ -52307,7 +51981,6 @@ module stdlib_linalg_lapack_c
               end if
            end do loop_120
            return
-           ! end of stdlib_cgbbrd
      end subroutine stdlib_cgbbrd
 
      ! CGBRFS improves the computed solution to a system of linear
@@ -52344,7 +52017,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -52398,7 +52071,7 @@ module stdlib_linalg_lapack_c
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -52480,7 +52153,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -52508,7 +52181,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_cgbrfs
      end subroutine stdlib_cgbrfs
 
      ! CGBSV computes the solution to a complex system of linear equations
@@ -52560,7 +52232,6 @@ module stdlib_linalg_lapack_c
                         
            end if
            return
-           ! end of stdlib_cgbsv
      end subroutine stdlib_cgbsv
 
      ! CGBSVX uses the LU factorization to compute the solution to a complex
@@ -52785,7 +52456,6 @@ module stdlib_linalg_lapack_c
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            rwork(1) = rpvgrw
            return
-           ! end of stdlib_cgbsvx
      end subroutine stdlib_cgbsvx
 
      ! CGEBRD reduces a general complex M-by-N matrix A to upper or lower
@@ -52813,7 +52483,7 @@ module stdlib_linalg_lapack_c
            info = 0
            nb = max(1, stdlib_ilaenv(1, 'stdlib_cgebrd', ' ', m, n, -1, -1))
            lwkopt = (m + n)*nb
-           work(1) = real(lwkopt)
+           work(1) = real(lwkopt, KIND=sp)
            lquery = (lwork == -1)
            if (m < 0) then
               info = -1
@@ -52891,7 +52561,6 @@ module stdlib_linalg_lapack_c
                      work, iinfo)
            work(1) = ws
            return
-           ! end of stdlib_cgebrd
      end subroutine stdlib_cgebrd
 
      ! CGEHRD reduces a complex general matrix A to upper Hessenberg form H by
@@ -53020,7 +52689,6 @@ module stdlib_linalg_lapack_c
            call stdlib_cgehd2(n, i, ihi, a, lda, tau, work, iinfo)
            work(1) = lwkopt
            return
-           ! end of stdlib_cgehrd
      end subroutine stdlib_cgehrd
 
      ! CGELQT computes a blocked LQ factorization of a complex M-by-N matrix A
@@ -53070,7 +52738,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_cgelqt
      end subroutine stdlib_cgelqt
 
      ! CGELS solves overdetermined or underdetermined complex linear systems
@@ -53155,7 +52822,7 @@ module stdlib_linalg_lapack_c
                  end if
               end if
               wsize = max(1, mn + max(mn, nrhs)*nb)
-              work(1) = real(wsize)
+              work(1) = real(wsize, KIND=sp)
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_cgels ', -info)
@@ -53287,10 +52954,9 @@ module stdlib_linalg_lapack_c
            else if (ibscl == 2) then
               call stdlib_clascl('g', 0, 0, bignum, bnrm, scllen, nrhs, b, ldb, info)
            end if
-50      continue
-           work(1) = real(wsize)
+50         continue
+           work(1) = real(wsize, KIND=sp)
            return
-           ! end of stdlib_cgels
      end subroutine stdlib_cgels
 
      ! CGEQP3 computes a QR factorization with column pivoting of a
@@ -53424,7 +53090,7 @@ module stdlib_linalg_lapack_c
                  j = nfxd + 1
                  ! compute factorization: while loop.
                  topbmn = minmn - nx
-30      continue
+30               continue
                  if (j <= topbmn) then
                     jb = min(nb, topbmn - j + 1)
                     ! factorize jb columns among columns j:n.
@@ -53442,7 +53108,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = cmplx(lwkopt, KIND=sp)
            return
-           ! end of stdlib_cgeqp3
      end subroutine stdlib_cgeqp3
 
      ! CGEQRT computes a blocked QR factorization of a complex M-by-N matrix A
@@ -53498,7 +53163,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_cgeqrt
      end subroutine stdlib_cgeqrt
 
      ! CGERFS improves the computed solution to a system of linear
@@ -53534,7 +53198,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -53584,7 +53248,7 @@ module stdlib_linalg_lapack_c
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -53663,7 +53327,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -53689,7 +53353,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_cgerfs
      end subroutine stdlib_cgerfs
 
      ! CGETRF computes an LU factorization of a general M-by-N matrix A
@@ -53767,7 +53430,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_cgetrf
      end subroutine stdlib_cgetrf
 
      ! CGGGLM solves a general Gauss-Markov linear model (GLM) problem:
@@ -53863,7 +53525,7 @@ module stdlib_linalg_lapack_c
            ! unitary.
            call stdlib_cggqrf(n, m, p, a, lda, work, b, ldb, work(m + 1), work(m + np + 1), lwork - m - &
                      np, info)
-           lopt = real(work(m + np + 1))
+           lopt = real(work(m + np + 1), KIND=sp)
            ! update left-hand-side vector d = q**h*d = ( d1 ) m
                                                      ! ( d2 ) n-m
            call stdlib_cunmqr('left', 'conjugate transpose', n, 1, m, a, lda, work, d, max(1, n) &
@@ -53902,7 +53564,6 @@ module stdlib_linalg_lapack_c
                      ldb, work(m + 1), y, max(1, p), work(m + np + 1), lwork - m - np, info)
            work(1) = m + np + max(lopt, int(work(m + np + 1), KIND=ilp))
            return
-           ! end of stdlib_cggglm
      end subroutine stdlib_cggglm
 
      ! CGGHD3 reduces a pair of complex matrices (A,B) to generalized upper
@@ -54432,7 +54093,6 @@ module stdlib_linalg_lapack_c
                       z, ldz, ierr)
            work(1) = cmplx(lwkopt, KIND=sp)
            return
-           ! end of stdlib_cgghd3
      end subroutine stdlib_cgghd3
 
      ! CGGLSE solves the linear equality-constrained least squares (LSE)
@@ -54514,7 +54174,7 @@ module stdlib_linalg_lapack_c
            ! unitary.
            call stdlib_cggrqf(p, m, n, b, ldb, work, a, lda, work(p + 1), work(p + mn + 1), lwork - p - &
                      mn, info)
-           lopt = real(work(p + mn + 1))
+           lopt = real(work(p + mn + 1), KIND=sp)
            ! update c = z**h *c = ( c1 ) n-p
                              ! ( c2 ) m+p-n
            call stdlib_cunmqr('left', 'conjugate transpose', m, 1, mn, a, lda, work(p + 1), c, &
@@ -54563,7 +54223,6 @@ module stdlib_linalg_lapack_c
                      work(p + mn + 1), lwork - p - mn, info)
            work(1) = p + mn + max(lopt, int(work(p + mn + 1), KIND=ilp))
            return
-           ! end of stdlib_cgglse
      end subroutine stdlib_cgglse
 
      ! CGTCON estimates the reciprocal of the condition number of a complex
@@ -54627,7 +54286,7 @@ module stdlib_linalg_lapack_c
               kase1 = 2
            end if
            kase = 0
-20      continue
+20         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -54644,7 +54303,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_cgtcon
      end subroutine stdlib_cgtcon
 
      ! CGTRFS improves the computed solution to a system of linear
@@ -54681,7 +54339,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -54727,7 +54385,7 @@ module stdlib_linalg_lapack_c
            loop_110: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -54818,7 +54476,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-70      continue
+70            continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -54846,7 +54504,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_110
            return
-           ! end of stdlib_cgtrfs
      end subroutine stdlib_cgtrfs
 
      ! CGTSVX uses the LU factorization to compute the solution to a complex
@@ -54933,7 +54590,6 @@ module stdlib_linalg_lapack_c
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_cgtsvx
      end subroutine stdlib_cgtsvx
 
      ! CHBGST reduces a complex Hermitian-definite banded generalized
@@ -55047,7 +54703,7 @@ module stdlib_linalg_lapack_c
            ! to avoid duplicating code, the two loops are merged.
            update = .true.
            i = n + 1
-10      continue
+10         continue
            if (update) then
               i = i - 1
               kbt = min(kb, i - 1)
@@ -55069,8 +54725,8 @@ module stdlib_linalg_lapack_c
               ! transform a, working with the upper triangle
               if (update) then
                  ! form  inv(s(i))**h * a * inv(s(i))
-                 bii = real(bb(kb1, i))
-                 ab(ka1, i) = (real(ab(ka1, i))/bii)/bii
+                 bii = real(bb(kb1, i), KIND=sp)
+                 ab(ka1, i) = (real(ab(ka1, i), KIND=sp)/bii)/bii
                  do j = i + 1, i1
                     ab(i - j + ka1, j) = ab(i - j + ka1, j)/bii
                  end do
@@ -55080,8 +54736,8 @@ module stdlib_linalg_lapack_c
                  do k = i - kbt, i - 1
                     do j = i - kbt, k
                        ab(j - k + ka1, k) = ab(j - k + ka1, k) - bb(j - i + kb1, i)*conjg(ab(k - i + ka1, &
-                       i)) - conjg(bb(k - i + kb1, i))*ab(j - i + ka1, i) + real(ab(ka1, i))*bb( &
-                                  j - i + kb1, i)*conjg(bb(k - i + kb1, i))
+                       i)) - conjg(bb(k - i + kb1, i))*ab(j - i + ka1, i) + real(ab(ka1, i), &
+                                 KIND=sp)*bb(j - i + kb1, i)*conjg(bb(k - i + kb1, i))
                     end do
                     do j = max(1, i - ka), i - kbt - 1
                        ab(j - k + ka1, k) = ab(j - k + ka1, k) - conjg(bb(k - i + kb1, i))*ab(j - i + ka1, &
@@ -55257,8 +54913,8 @@ module stdlib_linalg_lapack_c
               ! transform a, working with the lower triangle
               if (update) then
                  ! form  inv(s(i))**h * a * inv(s(i))
-                 bii = real(bb(1, i))
-                 ab(1, i) = (real(ab(1, i))/bii)/bii
+                 bii = real(bb(1, i), KIND=sp)
+                 ab(1, i) = (real(ab(1, i), KIND=sp)/bii)/bii
                  do j = i + 1, i1
                     ab(j - i + 1, i) = ab(j - i + 1, i)/bii
                  end do
@@ -55268,8 +54924,8 @@ module stdlib_linalg_lapack_c
                  do k = i - kbt, i - 1
                     do j = i - kbt, k
                        ab(k - j + 1, j) = ab(k - j + 1, j) - bb(i - j + 1, j)*conjg(ab(i - k + 1, k)) - &
-                       conjg(bb(i - k + 1, k))*ab(i - j + 1, j) + real(ab(1, i))*bb(i - j + 1, j) &
-                                 *conjg(bb(i - k + 1, k))
+                       conjg(bb(i - k + 1, k))*ab(i - j + 1, j) + real(ab(1, i), KIND=sp)*bb(i - j + &
+                                 1, j)*conjg(bb(i - k + 1, k))
                     end do
                     do j = max(1, i - ka), i - kbt - 1
                        ab(k - j + 1, j) = ab(k - j + 1, j) - conjg(bb(i - k + 1, k))*ab(i - j + 1, j)
@@ -55442,7 +55098,7 @@ module stdlib_linalg_lapack_c
               end if
            end if
            go to 10
-480    continue
+480        continue
            ! **************************** phase 2 *****************************
            ! the logical structure of this phase is:
            ! update = .true.
@@ -55457,7 +55113,7 @@ module stdlib_linalg_lapack_c
            ! to avoid duplicating code, the two loops are merged.
            update = .true.
            i = 0
-490    continue
+490        continue
            if (update) then
               i = i + 1
               kbt = min(kb, m - i)
@@ -55484,8 +55140,8 @@ module stdlib_linalg_lapack_c
               ! transform a, working with the upper triangle
               if (update) then
                  ! form  inv(s(i))**h * a * inv(s(i))
-                 bii = real(bb(kb1, i))
-                 ab(ka1, i) = (real(ab(ka1, i))/bii)/bii
+                 bii = real(bb(kb1, i), KIND=sp)
+                 ab(ka1, i) = (real(ab(ka1, i), KIND=sp)/bii)/bii
                  do j = i1, i - 1
                     ab(j - i + ka1, i) = ab(j - i + ka1, i)/bii
                  end do
@@ -55495,8 +55151,8 @@ module stdlib_linalg_lapack_c
                  do k = i + 1, i + kbt
                     do j = k, i + kbt
                        ab(k - j + ka1, j) = ab(k - j + ka1, j) - bb(i - j + kb1, j)*conjg(ab(i - k + ka1, &
-                       k)) - conjg(bb(i - k + kb1, k))*ab(i - j + ka1, j) + real(ab(ka1, i))*bb( &
-                                  i - j + kb1, j)*conjg(bb(i - k + kb1, k))
+                       k)) - conjg(bb(i - k + kb1, k))*ab(i - j + ka1, j) + real(ab(ka1, i), &
+                                 KIND=sp)*bb(i - j + kb1, j)*conjg(bb(i - k + kb1, k))
                     end do
                     do j = i + kbt + 1, min(n, i + ka)
                        ab(k - j + ka1, j) = ab(k - j + ka1, j) - conjg(bb(i - k + kb1, k))*ab(i - j + ka1, &
@@ -55674,8 +55330,8 @@ module stdlib_linalg_lapack_c
               ! transform a, working with the lower triangle
               if (update) then
                  ! form  inv(s(i))**h * a * inv(s(i))
-                 bii = real(bb(1, i))
-                 ab(1, i) = (real(ab(1, i))/bii)/bii
+                 bii = real(bb(1, i), KIND=sp)
+                 ab(1, i) = (real(ab(1, i), KIND=sp)/bii)/bii
                  do j = i1, i - 1
                     ab(i - j + 1, j) = ab(i - j + 1, j)/bii
                  end do
@@ -55685,8 +55341,8 @@ module stdlib_linalg_lapack_c
                  do k = i + 1, i + kbt
                     do j = k, i + kbt
                        ab(j - k + 1, k) = ab(j - k + 1, k) - bb(j - i + 1, i)*conjg(ab(k - i + 1, i)) - &
-                       conjg(bb(k - i + 1, i))*ab(j - i + 1, i) + real(ab(1, i))*bb(j - i + 1, i) &
-                                 *conjg(bb(k - i + 1, i))
+                       conjg(bb(k - i + 1, i))*ab(j - i + 1, i) + real(ab(1, i), KIND=sp)*bb(j - i + &
+                                 1, i)*conjg(bb(k - i + 1, i))
                     end do
                     do j = i + kbt + 1, min(n, i + ka)
                        ab(j - k + 1, k) = ab(j - k + 1, k) - conjg(bb(k - i + 1, i))*ab(j - i + 1, i)
@@ -55862,7 +55518,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            go to 490
-           ! end of stdlib_chbgst
      end subroutine stdlib_chbgst
 
      ! CHBTRD reduces a complex Hermitian band matrix A to real symmetric
@@ -55933,7 +55588,7 @@ module stdlib_linalg_lapack_c
                  nr = 0
                  j1 = kdn + 2
                  j2 = 1
-                 ab(kd1, 1) = real(ab(kd1, 1))
+                 ab(kd1, 1) = real(ab(kd1, 1), KIND=sp)
                  loop_90: do i = 1, n - 2
                     ! reduce i-th row of matrix to tridiagonal form
                     loop_80: do k = kdn + 1, 2, -1
@@ -56072,7 +55727,7 @@ module stdlib_linalg_lapack_c
               end if
               ! copy diagonal elements to d
               do i = 1, n
-                 d(i) = real(ab(kd1, i))
+                 d(i) = real(ab(kd1, i), KIND=sp)
               end do
            else
               if (kd > 1) then
@@ -56081,7 +55736,7 @@ module stdlib_linalg_lapack_c
                  nr = 0
                  j1 = kdn + 2
                  j2 = 1
-                 ab(1, 1) = real(ab(1, 1))
+                 ab(1, 1) = real(ab(1, 1), KIND=sp)
                  loop_210: do i = 1, n - 2
                     ! reduce i-th column of matrix to tridiagonal form
                     loop_200: do k = kdn + 1, 2, -1
@@ -56220,11 +55875,10 @@ module stdlib_linalg_lapack_c
               end if
               ! copy diagonal elements to d
               do i = 1, n
-                 d(i) = real(ab(1, i))
+                 d(i) = real(ab(1, i), KIND=sp)
               end do
            end if
            return
-           ! end of stdlib_chbtrd
      end subroutine stdlib_chbtrd
 
      ! CHECON estimates the reciprocal of the condition number of a complex
@@ -56293,7 +55947,7 @@ module stdlib_linalg_lapack_c
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**h) or inv(u*d*u**h).
@@ -56303,7 +55957,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_checon
      end subroutine stdlib_checon
 
      ! CHECON_ROOK estimates the reciprocal of the condition number of a complex
@@ -56372,7 +56025,7 @@ module stdlib_linalg_lapack_c
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**h) or inv(u*d*u**h).
@@ -56382,7 +56035,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_checon_rook
      end subroutine stdlib_checon_rook
 
      ! CHEEV computes all eigenvalues and, optionally, eigenvectors of a
@@ -56438,7 +56090,7 @@ module stdlib_linalg_lapack_c
               return
            end if
            if (n == 1) then
-              w(1) = real(a(1, 1))
+              w(1) = real(a(1, 1), KIND=sp)
               work(1) = 1
               if (wantz) a(1, 1) = cone
               return
@@ -56491,7 +56143,6 @@ module stdlib_linalg_lapack_c
            ! set work(1) to optimal complex workspace size.
            work(1) = lwkopt
            return
-           ! end of stdlib_cheev
      end subroutine stdlib_cheev
 
      ! CHEEVR computes selected eigenvalues and, optionally, eigenvectors
@@ -56640,11 +56291,11 @@ module stdlib_linalg_lapack_c
               work(1) = 2
               if (alleig .or. indeig) then
                  m = 1
-                 w(1) = real(a(1, 1))
+                 w(1) = real(a(1, 1), KIND=sp)
               else
-                 if (vl < real(a(1, 1)) .and. vu >= real(a(1, 1))) then
+                 if (vl < real(a(1, 1), KIND=sp) .and. vu >= real(a(1, 1), KIND=sp)) then
                     m = 1
-                    w(1) = real(a(1, 1))
+                    w(1) = real(a(1, 1), KIND=sp)
                  end if
               end if
               if (wantz) then
@@ -56793,7 +56444,7 @@ module stdlib_linalg_lapack_c
                         indwkn), llwrkn, iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-30      continue
+30   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -56829,7 +56480,6 @@ module stdlib_linalg_lapack_c
            rwork(1) = lrwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_cheevr
      end subroutine stdlib_cheevr
 
      ! CHEEVX computes selected eigenvalues and, optionally, eigenvectors
@@ -56923,11 +56573,11 @@ module stdlib_linalg_lapack_c
            if (n == 1) then
               if (alleig .or. indeig) then
                  m = 1
-                 w(1) = real(a(1, 1))
+                 w(1) = real(a(1, 1), KIND=sp)
               else if (valeig) then
-                 if (vl < real(a(1, 1)) .and. vu >= real(a(1, 1))) then
+                 if (vl < real(a(1, 1), KIND=sp) .and. vu >= real(a(1, 1), KIND=sp)) then
                     m = 1
-                    w(1) = real(a(1, 1))
+                    w(1) = real(a(1, 1), KIND=sp)
                  end if
               end if
               if (wantz) z(1, 1) = cone
@@ -57035,7 +56685,7 @@ module stdlib_linalg_lapack_c
                         indwrk), llwork, iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-40      continue
+40   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -57074,7 +56724,6 @@ module stdlib_linalg_lapack_c
            ! set work(1) to optimal complex workspace size.
            work(1) = lwkopt
            return
-           ! end of stdlib_cheevx
      end subroutine stdlib_cheevx
 
      ! CHEGV computes all the eigenvalues, and optionally, the eigenvectors
@@ -57174,7 +56823,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_chegv
      end subroutine stdlib_chegv
 
      ! CHEGVX computes selected eigenvalues, and optionally, eigenvectors
@@ -57301,7 +56949,6 @@ module stdlib_linalg_lapack_c
            ! set work(1) to optimal complex workspace size.
            work(1) = lwkopt
            return
-           ! end of stdlib_chegvx
      end subroutine stdlib_chegvx
 
      ! CHERFS improves the computed solution to a system of linear
@@ -57336,7 +56983,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -57378,7 +57025,7 @@ module stdlib_linalg_lapack_c
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_ccopy(n, b(1, j), 1, work, 1)
@@ -57401,13 +57048,13 @@ module stdlib_linalg_lapack_c
                        rwork(i) = rwork(i) + cabs1(a(i, k))*xk
                        s = s + cabs1(a(i, k))*cabs1(x(i, j))
                     end do
-                    rwork(k) = rwork(k) + abs(real(a(k, k)))*xk + s
+                    rwork(k) = rwork(k) + abs(real(a(k, k), KIND=sp))*xk + s
                  end do
               else
                  do k = 1, n
                     s = zero
                     xk = cabs1(x(k, j))
-                    rwork(k) = rwork(k) + abs(real(a(k, k)))*xk
+                    rwork(k) = rwork(k) + abs(real(a(k, k), KIND=sp))*xk
                     do i = k + 1, n
                        rwork(i) = rwork(i) + cabs1(a(i, k))*xk
                        s = s + cabs1(a(i, k))*cabs1(x(i, j))
@@ -57462,7 +57109,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -57488,7 +57135,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_cherfs
      end subroutine stdlib_cherfs
 
      ! CHESV computes the solution to a complex system of linear equations
@@ -57565,7 +57211,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_chesv
      end subroutine stdlib_chesv
 
      ! CHESV_RK computes the solution to a complex system of linear
@@ -57622,7 +57267,7 @@ module stdlib_linalg_lapack_c
                  lwkopt = 1
               else
                  call stdlib_chetrf_rk(uplo, n, a, lda, e, ipiv, work, -1, info)
-                 lwkopt = real(work(1))
+                 lwkopt = real(work(1), KIND=sp)
               end if
               work(1) = lwkopt
            end if
@@ -57640,7 +57285,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_chesv_rk
      end subroutine stdlib_chesv_rk
 
      ! CHESV_ROOK computes the solution to a complex system of linear equations
@@ -57717,7 +57361,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_chesv_rook
      end subroutine stdlib_chesv_rook
 
      ! CHESVX uses the diagonal pivoting factorization to compute the
@@ -57812,7 +57455,6 @@ module stdlib_linalg_lapack_c
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            work(1) = lwkopt
            return
-           ! end of stdlib_chesvx
      end subroutine stdlib_chesvx
 
      ! CHGEQZ computes the eigenvalues of a complex matrix pair (H,T),
@@ -57876,7 +57518,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: abs1
            ! .. statement function definitions ..
-           abs1(x) = abs(real(x)) + abs(aimag(x))
+           abs1(x) = abs(real(x, KIND=sp)) + abs(aimag(x))
            ! .. executable statements ..
            ! decode job, compq, compz
            if (stdlib_lsame(job, 'e')) then
@@ -57949,7 +57591,7 @@ module stdlib_linalg_lapack_c
               return
            end if
            ! quick return if possible
-           ! work( 1 ) = cmplx( 1 ,KIND=sp)
+           ! work( 1 ) = cmplx( 1,KIND=sp)
            if (n <= 0) then
               work(1) = cmplx(1, KIND=sp)
               return
@@ -58125,7 +57767,7 @@ module stdlib_linalg_lapack_c
               go to 210
               ! t(ilast,ilast)=0 -- clear h(ilast,ilast-1) to split off a
               ! 1x1 block.
-50      continue
+50   continue
               ctemp = h(ilast, ilast)
               call stdlib_clartg(ctemp, h(ilast, ilast - 1), c, s, h(ilast, ilast))
               h(ilast, ilast - 1) = czero
@@ -58135,7 +57777,7 @@ module stdlib_linalg_lapack_c
                         )
               if (ilz) call stdlib_crot(n, z(1, ilast), 1, z(1, ilast - 1), 1, c, s)
               ! h(ilast,ilast-1)=0 -- standardize b, set alpha and beta
-60      continue
+60   continue
               absb = abs(t(ilast, ilast))
               if (absb > safmin) then
                  signbc = conjg(t(ilast, ilast)/absb)
@@ -58166,7 +57808,7 @@ module stdlib_linalg_lapack_c
               ! qz step
               ! this iteration only involves rows/columns ifirst:ilast.  we
               ! assume ifirst < ilast, and that the diagonal of b is non-zero.
-70      continue
+70   continue
               iiter = iiter + 1
               if (.not. ilschr) then
                  ifrstm = ifirst
@@ -58197,8 +57839,8 @@ module stdlib_linalg_lapack_c
                     temp = max(temp, abs1(x))
                     y = temp*sqrt((x/temp)**2 + (ctemp/temp)**2)
                     if (temp2 > zero) then
-                       if (real(x/temp2)*real(y) + aimag(x/temp2)*aimag(y) < zero) y = - &
-                                 y
+                       if (real(x/temp2, KIND=sp)*real(y, KIND=sp) + aimag(x/temp2)*aimag(y) &
+                                 < zero) y = -y
                     end if
                     shift = shift - ctemp*stdlib_cladiv(ctemp, (x + y))
                  end if
@@ -58229,7 +57871,7 @@ module stdlib_linalg_lapack_c
               end do
               istart = ifirst
               ctemp = ascale*h(ifirst, ifirst) - shift*(bscale*t(ifirst, ifirst))
-90      continue
+90            continue
               ! do an implicit-shift qz sweep.
               ! initial q
               ctemp2 = ascale*h(istart + 1, istart)
@@ -58277,14 +57919,14 @@ module stdlib_linalg_lapack_c
                     end do
                  end if
               end do loop_150
-160    continue
+160           continue
            end do loop_170
            ! drop-through = non-convergence
-180    continue
+180  continue
            info = ilast
            go to 210
            ! successful completion of all qz steps
-190    continue
+190  continue
            ! set eigenvalues 1:ilo-1
            do j = 1, ilo - 1
               absb = abs(t(j, j))
@@ -58307,10 +57949,9 @@ module stdlib_linalg_lapack_c
            ! normal termination
            info = 0
            ! exit (other than argument error) -- return optimal workspace size
-210    continue
+210  continue
            work(1) = cmplx(n, KIND=sp)
            return
-           ! end of stdlib_chgeqz
      end subroutine stdlib_chgeqz
 
      ! CHPCON estimates the reciprocal of the condition number of a complex
@@ -58379,7 +58020,7 @@ module stdlib_linalg_lapack_c
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30         continue
            call stdlib_clacn2(n, work(n + 1), work, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**h) or inv(u*d*u**h).
@@ -58389,7 +58030,6 @@ module stdlib_linalg_lapack_c
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_chpcon
      end subroutine stdlib_chpcon
 
      ! CHPEV computes all the eigenvalues and, optionally, eigenvectors of a
@@ -58434,7 +58074,7 @@ module stdlib_linalg_lapack_c
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
-              w(1) = real(ap(1))
+              w(1) = real(ap(1), KIND=sp)
               rwork(1) = 1
               if (wantz) z(1, 1) = one
               return
@@ -58485,7 +58125,6 @@ module stdlib_linalg_lapack_c
               call stdlib_sscal(imax, one/sigma, w, 1)
            end if
            return
-           ! end of stdlib_chpev
      end subroutine stdlib_chpev
 
      ! CHPEVX computes selected eigenvalues and, optionally, eigenvectors
@@ -58557,11 +58196,11 @@ module stdlib_linalg_lapack_c
            if (n == 1) then
               if (alleig .or. indeig) then
                  m = 1
-                 w(1) = real(ap(1))
+                 w(1) = real(ap(1), KIND=sp)
               else
-                 if (vl < real(ap(1)) .and. vu >= real(ap(1))) then
+                 if (vl < real(ap(1), KIND=sp) .and. vu >= real(ap(1), KIND=sp)) then
                     m = 1
-                    w(1) = real(ap(1))
+                    w(1) = real(ap(1), KIND=sp)
                  end if
               end if
               if (wantz) z(1, 1) = cone
@@ -58663,7 +58302,7 @@ module stdlib_linalg_lapack_c
                          iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-20      continue
+20   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -58700,7 +58339,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_chpevx
      end subroutine stdlib_chpevx
 
      ! CHPGV computes all the eigenvalues and, optionally, the eigenvectors
@@ -58784,7 +58422,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_chpgv
      end subroutine stdlib_chpgv
 
      ! CHPGVX computes selected eigenvalues and, optionally, eigenvectors
@@ -58895,7 +58532,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_chpgvx
      end subroutine stdlib_chpgvx
 
      ! CHPRFS improves the computed solution to a system of linear
@@ -58931,7 +58567,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -58969,7 +58605,7 @@ module stdlib_linalg_lapack_c
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_ccopy(n, b(1, j), 1, work, 1)
@@ -58995,14 +58631,14 @@ module stdlib_linalg_lapack_c
                        s = s + cabs1(ap(ik))*cabs1(x(i, j))
                        ik = ik + 1
                     end do
-                    rwork(k) = rwork(k) + abs(real(ap(kk + k - 1)))*xk + s
+                    rwork(k) = rwork(k) + abs(real(ap(kk + k - 1), KIND=sp))*xk + s
                     kk = kk + k
                  end do
               else
                  do k = 1, n
                     s = zero
                     xk = cabs1(x(k, j))
-                    rwork(k) = rwork(k) + abs(real(ap(kk)))*xk
+                    rwork(k) = rwork(k) + abs(real(ap(kk), KIND=sp))*xk
                     ik = kk + 1
                     do i = k + 1, n
                        rwork(i) = rwork(i) + cabs1(ap(ik))*xk
@@ -59060,7 +58696,7 @@ module stdlib_linalg_lapack_c
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_clacn2(n, work(n + 1), work, ferr(j), kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -59086,7 +58722,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_chprfs
      end subroutine stdlib_chprfs
 
      ! CHPSV computes the solution to a complex system of linear equations
@@ -59137,7 +58772,6 @@ module stdlib_linalg_lapack_c
               call stdlib_chptrs(uplo, n, nrhs, ap, ipiv, b, ldb, info)
            end if
            return
-           ! end of stdlib_chpsv
      end subroutine stdlib_chpsv
 
      ! CHPSVX uses the diagonal pivoting factorization A = U*D*U**H or
@@ -59213,7 +58847,6 @@ module stdlib_linalg_lapack_c
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_chpsvx
      end subroutine stdlib_chpsvx
 
      ! CHSEIN uses inverse iteration to find specified right and/or left
@@ -59238,7 +58871,7 @@ module stdlib_linalg_lapack_c
            complex(sp) :: h(ldh, *), vl(ldvl, *), vr(ldvr, *), w(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = zero
+           real(sp), parameter :: rzero = 0.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: bothv, fromqr, leftv, noinit, rightv
@@ -59250,7 +58883,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! decode and test the input parameters.
            bothv = stdlib_lsame(side, 'b')
@@ -59316,13 +58949,13 @@ module stdlib_linalg_lapack_c
                     do i = k, kl + 1, -1
                        if (h(i, i - 1) == czero) go to 30
                     end do
-30      continue
+30                  continue
                     kl = i
                     if (k > kr) then
                        do i = k, n - 1
                           if (h(i + 1, i) == czero) go to 50
                        end do
-50      continue
+50                     continue
                        kr = i
                     end if
                  end if
@@ -59344,7 +58977,7 @@ module stdlib_linalg_lapack_c
                  ! selected eigenvalues affiliated to the submatrix
                  ! h(kl:kr,kl:kr). close roots are modified by eps3.
                  wk = w(k)
-60      continue
+60               continue
                  do i = k - 1, kl, -1
                     if (select(i) .and. cabs1(w(i) - wk) < eps3) then
                        wk = wk + eps3
@@ -59384,7 +59017,6 @@ module stdlib_linalg_lapack_c
               end if
            end do loop_100
            return
-           ! end of stdlib_chsein
      end subroutine stdlib_chsein
 
      ! Using the divide and conquer method, CLAED0 computes all eigenvalues
@@ -59440,7 +59072,7 @@ module stdlib_linalg_lapack_c
            iwork(1) = n
            subpbs = 1
            tlvls = 0
-10      continue
+10         continue
            if (iwork(subpbs) > smlsiz) then
               do j = subpbs, 1, -1
                  iwork(2*j) = (iwork(j) + 1)/2
@@ -59465,7 +59097,7 @@ module stdlib_linalg_lapack_c
            indxq = 4*n + 3
            ! set up workspaces for eigenvalues only/accumulate new vectors
            ! routine
-           temp = log(real(n))/log(two)
+           temp = log(real(n, KIND=sp))/log(two)
            lgn = int(temp, KIND=ilp)
            if (2**lgn < n) lgn = lgn + 1
            if (2**lgn < n) lgn = lgn + 1
@@ -59515,7 +59147,7 @@ module stdlib_linalg_lapack_c
            ! into eigensystem for the corresponding larger matrix.
            ! while ( subpbs > 1 )
            curlvl = 1
-80      continue
+80         continue
            if (subpbs > 1) then
               spm2 = subpbs - 2
               do i = 0, spm2, 2
@@ -59559,7 +59191,6 @@ module stdlib_linalg_lapack_c
            end do
            call stdlib_scopy(n, rwork, 1, d, 1)
            return
-           ! end of stdlib_claed0
      end subroutine stdlib_claed0
 
      ! CLAMSWLQ overwrites the general complex M-by-N matrix C with
@@ -59715,7 +59346,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lw
            return
-           ! end of stdlib_clamswlq
      end subroutine stdlib_clamswlq
 
      ! CLAMTSQR overwrites the general complex M-by-N matrix C with
@@ -59875,7 +59505,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lw
            return
-           ! end of stdlib_clamtsqr
      end subroutine stdlib_clamtsqr
 
      ! CLAQR2 is identical to CLAQR3 except that it avoids
@@ -59904,8 +59533,8 @@ module stdlib_linalg_lapack_c
                       z(ldz, *)
         ! ================================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = zero
-           real(sp), parameter :: rone = one
+           real(sp), parameter :: rzero = 0.0_sp
+           real(sp), parameter :: rone = 1.0_sp
            
            ! .. local scalars ..
            complex(sp) :: beta, cdum, s, tau
@@ -59917,7 +59546,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! ==== estimate optimal workspace. ====
            jw = min(nw, kbot - ktop + 1)
@@ -59952,7 +59581,7 @@ module stdlib_linalg_lapack_c
            safmax = rone/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            ! ==== setup deflation window ====
            jw = min(nw, kbot - ktop + 1)
            kwtop = kbot - jw + 1
@@ -60088,7 +59717,6 @@ module stdlib_linalg_lapack_c
            ns = ns - infqr
             ! ==== return optimal workspace. ====
            work(1) = cmplx(lwkopt, 0, KIND=sp)
-           ! ==== end of stdlib_claqr2 ====
      end subroutine stdlib_claqr2
 
      ! CLASWLQ computes a blocked Tall-Skinny LQ factorization of
@@ -60171,7 +59799,6 @@ module stdlib_linalg_lapack_c
             end if
            work(1) = m*mb
            return
-           ! end of stdlib_claswlq
      end subroutine stdlib_claswlq
 
      ! CLATSQR computes a blocked Tall-Skinny QR factorization of
@@ -60255,7 +59882,6 @@ module stdlib_linalg_lapack_c
             end if
            work(1) = n*nb
            return
-           ! end of stdlib_clatsqr
      end subroutine stdlib_clatsqr
 
      ! CPBSV computes the solution to a complex system of linear equations
@@ -60309,7 +59935,6 @@ module stdlib_linalg_lapack_c
               call stdlib_cpbtrs(uplo, n, kd, nrhs, ab, ldab, b, ldb, info)
            end if
            return
-           ! end of stdlib_cpbsv
      end subroutine stdlib_cpbsv
 
      ! CPBSVX uses the Cholesky factorization A = U**H*U or A = L*L**H to
@@ -60464,7 +60089,6 @@ module stdlib_linalg_lapack_c
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_cpbsvx
      end subroutine stdlib_cpbsvx
 
      ! CPFTRF computes the Cholesky factorization of a complex Hermitian
@@ -60639,7 +60263,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cpftrf
      end subroutine stdlib_cpftrf
 
      ! CPFTRI computes the inverse of a complex Hermitian positive definite
@@ -60797,7 +60420,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cpftri
      end subroutine stdlib_cpftri
 
      ! CPOSV computes the solution to a complex system of linear equations
@@ -60848,7 +60470,6 @@ module stdlib_linalg_lapack_c
               call stdlib_cpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
            end if
            return
-           ! end of stdlib_cposv
      end subroutine stdlib_cposv
 
      ! CPOSVX uses the Cholesky factorization A = U**H*U or A = L*L**H to
@@ -60989,7 +60610,6 @@ module stdlib_linalg_lapack_c
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_cposvx
      end subroutine stdlib_cposvx
 
      ! CPTRFS improves the computed solution to a system of linear
@@ -61022,7 +60642,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum)) + abs(aimag(zdum))
+           cabs1(zdum) = abs(real(zdum, KIND=sp)) + abs(aimag(zdum))
            ! .. executable statements ..
            ! test the input parameters.
            info = 0
@@ -61060,7 +60680,7 @@ module stdlib_linalg_lapack_c
            loop_100: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x.  also compute
               ! abs(a)*abs(x) + abs(b) for use in the backward error bound.
@@ -61200,7 +60820,6 @@ module stdlib_linalg_lapack_c
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_100
            return
-           ! end of stdlib_cptrfs
      end subroutine stdlib_cptrfs
 
      ! CPTSV computes the solution to a complex system of linear equations
@@ -61242,7 +60861,6 @@ module stdlib_linalg_lapack_c
               call stdlib_cpttrs('lower', n, nrhs, d, e, b, ldb, info)
            end if
            return
-           ! end of stdlib_cptsv
      end subroutine stdlib_cptsv
 
      ! CPTSVX uses the factorization A = L*D*L**H to compute the solution
@@ -61315,7 +60933,6 @@ module stdlib_linalg_lapack_c
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_cptsvx
      end subroutine stdlib_cptsvx
 
      ! CSTEDC computes all eigenvalues and, optionally, eigenvectors of a
@@ -61383,7 +61000,7 @@ module stdlib_linalg_lapack_c
                  liwmin = 1
                  lrwmin = 2*(n - 1)
               else if (icompz == 1) then
-                 lgn = int(log(real(n))/log(two))
+                 lgn = int(log(real(n, KIND=sp))/log(two), KIND=ilp)
                  if (2**lgn < n) lgn = lgn + 1
                  if (2**lgn < n) lgn = lgn + 1
                  lwmin = n*n
@@ -61456,7 +61073,7 @@ module stdlib_linalg_lapack_c
               eps = stdlib_slamch('epsilon')
               start = 1
               ! while ( start <= n )
-30      continue
+30   continue
               if (start <= n) then
                  ! let finish be the position of the next subdiagonal entry
                  ! such that e( finish ) <= tiny or finish = n if no such
@@ -61464,7 +61081,7 @@ module stdlib_linalg_lapack_c
                  ! between start and finish constitutes an independent
                  ! sub-problem.
                  finish = start
-40      continue
+40               continue
                  if (finish < n) then
                     tiny = eps*sqrt(abs(d(finish)))*sqrt(abs(d(finish + 1)))
                     if (abs(e(finish)) > tiny) then
@@ -61522,12 +61139,11 @@ module stdlib_linalg_lapack_c
                 end if
               end do
            end if
-70      continue
+70         continue
            work(1) = lwmin
            rwork(1) = lrwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_cstedc
      end subroutine stdlib_cstedc
 
      ! CSTEGR computes selected eigenvalues and, optionally, eigenvectors
@@ -61568,7 +61184,6 @@ module stdlib_linalg_lapack_c
            tryrac = .false.
            call stdlib_cstemr(jobz, range, n, d, e, vl, vu, il, iu, m, w, z, ldz, n, isuppz, &
                      tryrac, work, lwork, iwork, liwork, info)
-           ! end of stdlib_cstegr
      end subroutine stdlib_cstegr
 
      ! CTGSEN reorders the generalized Schur decomposition of a complex
@@ -61787,7 +61402,7 @@ module stdlib_linalg_lapack_c
                  ijb = 0
                  mn2 = 2*n1*n2
                  ! 1-norm-based estimate of difu.
-40      continue
+40   continue
                  call stdlib_clacn2(mn2, work(mn2 + 1), work, dif(1), kase, isave)
                  if (kase /= 0) then
                     if (kase == 1) then
@@ -61805,7 +61420,7 @@ module stdlib_linalg_lapack_c
                  end if
                  dif(1) = dscale/dif(1)
                  ! 1-norm-based estimate of difl.
-50      continue
+50   continue
                  call stdlib_clacn2(mn2, work(mn2 + 1), work, dif(2), kase, isave)
                  if (kase /= 0) then
                     if (kase == 1) then
@@ -61842,11 +61457,10 @@ module stdlib_linalg_lapack_c
               alpha(k) = a(k, k)
               beta(k) = b(k, k)
            end do
-70      continue
+70         continue
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_ctgsen
      end subroutine stdlib_ctgsen
 
      ! CTGSNA estimates reciprocal condition numbers for specified
@@ -62001,7 +61615,6 @@ module stdlib_linalg_lapack_c
            end do loop_20
            work(1) = lwmin
            return
-           ! end of stdlib_ctgsna
      end subroutine stdlib_ctgsna
 
      ! CTRSEN reorders the Schur factorization of a complex matrix
@@ -62114,7 +61727,7 @@ module stdlib_linalg_lapack_c
               ! estimate sep(t11,t22).
               est = zero
               kase = 0
-30      continue
+30            continue
               call stdlib_clacn2(nn, work(nn + 1), work, est, kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -62130,14 +61743,13 @@ module stdlib_linalg_lapack_c
               end if
               sep = scale/est
            end if
-40      continue
+40         continue
            ! copy reordered eigenvalues to w.
            do k = 1, n
               w(k) = t(k, k)
            end do
            work(1) = lwmin
            return
-           ! end of stdlib_ctrsen
      end subroutine stdlib_ctrsen
 
      ! CUNBDB1 simultaneously bidiagonalizes the blocks of a tall and skinny
@@ -62212,7 +61824,7 @@ module stdlib_linalg_lapack_c
            do i = 1, q
               call stdlib_clarfgp(p - i + 1, x11(i, i), x11(i + 1, i), 1, taup1(i))
               call stdlib_clarfgp(m - p - i + 1, x21(i, i), x21(i + 1, i), 1, taup2(i))
-              theta(i) = atan2(real(x21(i, i)), real(x11(i, i)))
+              theta(i) = atan2(real(x21(i, i), KIND=sp), real(x11(i, i), KIND=sp))
               c = cos(theta(i))
               s = sin(theta(i))
               x11(i, i) = cone
@@ -62225,7 +61837,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_csrot(q - i, x11(i, i + 1), ldx11, x21(i, i + 1), ldx21, c, s)
                  call stdlib_clacgv(q - i, x21(i, i + 1), ldx21)
                  call stdlib_clarfgp(q - i, x21(i, i + 1), x21(i, i + 2), ldx21, tauq1(i))
-                 s = real(x21(i, i + 1))
+                 s = real(x21(i, i + 1), KIND=sp)
                  x21(i, i + 1) = cone
                  call stdlib_clarf('r', p - i, q - i, x21(i, i + 1), ldx21, tauq1(i), x11(i + 1, i + 1), &
                            ldx11, work(ilarf))
@@ -62240,7 +61852,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! end of stdlib_cunbdb1
      end subroutine stdlib_cunbdb1
 
      ! CUNBDB2 simultaneously bidiagonalizes the blocks of a tall and skinny
@@ -62270,8 +61881,6 @@ module stdlib_linalg_lapack_c
            real(sp) :: phi(*), theta(*)
            complex(sp) :: taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, *)
         ! ====================================================================
-           ! .. parameters ..
-           complex(sp), parameter :: negone = (-1.0_sp, 0.0_sp)
            
            ! .. local scalars ..
            real(sp) :: c, s
@@ -62320,7 +61929,7 @@ module stdlib_linalg_lapack_c
               end if
               call stdlib_clacgv(q - i + 1, x11(i, i), ldx11)
               call stdlib_clarfgp(q - i + 1, x11(i, i), x11(i, i + 1), ldx11, tauq1(i))
-              c = real(x11(i, i))
+              c = real(x11(i, i), KIND=sp)
               x11(i, i) = cone
               call stdlib_clarf('r', p - i, q - i + 1, x11(i, i), ldx11, tauq1(i), x11(i + 1, i), ldx11, &
                         work(ilarf))
@@ -62332,11 +61941,11 @@ module stdlib_linalg_lapack_c
               theta(i) = atan2(s, c)
               call stdlib_cunbdb5(p - i, m - p - i + 1, q - i, x11(i + 1, i), 1, x21(i, i), 1, x11(i + 1, i + 1), &
                         ldx11, x21(i, i + 1), ldx21, work(iorbdb5), lorbdb5, childinfo)
-              call stdlib_cscal(p - i, negone, x11(i + 1, i), 1)
+              call stdlib_cscal(p - i, cnegone, x11(i + 1, i), 1)
               call stdlib_clarfgp(m - p - i + 1, x21(i, i), x21(i + 1, i), 1, taup2(i))
               if (i < p) then
                  call stdlib_clarfgp(p - i, x11(i + 1, i), x11(i + 2, i), 1, taup1(i))
-                 phi(i) = atan2(real(x11(i + 1, i)), real(x21(i, i)))
+                 phi(i) = atan2(real(x11(i + 1, i), KIND=sp), real(x21(i, i), KIND=sp))
                  c = cos(phi(i))
                  s = sin(phi(i))
                  x11(i + 1, i) = cone
@@ -62355,7 +61964,6 @@ module stdlib_linalg_lapack_c
                         ldx21, work(ilarf))
            end do
            return
-           ! end of stdlib_cunbdb2
      end subroutine stdlib_cunbdb2
 
      ! CUNBDB3 simultaneously bidiagonalizes the blocks of a tall and skinny
@@ -62433,7 +62041,7 @@ module stdlib_linalg_lapack_c
               end if
               call stdlib_clacgv(q - i + 1, x21(i, i), ldx21)
               call stdlib_clarfgp(q - i + 1, x21(i, i), x21(i, i + 1), ldx21, tauq1(i))
-              s = real(x21(i, i))
+              s = real(x21(i, i), KIND=sp)
               x21(i, i) = cone
               call stdlib_clarf('r', p - i + 1, q - i + 1, x21(i, i), ldx21, tauq1(i), x11(i, i), ldx11, &
                         work(ilarf))
@@ -62448,7 +62056,7 @@ module stdlib_linalg_lapack_c
               call stdlib_clarfgp(p - i + 1, x11(i, i), x11(i + 1, i), 1, taup1(i))
               if (i < m - p) then
                  call stdlib_clarfgp(m - p - i, x21(i + 1, i), x21(i + 2, i), 1, taup2(i))
-                 phi(i) = atan2(real(x21(i + 1, i)), real(x11(i, i)))
+                 phi(i) = atan2(real(x21(i + 1, i), KIND=sp), real(x11(i, i), KIND=sp))
                  c = cos(phi(i))
                  s = sin(phi(i))
                  x21(i + 1, i) = cone
@@ -62467,7 +62075,6 @@ module stdlib_linalg_lapack_c
                         work(ilarf))
            end do
            return
-           ! end of stdlib_cunbdb3
      end subroutine stdlib_cunbdb3
 
      ! CUNBDB4 simultaneously bidiagonalizes the blocks of a tall and skinny
@@ -62498,8 +62105,6 @@ module stdlib_linalg_lapack_c
            complex(sp) :: phantom(*), taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21( &
                      ldx21, *)
         ! ====================================================================
-           ! .. parameters ..
-           complex(sp), parameter :: negone = (-1.0_sp, 0.0_sp)
            
            ! .. local scalars ..
            real(sp) :: c, s
@@ -62551,10 +62156,11 @@ module stdlib_linalg_lapack_c
                  end do
                  call stdlib_cunbdb5(p, m - p, q, phantom(1), 1, phantom(p + 1), 1, x11, ldx11, x21, &
                            ldx21, work(iorbdb5), lorbdb5, childinfo)
-                 call stdlib_cscal(p, negone, phantom(1), 1)
+                 call stdlib_cscal(p, cnegone, phantom(1), 1)
                  call stdlib_clarfgp(p, phantom(1), phantom(2), 1, taup1(1))
                  call stdlib_clarfgp(m - p, phantom(p + 1), phantom(p + 2), 1, taup2(1))
-                 theta(i) = atan2(real(phantom(1)), real(phantom(p + 1)))
+                 theta(i) = atan2(real(phantom(1), KIND=sp), real(phantom(p + 1), KIND=sp))
+                           
                  c = cos(theta(i))
                  s = sin(theta(i))
                  phantom(1) = cone
@@ -62566,10 +62172,10 @@ module stdlib_linalg_lapack_c
               else
                  call stdlib_cunbdb5(p - i + 1, m - p - i + 1, q - i + 1, x11(i, i - 1), 1, x21(i, i - 1), 1, x11(i, i) &
                            , ldx11, x21(i, i), ldx21, work(iorbdb5), lorbdb5, childinfo)
-                 call stdlib_cscal(p - i + 1, negone, x11(i, i - 1), 1)
+                 call stdlib_cscal(p - i + 1, cnegone, x11(i, i - 1), 1)
                  call stdlib_clarfgp(p - i + 1, x11(i, i - 1), x11(i + 1, i - 1), 1, taup1(i))
                  call stdlib_clarfgp(m - p - i + 1, x21(i, i - 1), x21(i + 1, i - 1), 1, taup2(i))
-                 theta(i) = atan2(real(x11(i, i - 1)), real(x21(i, i - 1)))
+                 theta(i) = atan2(real(x11(i, i - 1), KIND=sp), real(x21(i, i - 1), KIND=sp))
                  c = cos(theta(i))
                  s = sin(theta(i))
                  x11(i, i - 1) = cone
@@ -62582,7 +62188,7 @@ module stdlib_linalg_lapack_c
               call stdlib_csrot(q - i + 1, x11(i, i), ldx11, x21(i, i), ldx21, s, -c)
               call stdlib_clacgv(q - i + 1, x21(i, i), ldx21)
               call stdlib_clarfgp(q - i + 1, x21(i, i), x21(i, i + 1), ldx21, tauq1(i))
-              c = real(x21(i, i))
+              c = real(x21(i, i), KIND=sp)
               x21(i, i) = cone
               call stdlib_clarf('r', p - i, q - i + 1, x21(i, i), ldx21, tauq1(i), x11(i + 1, i), ldx11, &
                         work(ilarf))
@@ -62617,7 +62223,6 @@ module stdlib_linalg_lapack_c
               call stdlib_clacgv(q - i + 1, x21(m - q + i - p, i), ldx21)
            end do
            return
-           ! end of stdlib_cunbdb4
      end subroutine stdlib_cunbdb4
 
      ! CUNCSD2BY1 computes the CS decomposition of an M-by-Q matrix X with
@@ -63052,7 +62657,6 @@ module stdlib_linalg_lapack_c
               end if
            end if
            return
-           ! end of stdlib_cuncsd2by1
      end subroutine stdlib_cuncsd2by1
 
      ! CUNGBR generates one of the complex unitary matrices Q or P**H
@@ -63127,7 +62731,7 @@ module stdlib_linalg_lapack_c
                     end if
                  end if
               end if
-              lwkopt = real(work(1))
+              lwkopt = real(work(1), KIND=sp)
               lwkopt = max(lwkopt, mn)
            end if
            if (info /= 0) then
@@ -63199,7 +62803,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cungbr
      end subroutine stdlib_cungbr
 
      ! CUNGTSQR generates an M-by-N complex matrix Q_out with orthonormal
@@ -63295,7 +62898,6 @@ module stdlib_linalg_lapack_c
            end do
            work(1) = cmplx(lworkopt, KIND=sp)
            return
-           ! end of stdlib_cungtsqr
      end subroutine stdlib_cungtsqr
 
      ! If VECT = 'Q', CUNMBR overwrites the general complex M-by-N matrix C
@@ -63458,7 +63060,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_cunmbr
      end subroutine stdlib_cunmbr
 
      ! CGELQ computes an LQ factorization of a complex M-by-N matrix A:
@@ -63582,7 +63183,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwreq
            return
-           ! end of stdlib_cgelq
      end subroutine stdlib_cgelq
 
      ! CGELSD computes the minimum-norm solution to a real linear least
@@ -63663,8 +63263,8 @@ module stdlib_linalg_lapack_c
               if (minmn > 0) then
                  smlsiz = stdlib_ilaenv(9, 'stdlib_cgelsd', ' ', 0, 0, 0, 0)
                  mnthr = stdlib_ilaenv(6, 'stdlib_cgelsd', ' ', m, n, nrhs, -1)
-                 nlvl = max(int(log(real(minmn)/real(smlsiz + 1))/log(two)) + 1, 0)
-                           
+                 nlvl = max(int(log(real(minmn, KIND=sp)/real(smlsiz + 1, KIND=sp))/log( &
+                           two), KIND=ilp) + 1, 0)
                  liwork = 3*minmn*nlvl + 11*minmn
                  mm = m
                  if (m >= n .and. m >= mnthr) then
@@ -63914,12 +63514,11 @@ module stdlib_linalg_lapack_c
            else if (ibscl == 2) then
               call stdlib_clascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
-10      continue
+10         continue
            work(1) = maxwrk
            iwork(1) = liwork
            rwork(1) = lrwork
            return
-           ! end of stdlib_cgelsd
      end subroutine stdlib_cgelsd
 
      ! CGELSS computes the minimum norm solution to a complex linear
@@ -63994,11 +63593,11 @@ module stdlib_linalg_lapack_c
                               ! columns
                     ! compute space needed for stdlib_cgeqrf
                     call stdlib_cgeqrf(m, n, a, lda, dum(1), dum(1), -1, info)
-                    lwork_cgeqrf = real(dum(1))
+                    lwork_cgeqrf = real(dum(1), KIND=sp)
                     ! compute space needed for stdlib_cunmqr
                     call stdlib_cunmqr('l', 'c', m, nrhs, n, a, lda, dum(1), b, ldb, dum(1), -1, &
                               info)
-                    lwork_cunmqr = real(dum(1))
+                    lwork_cunmqr = real(dum(1), KIND=sp)
                     mm = n
                     maxwrk = max(maxwrk, n + n*stdlib_ilaenv(1, 'stdlib_cgeqrf', ' ', m, n, -1, - &
                               1))
@@ -64010,14 +63609,14 @@ module stdlib_linalg_lapack_c
                     ! compute space needed for stdlib_cgebrd
                     call stdlib_cgebrd(mm, n, a, lda, s, s, dum(1), dum(1), dum(1), -1, info)
                               
-                    lwork_cgebrd = real(dum(1))
+                    lwork_cgebrd = real(dum(1), KIND=sp)
                     ! compute space needed for stdlib_cunmbr
                     call stdlib_cunmbr('q', 'l', 'c', mm, nrhs, n, a, lda, dum(1), b, ldb, dum(1), &
                                -1, info)
-                    lwork_cunmbr = real(dum(1))
+                    lwork_cunmbr = real(dum(1), KIND=sp)
                     ! compute space needed for stdlib_cungbr
                     call stdlib_cungbr('p', n, n, n, a, lda, dum(1), dum(1), -1, info)
-                    lwork_cungbr = real(dum(1))
+                    lwork_cungbr = real(dum(1), KIND=sp)
                     ! compute total workspace needed
                     maxwrk = max(maxwrk, 2*n + lwork_cgebrd)
                     maxwrk = max(maxwrk, 2*n + lwork_cunmbr)
@@ -64032,22 +63631,22 @@ module stdlib_linalg_lapack_c
                        ! than rows
                        ! compute space needed for stdlib_cgelqf
                        call stdlib_cgelqf(m, n, a, lda, dum(1), dum(1), -1, info)
-                       lwork_cgelqf = real(dum(1))
+                       lwork_cgelqf = real(dum(1), KIND=sp)
                        ! compute space needed for stdlib_cgebrd
                        call stdlib_cgebrd(m, m, a, lda, s, s, dum(1), dum(1), dum(1), -1, info)
                                  
-                       lwork_cgebrd = real(dum(1))
+                       lwork_cgebrd = real(dum(1), KIND=sp)
                        ! compute space needed for stdlib_cunmbr
                        call stdlib_cunmbr('q', 'l', 'c', m, nrhs, n, a, lda, dum(1), b, ldb, dum( &
                                  1), -1, info)
-                       lwork_cunmbr = real(dum(1))
+                       lwork_cunmbr = real(dum(1), KIND=sp)
                        ! compute space needed for stdlib_cungbr
                        call stdlib_cungbr('p', m, m, m, a, lda, dum(1), dum(1), -1, info)
-                       lwork_cungbr = real(dum(1))
+                       lwork_cungbr = real(dum(1), KIND=sp)
                        ! compute space needed for stdlib_cunmlq
                        call stdlib_cunmlq('l', 'c', n, nrhs, m, a, lda, dum(1), b, ldb, dum(1), - &
                                  1, info)
-                       lwork_cunmlq = real(dum(1))
+                       lwork_cunmlq = real(dum(1), KIND=sp)
                        ! compute total workspace needed
                        maxwrk = m + lwork_cgelqf
                        maxwrk = max(maxwrk, 3*m + m*m + lwork_cgebrd)
@@ -64064,14 +63663,14 @@ module stdlib_linalg_lapack_c
                        ! compute space needed for stdlib_cgebrd
                        call stdlib_cgebrd(m, n, a, lda, s, s, dum(1), dum(1), dum(1), -1, info)
                                  
-                       lwork_cgebrd = real(dum(1))
+                       lwork_cgebrd = real(dum(1), KIND=sp)
                        ! compute space needed for stdlib_cunmbr
                        call stdlib_cunmbr('q', 'l', 'c', m, nrhs, m, a, lda, dum(1), b, ldb, dum( &
                                  1), -1, info)
-                       lwork_cunmbr = real(dum(1))
+                       lwork_cunmbr = real(dum(1), KIND=sp)
                        ! compute space needed for stdlib_cungbr
                        call stdlib_cungbr('p', m, n, m, a, lda, dum(1), dum(1), -1, info)
-                       lwork_cungbr = real(dum(1))
+                       lwork_cungbr = real(dum(1), KIND=sp)
                        maxwrk = 2*m + lwork_cgebrd
                        maxwrk = max(maxwrk, 2*m + lwork_cunmbr)
                        maxwrk = max(maxwrk, 2*m + lwork_cungbr)
@@ -64372,10 +63971,9 @@ module stdlib_linalg_lapack_c
            else if (ibscl == 2) then
               call stdlib_clascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
-70      continue
+70         continue
            work(1) = maxwrk
            return
-           ! end of stdlib_cgelss
      end subroutine stdlib_cgelss
 
      ! CGELSY computes the minimum-norm solution to a complex linear least
@@ -64510,7 +64108,7 @@ module stdlib_linalg_lapack_c
               ! a * p = q * r
            call stdlib_cgeqp3(m, n, a, lda, jpvt, work(1), work(mn + 1), lwork - mn, rwork, info)
                      
-           wsize = mn + real(work(mn + 1))
+           wsize = mn + real(work(mn + 1), KIND=sp)
            ! complex workspace: mn+nb*(n+1). real workspace 2*n.
            ! details of householder rotations stored in work(1:mn).
            ! determine rank using incremental condition estimation
@@ -64525,7 +64123,7 @@ module stdlib_linalg_lapack_c
            else
               rank = 1
            end if
-10      continue
+10         continue
            if (rank < mn) then
               i = rank + 1
               call stdlib_claic1(imin, rank, work(ismin), smin, a(1, i), a(i, i), sminpr, &
@@ -64557,7 +64155,7 @@ module stdlib_linalg_lapack_c
            ! b(1:m,1:nrhs) := q**h * b(1:m,1:nrhs)
            call stdlib_cunmqr('left', 'conjugate transpose', m, nrhs, mn, a, lda, work(1), b, &
                      ldb, work(2*mn + 1), lwork - 2*mn, info)
-           wsize = max(wsize, 2*mn + real(work(2*mn + 1)))
+           wsize = max(wsize, 2*mn + real(work(2*mn + 1), KIND=sp))
            ! complex workspace: 2*mn+nb*nrhs.
            ! b(1:rank,1:nrhs) := inv(t11) * b(1:rank,1:nrhs)
            call stdlib_ctrsm('left', 'upper', 'no transpose', 'non-unit', rank, nrhs, cone, a, &
@@ -64594,10 +64192,9 @@ module stdlib_linalg_lapack_c
            else if (ibscl == 2) then
               call stdlib_clascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
-70      continue
+70         continue
            work(1) = cmplx(lwkopt, KIND=sp)
            return
-           ! end of stdlib_cgelsy
      end subroutine stdlib_cgelsy
 
      ! CGEMLQ overwrites the general real M-by-N matrix C with
@@ -64670,7 +64267,7 @@ module stdlib_linalg_lapack_c
              info = -13
            end if
            if (info == 0) then
-             work(1) = real(lw)
+             work(1) = real(lw, KIND=sp)
            end if
            if (info /= 0) then
              call stdlib_xerbla('stdlib_cgemlq', -info)
@@ -64690,9 +64287,8 @@ module stdlib_linalg_lapack_c
              call stdlib_clamswlq(side, trans, m, n, k, mb, nb, a, lda, t(6), mb, c, ldc, work, &
                        lwork, info)
            end if
-           work(1) = real(lw)
+           work(1) = real(lw, KIND=sp)
            return
-           ! end of stdlib_cgemlq
      end subroutine stdlib_cgemlq
 
      ! CGEMQR overwrites the general real M-by-N matrix C with
@@ -64787,7 +64383,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lw
            return
-           ! end of stdlib_cgemqr
      end subroutine stdlib_cgemqr
 
      ! CGEQR computes a QR factorization of a complex M-by-N matrix A:
@@ -64901,7 +64496,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = max(1, nb*n)
            return
-           ! end of stdlib_cgeqr
      end subroutine stdlib_cgeqr
 
      ! CGESDD computes the singular value decomposition (SVD) of a complex
@@ -64994,7 +64588,7 @@ module stdlib_linalg_lapack_c
               maxwrk = 1
               if (m >= n .and. minmn > 0) then
                  ! there is no complex work space needed for bidiagonal svd
-                 ! the real work space needed for bidiagonal svd (stdlib_sbdsdc) is
+                 ! the realwork space needed for bidiagonal svd (stdlib_sbdsdc,KIND=sp) is
                  ! bdspac = 3*n*n + 4*n for singular values and vectors;
                  ! bdspac = 4*n         for singular values only;
                  ! not including e, ru, and rvt matrices.
@@ -65104,7 +64698,7 @@ module stdlib_linalg_lapack_c
                  end if
               else if (minmn > 0) then
                  ! there is no complex work space needed for bidiagonal svd
-                 ! the real work space needed for bidiagonal svd (stdlib_sbdsdc) is
+                 ! the realwork space needed for bidiagonal svd (stdlib_sbdsdc,KIND=sp) is
                  ! bdspac = 3*m*m + 4*m for singular values and vectors;
                  ! bdspac = 4*m         for singular values only;
                  ! not including e, ru, and rvt matrices.
@@ -65334,7 +64928,7 @@ module stdlib_linalg_lapack_c
                     nrwork = irvt + n*n
                     call stdlib_sbdsdc('u', 'i', n, s, rwork(ie), rwork(iru), n, rwork(irvt) &
                               , n, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix work(iu)
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix work(iu)
                     ! overwrite work(iu) by the left singular vectors of r
                     ! cworkspace: need   n*n [u] + n*n [r] + 2*n [tauq, taup] + n    [work]
                     ! cworkspace: prefer n*n [u] + n*n [r] + 2*n [tauq, taup] + n*nb [work]
@@ -65342,7 +64936,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacp2('f', n, n, rwork(iru), n, work(iu), ldwrku)
                     call stdlib_cunmbr('q', 'l', 'n', n, n, n, work(ir), ldwrkr, work(itauq), &
                               work(iu), ldwrku, work(nwork), lwork - nwork + 1, ierr)
-                    ! copy real matrix rwork(irvt) to complex matrix vt
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix vt
                     ! overwrite vt by the right singular vectors of r
                     ! cworkspace: need   n*n [u] + n*n [r] + 2*n [tauq, taup] + n    [work]
                     ! cworkspace: prefer n*n [u] + n*n [r] + 2*n [tauq, taup] + n*nb [work]
@@ -65406,7 +65000,7 @@ module stdlib_linalg_lapack_c
                     nrwork = irvt + n*n
                     call stdlib_sbdsdc('u', 'i', n, s, rwork(ie), rwork(iru), n, rwork(irvt) &
                               , n, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix u
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix u
                     ! overwrite u by left singular vectors of r
                     ! cworkspace: need   n*n [r] + 2*n [tauq, taup] + n    [work]
                     ! cworkspace: prefer n*n [r] + 2*n [tauq, taup] + n*nb [work]
@@ -65414,7 +65008,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacp2('f', n, n, rwork(iru), n, u, ldu)
                     call stdlib_cunmbr('q', 'l', 'n', n, n, n, work(ir), ldwrkr, work(itauq), &
                               u, ldu, work(nwork), lwork - nwork + 1, ierr)
-                    ! copy real matrix rwork(irvt) to complex matrix vt
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix vt
                     ! overwrite vt by right singular vectors of r
                     ! cworkspace: need   n*n [r] + 2*n [tauq, taup] + n    [work]
                     ! cworkspace: prefer n*n [r] + 2*n [tauq, taup] + n*nb [work]
@@ -65473,7 +65067,7 @@ module stdlib_linalg_lapack_c
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + bdspac
                     call stdlib_sbdsdc('u', 'i', n, s, rwork(ie), rwork(iru), n, rwork(irvt) &
                               , n, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix work(iu)
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix work(iu)
                     ! overwrite work(iu) by left singular vectors of r
                     ! cworkspace: need   n*n [u] + 2*n [tauq, taup] + n    [work]
                     ! cworkspace: prefer n*n [u] + 2*n [tauq, taup] + n*nb [work]
@@ -65481,7 +65075,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacp2('f', n, n, rwork(iru), n, work(iu), ldwrku)
                     call stdlib_cunmbr('q', 'l', 'n', n, n, n, a, lda, work(itauq), work(iu), &
                               ldwrku, work(nwork), lwork - nwork + 1, ierr)
-                    ! copy real matrix rwork(irvt) to complex matrix vt
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix vt
                     ! overwrite vt by right singular vectors of r
                     ! cworkspace: need   n*n [u] + 2*n [tauq, taup] + n    [work]
                     ! cworkspace: prefer n*n [u] + 2*n [tauq, taup] + n*nb [work]
@@ -65555,14 +65149,14 @@ module stdlib_linalg_lapack_c
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + bdspac
                     call stdlib_sbdsdc('u', 'i', n, s, rwork(ie), rwork(iru), n, rwork(irvt) &
                               , n, dum, idum, rwork(nrwork), iwork, info)
-                    ! multiply real matrix rwork(irvt) by p**h in vt,
+                    ! multiply realmatrix rwork(irvt,KIND=sp) by p**h in vt,
                     ! storing the result in work(iu), copying to vt
                     ! cworkspace: need   2*n [tauq, taup] + n*n [u]
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + 2*n*n [rwork]
                     call stdlib_clarcm(n, n, rwork(irvt), n, vt, ldvt, work(iu), ldwrku, &
                               rwork(nrwork))
                     call stdlib_clacpy('f', n, n, work(iu), ldwrku, vt, ldvt)
-                    ! multiply q in a by real matrix rwork(iru), storing the
+                    ! multiply q in a by realmatrix rwork(iru,KIND=sp), storing the
                     ! result in work(iu), copying to a
                     ! cworkspace: need   2*n [tauq, taup] + n*n [u]
                     ! cworkspace: prefer 2*n [tauq, taup] + m*n [u]
@@ -65602,14 +65196,14 @@ module stdlib_linalg_lapack_c
                     nrwork = irvt + n*n
                     call stdlib_sbdsdc('u', 'i', n, s, rwork(ie), rwork(iru), n, rwork(irvt) &
                               , n, dum, idum, rwork(nrwork), iwork, info)
-                    ! multiply real matrix rwork(irvt) by p**h in vt,
+                    ! multiply realmatrix rwork(irvt,KIND=sp) by p**h in vt,
                     ! storing the result in a, copying to vt
                     ! cworkspace: need   0
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + 2*n*n [rwork]
                     call stdlib_clarcm(n, n, rwork(irvt), n, vt, ldvt, a, lda, rwork(nrwork))
                               
                     call stdlib_clacpy('f', n, n, a, lda, vt, ldvt)
-                    ! multiply q in u by real matrix rwork(iru), storing the
+                    ! multiply q in u by realmatrix rwork(iru,KIND=sp), storing the
                     ! result in a, copying to u
                     ! cworkspace: need   0
                     ! rworkspace: need   n [e] + n*n [ru] + 2*m*n [rwork] < n + 5*n*n since m < 2*n here
@@ -65643,14 +65237,14 @@ module stdlib_linalg_lapack_c
                     nrwork = irvt + n*n
                     call stdlib_sbdsdc('u', 'i', n, s, rwork(ie), rwork(iru), n, rwork(irvt) &
                               , n, dum, idum, rwork(nrwork), iwork, info)
-                    ! multiply real matrix rwork(irvt) by p**h in vt,
+                    ! multiply realmatrix rwork(irvt,KIND=sp) by p**h in vt,
                     ! storing the result in a, copying to vt
                     ! cworkspace: need   0
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + 2*n*n [rwork]
                     call stdlib_clarcm(n, n, rwork(irvt), n, vt, ldvt, a, lda, rwork(nrwork))
                               
                     call stdlib_clacpy('f', n, n, a, lda, vt, ldvt)
-                    ! multiply q in u by real matrix rwork(iru), storing the
+                    ! multiply q in u by realmatrix rwork(iru,KIND=sp), storing the
                     ! result in a, copying to u
                     ! cworkspace: need   0
                     ! rworkspace: need   n [e] + n*n [ru] + 2*m*n [rwork] < n + 5*n*n since m < 2*n here
@@ -65703,7 +65297,7 @@ module stdlib_linalg_lapack_c
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + bdspac
                     call stdlib_sbdsdc('u', 'i', n, s, rwork(ie), rwork(iru), n, rwork(irvt) &
                               , n, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(irvt) to complex matrix vt
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix vt
                     ! overwrite vt by right singular vectors of a
                     ! cworkspace: need   2*n [tauq, taup] + n*n [u] + n    [work]
                     ! cworkspace: prefer 2*n [tauq, taup] + n*n [u] + n*nb [work]
@@ -65713,7 +65307,7 @@ module stdlib_linalg_lapack_c
                               work(nwork), lwork - nwork + 1, ierr)
                     if (lwork >= m*n + 3*n) then
                        ! path 6o-fast
-                       ! copy real matrix rwork(iru) to complex matrix work(iu)
+                       ! copy realmatrix rwork(iru,KIND=sp) to complex matrix work(iu)
                        ! overwrite work(iu) by left singular vectors of a, copying
                        ! to a
                        ! cworkspace: need   2*n [tauq, taup] + m*n [u] + n    [work]
@@ -65732,7 +65326,7 @@ module stdlib_linalg_lapack_c
                        ! rworkspace: need   0
                        call stdlib_cungbr('q', m, n, n, a, lda, work(itauq), work(nwork), &
                                  lwork - nwork + 1, ierr)
-                       ! multiply q in a by real matrix rwork(iru), storing the
+                       ! multiply q in a by realmatrix rwork(iru,KIND=sp), storing the
                        ! result in work(iu), copying to a
                        ! cworkspace: need   2*n [tauq, taup] + n*n [u]
                        ! cworkspace: prefer 2*n [tauq, taup] + m*n [u]
@@ -65759,7 +65353,7 @@ module stdlib_linalg_lapack_c
                     nrwork = irvt + n*n
                     call stdlib_sbdsdc('u', 'i', n, s, rwork(ie), rwork(iru), n, rwork(irvt) &
                               , n, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix u
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix u
                     ! overwrite u by left singular vectors of a
                     ! cworkspace: need   2*n [tauq, taup] + n    [work]
                     ! cworkspace: prefer 2*n [tauq, taup] + n*nb [work]
@@ -65768,7 +65362,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacp2('f', n, n, rwork(iru), n, u, ldu)
                     call stdlib_cunmbr('q', 'l', 'n', m, n, n, a, lda, work(itauq), u, ldu, &
                               work(nwork), lwork - nwork + 1, ierr)
-                    ! copy real matrix rwork(irvt) to complex matrix vt
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix vt
                     ! overwrite vt by right singular vectors of a
                     ! cworkspace: need   2*n [tauq, taup] + n    [work]
                     ! cworkspace: prefer 2*n [tauq, taup] + n*nb [work]
@@ -65793,7 +65387,7 @@ module stdlib_linalg_lapack_c
                     if (m > n) then
                        call stdlib_claset('f', m - n, m - n, czero, cone, u(n + 1, n + 1), ldu)
                     end if
-                    ! copy real matrix rwork(iru) to complex matrix u
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix u
                     ! overwrite u by left singular vectors of a
                     ! cworkspace: need   2*n [tauq, taup] + m    [work]
                     ! cworkspace: prefer 2*n [tauq, taup] + m*nb [work]
@@ -65801,7 +65395,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacp2('f', n, n, rwork(iru), n, u, ldu)
                     call stdlib_cunmbr('q', 'l', 'n', m, m, n, a, lda, work(itauq), u, ldu, &
                               work(nwork), lwork - nwork + 1, ierr)
-                    ! copy real matrix rwork(irvt) to complex matrix vt
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix vt
                     ! overwrite vt by right singular vectors of a
                     ! cworkspace: need   2*n [tauq, taup] + n    [work]
                     ! cworkspace: prefer 2*n [tauq, taup] + n*nb [work]
@@ -65900,7 +65494,7 @@ module stdlib_linalg_lapack_c
                     nrwork = irvt + m*m
                     call stdlib_sbdsdc('u', 'i', m, s, rwork(ie), rwork(iru), m, rwork(irvt) &
                               , m, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix work(iu)
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix work(iu)
                     ! overwrite work(iu) by the left singular vectors of l
                     ! cworkspace: need   m*m [vt] + m*m [l] + 2*m [tauq, taup] + m    [work]
                     ! cworkspace: prefer m*m [vt] + m*m [l] + 2*m [tauq, taup] + m*nb [work]
@@ -65908,7 +65502,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacp2('f', m, m, rwork(iru), m, u, ldu)
                     call stdlib_cunmbr('q', 'l', 'n', m, m, m, work(il), ldwrkl, work(itauq), &
                               u, ldu, work(nwork), lwork - nwork + 1, ierr)
-                    ! copy real matrix rwork(irvt) to complex matrix work(ivt)
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix work(ivt)
                     ! overwrite work(ivt) by the right singular vectors of l
                     ! cworkspace: need   m*m [vt] + m*m [l] + 2*m [tauq, taup] + m    [work]
                     ! cworkspace: prefer m*m [vt] + m*m [l] + 2*m [tauq, taup] + m*nb [work]
@@ -65973,7 +65567,7 @@ module stdlib_linalg_lapack_c
                     nrwork = irvt + m*m
                     call stdlib_sbdsdc('u', 'i', m, s, rwork(ie), rwork(iru), m, rwork(irvt) &
                               , m, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix u
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix u
                     ! overwrite u by left singular vectors of l
                     ! cworkspace: need   m*m [l] + 2*m [tauq, taup] + m    [work]
                     ! cworkspace: prefer m*m [l] + 2*m [tauq, taup] + m*nb [work]
@@ -65981,7 +65575,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacp2('f', m, m, rwork(iru), m, u, ldu)
                     call stdlib_cunmbr('q', 'l', 'n', m, m, m, work(il), ldwrkl, work(itauq), &
                               u, ldu, work(nwork), lwork - nwork + 1, ierr)
-                    ! copy real matrix rwork(irvt) to complex matrix vt
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix vt
                     ! overwrite vt by left singular vectors of l
                     ! cworkspace: need   m*m [l] + 2*m [tauq, taup] + m    [work]
                     ! cworkspace: prefer m*m [l] + 2*m [tauq, taup] + m*nb [work]
@@ -66040,7 +65634,7 @@ module stdlib_linalg_lapack_c
                     nrwork = irvt + m*m
                     call stdlib_sbdsdc('u', 'i', m, s, rwork(ie), rwork(iru), m, rwork(irvt) &
                               , m, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix u
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix u
                     ! overwrite u by left singular vectors of l
                     ! cworkspace: need   m*m [vt] + 2*m [tauq, taup] + m    [work]
                     ! cworkspace: prefer m*m [vt] + 2*m [tauq, taup] + m*nb [work]
@@ -66048,7 +65642,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacp2('f', m, m, rwork(iru), m, u, ldu)
                     call stdlib_cunmbr('q', 'l', 'n', m, m, m, a, lda, work(itauq), u, ldu, &
                               work(nwork), lwork - nwork + 1, ierr)
-                    ! copy real matrix rwork(irvt) to complex matrix work(ivt)
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix work(ivt)
                     ! overwrite work(ivt) by right singular vectors of l
                     ! cworkspace: need   m*m [vt] + 2*m [tauq, taup] + m    [work]
                     ! cworkspace: prefer m*m [vt] + 2*m [tauq, taup] + m*nb [work]
@@ -66124,7 +65718,7 @@ module stdlib_linalg_lapack_c
                     ! rworkspace: need   m [e] + m*m [rvt] + m*m [ru] + bdspac
                     call stdlib_sbdsdc('l', 'i', m, s, rwork(ie), rwork(iru), m, rwork(irvt) &
                               , m, dum, idum, rwork(nrwork), iwork, info)
-                    ! multiply q in u by real matrix rwork(irvt)
+                    ! multiply q in u by realmatrix rwork(irvt,KIND=sp)
                     ! storing the result in work(ivt), copying to u
                     ! cworkspace: need   2*m [tauq, taup] + m*m [vt]
                     ! rworkspace: need   m [e] + m*m [rvt] + m*m [ru] + 2*m*m [rwork]
@@ -66171,14 +65765,14 @@ module stdlib_linalg_lapack_c
                     nrwork = iru + m*m
                     call stdlib_sbdsdc('l', 'i', m, s, rwork(ie), rwork(iru), m, rwork(irvt) &
                               , m, dum, idum, rwork(nrwork), iwork, info)
-                    ! multiply q in u by real matrix rwork(iru), storing the
+                    ! multiply q in u by realmatrix rwork(iru,KIND=sp), storing the
                     ! result in a, copying to u
                     ! cworkspace: need   0
                     ! rworkspace: need   m [e] + m*m [rvt] + m*m [ru] + 2*m*m [rwork]
                     call stdlib_clacrm(m, m, u, ldu, rwork(iru), m, a, lda, rwork(nrwork))
                               
                     call stdlib_clacpy('f', m, m, a, lda, u, ldu)
-                    ! multiply real matrix rwork(irvt) by p**h in vt,
+                    ! multiply realmatrix rwork(irvt,KIND=sp) by p**h in vt,
                     ! storing the result in a, copying to vt
                     ! cworkspace: need   0
                     ! rworkspace: need   m [e] + m*m [rvt] + 2*m*n [rwork] < m + 5*m*m since n < 2*m here
@@ -66212,14 +65806,14 @@ module stdlib_linalg_lapack_c
                     nrwork = iru + m*m
                     call stdlib_sbdsdc('l', 'i', m, s, rwork(ie), rwork(iru), m, rwork(irvt) &
                               , m, dum, idum, rwork(nrwork), iwork, info)
-                    ! multiply q in u by real matrix rwork(iru), storing the
+                    ! multiply q in u by realmatrix rwork(iru,KIND=sp), storing the
                     ! result in a, copying to u
                     ! cworkspace: need   0
                     ! rworkspace: need   m [e] + m*m [rvt] + m*m [ru] + 2*m*m [rwork]
                     call stdlib_clacrm(m, m, u, ldu, rwork(iru), m, a, lda, rwork(nrwork))
                               
                     call stdlib_clacpy('f', m, m, a, lda, u, ldu)
-                    ! multiply real matrix rwork(irvt) by p**h in vt,
+                    ! multiply realmatrix rwork(irvt,KIND=sp) by p**h in vt,
                     ! storing the result in a, copying to vt
                     ! cworkspace: need   0
                     ! rworkspace: need   m [e] + m*m [rvt] + 2*m*n [rwork] < m + 5*m*m since n < 2*m here
@@ -66274,7 +65868,7 @@ module stdlib_linalg_lapack_c
                     nrwork = iru + m*m
                     call stdlib_sbdsdc('l', 'i', m, s, rwork(ie), rwork(iru), m, rwork(irvt) &
                               , m, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix u
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix u
                     ! overwrite u by left singular vectors of a
                     ! cworkspace: need   2*m [tauq, taup] + m*m [vt] + m    [work]
                     ! cworkspace: prefer 2*m [tauq, taup] + m*m [vt] + m*nb [work]
@@ -66284,7 +65878,7 @@ module stdlib_linalg_lapack_c
                               work(nwork), lwork - nwork + 1, ierr)
                     if (lwork >= m*n + 3*m) then
                        ! path 6to-fast
-                       ! copy real matrix rwork(irvt) to complex matrix work(ivt)
+                       ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix work(ivt)
                        ! overwrite work(ivt) by right singular vectors of a,
                        ! copying to a
                        ! cworkspace: need   2*m [tauq, taup] + m*n [vt] + m    [work]
@@ -66303,7 +65897,7 @@ module stdlib_linalg_lapack_c
                        ! rworkspace: need   0
                        call stdlib_cungbr('p', m, n, m, a, lda, work(itaup), work(nwork), &
                                  lwork - nwork + 1, ierr)
-                       ! multiply q in a by real matrix rwork(iru), storing the
+                       ! multiply q in a by realmatrix rwork(iru,KIND=sp), storing the
                        ! result in work(iu), copying to a
                        ! cworkspace: need   2*m [tauq, taup] + m*m [vt]
                        ! cworkspace: prefer 2*m [tauq, taup] + m*n [vt]
@@ -66330,7 +65924,7 @@ module stdlib_linalg_lapack_c
                     nrwork = iru + m*m
                     call stdlib_sbdsdc('l', 'i', m, s, rwork(ie), rwork(iru), m, rwork(irvt) &
                               , m, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix u
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix u
                     ! overwrite u by left singular vectors of a
                     ! cworkspace: need   2*m [tauq, taup] + m    [work]
                     ! cworkspace: prefer 2*m [tauq, taup] + m*nb [work]
@@ -66338,7 +65932,7 @@ module stdlib_linalg_lapack_c
                     call stdlib_clacp2('f', m, m, rwork(iru), m, u, ldu)
                     call stdlib_cunmbr('q', 'l', 'n', m, m, n, a, lda, work(itauq), u, ldu, &
                               work(nwork), lwork - nwork + 1, ierr)
-                    ! copy real matrix rwork(irvt) to complex matrix vt
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix vt
                     ! overwrite vt by right singular vectors of a
                     ! cworkspace: need   2*m [tauq, taup] + m    [work]
                     ! cworkspace: prefer 2*m [tauq, taup] + m*nb [work]
@@ -66359,7 +65953,7 @@ module stdlib_linalg_lapack_c
                     nrwork = iru + m*m
                     call stdlib_sbdsdc('l', 'i', m, s, rwork(ie), rwork(iru), m, rwork(irvt) &
                               , m, dum, idum, rwork(nrwork), iwork, info)
-                    ! copy real matrix rwork(iru) to complex matrix u
+                    ! copy realmatrix rwork(iru,KIND=sp) to complex matrix u
                     ! overwrite u by left singular vectors of a
                     ! cworkspace: need   2*m [tauq, taup] + m    [work]
                     ! cworkspace: prefer 2*m [tauq, taup] + m*nb [work]
@@ -66369,7 +65963,7 @@ module stdlib_linalg_lapack_c
                               work(nwork), lwork - nwork + 1, ierr)
                     ! set all of vt to identity matrix
                     call stdlib_claset('f', n, n, czero, cone, vt, ldvt)
-                    ! copy real matrix rwork(irvt) to complex matrix vt
+                    ! copy realmatrix rwork(irvt,KIND=sp) to complex matrix vt
                     ! overwrite vt by right singular vectors of a
                     ! cworkspace: need   2*m [tauq, taup] + n    [work]
                     ! cworkspace: prefer 2*m [tauq, taup] + n*nb [work]
@@ -66394,7 +65988,6 @@ module stdlib_linalg_lapack_c
            ! return optimal workspace in work(1)
            work(1) = stdlib_sroundup_lwork(maxwrk)
            return
-           ! end of stdlib_cgesdd
      end subroutine stdlib_cgesdd
 
      ! CGESV computes the solution to a complex system of linear equations
@@ -66442,7 +66035,6 @@ module stdlib_linalg_lapack_c
               call stdlib_cgetrs('no transpose', n, nrhs, a, lda, ipiv, b, ldb, info)
            end if
            return
-           ! end of stdlib_cgesv
      end subroutine stdlib_cgesv
 
      ! CGESVD computes the singular value decomposition (SVD) of a complex
@@ -68886,7 +68478,6 @@ module stdlib_linalg_lapack_c
            ! return optimal workspace in work(1)
            work(1) = maxwrk
            return
-           ! end of stdlib_cgesvd
      end subroutine stdlib_cgesvd
 
      ! CGESVDQ computes the singular value decomposition (SVD) of a complex
@@ -69231,10 +68822,11 @@ module stdlib_linalg_lapack_c
                     rwork(2) = -1
                     return
                  end if
-                 if (rwork(1) > big/sqrt(real(m))) then
+                 if (rwork(1) > big/sqrt(real(m, KIND=sp))) then
                      ! .. to prevent overflow in the qr factorization, scale the
                      ! matrix by 1/sqrt(m) if too large entry detected
-                     call stdlib_clascl('g', 0, 0, sqrt(real(m)), one, m, n, a, lda, ierr)
+                     call stdlib_clascl('g', 0, 0, sqrt(real(m, KIND=sp)), one, m, n, a, lda, ierr)
+                               
                      ascaled = .true.
                  end if
                  call stdlib_claswp(n, a, lda, 1, m - 1, iwork(n + 1), 1)
@@ -69250,10 +68842,11 @@ module stdlib_linalg_lapack_c
                     call stdlib_xerbla('stdlib_cgesvdq', -info)
                     return
                end if
-               if (rtmp > big/sqrt(real(m))) then
+               if (rtmp > big/sqrt(real(m, KIND=sp))) then
                    ! .. to prevent overflow in the qr factorization, scale the
                    ! matrix by 1/sqrt(m) if too large entry detected
-                   call stdlib_clascl('g', 0, 0, sqrt(real(m)), one, m, n, a, lda, ierr)
+                   call stdlib_clascl('g', 0, 0, sqrt(real(m, KIND=sp)), one, m, n, a, lda, ierr)
+                             
                    ascaled = .true.
                end if
            end if
@@ -69279,12 +68872,12 @@ module stdlib_linalg_lapack_c
               ! aggressive enforcement of lower numerical rank by introducing a
               ! backward error of the order of n*eps*||a||_f.
               nr = 1
-              rtmp = sqrt(real(n))*epsln
+              rtmp = sqrt(real(n, KIND=sp))*epsln
               do p = 2, n
                  if (abs(a(p, p)) < (rtmp*abs(a(1, 1)))) go to 3002
                     nr = nr + 1
               end do
-3002  continue
+3002          continue
            elseif (acclm) then
               ! .. similarly as above, only slightly more gentle (less aggressive).
               ! sudden drop on the diagonal of r is used as the criterion for being
@@ -69298,7 +68891,7 @@ module stdlib_linalg_lapack_c
                            to 3402
                  nr = nr + 1
               end do
-3402  continue
+3402          continue
            else
               ! .. rrqr not authorized to determine numerical rank except in the
               ! obvious case of zero pivots.
@@ -69309,7 +68902,7 @@ module stdlib_linalg_lapack_c
                  if (abs(a(p, p)) == zero) go to 3502
                  nr = nr + 1
               end do
-3502  continue
+3502          continue
               if (conda) then
                  ! estimate the scaled condition number of a. use the fact that it is
                  ! the same as the scaled condition number of r.
@@ -69745,14 +69338,14 @@ module stdlib_linalg_lapack_c
                if (s(q) > zero) go to 4002
                nr = nr - 1
            end do
-4002  continue
+4002       continue
            ! .. if numerical rank deficiency is detected, the truncated
            ! singular values are set to zero.
            if (nr < n) call stdlib_slaset('g', n - nr, 1, zero, zero, s(nr + 1), n)
            ! .. undo scaling; this may cause overflow in the largest singular
            ! values.
-           if (ascaled) call stdlib_slascl('g', 0, 0, one, sqrt(real(m)), nr, 1, s, n, ierr)
-                     
+           if (ascaled) call stdlib_slascl('g', 0, 0, one, sqrt(real(m, KIND=sp)), nr, 1, s, n, ierr &
+                     )
            if (conda) rwork(1) = sconda
            rwork(2) = p - nr
            ! .. p-nr is the number of singular values that are computed as
@@ -69760,7 +69353,6 @@ module stdlib_linalg_lapack_c
            ! full row rank triangular (trapezoidal) factor of a.
            numrank = nr
            return
-           ! end of stdlib_cgesvdq
      end subroutine stdlib_cgesvdq
 
      ! CGESVX uses the LU factorization to compute the solution to a complex
@@ -69962,7 +69554,6 @@ module stdlib_linalg_lapack_c
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            rwork(1) = rpvgrw
            return
-           ! end of stdlib_cgesvx
      end subroutine stdlib_cgesvx
 
      ! CGETSLS solves overdetermined or underdetermined complex linear systems
@@ -70058,14 +69649,14 @@ module stdlib_linalg_lapack_c
             if ((lwork < wsizem) .and. (.not. lquery)) then
                info = -10
             end if
-            work(1) = real(wsizeo)
+            work(1) = real(wsizeo, KIND=sp)
            end if
            if (info /= 0) then
              call stdlib_xerbla('stdlib_cgetsls', -info)
              return
            end if
            if (lquery) then
-             if (lwork == -2) work(1) = real(wsizem)
+             if (lwork == -2) work(1) = real(wsizem, KIND=sp)
              return
            end if
            if (lwork < wsizeo) then
@@ -70194,10 +69785,9 @@ module stdlib_linalg_lapack_c
            else if (ibscl == 2) then
              call stdlib_clascl('g', 0, 0, bignum, bnrm, scllen, nrhs, b, ldb, info)
            end if
-50      continue
-           work(1) = real(tszo + lwo)
+50         continue
+           work(1) = real(tszo + lwo, KIND=sp)
            return
-           ! end of stdlib_cgetsls
      end subroutine stdlib_cgetsls
 
      ! CGETSQRHRT computes a NB2-sized column blocked QR-factorization
@@ -70259,7 +69849,8 @@ module stdlib_linalg_lapack_c
               else
                  ! set block size for column blocks
                  nb1local = min(nb1, n)
-                 num_all_row_blocks = max(1, ceiling(real(m - n)/real(mb1 - n)))
+                 num_all_row_blocks = max(1, ceiling(real(m - n, KIND=sp)/real(mb1 - n, &
+                           KIND=sp)))
                  ! length and leading dimension of work array to place
                  ! t array in tsqr.
                  lwt = num_all_row_blocks*n*nb1local
@@ -70327,7 +69918,6 @@ module stdlib_linalg_lapack_c
            end do
            work(1) = cmplx(lworkopt, KIND=sp)
            return
-           ! end of stdlib_cgetsqrhrt
      end subroutine stdlib_cgetsqrhrt
 
      ! CGGES computes for a pair of N-by-N complex nonsymmetric matrices
@@ -70576,10 +70166,9 @@ module stdlib_linalg_lapack_c
                  lastsl = cursl
               end do
            end if
-30      continue
+30         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_cgges
      end subroutine stdlib_cgges
 
      ! CGGESX computes for a pair of N-by-N complex nonsymmetric matrices
@@ -70883,11 +70472,10 @@ module stdlib_linalg_lapack_c
                  lastsl = cursl
               end do
            end if
-40      continue
+40         continue
            work(1) = maxwrk
            iwork(1) = liwmin
            return
-           ! end of stdlib_cggesx
      end subroutine stdlib_cggesx
 
      ! CGGEV computes for a pair of N-by-N complex nonsymmetric matrices
@@ -70934,7 +70522,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: abs1
            ! .. statement function definitions ..
-           abs1(x) = abs(real(x)) + abs(aimag(x))
+           abs1(x) = abs(real(x, KIND=sp)) + abs(aimag(x))
            ! .. executable statements ..
            ! decode the input arguments
            if (stdlib_lsame(jobvl, 'n')) then
@@ -71153,12 +70741,11 @@ module stdlib_linalg_lapack_c
               end if
            end if
            ! undo scaling if necessary
-70      continue
+70   continue
            if (ilascl) call stdlib_clascl('g', 0, 0, anrmto, anrm, n, 1, alpha, n, ierr)
            if (ilbscl) call stdlib_clascl('g', 0, 0, bnrmto, bnrm, n, 1, beta, n, ierr)
            work(1) = lwkopt
            return
-           ! end of stdlib_cggev
      end subroutine stdlib_cggev
 
      ! CGGEVX computes for a pair of N-by-N complex nonsymmetric matrices
@@ -71215,7 +70802,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: abs1
            ! .. statement function definitions ..
-           abs1(x) = abs(real(x)) + abs(aimag(x))
+           abs1(x) = abs(real(x, KIND=sp)) + abs(aimag(x))
            ! .. executable statements ..
            ! decode the input arguments
            if (stdlib_lsame(jobvl, 'n')) then
@@ -71500,12 +71087,11 @@ module stdlib_linalg_lapack_c
               end do loop_80
            end if
            ! undo scaling if necessary
-90      continue
+90   continue
            if (ilascl) call stdlib_clascl('g', 0, 0, anrmto, anrm, n, 1, alpha, n, ierr)
            if (ilbscl) call stdlib_clascl('g', 0, 0, bnrmto, bnrm, n, 1, beta, n, ierr)
            work(1) = maxwrk
            return
-           ! end of stdlib_cggevx
      end subroutine stdlib_cggevx
 
      ! CHBEV computes all the eigenvalues and, optionally, eigenvectors of
@@ -71555,9 +71141,9 @@ module stdlib_linalg_lapack_c
            if (n == 0) return
            if (n == 1) then
               if (lower) then
-                 w(1) = real(ab(1, 1))
+                 w(1) = real(ab(1, 1), KIND=sp)
               else
-                 w(1) = real(ab(kd + 1, 1))
+                 w(1) = real(ab(kd + 1, 1), KIND=sp)
               end if
               if (wantz) z(1, 1) = one
               return
@@ -71608,7 +71194,6 @@ module stdlib_linalg_lapack_c
               call stdlib_sscal(imax, one/sigma, w, 1)
            end if
            return
-           ! end of stdlib_chbev
      end subroutine stdlib_chbev
 
      ! CHBEVD computes all the eigenvalues and, optionally, eigenvectors of
@@ -71697,7 +71282,7 @@ module stdlib_linalg_lapack_c
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
-              w(1) = real(ab(1, 1))
+              w(1) = real(ab(1, 1), KIND=sp)
               if (wantz) z(1, 1) = cone
               return
            end if
@@ -71756,7 +71341,6 @@ module stdlib_linalg_lapack_c
            rwork(1) = lrwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_chbevd
      end subroutine stdlib_chbevd
 
      ! CHBEVX computes selected eigenvalues and, optionally, eigenvectors
@@ -71839,12 +71423,12 @@ module stdlib_linalg_lapack_c
               else
                  ctmp1 = ab(kd + 1, 1)
               end if
-              tmp1 = real(ctmp1)
+              tmp1 = real(ctmp1, KIND=sp)
               if (valeig) then
                  if (.not. (vl < tmp1 .and. vu >= tmp1)) m = 0
               end if
               if (m == 1) then
-                 w(1) = real(ctmp1)
+                 w(1) = real(ctmp1, KIND=sp)
                  if (wantz) z(1, 1) = cone
               end if
               return
@@ -71948,7 +71532,7 @@ module stdlib_linalg_lapack_c
               end do
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-30      continue
+30   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -71985,7 +71569,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_chbevx
      end subroutine stdlib_chbevx
 
      ! CHBGV computes all the eigenvalues, and optionally, the eigenvectors
@@ -72064,7 +71647,6 @@ module stdlib_linalg_lapack_c
                         
            end if
            return
-           ! end of stdlib_chbgv
      end subroutine stdlib_chbgv
 
      ! CHBGVD computes all the eigenvalues, and optionally, the eigenvectors
@@ -72189,7 +71771,6 @@ module stdlib_linalg_lapack_c
            rwork(1) = lrwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_chbgvd
      end subroutine stdlib_chbgvd
 
      ! CHBGVX computes all the eigenvalues, and optionally, the eigenvectors
@@ -72347,7 +71928,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cgemv('n', n, n, cone, q, ldq, work, 1, czero, z(1, j), 1)
               end do
            end if
-30      continue
+30         continue
            ! if eigenvalues are not in order, then sort them, along with
            ! eigenvectors.
            if (wantz) then
@@ -72376,7 +71957,6 @@ module stdlib_linalg_lapack_c
               end do
            end if
            return
-           ! end of stdlib_chbgvx
      end subroutine stdlib_chbgvx
 
      ! CHEEVD computes all eigenvalues and, optionally, eigenvectors of a
@@ -72468,7 +72048,7 @@ module stdlib_linalg_lapack_c
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
-              w(1) = real(a(1, 1))
+              w(1) = real(a(1, 1), KIND=sp)
               if (wantz) a(1, 1) = cone
               return
            end if
@@ -72528,7 +72108,6 @@ module stdlib_linalg_lapack_c
            rwork(1) = lropt
            iwork(1) = liopt
            return
-           ! end of stdlib_cheevd
      end subroutine stdlib_cheevd
 
      ! CHEGVD computes all the eigenvalues, and optionally, the eigenvectors
@@ -72628,9 +72207,9 @@ module stdlib_linalg_lapack_c
            call stdlib_chegst(itype, uplo, n, a, lda, b, ldb, info)
            call stdlib_cheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, &
                       info)
-           lopt = max(real(lopt), real(work(1)))
-           lropt = max(real(lropt), real(rwork(1)))
-           liopt = max(real(liopt), real(iwork(1)))
+           lopt = max(real(lopt, KIND=sp), real(work(1), KIND=sp))
+           lropt = max(real(lropt, KIND=sp), real(rwork(1), KIND=sp))
+           liopt = max(real(liopt, KIND=sp), real(iwork(1), KIND=sp))
            if (wantz .and. info == 0) then
               ! backtransform eigenvectors to the original problem.
               if (itype == 1 .or. itype == 2) then
@@ -72659,7 +72238,6 @@ module stdlib_linalg_lapack_c
            rwork(1) = lropt
            iwork(1) = liopt
            return
-           ! end of stdlib_chegvd
      end subroutine stdlib_chegvd
 
      ! CHPEVD computes all the eigenvalues and, optionally, eigenvectors of
@@ -72744,7 +72322,7 @@ module stdlib_linalg_lapack_c
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
-              w(1) = real(ap(1))
+              w(1) = real(ap(1), KIND=sp)
               if (wantz) z(1, 1) = cone
               return
            end if
@@ -72799,7 +72377,6 @@ module stdlib_linalg_lapack_c
            rwork(1) = lrwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_chpevd
      end subroutine stdlib_chpevd
 
      ! CHPGVD computes all the eigenvalues and, optionally, the eigenvectors
@@ -72896,9 +72473,9 @@ module stdlib_linalg_lapack_c
            call stdlib_chpgst(itype, uplo, n, ap, bp, info)
            call stdlib_chpevd(jobz, uplo, n, ap, w, z, ldz, work, lwork, rwork, lrwork, iwork, &
                      liwork, info)
-           lwmin = max(real(lwmin), real(work(1)))
-           lrwmin = max(real(lrwmin), real(rwork(1)))
-           liwmin = max(real(liwmin), real(iwork(1)))
+           lwmin = max(real(lwmin, KIND=sp), real(work(1), KIND=sp))
+           lrwmin = max(real(lrwmin, KIND=sp), real(rwork(1), KIND=sp))
+           liwmin = max(real(liwmin, KIND=sp), real(iwork(1), KIND=sp))
            if (wantz) then
               ! backtransform eigenvectors to the original problem.
               neig = n
@@ -72931,7 +72508,6 @@ module stdlib_linalg_lapack_c
            rwork(1) = lrwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_chpgvd
      end subroutine stdlib_chpgvd
 
      ! CGEES computes for an N-by-N complex nonsymmetric matrix A, the
@@ -73004,7 +72580,7 @@ module stdlib_linalg_lapack_c
                  minwrk = 2*n
                  call stdlib_chseqr('s', jobvs, n, 1, n, a, lda, w, vs, ldvs, work, -1, ieval)
                            
-                 hswork = real(work(1))
+                 hswork = real(work(1), KIND=sp)
                  if (.not. wantvs) then
                     maxwrk = max(maxwrk, hswork)
                  else
@@ -73101,7 +72677,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = maxwrk
            return
-           ! end of stdlib_cgees
      end subroutine stdlib_cgees
 
      ! CGEESX computes for an N-by-N complex nonsymmetric matrix A, the
@@ -73191,7 +72766,7 @@ module stdlib_linalg_lapack_c
                  minwrk = 2*n
                  call stdlib_chseqr('s', jobvs, n, 1, n, a, lda, w, vs, ldvs, work, -1, ieval)
                            
-                 hswork = real(work(1))
+                 hswork = real(work(1), KIND=sp)
                  if (.not. wantvs) then
                     maxwrk = max(maxwrk, hswork)
                  else
@@ -73302,7 +72877,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = maxwrk
            return
-           ! end of stdlib_cgeesx
      end subroutine stdlib_cgeesx
 
      ! CGEEV computes for an N-by-N complex nonsymmetric matrix A, the
@@ -73511,12 +73085,13 @@ module stdlib_linalg_lapack_c
                  scl = one/stdlib_scnrm2(n, vl(1, i), 1)
                  call stdlib_csscal(n, scl, vl(1, i), 1)
                  do k = 1, n
-                    rwork(irwork + k - 1) = real(vl(k, i))**2 + aimag(vl(k, i))**2
+                    rwork(irwork + k - 1) = real(vl(k, i), KIND=sp)**2 + aimag(vl(k, i)) &
+                              **2
                  end do
                  k = stdlib_isamax(n, rwork(irwork), 1)
                  tmp = conjg(vl(k, i))/sqrt(rwork(irwork + k - 1))
                  call stdlib_cscal(n, tmp, vl(1, i), 1)
-                 vl(k, i) = cmplx(real(vl(k, i)), zero)
+                 vl(k, i) = cmplx(real(vl(k, i), KIND=sp), zero, KIND=sp)
               end do
            end if
            if (wantvr) then
@@ -73529,16 +73104,17 @@ module stdlib_linalg_lapack_c
                  scl = one/stdlib_scnrm2(n, vr(1, i), 1)
                  call stdlib_csscal(n, scl, vr(1, i), 1)
                  do k = 1, n
-                    rwork(irwork + k - 1) = real(vr(k, i))**2 + aimag(vr(k, i))**2
+                    rwork(irwork + k - 1) = real(vr(k, i), KIND=sp)**2 + aimag(vr(k, i)) &
+                              **2
                  end do
                  k = stdlib_isamax(n, rwork(irwork), 1)
                  tmp = conjg(vr(k, i))/sqrt(rwork(irwork + k - 1))
                  call stdlib_cscal(n, tmp, vr(1, i), 1)
-                 vr(k, i) = cmplx(real(vr(k, i)), zero)
+                 vr(k, i) = cmplx(real(vr(k, i), KIND=sp), zero, KIND=sp)
               end do
            end if
            ! undo scaling if necessary
-50      continue
+50   continue
            if (scalea) then
               call stdlib_clascl('g', 0, 0, cscale, anrm, n - info, 1, w(info + 1), max(n - info, 1) &
                         , ierr)
@@ -73548,7 +73124,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = maxwrk
            return
-           ! end of stdlib_cgeev
      end subroutine stdlib_cgeev
 
      ! CGEEVX computes for an N-by-N complex nonsymmetric matrix A, the
@@ -73811,12 +73386,12 @@ module stdlib_linalg_lapack_c
                  scl = one/stdlib_scnrm2(n, vl(1, i), 1)
                  call stdlib_csscal(n, scl, vl(1, i), 1)
                  do k = 1, n
-                    rwork(k) = real(vl(k, i))**2 + aimag(vl(k, i))**2
+                    rwork(k) = real(vl(k, i), KIND=sp)**2 + aimag(vl(k, i))**2
                  end do
                  k = stdlib_isamax(n, rwork, 1)
                  tmp = conjg(vl(k, i))/sqrt(rwork(k))
                  call stdlib_cscal(n, tmp, vl(1, i), 1)
-                 vl(k, i) = cmplx(real(vl(k, i)), zero)
+                 vl(k, i) = cmplx(real(vl(k, i), KIND=sp), zero, KIND=sp)
               end do
            end if
            if (wantvr) then
@@ -73827,16 +73402,16 @@ module stdlib_linalg_lapack_c
                  scl = one/stdlib_scnrm2(n, vr(1, i), 1)
                  call stdlib_csscal(n, scl, vr(1, i), 1)
                  do k = 1, n
-                    rwork(k) = real(vr(k, i))**2 + aimag(vr(k, i))**2
+                    rwork(k) = real(vr(k, i), KIND=sp)**2 + aimag(vr(k, i))**2
                  end do
                  k = stdlib_isamax(n, rwork, 1)
                  tmp = conjg(vr(k, i))/sqrt(rwork(k))
                  call stdlib_cscal(n, tmp, vr(1, i), 1)
-                 vr(k, i) = cmplx(real(vr(k, i)), zero)
+                 vr(k, i) = cmplx(real(vr(k, i), KIND=sp), zero, KIND=sp)
               end do
            end if
            ! undo scaling if necessary
-50      continue
+50   continue
            if (scalea) then
               call stdlib_clascl('g', 0, 0, cscale, anrm, n - info, 1, w(info + 1), max(n - info, 1) &
                         , ierr)
@@ -73849,7 +73424,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = maxwrk
            return
-           ! end of stdlib_cgeevx
      end subroutine stdlib_cgeevx
 
      ! CGEJSV computes the singular value decomposition (SVD) of a complex M-by-N
@@ -73966,11 +73540,11 @@ module stdlib_linalg_lapack_c
                if (lquery) then
                    call stdlib_cgeqp3(m, n, a, lda, iwork, cdummy, cdummy, -1, rdummy, ierr)
                              
-                   lwrk_cgeqp3 = real(cdummy(1))
+                   lwrk_cgeqp3 = real(cdummy(1), KIND=sp)
                    call stdlib_cgeqrf(n, n, a, lda, cdummy, cdummy, -1, ierr)
-                   lwrk_cgeqrf = real(cdummy(1))
+                   lwrk_cgeqrf = real(cdummy(1), KIND=sp)
                    call stdlib_cgelqf(n, n, a, lda, cdummy, cdummy, -1, ierr)
-                   lwrk_cgelqf = real(cdummy(1))
+                   lwrk_cgelqf = real(cdummy(1), KIND=sp)
                end if
                minwrk = 2
                optwrk = 2
@@ -73986,7 +73560,7 @@ module stdlib_linalg_lapack_c
                    if (lquery) then
                        call stdlib_cgesvj('l', 'n', 'n', n, n, a, lda, sva, n, v, ldv, cdummy, -1, &
                                   rdummy, -1, ierr)
-                       lwrk_cgesvj = real(cdummy(1))
+                       lwrk_cgesvj = real(cdummy(1), KIND=sp)
                        if (errest) then
                            optwrk = max(n + lwrk_cgeqp3, n**2 + lwcon, n + lwrk_cgeqrf, lwrk_cgesvj)
                                      
@@ -74021,10 +73595,10 @@ module stdlib_linalg_lapack_c
                   if (lquery) then
                       call stdlib_cgesvj('l', 'u', 'n', n, n, u, ldu, sva, n, a, lda, cdummy, -1, &
                                 rdummy, -1, ierr)
-                      lwrk_cgesvj = real(cdummy(1))
+                      lwrk_cgesvj = real(cdummy(1), KIND=sp)
                       call stdlib_cunmlq('l', 'c', n, n, n, a, lda, cdummy, v, ldv, cdummy, -1, &
                                 ierr)
-                      lwrk_cunmlq = real(cdummy(1))
+                      lwrk_cunmlq = real(cdummy(1), KIND=sp)
                       if (errest) then
                       optwrk = max(n + lwrk_cgeqp3, lwcon, lwrk_cgesvj, n + lwrk_cgelqf, 2*n + &
                                 lwrk_cgeqrf, n + lwrk_cgesvj, n + lwrk_cunmlq)
@@ -74058,10 +73632,10 @@ module stdlib_linalg_lapack_c
                   if (lquery) then
                       call stdlib_cgesvj('l', 'u', 'n', n, n, u, ldu, sva, n, a, lda, cdummy, -1, &
                                 rdummy, -1, ierr)
-                      lwrk_cgesvj = real(cdummy(1))
+                      lwrk_cgesvj = real(cdummy(1), KIND=sp)
                       call stdlib_cunmqr('l', 'n', m, n, n, a, lda, cdummy, u, ldu, cdummy, -1, &
                                 ierr)
-                      lwrk_cunmqrm = real(cdummy(1))
+                      lwrk_cunmqrm = real(cdummy(1), KIND=sp)
                       if (errest) then
                       optwrk = n + max(lwrk_cgeqp3, lwcon, n + lwrk_cgeqrf, lwrk_cgesvj, &
                                 lwrk_cunmqrm)
@@ -74114,26 +73688,26 @@ module stdlib_linalg_lapack_c
                   if (lquery) then
                       call stdlib_cunmqr('l', 'n', m, n, n, a, lda, cdummy, u, ldu, cdummy, -1, &
                                 ierr)
-                      lwrk_cunmqrm = real(cdummy(1))
+                      lwrk_cunmqrm = real(cdummy(1), KIND=sp)
                       call stdlib_cunmqr('l', 'n', n, n, n, a, lda, cdummy, u, ldu, cdummy, -1, &
                                 ierr)
-                      lwrk_cunmqr = real(cdummy(1))
+                      lwrk_cunmqr = real(cdummy(1), KIND=sp)
                       if (.not. jracc) then
                           call stdlib_cgeqp3(n, n, a, lda, iwork, cdummy, cdummy, -1, rdummy, ierr)
                                     
-                          lwrk_cgeqp3n = real(cdummy(1))
+                          lwrk_cgeqp3n = real(cdummy(1), KIND=sp)
                           call stdlib_cgesvj('l', 'u', 'n', n, n, u, ldu, sva, n, v, ldv, cdummy, &
                                     -1, rdummy, -1, ierr)
-                          lwrk_cgesvj = real(cdummy(1))
+                          lwrk_cgesvj = real(cdummy(1), KIND=sp)
                           call stdlib_cgesvj('u', 'u', 'n', n, n, u, ldu, sva, n, v, ldv, cdummy, &
                                     -1, rdummy, -1, ierr)
-                          lwrk_cgesvju = real(cdummy(1))
+                          lwrk_cgesvju = real(cdummy(1), KIND=sp)
                           call stdlib_cgesvj('l', 'u', 'v', n, n, u, ldu, sva, n, v, ldv, cdummy, &
                                     -1, rdummy, -1, ierr)
-                          lwrk_cgesvjv = real(cdummy(1))
+                          lwrk_cgesvjv = real(cdummy(1), KIND=sp)
                           call stdlib_cunmlq('l', 'c', n, n, n, a, lda, cdummy, v, ldv, cdummy, - &
                                     1, ierr)
-                          lwrk_cunmlq = real(cdummy(1))
+                          lwrk_cunmlq = real(cdummy(1), KIND=sp)
                           if (errest) then
                             optwrk = max(n + lwrk_cgeqp3, n + lwcon, 2*n + n**2 + lwcon, 2*n + lwrk_cgeqrf, &
                             2*n + lwrk_cgeqp3n, 2*n + n**2 + n + lwrk_cgelqf, 2*n + n**2 + n + n**2 + lwcon, 2*n + &
@@ -74148,13 +73722,13 @@ module stdlib_linalg_lapack_c
                       else
                           call stdlib_cgesvj('l', 'u', 'v', n, n, u, ldu, sva, n, v, ldv, cdummy, &
                                     -1, rdummy, -1, ierr)
-                          lwrk_cgesvjv = real(cdummy(1))
+                          lwrk_cgesvjv = real(cdummy(1), KIND=sp)
                           call stdlib_cunmqr('l', 'n', n, n, n, cdummy, n, cdummy, v, ldv, cdummy, &
                                      -1, ierr)
-                          lwrk_cunmqr = real(cdummy(1))
+                          lwrk_cunmqr = real(cdummy(1), KIND=sp)
                           call stdlib_cunmqr('l', 'n', m, n, n, a, lda, cdummy, u, ldu, cdummy, - &
                                     1, ierr)
-                          lwrk_cunmqrm = real(cdummy(1))
+                          lwrk_cunmqrm = real(cdummy(1), KIND=sp)
                           if (errest) then
                              optwrk = max(n + lwrk_cgeqp3, n + lwcon, 2*n + lwrk_cgeqrf, 2*n + n**2, 2*n + &
                                        n**2 + lwrk_cgesvjv, 2*n + n**2 + n + lwrk_cunmqr, n + lwrk_cunmqrm)
@@ -74209,7 +73783,7 @@ module stdlib_linalg_lapack_c
       ! (!)  if necessary, scale sva() to protect the largest norm from
            ! overflow. it is possible that this scaling pushes the smallest
            ! column norm left from the underflow threshold (extreme case).
-           scalem = one/sqrt(real(m)*real(n))
+           scalem = one/sqrt(real(m, KIND=sp)*real(n, KIND=sp))
            noscal = .true.
            goscal = .true.
            do p = 1, n
@@ -74364,7 +73938,7 @@ module stdlib_linalg_lapack_c
                  big1 = ((sva(p)/xsc)**2)*temp1
                  if (big1 /= zero) entra = entra + big1*log(big1)
               end do
-              entra = -entra/log(real(n))
+              entra = -entra/log(real(n, KIND=sp))
               ! now, sva().^2/trace(a^* * a) is a point in the probability simplex.
               ! it is derived from the diagonal of  a^* * a.  do the same with the
               ! diagonal of a * a^*, compute the entropy of the corresponding
@@ -74375,7 +73949,7 @@ module stdlib_linalg_lapack_c
                  big1 = ((rwork(p)/xsc)**2)*temp1
                  if (big1 /= zero) entrat = entrat + big1*log(big1)
               end do
-              entrat = -entrat/log(real(m))
+              entrat = -entrat/log(real(m, KIND=sp))
               ! analyze the entropies and decide a or a^*. smaller entropy
               ! usually means better input for the algorithm.
               transp = (entrat < entra)
@@ -74423,11 +73997,11 @@ module stdlib_linalg_lapack_c
            ! from sfmin to big, then stdlib_cgesvj will compute them. so, in that case,
            ! one should use stdlib_cgesvj instead of stdlib_cgejsv.
            big1 = sqrt(big)
-           temp1 = sqrt(big/real(n))
+           temp1 = sqrt(big/real(n, KIND=sp))
            ! >> for future updates: allow bigger range, i.e. the largest column
            ! will be allowed up to big/n and stdlib_cgesvj will do the rest. however, for
            ! this all other (lapack) components must allow such a range.
-           ! temp1  = big/real(n)
+           ! temp1  = big/real(n,KIND=sp)
            ! temp1  = big * epsln  this should 'almost' work with current lapack components
            call stdlib_slascl('g', 0, 0, aapp, temp1, n, 1, sva, n, ierr)
            if (aaqq > (aapp*sfmin)) then
@@ -74522,7 +74096,7 @@ module stdlib_linalg_lapack_c
               ! sigma_i < n*epsln*||a|| are flushed to zero. this is an
               ! aggressive enforcement of lower numerical rank by introducing a
               ! backward error of the order of n*epsln*||a||.
-              temp1 = sqrt(real(n))*epsln
+              temp1 = sqrt(real(n, KIND=sp))*epsln
               do p = 2, n
                  if (abs(a(p, p)) >= (temp1*abs(a(1, 1)))) then
                     nr = nr + 1
@@ -74530,7 +74104,7 @@ module stdlib_linalg_lapack_c
                     go to 3002
                  end if
               end do
-3002  continue
+3002          continue
            else if (l2rank) then
               ! .. similarly as above, only slightly more gentle (less aggressive).
               ! sudden drop on the diagonal of r1 is used as the criterion for
@@ -74541,7 +74115,7 @@ module stdlib_linalg_lapack_c
                            l2kill .and. (abs(a(p, p)) < temp1))) go to 3402
                  nr = nr + 1
               end do
-3402  continue
+3402          continue
            else
               ! the goal is high relative accuracy. however, if the matrix
               ! has high scaled condition number the relative accuracy is in
@@ -74556,7 +74130,7 @@ module stdlib_linalg_lapack_c
                            3302
                  nr = nr + 1
               end do
-3302  continue
+3302          continue
            end if
            almort = .false.
            if (nr == n) then
@@ -74565,7 +74139,7 @@ module stdlib_linalg_lapack_c
                  temp1 = abs(a(p, p))/sva(iwork(p))
                  maxprj = min(maxprj, temp1)
               end do
-              if (maxprj**2 >= one - real(n)*epsln) almort = .true.
+              if (maxprj**2 >= one - real(n, KIND=sp)*epsln) almort = .true.
            end if
            sconda = -one
            condr1 = -one
@@ -74647,9 +74221,9 @@ module stdlib_linalg_lapack_c
               if (.not. almort) then
                  if (l2pert) then
                     ! xsc = sqrt(small)
-                    xsc = epsln/real(n)
+                    xsc = epsln/real(n, KIND=sp)
                     do q = 1, nr
-                       ctemp = cmplx(xsc*abs(a(q, q)), zero)
+                       ctemp = cmplx(xsc*abs(a(q, q)), zero, KIND=sp)
                        do p = 1, n
                           if (((p > q) .and. (abs(a(p, q)) <= temp1)) .or. (p < q)) a(p, q) = &
                                     ctemp
@@ -74672,9 +74246,9 @@ module stdlib_linalg_lapack_c
                  ! to drown denormals
                  if (l2pert) then
                     ! xsc = sqrt(small)
-                    xsc = epsln/real(n)
+                    xsc = epsln/real(n, KIND=sp)
                     do q = 1, nr
-                       ctemp = cmplx(xsc*abs(a(q, q)), zero)
+                       ctemp = cmplx(xsc*abs(a(q, q)), zero, KIND=sp)
                        do p = 1, nr
                           if (((p > q) .and. (abs(a(p, q)) <= temp1)) .or. (p < q)) a(p, q) = &
                                     ctemp
@@ -74734,7 +74308,7 @@ module stdlib_linalg_lapack_c
                ! .. permute the rows of v
                ! do 8991 p = 1, n
                   ! call stdlib_ccopy( n, v(p,1), ldv, a(iwork(p),1), lda )
-       ! 8991    continue
+8991 continue
                ! call stdlib_clacpy( 'all', n, n, a, lda, v, ldv )
               call stdlib_clapmr(.false., n, n, v, ldv, iwork)
                if (transp) then
@@ -74812,7 +74386,7 @@ module stdlib_linalg_lapack_c
                  if (l2pert) then
                     xsc = sqrt(small)
                     do q = 1, nr
-                       ctemp = cmplx(xsc*abs(v(q, q)), zero)
+                       ctemp = cmplx(xsc*abs(v(q, q)), zero, KIND=sp)
                        do p = 1, n
                           if ((p > q) .and. (abs(v(p, q)) <= temp1) .or. (p < q)) v(p, q) = &
                                     ctemp
@@ -74836,9 +74410,9 @@ module stdlib_linalg_lapack_c
                  condr1 = one/sqrt(temp1)
                  ! .. here need a second opinion on the condition number
                  ! .. then assume worst case scenario
-                 ! r1 is ok for inverse <=> condr1 < real(n)
-                 ! more conservative    <=> condr1 < sqrt(real(n))
-                 cond_ok = sqrt(sqrt(real(nr)))
+                 ! r1 is ok for inverse <=> condr1 < real(n,KIND=sp)
+                 ! more conservative    <=> condr1 < sqrt(real(n,KIND=sp))
+                 cond_ok = sqrt(sqrt(real(nr, KIND=sp)))
       ! [tp]       cond_ok is a tuning parameter.
                  if (condr1 < cond_ok) then
                     ! .. the second qrf without pivoting. note: in an optimized
@@ -74851,7 +74425,7 @@ module stdlib_linalg_lapack_c
                        xsc = sqrt(small)/epsln
                        do p = 2, nr
                           do q = 1, p - 1
-                             ctemp = cmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero)
+                             ctemp = cmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero, KIND=sp)
                              if (abs(v(q, p)) <= temp1) v(q, p) = ctemp
            ! $                     v(q,p) = temp1 * ( v(q,p) / abs(v(q,p)) )
                           end do
@@ -74886,7 +74460,7 @@ module stdlib_linalg_lapack_c
                        xsc = sqrt(small)
                        do p = 2, nr
                           do q = 1, p - 1
-                             ctemp = cmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero)
+                             ctemp = cmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero, KIND=sp)
                              if (abs(v(q, p)) <= temp1) v(q, p) = ctemp
            ! $                     v(q,p) = temp1 * ( v(q,p) / abs(v(q,p)) )
                           end do
@@ -74897,7 +74471,7 @@ module stdlib_linalg_lapack_c
                        xsc = sqrt(small)
                        do p = 2, nr
                           do q = 1, p - 1
-                             ctemp = cmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero)
+                             ctemp = cmplx(xsc*min(abs(v(p, p)), abs(v(q, q))), zero, KIND=sp)
                               ! v(p,q) = - temp1*( v(q,p) / abs(v(q,p)) )
                              v(p, q) = -ctemp
                           end do
@@ -75040,7 +74614,7 @@ module stdlib_linalg_lapack_c
                  ! permute the rows of v using the (column) permutation from the
                  ! first qrf. also, scale the columns to make them unit in
                  ! euclidean norm. this applies to all cases.
-                 temp1 = sqrt(real(n))*epsln
+                 temp1 = sqrt(real(n, KIND=sp))*epsln
                  do q = 1, n
                     do p = 1, n
                        cwork(2*n + n*nr + nr + iwork(p)) = v(p, q)
@@ -75066,7 +74640,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_cunmqr('l', 'n', m, n1, n, a, lda, cwork, u, ldu, cwork(n + 1), lwork - &
                            n, ierr)
                  ! the columns of u are normalized. the cost is o(m*n) flops.
-                 temp1 = sqrt(real(m))*epsln
+                 temp1 = sqrt(real(m, KIND=sp))*epsln
                  do p = 1, nr
                     xsc = one/stdlib_scnrm2(m, u(1, p), 1)
                     if ((xsc < (one - temp1)) .or. (xsc > (one + temp1))) call stdlib_csscal(m, xsc, &
@@ -75104,7 +74678,7 @@ module stdlib_linalg_lapack_c
                  do p = 1, n
                     call stdlib_ccopy(n, cwork(n + p), n, v(iwork(p), 1), ldv)
                  end do
-                 temp1 = sqrt(real(n))*epsln
+                 temp1 = sqrt(real(n, KIND=sp))*epsln
                  do p = 1, n
                     xsc = one/stdlib_scnrm2(n, v(1, p), 1)
                     if ((xsc < (one - temp1)) .or. (xsc > (one + temp1))) call stdlib_csscal(n, xsc, &
@@ -75120,7 +74694,7 @@ module stdlib_linalg_lapack_c
                  end if
                  call stdlib_cunmqr('l', 'n', m, n1, n, a, lda, cwork, u, ldu, cwork(n + 1), lwork - &
                            n, ierr)
-                 temp1 = sqrt(real(m))*epsln
+                 temp1 = sqrt(real(m, KIND=sp))*epsln
                  do p = 1, n1
                     xsc = one/stdlib_scnrm2(m, u(1, p), 1)
                     if ((xsc < (one - temp1)) .or. (xsc > (one + temp1))) call stdlib_csscal(m, xsc, &
@@ -75147,7 +74721,7 @@ module stdlib_linalg_lapack_c
               if (l2pert) then
                  xsc = sqrt(small/epsln)
                  do q = 1, nr
-                    ctemp = cmplx(xsc*abs(v(q, q)), zero)
+                    ctemp = cmplx(xsc*abs(v(q, q)), zero, KIND=sp)
                     do p = 1, n
                        if ((p > q) .and. (abs(v(p, q)) <= temp1) .or. (p < q)) v(p, q) = &
                                  ctemp
@@ -75169,7 +74743,7 @@ module stdlib_linalg_lapack_c
                  xsc = sqrt(small/epsln)
                  do q = 2, nr
                     do p = 1, q - 1
-                       ctemp = cmplx(xsc*min(abs(u(p, p)), abs(u(q, q))), zero)
+                       ctemp = cmplx(xsc*min(abs(u(p, p)), abs(u(q, q))), zero, KIND=sp)
                         ! u(p,q) = - temp1 * ( u(q,p) / abs(u(q,p)) )
                        u(p, q) = -ctemp
                     end do
@@ -75191,7 +74765,7 @@ module stdlib_linalg_lapack_c
                  ! permute the rows of v using the (column) permutation from the
                  ! first qrf. also, scale the columns to make them unit in
                  ! euclidean norm. this applies to all cases.
-                 temp1 = sqrt(real(n))*epsln
+                 temp1 = sqrt(real(n, KIND=sp))*epsln
                  do q = 1, n
                     do p = 1, n
                        cwork(2*n + n*nr + nr + iwork(p)) = v(p, q)
@@ -75255,7 +74829,6 @@ module stdlib_linalg_lapack_c
                iwork(4) = -1
            end if
            return
-           ! .. end of stdlib_cgejsv
      end subroutine stdlib_cgejsv
 
      ! CGESVJ computes the singular value decomposition (SVD) of a complex
@@ -75351,9 +74924,9 @@ module stdlib_linalg_lapack_c
            else
               ! ... default
               if (lsvec .or. rsvec .or. applv) then
-                 ctol = sqrt(real(m))
+                 ctol = sqrt(real(m, KIND=sp))
               else
-                 ctol = real(m)
+                 ctol = real(m, KIND=sp)
               end if
            end if
            ! ... and the machine dependent parameters are
@@ -75366,11 +74939,11 @@ module stdlib_linalg_lapack_c
             ! big = stdlib_slamch( 'overflow' )
            big = one/sfmin
            rootbig = one/rootsfmin
-           ! large = big / sqrt( real( m*n ) )
+           ! large = big / sqrt( real( m*n,KIND=sp) )
            bigtheta = one/rooteps
            tol = ctol*epsln
            roottol = sqrt(tol)
-           if (real(m)*epsln >= one) then
+           if (real(m, KIND=sp)*epsln >= one) then
               info = -4
               call stdlib_xerbla('stdlib_cgesvj', -info)
               return
@@ -75391,7 +74964,7 @@ module stdlib_linalg_lapack_c
            ! goal is to make sure that no column norm overflows, and that
            ! sqrt(n)*max_i sva(i) does not overflow. if infinite entries
            ! in a are detected, the procedure returns with info=-6.
-           skl = one/sqrt(real(m)*real(n))
+           skl = one/sqrt(real(m, KIND=sp)*real(n, KIND=sp))
            noscale = .true.
            goscale = .true.
            if (lower) then
@@ -75510,14 +75083,14 @@ module stdlib_linalg_lapack_c
            ! protect small singular values from underflow, and try to
            ! avoid underflows/overflows in computing jacobi rotations.
            sn = sqrt(sfmin/epsln)
-           temp1 = sqrt(big/real(n))
+           temp1 = sqrt(big/real(n, KIND=sp))
            if ((aapp <= sn) .or. (aaqq >= temp1) .or. ((sn <= aaqq) .and. (aapp <= temp1))) &
                      then
               temp1 = min(big, temp1/aapp)
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else if ((aaqq <= sn) .and. (aapp <= temp1)) then
-              temp1 = min(sn/aaqq, big/(aapp*sqrt(real(n))))
+              temp1 = min(sn/aaqq, big/(aapp*sqrt(real(n, KIND=sp))))
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else if ((aaqq >= sn) .and. (aapp >= temp1)) then
@@ -75525,7 +75098,7 @@ module stdlib_linalg_lapack_c
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else if ((aaqq <= sn) .and. (aapp >= temp1)) then
-              temp1 = min(sn/aaqq, big/(sqrt(real(n))*aapp))
+              temp1 = min(sn/aaqq, big/(sqrt(real(n, KIND=sp))*aapp))
                ! aaqq  = aaqq*temp1
                ! aapp  = aapp*temp1
            else
@@ -75807,7 +75380,7 @@ module stdlib_linalg_lapack_c
                              end if
                           end do loop_2002
            ! end q-loop
-2103  continue
+2103 continue
            ! bailed out of q-loop
                           sva(p) = aapp
                        else
@@ -75996,7 +75569,7 @@ module stdlib_linalg_lapack_c
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203  continue
+2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
@@ -76006,7 +75579,7 @@ module stdlib_linalg_lapack_c
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011  continue
+2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
                     sva(p) = abs(sva(p))
@@ -76025,8 +75598,8 @@ module stdlib_linalg_lapack_c
               end if
            ! additional steering devices
               if ((i < swband) .and. ((mxaapq <= roottol) .or. (iswrot <= n))) swband = i
-              if ((i > swband + 1) .and. (mxaapq < sqrt(real(n))*tol) .and. (real(n) &
-                        *mxaapq*mxsinj < tol)) then
+              if ((i > swband + 1) .and. (mxaapq < sqrt(real(n, KIND=sp))*tol) .and. (real(n, &
+                        KIND=sp)*mxaapq*mxsinj < tol)) then
                  go to 1994
               end if
               if (notrot >= emptsw) go to 1994
@@ -76035,12 +75608,12 @@ module stdlib_linalg_lapack_c
        ! #:( reaching this point means that the procedure has not converged.
            info = nsweep - 1
            go to 1995
-1994  continue
+1994       continue
        ! #:) reaching this point means numerical convergence after the i-th
            ! sweep.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995  continue
+1995 continue
            ! sort the singular values and find how many are above
            ! the underflow threshold.
            n2 = 0
@@ -76089,13 +75662,13 @@ module stdlib_linalg_lapack_c
            ! the singular values of a are skl*sva(1:n). if skl/=one
            ! then some of the singular values may overflow or underflow and
            ! the spectrum is given in this factored representation.
-           rwork(2) = real(n4)
+           rwork(2) = real(n4, KIND=sp)
            ! n4 is the number of computed nonzero singular values of a.
-           rwork(3) = real(n2)
+           rwork(3) = real(n2, KIND=sp)
            ! n2 is the number of singular values of a greater than sfmin.
            ! if n2<n, sva(n2:n) contains zeros and/or denormalized numbers
            ! that may carry some information.
-           rwork(4) = real(i)
+           rwork(4) = real(i, KIND=sp)
            ! i is the index of the last sweep before declaring convergence.
            rwork(5) = mxaapq
            ! mxaapq is the largest absolute value of scaled pivots in the
@@ -76104,7 +75677,6 @@ module stdlib_linalg_lapack_c
            ! mxsinj is the largest absolute value of the sines of jacobi angles
            ! in the last sweep
            return
-           ! .. end of stdlib_cgesvj
      end subroutine stdlib_cgesvj
 
      ! CGGES3 computes for a pair of N-by-N complex nonsymmetric matrices
@@ -76203,23 +75775,23 @@ module stdlib_linalg_lapack_c
            ! compute workspace
            if (info == 0) then
               call stdlib_cgeqrf(n, n, b, ldb, work, work, -1, ierr)
-              lwkopt = max(1, n + int(work(1)))
+              lwkopt = max(1, n + int(work(1), KIND=ilp))
               call stdlib_cunmqr('l', 'c', n, n, n, b, ldb, work, a, lda, work, -1, ierr)
-              lwkopt = max(lwkopt, n + int(work(1)))
+              lwkopt = max(lwkopt, n + int(work(1), KIND=ilp))
               if (ilvsl) then
                  call stdlib_cungqr(n, n, n, vsl, ldvsl, work, work, -1, ierr)
-                 lwkopt = max(lwkopt, n + int(work(1)))
+                 lwkopt = max(lwkopt, n + int(work(1), KIND=ilp))
               end if
               call stdlib_cgghd3(jobvsl, jobvsr, n, 1, n, a, lda, b, ldb, vsl, ldvsl, vsr, ldvsr, &
                         work, -1, ierr)
-              lwkopt = max(lwkopt, n + int(work(1)))
+              lwkopt = max(lwkopt, n + int(work(1), KIND=ilp))
               call stdlib_claqz0('s', jobvsl, jobvsr, n, 1, n, a, lda, b, ldb, alpha, beta, vsl, &
                         ldvsl, vsr, ldvsr, work, -1, rwork, 0, ierr)
-              lwkopt = max(lwkopt, int(work(1)))
+              lwkopt = max(lwkopt, int(work(1), KIND=ilp))
               if (wantst) then
                  call stdlib_ctgsen(0, ilvsl, ilvsr, bwork, n, a, lda, b, ldb, alpha, beta, vsl, &
                            ldvsl, vsr, ldvsr, sdim, pvsl, pvsr, dif, work, -1, idum, 1, ierr)
-                 lwkopt = max(lwkopt, int(work(1)))
+                 lwkopt = max(lwkopt, int(work(1), KIND=ilp))
               end if
               work(1) = cmplx(lwkopt, KIND=sp)
            end if
@@ -76350,10 +75922,9 @@ module stdlib_linalg_lapack_c
                  lastsl = cursl
               end do
            end if
-30      continue
+30         continue
            work(1) = cmplx(lwkopt, KIND=sp)
            return
-           ! end of stdlib_cgges3
      end subroutine stdlib_cgges3
 
      ! CGGEV3 computes for a pair of N-by-N complex nonsymmetric matrices
@@ -76400,7 +75971,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: abs1
            ! .. statement function definitions ..
-           abs1(x) = abs(real(x)) + abs(aimag(x))
+           abs1(x) = abs(real(x, KIND=sp)) + abs(aimag(x))
            ! .. executable statements ..
            ! decode the input arguments
            if (stdlib_lsame(jobvl, 'n')) then
@@ -76619,12 +76190,11 @@ module stdlib_linalg_lapack_c
               end if
            end if
            ! undo scaling if necessary
-70      continue
+70   continue
            if (ilascl) call stdlib_clascl('g', 0, 0, anrmto, anrm, n, 1, alpha, n, ierr)
            if (ilbscl) call stdlib_clascl('g', 0, 0, bnrmto, bnrm, n, 1, beta, n, ierr)
            work(1) = cmplx(lwkopt, KIND=sp)
            return
-           ! end of stdlib_cggev3
      end subroutine stdlib_cggev3
 
      ! CGSVJ0 is called from CGESVJ as a pre-processor and that is its main
@@ -76915,7 +76485,7 @@ module stdlib_linalg_lapack_c
                              end if
                           end do loop_2002
            ! end q-loop
-2103  continue
+2103 continue
            ! bailed out of q-loop
                           sva(p) = aapp
                        else
@@ -77103,7 +76673,7 @@ module stdlib_linalg_lapack_c
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203  continue
+2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
@@ -77113,7 +76683,7 @@ module stdlib_linalg_lapack_c
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011  continue
+2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
                     sva(p) = abs(sva(p))
@@ -77132,8 +76702,8 @@ module stdlib_linalg_lapack_c
               end if
            ! additional steering devices
               if ((i < swband) .and. ((mxaapq <= roottol) .or. (iswrot <= n))) swband = i
-              if ((i > swband + 1) .and. (mxaapq < sqrt(real(n))*tol) .and. (real(n) &
-                        *mxaapq*mxsinj < tol)) then
+              if ((i > swband + 1) .and. (mxaapq < sqrt(real(n, KIND=sp))*tol) .and. (real(n, &
+                        KIND=sp)*mxaapq*mxsinj < tol)) then
                  go to 1994
               end if
               if (notrot >= emptsw) go to 1994
@@ -77142,12 +76712,12 @@ module stdlib_linalg_lapack_c
        ! #:( reaching this point means that the procedure has not converged.
            info = nsweep - 1
            go to 1995
-1994  continue
+1994       continue
        ! #:) reaching this point means numerical convergence after the i-th
            ! sweep.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995  continue
+1995 continue
            ! sort the vector sva() of column norms.
            do p = 1, n - 1
               q = stdlib_isamax(n - p + 1, sva(p), 1) + p - 1
@@ -77163,7 +76733,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! .. end of stdlib_cgsvj0
      end subroutine stdlib_cgsvj0
 
      ! CGSVJ1 is called from CGESVJ as a pre-processor and that is its main
@@ -77258,7 +76827,7 @@ module stdlib_linalg_lapack_c
            small = sfmin/eps
            big = one/sfmin
            rootbig = one/rootsfmin
-           ! large = big / sqrt( real( m*n ) )
+           ! large = big / sqrt( real( m*n,KIND=sp) )
            bigtheta = one/rooteps
            roottol = sqrt(tol)
            ! .. initialize the right singular vector matrix ..
@@ -77475,7 +77044,7 @@ module stdlib_linalg_lapack_c
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203  continue
+2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
@@ -77485,7 +77054,7 @@ module stdlib_linalg_lapack_c
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011  continue
+2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
                     sva(p) = abs(sva(p))
@@ -77504,8 +77073,8 @@ module stdlib_linalg_lapack_c
               end if
            ! additional steering devices
               if ((i < swband) .and. ((mxaapq <= roottol) .or. (iswrot <= n))) swband = i
-              if ((i > swband + 1) .and. (mxaapq < sqrt(real(n))*tol) .and. (real(n) &
-                        *mxaapq*mxsinj < tol)) then
+              if ((i > swband + 1) .and. (mxaapq < sqrt(real(n, KIND=sp))*tol) .and. (real(n, &
+                        KIND=sp)*mxaapq*mxsinj < tol)) then
                  go to 1994
               end if
               if (notrot >= emptsw) go to 1994
@@ -77514,12 +77083,12 @@ module stdlib_linalg_lapack_c
        ! #:( reaching this point means that the procedure has not converged.
            info = nsweep - 1
            go to 1995
-1994  continue
+1994       continue
        ! #:) reaching this point means numerical convergence after the i-th
            ! sweep.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995  continue
+1995 continue
            ! sort the vector sva() of column norms.
            do p = 1, n - 1
               q = stdlib_isamax(n - p + 1, sva(p), 1) + p - 1
@@ -77535,7 +77104,6 @@ module stdlib_linalg_lapack_c
               end if
            end do
            return
-           ! .. end of stdlib_cgsvj1
      end subroutine stdlib_cgsvj1
 
      ! CHESV_AA computes the solution to a complex system of linear equations
@@ -77605,7 +77173,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_chesv_aa
      end subroutine stdlib_chesv_aa
 
      ! CHETRF_AA computes the factorization of a complex hermitian matrix A
@@ -77666,7 +77233,7 @@ module stdlib_linalg_lapack_c
            end if
            ipiv(1) = 1
            if (n == 1) then
-              a(1, 1) = real(a(1, 1))
+              a(1, 1) = real(a(1, 1), KIND=sp)
               return
            end if
            ! adjust block size based on the workspace size
@@ -77683,7 +77250,7 @@ module stdlib_linalg_lapack_c
               ! jb, where jb is the number of columns factorized by stdlib_clahef;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-10    continue
+10            continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -77762,7 +77329,7 @@ module stdlib_linalg_lapack_c
               ! jb, where jb is the number of columns factorized by stdlib_clahef;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-11    continue
+11            continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -77830,10 +77397,9 @@ module stdlib_linalg_lapack_c
               end if
               go to 11
            end if
-20      continue
+20         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_chetrf_aa
      end subroutine stdlib_chetrf_aa
 
      ! CHSEQR computes the eigenvalues of a Hessenberg matrix H
@@ -77859,7 +77425,7 @@ module stdlib_linalg_lapack_c
            ! .. parameters ..
            integer(ilp), parameter :: ntiny = 15
            integer(ilp), parameter :: nl = 49
-           real(sp), parameter :: rzero = zero
+           real(sp), parameter :: rzero = 0.0_sp
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_clahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
@@ -77883,7 +77449,7 @@ module stdlib_linalg_lapack_c
            wantt = stdlib_lsame(job, 's')
            initz = stdlib_lsame(compz, 'i')
            wantz = initz .or. stdlib_lsame(compz, 'v')
-           work(1) = cmplx(real(max(1, n)), rzero)
+           work(1) = cmplx(real(max(1, n), KIND=sp), rzero, KIND=sp)
            lquery = lwork == -1
            info = 0
            if (.not. stdlib_lsame(job, 'e') .and. .not. wantt) then
@@ -77916,7 +77482,8 @@ module stdlib_linalg_lapack_c
                         lwork, info)
               ! ==== ensure reported workspace size is backward-compatible with
               ! .    previous lapack versions. ====
-              work(1) = cmplx(max(real(work(1)), real(max(1, n))), rzero)
+              work(1) = cmplx(max(real(work(1), KIND=sp), real(max(1, n), KIND=sp)), &
+                        rzero, KIND=sp)
               return
            else
               ! ==== copy eigenvalues isolated by stdlib_cgebal ====
@@ -77971,9 +77538,9 @@ module stdlib_linalg_lapack_c
                         czero, h(3, 1), ldh)
               ! ==== ensure reported workspace size is backward-compatible with
               ! .    previous lapack versions. ====
-              work(1) = cmplx(max(real(max(1, n)), real(work(1))), rzero)
+              work(1) = cmplx(max(real(max(1, n), KIND=sp), real(work(1), KIND=sp)), &
+                        rzero, KIND=sp)
            end if
-           ! ==== end of stdlib_chseqr ====
      end subroutine stdlib_chseqr
 
      ! CLAHEF_AA factorizes a panel of a complex hermitian matrix A using
@@ -78013,7 +77580,7 @@ module stdlib_linalg_lapack_c
               ! .....................................................
               ! factorize a as u**t*d*u using the upper triangle of a
               ! .....................................................
-10    continue
+10   continue
               if (j > min(m, nb)) go to 20
               ! k is the column to be factorized
                ! when being called from stdlib_chetrf_aa,
@@ -78048,7 +77615,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_caxpy(mj, alpha, a(k - 2, j), lda, work(1), 1)
               end if
               ! set a(j, j) = t(j, j)
-              a(k, j) = real(work(1))
+              a(k, j) = real(work(1), KIND=sp)
               if (j < m) then
                  ! compute work(2:n) = t(j, j) l(j, (j+1):n)
                   ! where a(j, j) stores t(j, j) and a(j-1, (j+1):n) stores u(j, (j+1):n)
@@ -78111,12 +77678,12 @@ module stdlib_linalg_lapack_c
               end if
               j = j + 1
               go to 10
-20    continue
+20            continue
            else
               ! .....................................................
               ! factorize a as l*d*l**t using the lower triangle of a
               ! .....................................................
-30    continue
+30   continue
               if (j > min(m, nb)) go to 40
               ! k is the column to be factorized
                ! when being called from stdlib_chetrf_aa,
@@ -78151,7 +77718,7 @@ module stdlib_linalg_lapack_c
                  call stdlib_caxpy(mj, alpha, a(j, k - 2), 1, work(1), 1)
               end if
               ! set a(j, j) = t(j, j)
-              a(j, k) = real(work(1))
+              a(j, k) = real(work(1), KIND=sp)
               if (j < m) then
                  ! compute work(2:n) = t(j, j) l((j+1):n, j)
                   ! where a(j, j) = t(j, j) and a((j+1):n, j-1) = l((j+1):n, j)
@@ -78214,10 +77781,9 @@ module stdlib_linalg_lapack_c
               end if
               j = j + 1
               go to 30
-40    continue
+40            continue
            end if
            return
-           ! end of stdlib_clahef_aa
      end subroutine stdlib_clahef_aa
 
      ! CLAQR0 computes the eigenvalues of a Hessenberg matrix H
@@ -78275,7 +77841,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            info = 0
            ! ==== quick return for n = 0: nothing to do. ====
@@ -78364,7 +77930,7 @@ module stdlib_linalg_lapack_c
                     if (h(k, k - 1) == czero) go to 20
                  end do
                  k = ilo
-20      continue
+20               continue
                  ktop = k
                  ! ==== select deflation window size:
                  ! .    typical case:
@@ -78505,7 +78071,7 @@ module stdlib_linalg_lapack_c
                                 end if
                              end do
                           end do
-60      continue
+60                        continue
                        end if
                     end if
                     ! ==== if there are only two shifts, then use
@@ -78557,11 +78123,10 @@ module stdlib_linalg_lapack_c
               ! ==== iteration limit exceeded.  set info to show where
               ! .    the problem occurred and exit. ====
               info = kbot
-80      continue
+80            continue
            end if
            ! ==== return the optimal value of lwork. ====
            work(1) = cmplx(lwkopt, 0, KIND=sp)
-           ! ==== end of stdlib_claqr0 ====
      end subroutine stdlib_claqr0
 
      ! Aggressive early deflation:
@@ -78588,8 +78153,8 @@ module stdlib_linalg_lapack_c
                       z(ldz, *)
         ! ================================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = zero
-           real(sp), parameter :: rone = one
+           real(sp), parameter :: rzero = 0.0_sp
+           real(sp), parameter :: rone = 1.0_sp
            
            ! .. local scalars ..
            complex(sp) :: beta, cdum, s, tau
@@ -78601,7 +78166,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            ! ==== estimate optimal workspace. ====
            jw = min(nw, kbot - ktop + 1)
@@ -78640,7 +78205,7 @@ module stdlib_linalg_lapack_c
            safmax = rone/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            ! ==== setup deflation window ====
            jw = min(nw, kbot - ktop + 1)
            kwtop = kbot - jw + 1
@@ -78782,7 +78347,6 @@ module stdlib_linalg_lapack_c
            ns = ns - infqr
             ! ==== return optimal workspace. ====
            work(1) = cmplx(lwkopt, 0, KIND=sp)
-           ! ==== end of stdlib_claqr3 ====
      end subroutine stdlib_claqr3
 
      ! CLAQR4 implements one level of recursion for CLAQR0.
@@ -78846,7 +78410,7 @@ module stdlib_linalg_lapack_c
            ! .. statement functions ..
            real(sp) :: cabs1
            ! .. statement function definitions ..
-           cabs1(cdum) = abs(real(cdum)) + abs(aimag(cdum))
+           cabs1(cdum) = abs(real(cdum, KIND=sp)) + abs(aimag(cdum))
            ! .. executable statements ..
            info = 0
            ! ==== quick return for n = 0: nothing to do. ====
@@ -78935,7 +78499,7 @@ module stdlib_linalg_lapack_c
                     if (h(k, k - 1) == czero) go to 20
                  end do
                  k = ilo
-20      continue
+20               continue
                  ktop = k
                  ! ==== select deflation window size:
                  ! .    typical case:
@@ -79071,7 +78635,7 @@ module stdlib_linalg_lapack_c
                                 end if
                              end do
                           end do
-60      continue
+60                        continue
                        end if
                     end if
                     ! ==== if there are only two shifts, then use
@@ -79123,11 +78687,10 @@ module stdlib_linalg_lapack_c
               ! ==== iteration limit exceeded.  set info to show where
               ! .    the problem occurred and exit. ====
               info = kbot
-80      continue
+80            continue
            end if
            ! ==== return the optimal value of lwork. ====
            work(1) = cmplx(lwkopt, 0, KIND=sp)
-           ! ==== end of stdlib_claqr4 ====
      end subroutine stdlib_claqr4
 
      ! CLAQZ0 computes the eigenvalues of a matrix pair (H,T),
@@ -79252,7 +78815,7 @@ module stdlib_linalg_lapack_c
            end if
            ! quick return if possible
            if (n <= 0) then
-              work(1) = real(1)
+              work(1) = real(1, KIND=sp)
               return
            end if
            ! get the parameters
@@ -79268,7 +78831,7 @@ module stdlib_linalg_lapack_c
            nsr = min(nsr, (n + 6)/9, ihi - ilo)
            nsr = max(2, nsr - mod(nsr, 2))
            rcost = stdlib_ilaenv(17, 'stdlib_claqz0', jbcmpz, n, ilo, ihi, lwork)
-           itemp1 = int(nsr/sqrt(1 + 2*nsr/(real(rcost)/100*n)))
+           itemp1 = int(nsr/sqrt(1 + 2*nsr/(real(rcost, KIND=sp)/100*n)), KIND=ilp)
            itemp1 = ((itemp1 - 1)/4)*4 + 4
            nbr = nsr + itemp1
            if (n < nmin .or. rec >= 2) then
@@ -79289,7 +78852,7 @@ module stdlib_linalg_lapack_c
            itemp2 = int(work(1), KIND=ilp)
            lworkreq = max(itemp1 + 2*nw**2, itemp2 + 2*nbr**2)
            if (lwork == -1) then
-              work(1) = real(lworkreq)
+              work(1) = real(lworkreq, KIND=sp)
               return
            else if (lwork < lworkreq) then
               info = -19
@@ -79306,7 +78869,7 @@ module stdlib_linalg_lapack_c
            safmax = one/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            istart = ilo
            istop = ihi
            maxit = 30*(ihi - ilo + 1)
@@ -79458,11 +79021,11 @@ module stdlib_linalg_lapack_c
               shiftpos = istop - n_deflated - n_undeflated + 1
               if (mod(ld, 6) == 0) then
                  ! exceptional shift.  chosen for no particularly good reason.
-                 if ((real(maxit)*safmin)*abs(a(istop, istop - 1)) < abs(a(istop - 1, istop - 1) &
-                            )) then
+                 if ((real(maxit, KIND=sp)*safmin)*abs(a(istop, istop - 1)) < abs(a(istop - 1, &
+                           istop - 1))) then
                     eshift = a(istop, istop - 1)/b(istop - 1, istop - 1)
                  else
-                    eshift = eshift + cone/(safmin*real(maxit))
+                    eshift = eshift + cone/(safmin*real(maxit, KIND=sp))
                  end if
                  alpha(shiftpos) = cone
                  beta(shiftpos) = eshift
@@ -79533,7 +79096,7 @@ module stdlib_linalg_lapack_c
            safmax = one/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            if (ihi == kwtop) then
               ! 1 by 1 deflation window, just try a regular deflation
               alpha(kwtop) = a(kwtop, kwtop)
@@ -79706,7 +79269,7 @@ module stdlib_linalg_lapack_c
               ! .....................................................
               ! factorize a as u**t*d*u using the upper triangle of a
               ! .....................................................
-10    continue
+10   continue
               if (j > min(m, nb)) go to 20
               ! k is the column to be factorized
                ! when being called from stdlib_csytrf_aa,
@@ -79800,12 +79363,12 @@ module stdlib_linalg_lapack_c
               end if
               j = j + 1
               go to 10
-20    continue
+20            continue
            else
               ! .....................................................
               ! factorize a as l*d*l**t using the lower triangle of a
               ! .....................................................
-30    continue
+30   continue
               if (j > min(m, nb)) go to 40
               ! k is the column to be factorized
                ! when being called from stdlib_csytrf_aa,
@@ -79899,10 +79462,9 @@ module stdlib_linalg_lapack_c
               end if
               j = j + 1
               go to 30
-40    continue
+40            continue
            end if
            return
-           ! end of stdlib_clasyf_aa
      end subroutine stdlib_clasyf_aa
 
      ! CSYSV computes the solution to a complex system of linear equations
@@ -79972,7 +79534,6 @@ module stdlib_linalg_lapack_c
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_csysv_aa
      end subroutine stdlib_csysv_aa
 
      ! CSYTRF_AA computes the factorization of a complex symmetric matrix A
@@ -80049,7 +79610,7 @@ module stdlib_linalg_lapack_c
               ! jb, where jb is the number of columns factorized by stdlib_clasyf;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-10    continue
+10            continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -80126,7 +79687,7 @@ module stdlib_linalg_lapack_c
               ! jb, where jb is the number of columns factorized by stdlib_clasyf;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-11    continue
+11            continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -80193,10 +79754,9 @@ module stdlib_linalg_lapack_c
               end if
               go to 11
            end if
-20      continue
+20         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_csytrf_aa
      end subroutine stdlib_csytrf_aa
 
 end module stdlib_linalg_lapack_c

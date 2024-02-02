@@ -47,6 +47,7 @@ module stdlib_linalg_blas_q
      public :: stdlib_qznrm2
 
      ! 128-bit real constants
+     real(qp), parameter, private :: negone = -1.00_qp
      real(qp), parameter, private :: zero = 0.00_qp
      real(qp), parameter, private :: half = 0.50_qp
      real(qp), parameter, private :: one = 1.00_qp
@@ -60,6 +61,7 @@ module stdlib_linalg_blas_q
      complex(qp), parameter, private :: czero = (0.0_qp, 0.0_qp)
      complex(qp), parameter, private :: chalf = (0.5_qp, 0.0_qp)
      complex(qp), parameter, private :: cone = (1.0_qp, 0.0_qp)
+     complex(qp), parameter, private :: cnegone = (-1.0_qp, 0.0_qp)
 
      ! 128-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
@@ -129,7 +131,6 @@ module stdlib_linalg_blas_q
            end if
            stdlib_qasum = dtemp
            return
-           ! end of stdlib_qasum
      end function stdlib_qasum
 
      ! QAXPY constant times a vector plus a vector.
@@ -150,7 +151,7 @@ module stdlib_linalg_blas_q
            ! .. intrinsic functions ..
            intrinsic :: mod
            if (n <= 0) return
-           if (da == zero) return
+           if (da == 0.0_qp) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               ! clean-up loop
@@ -182,7 +183,6 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-           ! end of stdlib_qaxpy
      end subroutine stdlib_qaxpy
 
      ! QCOPY copies a vector, x, to a vector, y.
@@ -236,7 +236,6 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-           ! end of stdlib_qcopy
      end subroutine stdlib_qcopy
 
      ! QDOT forms the dot product of two vectors.
@@ -292,7 +291,6 @@ module stdlib_linalg_blas_q
            end if
            stdlib_qdot = dtemp
            return
-           ! end of stdlib_qdot
      end function stdlib_qdot
 
      ! QGBMV  performs one of the matrix-vector operations
@@ -447,7 +445,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qgbmv
      end subroutine stdlib_qgbmv
 
      ! QGEMM  performs one of the matrix-matrix operations
@@ -610,7 +607,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qgemm
      end subroutine stdlib_qgemm
 
      ! QGEMV  performs one of the matrix-vector operations
@@ -754,7 +750,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qgemv
      end subroutine stdlib_qgemv
 
      ! QGER   performs the rank 1 operation
@@ -833,7 +828,6 @@ module stdlib_linalg_blas_q
                end do
            end if
            return
-           ! end of stdlib_qger
      end subroutine stdlib_qger
 
      ! !
@@ -974,7 +968,6 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-           ! end of stdlib_qrot
      end subroutine stdlib_qrot
 
      ! !
@@ -1147,7 +1140,6 @@ module stdlib_linalg_blas_q
               end if
            end if
            return
-           ! end of stdlib_qrotm
      end subroutine stdlib_qrotm
 
      ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
@@ -1309,7 +1301,6 @@ module stdlib_linalg_blas_q
            end if
            dparam(1) = dflag
            return
-           ! end of stdlib_qrotmg
      end subroutine stdlib_qrotmg
 
      ! QSBMV  performs the matrix-vector  operation
@@ -1471,7 +1462,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qsbmv
      end subroutine stdlib_qsbmv
 
      ! QSCAL scales a vector by a constant.
@@ -1518,7 +1508,6 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-           ! end of stdlib_qscal
      end subroutine stdlib_qscal
 
      ! Compute the inner product of two vectors with extended
@@ -1566,7 +1555,6 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-           ! end of stdlib_qsdot
      end function stdlib_qsdot
 
      ! QSPMV  performs the matrix-vector operation
@@ -1722,7 +1710,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qspmv
      end subroutine stdlib_qspmv
 
      ! QSPR    performs the symmetric rank 1 operation
@@ -1829,7 +1816,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qspr
      end subroutine stdlib_qspr
 
      ! QSPR2  performs the symmetric rank 2 operation
@@ -1956,7 +1942,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qspr2
      end subroutine stdlib_qspr2
 
      ! QSWAP interchanges two vectors.
@@ -2017,7 +2002,6 @@ module stdlib_linalg_blas_q
               end do
            end if
            return
-           ! end of stdlib_qswap
      end subroutine stdlib_qswap
 
      ! QSYMM  performs one of the matrix-matrix operations
@@ -2164,7 +2148,6 @@ module stdlib_linalg_blas_q
                end do loop_170
            end if
            return
-           ! end of stdlib_qsymm
      end subroutine stdlib_qsymm
 
      ! QSYMV  performs the matrix-vector  operation
@@ -2316,7 +2299,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qsymv
      end subroutine stdlib_qsymv
 
      ! QSYR   performs the symmetric rank 1 operation
@@ -2419,7 +2401,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qsyr
      end subroutine stdlib_qsyr
 
      ! QSYR2  performs the symmetric rank 2 operation
@@ -2542,7 +2523,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qsyr2
      end subroutine stdlib_qsyr2
 
      ! QSYR2K  performs one of the symmetric rank 2k operations
@@ -2717,7 +2697,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qsyr2k
      end subroutine stdlib_qsyr2k
 
      ! QSYRK  performs one of the symmetric rank k operations
@@ -2884,7 +2863,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qsyrk
      end subroutine stdlib_qsyrk
 
      ! QTBMV  performs one of the matrix-vector operations
@@ -3067,7 +3045,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qtbmv
      end subroutine stdlib_qtbmv
 
      ! QTBSV  solves one of the systems of equations
@@ -3253,7 +3230,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qtbsv
      end subroutine stdlib_qtbsv
 
      ! QTPMV  performs one of the matrix-vector operations
@@ -3435,7 +3411,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qtpmv
      end subroutine stdlib_qtpmv
 
      ! QTPSV  solves one of the systems of equations
@@ -3619,7 +3594,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qtpsv
      end subroutine stdlib_qtpsv
 
      ! QTRMM  performs one of the matrix-matrix operations
@@ -3825,7 +3799,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qtrmm
      end subroutine stdlib_qtrmm
 
      ! QTRMV  performs one of the matrix-vector operations
@@ -3991,7 +3964,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qtrmv
      end subroutine stdlib_qtrmv
 
      ! QTRSM  solves one of the matrix equations
@@ -4222,7 +4194,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qtrsm
      end subroutine stdlib_qtrsm
 
      ! QTRSV  solves one of the systems of equations
@@ -4390,7 +4361,6 @@ module stdlib_linalg_blas_q
                end if
            end if
            return
-           ! end of stdlib_qtrsv
      end subroutine stdlib_qtrsv
 
      ! QZASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
@@ -4425,7 +4395,6 @@ module stdlib_linalg_blas_q
            end if
            stdlib_qzasum = stemp
            return
-           ! end of stdlib_qzasum
      end function stdlib_qzasum
 
      ! !
@@ -4480,7 +4449,7 @@ module stdlib_linalg_blas_q
         ix = 1
         if (incx < 0) ix = 1 - (n - 1)*incx
         do i = 1, n
-           ax = abs(real(x(ix)))
+           ax = abs(real(x(ix), KIND=qp))
            if (ax > tbig) then
               abig = abig + (ax*sbig)**2
               notbig = .false.

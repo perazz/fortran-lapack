@@ -47,6 +47,7 @@ module stdlib_linalg_blas_w
      public :: stdlib_wtrsv
 
      ! 128-bit real constants
+     real(qp), parameter, private :: negone = -1.00_qp
      real(qp), parameter, private :: zero = 0.00_qp
      real(qp), parameter, private :: half = 0.50_qp
      real(qp), parameter, private :: one = 1.00_qp
@@ -60,6 +61,7 @@ module stdlib_linalg_blas_w
      complex(qp), parameter, private :: czero = (0.0_qp, 0.0_qp)
      complex(qp), parameter, private :: chalf = (0.5_qp, 0.0_qp)
      complex(qp), parameter, private :: cone = (1.0_qp, 0.0_qp)
+     complex(qp), parameter, private :: cnegone = (-1.0_qp, 0.0_qp)
 
      ! 128-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
@@ -98,7 +100,7 @@ module stdlib_linalg_blas_w
            ! .. local scalars ..
            integer(ilp) :: i, ix, iy
            if (n <= 0) return
-           if (stdlib_qcabs1(za) == zero) return
+           if (stdlib_qcabs1(za) == 0.0_qp) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               do i = 1, n
@@ -118,7 +120,6 @@ module stdlib_linalg_blas_w
               end do
            end if
            return
-           ! end of stdlib_waxpy
      end subroutine stdlib_waxpy
 
      ! WCOPY copies a vector, x, to a vector, y.
@@ -154,7 +155,6 @@ module stdlib_linalg_blas_w
               end do
            end if
            return
-           ! end of stdlib_wcopy
      end subroutine stdlib_wcopy
 
      ! WDOTC forms the dot product of two complex vectors
@@ -174,8 +174,8 @@ module stdlib_linalg_blas_w
            integer(ilp) :: i, ix, iy
            ! .. intrinsic functions ..
            intrinsic :: conjg
-           ztemp = (zero, zero)
-           stdlib_wdotc = (zero, zero)
+           ztemp = (0.0_qp, 0.0_qp)
+           stdlib_wdotc = (0.0_qp, 0.0_qp)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -197,7 +197,6 @@ module stdlib_linalg_blas_w
            end if
            stdlib_wdotc = ztemp
            return
-           ! end of stdlib_wdotc
      end function stdlib_wdotc
 
      ! WDOTU forms the dot product of two complex vectors
@@ -215,8 +214,8 @@ module stdlib_linalg_blas_w
            ! .. local scalars ..
            complex(qp) :: ztemp
            integer(ilp) :: i, ix, iy
-           ztemp = (zero, zero)
-           stdlib_wdotu = (zero, zero)
+           ztemp = (0.0_qp, 0.0_qp)
+           stdlib_wdotu = (0.0_qp, 0.0_qp)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -238,7 +237,6 @@ module stdlib_linalg_blas_w
            end if
            stdlib_wdotu = ztemp
            return
-           ! end of stdlib_wdotu
      end function stdlib_wdotu
 
      ! Applies a plane rotation, where the cos and sin (c and s) are real
@@ -283,7 +281,6 @@ module stdlib_linalg_blas_w
               end do
            end if
            return
-           ! end of stdlib_wdrot
      end subroutine stdlib_wdrot
 
      ! WDSCAL scales a vector by a constant.
@@ -306,17 +303,16 @@ module stdlib_linalg_blas_w
            if (incx == 1) then
               ! code for increment equal to 1
               do i = 1, n
-                 zx(i) = cmplx(da, zero, KIND=qp)*zx(i)
+                 zx(i) = cmplx(da, 0.0_qp, KIND=qp)*zx(i)
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
               do i = 1, nincx, incx
-                 zx(i) = cmplx(da, zero, KIND=qp)*zx(i)
+                 zx(i) = cmplx(da, 0.0_qp, KIND=qp)*zx(i)
               end do
            end if
            return
-           ! end of stdlib_wdscal
      end subroutine stdlib_wdscal
 
      ! WGBMV  performs one of the matrix-vector operations
@@ -487,7 +483,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wgbmv
      end subroutine stdlib_wgbmv
 
      ! WGEMM  performs one of the matrix-matrix operations
@@ -735,7 +730,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wgemm
      end subroutine stdlib_wgemm
 
      ! WGEMV  performs one of the matrix-vector operations
@@ -895,7 +889,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wgemv
      end subroutine stdlib_wgemv
 
      ! WGERC  performs the rank 1 operation
@@ -974,7 +967,6 @@ module stdlib_linalg_blas_w
                end do
            end if
            return
-           ! end of stdlib_wgerc
      end subroutine stdlib_wgerc
 
      ! WGERU  performs the rank 1 operation
@@ -1053,7 +1045,6 @@ module stdlib_linalg_blas_w
                end do
            end if
            return
-           ! end of stdlib_wgeru
      end subroutine stdlib_wgeru
 
      ! WHBMV  performs the matrix-vector  operation
@@ -1215,7 +1206,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_whbmv
      end subroutine stdlib_whbmv
 
      ! WHEMM  performs one of the matrix-matrix operations
@@ -1364,7 +1354,6 @@ module stdlib_linalg_blas_w
                end do loop_170
            end if
            return
-           ! end of stdlib_whemm
      end subroutine stdlib_whemm
 
      ! WHEMV  performs the matrix-vector  operation
@@ -1516,7 +1505,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_whemv
      end subroutine stdlib_whemv
 
      ! WHER   performs the hermitian rank 1 operation
@@ -1631,7 +1619,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wher
      end subroutine stdlib_wher
 
      ! WHER2  performs the hermitian rank 2 operation
@@ -1770,7 +1757,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wher2
      end subroutine stdlib_wher2
 
      ! WHER2K  performs one of the hermitian rank 2k operations
@@ -1978,7 +1964,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wher2k
      end subroutine stdlib_wher2k
 
      ! WHERK  performs one of the hermitian rank k operations
@@ -2174,7 +2159,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wherk
      end subroutine stdlib_wherk
 
      ! WHPMV  performs the matrix-vector operation
@@ -2332,7 +2316,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_whpmv
      end subroutine stdlib_whpmv
 
      ! WHPR    performs the hermitian rank 1 operation
@@ -2454,7 +2437,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_whpr
      end subroutine stdlib_whpr
 
      ! WHPR2  performs the hermitian rank 2 operation
@@ -2599,7 +2581,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_whpr2
      end subroutine stdlib_whpr2
 
      ! !
@@ -2646,7 +2627,7 @@ module stdlib_linalg_blas_w
         ! .. statement functions ..
         real(qp) :: abssq
         ! .. statement function definitions ..
-        abssq(t) = real(t)**2 + aimag(t)**2
+        abssq(t) = real(t, KIND=qp)**2 + aimag(t)**2
         ! .. executable statements ..
         f = a
         g = b
@@ -2656,7 +2637,7 @@ module stdlib_linalg_blas_w
            r = f
         else if (f == czero) then
            c = zero
-           g1 = max(abs(real(g)), abs(aimag(g)))
+           g1 = max(abs(real(g, KIND=qp)), abs(aimag(g)))
            if (g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
               g2 = abssq(g)
@@ -2674,8 +2655,8 @@ module stdlib_linalg_blas_w
               r = d*u
            end if
         else
-           f1 = max(abs(real(f)), abs(aimag(f)))
-           g1 = max(abs(real(g)), abs(aimag(g)))
+           f1 = max(abs(real(f, KIND=qp)), abs(aimag(f)))
+           g1 = max(abs(real(g, KIND=qp)), abs(aimag(g)))
      if (f1 > rtmin .and. f1 < rtmax .and. g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
               f2 = abssq(f)
@@ -2755,7 +2736,6 @@ module stdlib_linalg_blas_w
               end do
            end if
            return
-           ! end of stdlib_wscal
      end subroutine stdlib_wscal
 
      ! WSWAP interchanges two vectors.
@@ -2796,7 +2776,6 @@ module stdlib_linalg_blas_w
               end do
            end if
            return
-           ! end of stdlib_wswap
      end subroutine stdlib_wswap
 
      ! WSYMM  performs one of the matrix-matrix operations
@@ -2943,7 +2922,6 @@ module stdlib_linalg_blas_w
                end do loop_170
            end if
            return
-           ! end of stdlib_wsymm
      end subroutine stdlib_wsymm
 
      ! WSYR2K  performs one of the symmetric rank 2k operations
@@ -3118,7 +3096,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wsyr2k
      end subroutine stdlib_wsyr2k
 
      ! WSYRK  performs one of the symmetric rank k operations
@@ -3285,7 +3262,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wsyrk
      end subroutine stdlib_wsyrk
 
      ! WTBMV  performs one of the matrix-vector operations
@@ -3499,7 +3475,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wtbmv
      end subroutine stdlib_wtbmv
 
      ! WTBSV  solves one of the systems of equations
@@ -3716,7 +3691,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wtbsv
      end subroutine stdlib_wtbsv
 
      ! WTPMV  performs one of the matrix-vector operations
@@ -3933,7 +3907,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wtpmv
      end subroutine stdlib_wtpmv
 
      ! WTPSV  solves one of the systems of equations
@@ -4152,7 +4125,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wtpsv
      end subroutine stdlib_wtpsv
 
      ! WTRMM  performs one of the matrix-matrix operations
@@ -4393,7 +4365,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wtrmm
      end subroutine stdlib_wtrmm
 
      ! WTRMV  performs one of the matrix-vector operations
@@ -4590,7 +4561,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wtrmv
      end subroutine stdlib_wtrmv
 
      ! WTRSM  solves one of the matrix equations
@@ -4854,7 +4824,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wtrsm
      end subroutine stdlib_wtrsm
 
      ! WTRSV  solves one of the systems of equations
@@ -5053,7 +5022,6 @@ module stdlib_linalg_blas_w
                end if
            end if
            return
-           ! end of stdlib_wtrsv
      end subroutine stdlib_wtrsv
 
 end module stdlib_linalg_blas_w
