@@ -479,7 +479,7 @@ def function_in_module(initial,function_name):
 
    oname = function_name.lower().strip()
 
-   if len(initial)<1:
+   if len(initial)<1 or len(oname)<1:
        in_module = True
    elif    oname.endswith("amax") \
         or oname.endswith("abs") \
@@ -1141,13 +1141,15 @@ class Fortran_Line:
 
 # Read and preprocess a Fortran line for parsing: remove comments, adjust left, and if this is a continuation
 # line, read all continuation lines into it
-def line_read_and_preprocess(line,is_free_form,file_name):
+def line_read_and_preprocess(line,is_free_form,file_name,old_name):
 
     import re
 
+    is_aux_module = function_in_module('aux',old_name)
+
     processed = replace_f77_types(line,is_free_form)
 
-    processed = replace_la_constants(processed,file_name)
+    processed = replace_la_constants(processed,file_name,is_aux_module)
 
     # Check if this is a directive
     is_dir = is_directive_line(processed)
@@ -1238,16 +1240,18 @@ def replace_f77_types(line,is_free_form):
 
     return new_line
 
-def replace_la_constants(line,file_name):
+def replace_la_constants(line,file_name,is_aux_module):
 
     import re
 
     new_line = line.rstrip()
+    lsl = line.strip().lower()
 
     # NOTE!! Numeric constants inside a complex parameter cannot be variables.
     # e.g., complex, parameter :: cone = (1.0,0.0) cannot become complex, parameter :: cone = (one,zero)
     # even if one, zero are parameters
-    is_complex_parameter = line.lstrip().lower().startswith('complex')
+    is_complex_parameter = lsl.startswith('complex')
+    is_parameter_line = 'parameter' in lsl
 
     letter = file_name[0].lower()
     if   letter=='c' or letter=='s':
@@ -1263,10 +1267,12 @@ def replace_la_constants(line,file_name):
         return new_line
 
     # Numeric constants.
-    if not is_complex_parameter:
+    if not (is_complex_parameter or is_aux_module or is_parameter_line):
+        new_line = re.sub(r'\b0\.0'+ext+r'\b','zero',new_line)
         new_line = re.sub(r'\b0\.0\b','zero',new_line)
         new_line = re.sub(r'\b0\.0d0\b','zero',new_line)
         new_line = re.sub(r'\b0\.0e0\b','zero',new_line)
+        new_line = re.sub(r'\b1\.0'+ext+r'\b','one',new_line)
         new_line = re.sub(r'\b1\.0\b','one',new_line)
         new_line = re.sub(r'\b1\.0d0\b','one',new_line)
         new_line = re.sub(r'\b1\.0e0\b','one',new_line)
@@ -1274,11 +1280,18 @@ def replace_la_constants(line,file_name):
     new_line = re.sub(r'([0-9\.]+)[eE]0+([^_])',r'\1'+ext+r'\2',new_line)
 
     # AFTER parameters have been replaced, replace leftover numeric constants
-    if not is_complex_parameter:
-        new_line = re.sub(r'([-\s\,\*])0+\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1zero\2',new_line)  # zero
-        new_line = re.sub(r'([-\s\,\*])0*1\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1one\2',new_line)   # one
+    if not (is_complex_parameter or is_aux_module or is_parameter_line):
+        new_line = re.sub(r'([-\s\,\*])0+\.0+[deDE][\-\+]{0,1}0+('+ext+r')*',r'\1zero',new_line)  # zero
+        new_line = re.sub(r'([-\s\,\*])0*1\.0+[deDE][\-\+]{0,1}0+('+ext+r')*',r'\1one',new_line)   # one
     new_line = re.sub(r'([0-9\.])([de])([0-9\+\-]+)',r'\1e\3'+ext,new_line)   # other numbers not finished by real precision
     new_line = re.sub(r'([\.])([0-9]+)([\s\,\:\=\)\*])',r'\1\2'+ext+r'\3',new_line)   # other numbers not finished by real precision
+
+    if 'zero_dp' in new_line:
+        print("ORIGINAL LINE" + line)
+        print("NOW "+new_line)
+        print(str(is_aux_module))
+        print(str(is_complex_parameter))
+        exit(1)
 
     return new_line
 
@@ -1607,6 +1620,8 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     lines = Source.body
     decl  = Source.decl
 
+    is_aux_module = function_in_module('aux',name)
+
     initial = name[0]
     if initial=='w' or initial=='q':
         ik = 'ilp'
@@ -1672,7 +1687,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
        else:
            # Ensure data conversion
            body[j] = replace_kind_functions(body[j],ik,rk)
-           body[j] = replace_la_constants(body[j],Source.file_name)
+           body[j] = replace_la_constants(body[j],Source.file_name,is_aux_module)
            body[j] = rename_parameter_line(body[j],Source,prefix)
            body[j] = rename_intrinsics_line(body[j])
            if j>0: body[j] = align_labelled_continue(body[j],body[j-1])
@@ -1696,6 +1711,8 @@ def add_parameter_lines(Source,prefix,body):
 
     start_line = 0
     INDENT = "    "
+
+    is_aux_module = function_in_module('aux',Source.old_name)
 
     # Get standard numeric constants for this module
     mod_const,mod_types,rk = print_module_constants([],Source.old_name[0],INDENT)
@@ -1814,12 +1831,19 @@ def add_parameter_lines(Source,prefix,body):
 
     for i in range(start_line+1-remove_header):
         new.append(body[i])
+        if 'parameter' in body[i]:
+            print(body[i])
+            exit(1)
 
     for i in range(len(Source.pname)):
         if not Source.pname[i] in mod_const:
             line = Source.ptype[i] + ", parameter :: " + Source.pname[i] + " = " + Source.pvalue[i]
-            line = replace_la_constants(line,Source.file_name)
+            line = replace_la_constants(line,Source.file_name,is_aux_module)
+            print(line)
             new.append(INDENT + line)
+            if 'zero = zero' in line:
+                print(line)
+                exit(1)
 
     for i in range(len(body)-start_line-1):
         if len(body[start_line+1+i])>0:
@@ -1828,6 +1852,9 @@ def add_parameter_lines(Source,prefix,body):
                 for j in range(len(wrong_param)):
                     line = re.sub(r"\b"+wrong_param[j]+r"\b",right_param[j],line)
             new.append(line)
+            if 'zero = zero' in line:
+                print(line)
+                exit(1)
 
     return new
 
@@ -1871,7 +1898,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             if DEBUG: print("raw =" + line)
 
             # Remove the newline character at the end of the line
-            Line = line_read_and_preprocess(line,Source.is_free_form,file_name)
+            Line = line_read_and_preprocess(line,Source.is_free_form,file_name,Source.old_name)
 
             if DEBUG: print("continuation="+str(Line.continuation)+" comment="+str(Line.comment)+\
                             " use"+str(Line.use)+" will_continue="+str(Line.will_continue))
@@ -1885,7 +1912,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                file_body[-1] = file_body[-1] + Line.string
             elif Line.continuation:
                # Check if last line was a comment
-               Last_Line = line_read_and_preprocess(file_body[-1],Source.is_free_form,file_name)
+               Last_Line = line_read_and_preprocess(file_body[-1],Source.is_free_form,file_name,Source.old_name)
 
                if Last_Line.comment:
                    if DEBUG: print("last comment, add "+Line.string+" to "+file_body[-2])
@@ -1907,7 +1934,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             if len(line.strip())<=0: continue
 
             # Remove the newline character at the end of the line
-            Line = line_read_and_preprocess(line,Source.is_free_form,file_name)
+            Line = line_read_and_preprocess(line,Source.is_free_form,file_name,Source.old_name)
 
             # Append the line to the list
             if Line.directive:
@@ -2220,12 +2247,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
