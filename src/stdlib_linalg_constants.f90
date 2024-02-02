@@ -11,8 +11,14 @@ module stdlib_linalg_constants
      integer, parameter :: dp = selected_real_kind(15)
      integer, parameter :: qp = selected_real_kind(33)
      integer, parameter :: lk = kind(.true.)
+
      ! Integer size support for ILP64 builds should be done here
      integer, parameter :: ilp = int32
      private :: int32, int64
+
+
+
+
+
 
 end module stdlib_linalg_constants
