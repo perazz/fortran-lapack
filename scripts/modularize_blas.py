@@ -595,8 +595,8 @@ def print_module_constants(fid,prefix,INDENT):
     cmpl_prefix = ['c','z','w']
     precision   = ['32-bit','64-bit','128-bit']
 
-    real_const = ['zero','half','one','two','three','four','eight','ten']
-    real_val   = [0.0,0.5,1.0,2.0,3.0,4.0,8.0,10.0]
+    real_const = ['negone','zero','half','one','two','three','four','eight','ten']
+    real_val   = [-1.0,0.0,0.5,1.0,2.0,3.0,4.0,8.0,10.0]
 
     const_names = []
     const_types = []
@@ -623,12 +623,15 @@ def print_module_constants(fid,prefix,INDENT):
         const_types.append("real("+rk+")")
 
     if fid: fid.write("\n" + INDENT + "! "+precision[i]+" complex constants \n")
-    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: czero  = (0.0_"+rk+",0.0_"+rk+")\n")
-    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: chalf  = (0.5_"+rk+",0.0_"+rk+")\n")
-    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: cone   = (1.0_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: czero   = ( 0.0_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: chalf   = ( 0.5_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: cone    = ( 1.0_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: cnegone = (-1.0_"+rk+",0.0_"+rk+")\n")
     const_names.append("czero")
     const_types.append("complex("+rk+")")
     const_names.append("cone")
+    const_types.append("complex("+rk+")")
+    const_names.append("cnegone")
     const_types.append("complex("+rk+")")
     const_names.append("chalf")
     const_types.append("complex("+rk+")")
@@ -1241,6 +1244,11 @@ def replace_la_constants(line,file_name):
 
     new_line = line.rstrip()
 
+    # NOTE!! Numeric constants inside a complex parameter cannot be variables.
+    # e.g., complex, parameter :: cone = (1.0,0.0) cannot become complex, parameter :: cone = (one,zero)
+    # even if one, zero are parameters
+    is_complex_parameter = line.lstrip().lower().startswith('complex')
+
     letter = file_name[0].lower()
     if   letter=='c' or letter=='s':
         ext = "_sp"
@@ -1254,19 +1262,21 @@ def replace_la_constants(line,file_name):
         # aux
         return new_line
 
-    # Numeric constants
-    new_line = re.sub(r'\b0\.0\b','zero',new_line)
-    new_line = re.sub(r'\b0\.0d0\b','zero',new_line)
-    new_line = re.sub(r'\b0\.0e0\b','zero',new_line)
-    new_line = re.sub(r'\b1\.0\b','one',new_line)
-    new_line = re.sub(r'\b1\.0d0\b','one',new_line)
-    new_line = re.sub(r'\b1\.0e0\b','one',new_line)
+    # Numeric constants.
+    if not is_complex_parameter:
+        new_line = re.sub(r'\b0\.0\b','zero',new_line)
+        new_line = re.sub(r'\b0\.0d0\b','zero',new_line)
+        new_line = re.sub(r'\b0\.0e0\b','zero',new_line)
+        new_line = re.sub(r'\b1\.0\b','one',new_line)
+        new_line = re.sub(r'\b1\.0d0\b','one',new_line)
+        new_line = re.sub(r'\b1\.0e0\b','one',new_line)
     new_line = re.sub(r'([0-9\.]+)[dD]0+([^_])',r'\1'+ext+r'\2',new_line)
     new_line = re.sub(r'([0-9\.]+)[eE]0+([^_])',r'\1'+ext+r'\2',new_line)
 
     # AFTER parameters have been replaced, replace leftover numeric constants
-    new_line = re.sub(r'([-\s\,\*])0+\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1zero\2',new_line)  # zero
-    new_line = re.sub(r'([-\s\,\*])0*1\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1one\2',new_line)   # one
+    if not is_complex_parameter:
+        new_line = re.sub(r'([-\s\,\*])0+\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1zero\2',new_line)  # zero
+        new_line = re.sub(r'([-\s\,\*])0*1\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1one\2',new_line)   # one
     new_line = re.sub(r'([0-9\.])([de])([0-9\+\-]+)',r'\1e\3'+ext,new_line)   # other numbers not finished by real precision
     new_line = re.sub(r'([\.])([0-9]+)([\s\,\:\=\)\*])',r'\1\2'+ext+r'\3',new_line)   # other numbers not finished by real precision
 
@@ -1592,8 +1602,6 @@ def rename_parameter_line(line,Source,prefix):
 def rename_source_body(Source,Sources,external_funs,prefix):
 
     import re
-    la_names = ['zero','one','two','rtmin','rtmax','safmin','safmax','sbig','ssml','tbig','tsml','half']
-    la_repl = []
 
     name  = Source.old_name
     lines = Source.body
@@ -1740,21 +1748,23 @@ def add_parameter_lines(Source,prefix,body):
             # Check if this name has the wrong type. e.g., complex(sp), parameter :: one = (1.0,0.0)
             # instead of cone
             ipar = mod_const.index(Source.pname[i])
-            par_type = mod_types[ipar]
         else:
             printed+=1
 
-    preal = ['one','zero','half']
-    pcmpl = ['cone','czero','chalf']
+    preal = ['one','zero','half','negone','negonecomplex']
+    pcmpl = ['cone','czero','chalf','cnegone','cnegone']
 
-    if Source.old_name[0]=='c' or Source.old_name[0]=='z':
+    if Source.old_name[0]=='c' or Source.old_name[0]=='z' or Source.old_name[0]=='w':
 
        if Source.old_name[0]=='c':
           rtyp = 'real(sp)'
           ctyp = 'complex(sp)'
-       else:
+       elif Source.old_name[0]=='z':
           rtyp = 'real(dp)'
           ctyp = 'complex(dp)'
+       else:
+          rtyp = 'real(qp)'
+          ctyp = 'complex(qp)'
 
        for j in range(len(preal)):
            pr = preal[j]
@@ -1788,9 +1798,12 @@ def add_parameter_lines(Source,prefix,body):
            if r2c:
                wrong_param.append(pr)
                right_param.append(pc)
+               # Make sure this is not also included as a local parameter
+               mod_const.append(pr)
            elif c2r:
                wrong_param.append(pc)
                right_param.append(pr)
+               mod_const.append(pc)
 
 
     # Do not print ".. function parameters .." line if none is printed out
@@ -1816,7 +1829,6 @@ def add_parameter_lines(Source,prefix,body):
                     line = re.sub(r"\b"+wrong_param[j]+r"\b",right_param[j],line)
             new.append(line)
 
-
     return new
 
 def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
@@ -1829,7 +1841,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False #file_name.lower().startswith("dgesvj")
+    DEBUG  = False #file_name.lower().startswith("zcposv")
 
     Procedures = []
 
@@ -2025,6 +2037,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                line = adjust_variable_declaration(line,initial)
 
                                # Parse parameter lines
+                               if DEBUG: print("find parameter decl: "+line)
                                pname, pval = find_parameter_declaration(line,initial)
 
                                # If parameters were found, strip them off the declaration for now
