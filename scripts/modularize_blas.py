@@ -1702,6 +1702,14 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     # Add parameters
     body = add_parameter_lines(Source,prefix,body)
 
+    # PATCHES
+    if Source.old_name.endswith('la_lin_berr'):
+        for j in range(len(body)):
+            bs = body[j].strip()
+            if bs=='real('+rk+') :: tmp':
+                nspaces = len(body[j])-len(bs)
+                body[j] = " "*nspaces + 'real('+rk+') :: tmp,safe1'
+
     return body,dependency_list
 
 # Filter out parameters from the global config, and list those in the current routine
@@ -2247,12 +2255,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
