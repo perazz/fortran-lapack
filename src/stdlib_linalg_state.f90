@@ -73,6 +73,7 @@ module stdlib_linalg_state
 
      interface linalg_state
          module procedure new_state
+         module procedure new_state_nowhere
      end interface linalg_state
 
 
@@ -218,9 +219,37 @@ module stdlib_linalg_state
         flag_ge_state = err%state >= flag
      end function flag_ge_state
 
-    !> Error creation message, from N input variables (numeric or strings)
-    type(linalg_state) function new_state(flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
+
+    !> Error creation message, with location location
+    type(linalg_state) function new_state(where_at,flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
                                                v1,v2,v3,v4,v5)
+
+       !> Location
+       character(len=*), intent(in) :: where_at
+
+       !> Input error flag
+       integer, intent(in) :: flag
+
+       !> Optional scalar arguments
+       class(*), optional, intent(in) :: a1,a2,a3,a4,a5,a6,a7,a8,a9,a10
+
+       !> Optional vector arguments
+       class(*), optional, intent(in), dimension(:) :: v1,v2,v3,v4,v5
+
+
+       !> Create state with no message
+       new_state = new_state_nowhere(flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,v1,v2,v3,v4,v5)
+
+       !> Add location
+       if (len_trim(where_at)>0) new_state%where_at = adjustl(where_at)
+
+    end function new_state
+
+    !> Error creation message, from N input variables (numeric or strings)
+    type(linalg_state) function new_state_nowhere(flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
+                                               v1,v2,v3,v4,v5) result(new_state)
+
+
        !> Input error flag
        integer, intent(in) :: flag
 
@@ -254,7 +283,7 @@ module stdlib_linalg_state
        call appendv(new_state%message,v4)
        call appendv(new_state%message,v5)
 
-    end function new_state
+    end function new_state_nowhere
 
 
     ! Append a generic value to the error flag
