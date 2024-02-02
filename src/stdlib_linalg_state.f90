@@ -1,5 +1,5 @@
 module stdlib_linalg_state
-     use stdlib_linalg_constants
+     use stdlib_linalg_constants, only: ilp,lk
      use iso_fortran_env, only: real32,real64,real128,int8,int16,int32,int64,stderr=>error_unit
      implicit none(type, external)
      public
@@ -158,62 +158,62 @@ module stdlib_linalg_state
      end function state_is_error
 
      !> Compare an error flag with an integer
-     elemental logical function state_eq_flag(err,flag)
+     elemental logical(lk) function state_eq_flag(err,flag)
         type(linalg_state), intent(in) :: err
         integer, intent(in) :: flag
         state_eq_flag = err%state == flag
      end function state_eq_flag
-     elemental logical function flag_eq_state(flag,err)
+     elemental logical(lk) function flag_eq_state(flag,err)
         integer, intent(in) :: flag
         type(linalg_state), intent(in) :: err
         flag_eq_state = err%state == flag
      end function flag_eq_state
-     elemental logical function state_neq_flag(err,flag)
+     elemental logical(lk) function state_neq_flag(err,flag)
         type(linalg_state), intent(in) :: err
         integer, intent(in) :: flag
         state_neq_flag = .not.state_eq_flag(err,flag)
      end function state_neq_flag
-     elemental logical function flag_neq_state(flag,err)
+     elemental logical(lk) function flag_neq_state(flag,err)
         integer, intent(in) :: flag
         type(linalg_state), intent(in) :: err
         flag_neq_state = .not.state_eq_flag(err,flag)
      end function flag_neq_state
-     elemental logical function state_lt_flag(err,flag)
+     elemental logical(lk) function state_lt_flag(err,flag)
         type(linalg_state), intent(in) :: err
         integer, intent(in) :: flag
         state_lt_flag = err%state < flag
      end function state_lt_flag
-     elemental logical function state_le_flag(err,flag)
+     elemental logical(lk) function state_le_flag(err,flag)
         type(linalg_state), intent(in) :: err
         integer, intent(in) :: flag
         state_le_flag = err%state <= flag
      end function state_le_flag
-     elemental logical function flag_lt_state(flag,err)
+     elemental logical(lk) function flag_lt_state(flag,err)
         integer, intent(in) :: flag
         type(linalg_state), intent(in) :: err
         flag_lt_state = err%state < flag
      end function flag_lt_state
-     elemental logical function flag_le_state(flag,err)
+     elemental logical(lk) function flag_le_state(flag,err)
         integer, intent(in) :: flag
         type(linalg_state), intent(in) :: err
         flag_le_state = err%state <= flag
      end function flag_le_state
-     elemental logical function state_gt_flag(err,flag)
+     elemental logical(lk) function state_gt_flag(err,flag)
         type(linalg_state), intent(in) :: err
         integer, intent(in) :: flag
         state_gt_flag = err%state > flag
      end function state_gt_flag
-     elemental logical function state_ge_flag(err,flag)
+     elemental logical(lk) function state_ge_flag(err,flag)
         type(linalg_state), intent(in) :: err
         integer, intent(in) :: flag
         state_ge_flag = err%state >= flag
      end function state_ge_flag
-     elemental logical function flag_gt_state(flag,err)
+     elemental logical(lk) function flag_gt_state(flag,err)
         integer, intent(in) :: flag
         type(linalg_state), intent(in) :: err
         flag_gt_state = err%state > flag
      end function flag_gt_state
-     elemental logical function flag_ge_state(flag,err)
+     elemental logical(lk) function flag_ge_state(flag,err)
         integer, intent(in) :: flag
         type(linalg_state), intent(in) :: err
         flag_ge_state = err%state >= flag
