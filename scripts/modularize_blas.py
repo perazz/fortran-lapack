@@ -692,7 +692,7 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
             # Check deps
             if (not functions[i].printed):
                 nprinted = 0
-                for j in range(len(functions[i].deps)):
+                for j in range(len(functions[i].ideps)):
 
                     dep = functions[i].ideps[j]
 
@@ -1375,6 +1375,110 @@ def function_namelists(Sources,external_funs,prefix):
 
     return old_names,new_names
 
+
+# Replace (if any) kind-dependent functions (int, nint, dble, real, dcmplx, etc.) with kind-agnostic
+# functions (real(..,kind=rp) cmplx(..,kind=rp), int(..,kind=ik) etc.)
+def replace_kind_functions(line,ik,rk):
+
+    DEBUG = False
+
+    kind_funs    = ['int','nint','idnint','dble','float','real','cmplx','dcmplx']
+    kind_label   = [ik,ik,ik,rk,rk,rk,rk,rk]
+    replace_with = ['int','nint','nint','real','real','real','cmplx','cmplx']
+
+    new = line
+
+    for j in range(len(kind_funs)):
+
+        if DEBUG: print(" *** REPLACING " + kind_funs[j] + " *** ")
+
+        # Find all instances
+        last_end = 0
+        matches = re.search(r'\b'+kind_funs[j]+r'\b',new)
+
+        while not matches is None:
+
+            if DEBUG: print(matches)
+
+            # Search enclosing parentheses
+            start_from = last_end + matches.end()
+            opened = 0
+            end_at = -1
+            for k in range(last_end + matches.end(),len(new)):
+                if new[k]=='(':
+                    opened += 1
+                elif new[k]==')':
+                    opened -= 1
+                    # Found enclosing parenthesis
+                    if opened==0:
+                        end_at = k
+                        break
+
+            if end_at==-1:
+                last_end = last_end + matches.end()
+
+            # Check that contents
+
+            else:
+
+                chunk = new[start_from:end_at].strip()
+                chunkl = chunk.lower()
+                kind_str = "KIND="+kind_label[j]
+
+                if DEBUG: print (" remainger : " + chunk)
+
+                # Declaration line
+                if chunk[1:]=='sp' or chunk[1:]=='dp' or chunk[1:]=='wp' or chunk[1:]=='qp' or chunk[1:]=='ilp':
+                    last_end = last_end + matches.end()
+                    if DEBUG: print('type declaration, skip')
+
+                # Kind already provided
+                elif chunkl.endswith(kind_str.lower()) or chunkl.endswith('wp'):
+                    last_end = last_end + matches.end()
+                    if DEBUG: print('end matches, skip')
+
+                else:
+
+                    # Assemble match
+                    new_begin = new[:last_end + matches.start()] + replace_with[j]
+
+                    # Reset match search from the end of the previous match
+                    last_end = len(new_begin)
+
+                    new = new_begin + chunk + ","+kind_str+")" + new[end_at+1:]
+
+                    if DEBUG: print(new)
+                    if DEBUG: print(new[last_end:])
+
+            matches = re.search(r'\b'+kind_funs[j]+r'\b',new[last_end:])
+            if DEBUG: print(matches)
+
+            if matches is None: break
+
+
+    return new
+
+
+#    # This regex pattern defines 3 groups such that we can capture expressions
+#    # containing other brackets, such as real(ax(i)+2)*real(bx(6)+ety(4))
+#    fpref = r'(([^a-zA-Z0-9\_])'
+#    # findr = r'(?:\(([^()]+(?:\([^()]+(?:\((?:[^()]+(?:\([^()]+\))*)+\))*\))*[^()]*)\))+)'
+#    findr = r'\((([^()]*(?:\([^()]*\))*[^()]*)+)\))'
+#
+#    # Replace type-dependent intrinsics that require a KIND specification
+#    whole = re.sub(fpref+'int'+findr,r'\2int(\3,KIND='+ik+r')',whole) # int
+#    whole = re.sub(fpref+'nint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # nint
+#    whole = re.sub(fpref+'idnint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # idnint
+#    whole = re.sub(fpref+'dble'+findr,r'\2real(\3,KIND='+rk+r')',whole) # dble
+#    whole = re.sub(fpref+'float'+findr,r'\2real(\3,KIND='+rk+r')',whole) # float
+#    whole = re.sub(fpref+'cmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
+#    whole = re.sub(fpref+'dcmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
+#
+
+
+
+
+
 # Given a list of intrinsic functions, ensure there are no duplicates and no kind-dependent ones
 def rename_intrinsics_line(line):
 
@@ -1551,20 +1655,6 @@ def rename_source_body(Source,Sources,external_funs,prefix):
             whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
 
 
-    # This regex pattern defines 3 groups such that we can capture expressions
-    # containing other brackets, such as real(ax(i)+2)*real(bx(6)+ety(4))
-    fpref = r'(([^a-zA-Z0-9\_])'
-    findr = r'(?:\(([^()]+(?:\([^()]+(?:\((?:[^()]+(?:\([^()]+\))*)+\))*\))*[^()]*)\))+)'
-
-    # Replace type-dependent intrinsics that require a KIND specification
-    whole = re.sub(fpref+'int'+findr,r'\2int(\3,KIND='+ik+r')',whole) # int
-    whole = re.sub(fpref+'nint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # nint
-    whole = re.sub(fpref+'idnint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # idnint
-    whole = re.sub(fpref+'dble'+findr,r'\2real(\3,KIND='+rk+r')',whole) # dble
-    whole = re.sub(fpref+'float'+findr,r'\2real(\3,KIND='+rk+r')',whole) # float
-    whole = re.sub(fpref+'cmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
-    whole = re.sub(fpref+'dcmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
-
     body = whole.split('\n')
 
     # Restore directive lines cases
@@ -1573,6 +1663,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
            body[j] = lines[j]
        else:
            # Ensure data conversion
+           body[j] = replace_kind_functions(body[j],ik,rk)
            body[j] = replace_la_constants(body[j],Source.file_name)
            body[j] = rename_parameter_line(body[j],Source,prefix)
            body[j] = rename_intrinsics_line(body[j])
@@ -2098,6 +2189,15 @@ shutil.copyfile('../assets/reference_lapack/INSTALL/slamch.f', '../assets/lapack
 shutil.copyfile('../assets/reference_lapack/INSTALL/dlamch.f', '../assets/lapack_sources/dlamch.f')
 shutil.copyfile('../assets/reference_lapack/INSTALL/sroundup_lwork.f', '../assets/lapack_sources/sroundup_lwork.f')
 shutil.copyfile('../assets/reference_lapack/INSTALL/droundup_lwork.f', '../assets/lapack_sources/droundup_lwork.f')
+
+
+
+#line = replace_kind_functions('         PHI(I) = ATAN2( DBLE( X11(I+1,I) ), DBLE( X21(I,I) ) )'.lower(),'ilp','dp')
+#print('         PHI(I) = ATAN2( DBLE( X11(I+1,I) ), DBLE( X21(I,I) ) )')
+#print(line)
+#line = replace_kind_functions('real(sp) :: a(lda, *), b(ldb, *), c(ldc, *)','ilp','sp')
+#print(line)
+#exit(1)
 
 # Run script
 funs = []
