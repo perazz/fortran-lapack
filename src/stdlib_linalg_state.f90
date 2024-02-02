@@ -197,228 +197,228 @@ module stdlib_linalg_state
     end function new_state
 
 
-          ! Append a generic value to the error flag
-          subroutine append(msg,a,prefix)
-             class(*), optional, intent(in) :: a
-             character(len=*), intent(inout) :: msg
-             character, optional, intent(in) :: prefix
+    ! Append a generic value to the error flag
+    subroutine append(msg,a,prefix)
+       class(*), optional, intent(in) :: a
+       character(len=*), intent(inout) :: msg
+       character, optional, intent(in) :: prefix
 
-             character(len=MSG_LENGTH) :: buffer,buffer2
-             character(len=2)  :: sep
-             integer :: ls
+       character(len=MSG_LENGTH) :: buffer,buffer2
+       character(len=2)  :: sep
+       integer :: ls
 
-             if (.not.present(a)) return
+       if (.not.present(a)) return
 
-             ! Do not add separator if this is the first instance
-             sep = '  '
-             ls  = merge(1,0,len_trim(msg)>0)
+       ! Do not add separator if this is the first instance
+       sep = '  '
+       ls  = merge(1,0,len_trim(msg)>0)
 
-             if (present(prefix)) then
-                ls = ls+1
-                sep(ls:ls) = prefix
-             endif
+       if (present(prefix)) then
+           ls = ls+1
+           sep(ls:ls) = prefix
+       endif
 
-             select type (aa=>a)
+       select type (aa=>a)
 
-                type is (character(len=*))
+        type is (character(len=*))
 
-                    msg = trim(msg)//sep(:ls)//aa
+            msg = trim(msg)//sep(:ls)//aa
 
-                type is (integer(int8))
+        type is (integer(int8))
 
-                    write(buffer,'(i0)') aa
-                    msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
+            write(buffer,'(i0)') aa
+            msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
 
-                type is (integer(int16))
+        type is (integer(int16))
 
-                    write(buffer,'(i0)') aa
-                    msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
+            write(buffer,'(i0)') aa
+            msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
 
-                type is (integer(int32))
+        type is (integer(int32))
 
-                    write(buffer,'(i0)') aa
-                    msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
+            write(buffer,'(i0)') aa
+            msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
 
-                type is (integer(int64))
+        type is (integer(int64))
 
-                    write(buffer,'(i0)') aa
-                    msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
+            write(buffer,'(i0)') aa
+            msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
 
-                type is (real(real32))
+        type is (real(real32))
 
-                    write(buffer,'(es15.8e2)') aa
-                    msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
+            write(buffer,'(es15.8e2)') aa
+            msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
 
-                type is (real(real64))
+        type is (real(real64))
 
-                    write(buffer,'(es24.16e3)') aa
-                    msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
+            write(buffer,'(es24.16e3)') aa
+            msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
 
-                type is (real(real128))
+        type is (real(real128))
 
-                    write(buffer,'(es44.35e4)') aa
-                    msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
+            write(buffer,'(es44.35e4)') aa
+            msg = trim(msg)//sep(:ls)//trim(adjustl(buffer))
 
-                type is (complex(real32))
+        type is (complex(real32))
 
-                    write(buffer, '(es15.8e2)') aa%re
-                    write(buffer2,'(es15.8e2)') aa%im
-                    msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
+            write(buffer, '(es15.8e2)') aa%re
+            write(buffer2,'(es15.8e2)') aa%im
+            msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
 
-                type is (complex(real64))
+        type is (complex(real64))
 
-                    write(buffer, '(es24.16e3)') aa%re
-                    write(buffer2,'(es24.16e3)') aa%im
-                    msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
+            write(buffer, '(es24.16e3)') aa%re
+            write(buffer2,'(es24.16e3)') aa%im
+            msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
 
-                type is (complex(real128))
+        type is (complex(real128))
 
-                    write(buffer, '(es44.35e4)') aa%re
-                    write(buffer2,'(es44.35e4)') aa%im
-                    msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
+            write(buffer, '(es44.35e4)') aa%re
+            write(buffer2,'(es44.35e4)') aa%im
+            msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
 
-                class default
+        class default
 
-                    msg = trim(msg)//' <ERROR: INVALID TYPE>'
+            msg = trim(msg)//' <ERROR: INVALID TYPE>'
 
-             end select
+       end select
 
-          end subroutine append
+    end subroutine append
 
-          ! Append a generic vector to the error flag
-          subroutine appendv(msg,a)
-             class(*), optional, intent(in) :: a(:)
-             character(len=*), intent(inout) :: msg
+    ! Append a generic vector to the error flag
+    subroutine appendv(msg,a)
+       class(*), optional, intent(in) :: a(:)
+       character(len=*), intent(inout) :: msg
 
-             integer :: j,ls
-             character(len=MSG_LENGTH) :: buffer,buffer2
-             character(len=2) :: sep
+       integer :: j,ls
+       character(len=MSG_LENGTH) :: buffer,buffer2
+       character(len=2) :: sep
 
-             if (.not.present(a)) return
-             if (size(a)<=0) return
+       if (.not.present(a)) return
+       if (size(a)<=0) return
 
-             ! Default: separate elements with one space
-             sep = '  '
-             ls  = 1
-
-             ! Open bracket
-             msg = trim(msg)//' ['
-
-             ! Do not call append(msg(aa(j))), it will crash gfortran
-             select type (aa=>a)
-
-                type is (character(len=*))
-
-                    msg = trim(msg)//adjustl(aa(1))
-                    do j=2,size(a)
-                       msg = trim(msg)//sep(:ls)//adjustl(aa(j))
-                    end do
-
-                type is (integer(int8))
-
-                    write(buffer,'(i0)') aa(1)
-                    msg = trim(msg)//adjustl(buffer)
-                    do j=2,size(a)
-                       write(buffer,'(i0)') aa(j)
-                       msg = trim(msg)//sep(:ls)//adjustl(buffer)
-                    end do
-
-                type is (integer(int16))
-
-                    write(buffer,'(i0)') aa(1)
-                    msg = trim(msg)//adjustl(buffer)
-                    do j=2,size(a)
-                       write(buffer,'(i0)') aa(j)
-                       msg = trim(msg)//sep(:ls)//adjustl(buffer)
-                    end do
-
-                type is (integer(int32))
-
-                    write(buffer,'(i0)') aa(1)
-                    msg = trim(msg)//adjustl(buffer)
-                    do j=2,size(a)
-                       write(buffer,'(i0)') aa(j)
-                       msg = trim(msg)//sep(:ls)//adjustl(buffer)
-                    end do
-
-                type is (integer(int64))
-
-                    write(buffer,'(i0)') aa(1)
-                    msg = trim(msg)//adjustl(buffer)
-                    do j=2,size(a)
-                       write(buffer,'(i0)') aa(j)
-                       msg = trim(msg)//sep(:ls)//adjustl(buffer)
-                    end do
-
-                type is (real(real32))
-
-                    write(buffer,'(es15.8e2)') aa(1)
-                    msg = trim(msg)//adjustl(buffer)
-                    do j=2,size(a)
-                       write(buffer,'(es15.8e2)') aa(j)
-                       msg = trim(msg)//sep(:ls)//adjustl(buffer)
-                    end do
-
-                type is (real(real64))
-
-                    write(buffer,'(es24.16e3)') aa(1)
-                    msg = trim(msg)//adjustl(buffer)
-                    do j=2,size(a)
-                       write(buffer,'(es24.16e3)') aa(j)
-                       msg = trim(msg)//sep(:ls)//adjustl(buffer)
-                    end do
-
-                type is (real(real128))
-
-                    write(buffer,'(es44.35e4)') aa(1)
-                    msg = trim(msg)//adjustl(buffer)
-                    do j=2,size(a)
-                       write(buffer,'(es44.35e4)') aa(j)
-                       msg = trim(msg)//sep(:ls)//adjustl(buffer)
-                    end do
-
-                type is (complex(real32))
-
-                    write(buffer, '(es15.8e2)') aa(1)%re
-                    write(buffer2,'(es15.8e2)') aa(1)%im
-                    msg = trim(msg)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
-                    do j=2,size(a)
-                        write(buffer, '(es15.8e2)') aa(j)%re
-                        write(buffer2,'(es15.8e2)') aa(j)%im
-                        msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
-                    end do
-
-                type is (complex(real64))
-
-                    write(buffer, '(es24.16e3)') aa(1)%re
-                    write(buffer2,'(es24.16e3)') aa(1)%im
-                    msg = trim(msg)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
-                    do j=2,size(a)
-                        write(buffer, '(es24.16e3)') aa(j)%re
-                        write(buffer2,'(es24.16e3)') aa(j)%im
-                        msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
-                    end do
-
-                type is (complex(real128))
-
-                    write(buffer, '(es44.35e4)') aa(1)%re
-                    write(buffer2,'(es44.35e4)') aa(1)%im
-                    msg = trim(msg)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
-                    do j=2,size(a)
-                        write(buffer, '(es44.35e4)') aa(j)%re
-                        write(buffer2,'(es44.35e4)') aa(j)%im
-                        msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
-                    end do
-
-                class default
-
-                    msg = trim(msg)//' <ERROR: INVALID TYPE>'
-
-             end select
-
-             ! Close bracket
-             msg = trim(msg)//']'
-
-          end subroutine appendv
+       ! Default: separate elements with one space
+       sep = '  '
+       ls  = 1
+
+       ! Open bracket
+       msg = trim(msg)//' ['
+
+       ! Do not call append(msg(aa(j))), it will crash gfortran
+       select type (aa=>a)
+
+        type is (character(len=*))
+
+            msg = trim(msg)//adjustl(aa(1))
+            do j=2,size(a)
+               msg = trim(msg)//sep(:ls)//adjustl(aa(j))
+            end do
+
+        type is (integer(int8))
+
+            write(buffer,'(i0)') aa(1)
+            msg = trim(msg)//adjustl(buffer)
+            do j=2,size(a)
+               write(buffer,'(i0)') aa(j)
+               msg = trim(msg)//sep(:ls)//adjustl(buffer)
+            end do
+
+        type is (integer(int16))
+
+            write(buffer,'(i0)') aa(1)
+            msg = trim(msg)//adjustl(buffer)
+            do j=2,size(a)
+               write(buffer,'(i0)') aa(j)
+               msg = trim(msg)//sep(:ls)//adjustl(buffer)
+            end do
+
+        type is (integer(int32))
+
+            write(buffer,'(i0)') aa(1)
+            msg = trim(msg)//adjustl(buffer)
+            do j=2,size(a)
+               write(buffer,'(i0)') aa(j)
+               msg = trim(msg)//sep(:ls)//adjustl(buffer)
+            end do
+
+        type is (integer(int64))
+
+            write(buffer,'(i0)') aa(1)
+            msg = trim(msg)//adjustl(buffer)
+            do j=2,size(a)
+               write(buffer,'(i0)') aa(j)
+               msg = trim(msg)//sep(:ls)//adjustl(buffer)
+            end do
+
+        type is (real(real32))
+
+            write(buffer,'(es15.8e2)') aa(1)
+            msg = trim(msg)//adjustl(buffer)
+            do j=2,size(a)
+               write(buffer,'(es15.8e2)') aa(j)
+               msg = trim(msg)//sep(:ls)//adjustl(buffer)
+            end do
+
+        type is (real(real64))
+
+            write(buffer,'(es24.16e3)') aa(1)
+            msg = trim(msg)//adjustl(buffer)
+            do j=2,size(a)
+               write(buffer,'(es24.16e3)') aa(j)
+               msg = trim(msg)//sep(:ls)//adjustl(buffer)
+            end do
+
+        type is (real(real128))
+
+            write(buffer,'(es44.35e4)') aa(1)
+            msg = trim(msg)//adjustl(buffer)
+            do j=2,size(a)
+               write(buffer,'(es44.35e4)') aa(j)
+               msg = trim(msg)//sep(:ls)//adjustl(buffer)
+            end do
+
+        type is (complex(real32))
+
+            write(buffer, '(es15.8e2)') aa(1)%re
+            write(buffer2,'(es15.8e2)') aa(1)%im
+            msg = trim(msg)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
+            do j=2,size(a)
+                write(buffer, '(es15.8e2)') aa(j)%re
+                write(buffer2,'(es15.8e2)') aa(j)%im
+                msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
+            end do
+
+        type is (complex(real64))
+
+            write(buffer, '(es24.16e3)') aa(1)%re
+            write(buffer2,'(es24.16e3)') aa(1)%im
+            msg = trim(msg)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
+            do j=2,size(a)
+                write(buffer, '(es24.16e3)') aa(j)%re
+                write(buffer2,'(es24.16e3)') aa(j)%im
+                msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
+            end do
+
+        type is (complex(real128))
+
+            write(buffer, '(es44.35e4)') aa(1)%re
+            write(buffer2,'(es44.35e4)') aa(1)%im
+            msg = trim(msg)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
+            do j=2,size(a)
+                write(buffer, '(es44.35e4)') aa(j)%re
+                write(buffer2,'(es44.35e4)') aa(j)%im
+                msg = trim(msg)//sep(:ls)//'('//trim(adjustl(buffer))//','//trim(adjustl(buffer2))//')'
+            end do
+
+        class default
+
+            msg = trim(msg)//' <ERROR: INVALID TYPE>'
+
+       end select
+
+       ! Close bracket
+       msg = trim(msg)//']'
+
+    end subroutine appendv
 
 end module stdlib_linalg_state
