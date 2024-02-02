@@ -5,7 +5,12 @@ program stdlib_linalg_tests
     logical :: error
 
     call test_formats(error)
-    if (error) stop 'test_formats'
+    if (error) error stop 'test_formats'
+
+
+
+    !> All tests passed
+    stop 0
 
 
 end program stdlib_linalg_tests
