@@ -409,7 +409,7 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
         initial = sing_prefixes[i]
         newinit = dble_prefixes[i]
         whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
-        whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
+        # whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
 
         if initial=='s':
             whole = re.sub(prefix[:-1]+r'\_delctg',prefix+r'selctg',whole)
@@ -1706,20 +1706,16 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     body = add_parameter_lines(Source,prefix,body)
 
     # PATCHES
-    if Source.old_name.endswith('la_lin_berr'):
+    if Source.old_name.lower().endswith('la_lin_berr'):
         for j in range(len(body)):
-            bs = body[j].strip()
+            bs = body[j].strip().lower()
             if bs=='real('+rk+') :: tmp':
                 nspaces = len(body[j])-len(bs)
                 body[j] = " "*nspaces + 'real('+rk+') :: tmp,safe1'
-                break
-    elif Source.old_name.endswith('herpvgrw'):
+
+    elif Source.old_name.lower().endswith('herpvgrw'):
         for j in range(len(body)):
-            bs = body[j].strip()
-            if bs==r"upper = lsame('upper', uplo)":
-                nspaces = len(body[j])-len(bs)
-                body[j] = " "*nspaces + r"upper = stdlib_lsame('upper', uplo)"
-                break
+           body[j] = re.sub(r' lsame\(',r' stdlib_lsame(',body[j])
 
     return body,dependency_list
 
