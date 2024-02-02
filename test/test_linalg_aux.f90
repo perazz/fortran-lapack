@@ -40,6 +40,9 @@ module test_linalg_aux
         if (state%message/=' 32-bit array: [(1.00000000E+00,0.00000000E+00) (0.00000000E+00,1.00000000E+00)]') &
         error = .true.
 
+        !> State flag with location
+        state = linalg_state('test_formats',LINALG_SUCCESS,' 32-bit real: ',1.0_sp)
+        if (state%print()/='[test_formats] returned Success!') error = .true.
 
     end subroutine test_formats
 
