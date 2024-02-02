@@ -411,6 +411,11 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
         whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
         whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
 
+        if initial=='s':
+            whole = re.sub(prefix[:-1]+r'\_delctg',prefix+r'selctg',whole)
+            whole = re.sub(prefix[:-1]+r'\_delect',prefix+r'select',whole)
+
+
     whole = re.sub(r'32\-bit',r'64-bit',whole)
     whole = re.sub(r'single precision',r'double precision',whole)
     whole = re.sub(r'\(sp\)',r'(dp)',whole)
@@ -1707,6 +1712,14 @@ def rename_source_body(Source,Sources,external_funs,prefix):
             if bs=='real('+rk+') :: tmp':
                 nspaces = len(body[j])-len(bs)
                 body[j] = " "*nspaces + 'real('+rk+') :: tmp,safe1'
+                break
+    elif Source.old_name.endswith('herpvgrw'):
+        for j in range(len(body)):
+            bs = body[j].strip()
+            if bs==r"upper = lsame('upper', uplo)":
+                nspaces = len(body[j])-len(bs)
+                body[j] = " "*nspaces + r"upper = stdlib_lsame('upper', uplo)"
+                break
 
     return body,dependency_list
 
@@ -1980,6 +1993,11 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   # Just append this line, but ensure F90+ style comment
                   line = re.sub(r'^\S', '!', line)
 
+                  # Final comment: remove
+                  lsl = line.strip().lower()
+                  if 'end of '+Source.old_name.lower() in lsl:
+                      line = ''
+
                   if whereAt!=Section.HEADER or not remove_headers:
                      Source.body.append(INDENT + line)
                   elif remove_headers:
@@ -2177,10 +2195,6 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                # Append this line
                non_deleted = whereAt!=Section.HEADER or not remove_headers
                non_use     = whereAt!=Section.DECLARATION or not Line.use
-
-               # Final comment: skip
-               lsl = line.strip().upper()
-               if 'end of '+Source.new_name.lower() in lsl: non_deleted = False
 
                if non_deleted and non_use:
                   Source.body.append(INDENT + line)
