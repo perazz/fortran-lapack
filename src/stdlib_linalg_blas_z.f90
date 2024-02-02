@@ -45,6 +45,7 @@ module stdlib_linalg_blas_z
      public :: stdlib_ztrsv
 
      ! 64-bit real constants
+     real(dp), parameter, private :: negone = -1.00_dp
      real(dp), parameter, private :: zero = 0.00_dp
      real(dp), parameter, private :: half = 0.50_dp
      real(dp), parameter, private :: one = 1.00_dp
@@ -58,6 +59,7 @@ module stdlib_linalg_blas_z
      complex(dp), parameter, private :: czero = (0.0_dp, 0.0_dp)
      complex(dp), parameter, private :: chalf = (0.5_dp, 0.0_dp)
      complex(dp), parameter, private :: cone = (1.0_dp, 0.0_dp)
+     complex(dp), parameter, private :: cnegone = (-1.0_dp, 0.0_dp)
 
      ! 64-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
@@ -96,7 +98,7 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            integer(ilp) :: i, ix, iy
            if (n <= 0) return
-           if (stdlib_dcabs1(za) == zero) return
+           if (stdlib_dcabs1(za) == 0.0_dp) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               do i = 1, n
@@ -116,7 +118,6 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-           ! end of stdlib_zaxpy
      end subroutine stdlib_zaxpy
 
      ! ZCOPY copies a vector, x, to a vector, y.
@@ -152,7 +153,6 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-           ! end of stdlib_zcopy
      end subroutine stdlib_zcopy
 
      ! ZDOTC forms the dot product of two complex vectors
@@ -172,8 +172,8 @@ module stdlib_linalg_blas_z
            integer(ilp) :: i, ix, iy
            ! .. intrinsic functions ..
            intrinsic :: conjg
-           ztemp = (zero, zero)
-           stdlib_zdotc = (zero, zero)
+           ztemp = (0.0_dp, 0.0_dp)
+           stdlib_zdotc = (0.0_dp, 0.0_dp)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -195,7 +195,6 @@ module stdlib_linalg_blas_z
            end if
            stdlib_zdotc = ztemp
            return
-           ! end of stdlib_zdotc
      end function stdlib_zdotc
 
      ! ZDOTU forms the dot product of two complex vectors
@@ -213,8 +212,8 @@ module stdlib_linalg_blas_z
            ! .. local scalars ..
            complex(dp) :: ztemp
            integer(ilp) :: i, ix, iy
-           ztemp = (zero, zero)
-           stdlib_zdotu = (zero, zero)
+           ztemp = (0.0_dp, 0.0_dp)
+           stdlib_zdotu = (0.0_dp, 0.0_dp)
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -236,7 +235,6 @@ module stdlib_linalg_blas_z
            end if
            stdlib_zdotu = ztemp
            return
-           ! end of stdlib_zdotu
      end function stdlib_zdotu
 
      ! Applies a plane rotation, where the cos and sin (c and s) are real
@@ -281,7 +279,6 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-           ! end of stdlib_zdrot
      end subroutine stdlib_zdrot
 
      ! ZDSCAL scales a vector by a constant.
@@ -304,17 +301,16 @@ module stdlib_linalg_blas_z
            if (incx == 1) then
               ! code for increment equal to 1
               do i = 1, n
-                 zx(i) = cmplx(da, zero, KIND=dp)*zx(i)
+                 zx(i) = cmplx(da, 0.0_dp, KIND=dp)*zx(i)
               end do
            else
               ! code for increment not equal to 1
               nincx = n*incx
               do i = 1, nincx, incx
-                 zx(i) = cmplx(da, zero, KIND=dp)*zx(i)
+                 zx(i) = cmplx(da, 0.0_dp, KIND=dp)*zx(i)
               end do
            end if
            return
-           ! end of stdlib_zdscal
      end subroutine stdlib_zdscal
 
      ! ZGBMV  performs one of the matrix-vector operations
@@ -485,7 +481,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zgbmv
      end subroutine stdlib_zgbmv
 
      ! ZGEMM  performs one of the matrix-matrix operations
@@ -733,7 +728,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zgemm
      end subroutine stdlib_zgemm
 
      ! ZGEMV  performs one of the matrix-vector operations
@@ -893,7 +887,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zgemv
      end subroutine stdlib_zgemv
 
      ! ZGERC  performs the rank 1 operation
@@ -972,7 +965,6 @@ module stdlib_linalg_blas_z
                end do
            end if
            return
-           ! end of stdlib_zgerc
      end subroutine stdlib_zgerc
 
      ! ZGERU  performs the rank 1 operation
@@ -1051,7 +1043,6 @@ module stdlib_linalg_blas_z
                end do
            end if
            return
-           ! end of stdlib_zgeru
      end subroutine stdlib_zgeru
 
      ! ZHBMV  performs the matrix-vector  operation
@@ -1213,7 +1204,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zhbmv
      end subroutine stdlib_zhbmv
 
      ! ZHEMM  performs one of the matrix-matrix operations
@@ -1362,7 +1352,6 @@ module stdlib_linalg_blas_z
                end do loop_170
            end if
            return
-           ! end of stdlib_zhemm
      end subroutine stdlib_zhemm
 
      ! ZHEMV  performs the matrix-vector  operation
@@ -1514,7 +1503,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zhemv
      end subroutine stdlib_zhemv
 
      ! ZHER   performs the hermitian rank 1 operation
@@ -1629,7 +1617,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zher
      end subroutine stdlib_zher
 
      ! ZHER2  performs the hermitian rank 2 operation
@@ -1768,7 +1755,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zher2
      end subroutine stdlib_zher2
 
      ! ZHER2K  performs one of the hermitian rank 2k operations
@@ -1976,7 +1962,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zher2k
      end subroutine stdlib_zher2k
 
      ! ZHERK  performs one of the hermitian rank k operations
@@ -2172,7 +2157,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zherk
      end subroutine stdlib_zherk
 
      ! ZHPMV  performs the matrix-vector operation
@@ -2330,7 +2314,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zhpmv
      end subroutine stdlib_zhpmv
 
      ! ZHPR    performs the hermitian rank 1 operation
@@ -2452,7 +2435,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zhpr
      end subroutine stdlib_zhpr
 
      ! ZHPR2  performs the hermitian rank 2 operation
@@ -2597,7 +2579,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zhpr2
      end subroutine stdlib_zhpr2
 
      ! !
@@ -2644,7 +2625,7 @@ module stdlib_linalg_blas_z
         ! .. statement functions ..
         real(dp) :: abssq
         ! .. statement function definitions ..
-        abssq(t) = real(t)**2 + aimag(t)**2
+        abssq(t) = real(t, KIND=dp)**2 + aimag(t)**2
         ! .. executable statements ..
         f = a
         g = b
@@ -2654,7 +2635,7 @@ module stdlib_linalg_blas_z
            r = f
         else if (f == czero) then
            c = zero
-           g1 = max(abs(real(g)), abs(aimag(g)))
+           g1 = max(abs(real(g, KIND=dp)), abs(aimag(g)))
            if (g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
               g2 = abssq(g)
@@ -2672,8 +2653,8 @@ module stdlib_linalg_blas_z
               r = d*u
            end if
         else
-           f1 = max(abs(real(f)), abs(aimag(f)))
-           g1 = max(abs(real(g)), abs(aimag(g)))
+           f1 = max(abs(real(f, KIND=dp)), abs(aimag(f)))
+           g1 = max(abs(real(g, KIND=dp)), abs(aimag(g)))
      if (f1 > rtmin .and. f1 < rtmax .and. g1 > rtmin .and. g1 < rtmax) then
               ! use unscaled algorithm
               f2 = abssq(f)
@@ -2753,7 +2734,6 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-           ! end of stdlib_zscal
      end subroutine stdlib_zscal
 
      ! ZSWAP interchanges two vectors.
@@ -2794,7 +2774,6 @@ module stdlib_linalg_blas_z
               end do
            end if
            return
-           ! end of stdlib_zswap
      end subroutine stdlib_zswap
 
      ! ZSYMM  performs one of the matrix-matrix operations
@@ -2941,7 +2920,6 @@ module stdlib_linalg_blas_z
                end do loop_170
            end if
            return
-           ! end of stdlib_zsymm
      end subroutine stdlib_zsymm
 
      ! ZSYR2K  performs one of the symmetric rank 2k operations
@@ -3116,7 +3094,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zsyr2k
      end subroutine stdlib_zsyr2k
 
      ! ZSYRK  performs one of the symmetric rank k operations
@@ -3283,7 +3260,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_zsyrk
      end subroutine stdlib_zsyrk
 
      ! ZTBMV  performs one of the matrix-vector operations
@@ -3497,7 +3473,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_ztbmv
      end subroutine stdlib_ztbmv
 
      ! ZTBSV  solves one of the systems of equations
@@ -3714,7 +3689,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_ztbsv
      end subroutine stdlib_ztbsv
 
      ! ZTPMV  performs one of the matrix-vector operations
@@ -3931,7 +3905,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_ztpmv
      end subroutine stdlib_ztpmv
 
      ! ZTPSV  solves one of the systems of equations
@@ -4150,7 +4123,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_ztpsv
      end subroutine stdlib_ztpsv
 
      ! ZTRMM  performs one of the matrix-matrix operations
@@ -4391,7 +4363,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_ztrmm
      end subroutine stdlib_ztrmm
 
      ! ZTRMV  performs one of the matrix-vector operations
@@ -4588,7 +4559,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_ztrmv
      end subroutine stdlib_ztrmv
 
      ! ZTRSM  solves one of the matrix equations
@@ -4852,7 +4822,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_ztrsm
      end subroutine stdlib_ztrsm
 
      ! ZTRSV  solves one of the systems of equations
@@ -5051,7 +5020,6 @@ module stdlib_linalg_blas_z
                end if
            end if
            return
-           ! end of stdlib_ztrsv
      end subroutine stdlib_ztrsv
 
 end module stdlib_linalg_blas_z

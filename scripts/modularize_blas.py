@@ -176,8 +176,6 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         numeric_const = []
         if module_name+"_"+initials[m]=='stdlib_linalg_lapack_aux':
-            # AUX: add quadruple-precision procedure interfaces
-            fortran_functions = patch_blas_aux(fid,fortran_functions,prefix,INDENT,False)
             # AUX: add procedure interfaces
             patch_lapack_aux(fid,prefix,INDENT)
         if module_name+"_"+initials[m]=='stdlib_linalg_blas_aux':
@@ -202,13 +200,8 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         fid.write("\n\n\nend module {}\n".format(this_module))
         fid.close()
 
-#        # Double -> Quadruple precision module
-#        if initials[m]=='d' or initials[m]=='z':
-#           quad_precision_module(module_name,out_folder,initials[m],prefix)
-
     # Write wrapper module
     if split_by_initial: write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix)
-
 
     # Return list of all functions defined in this module, including the external ones
     return old_names
@@ -321,10 +314,10 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
         blas_quad = []
     else:
         # Lapack patches
-        blas_init = ['d','iz','ilaz','ilaz','ilad','ilad']
-        blas_newi = ['q','iw','ilaw','ilaw','ilaq','ilaq']
-        blas_dble = ['droundup_lwork','izmax1','ilazlc','ilazlr','iladlc','iladlr']
-        blas_quad = ['qroundup_lwork','iwmax1','ilawlc','ilawlr','ilaqlc','ilaqlr']
+        blas_init = ['iz','ilaz','ilaz','ilad','ilad']
+        blas_newi = ['iw','ilaw','ilaw','ilaq','ilaq']
+        blas_dble = ['izmax1','ilazlc','ilazlr','iladlc','iladlr']
+        blas_quad = ['iwmax1','ilawlc','ilawlr','ilaqlc','ilaqlr']
 
 
     # Flagged functions:
@@ -369,10 +362,8 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
     new_list = []
     for i in range(len(fortran_functions)):
         new_list.append(fortran_functions[i])
-        if (new_list[-1].old_name=='daxpy'): print("OLD after daxpy:"+fortran_functions[i+1].old_name)
     for i in range(len(new_functions)):
         new_list.append(new_functions[i])
-        if (new_list[-1].old_name=='daxpy'): print("NEW after daxpy:"+fortran_functions[i+1].old_name)
 
     return new_list
 
@@ -381,9 +372,9 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
 
     import re
 
-    sing_prefixes = ['s','c','is','ic']
-    dble_prefixes = ['d','z','id','iz']
-    quad_prefixes = ['q','w','iq','iw']
+    sing_prefixes = ['s','c','is','ic','ilas','ilac']
+    dble_prefixes = ['d','z','id','iz','ilad','ilaz']
+    quad_prefixes = ['q','w','iq','iw','ilaq','ilaw']
 
     if len(initial)>2:
         dble_prefixes.append(initial)
@@ -418,7 +409,12 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
         initial = sing_prefixes[i]
         newinit = dble_prefixes[i]
         whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
-        whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
+        # whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
+
+        if initial=='s':
+            whole = re.sub(prefix[:-1]+r'\_delctg',prefix+r'selctg',whole)
+            whole = re.sub(prefix[:-1]+r'\_delect',prefix+r'select',whole)
+
 
     whole = re.sub(r'32\-bit',r'64-bit',whole)
     whole = re.sub(r'single precision',r'double precision',whole)
@@ -488,11 +484,12 @@ def function_in_module(initial,function_name):
 
    oname = function_name.lower().strip()
 
-   if len(initial)<1:
+   if len(initial)<1 or len(oname)<1:
        in_module = True
    elif    oname.endswith("amax") \
         or oname.endswith("abs") \
         or oname.endswith("roundup_lwork") \
+        or oname.endswith("chla_transtype") \
         or oname.endswith("abs1") :
        in_module = initial[0].lower() == 'a'
    # PATCH: exclude functions
@@ -603,8 +600,8 @@ def print_module_constants(fid,prefix,INDENT):
     cmpl_prefix = ['c','z','w']
     precision   = ['32-bit','64-bit','128-bit']
 
-    real_const = ['zero','half','one','two','three','four','eight','ten']
-    real_val   = [0.0,0.5,1.0,2.0,3.0,4.0,8.0,10.0]
+    real_const = ['negone','zero','half','one','two','three','four','eight','ten']
+    real_val   = [-1.0,0.0,0.5,1.0,2.0,3.0,4.0,8.0,10.0]
 
     const_names = []
     const_types = []
@@ -631,12 +628,15 @@ def print_module_constants(fid,prefix,INDENT):
         const_types.append("real("+rk+")")
 
     if fid: fid.write("\n" + INDENT + "! "+precision[i]+" complex constants \n")
-    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: czero  = (0.0_"+rk+",0.0_"+rk+")\n")
-    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: chalf  = (0.5_"+rk+",0.0_"+rk+")\n")
-    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: cone   = (1.0_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: czero   = ( 0.0_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: chalf   = ( 0.5_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: cone    = ( 1.0_"+rk+",0.0_"+rk+")\n")
+    if fid: fid.write(INDENT + "complex("+rk+"), parameter, private :: cnegone = (-1.0_"+rk+",0.0_"+rk+")\n")
     const_names.append("czero")
     const_types.append("complex("+rk+")")
     const_names.append("cone")
+    const_types.append("complex("+rk+")")
+    const_names.append("cnegone")
     const_types.append("complex("+rk+")")
     const_names.append("chalf")
     const_types.append("complex("+rk+")")
@@ -687,9 +687,7 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
                functions[i].ideps.append(fun_names.index(thisdep))
            else:
                print('initial = '+initial)
-               print("dependency "+thisdep+" in function "+functions[i].old_name+" is not in list: ")
-               print('\n'.join(fun_names))
-               exit(1)
+               print("warning! dependency "+thisdep+" in function "+functions[i].old_name+" is not in list. ")
 
     attempt = 0
     MAXIT   = 50*len(functions)
@@ -702,7 +700,7 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
             # Check deps
             if (not functions[i].printed):
                 nprinted = 0
-                for j in range(len(functions[i].deps)):
+                for j in range(len(functions[i].ideps)):
 
                     dep = functions[i].ideps[j]
 
@@ -973,22 +971,22 @@ class Fortran_Source:
     # Check if this is a double precision function
     def is_double_precision(self):
         old = self.old_name.lower()
-        return old.startswith('d') or old.startswith('id') or \
-               old.startswith('z') or old.startswith('iz')
+        return old.startswith('d') or old.startswith('id') or old.startswith('ilad') or\
+               old.startswith('z') or old.startswith('iz') or old.startswith('ilaz')
 
     # Check if this is a quadruple precision function
     def is_quad_precision(self):
         old = self.old_name.lower()
-        return old.startswith('q') or old.startswith('iq') or \
-               old.startswith('w') or old.startswith('iw')
+        return old.startswith('q') or old.startswith('iq') or old.startswith('ilaq') or \
+               old.startswith('w') or old.startswith('iw') or old.startswith('ilaw')
 
 
     # Convert a double precision function to quad precision
     def to_quad_precision(self):
 
-        sing_prefixes = ['is','ic','s','c']
-        dble_prefixes = ['id','iz','d','z']
-        quad_prefixes = ['iq','iw','q','w']
+        sing_prefixes = ['is','ic','s','c','ilas','ilac']
+        dble_prefixes = ['id','iz','d','z','ilad','ilaz']
+        quad_prefixes = ['iq','iw','q','w','ilaq','ilaw']
 
         # Deep copy
         q = copy.copy(self)
@@ -1148,13 +1146,15 @@ class Fortran_Line:
 
 # Read and preprocess a Fortran line for parsing: remove comments, adjust left, and if this is a continuation
 # line, read all continuation lines into it
-def line_read_and_preprocess(line,is_free_form,file_name):
+def line_read_and_preprocess(line,is_free_form,file_name,old_name):
 
     import re
 
+    is_aux_module = function_in_module('aux',old_name)
+
     processed = replace_f77_types(line,is_free_form)
 
-    processed = replace_la_constants(processed,file_name)
+    processed = replace_la_constants(processed,file_name,is_aux_module)
 
     # Check if this is a directive
     is_dir = is_directive_line(processed)
@@ -1242,16 +1242,21 @@ def replace_f77_types(line,is_free_form):
     new_line = re.sub(r'\bdimag\b',r'aimag',new_line)
     new_line = re.sub(r'\bDCONJG\b',r'CONJG',new_line) # conjg
     new_line = re.sub(r'\bdconjg\b',r'conjg',new_line)
-    new_line = re.sub(r'\bDCONJG\b',r'CONJG',new_line)
-    new_line = re.sub(r'\bdconjg\b',r'conjg',new_line)
 
     return new_line
 
-def replace_la_constants(line,file_name):
+def replace_la_constants(line,file_name,is_aux_module):
 
     import re
 
     new_line = line.rstrip()
+    lsl = line.strip().lower()
+
+    # NOTE!! Numeric constants inside a complex parameter cannot be variables.
+    # e.g., complex, parameter :: cone = (1.0,0.0) cannot become complex, parameter :: cone = (one,zero)
+    # even if one, zero are parameters
+    is_complex_parameter = lsl.startswith('complex')
+    is_parameter_line = 'parameter' in lsl
 
     letter = file_name[0].lower()
     if   letter=='c' or letter=='s':
@@ -1266,21 +1271,30 @@ def replace_la_constants(line,file_name):
         # aux
         return new_line
 
-    # Numeric constants
-    new_line = re.sub(r'\b0\.0\b','zero',new_line)
-    new_line = re.sub(r'\b0\.0d0\b','zero',new_line)
-    new_line = re.sub(r'\b0\.0e0\b','zero',new_line)
-    new_line = re.sub(r'\b1\.0\b','one',new_line)
-    new_line = re.sub(r'\b1\.0d0\b','one',new_line)
-    new_line = re.sub(r'\b1\.0e0\b','one',new_line)
+    # Numeric constants.
+    if not (is_complex_parameter or is_aux_module or is_parameter_line):
+        new_line = re.sub(r'\b0\.0\b','zero',new_line)
+        new_line = re.sub(r'\b0\.0d0\b','zero',new_line)
+        new_line = re.sub(r'\b0\.0e0\b','zero',new_line)
+        new_line = re.sub(r'\b1\.0\b','one',new_line)
+        new_line = re.sub(r'\b1\.0d0\b','one',new_line)
+        new_line = re.sub(r'\b1\.0e0\b','one',new_line)
     new_line = re.sub(r'([0-9\.]+)[dD]0+([^_])',r'\1'+ext+r'\2',new_line)
     new_line = re.sub(r'([0-9\.]+)[eE]0+([^_])',r'\1'+ext+r'\2',new_line)
 
     # AFTER parameters have been replaced, replace leftover numeric constants
-    new_line = re.sub(r'([-\s\,\*])0+\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1zero\2',new_line)  # zero
-    new_line = re.sub(r'([-\s\,\*])0*1\.0+[deDE][\-\+]{0,1}0+([^0-9]*)',r'\1one\2',new_line)   # one
+    if not (is_complex_parameter or is_aux_module or is_parameter_line):
+        new_line = re.sub(r'([-\s\,\*])0+\.0+[deDE][\-\+]{0,1}0+('+ext+r')*',r'\1zero',new_line)  # zero
+        new_line = re.sub(r'([-\s\,\*])0*1\.0+[deDE][\-\+]{0,1}0+('+ext+r')*',r'\1one',new_line)   # one
     new_line = re.sub(r'([0-9\.])([de])([0-9\+\-]+)',r'\1e\3'+ext,new_line)   # other numbers not finished by real precision
     new_line = re.sub(r'([\.])([0-9]+)([\s\,\:\=\)\*])',r'\1\2'+ext+r'\3',new_line)   # other numbers not finished by real precision
+
+    if 'zero_dp' in new_line:
+        print("ORIGINAL LINE" + line)
+        print("NOW "+new_line)
+        print(str(is_aux_module))
+        print(str(is_complex_parameter))
+        exit(1)
 
     return new_line
 
@@ -1387,6 +1401,158 @@ def function_namelists(Sources,external_funs,prefix):
 
     return old_names,new_names
 
+
+# Replace (if any) kind-dependent functions (int, nint, dble, real, dcmplx, etc.) with kind-agnostic
+# functions (real(..,kind=rp) cmplx(..,kind=rp), int(..,kind=ik) etc.)
+def replace_kind_functions(line,ik,rk):
+
+    DEBUG = False
+
+    kind_funs    = ['int','nint','idnint','dble','float','real','cmplx','dcmplx']
+    kind_label   = [ik,ik,ik,rk,rk,rk,rk,rk]
+    replace_with = ['int','nint','nint','real','real','real','cmplx','cmplx']
+
+    new = line
+
+    for j in range(len(kind_funs)):
+
+        if DEBUG: print(" *** REPLACING " + kind_funs[j] + " *** ")
+
+        # Find all instances
+        last_end = 0
+        matches = re.search(r'\b'+kind_funs[j]+r'\b',new)
+
+        while not matches is None:
+
+            if DEBUG: print(matches)
+
+            # Search enclosing parentheses
+            start_from = last_end + matches.end()
+            opened = 0
+            end_at = -1
+            for k in range(last_end + matches.end(),len(new)):
+                if new[k]=='(':
+                    opened += 1
+                elif new[k]==')':
+                    opened -= 1
+                    # Found enclosing parenthesis
+                    if opened==0:
+                        end_at = k
+                        break
+
+            if end_at==-1:
+                last_end = last_end + matches.end()
+
+            # Check that contents
+
+            else:
+
+                chunk = new[start_from:end_at].strip()
+                chunkl = chunk.lower()
+                kind_str = "KIND="+kind_label[j]
+
+                if DEBUG: print (" remainger : " + chunk)
+
+                # Declaration line
+                if chunk[1:]=='sp' or chunk[1:]=='dp' or chunk[1:]=='wp' or chunk[1:]=='qp' or chunk[1:]=='ilp':
+                    last_end = last_end + matches.end()
+                    if DEBUG: print('type declaration, skip')
+
+                # Kind already provided
+                elif chunkl.endswith(kind_str.lower()) or chunkl.endswith('wp'):
+                    last_end = last_end + matches.end()
+                    if DEBUG: print('end matches, skip')
+
+                else:
+
+                    # Assemble match
+                    new_begin = new[:last_end + matches.start()] + replace_with[j]
+
+                    # Reset match search from the end of the previous match
+                    last_end = len(new_begin)
+
+                    new = new_begin + chunk + ","+kind_str+")" + new[end_at+1:]
+
+                    if DEBUG: print(new)
+                    if DEBUG: print(new[last_end:])
+
+            matches = re.search(r'\b'+kind_funs[j]+r'\b',new[last_end:])
+            if DEBUG: print(matches)
+
+            if matches is None: break
+
+
+    return new
+
+
+#    # This regex pattern defines 3 groups such that we can capture expressions
+#    # containing other brackets, such as real(ax(i)+2)*real(bx(6)+ety(4))
+#    fpref = r'(([^a-zA-Z0-9\_])'
+#    # findr = r'(?:\(([^()]+(?:\([^()]+(?:\((?:[^()]+(?:\([^()]+\))*)+\))*\))*[^()]*)\))+)'
+#    findr = r'\((([^()]*(?:\([^()]*\))*[^()]*)+)\))'
+#
+#    # Replace type-dependent intrinsics that require a KIND specification
+#    whole = re.sub(fpref+'int'+findr,r'\2int(\3,KIND='+ik+r')',whole) # int
+#    whole = re.sub(fpref+'nint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # nint
+#    whole = re.sub(fpref+'idnint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # idnint
+#    whole = re.sub(fpref+'dble'+findr,r'\2real(\3,KIND='+rk+r')',whole) # dble
+#    whole = re.sub(fpref+'float'+findr,r'\2real(\3,KIND='+rk+r')',whole) # float
+#    whole = re.sub(fpref+'cmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
+#    whole = re.sub(fpref+'dcmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
+#
+
+
+
+
+
+# Given a list of intrinsic functions, ensure there are no duplicates and no kind-dependent ones
+def rename_intrinsics_line(line):
+
+    src = re.search(r'(\s*intrinsic\s*::\s*)(.+)',line)
+
+    if not src is None:
+
+       mvars = src.group(2).replace(" ","").lower().split(",")
+
+       # Rename kind-dependent first
+       for i in range(len(mvars)):
+          if mvars[i]=='dble':
+              mvars[i] = 'real'
+          elif mvars[i]=='dcmplx':
+              mvars[i] = 'cmplx'
+
+       unique = []
+       # Remove duplicates
+       for i in range(len(mvars)):
+          found = False
+          for j in range(i+1,len(mvars)):
+             if mvars[i]==mvars[j]:
+                 found = True
+                 break
+          if not found: unique.append(mvars[i])
+
+       # Build final string
+       fixed = src.group(1) + ','.join(unique)
+
+       return fixed
+    else:
+       return line
+
+
+# If this is a labelled CONTINUE line, ensure it is indented similar to the previous line
+def align_labelled_continue(line,previous=None):
+
+    m = re.search(r'(\s*[0-9]+)(?:\s*)(continue)(?:\s*)',line)
+
+    if m is None or previous is None:
+        return line
+    else:
+        label = m.group(1).strip()
+
+        nspaces = len(previous)-len(previous.lstrip())
+
+        return " "*nspaces + label + " continue"
+
 # Given the list of all variables, extract those that are module constants
 def rename_parameter_line(line,Source,prefix):
 
@@ -1452,12 +1618,12 @@ def rename_parameter_line(line,Source,prefix):
 def rename_source_body(Source,Sources,external_funs,prefix):
 
     import re
-    la_names = ['zero','one','two','rtmin','rtmax','safmin','safmax','sbig','ssml','tbig','tsml','half']
-    la_repl = []
 
     name  = Source.old_name
     lines = Source.body
     decl  = Source.decl
+
+    is_aux_module = function_in_module('aux',name)
 
     initial = name[0]
     if initial=='w' or initial=='q':
@@ -1515,25 +1681,6 @@ def rename_source_body(Source,Sources,external_funs,prefix):
             whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
 
 
-    # This regex pattern defines 3 groups such that we can capture expressions
-    # containing other brackets, such as real(ax(i)+2)*real(bx(6)+ety(4))
-    fpref = r'(([^a-zA-Z0-9\_])'
-    findr = r'\((([^()]*(?:\([^()]*\))*[^()]*)+)\))'
-
-    # Replace type-dependent intrinsics that require a KIND specification
-    whole = re.sub(fpref+'int'+findr,r'\2int(\3,KIND='+ik+r')',whole) # int
-    whole = re.sub(fpref+'nint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # nint
-    whole = re.sub(fpref+'idnint'+findr,r'\2nint(\3,KIND='+ik+r')',whole) # idnint
-    whole = re.sub(fpref+'dble'+findr,r'\2real(\3,KIND='+rk+r')',whole) # dble
-    whole = re.sub(fpref+'float'+findr,r'\2real(\3,KIND='+rk+r')',whole) # float
-    # whole = re.sub(r'(real\()(.+)(\))',r'real(\2,KIND='+rk+r')',whole) # real
-    whole = re.sub(fpref+'cmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
-    whole = re.sub(fpref+'dcmplx'+findr,r'\2cmplx(\3,KIND='+rk+r')',whole) # dcmplx
-
-    # After this is done, we can replace leftover intrinsic :: dble keywords with "real"
-    whole = re.sub(r'\bdble\b',r'real',whole) # dble
-
-
     body = whole.split('\n')
 
     # Restore directive lines cases
@@ -1542,8 +1689,11 @@ def rename_source_body(Source,Sources,external_funs,prefix):
            body[j] = lines[j]
        else:
            # Ensure data conversion
-           body[j] = replace_la_constants(body[j],Source.file_name)
+           body[j] = replace_kind_functions(body[j],ik,rk)
+           body[j] = replace_la_constants(body[j],Source.file_name,is_aux_module)
            body[j] = rename_parameter_line(body[j],Source,prefix)
+           body[j] = rename_intrinsics_line(body[j])
+           if j>0: body[j] = align_labelled_continue(body[j],body[j-1])
 
 
     # Build dependency list
@@ -1555,6 +1705,18 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     # Add parameters
     body = add_parameter_lines(Source,prefix,body)
 
+    # PATCHES
+    if Source.old_name.lower().endswith('la_lin_berr'):
+        for j in range(len(body)):
+            bs = body[j].strip().lower()
+            if bs=='real('+rk+') :: tmp':
+                nspaces = len(body[j])-len(bs)
+                body[j] = " "*nspaces + 'real('+rk+') :: tmp,safe1'
+
+    elif Source.old_name.lower().endswith('herpvgrw'):
+        for j in range(len(body)):
+           body[j] = re.sub(r' lsame\(',r' stdlib_lsame(',body[j])
+
     return body,dependency_list
 
 # Filter out parameters from the global config, and list those in the current routine
@@ -1564,6 +1726,8 @@ def add_parameter_lines(Source,prefix,body):
 
     start_line = 0
     INDENT = "    "
+
+    is_aux_module = function_in_module('aux',Source.old_name)
 
     # Get standard numeric constants for this module
     mod_const,mod_types,rk = print_module_constants([],Source.old_name[0],INDENT)
@@ -1616,21 +1780,23 @@ def add_parameter_lines(Source,prefix,body):
             # Check if this name has the wrong type. e.g., complex(sp), parameter :: one = (1.0,0.0)
             # instead of cone
             ipar = mod_const.index(Source.pname[i])
-            par_type = mod_types[ipar]
         else:
             printed+=1
 
-    preal = ['one','zero','half']
-    pcmpl = ['cone','czero','chalf']
+    preal = ['one','zero','half','negone','negonecomplex']
+    pcmpl = ['cone','czero','chalf','cnegone','cnegone']
 
-    if Source.old_name[0]=='c' or Source.old_name[0]=='z':
+    if Source.old_name[0]=='c' or Source.old_name[0]=='z' or Source.old_name[0]=='w':
 
        if Source.old_name[0]=='c':
           rtyp = 'real(sp)'
           ctyp = 'complex(sp)'
-       else:
+       elif Source.old_name[0]=='z':
           rtyp = 'real(dp)'
           ctyp = 'complex(dp)'
+       else:
+          rtyp = 'real(qp)'
+          ctyp = 'complex(qp)'
 
        for j in range(len(preal)):
            pr = preal[j]
@@ -1664,9 +1830,12 @@ def add_parameter_lines(Source,prefix,body):
            if r2c:
                wrong_param.append(pr)
                right_param.append(pc)
+               # Make sure this is not also included as a local parameter
+               mod_const.append(pr)
            elif c2r:
                wrong_param.append(pc)
                right_param.append(pr)
+               mod_const.append(pc)
 
 
     # Do not print ".. function parameters .." line if none is printed out
@@ -1681,7 +1850,8 @@ def add_parameter_lines(Source,prefix,body):
     for i in range(len(Source.pname)):
         if not Source.pname[i] in mod_const:
             line = Source.ptype[i] + ", parameter :: " + Source.pname[i] + " = " + Source.pvalue[i]
-            line = replace_la_constants(line,Source.file_name)
+            line = replace_la_constants(line,Source.file_name,is_aux_module)
+            print(line)
             new.append(INDENT + line)
 
     for i in range(len(body)-start_line-1):
@@ -1691,7 +1861,6 @@ def add_parameter_lines(Source,prefix,body):
                 for j in range(len(wrong_param)):
                     line = re.sub(r"\b"+wrong_param[j]+r"\b",right_param[j],line)
             new.append(line)
-
 
     return new
 
@@ -1705,7 +1874,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False #file_name.lower().startswith("dgesvj")
+    DEBUG  = False #file_name.lower().startswith("zcposv")
 
     Procedures = []
 
@@ -1735,7 +1904,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             if DEBUG: print("raw =" + line)
 
             # Remove the newline character at the end of the line
-            Line = line_read_and_preprocess(line,Source.is_free_form,file_name)
+            Line = line_read_and_preprocess(line,Source.is_free_form,file_name,Source.old_name)
 
             if DEBUG: print("continuation="+str(Line.continuation)+" comment="+str(Line.comment)+\
                             " use"+str(Line.use)+" will_continue="+str(Line.will_continue))
@@ -1749,7 +1918,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                file_body[-1] = file_body[-1] + Line.string
             elif Line.continuation:
                # Check if last line was a comment
-               Last_Line = line_read_and_preprocess(file_body[-1],Source.is_free_form,file_name)
+               Last_Line = line_read_and_preprocess(file_body[-1],Source.is_free_form,file_name,Source.old_name)
 
                if Last_Line.comment:
                    if DEBUG: print("last comment, add "+Line.string+" to "+file_body[-2])
@@ -1771,7 +1940,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             if len(line.strip())<=0: continue
 
             # Remove the newline character at the end of the line
-            Line = line_read_and_preprocess(line,Source.is_free_form,file_name)
+            Line = line_read_and_preprocess(line,Source.is_free_form,file_name,Source.old_name)
 
             # Append the line to the list
             if Line.directive:
@@ -1819,6 +1988,11 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                else:
                   # Just append this line, but ensure F90+ style comment
                   line = re.sub(r'^\S', '!', line)
+
+                  # Final comment: remove
+                  lsl = line.strip().lower()
+                  if 'end of '+Source.old_name.lower() in lsl:
+                      line = ''
 
                   if whereAt!=Section.HEADER or not remove_headers:
                      Source.body.append(INDENT + line)
@@ -1901,6 +2075,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                line = adjust_variable_declaration(line,initial)
 
                                # Parse parameter lines
+                               if DEBUG: print("find parameter decl: "+line)
                                pname, pval = find_parameter_declaration(line,initial)
 
                                # If parameters were found, strip them off the declaration for now
@@ -2014,7 +2189,6 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                line = "END SUBROUTINE " + Source.old_name.upper() + "\n"
 
                # Append this line
-
                non_deleted = whereAt!=Section.HEADER or not remove_headers
                non_use     = whereAt!=Section.DECLARATION or not Line.use
 
@@ -2066,6 +2240,15 @@ shutil.copyfile('../assets/reference_lapack/INSTALL/dlamch.f', '../assets/lapack
 shutil.copyfile('../assets/reference_lapack/INSTALL/sroundup_lwork.f', '../assets/lapack_sources/sroundup_lwork.f')
 shutil.copyfile('../assets/reference_lapack/INSTALL/droundup_lwork.f', '../assets/lapack_sources/droundup_lwork.f')
 
+
+
+#line = replace_kind_functions('         PHI(I) = ATAN2( DBLE( X11(I+1,I) ), DBLE( X21(I,I) ) )'.lower(),'ilp','dp')
+#print('         PHI(I) = ATAN2( DBLE( X11(I+1,I) ), DBLE( X21(I,I) ) )')
+#print(line)
+#line = replace_kind_functions('real(sp) :: a(lda, *), b(ldb, *), c(ldc, *)','ilp','sp')
+#print(line)
+#exit(1)
+
 # Run script
 funs = []
 create_constants_module("stdlib_linalg_constants","../src")
@@ -2074,12 +2257,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 

@@ -472,6 +472,7 @@ module stdlib_linalg_lapack_s
      public :: stdlib_stzrzf
 
      ! 32-bit real constants
+     real(sp), parameter, private :: negone = -1.00_sp
      real(sp), parameter, private :: zero = 0.00_sp
      real(sp), parameter, private :: half = 0.50_sp
      real(sp), parameter, private :: one = 1.00_sp
@@ -485,6 +486,7 @@ module stdlib_linalg_lapack_s
      complex(sp), parameter, private :: czero = (0.0_sp, 0.0_sp)
      complex(sp), parameter, private :: chalf = (0.5_sp, 0.0_sp)
      complex(sp), parameter, private :: cone = (1.0_sp, 0.0_sp)
+     complex(sp), parameter, private :: cnegone = (-1.0_sp, 0.0_sp)
 
      ! 32-bit scaling constants
      integer, parameter, private :: maxexp = maxexponent(zero)
@@ -541,14 +543,13 @@ module stdlib_linalg_lapack_s
            stdlib_scsum1 = stemp
            return
            ! code for increment equal to 1
-20      continue
+20   continue
            do i = 1, n
               ! next line modified.
               stemp = stemp + abs(cx(i))
            end do
            stdlib_scsum1 = stemp
            return
-           ! end of stdlib_scsum1
      end function stdlib_scsum1
 
      ! SGBTF2 computes an LU factorization of a real m-by-n band matrix A
@@ -634,7 +635,6 @@ module stdlib_linalg_lapack_s
               end if
            end do loop_40
            return
-           ! end of stdlib_sgbtf2
      end subroutine stdlib_sgbtf2
 
      ! SGBTRS solves a system of linear equations
@@ -727,7 +727,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sgbtrs
      end subroutine stdlib_sgbtrs
 
      ! SGEBAK forms the right or left eigenvectors of a real general matrix
@@ -799,7 +798,7 @@ module stdlib_linalg_lapack_s
            ! backward permutation
            ! for  i = ilo-1 step -1 until 1,
                     ! ihi+1 step 1 until n do --
-30      continue
+30   continue
            if (stdlib_lsame(job, 'p') .or. stdlib_lsame(job, 'b')) then
               if (rightv) then
                  loop_40: do ii = 1, n
@@ -823,7 +822,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sgebak
      end subroutine stdlib_sgebak
 
      ! SGGBAK forms the right or left eigenvectors of a real generalized
@@ -896,7 +894,7 @@ module stdlib_linalg_lapack_s
               end if
            end if
            ! backward permutation
-30      continue
+30   continue
            if (stdlib_lsame(job, 'p') .or. stdlib_lsame(job, 'b')) then
               ! backward permutation on right eigenvectors
               if (rightv) then
@@ -906,7 +904,7 @@ module stdlib_linalg_lapack_s
                     if (k == i) cycle loop_40
                     call stdlib_sswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_40
-50      continue
+50               continue
                  if (ihi == n) go to 70
                  loop_60: do i = ihi + 1, n
                     k = rscale(i)
@@ -915,7 +913,7 @@ module stdlib_linalg_lapack_s
                  end do loop_60
               end if
               ! backward permutation on left eigenvectors
-70      continue
+70   continue
               if (leftv) then
                  if (ilo == 1) go to 90
                  loop_80: do i = ilo - 1, 1, -1
@@ -923,7 +921,7 @@ module stdlib_linalg_lapack_s
                     if (k == i) cycle loop_80
                     call stdlib_sswap(m, v(i, 1), ldv, v(k, 1), ldv)
                  end do loop_80
-90      continue
+90               continue
                  if (ihi == n) go to 110
                  loop_100: do i = ihi + 1, n
                     k = lscale(i)
@@ -932,9 +930,8 @@ module stdlib_linalg_lapack_s
                  end do loop_100
               end if
            end if
-110    continue
+110        continue
            return
-           ! end of stdlib_sggbak
      end subroutine stdlib_sggbak
 
      ! SGTSV  solves the equation
@@ -1091,7 +1088,7 @@ module stdlib_linalg_lapack_s
            ! back solve with the matrix u from the factorization.
            if (nrhs <= 2) then
               j = 1
-70      continue
+70            continue
               b(n, j) = b(n, j)/d(n)
               if (n > 1) b(n - 1, j) = (b(n - 1, j) - du(n - 1)*b(n, j))/d(n - 1)
               do i = n - 2, 1, -1
@@ -1113,7 +1110,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sgtsv
      end subroutine stdlib_sgtsv
 
      ! SGTTRF computes an LU factorization of a real tridiagonal matrix A
@@ -1202,9 +1198,8 @@ module stdlib_linalg_lapack_s
                  go to 50
               end if
            end do
-50      continue
+50         continue
            return
-           ! end of stdlib_sgttrf
      end subroutine stdlib_sgttrf
 
      ! SGTTS2 solves one of the systems of equations
@@ -1233,7 +1228,7 @@ module stdlib_linalg_lapack_s
               ! overwriting each right hand side vector with its solution.
               if (nrhs <= 1) then
                  j = 1
-10      continue
+10               continue
                  ! solve l*x = b.
                  do i = 1, n - 1
                     ip = ipiv(i)
@@ -1278,7 +1273,7 @@ module stdlib_linalg_lapack_s
               if (nrhs <= 1) then
                  ! solve u**t*x = b.
                  j = 1
-70      continue
+70               continue
                  b(1, j) = b(1, j)/d(1)
                  if (n > 1) b(2, j) = (b(2, j) - du(1)*b(1, j))/d(2)
                  do i = 3, n
@@ -1317,7 +1312,6 @@ module stdlib_linalg_lapack_s
                  end do
               end if
            end if
-           ! end of stdlib_sgtts2
      end subroutine stdlib_sgtts2
 
      ! SLA_GBRPVGRW computes the reciprocal pivot growth factor
@@ -1353,12 +1347,11 @@ module stdlib_linalg_lapack_s
               do i = max(j - ku, 1), j
                  umax = max(abs(afb(kd + i - j, j)), umax)
               end do
-              if (umax /= zero) then
+              if (umax /= 0.0_sp) then
                  rpvgrw = min(amax/umax, rpvgrw)
               end if
            end do
            stdlib_sla_gbrpvgrw = rpvgrw
-           ! end of stdlib_sla_gbrpvgrw
      end function stdlib_sla_gbrpvgrw
 
      ! SLA_GERPVGRW computes the reciprocal pivot growth factor
@@ -1393,12 +1386,11 @@ module stdlib_linalg_lapack_s
               do i = 1, j
                  umax = max(abs(af(i, j)), umax)
               end do
-              if (umax /= zero) then
+              if (umax /= 0.0_sp) then
                  rpvgrw = min(amax/umax, rpvgrw)
               end if
            end do
            stdlib_sla_gerpvgrw = rpvgrw
-           ! end of stdlib_sla_gerpvgrw
      end function stdlib_sla_gerpvgrw
 
      ! SLA_WWADDW adds a vector W into a doubled-single vector (X, Y).
@@ -1423,9 +1415,8 @@ module stdlib_linalg_lapack_s
              s = (s + s) - s
              y(i) = ((x(i) - s) + w(i)) + y(i)
              x(i) = s
-10    continue
+10           continue
            return
-           ! end of stdlib_sla_wwaddw
      end subroutine stdlib_sla_wwaddw
 
      ! SLABAD takes as input the values computed by SLAMCH for underflow and
@@ -1454,7 +1445,6 @@ module stdlib_linalg_lapack_s
               large = sqrt(large)
            end if
            return
-           ! end of stdlib_slabad
      end subroutine stdlib_slabad
 
      ! SLACN2 estimates the 1-norm of a square, real matrix A.
@@ -1482,7 +1472,7 @@ module stdlib_linalg_lapack_s
            ! .. executable statements ..
            if (kase == 0) then
               do i = 1, n
-                 x(i) = one/real(n)
+                 x(i) = one/real(n, KIND=sp)
               end do
               kase = 1
               isave(1) = 1
@@ -1491,7 +1481,7 @@ module stdlib_linalg_lapack_s
            go to(20, 40, 70, 110, 140) isave(1)
            ! ................ entry   (isave( 1 ) = 1)
            ! first iteration.  x has been overwritten by a*x.
-20      continue
+20   continue
            if (n == 1) then
               v(1) = x(1)
               est = abs(v(1))
@@ -1512,11 +1502,11 @@ module stdlib_linalg_lapack_s
            return
            ! ................ entry   (isave( 1 ) = 2)
            ! first iteration.  x has been overwritten by transpose(a)*x.
-40      continue
+40   continue
            isave(2) = stdlib_isamax(n, x, 1)
            isave(3) = 2
            ! main loop - iterations 2,3,...,itmax.
-50      continue
+50   continue
            do i = 1, n
               x(i) = zero
            end do
@@ -1526,7 +1516,7 @@ module stdlib_linalg_lapack_s
            return
            ! ................ entry   (isave( 1 ) = 3)
            ! x has been overwritten by a*x.
-70      continue
+70   continue
            call stdlib_scopy(n, x, 1, v, 1)
            estold = est
            est = stdlib_sasum(n, v, 1)
@@ -1540,7 +1530,7 @@ module stdlib_linalg_lapack_s
            end do
            ! repeated sign vector detected, hence algorithm has converged.
            go to 120
-90      continue
+90         continue
            ! test for cycling.
            if (est <= estold) go to 120
            do i = 1, n
@@ -1556,7 +1546,7 @@ module stdlib_linalg_lapack_s
            return
            ! ................ entry   (isave( 1 ) = 4)
            ! x has been overwritten by transpose(a)*x.
-110    continue
+110  continue
            jlast = isave(2)
            isave(2) = stdlib_isamax(n, x, 1)
            if ((x(jlast) /= abs(x(isave(2)))) .and. (isave(3) < itmax)) then
@@ -1564,10 +1554,10 @@ module stdlib_linalg_lapack_s
               go to 50
            end if
            ! iteration complete.  final stage.
-120    continue
+120  continue
            altsgn = one
            do i = 1, n
-              x(i) = altsgn*(one + real(i - 1)/real(n - 1))
+              x(i) = altsgn*(one + real(i - 1, KIND=sp)/real(n - 1, KIND=sp))
               altsgn = -altsgn
            end do
            kase = 1
@@ -1575,16 +1565,15 @@ module stdlib_linalg_lapack_s
            return
            ! ................ entry   (isave( 1 ) = 5)
            ! x has been overwritten by a*x.
-140    continue
-           temp = two*(stdlib_sasum(n, x, 1)/real(3*n))
+140  continue
+           temp = two*(stdlib_sasum(n, x, 1)/real(3*n, KIND=sp))
            if (temp > est) then
               call stdlib_scopy(n, x, 1, v, 1)
               est = temp
            end if
-150    continue
+150        continue
            kase = 0
            return
-           ! end of stdlib_slacn2
      end subroutine stdlib_slacn2
 
      ! SLACON estimates the 1-norm of a square, real matrix A.
@@ -1614,7 +1603,7 @@ module stdlib_linalg_lapack_s
            ! .. executable statements ..
            if (kase == 0) then
               do i = 1, n
-                 x(i) = one/real(n)
+                 x(i) = one/real(n, KIND=sp)
               end do
               kase = 1
               jump = 1
@@ -1623,7 +1612,7 @@ module stdlib_linalg_lapack_s
            go to(20, 40, 70, 110, 140) jump
            ! ................ entry   (jump = 1)
            ! first iteration.  x has been overwritten by a*x.
-20      continue
+20   continue
            if (n == 1) then
               v(1) = x(1)
               est = abs(v(1))
@@ -1640,11 +1629,11 @@ module stdlib_linalg_lapack_s
            return
            ! ................ entry   (jump = 2)
            ! first iteration.  x has been overwritten by transpose(a)*x.
-40      continue
+40   continue
            j = stdlib_isamax(n, x, 1)
            iter = 2
            ! main loop - iterations 2,3,...,itmax.
-50      continue
+50   continue
            do i = 1, n
               x(i) = zero
            end do
@@ -1654,16 +1643,16 @@ module stdlib_linalg_lapack_s
            return
            ! ................ entry   (jump = 3)
            ! x has been overwritten by a*x.
-70      continue
+70   continue
            call stdlib_scopy(n, x, 1, v, 1)
            estold = est
            est = stdlib_sasum(n, v, 1)
            do i = 1, n
-              if (nint(sign(one, x(i))) /= isgn(i)) go to 90
+              if (nint(sign(one, x(i)), KIND=ilp) /= isgn(i)) go to 90
            end do
            ! repeated sign vector detected, hence algorithm has converged.
            go to 120
-90      continue
+90         continue
            ! test for cycling.
            if (est <= estold) go to 120
            do i = 1, n
@@ -1675,7 +1664,7 @@ module stdlib_linalg_lapack_s
            return
            ! ................ entry   (jump = 4)
            ! x has been overwritten by transpose(a)*x.
-110    continue
+110  continue
            jlast = j
            j = stdlib_isamax(n, x, 1)
            if ((x(jlast) /= abs(x(j))) .and. (iter < itmax)) then
@@ -1683,10 +1672,10 @@ module stdlib_linalg_lapack_s
               go to 50
            end if
            ! iteration complete.  final stage.
-120    continue
+120  continue
            altsgn = one
            do i = 1, n
-              x(i) = altsgn*(one + real(i - 1)/real(n - 1))
+              x(i) = altsgn*(one + real(i - 1, KIND=sp)/real(n - 1, KIND=sp))
               altsgn = -altsgn
            end do
            kase = 1
@@ -1694,16 +1683,15 @@ module stdlib_linalg_lapack_s
            return
            ! ................ entry   (jump = 5)
            ! x has been overwritten by a*x.
-140    continue
-           temp = two*(stdlib_sasum(n, x, 1)/real(3*n))
+140  continue
+           temp = two*(stdlib_sasum(n, x, 1)/real(3*n, KIND=sp))
            if (temp > est) then
               call stdlib_scopy(n, x, 1, v, 1)
               est = temp
            end if
-150    continue
+150        continue
            kase = 0
            return
-           ! end of stdlib_slacon
      end subroutine stdlib_slacon
 
      ! SLACPY copies all or part of a two-dimensional matrix A to another
@@ -1744,7 +1732,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_slacpy
      end subroutine stdlib_slacpy
 
      real(sp) function stdlib_sladiv2(a, b, c, d, r, t)
@@ -1769,7 +1756,6 @@ module stdlib_linalg_lapack_s
               stdlib_sladiv2 = (a + d*(b/c))*t
            end if
            return
-           ! end of stdlib_sladiv2
      end function stdlib_sladiv2
 
      ! SLAE2  computes the eigenvalues of a 2-by-2 symmetric matrix
@@ -1830,7 +1816,6 @@ module stdlib_linalg_lapack_s
               rt2 = -half*rt
            end if
            return
-           ! end of stdlib_slae2
      end subroutine stdlib_slae2
 
      ! SLAEBZ contains the iteration loops which compute and use the
@@ -2094,11 +2079,10 @@ module stdlib_linalg_lapack_s
               if (kf > kl) go to 140
            end do loop_130
            ! converged
-140    continue
+140  continue
            info = max(kl + 1 - kf, 0)
            mout = kl
            return
-           ! end of stdlib_slaebz
      end subroutine stdlib_slaebz
 
      ! This subroutine computes the I-th eigenvalue of a symmetric rank-one
@@ -2168,7 +2152,6 @@ module stdlib_linalg_lapack_s
               delta(2) = delta(2)/temp
            end if
            return
-           ! end of stdlib_slaed5
      end subroutine stdlib_slaed5
 
      ! SLAEDA computes the Z vector corresponding to the merge step in the
@@ -2213,8 +2196,9 @@ module stdlib_linalg_lapack_s
            ! determine size of these matrices.  we add half to the value of
            ! the sqrt in case the machine underestimates one of these square
            ! roots.
-           bsiz1 = int(half + sqrt(real(qptr(curr + 1) - qptr(curr))))
-           bsiz2 = int(half + sqrt(real(qptr(curr + 2) - qptr(curr + 1))))
+           bsiz1 = int(half + sqrt(real(qptr(curr + 1) - qptr(curr), KIND=sp)), KIND=ilp)
+           bsiz2 = int(half + sqrt(real(qptr(curr + 2) - qptr(curr + 1), KIND=sp)), KIND=ilp)
+                     
            do k = 1, mid - bsiz1 - 1
               z(k) = zero
            end do
@@ -2253,8 +2237,10 @@ module stdlib_linalg_lapack_s
               ! determine size of these matrices.  we add half to the value of
               ! the sqrt in case the machine underestimates one of these
               ! square roots.
-              bsiz1 = int(half + sqrt(real(qptr(curr + 1) - qptr(curr))))
-              bsiz2 = int(half + sqrt(real(qptr(curr + 2) - qptr(curr + 1))))
+              bsiz1 = int(half + sqrt(real(qptr(curr + 1) - qptr(curr), KIND=sp)), KIND=ilp)
+                        
+              bsiz2 = int(half + sqrt(real(qptr(curr + 2) - qptr(curr + 1), KIND=sp)), KIND=ilp)
+                        
               if (bsiz1 > 0) then
                  call stdlib_sgemv('t', bsiz1, bsiz1, one, q(qptr(curr)), bsiz1, ztemp(1), &
                            1, zero, z(zptr1), 1)
@@ -2269,7 +2255,6 @@ module stdlib_linalg_lapack_s
               ptr = ptr + 2**(tlvls - k)
            end do loop_70
            return
-           ! end of stdlib_slaeda
      end subroutine stdlib_slaeda
 
      ! SLAEV2 computes the eigendecomposition of a 2-by-2 symmetric matrix
@@ -2365,7 +2350,6 @@ module stdlib_linalg_lapack_s
               sn1 = tn
            end if
            return
-           ! end of stdlib_slaev2
      end subroutine stdlib_slaev2
 
      ! SLAG2 computes the eigenvalues of a 2 x 2 generalized eigenvalue
@@ -2546,7 +2530,6 @@ module stdlib_linalg_lapack_s
                  scale2 = ascale*bsize
               end if
            end if
-           ! end of stdlib_slag2
            return
      end subroutine stdlib_slag2
 
@@ -2577,7 +2560,6 @@ module stdlib_linalg_lapack_s
               end do
            end do
            return
-           ! end of stdlib_slag2d
      end subroutine stdlib_slag2d
 
      ! SLAGTM performs a matrix-vector product of the form
@@ -2678,7 +2660,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slagtm
      end subroutine stdlib_slagtm
 
      ! This routine is not for general use.  It exists solely to avoid
@@ -2759,7 +2740,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slamch = rmach
            return
-           ! end of stdlib_slamch
      end function stdlib_slamch
 
      real(sp) function stdlib_slamc3(a, b)
@@ -2771,7 +2751,6 @@ module stdlib_linalg_lapack_s
            ! .. executable statements ..
            stdlib_slamc3 = a + b
            return
-           ! end of stdlib_slamc3
      end function stdlib_slamc3
 
      ! SLAMRG will create a permutation list which will merge the elements
@@ -2805,7 +2784,7 @@ module stdlib_linalg_lapack_s
            end if
            i = 1
            ! while ( (n1sv > 0)
-10      continue
+10   continue
            if (n1sv > 0 .and. n2sv > 0) then
               if (a(ind1) <= a(ind2)) then
                  index(i) = ind1
@@ -2836,7 +2815,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_slamrg
      end subroutine stdlib_slamrg
 
      ! SLAORHR_COL_GETRFNP2 computes the modified LU factorization without
@@ -2965,7 +2943,6 @@ module stdlib_linalg_lapack_s
                         
            end if
            return
-           ! end of stdlib_slaorhr_col_getrfnp2
      end subroutine stdlib_slaorhr_col_getrfnp2
 
      ! SLAPMR rearranges the rows of the M by N matrix X as specified
@@ -3001,7 +2978,7 @@ module stdlib_linalg_lapack_s
                  j = i
                  k(j) = -k(j)
                  in = k(j)
-20      continue
+20               continue
                  if (k(in) > 0) go to 40
                  do jj = 1, n
                     temp = x(j, jj)
@@ -3012,7 +2989,7 @@ module stdlib_linalg_lapack_s
                  j = in
                  in = k(in)
                  go to 20
-40      continue
+40               continue
               end do
            else
               ! backward permutation
@@ -3020,7 +2997,7 @@ module stdlib_linalg_lapack_s
                  if (k(i) > 0) go to 80
                  k(i) = -k(i)
                  j = k(i)
-60      continue
+60               continue
                  if (j == i) go to 80
                  do jj = 1, n
                     temp = x(i, jj)
@@ -3030,11 +3007,10 @@ module stdlib_linalg_lapack_s
                  k(j) = -k(j)
                  j = k(j)
                  go to 60
-80      continue
+80               continue
               end do
            end if
            return
-           ! end of stdlib_slapmr
      end subroutine stdlib_slapmr
 
      ! SLAPMT rearranges the columns of the M by N matrix X as specified
@@ -3070,7 +3046,7 @@ module stdlib_linalg_lapack_s
                  j = i
                  k(j) = -k(j)
                  in = k(j)
-20      continue
+20               continue
                  if (k(in) > 0) go to 40
                  do ii = 1, m
                     temp = x(ii, j)
@@ -3081,7 +3057,7 @@ module stdlib_linalg_lapack_s
                  j = in
                  in = k(in)
                  go to 20
-40      continue
+40               continue
               end do
            else
               ! backward permutation
@@ -3089,7 +3065,7 @@ module stdlib_linalg_lapack_s
                  if (k(i) > 0) go to 100
                  k(i) = -k(i)
                  j = k(i)
-80      continue
+80               continue
                  if (j == i) go to 100
                  do ii = 1, m
                     temp = x(ii, i)
@@ -3099,11 +3075,10 @@ module stdlib_linalg_lapack_s
                  k(j) = -k(j)
                  j = k(j)
                  go to 80
-100    continue
+100              continue
               end do
            end if
            return
-           ! end of stdlib_slapmt
      end subroutine stdlib_slapmt
 
      ! SLAPY3 returns sqrt(x**2+y**2+z**2), taking care not to cause
@@ -3136,7 +3111,6 @@ module stdlib_linalg_lapack_s
               stdlib_slapy3 = w*sqrt((xabs/w)**2 + (yabs/w)**2 + (zabs/w)**2)
            end if
            return
-           ! end of stdlib_slapy3
      end function stdlib_slapy3
 
      ! SLAQGB equilibrates a general M by N band matrix A with KL
@@ -3205,7 +3179,6 @@ module stdlib_linalg_lapack_s
               equed = 'b'
            end if
            return
-           ! end of stdlib_slaqgb
      end subroutine stdlib_slaqgb
 
      ! SLAQGE equilibrates a general M by N matrix A using the row and
@@ -3271,7 +3244,6 @@ module stdlib_linalg_lapack_s
               equed = 'b'
            end if
            return
-           ! end of stdlib_slaqge
      end subroutine stdlib_slaqge
 
      ! Given a 2-by-2 or 3-by-3 matrix H, SLAQR1 sets v to a
@@ -3389,7 +3361,6 @@ module stdlib_linalg_lapack_s
               equed = 'y'
            end if
            return
-           ! end of stdlib_slaqsb
      end subroutine stdlib_slaqsb
 
      ! SLAQSP equilibrates a symmetric matrix A using the scaling factors
@@ -3450,7 +3421,6 @@ module stdlib_linalg_lapack_s
               equed = 'y'
            end if
            return
-           ! end of stdlib_slaqsp
      end subroutine stdlib_slaqsp
 
      ! SLAQSY equilibrates a symmetric matrix A using the scaling factors
@@ -3507,7 +3477,6 @@ module stdlib_linalg_lapack_s
               equed = 'y'
            end if
            return
-           ! end of stdlib_slaqsy
      end subroutine stdlib_slaqsy
 
      ! SLAR2V applies a vector of real plane rotations from both sides to
@@ -3549,7 +3518,6 @@ module stdlib_linalg_lapack_s
               ix = ix + incx
               ic = ic + incc
            end do
-           ! end of stdlib_slar2v
            return
      end subroutine stdlib_slar2v
 
@@ -3626,7 +3594,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slarf
      end subroutine stdlib_slarf
 
      ! SLARFB applies a real block reflector H or its transpose H**T to a
@@ -3947,7 +3914,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slarfb
      end subroutine stdlib_slarfb
 
      ! SLARFB_GETT applies a real Householder block reflector H from the
@@ -4082,7 +4048,6 @@ module stdlib_linalg_lapack_s
               end do
            end do
            return
-           ! end of stdlib_slarfb_gett
      end subroutine stdlib_slarfb_gett
 
      ! SLARFT forms the triangular factor T of a real block reflector H
@@ -4209,7 +4174,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_slarft
      end subroutine stdlib_slarft
 
      ! SLARFX applies a real elementary reflector H to a real m by n
@@ -4244,14 +4208,14 @@ module stdlib_linalg_lapack_s
               ! code for general m
               call stdlib_slarf(side, m, n, v, 1, tau, c, ldc, work)
               go to 410
-10      continue
+10            continue
               ! special code for 1 x 1 householder
               t1 = one - tau*v(1)*v(1)
               do j = 1, n
                  c(1, j) = t1*c(1, j)
               end do
               go to 410
-30      continue
+30            continue
               ! special code for 2 x 2 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4263,7 +4227,7 @@ module stdlib_linalg_lapack_s
                  c(2, j) = c(2, j) - sum*t2
               end do
               go to 410
-50      continue
+50            continue
               ! special code for 3 x 3 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4278,7 +4242,7 @@ module stdlib_linalg_lapack_s
                  c(3, j) = c(3, j) - sum*t3
               end do
               go to 410
-70      continue
+70            continue
               ! special code for 4 x 4 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4296,7 +4260,7 @@ module stdlib_linalg_lapack_s
                  c(4, j) = c(4, j) - sum*t4
               end do
               go to 410
-90      continue
+90            continue
               ! special code for 5 x 5 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4318,7 +4282,7 @@ module stdlib_linalg_lapack_s
                  c(5, j) = c(5, j) - sum*t5
               end do
               go to 410
-110    continue
+110           continue
               ! special code for 6 x 6 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4343,7 +4307,7 @@ module stdlib_linalg_lapack_s
                  c(6, j) = c(6, j) - sum*t6
               end do
               go to 410
-130    continue
+130           continue
               ! special code for 7 x 7 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4371,7 +4335,7 @@ module stdlib_linalg_lapack_s
                  c(7, j) = c(7, j) - sum*t7
               end do
               go to 410
-150    continue
+150           continue
               ! special code for 8 x 8 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4402,7 +4366,7 @@ module stdlib_linalg_lapack_s
                  c(8, j) = c(8, j) - sum*t8
               end do
               go to 410
-170    continue
+170           continue
               ! special code for 9 x 9 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4436,7 +4400,7 @@ module stdlib_linalg_lapack_s
                  c(9, j) = c(9, j) - sum*t9
               end do
               go to 410
-190    continue
+190           continue
               ! special code for 10 x 10 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4479,14 +4443,14 @@ module stdlib_linalg_lapack_s
               ! code for general n
               call stdlib_slarf(side, m, n, v, 1, tau, c, ldc, work)
               go to 410
-210    continue
+210           continue
               ! special code for 1 x 1 householder
               t1 = one - tau*v(1)*v(1)
               do j = 1, m
                  c(j, 1) = t1*c(j, 1)
               end do
               go to 410
-230    continue
+230           continue
               ! special code for 2 x 2 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4498,7 +4462,7 @@ module stdlib_linalg_lapack_s
                  c(j, 2) = c(j, 2) - sum*t2
               end do
               go to 410
-250    continue
+250           continue
               ! special code for 3 x 3 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4513,7 +4477,7 @@ module stdlib_linalg_lapack_s
                  c(j, 3) = c(j, 3) - sum*t3
               end do
               go to 410
-270    continue
+270           continue
               ! special code for 4 x 4 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4531,7 +4495,7 @@ module stdlib_linalg_lapack_s
                  c(j, 4) = c(j, 4) - sum*t4
               end do
               go to 410
-290    continue
+290           continue
               ! special code for 5 x 5 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4553,7 +4517,7 @@ module stdlib_linalg_lapack_s
                  c(j, 5) = c(j, 5) - sum*t5
               end do
               go to 410
-310    continue
+310           continue
               ! special code for 6 x 6 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4578,7 +4542,7 @@ module stdlib_linalg_lapack_s
                  c(j, 6) = c(j, 6) - sum*t6
               end do
               go to 410
-330    continue
+330           continue
               ! special code for 7 x 7 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4606,7 +4570,7 @@ module stdlib_linalg_lapack_s
                  c(j, 7) = c(j, 7) - sum*t7
               end do
               go to 410
-350    continue
+350           continue
               ! special code for 8 x 8 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4637,7 +4601,7 @@ module stdlib_linalg_lapack_s
                  c(j, 8) = c(j, 8) - sum*t8
               end do
               go to 410
-370    continue
+370           continue
               ! special code for 9 x 9 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4671,7 +4635,7 @@ module stdlib_linalg_lapack_s
                  c(j, 9) = c(j, 9) - sum*t9
               end do
               go to 410
-390    continue
+390           continue
               ! special code for 10 x 10 householder
               v1 = v(1)
               t1 = tau*v1
@@ -4710,7 +4674,6 @@ module stdlib_linalg_lapack_s
               go to 410
            end if
 410    return
-           ! end of stdlib_slarfx
      end subroutine stdlib_slarfx
 
      ! SLARFY applies an elementary reflector, or Householder matrix, H,
@@ -4743,7 +4706,6 @@ module stdlib_linalg_lapack_s
            ! c := c - v * w' - w * v'
            call stdlib_ssyr2(uplo, n, -tau, v, incv, work, 1, c, ldc)
            return
-           ! end of stdlib_slarfy
      end subroutine stdlib_slarfy
 
      ! SLARGV generates a vector of real plane rotations, determined by
@@ -4797,7 +4759,6 @@ module stdlib_linalg_lapack_s
               ix = ix + incx
            end do loop_10
            return
-           ! end of stdlib_slargv
      end subroutine stdlib_slargv
 
      ! Compute the splitting points with threshold SPLTOL.
@@ -4854,7 +4815,6 @@ module stdlib_linalg_lapack_s
            end if
            isplit(nsplit) = n
            return
-           ! end of stdlib_slarra
      end subroutine stdlib_slarra
 
      ! Find the number of eigenvalues of the symmetric tridiagonal matrix T
@@ -4946,7 +4906,6 @@ module stdlib_linalg_lapack_s
            end if
            eigcnt = rcnt - lcnt
            return
-           ! end of stdlib_slarrc
      end subroutine stdlib_slarrc
 
      ! Given the initial eigenvalue approximations of T, SLARRJ
@@ -4983,7 +4942,7 @@ module stdlib_linalg_lapack_s
            if (n <= 0) then
               return
            end if
-           maxitr = int((log(spdiam + pivmin) - log(pivmin))/log(two)) + 2
+           maxitr = int((log(spdiam + pivmin) - log(pivmin))/log(two), KIND=ilp) + 2
            ! initialize unconverged intervals in [ work(2*i-1), work(2*i) ].
            ! the sturm count, count( work(2*i-1) ) is arranged to be i-1, while
            ! count( work(2*i) ) is stored in iwork( 2*i ). the integer iwork( 2*i-1 )
@@ -5020,7 +4979,7 @@ module stdlib_linalg_lapack_s
                  ! make sure that [left,right] contains the desired eigenvalue
                  ! do while( cnt(left)>i-1 )
                  fac = one
-20    continue
+20               continue
                  cnt = 0
                  s = left
                  dplus = d(1) - s
@@ -5036,7 +4995,7 @@ module stdlib_linalg_lapack_s
                  end if
                  ! do while( cnt(right)<i )
                  fac = one
-50    continue
+50               continue
                  cnt = 0
                  s = right
                  dplus = d(1) - s
@@ -5061,7 +5020,7 @@ module stdlib_linalg_lapack_s
            ! do while( nint>0 ), i.e. there are still unconverged intervals
            ! and while (iter<maxitr)
            iter = 0
-80    continue
+80         continue
            prev = i1 - 1
            i = i1
            olnint = nint
@@ -5122,7 +5081,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_slarrj
      end subroutine stdlib_slarrj
 
      ! SLARRK computes one eigenvalue of a symmetric tridiagonal
@@ -5164,12 +5122,12 @@ module stdlib_linalg_lapack_s
            tnorm = max(abs(gl), abs(gu))
            rtoli = reltol
            atoli = fudge*two*pivmin
-           itmax = int((log(tnorm + pivmin) - log(pivmin))/log(two)) + 2
+           itmax = int((log(tnorm + pivmin) - log(pivmin))/log(two), KIND=ilp) + 2
            info = -1
            left = gl - fudge*tnorm*eps*n - fudge*two*pivmin
            right = gu + fudge*tnorm*eps*n + fudge*two*pivmin
            it = 0
-10    continue
+10         continue
            ! check if interval converged or maximum number of iterations reached
            tmp1 = abs(right - left)
            tmp2 = max(abs(right), abs(left))
@@ -5196,12 +5154,11 @@ module stdlib_linalg_lapack_s
               left = mid
            end if
            goto 10
-30    continue
+30         continue
            ! converged or maximum number of iterations reached
            w = half*(left + right)
            werr = half*abs(right - left)
            return
-           ! end of stdlib_slarrk
      end subroutine stdlib_slarrk
 
      ! Perform tests to decide whether the symmetric tridiagonal matrix T
@@ -5267,7 +5224,7 @@ module stdlib_linalg_lapack_s
               tmp = tmp2
               offdig = offdig2
            end do
-11    continue
+11         continue
            if (yesrel) then
               info = 0
               return
@@ -5282,7 +5239,6 @@ module stdlib_linalg_lapack_s
            ! of the eigenvector computation, the flip needs to be applied
            ! to the computed eigenvectors (and the support)
            return
-           ! end of stdlib_slarrr
      end subroutine stdlib_slarrr
 
      ! !
@@ -5385,7 +5341,7 @@ module stdlib_linalg_lapack_s
               safmin = stdlib_slamch('s')
               eps = stdlib_slamch('e')
               safmn2 = stdlib_slamch('b')**int(log(safmin/eps)/log(stdlib_slamch('b')) &
-                         /two)
+                         /two, KIND=ilp)
               safmx2 = one/safmn2
               ! first = .false.
            ! end if
@@ -5403,7 +5359,7 @@ module stdlib_linalg_lapack_s
               scale = max(abs(f1), abs(g1))
               if (scale >= safmx2) then
                  count = 0
-10      continue
+10               continue
                  count = count + 1
                  f1 = f1*safmn2
                  g1 = g1*safmn2
@@ -5417,7 +5373,7 @@ module stdlib_linalg_lapack_s
                  end do
               else if (scale <= safmn2) then
                  count = 0
-30      continue
+30               continue
                  count = count + 1
                  f1 = f1*safmx2
                  g1 = g1*safmx2
@@ -5441,7 +5397,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slartgp
      end subroutine stdlib_slartgp
 
      ! SLARTGS generates a plane rotation designed to introduce a bulge in
@@ -5460,8 +5415,6 @@ module stdlib_linalg_lapack_s
            ! .. scalar arguments ..
            real(sp) :: cs, sigma, sn, x, y
         ! ===================================================================
-           ! .. parameters ..
-           real(sp), parameter :: negone = -1.0_sp
            
            ! .. local scalars ..
            real(sp) :: r, s, thresh, w, z
@@ -5532,7 +5485,6 @@ module stdlib_linalg_lapack_s
               ic = ic + incc
            end do
            return
-           ! end of stdlib_slartv
      end subroutine stdlib_slartv
 
      ! SLARUV returns a vector of n random real numbers from a uniform (0,1)
@@ -5695,7 +5647,7 @@ module stdlib_linalg_lapack_s
            i3 = iseed(3)
            i4 = iseed(4)
            loop_10: do i = 1, min(n, lv)
-20     continue
+20         continue
               ! multiply the seed by i-th power of the multiplier modulo 2**48
               it4 = i4*mm(i, 4)
               it3 = it4/ipw2
@@ -5708,18 +5660,19 @@ module stdlib_linalg_lapack_s
               it2 = it2 - ipw2*it1
               it1 = it1 + i1*mm(i, 4) + i2*mm(i, 3) + i3*mm(i, 2) + i4*mm(i, 1)
               it1 = mod(it1, ipw2)
-              ! convert 48-bit integer to a real number in the interval (0,1)
-              x(i) = r*(real(it1) + r*(real(it2) + r*(real(it3) + r*real(it4))))
-              if (x(i) == one) then
+              ! convert 48-bit integer to a realnumber in the interval (0,1,KIND=sp)
+              x(i) = r*(real(it1, KIND=sp) + r*(real(it2, KIND=sp) + r*(real(it3, KIND=sp) + &
+                        r*real(it4, KIND=sp))))
+              if (x(i) == 1.0_sp) then
                  ! if a real number has n bits of precision, and the first
                  ! n bits of the 48-bit integer above happen to be all 1 (which
                  ! will occur about once every 2**n calls), then x( i ) will
                  ! be rounded to exactly one. in ieee single precision arithmetic,
                  ! this will happen relatively often since n = 24.
-                 ! since x( i ) is not supposed to return exactly zero or one,
+                 ! since x( i ) is not supposed to return exactly 0.0_sp or 1.0_sp,
                  ! the statistically correct thing to do in this situation is
                  ! simply to iterate again.
-                 ! n.b. the case x( i ) = zero should not be possible.
+                 ! n.b. the case x( i ) = 0.0_sp should not be possible.
                  i1 = i1 + 2
                  i2 = i2 + 2
                  i3 = i3 + 2
@@ -5733,7 +5686,6 @@ module stdlib_linalg_lapack_s
            iseed(3) = it3
            iseed(4) = it4
            return
-           ! end of stdlib_slaruv
      end subroutine stdlib_slaruv
 
      ! SLARZ applies a real elementary reflector H to a real M-by-N
@@ -5787,7 +5739,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slarz
      end subroutine stdlib_slarz
 
      ! SLARZB applies a real block reflector H or its transpose H**T to
@@ -5876,7 +5827,6 @@ module stdlib_linalg_lapack_s
                         ldwork, v, ldv, one, c(1, n - l + 1), ldc)
            end if
            return
-           ! end of stdlib_slarzb
      end subroutine stdlib_slarzb
 
      ! SLARZT forms the triangular factor T of a real block reflector
@@ -5937,7 +5887,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_slarzt
      end subroutine stdlib_slarzt
 
      ! SLAS2  computes the singular values of the 2-by-2 matrix
@@ -5999,7 +5948,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slas2
      end subroutine stdlib_slas2
 
      ! This subroutine computes the square root of the I-th eigenvalue
@@ -6093,7 +6041,6 @@ module stdlib_linalg_lapack_s
               ! delta( 2 ) = delta( 2 ) / temp
            end if
            return
-           ! end of stdlib_slasd5
      end subroutine stdlib_slasd5
 
      ! SLASDT creates a tree of subproblems for bidiagonal divide and
@@ -6117,7 +6064,7 @@ module stdlib_linalg_lapack_s
            ! .. executable statements ..
            ! find the number of levels on the tree.
            maxn = max(1, n)
-           temp = log(real(maxn)/real(msub + 1))/log(two)
+           temp = log(real(maxn, KIND=sp)/real(msub + 1, KIND=sp))/log(two)
            lvl = int(temp, KIND=ilp) + 1
            i = n/2
            inode(1) = i + 1
@@ -6144,7 +6091,6 @@ module stdlib_linalg_lapack_s
            end do
            nd = llst*2 - 1
            return
-           ! end of stdlib_slasdt
      end subroutine stdlib_slasdt
 
      ! SLASET initializes an m-by-n matrix A to BETA on the diagonal and
@@ -6195,7 +6141,6 @@ module stdlib_linalg_lapack_s
               a(i, i) = beta
            end do
            return
-           ! end of stdlib_slaset
      end subroutine stdlib_slaset
 
      ! SLASQ4 computes an approximation TAU to the smallest eigenvalue
@@ -6287,7 +6232,7 @@ module stdlib_linalg_lapack_s
                        a2 = a2 + b2
                        if (hundrd*max(b2, b1) < a2 .or. cnst1 < a2) go to 20
                     end do
-20      continue
+20                  continue
                     a2 = cnst3*a2
                     ! rayleigh quotient residual bound.
                     if (a2 < cnst1) s = gam*(one - sqrt(a2))/(one + a2)
@@ -6315,7 +6260,7 @@ module stdlib_linalg_lapack_s
                        a2 = a2 + b2
                        if (hundrd*max(b2, b1) < a2 .or. cnst1 < a2) go to 40
                     end do
-40      continue
+40                  continue
                     a2 = cnst3*a2
                  end if
                  if (a2 < cnst1) s = gam*(one - sqrt(a2))/(one + a2)
@@ -6348,7 +6293,7 @@ module stdlib_linalg_lapack_s
                     b2 = b2 + b1
                     if (hundrd*max(b1, a2) < b2) go to 60
                  end do
-60      continue
+60               continue
                  b2 = sqrt(cnst3*b2)
                  a2 = dmin1/(one + b2**2)
                  gap2 = half*dmin2 - a2
@@ -6380,7 +6325,7 @@ module stdlib_linalg_lapack_s
                     b2 = b2 + b1
                     if (hundrd*b1 < b2) go to 80
                  end do
-80      continue
+80               continue
                  b2 = sqrt(cnst3*b2)
                  a2 = dmin2/(one + b2**2)
                  gap2 = z(nn - 7) + z(nn - 9) - sqrt(z(nn - 11))*sqrt(z(nn - 9)) - a2
@@ -6400,7 +6345,6 @@ module stdlib_linalg_lapack_s
            end if
            tau = s
            return
-           ! end of stdlib_slasq4
      end subroutine stdlib_slasq4
 
      ! SLASQ5 computes one dqds transform in ping-pong form, one
@@ -6627,7 +6571,6 @@ module stdlib_linalg_lapack_s
            z(j4 + 2) = dn
            z(4*n0 - pp) = emin
            return
-           ! end of stdlib_slasq5
      end subroutine stdlib_slasq5
 
      ! SLASQ6 computes one dqd (shift equal to zero) transform in
@@ -6738,7 +6681,6 @@ module stdlib_linalg_lapack_s
            z(j4 + 2) = dn
            z(4*n0 - pp) = emin
            return
-           ! end of stdlib_slasq6
      end subroutine stdlib_slasq6
 
      ! SLASR applies a sequence of plane rotations to a real matrix A,
@@ -6997,7 +6939,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slasr
      end subroutine stdlib_slasr
 
      ! Sort the numbers in D in increasing order (if ID = 'I') or
@@ -7046,7 +6987,7 @@ module stdlib_linalg_lapack_s
            stkpnt = 1
            stack(1, 1) = 1
            stack(2, 1) = n
-10      continue
+10         continue
            start = stack(1, stkpnt)
            endd = stack(2, stkpnt)
            stkpnt = stkpnt - 1
@@ -7107,11 +7048,11 @@ module stdlib_linalg_lapack_s
                  ! sort into decreasing order
                  i = start - 1
                  j = endd + 1
-60      continue
-70      continue
+60               continue
+70               continue
                  j = j - 1
                  if (d(j) < dmnmx) go to 70
-80      continue
+80               continue
                  i = i + 1
                  if (d(i) > dmnmx) go to 80
                  if (i < j) then
@@ -7139,11 +7080,11 @@ module stdlib_linalg_lapack_s
                  ! sort into increasing order
                  i = start - 1
                  j = endd + 1
-90      continue
-100    continue
+90               continue
+100              continue
                  j = j - 1
                  if (d(j) > dmnmx) go to 100
-110    continue
+110              continue
                  i = i + 1
                  if (d(i) < dmnmx) go to 110
                  if (i < j) then
@@ -7171,7 +7112,6 @@ module stdlib_linalg_lapack_s
            end if
            if (stkpnt > 0) go to 10
            return
-           ! end of stdlib_slasrt
      end subroutine stdlib_slasrt
 
      ! !
@@ -7428,7 +7368,6 @@ module stdlib_linalg_lapack_s
            ssmax = sign(ssmax, tsign)
            ssmin = sign(ssmin, tsign*sign(one, f)*sign(one, h))
            return
-           ! end of stdlib_slasv2
      end subroutine stdlib_slasv2
 
      ! SLASWP performs a series of row interchanges on the matrix A.
@@ -7496,7 +7435,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_slaswp
      end subroutine stdlib_slaswp
 
      ! SLASY2 solves for the N1 by N2 matrix X, 1 <= N1,N2 <= 2, in
@@ -7545,7 +7483,7 @@ module stdlib_linalg_lapack_s
            k = n1 + n1 + n2 - 2
            go to(10, 20, 30, 50) k
            ! 1 by 1: tl11*x + sgn*x*tr11 = b11
-10      continue
+10   continue
            tau1 = tl(1, 1) + sgn*tr(1, 1)
            bet = abs(tau1)
            if (bet <= smlnum) then
@@ -7562,7 +7500,7 @@ module stdlib_linalg_lapack_s
            ! 1 by 2:
            ! tl11*[x11 x12] + isgn*[x11 x12]*op[tr11 tr12]  = [b11 b12]
                                              ! [tr21 tr22]
-20      continue
+20   continue
            smin = max(eps*max(abs(tl(1, 1)), abs(tr(1, 1)), abs(tr(1, 2)), abs(tr( &
                      2, 1)), abs(tr(2, 2))), smlnum)
            tmp(1) = tl(1, 1) + sgn*tr(1, 1)
@@ -7580,7 +7518,7 @@ module stdlib_linalg_lapack_s
            ! 2 by 1:
                 ! op[tl11 tl12]*[x11] + isgn* [x11]*tr11  = [b11]
                   ! [tl21 tl22] [x21]         [x21]         [b21]
-30      continue
+30   continue
            smin = max(eps*max(abs(tr(1, 1)), abs(tl(1, 1)), abs(tl(1, 2)), abs(tl( &
                      2, 1)), abs(tl(2, 2))), smlnum)
            tmp(1) = tl(1, 1) + sgn*tr(1, 1)
@@ -7594,7 +7532,7 @@ module stdlib_linalg_lapack_s
            end if
            btmp(1) = b(1, 1)
            btmp(2) = b(2, 1)
-40      continue
+40         continue
            ! solve 2 by 2 system using complete pivoting.
            ! set pivots less than smin to smin.
            ipiv = stdlib_isamax(4, tmp, 1)
@@ -7647,7 +7585,7 @@ module stdlib_linalg_lapack_s
              ! [tl21 tl22] [x21 x22]        [x21 x22]   [tr21 tr22]   [b21 b22]
            ! solve equivalent 4 by 4 system using complete pivoting.
            ! set pivots less than smin to smin.
-50      continue
+50   continue
            smin = max(abs(tr(1, 1)), abs(tr(1, 2)), abs(tr(2, 1)), abs(tr(2, 2)))
                      
            smin = max(smin, abs(tl(1, 1)), abs(tl(1, 2)), abs(tl(2, 1)), abs(tl(2, &
@@ -7753,7 +7691,6 @@ module stdlib_linalg_lapack_s
            x(2, 2) = tmp(4)
            xnorm = max(abs(tmp(1)) + abs(tmp(3)), abs(tmp(2)) + abs(tmp(4)))
            return
-           ! end of stdlib_slasy2
      end subroutine stdlib_slasy2
 
      ! SLASYF computes a partial factorization of a real symmetric matrix A
@@ -7799,7 +7736,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               ! kw is the column of w which corresponds to column k of a
               k = n
-10      continue
+10            continue
               kw = nb + k - n
               ! exit from loop
               if ((k <= n - nb + 1 .and. nb < n) .or. k < 1) go to 30
@@ -7953,7 +7890,7 @@ module stdlib_linalg_lapack_s
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30            continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -7971,7 +7908,7 @@ module stdlib_linalg_lapack_s
               ! put u12 in standard form by partially undoing the interchanges
               ! in columns k+1:n looping backwards from k+1 to n
               j = k + 1
-60      continue
+60            continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -7996,7 +7933,7 @@ module stdlib_linalg_lapack_s
               ! for use in updating a22
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70            continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               ! copy column k of a to column k of w and update it
@@ -8149,7 +8086,7 @@ module stdlib_linalg_lapack_s
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90            continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -8167,7 +8104,7 @@ module stdlib_linalg_lapack_s
               ! put l21 in standard form by partially undoing the interchanges
               ! of rows in columns 1:k-1 looping backwards from k-1 to 1
               j = k - 1
-120    continue
+120           continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -8188,7 +8125,6 @@ module stdlib_linalg_lapack_s
               kb = k - 1
            end if
            return
-           ! end of stdlib_slasyf
      end subroutine stdlib_slasyf
 
      ! SLASYF_RK computes a partial factorization of a real symmetric
@@ -8240,7 +8176,7 @@ module stdlib_linalg_lapack_s
               e(1) = zero
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10      continue
+10            continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -8281,7 +8217,7 @@ module stdlib_linalg_lapack_s
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_scopy(imax, a(1, imax), 1, w(1, kw - 1), 1)
@@ -8415,7 +8351,7 @@ module stdlib_linalg_lapack_s
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30            continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -8440,7 +8376,7 @@ module stdlib_linalg_lapack_s
               e(n) = zero
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70            continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -8479,7 +8415,7 @@ module stdlib_linalg_lapack_s
                  else
                     done = .false.
                     ! loop until pivot found
-72      continue
+72   continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_scopy(imax - k, a(imax, k), lda, w(k, k + 1), 1)
@@ -8608,7 +8544,7 @@ module stdlib_linalg_lapack_s
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90            continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -8627,7 +8563,6 @@ module stdlib_linalg_lapack_s
               kb = k - 1
            end if
            return
-           ! end of stdlib_slasyf_rk
      end subroutine stdlib_slasyf_rk
 
      ! SLASYF_ROOK computes a partial factorization of a real symmetric
@@ -8677,7 +8612,7 @@ module stdlib_linalg_lapack_s
               ! for use in updating a11
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10      continue
+10            continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -8716,7 +8651,7 @@ module stdlib_linalg_lapack_s
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_scopy(imax, a(1, imax), 1, w(1, kw - 1), 1)
@@ -8843,7 +8778,7 @@ module stdlib_linalg_lapack_s
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30      continue
+30            continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -8861,7 +8796,7 @@ module stdlib_linalg_lapack_s
               ! put u12 in standard form by partially undoing the interchanges
               ! in columns k+1:n
               j = k + 1
-60      continue
+60            continue
                  kstep = 1
                  jp1 = 1
                  jj = j
@@ -8887,7 +8822,7 @@ module stdlib_linalg_lapack_s
               ! for use in updating a22
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70      continue
+70            continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -8924,7 +8859,7 @@ module stdlib_linalg_lapack_s
                  else
                     done = .false.
                     ! loop until pivot found
-72      continue
+72   continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_scopy(imax - k, a(imax, k), lda, w(k, k + 1), 1)
@@ -9046,7 +8981,7 @@ module stdlib_linalg_lapack_s
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90      continue
+90            continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -9064,7 +8999,7 @@ module stdlib_linalg_lapack_s
               ! put l21 in standard form by partially undoing the interchanges
               ! in columns 1:k-1
               j = k - 1
-120    continue
+120           continue
                  kstep = 1
                  jp1 = 1
                  jj = j
@@ -9086,7 +9021,6 @@ module stdlib_linalg_lapack_s
               kb = k - 1
            end if
            return
-           ! end of stdlib_slasyf_rook
      end subroutine stdlib_slasyf_rook
 
      ! SLATBS solves one of the triangular systems
@@ -9237,7 +9171,7 @@ module stdlib_linalg_lapack_s
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-50      continue
+50            continue
            else
               ! compute the growth in a**t * x = b.
               if (upper) then
@@ -9284,7 +9218,7 @@ module stdlib_linalg_lapack_s
                     grow = grow/xj
                  end do
               end if
-80      continue
+80            continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -9352,7 +9286,7 @@ module stdlib_linalg_lapack_s
                           scale = zero
                           xmax = zero
                        end if
-95      continue
+95                     continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -9489,7 +9423,7 @@ module stdlib_linalg_lapack_s
                              scale = zero
                              xmax = zero
                           end if
-135    continue
+135                       continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - sumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -9505,7 +9439,6 @@ module stdlib_linalg_lapack_s
               call stdlib_sscal(n, one/tscal, cnorm, 1)
            end if
            return
-           ! end of stdlib_slatbs
      end subroutine stdlib_slatbs
 
      ! SLATPS solves one of the triangular systems
@@ -9652,7 +9585,7 @@ module stdlib_linalg_lapack_s
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-50      continue
+50            continue
            else
               ! compute the growth in a**t * x = b.
               if (upper) then
@@ -9701,7 +9634,7 @@ module stdlib_linalg_lapack_s
                     grow = grow/xj
                  end do
               end if
-80      continue
+80            continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -9770,7 +9703,7 @@ module stdlib_linalg_lapack_s
                           scale = zero
                           xmax = zero
                        end if
-95      continue
+95                     continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -9903,7 +9836,7 @@ module stdlib_linalg_lapack_s
                              scale = zero
                              xmax = zero
                           end if
-135    continue
+135                       continue
                     else
                        ! compute x(j) := x(j) / a(j,j)  - sumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -9921,7 +9854,6 @@ module stdlib_linalg_lapack_s
               call stdlib_sscal(n, one/tscal, cnorm, 1)
            end if
            return
-           ! end of stdlib_slatps
      end subroutine stdlib_slatps
 
      ! SLATRS solves one of the triangular systems
@@ -10063,7 +9995,7 @@ module stdlib_linalg_lapack_s
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-50      continue
+50            continue
            else
               ! compute the growth in a**t * x = b.
               if (upper) then
@@ -10108,7 +10040,7 @@ module stdlib_linalg_lapack_s
                     grow = grow/xj
                  end do
               end if
-80      continue
+80            continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -10176,7 +10108,7 @@ module stdlib_linalg_lapack_s
                           scale = zero
                           xmax = zero
                        end if
-95      continue
+95                     continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -10305,7 +10237,7 @@ module stdlib_linalg_lapack_s
                              scale = zero
                              xmax = zero
                           end if
-135    continue
+135                       continue
                     else
                        ! compute x(j) := x(j) / a(j,j)  - sumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -10321,7 +10253,6 @@ module stdlib_linalg_lapack_s
               call stdlib_sscal(n, one/tscal, cnorm, 1)
            end if
            return
-           ! end of stdlib_slatrs
      end subroutine stdlib_slatrs
 
      ! SLAUU2 computes the product U * U**T or L**T * L, where the triangular
@@ -10393,7 +10324,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_slauu2
      end subroutine stdlib_slauu2
 
      ! SLAUUM computes the product U * U**T or L**T * L, where the triangular
@@ -10476,7 +10406,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slauum
      end subroutine stdlib_slauum
 
      ! SORBDB6 orthogonalizes the column vector
@@ -10503,7 +10432,6 @@ module stdlib_linalg_lapack_s
            real(sp), parameter :: alphasq = 0.01_sp
            real(sp), parameter :: realone = 1.0_sp
            real(sp), parameter :: realzero = 0.0_sp
-           real(sp), parameter :: negone = -1.0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -10602,7 +10530,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sorbdb6
      end subroutine stdlib_sorbdb6
 
      ! SORG2L generates an m by n real matrix Q with orthonormal columns,
@@ -10664,7 +10591,6 @@ module stdlib_linalg_lapack_s
               end do
            end do
            return
-           ! end of stdlib_sorg2l
      end subroutine stdlib_sorg2l
 
      ! SORG2R generates an m by n real matrix Q with orthonormal columns,
@@ -10727,7 +10653,6 @@ module stdlib_linalg_lapack_s
               end do
            end do
            return
-           ! end of stdlib_sorg2r
      end subroutine stdlib_sorg2r
 
      ! SORGL2 generates an m by n real matrix Q with orthonormal rows,
@@ -10794,7 +10719,6 @@ module stdlib_linalg_lapack_s
               end do
            end do
            return
-           ! end of stdlib_sorgl2
      end subroutine stdlib_sorgl2
 
      ! SORGLQ generates an M-by-N real matrix Q with orthonormal rows,
@@ -10909,7 +10833,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = iws
            return
-           ! end of stdlib_sorglq
      end subroutine stdlib_sorglq
 
      ! SORGQL generates an M-by-N real matrix Q with orthonormal columns,
@@ -11029,7 +10952,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = iws
            return
-           ! end of stdlib_sorgql
      end subroutine stdlib_sorgql
 
      ! SORGQR generates an M-by-N real matrix Q with orthonormal columns,
@@ -11144,7 +11066,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = iws
            return
-           ! end of stdlib_sorgqr
      end subroutine stdlib_sorgqr
 
      ! SORGR2 generates an m by n real matrix Q with orthonormal rows,
@@ -11208,7 +11129,6 @@ module stdlib_linalg_lapack_s
               end do
            end do
            return
-           ! end of stdlib_sorgr2
      end subroutine stdlib_sorgr2
 
      ! SORGRQ generates an M-by-N real matrix Q with orthonormal rows,
@@ -11328,7 +11248,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = iws
            return
-           ! end of stdlib_sorgrq
      end subroutine stdlib_sorgrq
 
      ! SORGTSQR_ROW generates an M-by-N real matrix Q_out with
@@ -11394,12 +11313,12 @@ module stdlib_linalg_lapack_s
               call stdlib_xerbla('stdlib_sorgtsqr_row', -info)
               return
            else if (lquery) then
-              work(1) = real(lworkopt)
+              work(1) = real(lworkopt, KIND=sp)
               return
            end if
            ! quick return if possible
            if (min(m, n) == 0) then
-              work(1) = real(lworkopt)
+              work(1) = real(lworkopt, KIND=sp)
               return
            end if
            ! (0) set the upper-triangular part of the matrix a to zero and
@@ -11467,9 +11386,8 @@ module stdlib_linalg_lapack_s
                            kb), lda, a(kb + knb, kb), lda, work, knb)
               end if
            end do
-           work(1) = real(lworkopt)
+           work(1) = real(lworkopt, KIND=sp)
            return
-           ! end of stdlib_sorgtsqr_row
      end subroutine stdlib_sorgtsqr_row
 
      subroutine stdlib_sorm22(side, trans, m, n, n1, n2, q, ldq, c, ldc, work, lwork, info)
@@ -11526,7 +11444,7 @@ module stdlib_linalg_lapack_s
            end if
            if (info == 0) then
               lwkopt = m*n
-              work(1) = real(lwkopt)
+              work(1) = real(lwkopt, KIND=sp)
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_sorm22', -info)
@@ -11646,9 +11564,8 @@ module stdlib_linalg_lapack_s
                  end do
               end if
            end if
-           work(1) = real(lwkopt)
+           work(1) = real(lwkopt, KIND=sp)
            return
-           ! end of stdlib_sorm22
      end subroutine stdlib_sorm22
 
      ! SORM2L overwrites the general real m by n matrix C with
@@ -11740,7 +11657,6 @@ module stdlib_linalg_lapack_s
               a(nq - k + i, i) = aii
            end do
            return
-           ! end of stdlib_sorm2l
      end subroutine stdlib_sorm2l
 
      ! SORM2R overwrites the general real m by n matrix C with
@@ -11837,7 +11753,6 @@ module stdlib_linalg_lapack_s
               a(i, i) = aii
            end do
            return
-           ! end of stdlib_sorm2r
      end subroutine stdlib_sorm2r
 
      ! SORML2 overwrites the general real m by n matrix C with
@@ -11934,7 +11849,6 @@ module stdlib_linalg_lapack_s
               a(i, i) = aii
            end do
            return
-           ! end of stdlib_sorml2
      end subroutine stdlib_sorml2
 
      ! SORMLQ overwrites the general real M-by-N matrix C with
@@ -12077,7 +11991,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sormlq
      end subroutine stdlib_sormlq
 
      ! SORMQL overwrites the general real M-by-N matrix C with
@@ -12213,7 +12126,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sormql
      end subroutine stdlib_sormql
 
      ! SORMQR overwrites the general real M-by-N matrix C with
@@ -12350,7 +12262,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sormqr
      end subroutine stdlib_sormqr
 
      ! SORMR2 overwrites the general real m by n matrix C with
@@ -12442,7 +12353,6 @@ module stdlib_linalg_lapack_s
               a(i, nq - k + i) = aii
            end do
            return
-           ! end of stdlib_sormr2
      end subroutine stdlib_sormr2
 
      ! SORMR3 overwrites the general real m by n matrix C with
@@ -12538,7 +12448,6 @@ module stdlib_linalg_lapack_s
                         work)
            end do
            return
-           ! end of stdlib_sormr3
      end subroutine stdlib_sormr3
 
      ! SORMRQ overwrites the general real M-by-N matrix C with
@@ -12680,7 +12589,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sormrq
      end subroutine stdlib_sormrq
 
      ! SORMRZ overwrites the general real M-by-N matrix C with
@@ -12831,7 +12739,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sormrz
      end subroutine stdlib_sormrz
 
      ! SPBEQU computes row and column scalings intended to equilibrate a
@@ -12917,7 +12824,6 @@ module stdlib_linalg_lapack_s
               scond = sqrt(smin)/sqrt(amax)
            end if
            return
-           ! end of stdlib_spbequ
      end subroutine stdlib_spbequ
 
      ! SPBSTF computes a split Cholesky factorization of a real
@@ -13032,10 +12938,9 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-50      continue
+50         continue
            info = j
            return
-           ! end of stdlib_spbstf
      end subroutine stdlib_spbstf
 
      ! SPBTF2 computes the Cholesky factorization of a real symmetric
@@ -13119,10 +13024,9 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-30      continue
+30         continue
            info = j
            return
-           ! end of stdlib_spbtf2
      end subroutine stdlib_spbtf2
 
      ! SPBTRS solves a system of linear equations A*X = B with a symmetric
@@ -13189,7 +13093,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_spbtrs
      end subroutine stdlib_spbtrs
 
      ! SPOEQU computes row and column scalings intended to equilibrate a
@@ -13262,7 +13165,6 @@ module stdlib_linalg_lapack_s
               scond = sqrt(smin)/sqrt(amax)
            end if
            return
-           ! end of stdlib_spoequ
      end subroutine stdlib_spoequ
 
      ! SPOEQUB computes row and column scalings intended to equilibrate a
@@ -13337,13 +13239,12 @@ module stdlib_linalg_lapack_s
               ! set the scale factors to the reciprocals
               ! of the diagonal elements.
               do i = 1, n
-                 s(i) = base**int(tmp*log(s(i)))
+                 s(i) = base**int(tmp*log(s(i)), KIND=ilp)
               end do
               ! compute scond = min(s(i)) / max(s(i)).
               scond = sqrt(smin)/sqrt(amax)
            end if
            return
-           ! end of stdlib_spoequb
      end subroutine stdlib_spoequb
 
      ! SPOTRS solves a system of linear equations A*X = B with a symmetric
@@ -13404,7 +13305,6 @@ module stdlib_linalg_lapack_s
                          ldb)
            end if
            return
-           ! end of stdlib_spotrs
      end subroutine stdlib_spotrs
 
      ! SPPEQU computes row and column scalings intended to equilibrate a
@@ -13496,7 +13396,6 @@ module stdlib_linalg_lapack_s
               scond = sqrt(smin)/sqrt(amax)
            end if
            return
-           ! end of stdlib_sppequ
      end subroutine stdlib_sppequ
 
      ! SPPTRF computes the Cholesky factorization of a real symmetric
@@ -13577,11 +13476,10 @@ module stdlib_linalg_lapack_s
               end do
            end if
            go to 40
-30      continue
+30         continue
            info = j
-40      continue
+40         continue
            return
-           ! end of stdlib_spptrf
      end subroutine stdlib_spptrf
 
      ! SPPTRS solves a system of linear equations A*X = B with a symmetric
@@ -13642,7 +13540,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_spptrs
      end subroutine stdlib_spptrs
 
      ! SPTCON computes the reciprocal of the condition number (in the
@@ -13713,7 +13610,6 @@ module stdlib_linalg_lapack_s
            ! compute the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_sptcon
      end subroutine stdlib_sptcon
 
      ! SPTTRF computes the L*D*L**T factorization of a real symmetric
@@ -13794,9 +13690,8 @@ module stdlib_linalg_lapack_s
            end do loop_20
            ! check d(n) for positive definiteness.
            if (d(n) <= zero) info = n
-30      continue
+30         continue
            return
-           ! end of stdlib_spttrf
      end subroutine stdlib_spttrf
 
      ! SPTTS2 solves a tridiagonal system of the form
@@ -13837,7 +13732,6 @@ module stdlib_linalg_lapack_s
               end do
            end do
            return
-           ! end of stdlib_sptts2
      end subroutine stdlib_sptts2
 
      ! SRSCL multiplies an n-element real vector x by the real scalar 1/a.
@@ -13870,7 +13764,7 @@ module stdlib_linalg_lapack_s
            ! initialize the denominator to sa and the numerator to 1.
            cden = sa
            cnum = one
-10      continue
+10         continue
            cden1 = cden*smlnum
            cnum1 = cnum/bignum
            if (abs(cden1) > abs(cnum) .and. cnum /= zero) then
@@ -13892,7 +13786,6 @@ module stdlib_linalg_lapack_s
            call stdlib_sscal(n, mul, sx, incx)
            if (.not. done) go to 10
            return
-           ! end of stdlib_srscl
      end subroutine stdlib_srscl
 
      ! SSBGST reduces a real symmetric-definite banded generalized
@@ -14006,7 +13899,7 @@ module stdlib_linalg_lapack_s
            ! to avoid duplicating code, the two loops are merged.
            update = .true.
            i = n + 1
-10      continue
+10         continue
            if (update) then
               i = i - 1
               kbt = min(kb, i - 1)
@@ -14392,7 +14285,7 @@ module stdlib_linalg_lapack_s
               end if
            end if
            go to 10
-480    continue
+480        continue
            ! **************************** phase 2 *****************************
            ! the logical structure of this phase is:
            ! update = .true.
@@ -14407,7 +14300,7 @@ module stdlib_linalg_lapack_s
            ! to avoid duplicating code, the two loops are merged.
            update = .true.
            i = 0
-490    continue
+490        continue
            if (update) then
               i = i + 1
               kbt = min(kb, m - i)
@@ -14803,7 +14696,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            go to 490
-           ! end of stdlib_ssbgst
      end subroutine stdlib_ssbgst
 
      ! SSBTRD reduces a real symmetric band matrix A to symmetric
@@ -15133,7 +15025,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_ssbtrd
      end subroutine stdlib_ssbtrd
 
      ! Level 3 BLAS like routine for C in RFP Format.
@@ -15389,7 +15280,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_ssfrk
      end subroutine stdlib_ssfrk
 
      ! SSPGST reduces a real symmetric-definite generalized eigenproblem
@@ -15510,7 +15400,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sspgst
      end subroutine stdlib_sspgst
 
      ! SSPTRF computes the factorization of a real symmetric matrix A stored
@@ -15562,7 +15451,7 @@ module stdlib_linalg_lapack_s
               ! 1 or 2
               k = n
               kc = (n - 1)*n/2 + 1
-10      continue
+10            continue
               knc = kc
               ! if k < 1, exit from loop
               if (k < 1) go to 110
@@ -15696,7 +15585,7 @@ module stdlib_linalg_lapack_s
               k = 1
               kc = 1
               npp = n*(n + 1)/2
-60      continue
+60            continue
               knc = kc
               ! if k > n, exit from loop
               if (k > n) go to 110
@@ -15830,9 +15719,8 @@ module stdlib_linalg_lapack_s
               kc = knc + n - k + 2
               go to 60
            end if
-110    continue
+110        continue
            return
-           ! end of stdlib_ssptrf
      end subroutine stdlib_ssptrf
 
      ! SSPTRI computes the inverse of a real symmetric indefinite matrix
@@ -15895,7 +15783,7 @@ module stdlib_linalg_lapack_s
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-30      continue
+30            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               kcnext = kc + k
@@ -15962,7 +15850,7 @@ module stdlib_linalg_lapack_s
               k = k + kstep
               kc = kcnext
               go to 30
-50      continue
+50            continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
@@ -15970,7 +15858,7 @@ module stdlib_linalg_lapack_s
               npp = n*(n + 1)/2
               k = n
               kc = npp
-60      continue
+60            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 80
               kcnext = kc - (n - k + 2)
@@ -16039,10 +15927,9 @@ module stdlib_linalg_lapack_s
               k = k - kstep
               kc = kcnext
               go to 60
-80      continue
+80            continue
            end if
            return
-           ! end of stdlib_ssptri
      end subroutine stdlib_ssptri
 
      ! SSPTRS solves a system of linear equations A*X = B with a real
@@ -16092,7 +15979,7 @@ module stdlib_linalg_lapack_s
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-10      continue
+10            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               kc = kc - k
@@ -16134,13 +16021,13 @@ module stdlib_linalg_lapack_s
                  k = k - 2
               end if
               go to 10
-30      continue
+30            continue
               ! next solve u**t*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-40      continue
+40            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -16169,7 +16056,7 @@ module stdlib_linalg_lapack_s
                  k = k + 2
               end if
               go to 40
-50      continue
+50            continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
@@ -16177,7 +16064,7 @@ module stdlib_linalg_lapack_s
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-60      continue
+60            continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -16221,13 +16108,13 @@ module stdlib_linalg_lapack_s
                  k = k + 2
               end if
               go to 60
-80      continue
+80            continue
               ! next solve l**t*x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-90      continue
+90            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               kc = kc - (n - k + 1)
@@ -16258,10 +16145,9 @@ module stdlib_linalg_lapack_s
                  k = k - 2
               end if
               go to 90
-100    continue
+100           continue
            end if
            return
-           ! end of stdlib_ssptrs
      end subroutine stdlib_ssptrs
 
      ! SSTEBZ computes the eigenvalues of a symmetric tridiagonal
@@ -16408,7 +16294,7 @@ module stdlib_linalg_lapack_s
               gl = gl - fudge*tnorm*ulp*n - fudge*two*pivmin
               gu = gu + fudge*tnorm*ulp*n + fudge*pivmin
               ! compute iteration parameters
-              itmax = int((log(tnorm + pivmin) - log(pivmin))/log(two)) + 2
+              itmax = int((log(tnorm + pivmin) - log(pivmin))/log(two), KIND=ilp) + 2
               if (abstol <= zero) then
                  atoli = ulp*tnorm
               else
@@ -16533,7 +16419,8 @@ module stdlib_linalg_lapack_s
                  nwu = nwu + iwork(in + 1)
                  iwoff = m - iwork(1)
                  ! compute eigenvalues
-                 itmax = int((log(gu - gl + pivmin) - log(pivmin))/log(two)) + 2
+                 itmax = int((log(gu - gl + pivmin) - log(pivmin))/log(two), KIND=ilp) + &
+                           2
                  call stdlib_slaebz(2, itmax, in, in, 1, nb, atoli, rtoli, pivmin, d(ibegin), e( &
                   ibegin), work(ibegin), idumma, work(n + 1), work(n + 2*in + 1), iout, iwork, w( &
                             m + 1), iblock(m + 1), iinfo)
@@ -16651,7 +16538,6 @@ module stdlib_linalg_lapack_s
            if (ncnvrg) info = info + 1
            if (toofew) info = info + 2
            return
-           ! end of stdlib_sstebz
      end subroutine stdlib_sstebz
 
      ! SSYCONV convert A given by TRF into L and D and vice-versa.
@@ -16855,7 +16741,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_ssyconv
      end subroutine stdlib_ssyconv
 
      ! If parameter WAY = 'C':
@@ -17110,7 +16995,6 @@ module stdlib_linalg_lapack_s
               ! end a is lower
            end if
            return
-           ! end of stdlib_ssyconvf
      end subroutine stdlib_ssyconvf
 
      ! If parameter WAY = 'C':
@@ -17363,7 +17247,6 @@ module stdlib_linalg_lapack_s
               ! end a is lower
            end if
            return
-           ! end of stdlib_ssyconvf_rook
      end subroutine stdlib_ssyconvf_rook
 
      ! SSYEQUB computes row and column scalings intended to equilibrate a
@@ -17523,7 +17406,7 @@ module stdlib_linalg_lapack_s
                  s(i) = si
               end do
            end do
-999   continue
+999        continue
            smlnum = stdlib_slamch('safemin')
            bignum = one/smlnum
            smin = bignum
@@ -17532,7 +17415,7 @@ module stdlib_linalg_lapack_s
            base = stdlib_slamch('b')
            u = one/log(base)
            do i = 1, n
-              s(i) = base**int(u*log(s(i)*t))
+              s(i) = base**int(u*log(s(i)*t), KIND=ilp)
               smin = min(smin, s(i))
               smax = max(smax, s(i))
            end do
@@ -17658,7 +17541,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_ssygs2
      end subroutine stdlib_ssygs2
 
      ! SSYGST reduces a real symmetric-definite generalized eigenproblem
@@ -17796,7 +17678,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_ssygst
      end subroutine stdlib_ssygst
 
      ! SSYSWAPR applies an elementary permutation on the rows and the columns of
@@ -17925,7 +17806,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 34
               kstep = 1
@@ -17959,7 +17840,7 @@ module stdlib_linalg_lapack_s
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -18112,7 +17993,7 @@ module stdlib_linalg_lapack_s
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-34      continue
+34            continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! initialize the unused last entry of the subdiagonal array e.
@@ -18120,7 +18001,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop
               if (k > n) go to 64
               kstep = 1
@@ -18153,7 +18034,7 @@ module stdlib_linalg_lapack_s
                  else
                     done = .false.
                     ! loop until pivot found
-42      continue
+42   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -18311,10 +18192,9 @@ module stdlib_linalg_lapack_s
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 40
-64      continue
+64            continue
            end if
            return
-           ! end of stdlib_ssytf2_rk
      end subroutine stdlib_ssytf2_rk
 
      ! SSYTF2_ROOK computes the factorization of a real symmetric matrix A
@@ -18370,7 +18250,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
@@ -18402,7 +18282,7 @@ module stdlib_linalg_lapack_s
                  else
                     done = .false.
                     ! loop until pivot found
-12      continue
+12   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -18546,7 +18426,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
@@ -18577,7 +18457,7 @@ module stdlib_linalg_lapack_s
                  else
                     done = .false.
                     ! loop until pivot found
-42      continue
+42   continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -18722,9 +18602,8 @@ module stdlib_linalg_lapack_s
               k = k + kstep
               go to 40
            end if
-70      continue
+70         continue
            return
-           ! end of stdlib_ssytf2_rook
      end subroutine stdlib_ssytf2_rook
 
      ! SSYTRF_RK computes the factorization of a real symmetric matrix A
@@ -18798,7 +18677,7 @@ module stdlib_linalg_lapack_s
               ! kb, where kb is the number of columns factorized by stdlib_slasyf_rk;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 15
               if (k > nb) then
@@ -18834,14 +18713,14 @@ module stdlib_linalg_lapack_s
               go to 10
               ! this label is the exit from main loop over k decreasing
               ! from n to 1 in steps of kb
-15      continue
+15   continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! k is the main loop index, increasing from 1 to n in steps of
               ! kb, where kb is the number of columns factorized by stdlib_slasyf_rk;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20            continue
               ! if k > n, exit from loop
               if (k > n) go to 35
               if (k <= n - nb) then
@@ -18885,12 +18764,11 @@ module stdlib_linalg_lapack_s
               go to 20
               ! this label is the exit from main loop over k increasing
               ! from 1 to n in steps of kb
-35      continue
+35   continue
            ! end lower
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_ssytrf_rk
      end subroutine stdlib_ssytrf_rk
 
      ! SSYTRF_ROOK computes the factorization of a real symmetric matrix A
@@ -18963,7 +18841,7 @@ module stdlib_linalg_lapack_s
               ! kb, where kb is the number of columns factorized by stdlib_slasyf_rook;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -18988,7 +18866,7 @@ module stdlib_linalg_lapack_s
               ! kb, where kb is the number of columns factorized by stdlib_slasyf_rook;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20            continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -19015,10 +18893,9 @@ module stdlib_linalg_lapack_s
               k = k + kb
               go to 20
            end if
-40      continue
+40         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_ssytrf_rook
      end subroutine stdlib_ssytrf_rook
 
      ! SSYTRI computes the inverse of a real symmetric indefinite matrix
@@ -19078,7 +18955,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30      continue
+30            continue
               ! if k > n, exit from loop.
               if (k > n) go to 40
               if (ipiv(k) > 0) then
@@ -19137,13 +19014,13 @@ module stdlib_linalg_lapack_s
               end if
               k = k + kstep
               go to 30
-40      continue
+40            continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-50      continue
+50            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 60
               if (ipiv(k) > 0) then
@@ -19202,10 +19079,9 @@ module stdlib_linalg_lapack_s
               end if
               k = k - kstep
               go to 50
-60      continue
+60            continue
            end if
            return
-           ! end of stdlib_ssytri
      end subroutine stdlib_ssytri
 
      ! SSYTRI_ROOK computes the inverse of a real symmetric
@@ -19265,7 +19141,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30      continue
+30            continue
               ! if k > n, exit from loop.
               if (k > n) go to 40
               if (ipiv(k) > 0) then
@@ -19344,13 +19220,13 @@ module stdlib_linalg_lapack_s
               end if
               k = k + 1
               go to 30
-40      continue
+40            continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-50      continue
+50            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 60
               if (ipiv(k) > 0) then
@@ -19429,10 +19305,9 @@ module stdlib_linalg_lapack_s
               end if
               k = k - 1
               go to 50
-60      continue
+60            continue
            end if
            return
-           ! end of stdlib_ssytri_rook
      end subroutine stdlib_ssytri_rook
 
      ! SSYTRS solves a system of linear equations A*X = B with a real
@@ -19483,7 +19358,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -19523,12 +19398,12 @@ module stdlib_linalg_lapack_s
                  k = k - 2
               end if
               go to 10
-30      continue
+30            continue
               ! next solve u**t *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -19555,14 +19430,14 @@ module stdlib_linalg_lapack_s
                  k = k + 2
               end if
               go to 40
-50      continue
+50            continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60      continue
+60            continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -19604,12 +19479,12 @@ module stdlib_linalg_lapack_s
                  k = k + 2
               end if
               go to 60
-80      continue
+80            continue
               ! next solve l**t *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90      continue
+90            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -19638,10 +19513,9 @@ module stdlib_linalg_lapack_s
                  k = k - 2
               end if
               go to 90
-100    continue
+100           continue
            end if
            return
-           ! end of stdlib_ssytrs
      end subroutine stdlib_ssytrs
 
      ! SSYTRS2 solves a system of linear equations A*X = B with a real
@@ -19818,7 +19692,6 @@ module stdlib_linalg_lapack_s
            ! revert a
            call stdlib_ssyconv(uplo, 'r', n, a, lda, ipiv, work, iinfo)
            return
-           ! end of stdlib_ssytrs2
      end subroutine stdlib_ssytrs2
 
      ! SSYTRS_3 solves a system of linear equations A * X = B with a real
@@ -19974,7 +19847,6 @@ module stdlib_linalg_lapack_s
               ! end lower
            end if
            return
-           ! end of stdlib_ssytrs_3
      end subroutine stdlib_ssytrs_3
 
      ! SSYTRS_AA solves a system of linear equations A*X = B with a real
@@ -20098,7 +19970,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_ssytrs_aa
      end subroutine stdlib_ssytrs_aa
 
      ! SSYTRS_ROOK solves a system of linear equations A*X = B with
@@ -20149,7 +20020,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -20193,12 +20064,12 @@ module stdlib_linalg_lapack_s
                  k = k - 2
               end if
               go to 10
-30      continue
+30            continue
               ! next solve u**t *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -20229,14 +20100,14 @@ module stdlib_linalg_lapack_s
                  k = k + 2
               end if
               go to 40
-50      continue
+50            continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60      continue
+60            continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -20280,12 +20151,12 @@ module stdlib_linalg_lapack_s
                  k = k + 2
               end if
               go to 60
-80      continue
+80            continue
               ! next solve l**t *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90      continue
+90            continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -20316,10 +20187,9 @@ module stdlib_linalg_lapack_s
                  k = k - 2
               end if
               go to 90
-100    continue
+100           continue
            end if
            return
-           ! end of stdlib_ssytrs_rook
      end subroutine stdlib_ssytrs_rook
 
      ! STBRFS provides error bounds and backward error estimates for the
@@ -20528,7 +20398,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-210    continue
+210           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -20556,7 +20426,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_250
            return
-           ! end of stdlib_stbrfs
      end subroutine stdlib_stbrfs
 
      ! STBTRS solves a triangular system of the form
@@ -20627,7 +20496,6 @@ module stdlib_linalg_lapack_s
               call stdlib_stbsv(uplo, trans, diag, n, kd, ab, ldab, b(1, j), 1)
            end do
            return
-           ! end of stdlib_stbtrs
      end subroutine stdlib_stbtrs
 
      ! Level 3 BLAS like routine for A in RFP Format.
@@ -21128,7 +20996,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_stfsm
      end subroutine stdlib_stfsm
 
      ! STFTTP copies a triangular matrix A from rectangular full packed
@@ -21383,7 +21250,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_stfttp
      end subroutine stdlib_stfttp
 
      ! STFTTR copies a triangular matrix A from rectangular full packed
@@ -21611,7 +21477,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_stfttr
      end subroutine stdlib_stfttr
 
      ! STPRFB applies a real "triangular-pentagonal" block reflector H or its
@@ -22029,7 +21894,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_stprfb
      end subroutine stdlib_stprfb
 
      ! STPRFS provides error bounds and backward error estimates for the
@@ -22245,7 +22109,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-210    continue
+210           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -22272,7 +22136,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_250
            return
-           ! end of stdlib_stprfs
      end subroutine stdlib_stprfs
 
      ! STPTRI computes the inverse of a real upper or lower triangular
@@ -22362,7 +22225,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_stptri
      end subroutine stdlib_stptri
 
      ! STPTRS solves a triangular system of the form
@@ -22434,7 +22296,6 @@ module stdlib_linalg_lapack_s
               call stdlib_stpsv(uplo, trans, diag, n, ap, b(1, j), 1)
            end do
            return
-           ! end of stdlib_stptrs
      end subroutine stdlib_stptrs
 
      ! STPTTF copies a triangular matrix A from standard packed format (TP)
@@ -22675,7 +22536,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_stpttf
      end subroutine stdlib_stpttf
 
      ! STPTTR copies a triangular matrix A from standard packed format (TP)
@@ -22728,7 +22588,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_stpttr
      end subroutine stdlib_stpttr
 
      ! STRRFS provides error bounds and backward error estimates for the
@@ -22935,7 +22794,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-210    continue
+210           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -22962,7 +22821,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_250
            return
-           ! end of stdlib_strrfs
      end subroutine stdlib_strrfs
 
      ! STRTI2 computes the inverse of a real upper or lower triangular
@@ -23036,7 +22894,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_strti2
      end subroutine stdlib_strti2
 
      ! STRTRI computes the inverse of a real upper or lower triangular
@@ -23123,7 +22980,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_strtri
      end subroutine stdlib_strtri
 
      ! STRTRS solves a triangular system of the form
@@ -23182,7 +23038,6 @@ module stdlib_linalg_lapack_s
            ! solve a * x = b  or  a**t * x = b.
            call stdlib_strsm('left', uplo, trans, diag, n, nrhs, one, a, lda, b, ldb)
            return
-           ! end of stdlib_strtrs
      end subroutine stdlib_strtrs
 
      ! STRTTF copies a triangular matrix A from standard full format (TR)
@@ -23409,7 +23264,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_strttf
      end subroutine stdlib_strttf
 
      ! STRTTP copies a triangular matrix A from full format (TR) to standard
@@ -23462,7 +23316,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_strttp
      end subroutine stdlib_strttp
 
      ! SBBCSD computes the CS decomposition of an orthogonal matrix in
@@ -23505,7 +23358,6 @@ module stdlib_linalg_lapack_s
            integer(ilp), parameter :: maxitr = 6
            real(sp), parameter :: hundred = 100.0_sp
            real(sp), parameter :: meighth = -0.125_sp
-           real(sp), parameter :: negone = -1.0_sp
            real(sp), parameter :: piover2 = 1.57079632679489661923132169163975144210_sp
            
            ! .. local scalars ..
@@ -23669,7 +23521,7 @@ module stdlib_linalg_lapack_s
                     end if
                  else
                     nu = sigma21
-                    mu = sqrt(one - nu**2)
+                    mu = sqrt(1.0_sp - nu**2)
                     if (nu < thresh) then
                        mu = one
                        nu = zero
@@ -24067,7 +23919,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_sbbcsd
      end subroutine stdlib_sbbcsd
 
      ! SDISNA computes the reciprocal condition numbers for the eigenvectors
@@ -24171,7 +24022,6 @@ module stdlib_linalg_lapack_s
               sep(i) = max(sep(i), thresh)
            end do
            return
-           ! end of stdlib_sdisna
      end subroutine stdlib_sdisna
 
      ! SGBBRD reduces a real general m-by-n band matrix A to upper
@@ -24428,7 +24278,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sgbbrd
      end subroutine stdlib_sgbbrd
 
      ! SGBCON estimates the reciprocal of the condition number of a real
@@ -24502,7 +24351,7 @@ module stdlib_linalg_lapack_s
            kd = kl + ku + 1
            lnoti = kl > 0
            kase = 0
-10      continue
+10         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -24552,9 +24401,8 @@ module stdlib_linalg_lapack_s
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-40      continue
+40         continue
            return
-           ! end of stdlib_sgbcon
      end subroutine stdlib_sgbcon
 
      ! SGBEQU computes row and column scalings intended to equilibrate an
@@ -24682,7 +24530,6 @@ module stdlib_linalg_lapack_s
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            return
-           ! end of stdlib_sgbequ
      end subroutine stdlib_sgbequ
 
      ! SGBEQUB computes row and column scalings intended to equilibrate an
@@ -24760,7 +24607,7 @@ module stdlib_linalg_lapack_s
            end do
            do i = 1, m
               if (r(i) > zero) then
-                 r(i) = radix**int(log(r(i))/logrdx)
+                 r(i) = radix**int(log(r(i))/logrdx, KIND=ilp)
               end if
            end do
            ! find the maximum and minimum scale factors.
@@ -24798,7 +24645,7 @@ module stdlib_linalg_lapack_s
                  c(j) = max(c(j), abs(ab(kd + i - j, j))*r(i))
               end do
               if (c(j) > zero) then
-                 c(j) = radix**int(log(c(j))/logrdx)
+                 c(j) = radix**int(log(c(j))/logrdx, KIND=ilp)
               end if
            end do
            ! find the maximum and minimum scale factors.
@@ -24825,7 +24672,6 @@ module stdlib_linalg_lapack_s
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            return
-           ! end of stdlib_sgbequb
      end subroutine stdlib_sgbequb
 
      ! SGBRFS improves the computed solution to a system of linear
@@ -24908,7 +24754,7 @@ module stdlib_linalg_lapack_s
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -24991,7 +24837,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -25020,7 +24866,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_sgbrfs
      end subroutine stdlib_sgbrfs
 
      ! SGBTRF computes an LU factorization of a real m-by-n band matrix A
@@ -25269,7 +25114,6 @@ module stdlib_linalg_lapack_s
               end do loop_180
            end if
            return
-           ! end of stdlib_sgbtrf
      end subroutine stdlib_sgbtrf
 
      ! SGECON estimates the reciprocal of the condition number of a general
@@ -25336,7 +25180,7 @@ module stdlib_linalg_lapack_s
               kase1 = 2
            end if
            kase = 0
-10      continue
+10         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -25366,9 +25210,8 @@ module stdlib_linalg_lapack_s
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20         continue
            return
-           ! end of stdlib_sgecon
      end subroutine stdlib_sgecon
 
      ! SGEEQU computes row and column scalings intended to equilibrate an
@@ -25490,7 +25333,6 @@ module stdlib_linalg_lapack_s
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            return
-           ! end of stdlib_sgeequ
      end subroutine stdlib_sgeequ
 
      ! SGEEQUB computes row and column scalings intended to equilibrate an
@@ -25563,7 +25405,7 @@ module stdlib_linalg_lapack_s
            end do
            do i = 1, m
               if (r(i) > zero) then
-                 r(i) = radix**int(log(r(i))/logrdx)
+                 r(i) = radix**int(log(r(i))/logrdx, KIND=ilp)
               end if
            end do
            ! find the maximum and minimum scale factors.
@@ -25601,7 +25443,7 @@ module stdlib_linalg_lapack_s
                  c(j) = max(c(j), abs(a(i, j))*r(i))
               end do
               if (c(j) > zero) then
-                 c(j) = radix**int(log(c(j))/logrdx)
+                 c(j) = radix**int(log(c(j))/logrdx, KIND=ilp)
               end if
            end do
            ! find the maximum and minimum scale factors.
@@ -25628,7 +25470,6 @@ module stdlib_linalg_lapack_s
               colcnd = max(rcmin, smlnum)/min(rcmax, bignum)
            end if
            return
-           ! end of stdlib_sgeequb
      end subroutine stdlib_sgeequb
 
      ! DGEMLQT overwrites the general real M-by-N matrix C with
@@ -25724,7 +25565,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sgemlqt
      end subroutine stdlib_sgemlqt
 
      ! SGEMQRT overwrites the general real M-by-N matrix C with
@@ -25820,7 +25660,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sgemqrt
      end subroutine stdlib_sgemqrt
 
      ! SGESC2 solves a system of linear equations
@@ -25878,7 +25717,6 @@ module stdlib_linalg_lapack_s
            ! apply permutations jpiv to the solution (rhs)
            call stdlib_slaswp(1, rhs, lda, 1, n - 1, jpiv, -1)
            return
-           ! end of stdlib_sgesc2
      end subroutine stdlib_sgesc2
 
      ! SGETC2 computes an LU factorization with complete pivoting of the
@@ -25962,7 +25800,6 @@ module stdlib_linalg_lapack_s
            ipiv(n) = n
            jpiv(n) = n
            return
-           ! end of stdlib_sgetc2
      end subroutine stdlib_sgetc2
 
      ! SGETF2 computes an LU factorization of a general m-by-n matrix A
@@ -26035,7 +25872,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_sgetf2
      end subroutine stdlib_sgetf2
 
      ! SGETRF2 computes an LU factorization of a general M-by-N matrix A
@@ -26150,7 +25986,6 @@ module stdlib_linalg_lapack_s
               call stdlib_slaswp(n1, a(1, 1), lda, n1 + 1, min(m, n), ipiv, 1)
            end if
            return
-           ! end of stdlib_sgetrf2
      end subroutine stdlib_sgetrf2
 
      ! SGETRI computes the inverse of a matrix using the LU factorization
@@ -26251,7 +26086,6 @@ module stdlib_linalg_lapack_s
            end do
            work(1) = iws
            return
-           ! end of stdlib_sgetri
      end subroutine stdlib_sgetri
 
      ! SGETRS solves a system of linear equations
@@ -26319,7 +26153,6 @@ module stdlib_linalg_lapack_s
               call stdlib_slaswp(nrhs, b, ldb, 1, n, ipiv, -1)
            end if
            return
-           ! end of stdlib_sgetrs
      end subroutine stdlib_sgetrs
 
      ! SGGBAL balances a pair of general real matrices (A,B).  This
@@ -26398,13 +26231,13 @@ module stdlib_linalg_lapack_s
            go to 30
            ! permute the matrices a and b to isolate the eigenvalues.
            ! find row with one nonzero in columns 1 through l
-20      continue
+20   continue
            l = lm1
            if (l /= 1) go to 30
            rscale(1) = one
            lscale(1) = one
            go to 190
-30      continue
+30         continue
            lm1 = l - 1
            loop_80: do i = l, 1, -1
               do j = 1, lm1
@@ -26413,21 +26246,21 @@ module stdlib_linalg_lapack_s
               end do
               j = l
               go to 70
-50      continue
+50            continue
               do j = jp1, l
                  if (a(i, j) /= zero .or. b(i, j) /= zero) cycle loop_80
               end do
               j = jp1 - 1
-70      continue
+70            continue
               m = l
               iflow = 1
               go to 160
            end do loop_80
            go to 100
            ! find column with one nonzero in rows k through n
-90      continue
+90   continue
            k = k + 1
-100    continue
+100        continue
            loop_150: do j = k, l
               do i = k, lm1
                  ip1 = i + 1
@@ -26435,32 +26268,32 @@ module stdlib_linalg_lapack_s
               end do
               i = l
               go to 140
-120    continue
+120           continue
               do i = ip1, l
                  if (a(i, j) /= zero .or. b(i, j) /= zero) cycle loop_150
               end do
               i = ip1 - 1
-140    continue
+140           continue
               m = k
               iflow = 2
               go to 160
            end do loop_150
            go to 190
            ! permute rows m and i
-160    continue
+160  continue
            lscale(m) = i
            if (i == m) go to 170
            call stdlib_sswap(n - k + 1, a(i, k), lda, a(m, k), lda)
            call stdlib_sswap(n - k + 1, b(i, k), ldb, b(m, k), ldb)
            ! permute columns m and j
-170    continue
+170  continue
            rscale(m) = j
            if (j == m) go to 180
            call stdlib_sswap(l, a(1, j), 1, a(1, m), 1)
            call stdlib_sswap(l, b(1, j), 1, b(1, m), 1)
-180    continue
+180        continue
            go to(20, 90) iflow
-190    continue
+190        continue
            ilo = k
            ihi = l
            if (stdlib_lsame(job, 'p')) then
@@ -26491,22 +26324,22 @@ module stdlib_linalg_lapack_s
                  ta = a(i, j)
                  if (ta == zero) go to 210
                  ta = log10(abs(ta))/basl
-210    continue
+210              continue
                  if (tb == zero) go to 220
                  tb = log10(abs(tb))/basl
-220    continue
+220              continue
                  work(i + 4*n) = work(i + 4*n) - ta - tb
                  work(j + 5*n) = work(j + 5*n) - ta - tb
               end do
            end do
-           coef = one/real(2*nr)
+           coef = one/real(2*nr, KIND=sp)
            coef2 = coef*coef
            coef5 = half*coef2
            nrp2 = nr + 2
            beta = zero
            it = 1
            ! start generalized conjugate gradient iteration
-250    continue
+250  continue
            gamma = stdlib_sdot(nr, work(ilo + 4*n), 1, work(ilo + 4*n), 1) + stdlib_sdot(nr, &
                      work(ilo + 5*n), 1, work(ilo + 5*n), 1)
            ew = zero
@@ -26536,12 +26369,12 @@ module stdlib_linalg_lapack_s
                  if (a(i, j) == zero) go to 280
                  kount = kount + 1
                  sum = sum + work(j)
-280    continue
+280              continue
                  if (b(i, j) == zero) cycle loop_290
                  kount = kount + 1
                  sum = sum + work(j)
               end do loop_290
-              work(i + 2*n) = real(kount)*work(i + n) + sum
+              work(i + 2*n) = real(kount, KIND=sp)*work(i + n) + sum
            end do
            do j = ilo, ihi
               kount = 0
@@ -26550,12 +26383,12 @@ module stdlib_linalg_lapack_s
                  if (a(i, j) == zero) go to 310
                  kount = kount + 1
                  sum = sum + work(i + n)
-310    continue
+310              continue
                  if (b(i, j) == zero) cycle loop_320
                  kount = kount + 1
                  sum = sum + work(i + n)
               end do loop_320
-              work(j + 3*n) = real(kount)*work(j) + sum
+              work(j + 3*n) = real(kount, KIND=sp)*work(j) + sum
            end do
            sum = stdlib_sdot(nr, work(ilo + n), 1, work(ilo + 2*n), 1) + stdlib_sdot(nr, work( &
                      ilo), 1, work(ilo + 3*n), 1)
@@ -26577,7 +26410,7 @@ module stdlib_linalg_lapack_s
            it = it + 1
            if (it <= nrp2) go to 250
            ! end generalized conjugate gradient iteration
-350    continue
+350  continue
            sfmin = stdlib_slamch('s')
            sfmax = one/sfmin
            lsfmin = int(log10(sfmin)/basl + one, KIND=ilp)
@@ -26611,7 +26444,6 @@ module stdlib_linalg_lapack_s
               call stdlib_sscal(ihi, rscale(j), b(1, j), 1)
            end do
            return
-           ! end of stdlib_sggbal
      end subroutine stdlib_sggbal
 
      ! SGGHRD reduces a pair of real matrices (A,B) to generalized upper
@@ -26741,7 +26573,6 @@ module stdlib_linalg_lapack_s
               end do
            end do
            return
-           ! end of stdlib_sgghrd
      end subroutine stdlib_sgghrd
 
      ! SGTTRS solves one of the systems of equations
@@ -26804,7 +26635,6 @@ module stdlib_linalg_lapack_s
                  call stdlib_sgtts2(itrans, n, jb, dl, d, du, du2, ipiv, b(1, j), ldb)
               end do
            end if
-           ! end of stdlib_sgttrs
      end subroutine stdlib_sgttrs
 
      ! SISNAN returns .TRUE. if its argument is NaN, and .FALSE.
@@ -27006,7 +26836,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sla_gbamv
      end subroutine stdlib_sla_gbamv
 
      ! SLA_GBRCOND Estimates the Skeel condition number of  op(A) * op2(C)
@@ -27109,7 +26938,7 @@ module stdlib_linalg_lapack_s
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -27160,9 +26989,8 @@ module stdlib_linalg_lapack_s
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) stdlib_sla_gbrcond = (one/ainvnm)
+           if (ainvnm /= 0.0_sp) stdlib_sla_gbrcond = (1.0_sp/ainvnm)
            return
-           ! end of stdlib_sla_gbrcond
      end function stdlib_sla_gbrcond
 
      ! SLA_GEAMV  performs one of the matrix-vector operations
@@ -27341,7 +27169,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sla_geamv
      end subroutine stdlib_sla_geamv
 
      ! SLA_GERCOND estimates the Skeel condition number of op(A) * op2(C)
@@ -27438,7 +27265,7 @@ module stdlib_linalg_lapack_s
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -27487,9 +27314,8 @@ module stdlib_linalg_lapack_s
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) stdlib_sla_gercond = (one/ainvnm)
+           if (ainvnm /= 0.0_sp) stdlib_sla_gercond = (1.0_sp/ainvnm)
            return
-           ! end of stdlib_sla_gercond
      end function stdlib_sla_gercond
 
      ! SLA_LIN_BERR computes componentwise relative backward error from
@@ -27522,15 +27348,14 @@ module stdlib_linalg_lapack_s
            do j = 1, nrhs
               berr(j) = zero
               do i = 1, n
-                 if (ayb(i, j) /= zero) then
+                 if (ayb(i, j) /= 0.0_sp) then
                     tmp = (safe1 + abs(res(i, j)))/ayb(i, j)
                     berr(j) = max(berr(j), tmp)
                  end if
-           ! if ayb is exactly zero (and if computed by sla_yyamv), then we know
+           ! if ayb is exactly 0.0_sp (and if computed by sla_yyamv), then we know
            ! the true residual also must be exactly zero.
               end do
            end do
-           ! end of stdlib_sla_lin_berr
      end subroutine stdlib_sla_lin_berr
 
      ! SLA_PORCOND Estimates the Skeel condition number of  op(A) * op2(C)
@@ -27639,7 +27464,7 @@ module stdlib_linalg_lapack_s
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10      continue
+10         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -27686,9 +27511,8 @@ module stdlib_linalg_lapack_s
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) stdlib_sla_porcond = (one/ainvnm)
+           if (ainvnm /= 0.0_sp) stdlib_sla_porcond = (1.0_sp/ainvnm)
            return
-           ! end of stdlib_sla_porcond
      end function stdlib_sla_porcond
 
      ! SLA_SYAMV  performs the matrix-vector operation
@@ -27877,7 +27701,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sla_syamv
      end subroutine stdlib_sla_syamv
 
      ! SLA_SYRCOND estimates the Skeel condition number of  op(A) * op2(C)
@@ -27993,7 +27816,7 @@ module stdlib_linalg_lapack_s
            ainvnm = zero
            normin = 'n'
            kase = 0
-10      continue
+10         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -28040,9 +27863,8 @@ module stdlib_linalg_lapack_s
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) stdlib_sla_syrcond = (one/ainvnm)
+           if (ainvnm /= 0.0_sp) stdlib_sla_syrcond = (1.0_sp/ainvnm)
            return
-           ! end of stdlib_sla_syrcond
      end function stdlib_sla_syrcond
 
      ! SLA_SYRPVGRW computes the reciprocal pivot growth factor
@@ -28212,7 +28034,7 @@ module stdlib_linalg_lapack_s
               do i = ncols, n
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -28220,13 +28042,12 @@ module stdlib_linalg_lapack_s
               do i = 1, ncols
                  umax = work(i)
                  amax = work(n + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
            end if
            stdlib_sla_syrpvgrw = rpvgrw
-           ! end of stdlib_sla_syrpvgrw
      end function stdlib_sla_syrpvgrw
 
      subroutine stdlib_sladiv1(a, b, c, d, p, q)
@@ -28246,7 +28067,6 @@ module stdlib_linalg_lapack_s
            a = -a
            q = stdlib_sladiv2(b, a, c, d, r, t)
            return
-           ! end of stdlib_sladiv1
      end subroutine stdlib_sladiv1
 
      ! SLAED6 computes the positive or negative root (closest to the origin)
@@ -28343,7 +28163,8 @@ module stdlib_linalg_lapack_s
            ! others but recomputed at each call
            eps = stdlib_slamch('epsilon')
            base = stdlib_slamch('base')
-           small1 = base**(int(log(stdlib_slamch('safmin'))/log(base)/three))
+           small1 = base**(int(log(stdlib_slamch('safmin'))/log(base)/three, KIND=ilp))
+                     
            sminv1 = one/small1
            small2 = small1*small1
            sminv2 = sminv1*sminv1
@@ -28465,11 +28286,10 @@ module stdlib_linalg_lapack_s
               end if
            end do loop_50
            info = 1
-60      continue
+60         continue
            ! undo scaling
            if (scale) tau = tau*sclinv
            return
-           ! end of stdlib_slaed6
      end subroutine stdlib_slaed6
 
      ! SLAGS2 computes 2-by-2 orthogonal matrices U, V and Q, such
@@ -28629,7 +28449,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slags2
      end subroutine stdlib_slags2
 
      ! SLAGTF factorizes the matrix (T - lambda*I), where T is an n by n
@@ -28719,7 +28538,6 @@ module stdlib_linalg_lapack_s
            end do loop_10
            if ((abs(a(n)) <= scale1*tl) .and. (in(n) == 0)) in(n) = n
            return
-           ! end of stdlib_slagtf
      end subroutine stdlib_slagtf
 
      ! SLAGTS may be used to solve one of the systems of equations
@@ -28823,7 +28641,7 @@ module stdlib_linalg_lapack_s
                     end if
                     ak = a(k)
                     pert = sign(tol, ak)
-40      continue
+40                  continue
                     absak = abs(ak)
                     if (absak < one) then
                        if (absak < sfmin) then
@@ -28884,7 +28702,7 @@ module stdlib_linalg_lapack_s
                     end if
                     ak = a(k)
                     pert = sign(tol, ak)
-70      continue
+70                  continue
                     absak = abs(ak)
                     if (absak < one) then
                        if (absak < sfmin) then
@@ -28915,7 +28733,6 @@ module stdlib_linalg_lapack_s
                  end if
               end do
            end if
-           ! end of stdlib_slagts
      end subroutine stdlib_slagts
 
      ! SLAIC1 applies one step of incremental condition estimation in
@@ -29126,7 +28943,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slaic1
      end subroutine stdlib_slaic1
 
      ! SLANEG computes the Sturm count, the number of negative pivots
@@ -29306,7 +29122,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slangb = value
            return
-           ! end of stdlib_slangb
      end function stdlib_slangb
 
      ! SLANGE  returns the value of the one norm,  or the Frobenius norm, or
@@ -29378,7 +29193,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slange = value
            return
-           ! end of stdlib_slange
      end function stdlib_slange
 
      ! SLANGT  returns the value of the one norm,  or the Frobenius norm, or
@@ -29455,7 +29269,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slangt = anorm
            return
-           ! end of stdlib_slangt
      end function stdlib_slangt
 
      ! SLANHS  returns the value of the one norm,  or the Frobenius norm, or
@@ -29527,7 +29340,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slanhs = value
            return
-           ! end of stdlib_slanhs
      end function stdlib_slanhs
 
      ! SLANSB  returns the value of the one norm,  or the Frobenius norm, or
@@ -29632,7 +29444,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slansb = value
            return
-           ! end of stdlib_slansb
      end function stdlib_slansb
 
      ! SLANSF returns the value of the one norm, or the Frobenius norm, or
@@ -29766,7 +29577,7 @@ module stdlib_linalg_lapack_s
                           end do
                           work(j) = work(j) + s
                        end do
-10      continue
+10                     continue
                        value = work(0)
                        do i = 1, n - 1
                           temp = work(i)
@@ -30336,7 +30147,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slansf = value
            return
-           ! end of stdlib_slansf
      end function stdlib_slansf
 
      ! SLANSP  returns the value of the one norm,  or the Frobenius norm, or
@@ -30460,7 +30270,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slansp = value
            return
-           ! end of stdlib_slansp
      end function stdlib_slansp
 
      ! SLANST  returns the value of the one norm,  or the Frobenius norm, or
@@ -30523,7 +30332,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slanst = anorm
            return
-           ! end of stdlib_slanst
      end function stdlib_slanst
 
      ! SLANSY  returns the value of the one norm,  or the Frobenius norm, or
@@ -30619,7 +30427,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slansy = value
            return
-           ! end of stdlib_slansy
      end function stdlib_slansy
 
      ! SLANTB  returns the value of the one norm,  or the Frobenius norm, or
@@ -30812,7 +30619,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slantb = value
            return
-           ! end of stdlib_slantb
      end function stdlib_slantb
 
      ! SLANTP  returns the value of the one norm,  or the Frobenius norm, or
@@ -31018,7 +30824,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slantp = value
            return
-           ! end of stdlib_slantp
      end function stdlib_slantp
 
      ! SLANTR  returns the value of the one norm,  or the Frobenius norm, or
@@ -31204,7 +31009,6 @@ module stdlib_linalg_lapack_s
            end if
            stdlib_slantr = value
            return
-           ! end of stdlib_slantr
      end function stdlib_slantr
 
      ! SLAORHR_COL_GETRFNP computes the modified LU factorization without
@@ -31297,7 +31101,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_slaorhr_col_getrfnp
      end subroutine stdlib_slaorhr_col_getrfnp
 
      ! SLAPY2 returns sqrt(x**2+y**2), taking care not to cause unnecessary
@@ -31334,7 +31137,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slapy2
      end function stdlib_slapy2
 
      ! Given a 3-by-3 matrix pencil (A,B), SLAQZ1 sets v to a
@@ -31390,7 +31192,6 @@ module stdlib_linalg_lapack_s
               v(2) = zero
               v(3) = zero
            end if
-           ! end of stdlib_slaqz1
      end subroutine stdlib_slaqz1
 
      ! SLAQZ2 chases a 2x2 shift bulge in a matrix pencil down a single position
@@ -31502,7 +31303,6 @@ module stdlib_linalg_lapack_s
                            
               end if
            end if
-           ! end of stdlib_slaqz2
      end subroutine stdlib_slaqz2
 
      ! SLAQZ4 Executes a single multishift QZ sweep
@@ -31840,7 +31640,7 @@ module stdlib_linalg_lapack_s
               s = work(inds + i) - lambda
            end do
            sawnan1 = stdlib_sisnan(s)
-60    continue
+60         continue
            if (sawnan1) then
               ! runs a slower version of the above loop if a nan is detected
               neg1 = 0
@@ -31925,7 +31725,7 @@ module stdlib_linalg_lapack_s
                  end if
                  ztz = ztz + z(i)*z(i)
               end do
-220   continue
+220           continue
            else
               ! run slower loop if nan occurred.
               do i = r - 1, b1, -1
@@ -31941,7 +31741,7 @@ module stdlib_linalg_lapack_s
                  end if
                  ztz = ztz + z(i)*z(i)
               end do
-240   continue
+240           continue
            end if
            ! compute the fp vector downwards from r in blocks of size blksiz
            if (.not. sawnan1 .and. .not. sawnan2) then
@@ -31954,7 +31754,7 @@ module stdlib_linalg_lapack_s
                  end if
                  ztz = ztz + z(i + 1)*z(i + 1)
               end do
-260   continue
+260           continue
            else
               ! run slower loop if nan occurred.
               do i = r, bn - 1
@@ -31970,7 +31770,7 @@ module stdlib_linalg_lapack_s
                  end if
                  ztz = ztz + z(i + 1)*z(i + 1)
               end do
-280   continue
+280           continue
            end if
            ! compute quantities for convergence test
            tmp = one/ztz
@@ -31978,7 +31778,6 @@ module stdlib_linalg_lapack_s
            resid = abs(mingma)*nrminv
            rqcorr = mingma*tmp
            return
-           ! end of stdlib_slar1v
      end subroutine stdlib_slar1v
 
      ! SLARFG generates a real elementary reflector H of order n, such
@@ -32028,7 +31827,7 @@ module stdlib_linalg_lapack_s
               if (abs(beta) < safmin) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
                  rsafmn = one/safmin
-10      continue
+10               continue
                  knt = knt + 1
                  call stdlib_sscal(n - 1, rsafmn, x, incx)
                  beta = beta*rsafmn
@@ -32047,7 +31846,6 @@ module stdlib_linalg_lapack_s
               alpha = beta
            end if
            return
-           ! end of stdlib_slarfg
      end subroutine stdlib_slarfg
 
      ! SLARFGP generates a real elementary reflector H of order n, such
@@ -32109,7 +31907,7 @@ module stdlib_linalg_lapack_s
               if (abs(beta) < smlnum) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
                  bignum = one/smlnum
-10      continue
+10               continue
                  knt = knt + 1
                  call stdlib_sscal(n - 1, bignum, x, incx)
                  beta = beta*bignum
@@ -32155,7 +31953,6 @@ module stdlib_linalg_lapack_s
               alpha = beta
            end if
            return
-           ! end of stdlib_slarfgp
      end subroutine stdlib_slarfgp
 
      ! SLARNV returns a vector of n random real numbers from a uniform or
@@ -32208,9 +32005,8 @@ module stdlib_linalg_lapack_s
                     x(iv + i - 1) = sqrt(-two*log(u(2*i - 1)))*cos(twopi*u(2*i))
                  end do
               end if
-40      continue
+40            continue
            return
-           ! end of stdlib_slarnv
      end subroutine stdlib_slarnv
 
      ! Given the relatively robust representation(RRR) L D L^T, SLARRB
@@ -32247,7 +32043,7 @@ module stdlib_linalg_lapack_s
            if (n <= 0) then
               return
            end if
-           maxitr = int((log(spdiam + pivmin) - log(pivmin))/log(two)) + 2
+           maxitr = int((log(spdiam + pivmin) - log(pivmin))/log(two), KIND=ilp) + 2
            mnwdth = two*pivmin
            r = twist
            if ((r < 1) .or. (r > n)) r = n
@@ -32275,7 +32071,7 @@ module stdlib_linalg_lapack_s
               ! compute negcount from dstqds facto l+d+l+^t = l d l^t - left
               ! do while( negcnt(left)>i-1 )
               back = werr(ii)
-20    continue
+20            continue
               negcnt = stdlib_slaneg(n, d, lld, left, pivmin, r)
               if (negcnt > i - 1) then
                  left = left - back
@@ -32285,7 +32081,7 @@ module stdlib_linalg_lapack_s
               ! do while( negcnt(right)<i )
               ! compute negcount from dstqds facto l+d+l+^t = l d l^t - right
               back = werr(ii)
-50    continue
+50            continue
               negcnt = stdlib_slaneg(n, d, lld, right, pivmin, r)
                if (negcnt < i) then
                   right = right + back
@@ -32317,7 +32113,7 @@ module stdlib_linalg_lapack_s
            ! do while( nint>0 ), i.e. there are still unconverged intervals
            ! and while (iter<maxitr)
            iter = 0
-80    continue
+80         continue
            prev = i1 - 1
            i = i1
            olnint = nint
@@ -32381,7 +32177,6 @@ module stdlib_linalg_lapack_s
               wgap(ii - 1) = max(zero, w(ii) - werr(ii) - w(ii - 1) - werr(ii - 1))
            end do
            return
-           ! end of stdlib_slarrb
      end subroutine stdlib_slarrb
 
      ! SLARRD computes the eigenvalues of a symmetric tridiagonal
@@ -32516,7 +32311,7 @@ module stdlib_linalg_lapack_s
               ! range='i': compute an interval containing eigenvalues
               ! il through iu. the initial interval [gl,gu] from the global
               ! gerschgorin bounds gl and gu is refined by stdlib_slaebz.
-              itmax = int((log(tnorm + pivmin) - log(pivmin))/log(two)) + 2
+              itmax = int((log(tnorm + pivmin) - log(pivmin))/log(two), KIND=ilp) + 2
               work(n + 1) = gl
               work(n + 2) = gl
               work(n + 3) = gu
@@ -32681,7 +32476,8 @@ module stdlib_linalg_lapack_s
                  nwu = nwu + iwork(in + 1)
                  iwoff = m - iwork(1)
                  ! compute eigenvalues
-                 itmax = int((log(gu - gl + pivmin) - log(pivmin))/log(two)) + 2
+                 itmax = int((log(gu - gl + pivmin) - log(pivmin))/log(two), KIND=ilp) + &
+                           2
                  call stdlib_slaebz(2, itmax, in, in, 1, nb, atoli, rtoli, pivmin, d(ibegin), e( &
                   ibegin), e2(ibegin), idumma, work(n + 1), work(n + 2*in + 1), iout, iwork, w(m + &
                             1), iblock(m + 1), iinfo)
@@ -32846,7 +32642,6 @@ module stdlib_linalg_lapack_s
            if (ncnvrg) info = info + 1
            if (toofew) info = info + 2
            return
-           ! end of stdlib_slarrd
      end subroutine stdlib_slarrd
 
      ! Given the initial representation L D L^T and its cluster of close
@@ -32889,7 +32684,7 @@ module stdlib_linalg_lapack_s
            if (n <= 0) then
               return
            end if
-           fact = real(2**ktrymax)
+           fact = real(2**ktrymax, KIND=sp)
            eps = stdlib_slamch('precision')
            shift = 0
            forcer = .false.
@@ -32908,7 +32703,7 @@ module stdlib_linalg_lapack_s
            nofail = .false.
            ! compute the average gap length of the cluster
            clwdth = abs(w(clend) - w(clstrt)) + werr(clend) + werr(clstrt)
-           avgap = clwdth/real(clend - clstrt)
+           avgap = clwdth/real(clend - clstrt, KIND=sp)
            mingap = min(clgapl, clgapr)
            ! initial values for shifts to both ends of cluster
            lsigma = min(w(clstrt), w(clend)) - werr(clstrt)
@@ -32924,13 +32719,13 @@ module stdlib_linalg_lapack_s
            ! initialize the record of the best representation found
            s = stdlib_slamch('s')
            smlgrowth = one/s
-           fail = real(n - 1)*mingap/(spdiam*eps)
-           fail2 = real(n - 1)*mingap/(spdiam*sqrt(eps))
+           fail = real(n - 1, KIND=sp)*mingap/(spdiam*eps)
+           fail2 = real(n - 1, KIND=sp)*mingap/(spdiam*sqrt(eps))
            bestshift = lsigma
            ! while (ktry <= ktrymax)
            ktry = 0
            growthbound = maxgrowth1*spdiam
-5     continue
+5          continue
            sawnan1 = .false.
            sawnan2 = .false.
            ! ensure that we do not back off too much of the initial shifts
@@ -33020,8 +32815,8 @@ module stdlib_linalg_lapack_s
            ! we may still accept the representation, if it passes a
            ! refined test for rrr. this test supposes that no nan occurred.
            ! moreover, we use the refined rrr test only for isolated clusters.
-           if ((clwdth < mingap/real(128)) .and. (min(max1, max2) < fail2) .and. (.not. sawnan1) .and. ( &
-                     .not. sawnan2)) then
+           if ((clwdth < mingap/real(128, KIND=sp)) .and. (min(max1, max2) < fail2) .and. (.not. sawnan1) &
+                     .and. (.not. sawnan2)) then
               dorrr1 = .true.
            else
               dorrr1 = .false.
@@ -33072,7 +32867,7 @@ module stdlib_linalg_lapack_s
               end if
            end if
            end if
-50    continue
+50         continue
            if (ktry < ktrymax) then
               ! if we are here, both shifts failed also the rrr test.
               ! back off to the outside
@@ -33095,7 +32890,7 @@ module stdlib_linalg_lapack_s
                  return
               end if
            end if
-100   continue
+100        continue
            if (shift == sleft) then
            elseif (shift == sright) then
               ! store new l and d back into dplus, lplus
@@ -33103,7 +32898,6 @@ module stdlib_linalg_lapack_s
               call stdlib_scopy(n - 1, work(n + 1), 1, lplus, 1)
            end if
            return
-           ! end of stdlib_slarrf
      end subroutine stdlib_slarrf
 
      ! SLARRV computes the eigenvectors of the tridiagonal matrix
@@ -33204,7 +32998,7 @@ module stdlib_linalg_lapack_s
               ! find the eigenvectors of the submatrix indexed ibegin
               ! through iend.
               wend = wbegin - 1
-15    continue
+15            continue
               if (wend < m) then
                  if (iblock(wend + 1) == jblk) then
                     wend = wend + 1
@@ -33272,7 +33066,7 @@ module stdlib_linalg_lapack_s
               ! loop while( idone<im )
               ! generate the representation tree for the current block and
               ! compute the eigenvectors
-40      continue
+40   continue
               if (idone < im) then
                  ! this is a crude protection against infinitely deep trees
                  if (ndepth > m) then
@@ -33489,7 +33283,7 @@ module stdlib_linalg_lapack_s
                        else
                           ! compute eigenvector of singleton
                           iter = 0
-                          tol = four*log(real(in))*eps
+                          tol = four*log(real(in, KIND=sp))*eps
                           k = newfst
                           windex = wbegin + k - 1
                           windmn = max(windex - 1, 1)
@@ -33561,7 +33355,7 @@ module stdlib_linalg_lapack_s
                           usedrq = .false.
                           ! bisection is initially turned off unless it is forced
                           needbs = .not. tryrqc
-120   continue
+120                       continue
                           ! check if bisection should be used to refine eigenvalue
                           if (needbs) then
                              ! take the bisection as new iterate
@@ -33695,7 +33489,7 @@ module stdlib_linalg_lapack_s
                              end do
                           end if
                           call stdlib_sscal(zto - zfrom + 1, nrminv, z(zfrom, windex), 1)
-125   continue
+125                       continue
                           ! update w
                           w(windex) = lambda + sigma
                           ! recompute the gaps on the left and right
@@ -33717,7 +33511,7 @@ module stdlib_linalg_lapack_s
                           idone = idone + 1
                        end if
                        ! here ends the code for the current child
-139   continue
+139  continue
                        ! proceed to any remaining child nodes
                        newfst = j + 1
                     end do loop_140
@@ -33729,7 +33523,6 @@ module stdlib_linalg_lapack_s
               wbegin = wend + 1
            end do loop_170
            return
-           ! end of stdlib_slarrv
      end subroutine stdlib_slarrv
 
      ! SLASCL multiplies the M by N real matrix A by the real scalar
@@ -33810,7 +33603,7 @@ module stdlib_linalg_lapack_s
            bignum = one/smlnum
            cfromc = cfrom
            ctoc = cto
-10      continue
+10         continue
            cfrom1 = cfromc*smlnum
            if (cfrom1 == cfromc) then
               ! cfromc is an inf.  multiply by a correctly signed zero for
@@ -33899,7 +33692,6 @@ module stdlib_linalg_lapack_s
            end if
            if (.not. done) go to 10
            return
-           ! end of stdlib_slascl
      end subroutine stdlib_slascl
 
      ! This subroutine computes the square root of the I-th updated
@@ -34622,9 +34414,8 @@ module stdlib_linalg_lapack_s
               ! return with info = 1, niter = maxit and not converged
               info = 1
            end if
-240    continue
+240        continue
            return
-           ! end of stdlib_slasd4
      end subroutine stdlib_slasd4
 
      ! SLASD7 merges the two sets of singular values together into a single
@@ -34750,9 +34541,9 @@ module stdlib_linalg_lapack_s
                  go to 70
               end if
            end do
-70      continue
+70         continue
            j = jprev
-80      continue
+80         continue
            j = j + 1
            if (j > n) go to 90
            if (abs(z(j)) <= tol) then
@@ -34802,13 +34593,13 @@ module stdlib_linalg_lapack_s
               end if
            end if
            go to 80
-90      continue
+90         continue
            ! record the last singular value.
            k = k + 1
            zw(k) = z(jprev)
            dsigma(k) = d(jprev)
            idxp(k) = jprev
-100    continue
+100        continue
            ! sort the singular values into dsigma. the singular values which
            ! were not deflated go into the first k slots of dsigma, except
            ! that dsigma(1) is treated separately.
@@ -34859,7 +34650,6 @@ module stdlib_linalg_lapack_s
            call stdlib_scopy(n - 1, vfw(2), 1, vf(2), 1)
            call stdlib_scopy(n - 1, vlw(2), 1, vl(2), 1)
            return
-           ! end of stdlib_slasd7
      end subroutine stdlib_slasd7
 
      ! SLASD8 finds the square roots of the roots of the secular equation,
@@ -34995,7 +34785,6 @@ module stdlib_linalg_lapack_s
            call stdlib_scopy(k, work(iwk2), 1, vf, 1)
            call stdlib_scopy(k, work(iwk3), 1, vl, 1)
            return
-           ! end of stdlib_slasd8
      end subroutine stdlib_slasd8
 
      ! SLASQ3 checks for deflation, computes a shift (TAU) and calls dqds.
@@ -35030,7 +34819,7 @@ module stdlib_linalg_lapack_s
            tol = eps*hundrd
            tol2 = tol**2
            ! check for deflation.
-10      continue
+10   continue
            if (n0 < i0) return
            if (n0 == i0) go to 20
            nn = 4*n0 + pp
@@ -35038,14 +34827,14 @@ module stdlib_linalg_lapack_s
            ! check whether e(n0-1) is negligible, 1 eigenvalue.
            if (z(nn - 5) > tol2*(sigma + z(nn - 3)) .and. z(nn - 2*pp - 4) > tol2*z(nn - 7)) go to &
                      30
-20      continue
+20         continue
            z(4*n0 - 3) = z(4*n0 + pp - 3) + sigma
            n0 = n0 - 1
            go to 10
            ! check  whether e(n0-2) is negligible, 2 eigenvalues.
-30      continue
+30   continue
            if (z(nn - 9) > tol2*sigma .and. z(nn - 2*pp - 8) > tol2*z(nn - 11)) go to 50
-40      continue
+40         continue
            if (z(nn - 3) > z(nn - 7)) then
               s = z(nn - 3)
               z(nn - 3) = z(nn - 7)
@@ -35067,7 +34856,7 @@ module stdlib_linalg_lapack_s
            z(4*n0 - 3) = z(nn - 3) + sigma
            n0 = n0 - 2
            go to 10
-50      continue
+50         continue
            if (pp == 2) pp = 0
            ! reverse the qd-array, if warranted.
            if (dmin <= zero .or. n0 < n0in) then
@@ -35102,7 +34891,7 @@ module stdlib_linalg_lapack_s
            call stdlib_slasq4(i0, n0, z, pp, n0in, dmin, dmin1, dmin2, dn, dn1, dn2, tau, ttype, &
                      g)
            ! call dqds until dmin > 0.
-70      continue
+70   continue
            call stdlib_slasq5(i0, n0, z, pp, tau, sigma, dmin, dmin1, dmin2, dn, dn1, dn2, ieee, &
                      eps)
            ndiv = ndiv + (n0 - i0 + 2)
@@ -35146,12 +34935,12 @@ module stdlib_linalg_lapack_s
               go to 80
            end if
            ! risk of underflow.
-80      continue
+80   continue
            call stdlib_slasq6(i0, n0, z, pp, dmin, dmin1, dmin2, dn, dn1, dn2)
            ndiv = ndiv + (n0 - i0 + 2)
            iter = iter + 1
            tau = zero
-90      continue
+90         continue
            if (tau < sigma) then
               desig = desig + tau
               t = sigma + desig
@@ -35162,7 +34951,6 @@ module stdlib_linalg_lapack_s
            end if
            sigma = t
            return
-           ! end of stdlib_slasq3
      end subroutine stdlib_slasq3
 
      ! SLATDF uses the LU factorization of the n-by-n matrix Z computed by
@@ -35272,7 +35060,6 @@ module stdlib_linalg_lapack_s
               call stdlib_slassq(n, rhs, 1, rdscal, rdsum)
            end if
            return
-           ! end of stdlib_slatdf
      end subroutine stdlib_slatdf
 
      ! SLATRD reduces NB rows and columns of a real symmetric matrix A to
@@ -35374,7 +35161,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_slatrd
      end subroutine stdlib_slatrd
 
      ! SLATRZ factors the M-by-(M+L) real upper trapezoidal matrix
@@ -35414,7 +35200,6 @@ module stdlib_linalg_lapack_s
                         lda, work)
            end do
            return
-           ! end of stdlib_slatrz
      end subroutine stdlib_slatrz
 
      ! SORBDB simultaneously bidiagonalizes the blocks of an M-by-M
@@ -35741,7 +35526,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sorbdb
      end subroutine stdlib_sorbdb
 
      ! SORBDB5 orthogonalizes the column vector
@@ -35838,7 +35622,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_sorbdb5
      end subroutine stdlib_sorbdb5
 
      ! SORCSD computes the CS decomposition of an M-by-M partitioned
@@ -36198,7 +35981,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sorghr
      end subroutine stdlib_sorghr
 
      ! SORHR_COL takes an M-by-N real matrix Q_in with orthonormal columns
@@ -36334,7 +36116,6 @@ module stdlib_linalg_lapack_s
                         ldt)
            end do
            return
-           ! end of stdlib_sorhr_col
      end subroutine stdlib_sorhr_col
 
      ! SORMHR overwrites the general real M-by-N matrix C with
@@ -36431,7 +36212,6 @@ module stdlib_linalg_lapack_s
                      i2), ldc, work, lwork, iinfo)
            work(1) = lwkopt
            return
-           ! end of stdlib_sormhr
      end subroutine stdlib_sormhr
 
      ! SPBCON estimates the reciprocal of the condition number (in the
@@ -36493,7 +36273,7 @@ module stdlib_linalg_lapack_s
            ! estimate the 1-norm of the inverse.
            kase = 0
            normin = 'n'
-10      continue
+10         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (upper) then
@@ -36524,9 +36304,8 @@ module stdlib_linalg_lapack_s
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20         continue
            return
-           ! end of stdlib_spbcon
      end subroutine stdlib_spbcon
 
      ! SPBRFS improves the computed solution to a system of linear
@@ -36601,7 +36380,7 @@ module stdlib_linalg_lapack_s
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_scopy(n, b(1, j), 1, work(n + 1), 1)
@@ -36688,7 +36467,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -36715,7 +36494,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_spbrfs
      end subroutine stdlib_spbrfs
 
      ! SPFTRS solves a system of linear equations A*X = B with a symmetric
@@ -36768,7 +36546,6 @@ module stdlib_linalg_lapack_s
               call stdlib_stfsm(transr, 'l', uplo, 'n', 'n', n, nrhs, one, a, b, ldb)
            end if
            return
-           ! end of stdlib_spftrs
      end subroutine stdlib_spftrs
 
      ! SPOCON estimates the reciprocal of the condition number (in the
@@ -36828,7 +36605,7 @@ module stdlib_linalg_lapack_s
            ! estimate the 1-norm of inv(a).
            kase = 0
            normin = 'n'
-10      continue
+10         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (upper) then
@@ -36859,9 +36636,8 @@ module stdlib_linalg_lapack_s
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20         continue
            return
-           ! end of stdlib_spocon
      end subroutine stdlib_spocon
 
      ! SPORFS improves the computed solution to a system of linear
@@ -36934,7 +36710,7 @@ module stdlib_linalg_lapack_s
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_scopy(n, b(1, j), 1, work(n + 1), 1)
@@ -37018,7 +36794,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -37045,7 +36821,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_sporfs
      end subroutine stdlib_sporfs
 
      ! SPOTF2 computes the Cholesky factorization of a real symmetric
@@ -37128,11 +36903,10 @@ module stdlib_linalg_lapack_s
               end do
            end if
            go to 40
-30      continue
+30         continue
            info = j
-40      continue
+40         continue
            return
-           ! end of stdlib_spotf2
      end subroutine stdlib_spotf2
 
      ! SPOTRF2 computes the Cholesky factorization of a real symmetric
@@ -37230,7 +37004,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_spotrf2
      end subroutine stdlib_spotrf2
 
      ! SPOTRI computes the inverse of a real symmetric positive definite
@@ -37271,7 +37044,6 @@ module stdlib_linalg_lapack_s
            ! form inv(u) * inv(u)**t or inv(l)**t * inv(l).
            call stdlib_slauum(uplo, n, a, lda, info)
            return
-           ! end of stdlib_spotri
      end subroutine stdlib_spotri
 
      ! SPPCON estimates the reciprocal of the condition number (in the
@@ -37330,7 +37102,7 @@ module stdlib_linalg_lapack_s
            ! estimate the 1-norm of the inverse.
            kase = 0
            normin = 'n'
-10      continue
+10         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (upper) then
@@ -37361,9 +37133,8 @@ module stdlib_linalg_lapack_s
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20      continue
+20         continue
            return
-           ! end of stdlib_sppcon
      end subroutine stdlib_sppcon
 
      ! SPPRFS improves the computed solution to a system of linear
@@ -37432,7 +37203,7 @@ module stdlib_linalg_lapack_s
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_scopy(n, b(1, j), 1, work(n + 1), 1)
@@ -37523,7 +37294,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -37550,7 +37321,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_spprfs
      end subroutine stdlib_spprfs
 
      ! SPPSV computes the solution to a real system of linear equations
@@ -37599,7 +37369,6 @@ module stdlib_linalg_lapack_s
               call stdlib_spptrs(uplo, n, nrhs, ap, b, ldb, info)
            end if
            return
-           ! end of stdlib_sppsv
      end subroutine stdlib_sppsv
 
      ! SPPSVX uses the Cholesky factorization A = U**T*U or A = L*L**T to
@@ -37737,7 +37506,6 @@ module stdlib_linalg_lapack_s
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_sppsvx
      end subroutine stdlib_sppsvx
 
      ! SPPTRI computes the inverse of a real symmetric positive definite
@@ -37799,7 +37567,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_spptri
      end subroutine stdlib_spptri
 
      ! SPSTF2 computes the Cholesky factorization with complete
@@ -37970,14 +37737,13 @@ module stdlib_linalg_lapack_s
            ! ran to completion, a has full rank
            rank = n
            go to 170
-160    continue
+160        continue
            ! rank is number of steps completed.  set info = 1 to signal
            ! that the factorization cannot be used to solve a system.
            rank = j - 1
            info = 1
-170    continue
+170        continue
            return
-           ! end of stdlib_spstf2
      end subroutine stdlib_spstf2
 
      ! SPTTRS solves a tridiagonal system of the form
@@ -38031,7 +37797,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_spttrs
      end subroutine stdlib_spttrs
 
      ! SSB2ST_KERNELS is an internal routine used by the SSYTRD_SB2ST
@@ -38176,7 +37941,6 @@ module stdlib_linalg_lapack_s
                end if
            end if
            return
-           ! end of stdlib_ssb2st_kernels
      end subroutine stdlib_ssb2st_kernels
 
      ! SSPCON estimates the reciprocal of the condition number (in the
@@ -38245,7 +38009,7 @@ module stdlib_linalg_lapack_s
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -38255,7 +38019,6 @@ module stdlib_linalg_lapack_s
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_sspcon
      end subroutine stdlib_sspcon
 
      ! SSPRFS improves the computed solution to a system of linear
@@ -38324,7 +38087,7 @@ module stdlib_linalg_lapack_s
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_scopy(n, b(1, j), 1, work(n + 1), 1)
@@ -38415,7 +38178,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -38442,7 +38205,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_ssprfs
      end subroutine stdlib_ssprfs
 
      ! SSPSV computes the solution to a real system of linear equations
@@ -38493,7 +38255,6 @@ module stdlib_linalg_lapack_s
               call stdlib_ssptrs(uplo, n, nrhs, ap, ipiv, b, ldb, info)
            end if
            return
-           ! end of stdlib_sspsv
      end subroutine stdlib_sspsv
 
      ! SSPSVX uses the diagonal pivoting factorization A = U*D*U**T or
@@ -38569,7 +38330,6 @@ module stdlib_linalg_lapack_s
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_sspsvx
      end subroutine stdlib_sspsvx
 
      ! SSPTRD reduces a real symmetric matrix A stored in packed form to
@@ -38665,7 +38425,6 @@ module stdlib_linalg_lapack_s
               d(n) = ap(ii)
            end if
            return
-           ! end of stdlib_ssptrd
      end subroutine stdlib_ssptrd
 
      ! SSTEIN computes the eigenvectors of a real symmetric tridiagonal
@@ -38723,7 +38482,7 @@ module stdlib_linalg_lapack_s
                     go to 30
                  end if
               end do
-30      continue
+30            continue
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_sstein', -info)
@@ -38770,7 +38529,7 @@ module stdlib_linalg_lapack_s
               ortol = odm3*onenrm
               stpcrt = sqrt(odm1/blksiz)
               ! loop through eigenvalues of block nblk.
-60      continue
+60   continue
               jblk = 0
               loop_150: do j = j1, m
                  if (iblock(j) /= nblk) then
@@ -38805,7 +38564,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_slagtf(blksiz, work(indrv4 + 1), xj, work(indrv2 + 2), work(indrv3 + &
                            1), tol, work(indrv5 + 1), iwork, iinfo)
                  ! update iteration count.
-70      continue
+70   continue
                  its = its + 1
                  if (its > maxits) go to 100
                  ! normalize and scale the righthand side vector pb.
@@ -38827,7 +38586,7 @@ module stdlib_linalg_lapack_s
                     end do
                  end if
                  ! check the infinity norm of the iterate.
-90      continue
+90   continue
                  jmax = stdlib_isamax(blksiz, work(indrv1 + 1), 1)
                  nrm = abs(work(indrv1 + jmax))
                  ! continue for additional iterations after norm reaches
@@ -38838,16 +38597,16 @@ module stdlib_linalg_lapack_s
                  go to 110
                  ! if stopping criterion was not satisfied, update info and
                  ! store eigenvector number in array ifail.
-100    continue
+100  continue
                  info = info + 1
                  ifail(info) = j
                  ! accept iterate as jth eigenvector.
-110    continue
+110  continue
                  scl = one/stdlib_snrm2(blksiz, work(indrv1 + 1), 1)
                  jmax = stdlib_isamax(blksiz, work(indrv1 + 1), 1)
                  if (work(indrv1 + jmax) < zero) scl = -scl
                  call stdlib_sscal(blksiz, scl, work(indrv1 + 1), 1)
-120    continue
+120              continue
                  do i = 1, n
                     z(i, j) = zero
                  end do
@@ -38860,7 +38619,6 @@ module stdlib_linalg_lapack_s
               end do loop_150
            end do loop_160
            return
-           ! end of stdlib_sstein
      end subroutine stdlib_sstein
 
      ! SSTEQR computes all eigenvalues and, optionally, eigenvectors of a
@@ -38935,7 +38693,7 @@ module stdlib_linalg_lapack_s
            ! element is smaller.
            l1 = 1
            nm1 = n - 1
-10      continue
+10         continue
            if (l1 > n) go to 160
            if (l1 > 1) e(l1 - 1) = zero
            if (l1 <= nm1) then
@@ -38949,7 +38707,7 @@ module stdlib_linalg_lapack_s
               end do
            end if
            m = n
-30      continue
+30         continue
            l = l1
            lsv = l
            lend = m
@@ -38977,7 +38735,7 @@ module stdlib_linalg_lapack_s
            if (lend > l) then
               ! ql iteration
               ! look for small subdiagonal element.
-40      continue
+40   continue
               if (l /= lend) then
                  lendm1 = lend - 1
                  do m = l, lendm1
@@ -38986,7 +38744,7 @@ module stdlib_linalg_lapack_s
                  end do
               end if
               m = lend
-60      continue
+60            continue
               if (m < lend) e(m) = zero
               p = d(l)
               if (m == l) go to 80
@@ -39046,7 +38804,7 @@ module stdlib_linalg_lapack_s
               e(l) = g
               go to 40
               ! eigenvalue found.
-80      continue
+80   continue
               d(l) = p
               l = l + 1
               if (l <= lend) go to 40
@@ -39054,7 +38812,7 @@ module stdlib_linalg_lapack_s
            else
               ! qr iteration
               ! look for small superdiagonal element.
-90      continue
+90   continue
               if (l /= lend) then
                  lendp1 = lend + 1
                  do m = l, lendp1, -1
@@ -39063,7 +38821,7 @@ module stdlib_linalg_lapack_s
                  end do
               end if
               m = lend
-110    continue
+110           continue
               if (m > lend) e(m - 1) = zero
               p = d(l)
               if (m == l) go to 130
@@ -39123,14 +38881,14 @@ module stdlib_linalg_lapack_s
               e(lm1) = g
               go to 90
               ! eigenvalue found.
-130    continue
+130  continue
               d(l) = p
               l = l - 1
               if (l >= lend) go to 90
               go to 140
            end if
            ! undo scaling if necessary
-140    continue
+140  continue
            if (iscale == 1) then
               call stdlib_slascl('g', 0, 0, ssfmax, anorm, lendsv - lsv + 1, 1, d(lsv), n, info)
                         
@@ -39150,7 +38908,7 @@ module stdlib_linalg_lapack_s
            end do
            go to 190
            ! order eigenvalues and eigenvectors.
-160    continue
+160  continue
            if (icompz == 0) then
               ! use quick sort
               call stdlib_slasrt('i', n, d, info)
@@ -39173,9 +38931,8 @@ module stdlib_linalg_lapack_s
                  end if
               end do
            end if
-190    continue
+190        continue
            return
-           ! end of stdlib_ssteqr
      end subroutine stdlib_ssteqr
 
      ! SSTERF computes all eigenvalues of a symmetric tridiagonal matrix
@@ -39224,7 +38981,7 @@ module stdlib_linalg_lapack_s
            ! for each block, according to whether top or bottom diagonal
            ! element is smaller.
            l1 = 1
-10      continue
+10         continue
            if (l1 > n) go to 170
            if (l1 > 1) e(l1 - 1) = zero
            do m = l1, n - 1
@@ -39235,7 +38992,7 @@ module stdlib_linalg_lapack_s
               end if
            end do
            m = n
-30      continue
+30         continue
            l = l1
            lsv = l
            lend = m
@@ -39266,14 +39023,14 @@ module stdlib_linalg_lapack_s
            if (lend >= l) then
               ! ql iteration
               ! look for small subdiagonal element.
-50      continue
+50   continue
               if (l /= lend) then
                  do m = l, lend - 1
                     if (abs(e(m)) <= eps2*abs(d(m)*d(m + 1))) go to 70
                  end do
               end if
               m = lend
-70      continue
+70            continue
               if (m < lend) e(m) = zero
               p = d(l)
               if (m == l) go to 90
@@ -39322,7 +39079,7 @@ module stdlib_linalg_lapack_s
               d(l) = sigma + gamma
               go to 50
               ! eigenvalue found.
-90      continue
+90   continue
               d(l) = p
               l = l + 1
               if (l <= lend) go to 50
@@ -39330,12 +39087,12 @@ module stdlib_linalg_lapack_s
            else
               ! qr iteration
               ! look for small superdiagonal element.
-100    continue
+100  continue
               do m = l, lend + 1, -1
                  if (abs(e(m - 1)) <= eps2*abs(d(m)*d(m - 1))) go to 120
               end do
               m = lend
-120    continue
+120           continue
               if (m > lend) e(m - 1) = zero
               p = d(l)
               if (m == l) go to 140
@@ -39384,14 +39141,14 @@ module stdlib_linalg_lapack_s
               d(l) = sigma + gamma
               go to 100
               ! eigenvalue found.
-140    continue
+140  continue
               d(l) = p
               l = l - 1
               if (l >= lend) go to 100
               go to 150
            end if
            ! undo scaling if necessary
-150    continue
+150  continue
            if (iscale == 1) call stdlib_slascl('g', 0, 0, ssfmax, anorm, lendsv - lsv + 1, 1, d(lsv), &
                      n, info)
            if (iscale == 2) call stdlib_slascl('g', 0, 0, ssfmin, anorm, lendsv - lsv + 1, 1, d(lsv), &
@@ -39404,11 +39161,10 @@ module stdlib_linalg_lapack_s
            end do
            go to 180
            ! sort eigenvalues in increasing order.
-170    continue
+170  continue
            call stdlib_slasrt('i', n, d, info)
-180    continue
+180        continue
            return
-           ! end of stdlib_ssterf
      end subroutine stdlib_ssterf
 
      ! SSTEV computes all eigenvalues and, optionally, eigenvectors of a
@@ -39490,7 +39246,6 @@ module stdlib_linalg_lapack_s
               call stdlib_sscal(imax, one/sigma, d, 1)
            end if
            return
-           ! end of stdlib_sstev
      end subroutine stdlib_sstev
 
      ! SSTEVX computes selected eigenvalues and, optionally, eigenvectors
@@ -39645,7 +39400,7 @@ module stdlib_linalg_lapack_s
                         indwrk), iwork(indiwo), ifail, info)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-20      continue
+20   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -39682,7 +39437,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sstevx
      end subroutine stdlib_sstevx
 
      ! SSYCON estimates the reciprocal of the condition number (in the
@@ -39751,7 +39505,7 @@ module stdlib_linalg_lapack_s
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -39761,7 +39515,6 @@ module stdlib_linalg_lapack_s
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_ssycon
      end subroutine stdlib_ssycon
 
      ! SSYCON_ROOK estimates the reciprocal of the condition number (in the
@@ -39831,7 +39584,7 @@ module stdlib_linalg_lapack_s
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30      continue
+30         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -39841,7 +39594,6 @@ module stdlib_linalg_lapack_s
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_ssycon_rook
      end subroutine stdlib_ssycon_rook
 
      ! SSYRFS improves the computed solution to a system of linear
@@ -39913,7 +39665,7 @@ module stdlib_linalg_lapack_s
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_scopy(n, b(1, j), 1, work(n + 1), 1)
@@ -39997,7 +39749,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -40024,7 +39776,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_ssyrfs
      end subroutine stdlib_ssyrfs
 
      ! SSYSV_ROOK computes the solution to a real system of linear
@@ -40101,7 +39852,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_ssysv_rook
      end subroutine stdlib_ssysv_rook
 
      ! SSYTD2 reduces a real symmetric matrix A to symmetric tridiagonal
@@ -40194,7 +39944,6 @@ module stdlib_linalg_lapack_s
               d(n) = a(n, n)
            end if
            return
-           ! end of stdlib_ssytd2
      end subroutine stdlib_ssytd2
 
      ! SSYTF2 computes the factorization of a real symmetric matrix A using
@@ -40248,7 +39997,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
@@ -40363,7 +40112,7 @@ module stdlib_linalg_lapack_s
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40      continue
+40            continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
@@ -40476,9 +40225,8 @@ module stdlib_linalg_lapack_s
               k = k + kstep
               go to 40
            end if
-70      continue
+70         continue
            return
-           ! end of stdlib_ssytf2
      end subroutine stdlib_ssytf2
 
      ! SSYTRD reduces a real symmetric matrix A to real symmetric
@@ -40603,7 +40351,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_ssytrd
      end subroutine stdlib_ssytrd
 
      ! SSYTRD_SB2ST reduces a real symmetric band matrix A to real symmetric
@@ -40625,7 +40372,7 @@ module stdlib_linalg_lapack_s
            real(sp) :: ab(ldab, *), hous(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: rzero = zero
+           real(sp), parameter :: rzero = 0.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: lquery, wantq, upper, afters1
@@ -40755,9 +40502,9 @@ module stdlib_linalg_lapack_s
            thgrsiz = n
            grsiz = 1
            shift = 3
-           nbtiles = ceiling(real(n)/real(kd))
-           stepercol = ceiling(real(shift)/real(grsiz))
-           thgrnb = ceiling(real(n - 1)/real(thgrsiz))
+           nbtiles = ceiling(real(n, KIND=sp)/real(kd, KIND=sp))
+           stepercol = ceiling(real(shift, KIND=sp)/real(grsiz, KIND=sp))
+           thgrnb = ceiling(real(n - 1, KIND=sp)/real(thgrsiz, KIND=sp))
            call stdlib_slacpy("a", kd + 1, n, ab, ldab, work(apos), lda)
            call stdlib_slaset("a", kd, n, zero, zero, work(awpos), lda)
            ! openmp parallelisation start here
@@ -40859,7 +40606,6 @@ module stdlib_linalg_lapack_s
            hous(1) = lhmin
            work(1) = lwmin
            return
-           ! end of stdlib_ssytrd_sb2st
      end subroutine stdlib_ssytrd_sb2st
 
      ! SSYTRF computes the factorization of a real symmetric matrix A using
@@ -40932,7 +40678,7 @@ module stdlib_linalg_lapack_s
               ! kb, where kb is the number of columns factorized by stdlib_slasyf;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10      continue
+10            continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -40955,7 +40701,7 @@ module stdlib_linalg_lapack_s
               ! kb, where kb is the number of columns factorized by stdlib_slasyf;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20      continue
+20            continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -40982,10 +40728,9 @@ module stdlib_linalg_lapack_s
               k = k + kb
               go to 20
            end if
-40      continue
+40         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_ssytrf
      end subroutine stdlib_ssytrf
 
      ! STBCON estimates the reciprocal of the condition number of a
@@ -41047,7 +40792,7 @@ module stdlib_linalg_lapack_s
               return
            end if
            rcond = zero
-           smlnum = stdlib_slamch('safe minimum')*real(max(1, n))
+           smlnum = stdlib_slamch('safe minimum')*real(max(1, n), KIND=sp)
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_slantb(norm, uplo, diag, n, kd, ab, ldab, work)
            ! continue only if anorm > 0.
@@ -41061,7 +40806,7 @@ module stdlib_linalg_lapack_s
                  kase1 = 2
               end if
               kase = 0
-10      continue
+10            continue
               call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -41086,9 +40831,8 @@ module stdlib_linalg_lapack_s
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20      continue
+20         continue
            return
-           ! end of stdlib_stbcon
      end subroutine stdlib_stbcon
 
      ! STFTRI computes the inverse of a triangular matrix A stored in RFP
@@ -41271,7 +41015,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_stftri
      end subroutine stdlib_stftri
 
      ! STGSY2 solves the generalized Sylvester equation:
@@ -41371,7 +41114,7 @@ module stdlib_linalg_lapack_s
            pq = 0
            p = 0
            i = 1
-10      continue
+10         continue
            if (i > m) go to 20
            p = p + 1
            iwork(p) = i
@@ -41382,12 +41125,12 @@ module stdlib_linalg_lapack_s
               i = i + 1
            end if
            go to 10
-20      continue
+20         continue
            iwork(p + 1) = m + 1
            ! determine block structure of b
            q = p + 1
            j = 1
-30      continue
+30         continue
            if (j > n) go to 40
            q = q + 1
            iwork(q) = j
@@ -41398,7 +41141,7 @@ module stdlib_linalg_lapack_s
               j = j + 1
            end if
            go to 30
-40      continue
+40         continue
            iwork(q + 1) = n + 1
            pq = p*(q - p - 1)
            if (notran) then
@@ -41909,7 +41652,6 @@ module stdlib_linalg_lapack_s
               end do loop_200
            end if
            return
-           ! end of stdlib_stgsy2
      end subroutine stdlib_stgsy2
 
      ! STGSYL solves the generalized Sylvester equation:
@@ -42051,9 +41793,9 @@ module stdlib_linalg_lapack_s
                             ldf, scale, dsum, dscale, iwork, pq, info)
                  if (dscale /= zero) then
                     if (ijob == 1 .or. ijob == 3) then
-                       dif = sqrt(real(2*m*n))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(2*m*n, KIND=sp))/(dscale*sqrt(dsum))
                     else
-                       dif = sqrt(real(pq))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(pq, KIND=sp))/(dscale*sqrt(dsum))
                     end if
                  end if
                  if (isolve == 2 .and. iround == 1) then
@@ -42076,7 +41818,7 @@ module stdlib_linalg_lapack_s
            ! determine block structure of a
            p = 0
            i = 1
-40      continue
+40         continue
            if (i > m) go to 50
            p = p + 1
            iwork(p) = i
@@ -42084,13 +41826,13 @@ module stdlib_linalg_lapack_s
            if (i >= m) go to 50
            if (a(i, i - 1) /= zero) i = i + 1
            go to 40
-50      continue
+50         continue
            iwork(p + 1) = m + 1
            if (iwork(p) == iwork(p + 1)) p = p - 1
            ! determine block structure of b
            q = p + 1
            j = 1
-60      continue
+60         continue
            if (j > n) go to 70
            q = q + 1
            iwork(q) = j
@@ -42098,7 +41840,7 @@ module stdlib_linalg_lapack_s
            if (j >= n) go to 70
            if (b(j, j - 1) /= zero) j = j + 1
            go to 60
-70      continue
+70         continue
            iwork(q + 1) = n + 1
            if (iwork(q) == iwork(q + 1)) q = q - 1
            if (notran) then
@@ -42162,9 +41904,9 @@ module stdlib_linalg_lapack_s
                  end do loop_130
                  if (dscale /= zero) then
                     if (ijob == 1 .or. ijob == 3) then
-                       dif = sqrt(real(2*m*n))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(2*m*n, KIND=sp))/(dscale*sqrt(dsum))
                     else
-                       dif = sqrt(real(pq))/(dscale*sqrt(dsum))
+                       dif = sqrt(real(pq, KIND=sp))/(dscale*sqrt(dsum))
                     end if
                  end if
                  if (isolve == 2 .and. iround == 1) then
@@ -42237,7 +41979,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwmin
            return
-           ! end of stdlib_stgsyl
      end subroutine stdlib_stgsyl
 
      ! STPCON estimates the reciprocal of the condition number of a packed
@@ -42294,7 +42035,7 @@ module stdlib_linalg_lapack_s
               return
            end if
            rcond = zero
-           smlnum = stdlib_slamch('safe minimum')*real(max(1, n))
+           smlnum = stdlib_slamch('safe minimum')*real(max(1, n), KIND=sp)
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_slantp(norm, uplo, diag, n, ap, work)
            ! continue only if anorm > 0.
@@ -42308,7 +42049,7 @@ module stdlib_linalg_lapack_s
                  kase1 = 2
               end if
               kase = 0
-10      continue
+10            continue
               call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -42333,9 +42074,8 @@ module stdlib_linalg_lapack_s
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20      continue
+20         continue
            return
-           ! end of stdlib_stpcon
      end subroutine stdlib_stpcon
 
      ! STPLQT2 computes a LQ a factorization of a real "triangular-pentagonal"
@@ -42431,7 +42171,6 @@ module stdlib_linalg_lapack_s
                  t(j, i) = zero
               end do
            end do
-           ! end of stdlib_stplqt2
      end subroutine stdlib_stplqt2
 
      ! STPMLQT applies a real orthogonal matrix Q obtained from a
@@ -42547,7 +42286,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_stpmlqt
      end subroutine stdlib_stpmlqt
 
      ! STPMQRT applies a real orthogonal matrix Q obtained from a
@@ -42665,7 +42403,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_stpmqrt
      end subroutine stdlib_stpmqrt
 
      ! STPQRT2 computes a QR factorization of a real "triangular-pentagonal"
@@ -42755,7 +42492,6 @@ module stdlib_linalg_lapack_s
               t(i, i) = t(i, 1)
               t(i, 1) = zero
            end do
-           ! end of stdlib_stpqrt2
      end subroutine stdlib_stpqrt2
 
      ! STRCON estimates the reciprocal of the condition number of a
@@ -42814,7 +42550,7 @@ module stdlib_linalg_lapack_s
               return
            end if
            rcond = zero
-           smlnum = stdlib_slamch('safe minimum')*real(max(1, n))
+           smlnum = stdlib_slamch('safe minimum')*real(max(1, n), KIND=sp)
            ! compute the norm of the triangular matrix a.
            anorm = stdlib_slantr(norm, uplo, diag, n, n, a, lda, work)
            ! continue only if anorm > 0.
@@ -42828,7 +42564,7 @@ module stdlib_linalg_lapack_s
                  kase1 = 2
               end if
               kase = 0
-10      continue
+10            continue
               call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -42853,9 +42589,8 @@ module stdlib_linalg_lapack_s
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20      continue
+20         continue
            return
-           ! end of stdlib_strcon
      end subroutine stdlib_strcon
 
      ! SGBSV computes the solution to a real system of linear equations
@@ -42907,7 +42642,6 @@ module stdlib_linalg_lapack_s
                         
            end if
            return
-           ! end of stdlib_sgbsv
      end subroutine stdlib_sgbsv
 
      ! SGBSVX uses the LU factorization to compute the solution to a real
@@ -43131,7 +42865,6 @@ module stdlib_linalg_lapack_s
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            work(1) = rpvgrw
            return
-           ! end of stdlib_sgbsvx
      end subroutine stdlib_sgbsvx
 
      ! SGEBAL balances a general real matrix A.  This involves, first,
@@ -43190,18 +42923,18 @@ module stdlib_linalg_lapack_s
            ! permutation to isolate eigenvalues if possible
            go to 50
            ! row and column exchange.
-20      continue
+20   continue
            scale(m) = j
            if (j == m) go to 30
            call stdlib_sswap(l, a(1, j), 1, a(1, m), 1)
            call stdlib_sswap(n - k + 1, a(j, k), lda, a(m, k), lda)
-30      continue
+30         continue
            go to(40, 80) iexc
            ! search for rows isolating an eigenvalue and push them down.
-40      continue
+40   continue
            if (l == 1) go to 210
            l = l - 1
-50      continue
+50         continue
            loop_70: do j = l, 1, -1
               loop_60: do i = 1, l
                  if (i == j) cycle loop_60
@@ -43213,9 +42946,9 @@ module stdlib_linalg_lapack_s
            end do loop_70
            go to 90
            ! search for columns isolating an eigenvalue and push them left.
-80      continue
+80   continue
            k = k + 1
-90      continue
+90         continue
            loop_110: do j = k, l
               loop_100: do i = k, l
                  if (i == j) cycle loop_100
@@ -43225,7 +42958,7 @@ module stdlib_linalg_lapack_s
               iexc = 2
               go to 20
            end do loop_110
-120    continue
+120        continue
            do i = k, l
               scale(i) = one
            end do
@@ -43236,7 +42969,7 @@ module stdlib_linalg_lapack_s
            sfmax1 = one/sfmin1
            sfmin2 = sfmin1*sclfac
            sfmax2 = one/sfmin2
-140    continue
+140        continue
            noconv = .false.
            loop_200: do i = k, l
               c = stdlib_snrm2(l - k + 1, a(k, i), 1)
@@ -43250,7 +42983,7 @@ module stdlib_linalg_lapack_s
               g = r/sclfac
               f = one
               s = c + r
-160    continue
+160           continue
               if (c >= g .or. max(f, c, ca) >= sfmax2 .or. min(r, g, ra) <= sfmin2) go to 170
               f = f*sclfac
               c = c*sclfac
@@ -43259,9 +42992,9 @@ module stdlib_linalg_lapack_s
               g = g/sclfac
               ra = ra/sclfac
               go to 160
-170    continue
+170           continue
               g = c/sclfac
-180    continue
+180           continue
               if (g < r .or. max(r, ra) >= sfmax2 .or. min(f, c, g, ca) <= sfmin2) go to 190
                  if (stdlib_sisnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
@@ -43277,7 +43010,7 @@ module stdlib_linalg_lapack_s
               ra = ra*sclfac
               go to 180
               ! now balance.
-190    continue
+190  continue
               if ((c + r) >= factor*s) cycle loop_200
               if (f < one .and. scale(i) < one) then
                  if (f*scale(i) <= sfmin1) cycle loop_200
@@ -43292,11 +43025,10 @@ module stdlib_linalg_lapack_s
               call stdlib_sscal(l, f, a(1, i), 1)
            end do loop_200
            if (noconv) go to 140
-210    continue
+210        continue
            ilo = k
            ihi = l
            return
-           ! end of stdlib_sgebal
      end subroutine stdlib_sgebal
 
      ! SGEBD2 reduces a real general m by n matrix A to upper or lower
@@ -43387,7 +43119,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sgebd2
      end subroutine stdlib_sgebd2
 
      ! SGEHD2 reduces a real general matrix A to upper Hessenberg form H by
@@ -43438,7 +43169,6 @@ module stdlib_linalg_lapack_s
               a(i + 1, i) = aii
            end do
            return
-           ! end of stdlib_sgehd2
      end subroutine stdlib_sgehd2
 
      ! SGELQ2 computes an LQ factorization of a real m-by-n matrix A:
@@ -43491,7 +43221,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_sgelq2
      end subroutine stdlib_sgelq2
 
      ! SGELQF computes an LQ factorization of a real M-by-N matrix A:
@@ -43588,7 +43317,6 @@ module stdlib_linalg_lapack_s
                      
            work(1) = iws
            return
-           ! end of stdlib_sgelqf
      end subroutine stdlib_sgelqf
 
      ! SGELQT3 recursively computes a LQ factorization of a real M-by-N
@@ -43674,7 +43402,6 @@ module stdlib_linalg_lapack_s
                                ! [ a(1:n1,j1:n)  l2 ]       [ 0 t2]
            end if
            return
-           ! end of stdlib_sgelqt3
      end subroutine stdlib_sgelqt3
 
      ! SGEQL2 computes a QL factorization of a real m by n matrix A:
@@ -43722,7 +43449,6 @@ module stdlib_linalg_lapack_s
               a(m - k + i, n - k + i) = aii
            end do
            return
-           ! end of stdlib_sgeql2
      end subroutine stdlib_sgeql2
 
      ! SGEQLF computes a QL factorization of a real M-by-N matrix A:
@@ -43828,7 +43554,6 @@ module stdlib_linalg_lapack_s
            if (mu > 0 .and. nu > 0) call stdlib_sgeql2(mu, nu, a, lda, tau, work, iinfo)
            work(1) = iws
            return
-           ! end of stdlib_sgeqlf
      end subroutine stdlib_sgeqlf
 
      ! SGEQR2 computes a QR factorization of a real m-by-n matrix A:
@@ -43882,7 +43607,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_sgeqr2
      end subroutine stdlib_sgeqr2
 
      ! SGEQR2P computes a QR factorization of a real m-by-n matrix A:
@@ -43937,7 +43661,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_sgeqr2p
      end subroutine stdlib_sgeqr2p
 
      ! SGEQRF computes a QR factorization of a real M-by-N matrix A:
@@ -44039,7 +43762,6 @@ module stdlib_linalg_lapack_s
                      
            work(1) = iws
            return
-           ! end of stdlib_sgeqrf
      end subroutine stdlib_sgeqrf
 
      ! SGEQR2P computes a QR factorization of a real M-by-N matrix A:
@@ -44138,7 +43860,6 @@ module stdlib_linalg_lapack_s
                      
            work(1) = iws
            return
-           ! end of stdlib_sgeqrfp
      end subroutine stdlib_sgeqrfp
 
      ! SGEQRT2 computes a QR factorization of a real M-by-N matrix A,
@@ -44205,7 +43926,6 @@ module stdlib_linalg_lapack_s
                  t(i, i) = t(i, 1)
                  t(i, 1) = zero
            end do
-           ! end of stdlib_sgeqrt2
      end subroutine stdlib_sgeqrt2
 
      ! SGEQRT3 recursively computes a QR factorization of a real M-by-N
@@ -44289,7 +44009,6 @@ module stdlib_linalg_lapack_s
                                ! [  0        r2     ]       [ 0 t2]
            end if
            return
-           ! end of stdlib_sgeqrt3
      end subroutine stdlib_sgeqrt3
 
      ! SGERFS improves the computed solution to a system of linear
@@ -44368,7 +44087,7 @@ module stdlib_linalg_lapack_s
            loop_140: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -44448,7 +44167,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-100    continue
+100           continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -44476,7 +44195,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_140
            return
-           ! end of stdlib_sgerfs
      end subroutine stdlib_sgerfs
 
      ! SGERQ2 computes an RQ factorization of a real m by n matrix A:
@@ -44524,7 +44242,6 @@ module stdlib_linalg_lapack_s
               a(m - k + i, n - k + i) = aii
            end do
            return
-           ! end of stdlib_sgerq2
      end subroutine stdlib_sgerq2
 
      ! SGERQF computes an RQ factorization of a real M-by-N matrix A:
@@ -44630,7 +44347,6 @@ module stdlib_linalg_lapack_s
            if (mu > 0 .and. nu > 0) call stdlib_sgerq2(mu, nu, a, lda, tau, work, iinfo)
            work(1) = iws
            return
-           ! end of stdlib_sgerqf
      end subroutine stdlib_sgerqf
 
      ! SGETRF computes an LU factorization of a general M-by-N matrix A
@@ -44708,7 +44424,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sgetrf
      end subroutine stdlib_sgetrf
 
      ! SGGHD3 reduces a pair of real matrices (A,B) to generalized upper
@@ -44762,7 +44477,7 @@ module stdlib_linalg_lapack_s
            info = 0
            nb = stdlib_ilaenv(1, 'stdlib_sgghd3', ' ', n, ilo, ihi, -1)
            lwkopt = max(6*n*nb, 1)
-           work(1) = real(lwkopt)
+           work(1) = real(lwkopt, KIND=sp)
            initq = stdlib_lsame(compq, 'i')
            wantq = initq .or. stdlib_lsame(compq, 'v')
            initz = stdlib_lsame(compz, 'i')
@@ -45233,9 +44948,8 @@ module stdlib_linalg_lapack_s
            end if
            if (jcol < ihi) call stdlib_sgghrd(compq2, compz2, n, jcol, ihi, a, lda, b, ldb, q, ldq, &
                       z, ldz, ierr)
-           work(1) = real(lwkopt)
+           work(1) = real(lwkopt, KIND=sp)
            return
-           ! end of stdlib_sgghd3
      end subroutine stdlib_sgghd3
 
      ! SGGQRF computes a generalized QR factorization of an N-by-M matrix A
@@ -45311,7 +45025,6 @@ module stdlib_linalg_lapack_s
            call stdlib_sgerqf(n, p, b, ldb, taub, work, lwork, info)
            work(1) = max(lopt, int(work(1), KIND=ilp))
            return
-           ! end of stdlib_sggqrf
      end subroutine stdlib_sggqrf
 
      ! SGGRQF computes a generalized RQ factorization of an M-by-N matrix A
@@ -45387,7 +45100,6 @@ module stdlib_linalg_lapack_s
            call stdlib_sgeqrf(p, n, b, ldb, taub, work, lwork, info)
            work(1) = max(lopt, int(work(1), KIND=ilp))
            return
-           ! end of stdlib_sggrqf
      end subroutine stdlib_sggrqf
 
      ! SGTCON estimates the reciprocal of the condition number of a real
@@ -45450,7 +45162,7 @@ module stdlib_linalg_lapack_s
               kase1 = 2
            end if
            kase = 0
-20      continue
+20         continue
            call stdlib_slacn2(n, work(n + 1), work, iwork, ainvnm, kase, isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -45467,7 +45179,6 @@ module stdlib_linalg_lapack_s
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
-           ! end of stdlib_sgtcon
      end subroutine stdlib_sgtcon
 
      ! SGTRFS improves the computed solution to a system of linear
@@ -45544,7 +45255,7 @@ module stdlib_linalg_lapack_s
            loop_110: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -45634,7 +45345,7 @@ module stdlib_linalg_lapack_s
                  end if
               end do
               kase = 0
-70      continue
+70            continue
               call stdlib_slacn2(n, work(2*n + 1), work(n + 1), iwork, ferr(j), kase, isave)
                         
               if (kase /= 0) then
@@ -45663,7 +45374,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_110
            return
-           ! end of stdlib_sgtrfs
      end subroutine stdlib_sgtrfs
 
      ! SGTSVX uses the LU factorization to compute the solution to a real
@@ -45750,7 +45460,6 @@ module stdlib_linalg_lapack_s
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_sgtsvx
      end subroutine stdlib_sgtsvx
 
      ! SHGEQZ computes the eigenvalues of a real matrix pair (H,T),
@@ -45897,7 +45606,7 @@ module stdlib_linalg_lapack_s
            end if
            ! quick return if possible
            if (n <= 0) then
-              work(1) = real(1)
+              work(1) = real(1, KIND=sp)
               return
            end if
            ! initialize q and z
@@ -46080,7 +45789,7 @@ module stdlib_linalg_lapack_s
               go to 420
               ! t(ilast,ilast)=0 -- clear h(ilast,ilast-1) to split off a
               ! 1x1 block.
-70      continue
+70   continue
               temp = h(ilast, ilast)
               call stdlib_slartg(temp, h(ilast, ilast - 1), c, s, h(ilast, ilast))
               h(ilast, ilast - 1) = zero
@@ -46091,7 +45800,7 @@ module stdlib_linalg_lapack_s
               if (ilz) call stdlib_srot(n, z(1, ilast), 1, z(1, ilast - 1), 1, c, s)
               ! h(ilast,ilast-1)=0 -- standardize b, set alphar, alphai,
                                     ! and beta
-80      continue
+80   continue
               if (t(ilast, ilast) < zero) then
                  if (ilschr) then
                     do j = ifrstm, ilast
@@ -46125,7 +45834,7 @@ module stdlib_linalg_lapack_s
               ! qz step
               ! this iteration only involves rows/columns ifirst:ilast. we
               ! assume ifirst < ilast, and that the diagonal of b is non-zero.
-110    continue
+110  continue
               iiter = iiter + 1
               if (.not. ilschr) then
                  ifrstm = ifirst
@@ -46137,11 +45846,11 @@ module stdlib_linalg_lapack_s
               if ((iiter/10)*10 == iiter) then
                  ! exceptional shift.  chosen for no particularly good reason.
                  ! (single shift only.)
-                 if ((real(maxit)*safmin)*abs(h(ilast, ilast - 1)) < abs(t(ilast - 1, ilast - 1 &
-                           ))) then
+                 if ((real(maxit, KIND=sp)*safmin)*abs(h(ilast, ilast - 1)) < abs(t(ilast - 1, &
+                           ilast - 1))) then
                     eshift = h(ilast, ilast - 1)/t(ilast - 1, ilast - 1)
                  else
-                    eshift = eshift + one/(safmin*real(maxit))
+                    eshift = eshift + one/(safmin*real(maxit, KIND=sp))
                  end if
                  s1 = one
                  wr = eshift
@@ -46187,7 +45896,7 @@ module stdlib_linalg_lapack_s
                  if (abs((ascale*h(j + 1, j))*temp) <= (ascale*atol)*temp2) go to 130
               end do
               istart = ifirst
-130    continue
+130           continue
               ! do an implicit single-shift qz sweep.
               ! initial q
               temp = s1*h(istart, istart) - wr*t(istart, istart)
@@ -46242,7 +45951,7 @@ module stdlib_linalg_lapack_s
                     ! but only if the block is at least 3x3.
                     ! this code may break if this point is reached with
                     ! a 2x2 block with real eigenvalues.
-200    continue
+200  continue
               if (ifirst + 1 == ilast) then
                  ! special case -- 2x2 block with complex eigenvectors
                  ! step 1: standardize, that is, rotate so that
@@ -46506,7 +46215,7 @@ module stdlib_linalg_lapack_s
                     ! solve
                     u2 = (scale*u2)/w22
                     u1 = (scale*u1 - w12*u2)/w11
-250    continue
+250                 continue
                     if (ilpivt) then
                        temp = u2
                        u2 = u1
@@ -46590,13 +46299,13 @@ module stdlib_linalg_lapack_s
               end if
               go to 350
               ! end of iteration loop
-350    continue
+350  continue
            end do loop_360
            ! drop-through = non-convergence
            info = ilast
            go to 420
            ! successful completion of all qz steps
-380    continue
+380  continue
            ! set eigenvalues 1:ilo-1
            do j = 1, ilo - 1
               if (t(j, j) < zero) then
@@ -46622,10 +46331,9 @@ module stdlib_linalg_lapack_s
            ! normal termination
            info = 0
            ! exit (other than argument error) -- return optimal workspace size
-420    continue
-           work(1) = real(n)
+420  continue
+           work(1) = real(n, KIND=sp)
            return
-           ! end of stdlib_shgeqz
      end subroutine stdlib_shgeqz
 
      ! SLABRD reduces the first NB rows and columns of a real general
@@ -46756,7 +46464,6 @@ module stdlib_linalg_lapack_s
               end do loop_20
            end if
            return
-           ! end of stdlib_slabrd
      end subroutine stdlib_slabrd
 
      ! SLADIV performs complex division in  real arithmetic
@@ -46822,7 +46529,6 @@ module stdlib_linalg_lapack_s
            p = p*s
            q = q*s
            return
-           ! end of stdlib_sladiv
      end subroutine stdlib_sladiv
 
      ! This subroutine computes the I-th updated eigenvalue of a symmetric
@@ -47422,9 +47128,8 @@ module stdlib_linalg_lapack_s
                  dlam = d(ip1) + tau
               end if
            end if
-250    continue
+250        continue
            return
-           ! end of stdlib_slaed4
      end subroutine stdlib_slaed4
 
      ! SLAED8 merges the two sets of eigenvalues together into a single
@@ -47551,7 +47256,7 @@ module stdlib_linalg_lapack_s
                  go to 80
               end if
            end do
-80      continue
+80         continue
            j = j + 1
            if (j > n) go to 100
            if (rho*abs(z(j)) <= tol) then
@@ -47587,7 +47292,7 @@ module stdlib_linalg_lapack_s
                  d(jlam) = t
                  k2 = k2 - 1
                  i = 1
-90      continue
+90               continue
                  if (k2 + i <= n) then
                     if (d(jlam) < d(indxp(k2 + i))) then
                        indxp(k2 + i - 1) = indxp(k2 + i)
@@ -47610,13 +47315,13 @@ module stdlib_linalg_lapack_s
               end if
            end if
            go to 80
-100    continue
+100        continue
            ! record the last eigenvalue.
            k = k + 1
            w(k) = z(jlam)
            dlamda(k) = d(jlam)
            indxp(k) = jlam
-110    continue
+110        continue
            ! sort the eigenvalues and corresponding eigenvectors into dlamda
            ! and q2 respectively.  the eigenvalues/vectors which were not
            ! deflated go into the first k slots of dlamda and q2 respectively,
@@ -47646,7 +47351,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slaed8
      end subroutine stdlib_slaed8
 
      ! SLAED9 finds the roots of the secular equation, as defined by the
@@ -47749,9 +47453,8 @@ module stdlib_linalg_lapack_s
                  s(i, j) = q(i, j)/temp
               end do
            end do
-120    continue
+120        continue
            return
-           ! end of stdlib_slaed9
      end subroutine stdlib_slaed9
 
      ! SLAEIN uses inverse iteration to find a right or left eigenvector
@@ -47784,7 +47487,7 @@ module stdlib_linalg_lapack_s
            info = 0
            ! growto is the threshold used in the acceptance test for an
            ! eigenvector.
-           rootn = sqrt(real(n))
+           rootn = sqrt(real(n, KIND=sp))
            growto = tenth/rootn
            nrmsml = max(one, eps3*rootn)*smlnum
            ! form b = h - (wr,wi)*i (except that the subdiagonal elements and
@@ -47883,7 +47586,7 @@ module stdlib_linalg_lapack_s
               end do
               ! failure to find eigenvector in n iterations.
               info = 1
-120    continue
+120           continue
               ! normalize eigenvector.
               i = stdlib_isamax(n, vr, 1)
               call stdlib_sscal(n, one/abs(vr(i)), vr, 1)
@@ -48085,7 +47788,7 @@ module stdlib_linalg_lapack_s
               end do loop_270
               ! failure to find eigenvector in n iterations
               info = 1
-280    continue
+280           continue
               ! normalize eigenvector.
               vnorm = zero
               do i = 1, n
@@ -48095,7 +47798,6 @@ module stdlib_linalg_lapack_s
               call stdlib_sscal(n, one/vnorm, vi, 1)
            end if
            return
-           ! end of stdlib_slaein
      end subroutine stdlib_slaein
 
      ! SLAGV2 computes the Generalized Schur factorization of a real 2-by-2
@@ -48258,7 +47960,6 @@ module stdlib_linalg_lapack_s
               beta(2) = one
            end if
            return
-           ! end of stdlib_slagv2
      end subroutine stdlib_slagv2
 
      ! SLAHR2 reduces the first NB columns of A real general n-BY-(n-k+1)
@@ -48346,7 +48047,6 @@ module stdlib_linalg_lapack_s
            call stdlib_strmm('right', 'upper', 'no transpose', 'non-unit', k, nb, one, t, ldt, y, &
                      ldy)
            return
-           ! end of stdlib_slahr2
      end subroutine stdlib_slahr2
 
      ! SLALN2 solves a system of the form  (ca A - w D ) X = s B
@@ -48460,7 +48160,7 @@ module stdlib_linalg_lapack_s
               end if
            else
               ! 2x2 system
-              ! compute the real part of  c = ca a - w d  (or  ca a**t - w d )
+              ! compute the realpart of  c = ca a - w d  (or  ca a**t - w d,KIND=sp)
               cr(1, 1) = ca*a(1, 1) - wr*d1
               cr(2, 2) = ca*a(2, 2) - wr*d2
               if (ltrans) then
@@ -48471,7 +48171,7 @@ module stdlib_linalg_lapack_s
                  cr(1, 2) = ca*a(1, 2)
               end if
               if (nw == 1) then
-                 ! real 2x2 system  (w is real)
+                 ! real2x2 system  (w is real,KIND=sp)
                  ! find the largest element in c
                  cmax = zero
                  icmax = 0
@@ -48668,7 +48368,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slaln2
      end subroutine stdlib_slaln2
 
      ! SLALS0 applies back the multiplying factors of either the left or the
@@ -48706,8 +48405,6 @@ module stdlib_linalg_lapack_s
            real(sp) :: b(ldb, *), bx(ldbx, *), difl(*), difr(ldgnum, *), givnum(ldgnum, * &
                      ), poles(ldgnum, *), work(*), z(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: negone = -1.0_sp
            
            ! .. local scalars ..
            integer(ilp) :: i, j, m, n, nlp1
@@ -48865,7 +48562,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_slals0
      end subroutine stdlib_slals0
 
      ! SLAMSWLQ overwrites the general real M-by-N matrix C with
@@ -49021,7 +48717,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lw
            return
-           ! end of stdlib_slamswlq
      end subroutine stdlib_slamswlq
 
      ! SLAMTSQR overwrites the general real M-by-N matrix C with
@@ -49181,7 +48876,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lw
            return
-           ! end of stdlib_slamtsqr
      end subroutine stdlib_slamtsqr
 
      ! SLANV2 computes the Schur factorization of a real 2-by-2 nonsymmetric
@@ -49213,7 +48907,7 @@ module stdlib_linalg_lapack_s
            safmin = stdlib_slamch('s')
            eps = stdlib_slamch('p')
            safmn2 = stdlib_slamch('b')**int(log(safmin/eps)/log(stdlib_slamch('b'))/ &
-                     two)
+                     two, KIND=ilp)
            safmx2 = one/safmn2
            if (c == zero) then
               cs = one
@@ -49251,11 +48945,11 @@ module stdlib_linalg_lapack_s
                  b = b - c
                  c = zero
               else
-                 ! complex eigenvalues, or real (almost) equal eigenvalues.
+                 ! complex eigenvalues, or real(almost,KIND=sp) equal eigenvalues.
                  ! make diagonal elements equal.
                  count = 0
                  sigma = b + c
-10      continue
+10               continue
                  count = count + 1
                  scale = max(abs(temp), abs(sigma))
                  if (scale >= safmx2) then
@@ -49326,7 +49020,6 @@ module stdlib_linalg_lapack_s
               rt2i = -rt1i
            end if
            return
-           ! end of stdlib_slanv2
      end subroutine stdlib_slanv2
 
      ! Given two column vectors X and Y, let
@@ -49367,7 +49060,6 @@ module stdlib_linalg_lapack_s
            ! compute the svd of 2-by-2 upper triangular matrix.
            call stdlib_slas2(a11, a12, a22, ssmin, ssmax)
            return
-           ! end of stdlib_slapll
      end subroutine stdlib_slapll
 
      ! SLAQP2 computes a QR factorization with column pivoting of
@@ -49444,7 +49136,6 @@ module stdlib_linalg_lapack_s
               end do
            end do loop_20
            return
-           ! end of stdlib_slaqp2
      end subroutine stdlib_slaqp2
 
      ! SLAQPS computes a step of QR factorization with column pivoting
@@ -49479,7 +49170,7 @@ module stdlib_linalg_lapack_s
            k = 0
            tol3z = sqrt(stdlib_slamch('epsilon'))
            ! beginning of while loop.
-10      continue
+10   continue
            if ((k < nb) .and. (lsticc == 0)) then
               k = k + 1
               rk = offset + k
@@ -49543,7 +49234,7 @@ module stdlib_linalg_lapack_s
                        temp = max(zero, (one + temp)*(one - temp))
                        temp2 = temp*(vn1(j)/vn2(j))**2
                        if (temp2 <= tol3z) then
-                          vn2(j) = real(lsticc)
+                          vn2(j) = real(lsticc, KIND=sp)
                           lsticc = j
                        else
                           vn1(j) = vn1(j)*sqrt(temp)
@@ -49565,7 +49256,7 @@ module stdlib_linalg_lapack_s
                         lda, f(kb + 1, 1), ldf, one, a(rk + 1, kb + 1), lda)
            end if
            ! recomputation of difficult columns.
-40      continue
+40   continue
            if (lsticc > 0) then
               itemp = nint(vn2(lsticc), KIND=ilp)
               vn1(lsticc) = stdlib_snrm2(m - rk, a(rk + 1, lsticc), 1)
@@ -49577,7 +49268,6 @@ module stdlib_linalg_lapack_s
               go to 40
            end if
            return
-           ! end of stdlib_slaqps
      end subroutine stdlib_slaqps
 
      ! SLAQR5, called by SLAQR0, performs a
@@ -49639,7 +49329,7 @@ module stdlib_linalg_lapack_s
            safmax = one/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            ! ==== use accumulated reflections to update far-from-diagonal
            ! .    entries ? ====
            accum = (kacc22 == 1) .or. (kacc22 == 2)
@@ -49985,7 +49675,6 @@ module stdlib_linalg_lapack_s
                  end if
               end if
            end do loop_180
-           ! ==== end of stdlib_slaqr5 ====
      end subroutine stdlib_slaqr5
 
      ! SLAQTR solves the real quasi-triangular system
@@ -50428,7 +50117,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_slaqtr
      end subroutine stdlib_slaqtr
 
      ! SLASD3 finds all the square roots of the roots of the secular
@@ -50455,8 +50143,6 @@ module stdlib_linalg_lapack_s
            real(sp) :: d(*), dsigma(*), q(ldq, *), u(ldu, *), u2(ldu2, *), vt(ldvt, *), &
                       vt2(ldvt2, *), z(*)
         ! =====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: negone = -one
            
            ! .. local scalars ..
            integer(ilp) :: ctemp, i, j, jc, ktemp, m, n, nlp1, nlp2, nrp1
@@ -50596,7 +50282,7 @@ module stdlib_linalg_lapack_s
            call stdlib_sgemm('n', 'n', nr, k, ctemp, one, u2(nlp2, ktemp), ldu2, q(ktemp, 1), &
                      ldq, zero, u(nlp2, 1), ldu)
            ! generate the right singular vectors.
-100    continue
+100  continue
            do i = 1, k
               temp = stdlib_snrm2(k, vt(1, i), 1)
               q(i, 1) = vt(1, i)/temp
@@ -50631,7 +50317,6 @@ module stdlib_linalg_lapack_s
            call stdlib_sgemm('n', 'n', k, nrp1, ctemp, one, q(1, ktemp), ldq, vt2(ktemp, nlp2) &
                      , ldvt2, zero, vt(1, nlp2), ldvt)
            return
-           ! end of stdlib_slasd3
      end subroutine stdlib_slasd3
 
      ! SLASD6 computes the SVD of an updated upper bidiagonal matrix B
@@ -50755,7 +50440,6 @@ module stdlib_linalg_lapack_s
            n2 = n - k
            call stdlib_slamrg(n1, n2, d, 1, -1, idxq)
            return
-           ! end of stdlib_slasd6
      end subroutine stdlib_slasd6
 
      ! SOPGTR generates a real orthogonal matrix Q which is defined as the
@@ -50841,7 +50525,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sopgtr
      end subroutine stdlib_sopgtr
 
      ! SOPMTR overwrites the general real M-by-N matrix C with
@@ -50986,7 +50669,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sopmtr
      end subroutine stdlib_sopmtr
 
      ! SORBDB1 simultaneously bidiagonalizes the blocks of a tall and skinny
@@ -51087,7 +50769,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_sorbdb1
      end subroutine stdlib_sorbdb1
 
      ! SORBDB2 simultaneously bidiagonalizes the blocks of a tall and skinny
@@ -51117,8 +50798,6 @@ module stdlib_linalg_lapack_s
            real(sp) :: phi(*), theta(*)
            real(sp) :: taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, *)
         ! ====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: negone = -1.0_sp
            
            ! .. local scalars ..
            real(sp) :: c, s
@@ -51200,7 +50879,6 @@ module stdlib_linalg_lapack_s
                         ilarf))
            end do
            return
-           ! end of stdlib_sorbdb2
      end subroutine stdlib_sorbdb2
 
      ! SORBDB3 simultaneously bidiagonalizes the blocks of a tall and skinny
@@ -51310,7 +50988,6 @@ module stdlib_linalg_lapack_s
                         ilarf))
            end do
            return
-           ! end of stdlib_sorbdb3
      end subroutine stdlib_sorbdb3
 
      ! SORBDB4 simultaneously bidiagonalizes the blocks of a tall and skinny
@@ -51341,8 +51018,6 @@ module stdlib_linalg_lapack_s
            real(sp) :: phantom(*), taup1(*), taup2(*), tauq1(*), work(*), x11(ldx11, *), x21(ldx21, &
                      *)
         ! ====================================================================
-           ! .. parameters ..
-           real(sp), parameter :: negone = -1.0_sp
            
            ! .. local scalars ..
            real(sp) :: c, s
@@ -51454,7 +51129,6 @@ module stdlib_linalg_lapack_s
                         , ldx21, work(ilarf))
            end do
            return
-           ! end of stdlib_sorbdb4
      end subroutine stdlib_sorbdb4
 
      ! SORCSD2BY1 computes the CS decomposition of an M-by-Q matrix X with
@@ -51868,7 +51542,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sorcsd2by1
      end subroutine stdlib_sorcsd2by1
 
      ! SORGTR generates a real orthogonal matrix Q which is defined as the
@@ -51967,7 +51640,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sorgtr
      end subroutine stdlib_sorgtr
 
      ! SORGTSQR generates an M-by-N real matrix Q_out with orthonormal columns,
@@ -52033,12 +51705,12 @@ module stdlib_linalg_lapack_s
               call stdlib_xerbla('stdlib_sorgtsqr', -info)
               return
            else if (lquery) then
-              work(1) = real(lworkopt)
+              work(1) = real(lworkopt, KIND=sp)
               return
            end if
            ! quick return if possible
            if (min(m, n) == 0) then
-              work(1) = real(lworkopt)
+              work(1) = real(lworkopt, KIND=sp)
               return
            end if
            ! (1) form explicitly the tall-skinny m-by-n left submatrix q1_in
@@ -52061,9 +51733,8 @@ module stdlib_linalg_lapack_s
            do j = 1, n
               call stdlib_scopy(m, work((j - 1)*ldc + 1), 1, a(1, j), 1)
            end do
-           work(1) = real(lworkopt)
+           work(1) = real(lworkopt, KIND=sp)
            return
-           ! end of stdlib_sorgtsqr
      end subroutine stdlib_sorgtsqr
 
      ! SORMTR overwrites the general real M-by-N matrix C with
@@ -52181,7 +51852,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sormtr
      end subroutine stdlib_sormtr
 
      ! SPBTRF computes the Cholesky factorization of a real symmetric
@@ -52377,9 +52047,8 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-150    continue
+150        continue
            return
-           ! end of stdlib_spbtrf
      end subroutine stdlib_spbtrf
 
      ! SPFTRI computes the inverse of a real (symmetric) positive definite
@@ -52537,7 +52206,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_spftri
      end subroutine stdlib_spftri
 
      ! SPOTRF computes the Cholesky factorization of a real symmetric
@@ -52627,11 +52295,10 @@ module stdlib_linalg_lapack_s
               end if
            end if
            go to 40
-30      continue
+30         continue
            info = info + j - 1
-40      continue
+40         continue
            return
-           ! end of stdlib_spotrf
      end subroutine stdlib_spotrf
 
      ! SPSTRF computes the Cholesky factorization with complete
@@ -52834,14 +52501,13 @@ module stdlib_linalg_lapack_s
            ! ran to completion, a has full rank
            rank = n
            go to 200
-190    continue
+190        continue
            ! rank is the number of steps completed.  set info = 1 to signal
            ! that the factorization cannot be used to solve a system.
            rank = j - 1
            info = 1
-200    continue
+200        continue
            return
-           ! end of stdlib_spstrf
      end subroutine stdlib_spstrf
 
      ! SPTRFS improves the computed solution to a system of linear
@@ -52902,7 +52568,7 @@ module stdlib_linalg_lapack_s
            loop_90: do j = 1, nrhs
               count = 1
               lstres = three
-20      continue
+20            continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x.  also compute
               ! abs(a)*abs(x) + abs(b) for use in the backward error bound.
@@ -53008,7 +52674,6 @@ module stdlib_linalg_lapack_s
               if (lstres /= zero) ferr(j) = ferr(j)/lstres
            end do loop_90
            return
-           ! end of stdlib_sptrfs
      end subroutine stdlib_sptrfs
 
      ! SPTSV computes the solution to a real system of linear equations
@@ -53049,7 +52714,6 @@ module stdlib_linalg_lapack_s
               call stdlib_spttrs(n, nrhs, d, e, b, ldb, info)
            end if
            return
-           ! end of stdlib_sptsv
      end subroutine stdlib_sptsv
 
      ! SPTSVX uses the factorization A = L*D*L**T to compute the solution
@@ -53122,7 +52786,6 @@ module stdlib_linalg_lapack_s
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_sptsvx
      end subroutine stdlib_sptsvx
 
      ! SSBEV computes all the eigenvalues and, optionally, eigenvectors of
@@ -53223,7 +52886,6 @@ module stdlib_linalg_lapack_s
               call stdlib_sscal(imax, one/sigma, w, 1)
            end if
            return
-           ! end of stdlib_ssbev
      end subroutine stdlib_ssbev
 
      ! SSBEVX computes selected eigenvalues and, optionally, eigenvectors
@@ -53411,7 +53073,7 @@ module stdlib_linalg_lapack_s
               end do
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-30      continue
+30   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -53448,7 +53110,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_ssbevx
      end subroutine stdlib_ssbevx
 
      ! SSBGV computes all the eigenvalues, and optionally, the eigenvectors
@@ -53525,7 +53186,6 @@ module stdlib_linalg_lapack_s
               call stdlib_ssteqr(jobz, n, w, work(inde), z, ldz, work(indwrk), info)
            end if
            return
-           ! end of stdlib_ssbgv
      end subroutine stdlib_ssbgv
 
      ! SSBGVX computes selected eigenvalues, and optionally, eigenvectors
@@ -53681,7 +53341,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_sgemv('n', n, n, one, q, ldq, work, 1, zero, z(1, j), 1)
               end do
            end if
-30      continue
+30         continue
            ! if eigenvalues are not in order, then sort them, along with
            ! eigenvectors.
            if (wantz) then
@@ -53710,7 +53370,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_ssbgvx
      end subroutine stdlib_ssbgvx
 
      ! SSPEV computes all the eigenvalues and, optionally, eigenvectors of a
@@ -53802,7 +53461,6 @@ module stdlib_linalg_lapack_s
               call stdlib_sscal(imax, one/sigma, w, 1)
            end if
            return
-           ! end of stdlib_sspev
      end subroutine stdlib_sspev
 
      ! SSPEVX computes selected eigenvalues and, optionally, eigenvectors
@@ -53977,7 +53635,7 @@ module stdlib_linalg_lapack_s
                          iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-20      continue
+20   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -54014,7 +53672,6 @@ module stdlib_linalg_lapack_s
               end do
            end if
            return
-           ! end of stdlib_sspevx
      end subroutine stdlib_sspevx
 
      ! SSPGV computes all the eigenvalues and, optionally, the eigenvectors
@@ -54097,7 +53754,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sspgv
      end subroutine stdlib_sspgv
 
      ! SSPGVX computes selected eigenvalues, and optionally, eigenvectors
@@ -54208,7 +53864,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_sspgvx
      end subroutine stdlib_sspgvx
 
      ! SSYEV computes all eigenvalues and, optionally, eigenvectors of a
@@ -54314,7 +53969,6 @@ module stdlib_linalg_lapack_s
            ! set work(1) to optimal workspace size.
            work(1) = lwkopt
            return
-           ! end of stdlib_ssyev
      end subroutine stdlib_ssyev
 
      ! SSYEVX computes selected eigenvalues and, optionally, eigenvectors
@@ -54520,7 +54174,7 @@ module stdlib_linalg_lapack_s
                         indwkn), llwrkn, iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-40      continue
+40   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -54559,7 +54213,6 @@ module stdlib_linalg_lapack_s
            ! set work(1) to optimal workspace size.
            work(1) = lwkopt
            return
-           ! end of stdlib_ssyevx
      end subroutine stdlib_ssyevx
 
      ! SSYGV computes all the eigenvalues, and optionally, the eigenvectors
@@ -54658,7 +54311,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_ssygv
      end subroutine stdlib_ssygv
 
      ! SSYGVX computes selected eigenvalues, and optionally, eigenvectors
@@ -54785,7 +54437,6 @@ module stdlib_linalg_lapack_s
            ! set work(1) to optimal workspace size.
            work(1) = lwkopt
            return
-           ! end of stdlib_ssygvx
      end subroutine stdlib_ssygvx
 
      ! SSYSV computes the solution to a real system of linear equations
@@ -54862,7 +54513,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_ssysv
      end subroutine stdlib_ssysv
 
      ! SSYSVX uses the diagonal pivoting factorization to compute the
@@ -54957,7 +54607,6 @@ module stdlib_linalg_lapack_s
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            work(1) = lwkopt
            return
-           ! end of stdlib_ssysvx
      end subroutine stdlib_ssysvx
 
      ! SSYTRD_SY2SB reduces a real symmetric matrix A to real symmetric
@@ -54976,7 +54625,7 @@ module stdlib_linalg_lapack_s
            real(sp) :: a(lda, *), ab(ldab, *), tau(*), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: rone = one
+           real(sp), parameter :: rone = 1.0e+0_sp
            
            ! .. local scalars ..
            logical(lk) :: lquery, upper
@@ -55120,7 +54769,7 @@ module stdlib_linalg_lapack_s
                    ! do 45 j = i, i+pk-1
                       ! lk = min( kd, n-j ) + 1
                       ! call stdlib_scopy( lk, ab( 1, j ), 1, a( j, j ), 1 )
-         ! 45        continue
+45   continue
                   ! ==================================================================
                end do loop_40
               ! copy the lower band to ab which is the band storage matrix
@@ -55131,7 +54780,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwmin
            return
-           ! end of stdlib_ssytrd_sy2sb
      end subroutine stdlib_ssytrd_sy2sb
 
      ! STGEVC computes some or all of the right and/or left eigenvectors of
@@ -55859,7 +55507,6 @@ module stdlib_linalg_lapack_s
               end do loop_500
            end if
            return
-           ! end of stdlib_stgevc
      end subroutine stdlib_stgevc
 
      ! STGEX2 swaps adjacent diagonal blocks (A11, B11) and (A22, B22)
@@ -56217,10 +55864,9 @@ module stdlib_linalg_lapack_s
               return
            end if
            ! exit with info = 1 if swap was rejected.
-70      continue
+70   continue
            info = 1
            return
-           ! end of stdlib_stgex2
      end subroutine stdlib_stgex2
 
      ! STGEXC reorders the generalized real Schur decomposition of a real
@@ -56315,7 +55961,7 @@ module stdlib_linalg_lapack_s
               if (nbf == 2 .and. nbl == 1) ilst = ilst - 1
               if (nbf == 1 .and. nbl == 2) ilst = ilst + 1
               here = ifst
-10      continue
+10            continue
               ! swap with next one below.
               if (nbf == 1 .or. nbf == 2) then
                  ! current block either 1-by-1 or 2-by-2.
@@ -56390,7 +56036,7 @@ module stdlib_linalg_lapack_s
               if (here < ilst) go to 10
            else
               here = ifst
-20      continue
+20            continue
               ! swap with next one below.
               if (nbf == 1 .or. nbf == 2) then
                  ! current block either 1-by-1 or 2-by-2.
@@ -56467,7 +56113,6 @@ module stdlib_linalg_lapack_s
            ilst = here
            work(1) = lwmin
            return
-           ! end of stdlib_stgexc
      end subroutine stdlib_stgexc
 
      ! STGSEN reorders the generalized real Schur decomposition of a real
@@ -56709,7 +56354,7 @@ module stdlib_linalg_lapack_s
                  ijb = 0
                  mn2 = 2*n1*n2
                  ! 1-norm-based estimate of difu.
-40      continue
+40   continue
                  call stdlib_slacn2(mn2, work(mn2 + 1), work, iwork, dif(1), kase, isave)
                            
                  if (kase /= 0) then
@@ -56728,7 +56373,7 @@ module stdlib_linalg_lapack_s
                  end if
                  dif(1) = dscale/dif(1)
                  ! 1-norm-based estimate of difl.
-50      continue
+50   continue
                  call stdlib_slacn2(mn2, work(mn2 + 1), work, iwork, dif(2), kase, isave)
                            
                  if (kase /= 0) then
@@ -56748,7 +56393,7 @@ module stdlib_linalg_lapack_s
                  dif(2) = dscale/dif(2)
               end if
            end if
-60      continue
+60         continue
            ! compute generalized eigenvalues of reordered pair (a, b) and
            ! normalize the generalized schur form.
            pair = .false.
@@ -56792,7 +56437,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_stgsen
      end subroutine stdlib_stgsen
 
      ! STGSJA computes the generalized singular value decomposition (GSVD)
@@ -56987,7 +56631,7 @@ module stdlib_linalg_lapack_s
            ! the algorithm has not converged after maxit cycles.
            info = 1
            go to 100
-50      continue
+50         continue
            ! if error <= min(tola,tolb), then the algorithm has converged.
            ! compute the generalized singular value pairs (alpha, beta), and
            ! set the triangular matrix r to array a.
@@ -57029,10 +56673,9 @@ module stdlib_linalg_lapack_s
                  beta(i) = zero
               end do
            end if
-100    continue
+100        continue
            ncycle = kcycle
            return
-           ! end of stdlib_stgsja
      end subroutine stdlib_stgsja
 
      ! STGSNA estimates reciprocal condition numbers for specified
@@ -57279,7 +56922,6 @@ module stdlib_linalg_lapack_s
            end do loop_20
            work(1) = lwmin
            return
-           ! end of stdlib_stgsna
      end subroutine stdlib_stgsna
 
      ! STPLQT computes a blocked LQ factorization of a real
@@ -57340,7 +56982,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_stplqt
      end subroutine stdlib_stplqt
 
      ! STPQRT computes a blocked QR factorization of a real
@@ -57401,7 +57042,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_stpqrt
      end subroutine stdlib_stpqrt
 
      ! STREVC computes some or all of the right and/or left eigenvectors of
@@ -57533,7 +57173,7 @@ module stdlib_linalg_lapack_s
                  if (ki == 1) go to 40
                  if (t(ki, ki - 1) == zero) go to 40
                  ip = -1
-40      continue
+40               continue
                  if (somev) then
                     if (ip == 0) then
                        if (.not. select(ki)) go to 130
@@ -57757,7 +57397,7 @@ module stdlib_linalg_lapack_s
                  end if
                  is = is - 1
                  if (ip /= 0) is = is - 1
-130    continue
+130              continue
                  if (ip == 1) ip = 0
                  if (ip == -1) ip = 1
               end do loop_140
@@ -57771,7 +57411,7 @@ module stdlib_linalg_lapack_s
                  if (ki == n) go to 150
                  if (t(ki + 1, ki) == zero) go to 150
                  ip = 1
-150    continue
+150              continue
                  if (somev) then
                     if (.not. select(ki)) go to 250
                  end if
@@ -58006,13 +57646,12 @@ module stdlib_linalg_lapack_s
                  end if
                  is = is + 1
                  if (ip /= 0) is = is + 1
-250    continue
+250              continue
                  if (ip == -1) ip = 0
                  if (ip == 1) ip = -1
               end do loop_260
            end if
            return
-           ! end of stdlib_strevc
      end subroutine stdlib_strevc
 
      ! STREVC3 computes some or all of the right and/or left eigenvectors of
@@ -58830,7 +58469,6 @@ module stdlib_linalg_lapack_s
               end do loop_260
            end if
            return
-           ! end of stdlib_strevc3
      end subroutine stdlib_strevc3
 
      ! STRSYL solves the real Sylvester matrix equation:
@@ -58903,7 +58541,7 @@ module stdlib_linalg_lapack_s
            smlnum = stdlib_slamch('s')
            bignum = one/smlnum
            call stdlib_slabad(smlnum, bignum)
-           smlnum = smlnum*real(m*n)/eps
+           smlnum = smlnum*real(m*n, KIND=sp)/eps
            bignum = one/smlnum
            smin = max(smlnum, eps*stdlib_slange('m', m, m, a, lda, dum), eps*stdlib_slange('m', &
                       n, n, b, ldb, dum))
@@ -59490,7 +59128,6 @@ module stdlib_linalg_lapack_s
               end do loop_250
            end if
            return
-           ! end of stdlib_strsyl
      end subroutine stdlib_strsyl
 
      ! STZRZF reduces the M-by-N ( M<=N ) real upper trapezoidal matrix A
@@ -59606,7 +59243,6 @@ module stdlib_linalg_lapack_s
            if (mu > 0) call stdlib_slatrz(mu, n, n - m, a, lda, tau, work)
            work(1) = lwkopt
            return
-           ! end of stdlib_stzrzf
      end subroutine stdlib_stzrzf
 
      ! SGEBRD reduces a general real M-by-N matrix A to upper or lower
@@ -59633,7 +59269,7 @@ module stdlib_linalg_lapack_s
            info = 0
            nb = max(1, stdlib_ilaenv(1, 'stdlib_sgebrd', ' ', m, n, -1, -1))
            lwkopt = (m + n)*nb
-           work(1) = real(lwkopt)
+           work(1) = real(lwkopt, KIND=sp)
            lquery = (lwork == -1)
            if (m < 0) then
               info = -1
@@ -59710,7 +59346,6 @@ module stdlib_linalg_lapack_s
                      work, iinfo)
            work(1) = ws
            return
-           ! end of stdlib_sgebrd
      end subroutine stdlib_sgebrd
 
      ! SGEHRD reduces a real general matrix A to upper Hessenberg form H by
@@ -59838,7 +59473,6 @@ module stdlib_linalg_lapack_s
            call stdlib_sgehd2(n, i, ihi, a, lda, tau, work, iinfo)
            work(1) = lwkopt
            return
-           ! end of stdlib_sgehrd
      end subroutine stdlib_sgehrd
 
      ! DGELQT computes a blocked LQ factorization of a real M-by-N matrix A
@@ -59888,7 +59522,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_sgelqt
      end subroutine stdlib_sgelqt
 
      ! SGELS solves overdetermined or underdetermined real linear systems
@@ -59973,7 +59606,7 @@ module stdlib_linalg_lapack_s
                  end if
               end if
               wsize = max(1, mn + max(mn, nrhs)*nb)
-              work(1) = real(wsize)
+              work(1) = real(wsize, KIND=sp)
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_sgels ', -info)
@@ -60105,10 +59738,9 @@ module stdlib_linalg_lapack_s
            else if (ibscl == 2) then
               call stdlib_slascl('g', 0, 0, bignum, bnrm, scllen, nrhs, b, ldb, info)
            end if
-50      continue
-           work(1) = real(wsize)
+50         continue
+           work(1) = real(wsize, KIND=sp)
            return
-           ! end of stdlib_sgels
      end subroutine stdlib_sgels
 
      ! SGEMLQ overwrites the general real M-by-N matrix C with
@@ -60181,7 +59813,7 @@ module stdlib_linalg_lapack_s
              info = -13
            end if
            if (info == 0) then
-             work(1) = real(lw)
+             work(1) = real(lw, KIND=sp)
            end if
            if (info /= 0) then
              call stdlib_xerbla('stdlib_sgemlq', -info)
@@ -60201,9 +59833,8 @@ module stdlib_linalg_lapack_s
              call stdlib_slamswlq(side, trans, m, n, k, mb, nb, a, lda, t(6), mb, c, ldc, work, &
                        lwork, info)
            end if
-           work(1) = real(lw)
+           work(1) = real(lw, KIND=sp)
            return
-           ! end of stdlib_sgemlq
      end subroutine stdlib_sgemlq
 
      ! SGEMQR overwrites the general real M-by-N matrix C with
@@ -60298,7 +59929,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lw
            return
-           ! end of stdlib_sgemqr
      end subroutine stdlib_sgemqr
 
      ! SGEQP3 computes a QR factorization with column pivoting of a
@@ -60429,7 +60059,7 @@ module stdlib_linalg_lapack_s
                  j = nfxd + 1
                  ! compute factorization: while loop.
                  topbmn = minmn - nx
-30      continue
+30               continue
                  if (j <= topbmn) then
                     jb = min(nb, topbmn - j + 1)
                     ! factorize jb columns among columns j:n.
@@ -60447,7 +60077,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = iws
            return
-           ! end of stdlib_sgeqp3
      end subroutine stdlib_sgeqp3
 
      ! SGEQRT computes a blocked QR factorization of a real M-by-N matrix A
@@ -60503,7 +60132,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_sgeqrt
      end subroutine stdlib_sgeqrt
 
      ! SGESV computes the solution to a real system of linear equations
@@ -60551,7 +60179,6 @@ module stdlib_linalg_lapack_s
               call stdlib_sgetrs('no transpose', n, nrhs, a, lda, ipiv, b, ldb, info)
            end if
            return
-           ! end of stdlib_sgesv
      end subroutine stdlib_sgesv
 
      ! SGESVX uses the LU factorization to compute the solution to a real
@@ -60753,7 +60380,6 @@ module stdlib_linalg_lapack_s
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            work(1) = rpvgrw
            return
-           ! end of stdlib_sgesvx
      end subroutine stdlib_sgesvx
 
      ! SGGES computes for a pair of N-by-N real nonsymmetric matrices (A,B),
@@ -61069,10 +60695,9 @@ module stdlib_linalg_lapack_s
                  lastsl = cursl
               end do
            end if
-40      continue
+40         continue
            work(1) = maxwrk
            return
-           ! end of stdlib_sgges
      end subroutine stdlib_sgges
 
      ! SGGESX computes for a pair of N-by-N real nonsymmetric matrices
@@ -61438,11 +61063,10 @@ module stdlib_linalg_lapack_s
                  lastsl = cursl
               end do
            end if
-50      continue
+50         continue
            work(1) = maxwrk
            iwork(1) = liwmin
            return
-           ! end of stdlib_sggesx
      end subroutine stdlib_sggesx
 
      ! SGGEV computes for a pair of N-by-N real nonsymmetric matrices (A,B)
@@ -61730,7 +61354,7 @@ module stdlib_linalg_lapack_s
               ! end of eigenvector calculation
            end if
            ! undo scaling if necessary
-110    continue
+110  continue
            if (ilascl) then
               call stdlib_slascl('g', 0, 0, anrmto, anrm, n, 1, alphar, n, ierr)
               call stdlib_slascl('g', 0, 0, anrmto, anrm, n, 1, alphai, n, ierr)
@@ -61740,7 +61364,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = maxwrk
            return
-           ! end of stdlib_sggev
      end subroutine stdlib_sggev
 
      ! SGGEVX computes for a pair of N-by-N real nonsymmetric matrices (A,B)
@@ -62123,7 +61746,7 @@ module stdlib_linalg_lapack_s
               end do loop_120
            end if
            ! undo scaling if necessary
-130    continue
+130  continue
            if (ilascl) then
               call stdlib_slascl('g', 0, 0, anrmto, anrm, n, 1, alphar, n, ierr)
               call stdlib_slascl('g', 0, 0, anrmto, anrm, n, 1, alphai, n, ierr)
@@ -62133,7 +61756,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = maxwrk
            return
-           ! end of stdlib_sggevx
      end subroutine stdlib_sggevx
 
      ! SGGGLM solves a general Gauss-Markov linear model (GLM) problem:
@@ -62268,7 +61890,6 @@ module stdlib_linalg_lapack_s
                      m + 1), y, max(1, p), work(m + np + 1), lwork - m - np, info)
            work(1) = m + np + max(lopt, int(work(m + np + 1), KIND=ilp))
            return
-           ! end of stdlib_sggglm
      end subroutine stdlib_sggglm
 
      ! SGGLSE solves the linear equality-constrained least squares (LSE)
@@ -62399,7 +62020,6 @@ module stdlib_linalg_lapack_s
                      ), lwork - p - mn, info)
            work(1) = p + mn + max(lopt, int(work(p + mn + 1), KIND=ilp))
            return
-           ! end of stdlib_sgglse
      end subroutine stdlib_sgglse
 
      ! SHSEIN uses inverse iteration to find specified right and/or left
@@ -62510,13 +62130,13 @@ module stdlib_linalg_lapack_s
                     do i = k, kl + 1, -1
                        if (h(i, i - 1) == zero) go to 30
                     end do
-30      continue
+30                  continue
                     kl = i
                     if (k > kr) then
                        do i = k, n - 1
                           if (h(i + 1, i) == zero) go to 50
                        end do
-50      continue
+50                     continue
                        kr = i
                     end if
                  end if
@@ -62539,7 +62159,7 @@ module stdlib_linalg_lapack_s
                  ! h(kl:kr,kl:kr). close roots are modified by eps3.
                  wkr = wr(k)
                  wki = wi(k)
-60      continue
+60               continue
                  do i = k - 1, kl, -1
                     if (select(i) .and. abs(wr(i) - wkr) + abs(wi(i) - wki) < eps3) &
                               then
@@ -62613,7 +62233,6 @@ module stdlib_linalg_lapack_s
               end if
            end do loop_120
            return
-           ! end of stdlib_shsein
      end subroutine stdlib_shsein
 
      ! SLA_PORPVGRW computes the reciprocal pivot growth factor
@@ -62687,7 +62306,7 @@ module stdlib_linalg_lapack_s
               do i = 1, ncols
                  umax = work(i)
                  amax = work(ncols + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
@@ -62695,13 +62314,12 @@ module stdlib_linalg_lapack_s
               do i = 1, ncols
                  umax = work(i)
                  amax = work(ncols + i)
-                 if (umax /= zero) then
+                 if (umax /= 0.0_sp) then
                     rpvgrw = min(amax/umax, rpvgrw)
                  end if
               end do
            end if
            stdlib_sla_porpvgrw = rpvgrw
-           ! end of stdlib_sla_porpvgrw
      end function stdlib_sla_porpvgrw
 
      ! SLAED3 finds the roots of the secular equation, as defined by the
@@ -62814,7 +62432,7 @@ module stdlib_linalg_lapack_s
               end do
            end do
            ! compute the updated eigenvectors.
-110    continue
+110  continue
            n2 = n - n1
            n12 = ctot(1) + ctot(2)
            n23 = ctot(2) + ctot(3)
@@ -62832,9 +62450,8 @@ module stdlib_linalg_lapack_s
            else
               call stdlib_slaset('a', n1, k, zero, zero, q(1, 1), ldq)
            end if
-120    continue
+120        continue
            return
-           ! end of stdlib_slaed3
      end subroutine stdlib_slaed3
 
      ! SLAED7 computes the updated eigensystem of a diagonal
@@ -62964,9 +62581,8 @@ module stdlib_linalg_lapack_s
                  indxq(i) = i
               end do
            end if
-30      continue
+30         continue
            return
-           ! end of stdlib_slaed7
      end subroutine stdlib_slaed7
 
      ! SLAEXC swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in
@@ -63041,7 +62657,7 @@ module stdlib_linalg_lapack_s
               ! swap the adjacent diagonal blocks.
               k = n1 + n1 + n2 - 3
               go to(10, 20, 30) k
-10      continue
+10            continue
               ! n1 = 1, n2 = 2: generate elementary reflector h so that:
               ! ( scale, x11, x12 ) h = ( 0, 0, * )
               u(1) = scale
@@ -63067,7 +62683,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_slarfx('r', n, 3, u, tau, q(1, j1), ldq, work)
               end if
               go to 40
-20      continue
+20            continue
               ! n1 = 2, n2 = 1: generate elementary reflector h so that:
               ! h (  -x11 ) = ( * )
                 ! (  -x21 ) = ( 0 )
@@ -63095,7 +62711,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_slarfx('r', n, 3, u, tau, q(1, j1), ldq, work)
               end if
               go to 40
-30      continue
+30            continue
               ! n1 = 2, n2 = 2: generate elementary reflectors h(1) and h(2) so
               ! that:
               ! h(2) h(1) (  -x11  -x12 ) = (  *  * )
@@ -63135,7 +62751,7 @@ module stdlib_linalg_lapack_s
                  call stdlib_slarfx('r', n, 3, u1, tau1, q(1, j1), ldq, work)
                  call stdlib_slarfx('r', n, 3, u2, tau2, q(1, j2), ldq, work)
               end if
-40      continue
+40            continue
               if (n2 == 2) then
                  ! standardize new 2-by-2 block t11
                  call stdlib_slanv2(t(j1, j1), t(j1, j2), t(j2, j1), t(j2, j2), wr1, wi1, &
@@ -63160,7 +62776,6 @@ module stdlib_linalg_lapack_s
            ! exit with info = 1 if swap was rejected.
 50      info = 1
            return
-           ! end of stdlib_slaexc
      end subroutine stdlib_slaexc
 
      ! SLAHQR is an auxiliary routine called by SHSEQR to update the
@@ -63214,7 +62829,7 @@ module stdlib_linalg_lapack_s
            safmax = one/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(nh)/ulp)
+           smlnum = safmin*(real(nh, KIND=sp)/ulp)
            ! i1 and i2 are the indices of the first row and last column of h
            ! to which transformations must be applied. if eigenvalues only are
            ! being computed, i1 and i2 are set inside the main loop.
@@ -63232,7 +62847,7 @@ module stdlib_linalg_lapack_s
            ! eigenvalues i+1 to ihi have already converged. either l = ilo or
            ! h(l,l-1) is negligible so that the matrix splits.
            i = ihi
-20      continue
+20         continue
            l = ilo
            if (i < ilo) go to 160
            ! perform qr iterations on rows and columns ilo to i until a
@@ -63260,7 +62875,7 @@ module stdlib_linalg_lapack_s
                     if (ba*(ab/s) <= max(smlnum, ulp*(bb*(aa/s)))) go to 40
                  end if
               end do
-40      continue
+40            continue
               l = k
               if (l > ilo) then
                  ! h(l,l-1) is negligible
@@ -63319,7 +62934,7 @@ module stdlib_linalg_lapack_s
                     rt1i = rtdisc*s
                     rt2i = -rt1i
                  else
-                    ! ==== real shifts (use only one of them)  ====
+                    ! ==== realshifts (use only one of them,KIND=sp)  ====
                     rt1r = tr + rtdisc
                     rt2r = tr - rtdisc
                     if (abs(rt1r - h22) <= abs(rt2r - h22)) then
@@ -63354,7 +62969,7 @@ module stdlib_linalg_lapack_s
                  if (abs(h(m, m - 1))*(abs(v(2)) + abs(v(3))) <= ulp*abs(v(1))*(abs( &
                            h(m - 1, m - 1)) + abs(h(m, m)) + abs(h(m + 1, m + 1)))) go to 60
               end do
-60      continue
+60            continue
               ! double-shift qr step
               loop_130: do k = m, i - 1
                  ! the first iteration of this loop determines a reflection g
@@ -63437,7 +63052,7 @@ module stdlib_linalg_lapack_s
            ! failure to converge in remaining number of iterations
            info = i
            return
-150    continue
+150        continue
            if (l == i) then
               ! h(i,i-1) is negligible: one eigenvalue has converged.
               wr(i) = h(i, i)
@@ -63464,9 +63079,8 @@ module stdlib_linalg_lapack_s
            ! return to start of the main loop with new value of i.
            i = l - 1
            go to 20
-160    continue
+160        continue
            return
-           ! end of stdlib_slahqr
      end subroutine stdlib_slahqr
 
      ! SLASD2 merges the two sets of singular values together into a single
@@ -63596,9 +63210,9 @@ module stdlib_linalg_lapack_s
                  go to 90
               end if
            end do
-90      continue
+90         continue
            j = jprev
-100    continue
+100        continue
            j = j + 1
            if (j > n) go to 110
            if (abs(z(j)) <= tol) then
@@ -63647,13 +63261,13 @@ module stdlib_linalg_lapack_s
               end if
            end if
            go to 100
-110    continue
+110        continue
            ! record the last singular value.
            k = k + 1
            u2(k, 1) = z(jprev)
            dsigma(k) = d(jprev)
            idxp(k) = jprev
-120    continue
+120        continue
            ! count up the total number of the various types of columns, then
            ! form a permutation which positions the four column types into
            ! four groups of uniform structure (although one or more of these
@@ -63750,7 +63364,6 @@ module stdlib_linalg_lapack_s
               coltyp(j) = ctot(j)
            end do
            return
-           ! end of stdlib_slasd2
      end subroutine stdlib_slasd2
 
      ! SLASWLQ computes a blocked Tall-Skinny LQ factorization of
@@ -63833,7 +63446,6 @@ module stdlib_linalg_lapack_s
             end if
            work(1) = m*mb
            return
-           ! end of stdlib_slaswlq
      end subroutine stdlib_slaswlq
 
      ! SLATSQR computes a blocked Tall-Skinny QR factorization of
@@ -63917,7 +63529,6 @@ module stdlib_linalg_lapack_s
             end if
            work(1) = n*nb
            return
-           ! end of stdlib_slatsqr
      end subroutine stdlib_slatsqr
 
      ! SORGBR generates one of the real orthogonal matrices Q or P**T
@@ -64064,7 +63675,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sorgbr
      end subroutine stdlib_sorgbr
 
      ! If VECT = 'Q', SORMBR overwrites the general real M-by-N matrix C
@@ -64224,7 +63834,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_sormbr
      end subroutine stdlib_sormbr
 
      ! SPBSV computes the solution to a real system of linear equations
@@ -64278,7 +63887,6 @@ module stdlib_linalg_lapack_s
               call stdlib_spbtrs(uplo, n, kd, nrhs, ab, ldab, b, ldb, info)
            end if
            return
-           ! end of stdlib_spbsv
      end subroutine stdlib_spbsv
 
      ! SPBSVX uses the Cholesky factorization A = U**T*U or A = L*L**T to
@@ -64433,7 +64041,6 @@ module stdlib_linalg_lapack_s
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_spbsvx
      end subroutine stdlib_spbsvx
 
      ! SPFTRF computes the Cholesky factorization of a real symmetric
@@ -64608,7 +64215,6 @@ module stdlib_linalg_lapack_s
               end if
            end if
            return
-           ! end of stdlib_spftrf
      end subroutine stdlib_spftrf
 
      ! SPOSV computes the solution to a real system of linear equations
@@ -64659,7 +64265,6 @@ module stdlib_linalg_lapack_s
               call stdlib_spotrs(uplo, n, nrhs, a, lda, b, ldb, info)
            end if
            return
-           ! end of stdlib_sposv
      end subroutine stdlib_sposv
 
      ! SPOSVX uses the Cholesky factorization A = U**T*U or A = L*L**T to
@@ -64801,7 +64406,6 @@ module stdlib_linalg_lapack_s
            ! set info = n+1 if the matrix is singular to working precision.
            if (rcond < stdlib_slamch('epsilon')) info = n + 1
            return
-           ! end of stdlib_sposvx
      end subroutine stdlib_sposvx
 
      ! STREXC reorders the real Schur factorization of a real matrix
@@ -64878,7 +64482,7 @@ module stdlib_linalg_lapack_s
               if (nbf == 2 .and. nbl == 1) ilst = ilst - 1
               if (nbf == 1 .and. nbl == 2) ilst = ilst + 1
               here = ifst
-10      continue
+10            continue
               ! swap block with next one below
               if (nbf == 1 .or. nbf == 2) then
                  ! current block either 1 by 1 or 2 by 2
@@ -64940,7 +64544,7 @@ module stdlib_linalg_lapack_s
               if (here < ilst) go to 10
            else
               here = ifst
-20      continue
+20            continue
               ! swap block with next one above
               if (nbf == 1 .or. nbf == 2) then
                  ! current block either 1 by 1 or 2 by 2
@@ -65003,7 +64607,6 @@ module stdlib_linalg_lapack_s
            end if
            ilst = here
            return
-           ! end of stdlib_strexc
      end subroutine stdlib_strexc
 
      ! STRSEN reorders the real Schur factorization of a real matrix
@@ -65166,7 +64769,7 @@ module stdlib_linalg_lapack_s
               ! estimate sep(t11,t22).
               est = zero
               kase = 0
-30      continue
+30            continue
               call stdlib_slacn2(nn, work(nn + 1), work, iwork, est, kase, isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -65182,7 +64785,7 @@ module stdlib_linalg_lapack_s
               end if
               sep = scale/est
            end if
-40      continue
+40         continue
            ! store the output eigenvalues in wr and wi.
            do k = 1, n
               wr(k) = t(k, k)
@@ -65197,7 +64800,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_strsen
      end subroutine stdlib_strsen
 
      ! STRSNA estimates reciprocal condition numbers for specified
@@ -65406,7 +65008,7 @@ module stdlib_linalg_lapack_s
                     ! estimate norm(inv(c**t))
                     est = zero
                     kase = 0
-50      continue
+50                  continue
                     call stdlib_slacn2(nn, work(1, n + 2), work(1, n + 4), iwork, est, kase, &
                               isave)
                     if (kase /= 0) then
@@ -65442,7 +65044,6 @@ module stdlib_linalg_lapack_s
               if (pair) ks = ks + 1
            end do loop_60
            return
-           ! end of stdlib_strsna
      end subroutine stdlib_strsna
 
      ! SGELQ computes an LQ factorization of a real M-by-N matrix A:
@@ -65566,7 +65167,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwreq
            return
-           ! end of stdlib_sgelq
      end subroutine stdlib_sgelq
 
      ! SGELSY computes the minimum-norm solution to a real linear least
@@ -65725,7 +65325,7 @@ module stdlib_linalg_lapack_s
            else
               rank = 1
            end if
-10      continue
+10         continue
            if (rank < mn) then
               i = rank + 1
               call stdlib_slaic1(imin, rank, work(ismin), smin, a(1, i), a(i, i), sminpr, &
@@ -65794,10 +65394,9 @@ module stdlib_linalg_lapack_s
            else if (ibscl == 2) then
               call stdlib_slascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
-70      continue
+70         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_sgelsy
      end subroutine stdlib_sgelsy
 
      ! SGEQR computes a QR factorization of a real M-by-N matrix A:
@@ -65911,7 +65510,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = max(1, nb*n)
            return
-           ! end of stdlib_sgeqr
      end subroutine stdlib_sgeqr
 
      ! SGETSLS solves overdetermined or underdetermined real linear systems
@@ -66006,14 +65604,14 @@ module stdlib_linalg_lapack_s
             if ((lwork < wsizem) .and. (.not. lquery)) then
                info = -10
             end if
-            work(1) = real(wsizeo)
+            work(1) = real(wsizeo, KIND=sp)
            end if
            if (info /= 0) then
              call stdlib_xerbla('stdlib_sgetsls', -info)
              return
            end if
            if (lquery) then
-             if (lwork == -2) work(1) = real(wsizem)
+             if (lwork == -2) work(1) = real(wsizem, KIND=sp)
              return
            end if
            if (lwork < wsizeo) then
@@ -66143,10 +65741,9 @@ module stdlib_linalg_lapack_s
            else if (ibscl == 2) then
              call stdlib_slascl('g', 0, 0, bignum, bnrm, scllen, nrhs, b, ldb, info)
            end if
-50      continue
-           work(1) = real(tszo + lwo)
+50         continue
+           work(1) = real(tszo + lwo, KIND=sp)
            return
-           ! end of stdlib_sgetsls
      end subroutine stdlib_sgetsls
 
      ! SGETSQRHRT computes a NB2-sized column blocked QR-factorization
@@ -66208,7 +65805,8 @@ module stdlib_linalg_lapack_s
               else
                  ! set block size for column blocks
                  nb1local = min(nb1, n)
-                 num_all_row_blocks = max(1, ceiling(real(m - n)/real(mb1 - n)))
+                 num_all_row_blocks = max(1, ceiling(real(m - n, KIND=sp)/real(mb1 - n, &
+                           KIND=sp)))
                  ! length and leading dimension of work array to place
                  ! t array in tsqr.
                  lwt = num_all_row_blocks*n*nb1local
@@ -66228,12 +65826,12 @@ module stdlib_linalg_lapack_s
               call stdlib_xerbla('stdlib_sgetsqrhrt', -info)
               return
            else if (lquery) then
-              work(1) = real(lworkopt)
+              work(1) = real(lworkopt, KIND=sp)
               return
            end if
            ! quick return if possible
            if (min(m, n) == 0) then
-              work(1) = real(lworkopt)
+              work(1) = real(lworkopt, KIND=sp)
               return
            end if
            nb2local = min(nb2, n)
@@ -66274,9 +65872,8 @@ module stdlib_linalg_lapack_s
                  call stdlib_scopy(n - i + 1, work(lwt + n*(i - 1) + i), n, a(i, i), lda)
               end if
            end do
-           work(1) = real(lworkopt)
+           work(1) = real(lworkopt, KIND=sp)
            return
-           ! end of stdlib_sgetsqrhrt
      end subroutine stdlib_sgetsqrhrt
 
      ! SLAED2 merges the two sets of eigenvalues together into a single
@@ -66394,7 +65991,7 @@ module stdlib_linalg_lapack_s
                  go to 80
               end if
            end do
-80      continue
+80         continue
            j = j + 1
            nj = indx(j)
            if (j > n) go to 100
@@ -66425,7 +66022,7 @@ module stdlib_linalg_lapack_s
                  d(pj) = t
                  k2 = k2 - 1
                  i = 1
-90      continue
+90               continue
                  if (k2 + i <= n) then
                     if (d(pj) < d(indxp(k2 + i))) then
                        indxp(k2 + i - 1) = indxp(k2 + i)
@@ -66448,7 +66045,7 @@ module stdlib_linalg_lapack_s
               end if
            end if
            go to 80
-100    continue
+100        continue
            ! record the last eigenvalue.
            k = k + 1
            dlamda(k) = d(pj)
@@ -66529,9 +66126,8 @@ module stdlib_linalg_lapack_s
            do j = 1, 4
               coltyp(j) = ctot(j)
            end do
-190    continue
+190        continue
            return
-           ! end of stdlib_slaed2
      end subroutine stdlib_slaed2
 
      ! SLAQR2 is identical to SLAQR3 except that it avoids
@@ -66586,7 +66182,7 @@ module stdlib_linalg_lapack_s
            end if
            ! ==== quick return in case of workspace query. ====
            if (lwork == -1) then
-              work(1) = real(lwkopt)
+              work(1) = real(lwkopt, KIND=sp)
               return
            end if
            ! ==== nothing to do ...
@@ -66602,7 +66198,7 @@ module stdlib_linalg_lapack_s
            safmax = one/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            ! ==== setup deflation window ====
            jw = min(nw, kbot - ktop + 1)
            kwtop = kbot - jw + 1
@@ -66644,7 +66240,7 @@ module stdlib_linalg_lapack_s
            ! ==== deflation detection loop ====
            ns = jw
            ilst = infqr + 1
-20      continue
+20         continue
            if (ilst <= ns) then
               if (ns == 1) then
                  bulge = .false.
@@ -66695,7 +66291,7 @@ module stdlib_linalg_lapack_s
               ! .    exchange failures. ====
               sorted = .false.
               i = ns + 1
-30      continue
+30            continue
               if (sorted) go to 50
               sorted = .true.
               kend = i - 1
@@ -66707,7 +66303,7 @@ module stdlib_linalg_lapack_s
               else
                  k = i + 2
               end if
-40      continue
+40            continue
               if (k <= kend) then
                  if (k == i + 1) then
                     evi = abs(t(i, i))
@@ -66746,11 +66342,11 @@ module stdlib_linalg_lapack_s
                  go to 40
               end if
               go to 30
-50      continue
+50            continue
            end if
            ! ==== restore shift/eigenvalue array from t ====
            i = jw
-60      continue
+60         continue
            if (i >= infqr + 1) then
               if (i == infqr + 1) then
                  sr(kwtop + i - 1) = t(i, i)
@@ -66833,8 +66429,7 @@ module stdlib_linalg_lapack_s
            ! .    window.)  ====
            ns = ns - infqr
             ! ==== return optimal workspace. ====
-           work(1) = real(lwkopt)
-           ! ==== end of stdlib_slaqr2 ====
+           work(1) = real(lwkopt, KIND=sp)
      end subroutine stdlib_slaqr2
 
      ! SLASD1 computes the SVD of an upper bidiagonal N-by-M matrix B,
@@ -66947,7 +66542,6 @@ module stdlib_linalg_lapack_s
            n2 = n - k
            call stdlib_slamrg(n1, n2, d, 1, -1, idxq)
            return
-           ! end of stdlib_slasd1
      end subroutine stdlib_slasd1
 
      ! SLAED1 computes the updated eigensystem of a diagonal
@@ -67046,9 +66640,8 @@ module stdlib_linalg_lapack_s
                  indxq(i) = i
               end do
            end if
-20      continue
+20         continue
            return
-           ! end of stdlib_slaed1
      end subroutine stdlib_slaed1
 
      ! SLAED0 computes all eigenvalues and corresponding eigenvectors of a
@@ -67099,7 +66692,7 @@ module stdlib_linalg_lapack_s
            iwork(1) = n
            subpbs = 1
            tlvls = 0
-10      continue
+10         continue
            if (iwork(subpbs) > smlsiz) then
               do j = subpbs, 1, -1
                  iwork(2*j) = (iwork(j) + 1)/2
@@ -67125,7 +66718,7 @@ module stdlib_linalg_lapack_s
            if (icompq /= 2) then
               ! set up workspaces for eigenvalues only/accumulate new vectors
               ! routine
-              temp = log(real(n))/log(two)
+              temp = log(real(n, KIND=sp))/log(two)
               lgn = int(temp, KIND=ilp)
               if (2**lgn < n) lgn = lgn + 1
               if (2**lgn < n) lgn = lgn + 1
@@ -67181,7 +66774,7 @@ module stdlib_linalg_lapack_s
            ! into eigensystem for the corresponding larger matrix.
            ! while ( subpbs > 1 )
            curlvl = 1
-80      continue
+80         continue
            if (subpbs > 1) then
               spm2 = subpbs - 2
               loop_90: do i = 0, spm2, 2
@@ -67247,11 +66840,10 @@ module stdlib_linalg_lapack_s
               call stdlib_scopy(n, work, 1, d, 1)
            end if
            go to 140
-130    continue
+130        continue
            info = submat*(n + 1) + submat + matsiz - 1
-140    continue
+140        continue
            return
-           ! end of stdlib_slaed0
      end subroutine stdlib_slaed0
 
      ! SSTEDC computes all eigenvalues and, optionally, eigenvectors of a
@@ -67315,7 +66907,7 @@ module stdlib_linalg_lapack_s
                  liwmin = 1
                  lwmin = 2*(n - 1)
               else
-                 lgn = int(log(real(n))/log(two))
+                 lgn = int(log(real(n, KIND=sp))/log(two), KIND=ilp)
                  if (2**lgn < n) lgn = lgn + 1
                  if (2**lgn < n) lgn = lgn + 1
                  if (icompz == 1) then
@@ -67380,7 +66972,7 @@ module stdlib_linalg_lapack_s
               eps = stdlib_slamch('epsilon')
               start = 1
               ! while ( start <= n )
-10      continue
+10   continue
               if (start <= n) then
                  ! let finish be the position of the next subdiagonal entry
                  ! such that e( finish ) <= tiny or finish = n if no such
@@ -67388,7 +66980,7 @@ module stdlib_linalg_lapack_s
                  ! between start and finish constitutes an independent
                  ! sub-problem.
                  finish = start
-20      continue
+20               continue
                  if (finish < n) then
                     tiny = eps*sqrt(abs(d(finish)))*sqrt(abs(d(finish + 1)))
                     if (abs(e(finish)) > tiny) then
@@ -67471,11 +67063,10 @@ module stdlib_linalg_lapack_s
                 end do
               end if
            end if
-50      continue
+50         continue
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_sstedc
      end subroutine stdlib_sstedc
 
      ! SSTEVD computes all eigenvalues and, optionally, eigenvectors of a
@@ -67578,7 +67169,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_sstevd
      end subroutine stdlib_sstevd
 
      ! SSYEVD computes all eigenvalues and, optionally, eigenvectors of a
@@ -67711,7 +67301,6 @@ module stdlib_linalg_lapack_s
            work(1) = lopt
            iwork(1) = liopt
            return
-           ! end of stdlib_ssyevd
      end subroutine stdlib_ssyevd
 
      ! SSYGVD computes all the eigenvalues, and optionally, the eigenvectors
@@ -67802,8 +67391,8 @@ module stdlib_linalg_lapack_s
            ! transform problem to standard eigenvalue problem and solve.
            call stdlib_ssygst(itype, uplo, n, a, lda, b, ldb, info)
            call stdlib_ssyevd(jobz, uplo, n, a, lda, w, work, lwork, iwork, liwork, info)
-           lopt = max(real(lopt), real(work(1)))
-           liopt = max(real(liopt), real(iwork(1)))
+           lopt = max(real(lopt, KIND=sp), real(work(1), KIND=sp))
+           liopt = max(real(liopt, KIND=sp), real(iwork(1), KIND=sp))
            if (wantz .and. info == 0) then
               ! backtransform eigenvectors to the original problem.
               if (itype == 1 .or. itype == 2) then
@@ -67831,7 +67420,6 @@ module stdlib_linalg_lapack_s
            work(1) = lopt
            iwork(1) = liopt
            return
-           ! end of stdlib_ssygvd
      end subroutine stdlib_ssygvd
 
      ! SSBEVD computes all the eigenvalues and, optionally, eigenvectors of
@@ -67962,7 +67550,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_ssbevd
      end subroutine stdlib_ssbevd
 
      ! SSBGVD computes all the eigenvalues, and optionally, the eigenvectors
@@ -68078,7 +67665,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_ssbgvd
      end subroutine stdlib_ssbgvd
 
      ! SSPEVD computes all the eigenvalues and, optionally, eigenvectors
@@ -68202,7 +67788,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_sspevd
      end subroutine stdlib_sspevd
 
      ! SSPGVD computes all the eigenvalues, and optionally, the eigenvectors
@@ -68292,8 +67877,8 @@ module stdlib_linalg_lapack_s
            call stdlib_sspgst(itype, uplo, n, ap, bp, info)
            call stdlib_sspevd(jobz, uplo, n, ap, w, z, ldz, work, lwork, iwork, liwork, info)
                      
-           lwmin = max(real(lwmin), real(work(1)))
-           liwmin = max(real(liwmin), real(iwork(1)))
+           lwmin = max(real(lwmin, KIND=sp), real(work(1), KIND=sp))
+           liwmin = max(real(liwmin, KIND=sp), real(iwork(1), KIND=sp))
            if (wantz) then
               ! backtransform eigenvectors to the original problem.
               neig = n
@@ -68325,7 +67910,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_sspgvd
      end subroutine stdlib_sspgvd
 
      ! SBDSDC computes the singular value decomposition (SVD) of a real
@@ -68475,7 +68059,8 @@ module stdlib_linalg_lapack_s
            call stdlib_slascl('g', 0, 0, orgnrm, one, n, 1, d, n, ierr)
            call stdlib_slascl('g', 0, 0, orgnrm, one, nm1, 1, e, nm1, ierr)
            eps = stdlib_slamch('epsilon')
-           mlvl = int(log(real(n)/real(smlsiz + 1))/log(two)) + 1
+           mlvl = int(log(real(n, KIND=sp)/real(smlsiz + 1, KIND=sp))/log(two), KIND=ilp) + &
+                     1
            smlszp = smlsiz + 1
            if (icompq == 1) then
               iu = 1
@@ -68543,7 +68128,7 @@ module stdlib_linalg_lapack_s
            end do loop_30
            ! unscale
            call stdlib_slascl('g', 0, 0, one, orgnrm, n, 1, d, n, ierr)
-40      continue
+40         continue
            ! use selection sort to minimize swaps of singular vectors
            do ii = 2, n
               i = ii - 1
@@ -68581,7 +68166,6 @@ module stdlib_linalg_lapack_s
            if ((iuplo == 2) .and. (icompq == 2)) call stdlib_slasr('l', 'v', 'b', n, n, work(1) &
                      , work(n), u, ldu)
            return
-           ! end of stdlib_sbdsdc
      end subroutine stdlib_sbdsdc
 
      ! SBDSQR computes the singular values and, optionally, the right and/or
@@ -68621,7 +68205,6 @@ module stdlib_linalg_lapack_s
            real(sp) :: c(ldc, *), d(*), e(*), u(ldu, *), vt(ldvt, *), work(*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: negone = -1.0_sp
            real(sp), parameter :: hndrth = 0.01_sp
            real(sp), parameter :: hndrd = 100.0_sp
            real(sp), parameter :: meigth = -0.125_sp
@@ -68720,8 +68303,8 @@ module stdlib_linalg_lapack_s
                  sminoa = min(sminoa, mu)
                  if (sminoa == zero) go to 50
               end do
-50      continue
-              sminoa = sminoa/sqrt(real(n))
+50            continue
+              sminoa = sminoa/sqrt(real(n, KIND=sp))
               thresh = max(tol*sminoa, maxitr*(n*(n*unfl)))
            else
               ! absolute accuracy desired
@@ -68738,7 +68321,7 @@ module stdlib_linalg_lapack_s
            ! m points to last element of unconverged part of matrix
            m = n
            ! begin main iteration loop
-60      continue
+60   continue
            ! check for convergence or exceeding iteration count
            if (m <= 1) go to 160
            if (iter >= n) then
@@ -68761,7 +68344,7 @@ module stdlib_linalg_lapack_s
            end do
            ll = 0
            go to 90
-80      continue
+80         continue
            e(ll) = zero
            ! matrix splits since e(ll) = 0
            if (ll == m - 1) then
@@ -68769,7 +68352,7 @@ module stdlib_linalg_lapack_s
               m = m - 1
               go to 60
            end if
-90      continue
+90         continue
            ll = ll + 1
            ! e(ll) through e(m-1) are nonzero, e(ll-1) is zero
            if (ll == m - 1) then
@@ -69000,7 +68583,7 @@ module stdlib_linalg_lapack_s
            ! qr iteration finished, go back and check convergence
            go to 60
            ! all singular values converged, so make them positive
-160    continue
+160  continue
            do i = 1, n
               if (d(i) < zero) then
                  d(i) = -d(i)
@@ -69033,14 +68616,13 @@ module stdlib_linalg_lapack_s
            end do
            go to 220
            ! maximum number of iterations exceeded, failure to converge
-200    continue
+200  continue
            info = 0
            do i = 1, n - 1
               if (e(i) /= zero) info = info + 1
            end do
-220    continue
+220        continue
            return
-           ! end of stdlib_sbdsqr
      end subroutine stdlib_sbdsqr
 
      ! SGEES computes for an N-by-N real nonsymmetric matrix A, the
@@ -69285,7 +68867,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = maxwrk
            return
-           ! end of stdlib_sgees
      end subroutine stdlib_sgees
 
      ! SGEESX computes for an N-by-N real nonsymmetric matrix A, the
@@ -69578,7 +69159,6 @@ module stdlib_linalg_lapack_s
               iwork(1) = 1
            end if
            return
-           ! end of stdlib_sgeesx
      end subroutine stdlib_sgeesx
 
      ! SGEEV computes for an N-by-N real nonsymmetric matrix A, the
@@ -69824,7 +69404,7 @@ module stdlib_linalg_lapack_s
               end do
            end if
            ! undo scaling if necessary
-50      continue
+50   continue
            if (scalea) then
               call stdlib_slascl('g', 0, 0, cscale, anrm, n - info, 1, wr(info + 1), max(n - info, 1 &
                         ), ierr)
@@ -69837,7 +69417,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = maxwrk
            return
-           ! end of stdlib_sgeev
      end subroutine stdlib_sgeev
 
      ! SGEEVX computes for an N-by-N real nonsymmetric matrix A, the
@@ -70132,7 +69711,7 @@ module stdlib_linalg_lapack_s
               end do
            end if
            ! undo scaling if necessary
-50      continue
+50   continue
            if (scalea) then
               call stdlib_slascl('g', 0, 0, cscale, anrm, n - info, 1, wr(info + 1), max(n - info, 1 &
                         ), ierr)
@@ -70148,7 +69727,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = maxwrk
            return
-           ! end of stdlib_sgeevx
      end subroutine stdlib_sgeevx
 
      ! SGEJSV computes the singular value decomposition (SVD) of a real M-by-N
@@ -70566,7 +70144,7 @@ module stdlib_linalg_lapack_s
                     go to 3002
                  end if
               end do
-3002  continue
+3002          continue
            else if (l2rank) then
               ! .. similarly as above, only slightly more gentle (less aggressive).
               ! sudden drop on the diagonal of r1 is used as the criterion for
@@ -70577,7 +70155,7 @@ module stdlib_linalg_lapack_s
                            l2kill .and. (abs(a(p, p)) < temp1))) go to 3402
                  nr = nr + 1
               end do
-3402  continue
+3402          continue
            else
               ! the goal is high relative accuracy. however, if the matrix
               ! has high scaled condition number the relative accuracy is in
@@ -70592,7 +70170,7 @@ module stdlib_linalg_lapack_s
                            3302
                  nr = nr + 1
               end do
-3302  continue
+3302          continue
            end if
            almort = .false.
            if (nr == n) then
@@ -71238,7 +70816,6 @@ module stdlib_linalg_lapack_s
            iwork(2) = numrank
            iwork(3) = warning
            return
-           ! .. end of stdlib_sgejsv
      end subroutine stdlib_sgejsv
 
      ! SGELSD computes the minimum-norm solution to a real linear least
@@ -71317,8 +70894,8 @@ module stdlib_linalg_lapack_s
               if (minmn > 0) then
                  smlsiz = stdlib_ilaenv(9, 'stdlib_sgelsd', ' ', 0, 0, 0, 0)
                  mnthr = stdlib_ilaenv(6, 'stdlib_sgelsd', ' ', m, n, nrhs, -1)
-                 nlvl = max(int(log(real(minmn)/real(smlsiz + 1))/log(two)) + 1, 0)
-                           
+                 nlvl = max(int(log(real(minmn, KIND=sp)/real(smlsiz + 1, KIND=sp))/log( &
+                           two), KIND=ilp) + 1, 0)
                  liwork = 3*minmn*nlvl + 11*minmn
                  mm = m
                  if (m >= n .and. m >= mnthr) then
@@ -71560,11 +71137,10 @@ module stdlib_linalg_lapack_s
            else if (ibscl == 2) then
               call stdlib_slascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
-10      continue
+10         continue
            work(1) = maxwrk
            iwork(1) = liwork
            return
-           ! end of stdlib_sgelsd
      end subroutine stdlib_sgelsd
 
      ! SGELSS computes the minimum norm solution to a real linear least
@@ -72000,10 +71576,9 @@ module stdlib_linalg_lapack_s
            else if (ibscl == 2) then
               call stdlib_slascl('g', 0, 0, bignum, bnrm, n, nrhs, b, ldb, info)
            end if
-70      continue
+70         continue
            work(1) = maxwrk
            return
-           ! end of stdlib_sgelss
      end subroutine stdlib_sgelss
 
      ! SGESDD computes the singular value decomposition (SVD) of a real
@@ -72973,7 +72548,6 @@ module stdlib_linalg_lapack_s
            ! return optimal workspace in work(1)
            work(1) = stdlib_sroundup_lwork(maxwrk)
            return
-           ! end of stdlib_sgesdd
      end subroutine stdlib_sgesdd
 
      ! SGESVD computes the singular value decomposition (SVD) of a real
@@ -75231,7 +74805,6 @@ module stdlib_linalg_lapack_s
            ! return optimal workspace in work(1)
            work(1) = maxwrk
            return
-           ! end of stdlib_sgesvd
      end subroutine stdlib_sgesvd
 
      ! SGESVDQ computes the singular value decomposition (SVD) of a real
@@ -75582,10 +75155,11 @@ module stdlib_linalg_lapack_s
                     rwork(2) = -1
                     return
                  end if
-                 if (rwork(1) > big/sqrt(real(m))) then
+                 if (rwork(1) > big/sqrt(real(m, KIND=sp))) then
                      ! .. to prevent overflow in the qr factorization, scale the
                      ! matrix by 1/sqrt(m) if too large entry detected
-                     call stdlib_slascl('g', 0, 0, sqrt(real(m)), one, m, n, a, lda, ierr)
+                     call stdlib_slascl('g', 0, 0, sqrt(real(m, KIND=sp)), one, m, n, a, lda, ierr)
+                               
                      ascaled = .true.
                  end if
                  call stdlib_slaswp(n, a, lda, 1, m - 1, iwork(n + 1), 1)
@@ -75601,10 +75175,11 @@ module stdlib_linalg_lapack_s
                     call stdlib_xerbla('stdlib_sgesvdq', -info)
                     return
                end if
-               if (rtmp > big/sqrt(real(m))) then
+               if (rtmp > big/sqrt(real(m, KIND=sp))) then
                    ! .. to prevent overflow in the qr factorization, scale the
                    ! matrix by 1/sqrt(m) if too large entry detected
-                   call stdlib_slascl('g', 0, 0, sqrt(real(m)), one, m, n, a, lda, ierr)
+                   call stdlib_slascl('g', 0, 0, sqrt(real(m, KIND=sp)), one, m, n, a, lda, ierr)
+                             
                    ascaled = .true.
                end if
            end if
@@ -75629,12 +75204,12 @@ module stdlib_linalg_lapack_s
               ! aggressive enforcement of lower numerical rank by introducing a
               ! backward error of the order of n*eps*||a||_f.
               nr = 1
-              rtmp = sqrt(real(n))*epsln
+              rtmp = sqrt(real(n, KIND=sp))*epsln
               do p = 2, n
                  if (abs(a(p, p)) < (rtmp*abs(a(1, 1)))) go to 3002
                     nr = nr + 1
               end do
-3002  continue
+3002          continue
            elseif (acclm) then
               ! .. similarly as above, only slightly more gentle (less aggressive).
               ! sudden drop on the diagonal of r is used as the criterion for being
@@ -75648,7 +75223,7 @@ module stdlib_linalg_lapack_s
                            to 3402
                  nr = nr + 1
               end do
-3402  continue
+3402          continue
            else
               ! .. rrqr not authorized to determine numerical rank except in the
               ! obvious case of zero pivots.
@@ -75659,7 +75234,7 @@ module stdlib_linalg_lapack_s
                  if (abs(a(p, p)) == zero) go to 3502
                  nr = nr + 1
               end do
-3502  continue
+3502          continue
               if (conda) then
                  ! estimate the scaled condition number of a. use the fact that it is
                  ! the same as the scaled condition number of r.
@@ -76078,14 +75653,14 @@ module stdlib_linalg_lapack_s
                if (s(q) > zero) go to 4002
                nr = nr - 1
            end do
-4002  continue
+4002       continue
            ! .. if numerical rank deficiency is detected, the truncated
            ! singular values are set to zero.
            if (nr < n) call stdlib_slaset('g', n - nr, 1, zero, zero, s(nr + 1), n)
            ! .. undo scaling; this may cause overflow in the largest singular
            ! values.
-           if (ascaled) call stdlib_slascl('g', 0, 0, one, sqrt(real(m)), nr, 1, s, n, ierr)
-                     
+           if (ascaled) call stdlib_slascl('g', 0, 0, one, sqrt(real(m, KIND=sp)), nr, 1, s, n, ierr &
+                     )
            if (conda) rwork(1) = sconda
            rwork(2) = p - nr
            ! .. p-nr is the number of singular values that are computed as
@@ -76093,7 +75668,6 @@ module stdlib_linalg_lapack_s
            ! full row rank triangular (trapezoidal) factor of a.
            numrank = nr
            return
-           ! end of stdlib_sgesvdq
      end subroutine stdlib_sgesvdq
 
      ! SGESVJ computes the singular value decomposition (SVD) of a real
@@ -76704,7 +76278,7 @@ module stdlib_linalg_lapack_s
                              end if
                           end do loop_2002
            ! end q-loop
-2103  continue
+2103 continue
            ! bailed out of q-loop
                           sva(p) = aapp
                        else
@@ -76953,7 +76527,7 @@ module stdlib_linalg_lapack_s
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203  continue
+2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
@@ -76963,7 +76537,7 @@ module stdlib_linalg_lapack_s
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011  continue
+2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
                     sva(p) = abs(sva(p))
@@ -76992,12 +76566,12 @@ module stdlib_linalg_lapack_s
        ! #:( reaching this point means that the procedure has not converged.
            info = nsweep - 1
            go to 1995
-1994  continue
+1994       continue
        ! #:) reaching this point means numerical convergence after the i-th
            ! sweep.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995  continue
+1995 continue
            ! sort the singular values and find how many are above
            ! the underflow threshold.
            n2 = 0
@@ -77069,7 +76643,6 @@ module stdlib_linalg_lapack_s
            ! mxsinj is the largest absolute value of the sines of jacobi angles
            ! in the last sweep
            return
-           ! .. end of stdlib_sgesvj
      end subroutine stdlib_sgesvj
 
      ! SGGES3 computes for a pair of N-by-N real nonsymmetric matrices (A,B),
@@ -77379,10 +76952,9 @@ module stdlib_linalg_lapack_s
                  lastsl = cursl
               end do
            end if
-40      continue
+40         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_sgges3
      end subroutine stdlib_sgges3
 
      ! SGGEV3 computes for a pair of N-by-N real nonsymmetric matrices (A,B)
@@ -77470,24 +77042,24 @@ module stdlib_linalg_lapack_s
            ! compute workspace
            if (info == 0) then
               call stdlib_sgeqrf(n, n, b, ldb, work, work, -1, ierr)
-              lwkopt = max(1, 8*n, 3*n + int(work(1)))
+              lwkopt = max(1, 8*n, 3*n + int(work(1), KIND=ilp))
               call stdlib_sormqr('l', 't', n, n, n, b, ldb, work, a, lda, work, -1, ierr)
-              lwkopt = max(lwkopt, 3*n + int(work(1)))
+              lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               call stdlib_sgghd3(jobvl, jobvr, n, 1, n, a, lda, b, ldb, vl, ldvl, vr, ldvr, work, &
                         -1, ierr)
-              lwkopt = max(lwkopt, 3*n + int(work(1)))
+              lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
               if (ilvl) then
                  call stdlib_sorgqr(n, n, n, vl, ldvl, work, work, -1, ierr)
-                 lwkopt = max(lwkopt, 3*n + int(work(1)))
+                 lwkopt = max(lwkopt, 3*n + int(work(1), KIND=ilp))
                  call stdlib_slaqz0('s', jobvl, jobvr, n, 1, n, a, lda, b, ldb, alphar, alphai, &
                            beta, vl, ldvl, vr, ldvr, work, -1, 0, ierr)
-                 lwkopt = max(lwkopt, 2*n + int(work(1)))
+                 lwkopt = max(lwkopt, 2*n + int(work(1), KIND=ilp))
               else
                  call stdlib_slaqz0('e', jobvl, jobvr, n, 1, n, a, lda, b, ldb, alphar, alphai, &
                            beta, vl, ldvl, vr, ldvr, work, -1, 0, ierr)
-                 lwkopt = max(lwkopt, 2*n + int(work(1)))
+                 lwkopt = max(lwkopt, 2*n + int(work(1), KIND=ilp))
               end if
-              work(1) = real(lwkopt)
+              work(1) = real(lwkopt, KIND=sp)
            end if
            if (info /= 0) then
               call stdlib_xerbla('stdlib_sggev3 ', -info)
@@ -77666,7 +77238,7 @@ module stdlib_linalg_lapack_s
               ! end of eigenvector calculation
            end if
            ! undo scaling if necessary
-110    continue
+110  continue
            if (ilascl) then
               call stdlib_slascl('g', 0, 0, anrmto, anrm, n, 1, alphar, n, ierr)
               call stdlib_slascl('g', 0, 0, anrmto, anrm, n, 1, alphai, n, ierr)
@@ -77674,9 +77246,8 @@ module stdlib_linalg_lapack_s
            if (ilbscl) then
               call stdlib_slascl('g', 0, 0, bnrmto, bnrm, n, 1, beta, n, ierr)
            end if
-           work(1) = real(lwkopt)
+           work(1) = real(lwkopt, KIND=sp)
            return
-           ! end of stdlib_sggev3
      end subroutine stdlib_sggev3
 
      ! SGSVJ0 is called from SGESVJ as a pre-processor and that is its main
@@ -78017,7 +77588,7 @@ module stdlib_linalg_lapack_s
                              end if
                           end do loop_2002
            ! end q-loop
-2103  continue
+2103 continue
            ! bailed out of q-loop
                           sva(p) = aapp
                        else
@@ -78263,7 +77834,7 @@ module stdlib_linalg_lapack_s
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203  continue
+2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
@@ -78273,7 +77844,7 @@ module stdlib_linalg_lapack_s
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011  continue
+2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
                     sva(p) = abs(sva(p))
@@ -78302,12 +77873,12 @@ module stdlib_linalg_lapack_s
            ! number of iterations.
            info = nsweep - 1
            go to 1995
-1994  continue
+1994       continue
        ! #:) reaching this point means that during the i-th sweep all pivots were
            ! below the given tolerance, causing early exit.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995  continue
+1995 continue
            ! sort the vector d.
            do p = 1, n - 1
               q = stdlib_isamax(n - p + 1, sva(p), 1) + p - 1
@@ -78323,7 +77894,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! .. end of stdlib_sgsvj0
      end subroutine stdlib_sgsvj0
 
      ! SGSVJ1 is called from SGESVJ as a pre-processor and that is its main
@@ -78690,7 +78260,7 @@ module stdlib_linalg_lapack_s
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203  continue
+2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1, n) - jgl + 1
@@ -78701,7 +78271,7 @@ module stdlib_linalg_lapack_s
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011  continue
+2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl, min(igl + kbl - 1, n)
                     sva(p) = abs(sva(p))
@@ -78731,12 +78301,12 @@ module stdlib_linalg_lapack_s
            ! number of sweeps.
            info = nsweep - 1
            go to 1995
-1994  continue
+1994       continue
        ! #:) reaching this point means that during the i-th sweep all pivots were
            ! below the given threshold, causing early exit.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995  continue
+1995 continue
            ! sort the vector d
            do p = 1, n - 1
               q = stdlib_isamax(n - p + 1, sva(p), 1) + p - 1
@@ -78752,7 +78322,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! .. end of stdlib_sgsvj1
      end subroutine stdlib_sgsvj1
 
      ! SHSEQR computes the eigenvalues of a Hessenberg matrix H
@@ -78801,7 +78370,7 @@ module stdlib_linalg_lapack_s
            wantt = stdlib_lsame(job, 's')
            initz = stdlib_lsame(compz, 'i')
            wantz = initz .or. stdlib_lsame(compz, 'v')
-           work(1) = real(max(1, n))
+           work(1) = real(max(1, n), KIND=sp)
            lquery = lwork == -1
            info = 0
            if (.not. stdlib_lsame(job, 'e') .and. .not. wantt) then
@@ -78834,7 +78403,7 @@ module stdlib_linalg_lapack_s
                         work, lwork, info)
               ! ==== ensure reported workspace size is backward-compatible with
               ! .    previous lapack versions. ====
-              work(1) = max(real(max(1, n)), work(1))
+              work(1) = max(real(max(1, n), KIND=sp), work(1))
               return
            else
               ! ==== copy eigenvalues isolated by stdlib_sgebal ====
@@ -78895,9 +78464,8 @@ module stdlib_linalg_lapack_s
                          h(3, 1), ldh)
               ! ==== ensure reported workspace size is backward-compatible with
               ! .    previous lapack versions. ====
-              work(1) = max(real(max(1, n)), work(1))
+              work(1) = max(real(max(1, n), KIND=sp), work(1))
            end if
-           ! ==== end of stdlib_shseqr ====
      end subroutine stdlib_shseqr
 
      ! SLALSA is an itermediate step in solving the least squares problem
@@ -79022,7 +78590,7 @@ module stdlib_linalg_lapack_s
            end do
            go to 90
            ! icompq = 1: applying back the right singular vector factors.
-50      continue
+50   continue
            ! first now go through the right singular vector matrices of all
            ! the tree nodes top-down.
            j = 0
@@ -79078,9 +78646,8 @@ module stdlib_linalg_lapack_s
               call stdlib_sgemm('t', 'n', nrp1, nrhs, nrp1, one, vt(nrf, 1), ldu, b(nrf, 1), &
                         ldb, zero, bx(nrf, 1), ldbx)
            end do
-90      continue
+90         continue
            return
-           ! end of stdlib_slalsa
      end subroutine stdlib_slalsa
 
      ! SLALSD uses the singular value decomposition of A to solve the least
@@ -79217,7 +78784,8 @@ module stdlib_linalg_lapack_s
               return
            end if
            ! book-keeping and setting up some constants.
-           nlvl = int(log(real(n)/real(smlsiz + 1))/log(two)) + 1
+           nlvl = int(log(real(n, KIND=sp)/real(smlsiz + 1, KIND=sp))/log(two), KIND=ilp) + &
+                     1
            smlszp = smlsiz + 1
            u = 1
            vt = 1 + smlsiz*n
@@ -79351,7 +78919,6 @@ module stdlib_linalg_lapack_s
            call stdlib_slasrt('d', n, d, info)
            call stdlib_slascl('g', 0, 0, orgnrm, one, n, nrhs, b, ldb, info)
            return
-           ! end of stdlib_slalsd
      end subroutine stdlib_slalsd
 
      ! SLAQR0 computes the eigenvalues of a Hessenberg matrix H
@@ -79457,7 +79024,7 @@ module stdlib_linalg_lapack_s
               lwkopt = max(3*nsr/2, int(work(1), KIND=ilp))
               ! ==== quick return in case of workspace query. ====
               if (lwork == -1) then
-                 work(1) = real(lwkopt)
+                 work(1) = real(lwkopt, KIND=sp)
                  return
               end if
               ! ==== stdlib_slahqr/stdlib_slaqr0 crossover point ====
@@ -79494,7 +79061,7 @@ module stdlib_linalg_lapack_s
                     if (h(k, k - 1) == zero) go to 20
                  end do
                  k = ilo
-20      continue
+20               continue
                  ktop = k
                  ! ==== select deflation window size:
                  ! .    typical case:
@@ -79644,7 +79211,7 @@ module stdlib_linalg_lapack_s
                                 end if
                              end do
                           end do
-60      continue
+60                        continue
                        end if
                        ! ==== shuffle shifts into pairs of real shifts
                        ! .    and pairs of complex conjugate shifts
@@ -79715,11 +79282,10 @@ module stdlib_linalg_lapack_s
               ! ==== iteration limit exceeded.  set info to show where
               ! .    the problem occurred and exit. ====
               info = kbot
-90      continue
+90            continue
            end if
            ! ==== return the optimal value of lwork. ====
-           work(1) = real(lwkopt)
-           ! ==== end of stdlib_slaqr0 ====
+           work(1) = real(lwkopt, KIND=sp)
      end subroutine stdlib_slaqr0
 
      ! Aggressive early deflation:
@@ -79776,7 +79342,7 @@ module stdlib_linalg_lapack_s
            end if
            ! ==== quick return in case of workspace query. ====
            if (lwork == -1) then
-              work(1) = real(lwkopt)
+              work(1) = real(lwkopt, KIND=sp)
               return
            end if
            ! ==== nothing to do ...
@@ -79792,7 +79358,7 @@ module stdlib_linalg_lapack_s
            safmax = one/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            ! ==== setup deflation window ====
            jw = min(nw, kbot - ktop + 1)
            kwtop = kbot - jw + 1
@@ -79840,7 +79406,7 @@ module stdlib_linalg_lapack_s
            ! ==== deflation detection loop ====
            ns = jw
            ilst = infqr + 1
-20      continue
+20         continue
            if (ilst <= ns) then
               if (ns == 1) then
                  bulge = .false.
@@ -79891,7 +79457,7 @@ module stdlib_linalg_lapack_s
               ! .    exchange failures. ====
               sorted = .false.
               i = ns + 1
-30      continue
+30            continue
               if (sorted) go to 50
               sorted = .true.
               kend = i - 1
@@ -79903,7 +79469,7 @@ module stdlib_linalg_lapack_s
               else
                  k = i + 2
               end if
-40      continue
+40            continue
               if (k <= kend) then
                  if (k == i + 1) then
                     evi = abs(t(i, i))
@@ -79942,11 +79508,11 @@ module stdlib_linalg_lapack_s
                  go to 40
               end if
               go to 30
-50      continue
+50            continue
            end if
            ! ==== restore shift/eigenvalue array from t ====
            i = jw
-60      continue
+60         continue
            if (i >= infqr + 1) then
               if (i == infqr + 1) then
                  sr(kwtop + i - 1) = t(i, i)
@@ -80029,8 +79595,7 @@ module stdlib_linalg_lapack_s
            ! .    window.)  ====
            ns = ns - infqr
             ! ==== return optimal workspace. ====
-           work(1) = real(lwkopt)
-           ! ==== end of stdlib_slaqr3 ====
+           work(1) = real(lwkopt, KIND=sp)
      end subroutine stdlib_slaqr3
 
      ! SLAQR4 implements one level of recursion for SLAQR0.
@@ -80142,7 +79707,7 @@ module stdlib_linalg_lapack_s
               lwkopt = max(3*nsr/2, int(work(1), KIND=ilp))
               ! ==== quick return in case of workspace query. ====
               if (lwork == -1) then
-                 work(1) = real(lwkopt)
+                 work(1) = real(lwkopt, KIND=sp)
                  return
               end if
               ! ==== stdlib_slahqr/stdlib_slaqr0 crossover point ====
@@ -80179,7 +79744,7 @@ module stdlib_linalg_lapack_s
                     if (h(k, k - 1) == zero) go to 20
                  end do
                  k = ilo
-20      continue
+20               continue
                  ktop = k
                  ! ==== select deflation window size:
                  ! .    typical case:
@@ -80324,7 +79889,7 @@ module stdlib_linalg_lapack_s
                                 end if
                              end do
                           end do
-60      continue
+60                        continue
                        end if
                        ! ==== shuffle shifts into pairs of real shifts
                        ! .    and pairs of complex conjugate shifts
@@ -80395,11 +79960,10 @@ module stdlib_linalg_lapack_s
               ! ==== iteration limit exceeded.  set info to show where
               ! .    the problem occurred and exit. ====
               info = kbot
-90      continue
+90            continue
            end if
            ! ==== return the optimal value of lwork. ====
-           work(1) = real(lwkopt)
-           ! ==== end of stdlib_slaqr4 ====
+           work(1) = real(lwkopt, KIND=sp)
      end subroutine stdlib_slaqr4
 
      ! SLAQZ0 computes the eigenvalues of a real matrix pair (H,T),
@@ -80530,7 +80094,7 @@ module stdlib_linalg_lapack_s
            end if
            ! quick return if possible
            if (n <= 0) then
-              work(1) = real(1)
+              work(1) = real(1, KIND=sp)
               return
            end if
            ! get the parameters
@@ -80546,7 +80110,7 @@ module stdlib_linalg_lapack_s
            nsr = min(nsr, (n + 6)/9, ihi - ilo)
            nsr = max(2, nsr - mod(nsr, 2))
            rcost = stdlib_ilaenv(17, 'stdlib_slaqz0', jbcmpz, n, ilo, ihi, lwork)
-           itemp1 = int(nsr/sqrt(1 + 2*nsr/(real(rcost)/100*n)))
+           itemp1 = int(nsr/sqrt(1 + 2*nsr/(real(rcost, KIND=sp)/100*n)), KIND=ilp)
            itemp1 = ((itemp1 - 1)/4)*4 + 4
            nbr = nsr + itemp1
            if (n < nmin .or. rec >= 2) then
@@ -80567,7 +80131,7 @@ module stdlib_linalg_lapack_s
            itemp2 = int(work(1), KIND=ilp)
            lworkreq = max(itemp1 + 2*nw**2, itemp2 + 2*nbr**2)
            if (lwork == -1) then
-              work(1) = real(lworkreq)
+              work(1) = real(lworkreq, KIND=sp)
               return
            else if (lwork < lworkreq) then
               info = -19
@@ -80584,7 +80148,7 @@ module stdlib_linalg_lapack_s
            safmax = one/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            istart = ilo
            istop = ihi
            maxit = 3*(ihi - ilo + 1)
@@ -80765,11 +80329,11 @@ module stdlib_linalg_lapack_s
               end do
               if (mod(ld, 6) == 0) then
                  ! exceptional shift.  chosen for no particularly good reason.
-                 if ((real(maxit)*safmin)*abs(a(istop, istop - 1)) < abs(a(istop - 1, istop - 1) &
-                            )) then
+                 if ((real(maxit, KIND=sp)*safmin)*abs(a(istop, istop - 1)) < abs(a(istop - 1, &
+                           istop - 1))) then
                     eshift = a(istop, istop - 1)/b(istop - 1, istop - 1)
                  else
-                    eshift = eshift + one/(safmin*real(maxit))
+                    eshift = eshift + one/(safmin*real(maxit, KIND=sp))
                  end if
                  alphar(shiftpos) = one
                  alphar(shiftpos + 1) = zero
@@ -80847,7 +80411,7 @@ module stdlib_linalg_lapack_s
            safmax = one/safmin
            call stdlib_slabad(safmin, safmax)
            ulp = stdlib_slamch('precision')
-           smlnum = safmin*(real(n)/ulp)
+           smlnum = safmin*(real(n, KIND=sp)/ulp)
            if (ihi == kwtop) then
               ! 1 by 1 deflation window, just try a regular deflation
               alphar(kwtop) = a(kwtop, kwtop)
@@ -81265,7 +80829,7 @@ module stdlib_linalg_lapack_s
                        goto 21
                     end if
                  end do
-21    continue
+21               continue
                  if (mb == 0) then
                     ! no eigenvalue in the current block lies in the desired range
                     ! e( iend ) holds the shift for the initial rrr
@@ -81321,7 +80885,6 @@ module stdlib_linalg_lapack_s
               ! should be on the left or the right end of the current block.
               ! the strategy is to shift to the end which is "more populated"
               ! furthermore, decide whether to use dqds for the computation of
-              ! the eigenvalue approximations at the end of stdlib_slarre or bisection.
               ! dqds is chosen if all eigenvalues are desired or the number of
               ! eigenvalues to be computed is large compared to the blocksize.
               if ((irange == allrng) .and. (.not. forceb)) then
@@ -81397,7 +80960,7 @@ module stdlib_linalg_lapack_s
               else
                  if (mb > 1) then
                     clwdth = w(wend) + werr(wend) - w(wbegin) - werr(wbegin)
-                    avgap = abs(clwdth/real(wend - wbegin))
+                    avgap = abs(clwdth/real(wend - wbegin, KIND=sp))
                     if (sgndef == one) then
                        tau = half*max(wgap(wbegin), avgap)
                        tau = max(tau, werr(wbegin))
@@ -81464,7 +81027,7 @@ module stdlib_linalg_lapack_s
               ! found in maxtry iterations.
               info = 2
               return
-83    continue
+83            continue
               ! at this point, we have found an initial base representation
               ! t - sigma i = l d l^t with not too much element growth.
               ! store the shift.
@@ -81534,7 +81097,7 @@ module stdlib_linalg_lapack_s
                  ! this is an estimated error, the worst case bound is 4*n*eps
                  ! which is usually too large and requires unnecessary work to be
                  ! done by bisection when computing the eigenvectors
-                 rtol = log(real(in))*four*eps
+                 rtol = log(real(in, KIND=sp))*four*eps
                  j = ibegin
                  do i = 1, in - 1
                     work(2*i - 1) = abs(d(j))
@@ -81589,7 +81152,6 @@ module stdlib_linalg_lapack_s
               wbegin = wend + 1
            end do loop_170
            return
-           ! end of stdlib_slarre
      end subroutine stdlib_slarre
 
      ! Using a divide and conquer approach, SLASD0 computes the singular
@@ -81726,7 +81288,6 @@ module stdlib_linalg_lapack_s
               end do
            end do loop_50
            return
-           ! end of stdlib_slasd0
      end subroutine stdlib_slasd0
 
      ! Using a divide and conquer approach, SLASDA computes the singular
@@ -81927,7 +81488,6 @@ module stdlib_linalg_lapack_s
               end do loop_40
            end do loop_50
            return
-           ! end of stdlib_slasda
      end subroutine stdlib_slasda
 
      ! SLASDQ computes the singular value decomposition (SVD) of a real
@@ -82091,7 +81651,6 @@ module stdlib_linalg_lapack_s
               end if
            end do
            return
-           ! end of stdlib_slasdq
      end subroutine stdlib_slasdq
 
      ! SLASQ1 computes the singular values of a real N-by-N bidiagonal
@@ -82182,7 +81741,6 @@ module stdlib_linalg_lapack_s
               call stdlib_slascl('g', 0, 0, scale, sigmx, n, 1, e, n, iinfo)
            end if
            return
-           ! end of stdlib_slasq1
      end subroutine stdlib_slasq1
 
      ! SLASQ2 computes all the eigenvalues of the symmetric positive
@@ -82439,7 +81997,7 @@ module stdlib_linalg_lapack_s
                  emin = min(emin, z(i4 - 5))
               end do
               i4 = 4
-100    continue
+100           continue
               i0 = i4/4
               pp = 0
               if (n0 - i0 > 1) then
@@ -82518,7 +82076,7 @@ module stdlib_linalg_lapack_s
               ! this might need to be done for several blocks
               i1 = i0
               n1 = n0
-145   continue
+145           continue
               tempq = z(4*i0 - 3)
               z(4*i0 - 3) = z(4*i0 - 3) + sigma
               do k = i0 + 1, n0
@@ -82551,12 +82109,12 @@ module stdlib_linalg_lapack_s
               end do
               return
               ! end iwhilb
-150    continue
+150  continue
            end do loop_160
            info = 3
            return
            ! end iwhila
-170    continue
+170  continue
            ! move q's to the front.
            do k = 2, n
               z(k) = z(4*k - 3)
@@ -82570,11 +82128,10 @@ module stdlib_linalg_lapack_s
            ! store trace, sum(eigenvalues) and information on performance.
            z(2*n + 1) = trace
            z(2*n + 2) = e
-           z(2*n + 3) = real(iter)
-           z(2*n + 4) = real(ndiv)/real(n**2)
-           z(2*n + 5) = hundrd*nfail/real(iter)
+           z(2*n + 3) = real(iter, KIND=sp)
+           z(2*n + 4) = real(ndiv, KIND=sp)/real(n**2, KIND=sp)
+           z(2*n + 5) = hundrd*nfail/real(iter, KIND=sp)
            return
-           ! end of stdlib_slasq2
      end subroutine stdlib_slasq2
 
      ! DLATRF_AA factorizes a panel of a real symmetric matrix A using
@@ -82614,7 +82171,7 @@ module stdlib_linalg_lapack_s
               ! .....................................................
               ! factorize a as u**t*d*u using the upper triangle of a
               ! .....................................................
-10    continue
+10   continue
               if (j > min(m, nb)) go to 20
               ! k is the column to be factorized
                ! when being called from stdlib_ssytrf_aa,
@@ -82707,12 +82264,12 @@ module stdlib_linalg_lapack_s
               end if
               j = j + 1
               go to 10
-20    continue
+20            continue
            else
               ! .....................................................
               ! factorize a as l*d*l**t using the lower triangle of a
               ! .....................................................
-30    continue
+30   continue
               if (j > min(m, nb)) go to 40
               ! k is the column to be factorized
                ! when being called from stdlib_ssytrf_aa,
@@ -82805,10 +82362,9 @@ module stdlib_linalg_lapack_s
               end if
               j = j + 1
               go to 30
-40    continue
+40            continue
            end if
            return
-           ! end of stdlib_slasyf_aa
      end subroutine stdlib_slasyf_aa
 
      ! SPTEQR computes all eigenvalues and, optionally, eigenvectors of a
@@ -82901,7 +82457,6 @@ module stdlib_linalg_lapack_s
               info = n + info
            end if
            return
-           ! end of stdlib_spteqr
      end subroutine stdlib_spteqr
 
      ! SSTEGR computes selected eigenvalues and, optionally, eigenvectors
@@ -82942,7 +82497,6 @@ module stdlib_linalg_lapack_s
            tryrac = .false.
            call stdlib_sstemr(jobz, range, n, d, e, vl, vu, il, iu, m, w, z, ldz, n, isuppz, &
                      tryrac, work, lwork, iwork, liwork, info)
-           ! end of stdlib_sstegr
      end subroutine stdlib_sstegr
 
      ! SSTEMR computes selected eigenvalues and, optionally, eigenvectors
@@ -83296,7 +82850,7 @@ module stdlib_linalg_lapack_s
                     in = iend - ibegin + 1
                     wend = wbegin - 1
                     ! check if any eigenvalues have to be refined in this block
-36    continue
+36   continue
                     if (wend < m) then
                        if (iwork(iindbl + wend) == jblk) then
                           wend = wend + 1
@@ -83361,7 +82915,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_sstemr
      end subroutine stdlib_sstemr
 
      ! SSTEVR computes selected eigenvalues and, optionally, eigenvectors
@@ -83573,7 +83126,7 @@ module stdlib_linalg_lapack_s
                         iwork(indiwo), iwork(indifl), info)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-10      continue
+10   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -83606,7 +83159,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwmin
            iwork(1) = liwmin
            return
-           ! end of stdlib_sstevr
      end subroutine stdlib_sstevr
 
      ! SSYEVR computes selected eigenvalues and, optionally, eigenvectors
@@ -83900,7 +83452,7 @@ module stdlib_linalg_lapack_s
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
         ! jump here if stdlib_sstemr/stdlib_sstein succeeded.
-30      continue
+30   continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -83934,7 +83486,6 @@ module stdlib_linalg_lapack_s
            work(1) = lwkopt
            iwork(1) = liwmin
            return
-           ! end of stdlib_ssyevr
      end subroutine stdlib_ssyevr
 
      ! SSYSV computes the solution to a real system of linear equations
@@ -84004,7 +83555,6 @@ module stdlib_linalg_lapack_s
            end if
            work(1) = lwkopt
            return
-           ! end of stdlib_ssysv_aa
      end subroutine stdlib_ssysv_aa
 
      ! SSYTRF_AA computes the factorization of a real symmetric matrix A
@@ -84081,7 +83631,7 @@ module stdlib_linalg_lapack_s
               ! jb, where jb is the number of columns factorized by stdlib_slasyf;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-10    continue
+10            continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -84158,7 +83708,7 @@ module stdlib_linalg_lapack_s
               ! jb, where jb is the number of columns factorized by stdlib_slasyf;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-11    continue
+11            continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -84224,10 +83774,9 @@ module stdlib_linalg_lapack_s
               end if
               go to 11
            end if
-20      continue
+20         continue
            work(1) = lwkopt
            return
-           ! end of stdlib_ssytrf_aa
      end subroutine stdlib_ssytrf_aa
 
 end module stdlib_linalg_lapack_s

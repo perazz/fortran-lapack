@@ -5,6 +5,7 @@ module stdlib_linalg_lapack_aux
      private
 
      public :: sp, dp, qp, lk, ilp
+     public :: stdlib_chla_transtype
      public :: stdlib_droundup_lwork
      public :: stdlib_icmax1
      public :: stdlib_ieeeck
@@ -30,6 +31,7 @@ module stdlib_linalg_lapack_aux
      public :: stdlib_xerbla
      public :: stdlib_xerbla_array
      public :: stdlib_qroundup_lwork
+     public :: stdlib_ilaqiag
      public :: stdlib_ilaqlc
      public :: stdlib_ilaqlr
      public :: stdlib_ilawlc
@@ -116,6 +118,38 @@ module stdlib_linalg_lapack_aux
 
      contains
 
+     ! This subroutine translates from a BLAST-specified integer constant to
+     ! the character string specifying a transposition operation.
+     ! CHLA_TRANSTYPE returns an CHARACTER*1.  If CHLA_TRANSTYPE is 'X',
+     ! then input is not an integer indicating a transposition operator.
+     ! Otherwise CHLA_TRANSTYPE returns the constant value corresponding to
+     ! TRANS.
+
+     character*1 function stdlib_chla_transtype(trans)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           integer(ilp) :: trans
+        ! =====================================================================
+           ! .. parameters ..
+           integer(ilp), parameter :: blas_no_trans = 111
+           integer(ilp), parameter :: blas_trans = 112
+           integer(ilp), parameter :: blas_conj_trans = 113
+           
+           ! .. executable statements ..
+           if (trans == blas_no_trans) then
+              stdlib_chla_transtype = 'n'
+           else if (trans == blas_trans) then
+              stdlib_chla_transtype = 't'
+           else if (trans == blas_conj_trans) then
+              stdlib_chla_transtype = 'c'
+           else
+              stdlib_chla_transtype = 'x'
+           end if
+           return
+     end function stdlib_chla_transtype
+
      ! ICMAX1 finds the index of the first vector element of maximum absolute value.
      ! Based on ICAMAX from Level 1 BLAS.
      ! The change is to use the 'genuine' absolute value.
@@ -162,7 +196,6 @@ module stdlib_linalg_lapack_aux
               end do
            end if
            return
-           ! end of stdlib_icmax1
      end function stdlib_icmax1
 
      ! IEEECK is called from the ILAENV to verify that Infinity and
@@ -324,36 +357,6 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaclr
 
-     ! This subroutine translated from a character string specifying if a
-     ! matrix has unit diagonal or not to the relevant BLAST-specified
-     ! integer constant.
-     ! ILADIAG returns an INTEGER.  If ILADIAG < 0, then the input is not a
-     ! character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
-     ! returns the constant value corresponding to DIAG.
-
-     integer(ilp) function stdlib_iladiag(diag)
-        ! -- lapack computational routine --
-        ! -- lapack is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
-           character :: diag
-        ! =====================================================================
-           ! .. parameters ..
-           integer(ilp), parameter :: blas_non_unit_diag = 131
-           integer(ilp), parameter :: blas_unit_diag = 132
-           
-           ! .. executable statements ..
-           if (stdlib_lsame(diag, 'n')) then
-              stdlib_iladiag = blas_non_unit_diag
-           else if (stdlib_lsame(diag, 'u')) then
-              stdlib_iladiag = blas_unit_diag
-           else
-              stdlib_iladiag = -1
-           end if
-           return
-           ! end of stdlib_iladiag
-     end function stdlib_iladiag
-
      ! This subroutine translated from a character string specifying an
      ! intermediate precision to the relevant BLAST-specified integer
      ! constant.
@@ -387,7 +390,6 @@ module stdlib_linalg_lapack_aux
               stdlib_ilaprec = -1
            end if
            return
-           ! end of stdlib_ilaprec
      end function stdlib_ilaprec
 
      ! ILASLC scans A for its last non-zero column.
@@ -489,7 +491,6 @@ module stdlib_linalg_lapack_aux
               stdlib_ilatrans = -1
            end if
            return
-           ! end of stdlib_ilatrans
      end function stdlib_ilatrans
 
      ! This subroutine translated from a character string specifying a
@@ -519,7 +520,6 @@ module stdlib_linalg_lapack_aux
               stdlib_ilauplo = -1
            end if
            return
-           ! end of stdlib_ilauplo
      end function stdlib_ilauplo
 
      ! This program sets problem and machine dependent parameters
@@ -563,7 +563,8 @@ module stdlib_linalg_lapack_aux
               ns = 2
               if (nh >= 30) ns = 4
               if (nh >= 60) ns = 10
-              if (nh >= 150) ns = max(10, nh/nint(log(real(nh))/log(two)))
+              if (nh >= 150) ns = max(10, nh/nint(log(real(nh, KIND=dp))/log(two), &
+                        KIND=ilp))
               if (nh >= 590) ns = 64
               if (nh >= 3000) ns = 128
               if (nh >= 6000) ns = 256
@@ -649,7 +650,6 @@ module stdlib_linalg_lapack_aux
               ! ===== invalid value of ispec =====
               stdlib_iparmq = -1
            end if
-           ! ==== end of stdlib_iparmq ====
      end function stdlib_iparmq
 
      ! LSAMEN  tests if the first N letters of CA are the same as the
@@ -679,9 +679,8 @@ module stdlib_linalg_lapack_aux
               if (.not. stdlib_lsame(ca(i:i), cb(i:i))) go to 20
            end do
            stdlib_lsamen = .true.
-20      continue
+20         continue
            return
-           ! end of stdlib_lsamen
      end function stdlib_lsamen
 
      ! SROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
@@ -704,14 +703,13 @@ module stdlib_linalg_lapack_aux
            ! .. intrinsic functions ..
            intrinsic :: epsilon, real, int
            ! .. executable statements ..
-           stdlib_sroundup_lwork = real(lwork)
+           stdlib_sroundup_lwork = real(lwork, KIND=sp)
            if (int(stdlib_sroundup_lwork, KIND=ilp) < lwork) then
                ! force round up of lwork
-               stdlib_sroundup_lwork = stdlib_sroundup_lwork*(1.0_sp + epsilon(0.0e+0_sp))
+               stdlib_sroundup_lwork = stdlib_sroundup_lwork*(1.0e+0_sp + epsilon(0.0e+0_sp))
                          
            end if
            return
-           ! end of stdlib_sroundup_lwork
      end function stdlib_sroundup_lwork
 
      ! QROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
@@ -737,12 +735,40 @@ module stdlib_linalg_lapack_aux
            stdlib_qroundup_lwork = real(lwork, KIND=qp)
            if (int(stdlib_qroundup_lwork, KIND=ilp) < lwork) then
                ! force round up of lwork
-               stdlib_qroundup_lwork = stdlib_qroundup_lwork*(1.0_qp + epsilon(0.0e+0_qp))
+               stdlib_qroundup_lwork = stdlib_qroundup_lwork*(1.0e+0_qp + epsilon(0.0e+0_qp))
                          
            end if
            return
-           ! end of stdlib_qroundup_lwork
      end function stdlib_qroundup_lwork
+
+     ! This subroutine translated from a character string specifying if a
+     ! matrix has unit diagonal or not to the relevant BLAST-specified
+     ! integer constant.
+     ! ILAQIAG returns an INTEGER.  If ILADIAG < 0, then the input is not a
+     ! character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
+     ! returns the constant value corresponding to DIAG.
+
+     integer(ilp) function stdlib_ilaqiag(diag)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           character :: diag
+        ! =====================================================================
+           ! .. parameters ..
+           integer(ilp), parameter :: blas_non_unit_qiag = 131
+           integer(ilp), parameter :: blas_unit_qiag = 132
+           
+           ! .. executable statements ..
+           if (stdlib_lsame(diag, 'n')) then
+              stdlib_ilaqiag = blas_non_unit_qiag
+           else if (stdlib_lsame(diag, 'u')) then
+              stdlib_ilaqiag = blas_unit_qiag
+           else
+              stdlib_ilaqiag = -1
+           end if
+           return
+     end function stdlib_ilaqiag
 
      ! ILAQLC scans A for its last non-zero column.
 
@@ -928,7 +954,6 @@ module stdlib_linalg_lapack_aux
               end do
            end if
            return
-           ! end of stdlib_iwmax1
      end function stdlib_iwmax1
 
      ! DROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
@@ -954,12 +979,40 @@ module stdlib_linalg_lapack_aux
            stdlib_droundup_lwork = real(lwork, KIND=dp)
            if (int(stdlib_droundup_lwork, KIND=ilp) < lwork) then
                ! force round up of lwork
-               stdlib_droundup_lwork = stdlib_droundup_lwork*(1.0_dp + epsilon(0.0e+0_dp))
+               stdlib_droundup_lwork = stdlib_droundup_lwork*(1.0e+0_dp + epsilon(0.0e+0_dp))
                          
            end if
            return
-           ! end of stdlib_droundup_lwork
      end function stdlib_droundup_lwork
+
+     ! This subroutine translated from a character string specifying if a
+     ! matrix has unit diagonal or not to the relevant BLAST-specified
+     ! integer constant.
+     ! ILADIAG returns an INTEGER.  If ILADIAG < 0, then the input is not a
+     ! character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
+     ! returns the constant value corresponding to DIAG.
+
+     integer(ilp) function stdlib_iladiag(diag)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           character :: diag
+        ! =====================================================================
+           ! .. parameters ..
+           integer(ilp), parameter :: blas_non_unit_diag = 131
+           integer(ilp), parameter :: blas_unit_diag = 132
+           
+           ! .. executable statements ..
+           if (stdlib_lsame(diag, 'n')) then
+              stdlib_iladiag = blas_non_unit_diag
+           else if (stdlib_lsame(diag, 'u')) then
+              stdlib_iladiag = blas_unit_diag
+           else
+              stdlib_iladiag = -1
+           end if
+           return
+     end function stdlib_iladiag
 
      ! ILADLC scans A for its last non-zero column.
 
@@ -1064,7 +1117,7 @@ module stdlib_linalg_lapack_aux
            ! invalid value for ispec
            stdlib_ilaenv = -1
            return
-10      continue
+10         continue
            ! convert name to upper case if the first character is lower case.
            stdlib_ilaenv = 1
            subnam = name
@@ -1109,7 +1162,7 @@ module stdlib_linalg_lapack_aux
            c4 = c3(2:3)
            twostage = len(subnam) >= 11 .and. subnam(11:11) == '2'
            go to(50, 60, 70) ispec
-50      continue
+50         continue
            ! ispec = 1:  block size
            ! in these examples, separate code is provided for setting nb for
            ! real and complex.  we assume that nb will take the same value in
@@ -1334,7 +1387,7 @@ module stdlib_linalg_lapack_aux
            end if
            stdlib_ilaenv = nb
            return
-60      continue
+60         continue
            ! ispec = 2:  minimum block size
            nbmin = 2
            if (c2 == 'ge') then
@@ -1409,7 +1462,7 @@ module stdlib_linalg_lapack_aux
            end if
            stdlib_ilaenv = nbmin
            return
-70      continue
+70         continue
            ! ispec = 3:  crossover point
            nx = 0
            if (c2 == 'ge') then
@@ -1462,33 +1515,33 @@ module stdlib_linalg_lapack_aux
            end if
            stdlib_ilaenv = nx
            return
-80      continue
+80         continue
            ! ispec = 4:  number of shifts (used by xhseqr)
            stdlib_ilaenv = 6
            return
-90      continue
+90         continue
            ! ispec = 5:  minimum column dimension (not used)
            stdlib_ilaenv = 2
            return
-100    continue
+100        continue
            ! ispec = 6:  crossover point for svd (used by xgelss and xgesvd)
-           stdlib_ilaenv = int(real(min(n1, n2))*1.6e0)
+           stdlib_ilaenv = int(real(min(n1, n2), KIND=dp)*1.6e0, KIND=ilp)
            return
-110    continue
+110        continue
            ! ispec = 7:  number of processors (not used)
            stdlib_ilaenv = 1
            return
-120    continue
+120        continue
            ! ispec = 8:  crossover point for multishift (used by xhseqr)
            stdlib_ilaenv = 50
            return
-130    continue
+130        continue
            ! ispec = 9:  maximum size of the subproblems at the bottom of the
                        ! computation tree in the divide-and-conquer algorithm
                        ! (used by xgelsd and xgesdd)
            stdlib_ilaenv = 25
            return
-140    continue
+140        continue
            ! ispec = 10: ieee and infinity nan arithmetic can be trusted not to trap
            ! stdlib_ilaenv = 0
            stdlib_ilaenv = 1
@@ -1496,7 +1549,7 @@ module stdlib_linalg_lapack_aux
               stdlib_ilaenv = stdlib_ieeeck(1, 0.0, 1.0)
            end if
            return
-150    continue
+150        continue
            ! ispec = 11: ieee infinity arithmetic can be trusted not to trap
            ! stdlib_ilaenv = 0
            stdlib_ilaenv = 1
@@ -1504,11 +1557,10 @@ module stdlib_linalg_lapack_aux
               stdlib_ilaenv = stdlib_ieeeck(0, 0.0, 1.0)
            end if
            return
-160    continue
+160        continue
            ! 12 <= ispec <= 17: xhseqr or related subroutines.
            stdlib_ilaenv = stdlib_iparmq(ispec, name, opts, n1, n2, n3, n4)
            return
-           ! end of stdlib_ilaenv
      end function stdlib_ilaenv
 
      ! ILAZLC scans A for its last non-zero column.
@@ -1767,7 +1819,6 @@ module stdlib_linalg_lapack_aux
            ! ispec = 21 for future use
               stdlib_iparam2stage = nxi
            end if
-           ! ==== end of stdlib_iparam2stage ====
      end function stdlib_iparam2stage
 
      ! IZMAX1 finds the index of the first vector element of maximum absolute value.
@@ -1816,7 +1867,6 @@ module stdlib_linalg_lapack_aux
               end do
            end if
            return
-           ! end of stdlib_izmax1
      end function stdlib_izmax1
 
      ! ILAENV2STAGE is called from the LAPACK routines to choose problem-dependent
@@ -1853,12 +1903,11 @@ module stdlib_linalg_lapack_aux
            ! invalid value for ispec
            stdlib_ilaenv2stage = -1
            return
-10      continue
+10         continue
            ! 2stage eigenvalues and svd or related subroutines.
            iispec = 16 + ispec
            stdlib_ilaenv2stage = stdlib_iparam2stage(iispec, name, opts, n1, n2, n3, n4)
            return
-           ! end of stdlib_ilaenv2stage
      end function stdlib_ilaenv2stage
 
 end module stdlib_linalg_lapack_aux
