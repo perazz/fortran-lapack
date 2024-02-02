@@ -1,6 +1,6 @@
 module stdlib_linalg_state
      use stdlib_linalg_constants
-     use iso_fortran_env, only: real32,real64,real128,int8,int16,int32,int64
+     use iso_fortran_env, only: real32,real64,real128,int8,int16,int32,int64,stderr=>error_unit
      implicit none(type, external)
      public
 
@@ -34,6 +34,10 @@ module stdlib_linalg_state
 
             !> Cleanup
             procedure :: destroy => state_destroy
+
+            !> Print error message
+            procedure :: print   => state_print
+            procedure :: print_msg => state_message
 
             !> State properties
             procedure :: ok      => state_is_ok
@@ -73,6 +77,62 @@ module stdlib_linalg_state
 
 
      contains
+
+     !> Interface to print linalg state flags
+     pure function LINALG_MESSAGE(flag) result(msg)
+        integer(ilp), intent(in) :: flag
+        character(len=:), allocatable :: msg
+
+        select case (flag)
+           case (LINALG_SUCCESS); msg = 'Success!'
+           case default;          msg = 'ERROR/INVALID FLAG'
+        end select
+
+     end function LINALG_MESSAGE
+
+     !> Flow control: on output flag present, return it; otherwise, halt on error
+     subroutine linalg_error_handling(ierr,ierr_out)
+         type(linalg_state), intent(in) :: ierr
+         type(linalg_state), optional, intent(out) :: ierr_out
+
+         if (present(ierr_out)) then
+             ! Return error flag
+             ierr_out = ierr
+         elseif (ierr%error()) then
+             write(stderr,'(A)') ierr%print()
+             stop ierr%state
+         end if
+
+     end subroutine linalg_error_handling
+
+     !> Formatted message
+     function state_message(this) result(msg)
+         class(linalg_state), intent(in) :: this
+         character(len=:), allocatable :: msg
+
+         if (this%state==LINALG_SUCCESS) then
+            msg = 'Success!'
+         else
+            msg = LINALG_MESSAGE(this%state)//': '//trim(this%message)
+         end if
+
+     end function state_message
+
+     !> Produce a nice error string
+     function state_print(this) result(msg)
+         class(linalg_state), intent(in) :: this
+         character(len=:), allocatable :: msg
+
+
+         if (len(this%where_at)>0) then
+            msg = '['//trim(this%where_at)//'] returned '//state_message(this)
+         elseif (this%error()) then
+            msg = 'Error encountered: '//state_message(this)
+         else
+            msg = state_message(this)
+         end if
+
+     end function state_print
 
      !> Cleanup object
      elemental subroutine state_destroy(this)
