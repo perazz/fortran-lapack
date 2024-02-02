@@ -13,7 +13,7 @@ module stdlib_linalg_state
      integer(ilp), parameter :: LINALG_SUCCESS = 0_ilp
 
      !> Use fixed-size character storage for performance
-     integer(ilp), parameter, private :: MSG_LENGTH  = 256_ilp
+     integer(ilp), parameter, private :: MSG_LENGTH  = 512_ilp
      integer(ilp), parameter, private :: NAME_LENGTH = 32_ilp
 
      !> `linalg_state` defines a state return type for a
@@ -29,7 +29,6 @@ module stdlib_linalg_state
 
          !> Location of the state change
          character(len=NAME_LENGTH) :: where_at = repeat(' ',NAME_LENGTH)
-
 
          contains
 
