@@ -1268,11 +1268,9 @@ def replace_la_constants(line,file_name,is_aux_module):
 
     # Numeric constants.
     if not (is_complex_parameter or is_aux_module or is_parameter_line):
-        new_line = re.sub(r'\b0\.0'+ext+r'\b','zero',new_line)
         new_line = re.sub(r'\b0\.0\b','zero',new_line)
         new_line = re.sub(r'\b0\.0d0\b','zero',new_line)
         new_line = re.sub(r'\b0\.0e0\b','zero',new_line)
-        new_line = re.sub(r'\b1\.0'+ext+r'\b','one',new_line)
         new_line = re.sub(r'\b1\.0\b','one',new_line)
         new_line = re.sub(r'\b1\.0d0\b','one',new_line)
         new_line = re.sub(r'\b1\.0e0\b','one',new_line)
@@ -2177,9 +2175,12 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                line = "END SUBROUTINE " + Source.old_name.upper() + "\n"
 
                # Append this line
-
                non_deleted = whereAt!=Section.HEADER or not remove_headers
                non_use     = whereAt!=Section.DECLARATION or not Line.use
+
+               # Final comment: skip
+               lsl = line.strip().upper()
+               if 'end of '+Source.new_name.lower() in lsl: non_deleted = False
 
                if non_deleted and non_use:
                   Source.body.append(INDENT + line)
