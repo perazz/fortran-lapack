@@ -1839,9 +1839,6 @@ def add_parameter_lines(Source,prefix,body):
 
     for i in range(start_line+1-remove_header):
         new.append(body[i])
-        if 'parameter' in body[i]:
-            print(body[i])
-            exit(1)
 
     for i in range(len(Source.pname)):
         if not Source.pname[i] in mod_const:
@@ -1849,9 +1846,6 @@ def add_parameter_lines(Source,prefix,body):
             line = replace_la_constants(line,Source.file_name,is_aux_module)
             print(line)
             new.append(INDENT + line)
-            if 'zero = zero' in line:
-                print(line)
-                exit(1)
 
     for i in range(len(body)-start_line-1):
         if len(body[start_line+1+i])>0:
@@ -1860,9 +1854,6 @@ def add_parameter_lines(Source,prefix,body):
                 for j in range(len(wrong_param)):
                     line = re.sub(r"\b"+wrong_param[j]+r"\b",right_param[j],line)
             new.append(line)
-            if 'zero = zero' in line:
-                print(line)
-                exit(1)
 
     return new
 
