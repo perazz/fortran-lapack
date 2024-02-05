@@ -221,75 +221,7 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
                       'dotc','dotu','gerc','geru','hbmv','hemm','hemv','her','her2','her2k','herk','hpmv', \
                       'hpr','hpr2','srot','sscal']
     elif module_name.endswith('lapack'):
-        interfaces = ['bbcsd', 'bdsdc', 'bdsqr', 'disna', 'gbbrd', 'gbcon', 'gbequ', 'gbequb', 'gbrfs', 'gbsv', \
-                      'gbsvx', 'gbtf2', 'gbtrf', 'gbtrs', 'gebak', 'gebal', 'gebd2', 'gebrd', 'gecon', 'geequ',\
-                      'geequb', 'gees', 'geesx', 'geev', 'geevx', 'gehd2', 'gehrd', 'gejsv', 'gelq', 'gelq2',\
-                      'gelqf', 'gelqt', 'gelqt3', 'gels', 'gelsd', 'gelss', 'gelsy', 'gemlq', 'gemlqt', 'gemqr',\
-                      'gemqrt', 'geql2', 'geqlf', 'geqp3', 'geqr', 'geqr2', 'geqr2p', 'geqrf', 'geqrfp', 'geqrt',\
-                      'geqrt2', 'geqrt3', 'gerfs', 'gerq2', 'gerqf', 'gesc2', 'gesdd', 'gesv', 'gesvd', 'gesvdq',\
-                      'gesvj', 'gesvx', 'getc2', 'getf2', 'getrf', 'getrf2', 'getri', 'getrs', 'getsls', \
-                      'getsqrhrt', 'ggbak', 'ggbal', 'gges', 'gges3', 'ggesx', 'ggev', 'ggev3', 'ggevx', 'ggglm', \
-                      'gghd3', 'gghrd', 'gglse', 'ggqrf', 'ggrqf', 'gsvj0', 'gsvj1', 'gtcon', 'gtrfs', 'gtsv', \
-                      'gtsvx', 'gttrf', 'gttrs', 'gtts2', 'hgeqz', 'hsein', 'hseqr', 'isnan', 'la_gbamv', \
-                      'la_gbrcond', 'la_gbrpvgrw', 'la_geamv', 'la_gercond', 'la_gerpvgrw', 'la_lin_berr', \
-                      'la_porcond', 'la_porpvgrw', 'la_syamv', 'la_syrcond', 'la_syrpvgrw', 'la_wwaddw', 'labad', \
-                      'labrd', 'lacn2', 'lacon', 'lacpy', 'ladiv', 'ladiv1', 'ladiv2', 'lae2', 'laebz', 'laed0', \
-                      'laed1', 'laed2', 'laed3', 'laed4', 'laed5', 'laed6', 'laed7', 'laed8', 'laed9', 'laeda', \
-                      'laein', 'laev2', 'laexc', 'lag2', 'lags2', 'lagtf', 'lagtm', 'lagts', 'lagv2', 'lahqr', \
-                      'lahr2', 'laic1', 'laisnan', 'laln2', 'lals0', 'lalsa', 'lalsd', 'lamch', 'lamc3', \
-                      'lamrg', 'lamswlq', 'lamtsqr', 'laneg', 'langb', 'lange', 'langt', 'lanhs', 'lansb', \
-                      'lansf', 'lansp', 'lanst', 'lansy', 'lantb', 'lantp', 'lantr', 'lanv2', \
-                      'laorhr_col_getrfnp', 'laorhr_col_getrfnp2', 'lapll', 'lapmr', 'lapmt', 'lapy2',\
-                      'lapy3', 'laqgb', 'laqge', 'laqp2', 'laqps', 'laqr0', 'laqr1', 'laqr2', 'laqr3', \
-                      'laqr4', 'laqr5', 'laqsb', 'laqsp', 'laqsy', 'laqtr', 'laqz0', 'laqz1', 'laqz2', 'laqz3', \
-                      'laqz4', 'lar1v', 'lar2v', 'larf', 'larfb', 'larfb_gett', 'larfg', 'larfgp', 'larft', \
-                      'larfx', 'larfy', 'largv', 'larnv', 'larra', 'larrb', 'larrc', 'larrd', 'larre', 'larrf', \
-                      'larrj', 'larrk', 'larrr', 'larrv', 'lartg', 'lartgp', 'lartgs', 'lartv', 'laruv', 'larz',\
-                      'larzb', 'larzt', 'las2', 'lascl', 'lasd0', 'lasd1', 'lasd2', 'lasd3', 'lasd4', 'lasd5', \
-                      'lasd6', 'lasd7', 'lasd8', 'lasda', 'lasdq', 'lasdt', 'laset', 'lasq1', 'lasq2', 'lasq3',\
-                      'lasq4', 'lasq5', 'lasq6', 'lasr', 'lasrt', 'lassq', 'lasv2', 'laswlq', 'laswp', 'lasy2',\
-                      'lasyf', 'lasyf_aa', 'lasyf_rk', 'lasyf_rook', 'latbs', 'latdf', 'latps', 'latrd', \
-                      'latrs', 'latrz', 'latsqr', 'lauu2', 'lauum', 'opgtr', 'opmtr', 'orbdb', 'orbdb1', \
-                      'orbdb2', 'orbdb3', 'orbdb4', 'orbdb5', 'orbdb6', 'orcsd', 'orcsd2by1', 'org2l', \
-                      'org2r', 'orgbr', 'orghr', 'orgl2', 'orglq', 'orgql', 'orgqr', 'orgr2', 'orgrq', \
-                      'orgtr', 'orgtsqr', 'orgtsqr_row', 'orhr_col', 'orm22', 'orm2l', 'orm2r', 'ormbr', \
-                      'ormhr', 'orml2', 'ormlq', 'ormql', 'ormqr', 'ormr2', 'ormr3', 'ormrq', 'ormrz', \
-                      'ormtr', 'pbcon', 'pbequ', 'pbrfs', 'pbstf', 'pbsv', 'pbsvx', 'pbtf2', 'pbtrf', \
-                      'pbtrs', 'pftrf', 'pftri', 'pftrs', 'pocon', 'poequ', 'poequb', 'porfs', 'posv',\
-                      'posvx', 'potf2', 'potrf', 'potrf2', 'potri', 'potrs', 'ppcon', 'ppequ', 'pprfs', \
-                      'ppsv', 'ppsvx', 'pptrf', 'pptri', 'pptrs', 'pstf2', 'pstrf', 'ptcon', 'pteqr', \
-                      'ptrfs', 'ptsv', 'ptsvx', 'pttrf', 'pttrs', 'ptts2', 'rscl', 'sb2st_kernels', \
-                      'sbev', 'sbevd', 'sbevx', 'sbgst', 'sbgv', 'sbgvd', 'sbgvx', 'sbtrd', 'sfrk',\
-                      'spcon', 'spev', 'spevd', 'spevx', 'spgst', 'spgv', 'spgvd', 'spgvx', 'sprfs', \
-                      'spsv', 'spsvx', 'sptrd', 'sptrf', 'sptri', 'sptrs', 'stebz', 'stedc', 'stegr', \
-                      'stein', 'stemr', 'steqr', 'sterf', 'stev', 'stevd', 'stevr', 'stevx', 'sycon', \
-                      'sycon_rook', 'syconv', 'syconvf', 'syconvf_rook', 'syequb', 'syev', 'syevd', \
-                      'syevr', 'syevx', 'sygs2', 'sygst', 'sygv', 'sygvd', 'sygvx', 'syrfs', 'sysv',\
-                      'sysv_aa', 'sysv_rook', 'sysvx', 'syswapr', 'sytd2', 'sytf2', 'sytf2_rk', \
-                      'sytf2_rook', 'sytrd', 'sytrd_sb2st', 'sytrd_sy2sb', 'sytrf', 'sytrf_aa', \
-                      'sytrf_rk', 'sytrf_rook', 'sytri', 'sytri_rook', 'sytrs', 'sytrs2', 'sytrs_3', \
-                      'sytrs_aa', 'sytrs_rook', 'tbcon', 'tbrfs', 'tbtrs', 'tfsm', 'tftri', 'tfttp', \
-                      'tfttr', 'tgevc', 'tgex2', 'tgexc', 'tgsen', 'tgsja', 'tgsna', 'tgsy2', 'tgsyl', \
-                      'tpcon', 'tplqt', 'tplqt2', 'tpmlqt', 'tpmqrt', 'tpqrt', 'tpqrt2', 'tprfb',\
-                      'tprfs', 'tptri', 'tptrs', 'tpttf', 'tpttr', 'trcon', 'trevc', 'trevc3',\
-                      'trexc', 'trrfs', 'trsen', 'trsna', 'trsyl', 'trti2', 'trtri', 'trtrs', \
-                      'trttf', 'trttp', 'tzrzf', 'hb2st_kernels', 'hbev', 'hbevd', 'hbevx', 'hbgst', \
-                      'hbgv', 'hbgvd', 'hbgvx', 'hbtrd', 'hecon', 'hecon_rook', 'heequb', 'heev',\
-                      'heevd', 'heevr', 'heevx', 'hegs2', 'hegst', 'hegv', 'hegvd', 'hegvx', 'herfs',\
-                      'hesv', 'hesv_aa', 'hesv_rk', 'hesv_rook', 'hesvx', 'heswapr', 'hetd2', 'hetf2', \
-                      'hetf2_rk', 'hetf2_rook', 'hetrd', 'hetrd_hb2st', 'hetrd_he2hb', 'hetrf', 'hetrf_aa', \
-                      'hetrf_rk', 'hetrf_rook', 'hetri', 'hetri_rook', 'hetrs', 'hetrs2', 'hetrs_3', \
-                      'hetrs_aa', 'hetrs_rook', 'hfrk', 'hpcon', 'hpev', 'hpevd', 'hpevx', 'hpgst', 'hpgv',\
-                      'hpgvd', 'hpgvx', 'hprfs', 'hpsv', 'hpsvx', 'hptrd', 'hptrf', 'hptri', 'hptrs', \
-                      'la_gbrcond_c', 'la_gercond_c', 'la_heamv', 'la_hercond_c', 'la_herpvgrw', \
-                      'la_porcond_c', 'la_syrcond_c', 'lacgv', 'lacp2', 'lacrm', 'lacrt', 'laesy', 'lahef',\
-                      'lahef_aa', 'lahef_rk', 'lahef_rook', 'lanhb', 'lanhe', 'lanhf', 'lanhp', 'lanht', \
-                      'laqhb', 'laqhe', 'laqhp', 'larcm', 'launhr_col_getrfnp', 'launhr_col_getrfnp2', 'rot',\
-                      'spmv', 'spr', 'symv', 'syr', 'sysv_rk', 'unbdb', 'unbdb1', 'unbdb2', 'unbdb3', \
-                      'unbdb4', 'unbdb5', 'unbdb6', 'uncsd', 'uncsd2by1', 'ung2l', 'ung2r', 'ungbr', \
-                      'unghr', 'ungl2', 'unglq', 'ungql', 'ungqr', 'ungr2', 'ungrq', 'ungtr', 'ungtsqr',\
-                      'ungtsqr_row', 'unhr_col', 'unm22', 'unm2l', 'unm2r', 'unmbr', 'unmhr', 'unml2', \
-                      'unmlq', 'unmql', 'unmqr', 'unmr2', 'unmr3', 'unmrq', 'unmrz', 'unmtr', 'upgtr', 'upmtr']
+        interfaces = parse_interfaces(fortran_functions)
 
     interfaces.sort()
 
@@ -2305,6 +2237,68 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
     return Procedures
 
+# Parse interfaces from procedure names
+def parse_interfaces(Sources):
+
+    # Create an empty list to store the lines
+    s = []
+    d = []
+    q = []
+    c = []
+    z = []
+    w = []
+
+    interfaces = []
+    all_funs = []
+
+    # Iterate over the lines of the file
+    for k in range(len(Sources)):
+
+        ls = Sources.new_name.lower()
+
+        # Extract function mame
+        m = re.search(r'^stdlib_(.+)$',ls)
+
+        if not m is None:
+
+            name = m.group(1)
+
+            if name[0]=='s':
+                s.append(name)
+            elif name[0]=='d':
+                d.append(name)
+            elif name[0]=='q':
+                q.append(name)
+            elif name[0]=='c':
+                c.append(name)
+            elif name[0]=='z':
+                z.append(name)
+            elif name[0]=='w':
+                w.append(name)
+
+            all_funs.append(name)
+
+            # Strip initial
+            stripped = name[1:]
+
+            # Add to interface
+            if not stripped in interfaces:
+                if ('c'+stripped in c and \
+                    'z'+stripped in z and \
+                    'w'+stripped in w) or \
+                   ('s'+stripped in s and \
+                    'd'+stripped in d and \
+                    'q'+stripped in q):
+                   interfaces.append(stripped)
+
+    pass_interfaces = []
+    for j in range(len(interfaces)):
+        occurrence = 0
+        for i in range(len(all_funs)):
+           if all_funs[i][1:]==interfaces[j]: occurrence += 1
+        if occurrence>1: pass_interfaces.append(interfaces[j])
+
+    return pass_interfaces
 
 # Copy files into a temporary folder
 import shutil
