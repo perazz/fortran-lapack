@@ -214,13 +214,84 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
     # Add quad-precision modules
     initials = ['aux','s','d','q','c','z','w']
 
-    interfaces = ['asu','axpy','copy','dot','gbmv','gemm','gemv','ger','nrm2','rot','rotg','rotm','rotmg', \
-                  'sbmv','scal','sdot','spmv','spr','spr2','swap','symm','symv','syr','syr2','syr2k','syrk', \
-                  'tbmv','tbsv','tpmv','tpsv','trmm','trmv','trsm','trsv', \
-                  'dotc','dotu','gerc','geru','hbmv','hemm','hemv','her','her2','her2k','herk','hpmv', \
-                  'hpr','hpr2','srot','sscal']
-    interfaces.sort()
+    if module_name.endswith('blas'):
+        interfaces = ['asu','axpy','copy','dot','gbmv','gemm','gemv','ger','nrm2','rot','rotg','rotm','rotmg', \
+                      'sbmv','scal','sdot','spmv','spr','spr2','swap','symm','symv','syr','syr2','syr2k','syrk', \
+                      'tbmv','tbsv','tpmv','tpsv','trmm','trmv','trsm','trsv', \
+                      'dotc','dotu','gerc','geru','hbmv','hemm','hemv','her','her2','her2k','herk','hpmv', \
+                      'hpr','hpr2','srot','sscal']
+    elif module_name.endswith('lapack'):
+        interfaces = ['bbcsd', 'bdsdc', 'bdsqr', 'disna', 'gbbrd', 'gbcon', 'gbequ', 'gbequb', 'gbrfs', 'gbsv', \
+                      'gbsvx', 'gbtf2', 'gbtrf', 'gbtrs', 'gebak', 'gebal', 'gebd2', 'gebrd', 'gecon', 'geequ',\
+                      'geequb', 'gees', 'geesx', 'geev', 'geevx', 'gehd2', 'gehrd', 'gejsv', 'gelq', 'gelq2',\
+                      'gelqf', 'gelqt', 'gelqt3', 'gels', 'gelsd', 'gelss', 'gelsy', 'gemlq', 'gemlqt', 'gemqr',\
+                      'gemqrt', 'geql2', 'geqlf', 'geqp3', 'geqr', 'geqr2', 'geqr2p', 'geqrf', 'geqrfp', 'geqrt',\
+                      'geqrt2', 'geqrt3', 'gerfs', 'gerq2', 'gerqf', 'gesc2', 'gesdd', 'gesv', 'gesvd', 'gesvdq',\
+                      'gesvj', 'gesvx', 'getc2', 'getf2', 'getrf', 'getrf2', 'getri', 'getrs', 'getsls', \
+                      'getsqrhrt', 'ggbak', 'ggbal', 'gges', 'gges3', 'ggesx', 'ggev', 'ggev3', 'ggevx', 'ggglm', \
+                      'gghd3', 'gghrd', 'gglse', 'ggqrf', 'ggrqf', 'gsvj0', 'gsvj1', 'gtcon', 'gtrfs', 'gtsv', \
+                      'gtsvx', 'gttrf', 'gttrs', 'gtts2', 'hgeqz', 'hsein', 'hseqr', 'isnan', 'la_gbamv', \
+                      'la_gbrcond', 'la_gbrpvgrw', 'la_geamv', 'la_gercond', 'la_gerpvgrw', 'la_lin_berr', \
+                      'la_porcond', 'la_porpvgrw', 'la_syamv', 'la_syrcond', 'la_syrpvgrw', 'la_wwaddw', 'labad', \
+                      'labrd', 'lacn2', 'lacon', 'lacpy', 'ladiv', 'ladiv1', 'ladiv2', 'lae2', 'laebz', 'laed0', \
+                      'laed1', 'laed2', 'laed3', 'laed4', 'laed5', 'laed6', 'laed7', 'laed8', 'laed9', 'laeda', \
+                      'laein', 'laev2', 'laexc', 'lag2', 'lags2', 'lagtf', 'lagtm', 'lagts', 'lagv2', 'lahqr', \
+                      'lahr2', 'laic1', 'laisnan', 'laln2', 'lals0', 'lalsa', 'lalsd', 'lamch', 'lamc3', \
+                      'lamrg', 'lamswlq', 'lamtsqr', 'laneg', 'langb', 'lange', 'langt', 'lanhs', 'lansb', \
+                      'lansf', 'lansp', 'lanst', 'lansy', 'lantb', 'lantp', 'lantr', 'lanv2', \
+                      'laorhr_col_getrfnp', 'laorhr_col_getrfnp2', 'lapll', 'lapmr', 'lapmt', 'lapy2',\
+                      'lapy3', 'laqgb', 'laqge', 'laqp2', 'laqps', 'laqr0', 'laqr1', 'laqr2', 'laqr3', \
+                      'laqr4', 'laqr5', 'laqsb', 'laqsp', 'laqsy', 'laqtr', 'laqz0', 'laqz1', 'laqz2', 'laqz3', \
+                      'laqz4', 'lar1v', 'lar2v', 'larf', 'larfb', 'larfb_gett', 'larfg', 'larfgp', 'larft', \
+                      'larfx', 'larfy', 'largv', 'larnv', 'larra', 'larrb', 'larrc', 'larrd', 'larre', 'larrf', \
+                      'larrj', 'larrk', 'larrr', 'larrv', 'lartg', 'lartgp', 'lartgs', 'lartv', 'laruv', 'larz',\
+                      'larzb', 'larzt', 'las2', 'lascl', 'lasd0', 'lasd1', 'lasd2', 'lasd3', 'lasd4', 'lasd5', \
+                      'lasd6', 'lasd7', 'lasd8', 'lasda', 'lasdq', 'lasdt', 'laset', 'lasq1', 'lasq2', 'lasq3',\
+                      'lasq4', 'lasq5', 'lasq6', 'lasr', 'lasrt', 'lassq', 'lasv2', 'laswlq', 'laswp', 'lasy2',\
+                      'lasyf', 'lasyf_aa', 'lasyf_rk', 'lasyf_rook', 'latbs', 'latdf', 'latps', 'latrd', \
+                      'latrs', 'latrz', 'latsqr', 'lauu2', 'lauum', 'opgtr', 'opmtr', 'orbdb', 'orbdb1', \
+                      'orbdb2', 'orbdb3', 'orbdb4', 'orbdb5', 'orbdb6', 'orcsd', 'orcsd2by1', 'org2l', \
+                      'org2r', 'orgbr', 'orghr', 'orgl2', 'orglq', 'orgql', 'orgqr', 'orgr2', 'orgrq', \
+                      'orgtr', 'orgtsqr', 'orgtsqr_row', 'orhr_col', 'orm22', 'orm2l', 'orm2r', 'ormbr', \
+                      'ormhr', 'orml2', 'ormlq', 'ormql', 'ormqr', 'ormr2', 'ormr3', 'ormrq', 'ormrz', \
+                      'ormtr', 'pbcon', 'pbequ', 'pbrfs', 'pbstf', 'pbsv', 'pbsvx', 'pbtf2', 'pbtrf', \
+                      'pbtrs', 'pftrf', 'pftri', 'pftrs', 'pocon', 'poequ', 'poequb', 'porfs', 'posv',\
+                      'posvx', 'potf2', 'potrf', 'potrf2', 'potri', 'potrs', 'ppcon', 'ppequ', 'pprfs', \
+                      'ppsv', 'ppsvx', 'pptrf', 'pptri', 'pptrs', 'pstf2', 'pstrf', 'ptcon', 'pteqr', \
+                      'ptrfs', 'ptsv', 'ptsvx', 'pttrf', 'pttrs', 'ptts2', 'rscl', 'sb2st_kernels', \
+                      'sbev', 'sbevd', 'sbevx', 'sbgst', 'sbgv', 'sbgvd', 'sbgvx', 'sbtrd', 'sfrk',\
+                      'spcon', 'spev', 'spevd', 'spevx', 'spgst', 'spgv', 'spgvd', 'spgvx', 'sprfs', \
+                      'spsv', 'spsvx', 'sptrd', 'sptrf', 'sptri', 'sptrs', 'stebz', 'stedc', 'stegr', \
+                      'stein', 'stemr', 'steqr', 'sterf', 'stev', 'stevd', 'stevr', 'stevx', 'sycon', \
+                      'sycon_rook', 'syconv', 'syconvf', 'syconvf_rook', 'syequb', 'syev', 'syevd', \
+                      'syevr', 'syevx', 'sygs2', 'sygst', 'sygv', 'sygvd', 'sygvx', 'syrfs', 'sysv',\
+                      'sysv_aa', 'sysv_rook', 'sysvx', 'syswapr', 'sytd2', 'sytf2', 'sytf2_rk', \
+                      'sytf2_rook', 'sytrd', 'sytrd_sb2st', 'sytrd_sy2sb', 'sytrf', 'sytrf_aa', \
+                      'sytrf_rk', 'sytrf_rook', 'sytri', 'sytri_rook', 'sytrs', 'sytrs2', 'sytrs_3', \
+                      'sytrs_aa', 'sytrs_rook', 'tbcon', 'tbrfs', 'tbtrs', 'tfsm', 'tftri', 'tfttp', \
+                      'tfttr', 'tgevc', 'tgex2', 'tgexc', 'tgsen', 'tgsja', 'tgsna', 'tgsy2', 'tgsyl', \
+                      'tpcon', 'tplqt', 'tplqt2', 'tpmlqt', 'tpmqrt', 'tpqrt', 'tpqrt2', 'tprfb',\
+                      'tprfs', 'tptri', 'tptrs', 'tpttf', 'tpttr', 'trcon', 'trevc', 'trevc3',\
+                      'trexc', 'trrfs', 'trsen', 'trsna', 'trsyl', 'trti2', 'trtri', 'trtrs', \
+                      'trttf', 'trttp', 'tzrzf', 'hb2st_kernels', 'hbev', 'hbevd', 'hbevx', 'hbgst', \
+                      'hbgv', 'hbgvd', 'hbgvx', 'hbtrd', 'hecon', 'hecon_rook', 'heequb', 'heev',\
+                      'heevd', 'heevr', 'heevx', 'hegs2', 'hegst', 'hegv', 'hegvd', 'hegvx', 'herfs',\
+                      'hesv', 'hesv_aa', 'hesv_rk', 'hesv_rook', 'hesvx', 'heswapr', 'hetd2', 'hetf2', \
+                      'hetf2_rk', 'hetf2_rook', 'hetrd', 'hetrd_hb2st', 'hetrd_he2hb', 'hetrf', 'hetrf_aa', \
+                      'hetrf_rk', 'hetrf_rook', 'hetri', 'hetri_rook', 'hetrs', 'hetrs2', 'hetrs_3', \
+                      'hetrs_aa', 'hetrs_rook', 'hfrk', 'hpcon', 'hpev', 'hpevd', 'hpevx', 'hpgst', 'hpgv',\
+                      'hpgvd', 'hpgvx', 'hprfs', 'hpsv', 'hpsvx', 'hptrd', 'hptrf', 'hptri', 'hptrs', \
+                      'la_gbrcond_c', 'la_gercond_c', 'la_heamv', 'la_hercond_c', 'la_herpvgrw', \
+                      'la_porcond_c', 'la_syrcond_c', 'lacgv', 'lacp2', 'lacrm', 'lacrt', 'laesy', 'lahef',\
+                      'lahef_aa', 'lahef_rk', 'lahef_rook', 'lanhb', 'lanhe', 'lanhf', 'lanhp', 'lanht', \
+                      'laqhb', 'laqhe', 'laqhp', 'larcm', 'launhr_col_getrfnp', 'launhr_col_getrfnp2', 'rot',\
+                      'spmv', 'spr', 'symv', 'syr', 'sysv_rk', 'unbdb', 'unbdb1', 'unbdb2', 'unbdb3', \
+                      'unbdb4', 'unbdb5', 'unbdb6', 'uncsd', 'uncsd2by1', 'ung2l', 'ung2r', 'ungbr', \
+                      'unghr', 'ungl2', 'unglq', 'ungql', 'ungqr', 'ungr2', 'ungrq', 'ungtr', 'ungtsqr',\
+                      'ungtsqr_row', 'unhr_col', 'unm22', 'unm2l', 'unm2r', 'unmbr', 'unmhr', 'unml2', \
+                      'unmlq', 'unmql', 'unmqr', 'unmr2', 'unmr3', 'unmrq', 'unmrz', 'unmtr', 'upgtr', 'upmtr']
 
+    interfaces.sort()
 
     module_file = module_name + ".f90"
     module_path = os.path.join(out_folder,module_file)
@@ -245,17 +316,21 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
                 interf_functions.append(f)
 
         # Write interface
-        if len(interf_functions)>0: write_interface(fid,interfaces[j],interf_functions,INDENT,prefix)
-
+        if len(interf_functions)>0: write_interface(fid,interfaces[j],interf_functions,INDENT,prefix,module_name)
 
     # Close module
     fid.write("\n\n\nend module {}\n".format(module_name))
     fid.close()
 
 # write interface
-def write_interface(fid,name,functions,INDENT,prefix):
+def write_interface(fid,name,functions,INDENT,prefix,module_name):
 
     MAX_LINE_LENGTH = 150 # No line limits for the comments
+
+    if module_name.endswith('blas'):
+        blas_or_lapack = 'BLAS'
+    else:
+        blas_or_lapack = 'LAPACK'
 
     # Ensure all functions are sorted
     functions.sort(key=lambda x: x.old_name, reverse=False)
@@ -280,22 +355,25 @@ def write_interface(fid,name,functions,INDENT,prefix):
 
         # External blas interface
         if has_external:
-           fid.write("#ifdef STDLIB_EXTERNAL_BLAS\n".format(name))
-           fid.write(INDENT*3+"{}\n".format(declaration))
+           fid.write("#ifdef STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
+
+           declaration = INDENT*3+declaration
+           write_with_continuation(declaration,fid,INDENT,MAX_LINE_LENGTH)
            fid.write(INDENT*4+"import sp,dp,qp,ilp,lk \n")
            fid.write(INDENT*4+"implicit none(type,external) \n")
            for a in arguments:
-               fid.write(INDENT*4+a+" \n")
+               this_arg = INDENT*4+a
+               write_with_continuation(this_arg,fid,INDENT,MAX_LINE_LENGTH)
            fid.write(INDENT*3+"end {ptype} {pname}\n".format(ptype=f.procedure_type(),pname=f.old_name))
 
-           fid.write("#else\n".format(name))
+           fid.write("#else\n")
 
 
         # Local implementation
         fid.write(INDENT*3+"module procedure {}\n".format(f.new_name))
 
         if has_external:
-           fid.write("#endif\n".format(name))
+           fid.write("#endif\n")
 
     # Close interface
     fid.write(INDENT*2+"end interface {}\n\n\n".format(name))
@@ -863,7 +941,6 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
 
     for i in range(len(body)):
        line = body[i]
-       continued = False
 
        # Blank line
        if line.strip()=="":
@@ -907,39 +984,45 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
            # If line is '!', just print a blank line
            fid.write(INDENT + "\n")
        else:
+           write_with_continuation(line,fid,INDENT,MAX_LINE_LENGTH)
 
-           while (len(line)>MAX_LINE_LENGTH - 2*len(INDENT)) and not is_comment_line:
 
-              shift = 0
 
-              # Find last non-reserved character
-              m = re.search(r'[^a-zA-Z\d\.\_\'\"\*\=\<\>\/][a-zA-Z\d\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LINE_LENGTH-2])
+# Write with continuation
+def write_with_continuation(line,fid,INDENT,MAX_LENGTH):
 
-              if m is None:
-                  print(m)
-                  print(line)
-                  print("EEEEEEEE")
-                  exit(1)
+   continued = False
 
-              # PATCH :: Check that we're not splitting a string between quotes, aka ' &\n'
-              if re.search(r'\'\s+$',line[:m.start()+1]): shift = -2
+   mat = re.match(r'^\s*!', line)
+   is_comment_line = bool(mat)
 
-              next = line[m.start()+1+shift:]
+   while (len(line)>MAX_LENGTH - 2*len(INDENT)) and not is_comment_line:
 
-              end_line = "&\n" if len(next.strip())>0 else "\n"
-              comment  = "continued" if continued else "non      "
-              fid.write(line[:m.start()+1+shift] + end_line)
+      shift = 0
 
-              # Start with reminder (add same number of trailing spaces
-              nspaces = len(line)-len(line.lstrip(' '))
-              line = (" " * nspaces) + next
-              print("remainder line:" + line)
-              continued = True
-           if len(line)>0:
-               if not continued:
-                   fid.write(line + "\n")
-               else:
-                   fid.write(INDENT*2 + line + "\n")
+      # Find last non-reserved character
+      m = re.search(r'[^a-zA-Z\d\.\_\'\"\*\=\<\>\/][a-zA-Z\d\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LENGTH-2])
+
+      # PATCH :: Check that we're not splitting a string between quotes, aka ' &\n'
+      if re.search(r'\'\s+$',line[:m.start()+1]): shift = -2
+
+      next = line[m.start()+1+shift:]
+
+      end_line = "&\n" if len(next.strip())>0 else "\n"
+      fid.write(line[:m.start()+1+shift] + end_line)
+
+      # Start with reminder (add same number of trailing spaces
+      nspaces = len(line)-len(line.lstrip(' '))
+      line = (" " * nspaces) + next
+      continued = True
+
+   if len(line)>0:
+       if not continued:
+           fid.write(line + "\n")
+       else:
+           fid.write(INDENT*2 + line + "\n")
+
+
 
 # This class represents the contents of a 1-function/1-subroutine Fortran source file parsed from BLAS/LAPACK
 class Fortran_Source:
@@ -1087,8 +1170,8 @@ class Fortran_Source:
             for a in range(len(args)):
                 args[a] = args[a].strip()
         else:
+            if isinstance(args, type([])): args = args[0]
             args = args.strip()
-
 
         # extract all variables
         var_types = []
