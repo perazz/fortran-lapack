@@ -1,10 +1,10 @@
 module stdlib_linalg_lapack_aux
      use stdlib_linalg_constants
      use stdlib_linalg_blas
-     implicit none(type, external)
+     implicit none(type,external)
      private
 
-     public :: sp, dp, qp, lk, ilp
+     public :: sp,dp,qp,lk,ilp
      public :: stdlib_chla_transtype
      public :: stdlib_droundup_lwork
      public :: stdlib_icmax1
@@ -54,65 +54,65 @@ module stdlib_linalg_lapack_aux
      ! used to select eigenvalues to sort to the top left of the Schur form.
      ! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e.,
      abstract interface
-        logical(lk) function stdlib_selctg_s(alphar, alphai, beta)
-            import sp, dp, qp, lk
+        logical(lk) function stdlib_selctg_s(alphar,alphai,beta)
+            import sp,dp,qp,lk
             implicit none
-            real(sp), intent(in) :: alphar, alphai, beta
+            real(sp),intent(in) :: alphar,alphai,beta
         end function stdlib_selctg_s
-        logical(lk) function stdlib_select_s(alphar, alphai)
-            import sp, dp, qp, lk
+        logical(lk) function stdlib_select_s(alphar,alphai)
+            import sp,dp,qp,lk
             implicit none
-            real(sp), intent(in) :: alphar, alphai
+            real(sp),intent(in) :: alphar,alphai
         end function stdlib_select_s
-        logical(lk) function stdlib_selctg_d(alphar, alphai, beta)
-            import sp, dp, qp, lk
+        logical(lk) function stdlib_selctg_d(alphar,alphai,beta)
+            import sp,dp,qp,lk
             implicit none
-            real(dp), intent(in) :: alphar, alphai, beta
+            real(dp),intent(in) :: alphar,alphai,beta
         end function stdlib_selctg_d
-        logical(lk) function stdlib_select_d(alphar, alphai)
-            import sp, dp, qp, lk
+        logical(lk) function stdlib_select_d(alphar,alphai)
+            import sp,dp,qp,lk
             implicit none
-            real(dp), intent(in) :: alphar, alphai
+            real(dp),intent(in) :: alphar,alphai
         end function stdlib_select_d
-        logical(lk) function stdlib_selctg_q(alphar, alphai, beta)
-            import sp, dp, qp, lk
+        logical(lk) function stdlib_selctg_q(alphar,alphai,beta)
+            import sp,dp,qp,lk
             implicit none
-            real(qp), intent(in) :: alphar, alphai, beta
+            real(qp),intent(in) :: alphar,alphai,beta
         end function stdlib_selctg_q
-        logical(lk) function stdlib_select_q(alphar, alphai)
-            import sp, dp, qp, lk
+        logical(lk) function stdlib_select_q(alphar,alphai)
+            import sp,dp,qp,lk
             implicit none
-            real(qp), intent(in) :: alphar, alphai
+            real(qp),intent(in) :: alphar,alphai
         end function stdlib_select_q
-        logical(lk) function stdlib_selctg_c(alpha, beta)
-            import sp, dp, qp, lk
+        logical(lk) function stdlib_selctg_c(alpha,beta)
+            import sp,dp,qp,lk
             implicit none
-            complex(sp), intent(in) :: alpha, beta
+            complex(sp),intent(in) :: alpha,beta
         end function stdlib_selctg_c
         logical(lk) function stdlib_select_c(alpha)
-            import sp, dp, qp, lk
+            import sp,dp,qp,lk
             implicit none
-            complex(sp), intent(in) :: alpha
+            complex(sp),intent(in) :: alpha
         end function stdlib_select_c
-        logical(lk) function stdlib_selctg_z(alpha, beta)
-            import sp, dp, qp, lk
+        logical(lk) function stdlib_selctg_z(alpha,beta)
+            import sp,dp,qp,lk
             implicit none
-            complex(dp), intent(in) :: alpha, beta
+            complex(dp),intent(in) :: alpha,beta
         end function stdlib_selctg_z
         logical(lk) function stdlib_select_z(alpha)
-            import sp, dp, qp, lk
+            import sp,dp,qp,lk
             implicit none
-            complex(dp), intent(in) :: alpha
+            complex(dp),intent(in) :: alpha
         end function stdlib_select_z
-        logical(lk) function stdlib_selctg_w(alpha, beta)
-            import sp, dp, qp, lk
+        logical(lk) function stdlib_selctg_w(alpha,beta)
+            import sp,dp,qp,lk
             implicit none
-            complex(qp), intent(in) :: alpha, beta
+            complex(qp),intent(in) :: alpha,beta
         end function stdlib_selctg_w
         logical(lk) function stdlib_select_w(alpha)
-            import sp, dp, qp, lk
+            import sp,dp,qp,lk
             implicit none
-            complex(qp), intent(in) :: alpha
+            complex(qp),intent(in) :: alpha
         end function stdlib_select_w
      end interface
 
@@ -133,9 +133,9 @@ module stdlib_linalg_lapack_aux
            integer(ilp) :: trans
         ! =====================================================================
            ! .. parameters ..
-           integer(ilp), parameter :: blas_no_trans = 111
-           integer(ilp), parameter :: blas_trans = 112
-           integer(ilp), parameter :: blas_conj_trans = 113
+           integer(ilp),parameter :: blas_no_trans = 111
+           integer(ilp),parameter :: blas_trans = 112
+           integer(ilp),parameter :: blas_conj_trans = 113
            
            ! .. executable statements ..
            if (trans == blas_no_trans) then
@@ -154,18 +154,18 @@ module stdlib_linalg_lapack_aux
      ! Based on ICAMAX from Level 1 BLAS.
      ! The change is to use the 'genuine' absolute value.
 
-     integer(ilp) function stdlib_icmax1(n, cx, incx)
+     integer(ilp) function stdlib_icmax1(n,cx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx, n
+           integer(ilp) :: incx,n
            ! .. array arguments ..
            complex(sp) :: cx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: smax
-           integer(ilp) :: i, ix
+           integer(ilp) :: i,ix
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. executable statements ..
@@ -176,7 +176,7 @@ module stdlib_linalg_lapack_aux
            if (incx == 1) then
               ! code for increment equal to 1
               smax = abs(cx(1))
-              do i = 2, n
+              do i = 2,n
                  if (abs(cx(i)) > smax) then
                     stdlib_icmax1 = i
                     smax = abs(cx(i))
@@ -187,7 +187,7 @@ module stdlib_linalg_lapack_aux
               ix = 1
               smax = abs(cx(1))
               ix = ix + incx
-              do i = 2, n
+              do i = 2,n
                  if (abs(cx(ix)) > smax) then
                     stdlib_icmax1 = i
                     smax = abs(cx(ix))
@@ -201,16 +201,16 @@ module stdlib_linalg_lapack_aux
      ! IEEECK is called from the ILAENV to verify that Infinity and
      ! possibly NaN arithmetic is safe (i.e. will not trap).
 
-     integer(ilp) function stdlib_ieeeck(ispec, zero, one)
+     integer(ilp) function stdlib_ieeeck(ispec,zero,one)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            integer(ilp) :: ispec
-           real(sp) :: one, zero
+           real(sp) :: one,zero
         ! =====================================================================
            ! .. local scalars ..
-           real(sp) :: nan1, nan2, nan3, nan4, nan5, nan6, neginf, negzro, newzro, posinf
+           real(sp) :: nan1,nan2,nan3,nan4,nan5,nan6,neginf,negzro,newzro,posinf
            ! .. executable statements ..
            stdlib_ieeeck = 1
            posinf = one/zero
@@ -290,17 +290,17 @@ module stdlib_linalg_lapack_aux
 
      ! ILACLC scans A for its last non-zero column.
 
-     integer(ilp) function stdlib_ilaclc(m, n, a, lda)
+     integer(ilp) function stdlib_ilaclc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           complex(sp) :: a(lda, *)
+           complex(sp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           complex(sp), parameter :: zero = (0.0e+0, 0.0e+0)
+           complex(sp),parameter :: zero = (0.0e+0,0.0e+0)
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -308,13 +308,13 @@ module stdlib_linalg_lapack_aux
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilaclc = n
-           else if (a(1, n) /= zero .or. a(m, n) /= zero) then
+           else if (a(1,n) /= zero .or. a(m,n) /= zero) then
               stdlib_ilaclc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilaclc = n, 1, -1
-                 do i = 1, m
-                    if (a(i, stdlib_ilaclc) /= zero) return
+              do stdlib_ilaclc = n,1,-1
+                 do i = 1,m
+                    if (a(i,stdlib_ilaclc) /= zero) return
                  end do
               end do
            end if
@@ -323,35 +323,35 @@ module stdlib_linalg_lapack_aux
 
      ! ILACLR scans A for its last non-zero row.
 
-     integer(ilp) function stdlib_ilaclr(m, n, a, lda)
+     integer(ilp) function stdlib_ilaclr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           complex(sp) :: a(lda, *)
+           complex(sp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           complex(sp), parameter :: zero = (0.0e+0, 0.0e+0)
+           complex(sp),parameter :: zero = (0.0e+0,0.0e+0)
            
            ! .. local scalars ..
-           integer(ilp) :: i, j
+           integer(ilp) :: i,j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilaclr = m
-           else if (a(m, 1) /= zero .or. a(m, n) /= zero) then
+           else if (a(m,1) /= zero .or. a(m,n) /= zero) then
               stdlib_ilaclr = m
            else
            ! scan up each column tracking the last zero row seen.
               stdlib_ilaclr = 0
-              do j = 1, n
+              do j = 1,n
                  i = m
-                 do while ((a(max(i, 1), j) == zero) .and. (i >= 1))
+                 do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilaclr = max(stdlib_ilaclr, i)
+                 stdlib_ilaclr = max(stdlib_ilaclr,i)
               end do
            end if
            return
@@ -372,19 +372,19 @@ module stdlib_linalg_lapack_aux
            character :: prec
         ! =====================================================================
            ! .. parameters ..
-           integer(ilp), parameter :: blas_prec_single = 211
-           integer(ilp), parameter :: blas_prec_double = 212
-           integer(ilp), parameter :: blas_prec_indigenous = 213
-           integer(ilp), parameter :: blas_prec_extra = 214
+           integer(ilp),parameter :: blas_prec_single = 211
+           integer(ilp),parameter :: blas_prec_double = 212
+           integer(ilp),parameter :: blas_prec_indigenous = 213
+           integer(ilp),parameter :: blas_prec_extra = 214
            
            ! .. executable statements ..
-           if (stdlib_lsame(prec, 's')) then
+           if (stdlib_lsame(prec,'s')) then
               stdlib_ilaprec = blas_prec_single
-           else if (stdlib_lsame(prec, 'd')) then
+           else if (stdlib_lsame(prec,'d')) then
               stdlib_ilaprec = blas_prec_double
-           else if (stdlib_lsame(prec, 'i')) then
+           else if (stdlib_lsame(prec,'i')) then
               stdlib_ilaprec = blas_prec_indigenous
-           else if (stdlib_lsame(prec, 'x') .or. stdlib_lsame(prec, 'e')) then
+           else if (stdlib_lsame(prec,'x') .or. stdlib_lsame(prec,'e')) then
               stdlib_ilaprec = blas_prec_extra
            else
               stdlib_ilaprec = -1
@@ -394,17 +394,17 @@ module stdlib_linalg_lapack_aux
 
      ! ILASLC scans A for its last non-zero column.
 
-     integer(ilp) function stdlib_ilaslc(m, n, a, lda)
+     integer(ilp) function stdlib_ilaslc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           real(sp) :: a(lda, *)
+           real(sp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: zero = 0.0e+0
+           real(sp),parameter :: zero = 0.0e+0
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -412,13 +412,13 @@ module stdlib_linalg_lapack_aux
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilaslc = n
-           else if (a(1, n) /= zero .or. a(m, n) /= zero) then
+           else if (a(1,n) /= zero .or. a(m,n) /= zero) then
               stdlib_ilaslc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilaslc = n, 1, -1
-                 do i = 1, m
-                    if (a(i, stdlib_ilaslc) /= zero) return
+              do stdlib_ilaslc = n,1,-1
+                 do i = 1,m
+                    if (a(i,stdlib_ilaslc) /= zero) return
                  end do
               end do
            end if
@@ -427,35 +427,35 @@ module stdlib_linalg_lapack_aux
 
      ! ILASLR scans A for its last non-zero row.
 
-     integer(ilp) function stdlib_ilaslr(m, n, a, lda)
+     integer(ilp) function stdlib_ilaslr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           real(sp) :: a(lda, *)
+           real(sp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           real(sp), parameter :: zero = 0.0e+0
+           real(sp),parameter :: zero = 0.0e+0
            
            ! .. local scalars ..
-           integer(ilp) :: i, j
+           integer(ilp) :: i,j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilaslr = m
-           elseif (a(m, 1) /= zero .or. a(m, n) /= zero) then
+           elseif (a(m,1) /= zero .or. a(m,n) /= zero) then
               stdlib_ilaslr = m
            else
            ! scan up each column tracking the last zero row seen.
               stdlib_ilaslr = 0
-              do j = 1, n
+              do j = 1,n
                  i = m
-                 do while ((a(max(i, 1), j) == zero) .and. (i >= 1))
+                 do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilaslr = max(stdlib_ilaslr, i)
+                 stdlib_ilaslr = max(stdlib_ilaslr,i)
               end do
            end if
            return
@@ -476,16 +476,16 @@ module stdlib_linalg_lapack_aux
            character :: trans
         ! =====================================================================
            ! .. parameters ..
-           integer(ilp), parameter :: blas_no_trans = 111
-           integer(ilp), parameter :: blas_trans = 112
-           integer(ilp), parameter :: blas_conj_trans = 113
+           integer(ilp),parameter :: blas_no_trans = 111
+           integer(ilp),parameter :: blas_trans = 112
+           integer(ilp),parameter :: blas_conj_trans = 113
            
            ! .. executable statements ..
-           if (stdlib_lsame(trans, 'n')) then
+           if (stdlib_lsame(trans,'n')) then
               stdlib_ilatrans = blas_no_trans
-           else if (stdlib_lsame(trans, 't')) then
+           else if (stdlib_lsame(trans,'t')) then
               stdlib_ilatrans = blas_trans
-           else if (stdlib_lsame(trans, 'c')) then
+           else if (stdlib_lsame(trans,'c')) then
               stdlib_ilatrans = blas_conj_trans
            else
               stdlib_ilatrans = -1
@@ -508,13 +508,13 @@ module stdlib_linalg_lapack_aux
            character :: uplo
         ! =====================================================================
            ! .. parameters ..
-           integer(ilp), parameter :: blas_upper = 121
-           integer(ilp), parameter :: blas_lower = 122
+           integer(ilp),parameter :: blas_upper = 121
+           integer(ilp),parameter :: blas_lower = 122
            
            ! .. executable statements ..
-           if (stdlib_lsame(uplo, 'u')) then
+           if (stdlib_lsame(uplo,'u')) then
               stdlib_ilauplo = blas_upper
-           else if (stdlib_lsame(uplo, 'l')) then
+           else if (stdlib_lsame(uplo,'l')) then
               stdlib_ilauplo = blas_lower
            else
               stdlib_ilauplo = -1
@@ -527,35 +527,35 @@ module stdlib_linalg_lapack_aux
      ! problems. It is called whenever
      ! IPARMQ is called with 12 <= ISPEC <= 16
 
-     integer(ilp) function stdlib_iparmq(ispec, name, opts, n, ilo, ihi, lwork)
+     integer(ilp) function stdlib_iparmq(ispec,name,opts,n,ilo,ihi,lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi, ilo, ispec, lwork, n
-           character :: name*(*), opts*(*)
+           integer(ilp) :: ihi,ilo,ispec,lwork,n
+           character :: name*(*),opts*(*)
         ! ================================================================
            ! .. parameters ..
-           integer(ilp), parameter :: inmin = 12
-           integer(ilp), parameter :: inwin = 13
-           integer(ilp), parameter :: inibl = 14
-           integer(ilp), parameter :: ishfts = 15
-           integer(ilp), parameter :: iacc22 = 16
-           integer(ilp), parameter :: icost = 17
-           integer(ilp), parameter :: nmin = 75
-           integer(ilp), parameter :: k22min = 14
-           integer(ilp), parameter :: kacmin = 14
-           integer(ilp), parameter :: nibble = 14
-           integer(ilp), parameter :: knwswp = 500
-           integer(ilp), parameter :: rcost = 10
-           real(sp), parameter :: two = 2.0
+           integer(ilp),parameter :: inmin = 12
+           integer(ilp),parameter :: inwin = 13
+           integer(ilp),parameter :: inibl = 14
+           integer(ilp),parameter :: ishfts = 15
+           integer(ilp),parameter :: iacc22 = 16
+           integer(ilp),parameter :: icost = 17
+           integer(ilp),parameter :: nmin = 75
+           integer(ilp),parameter :: k22min = 14
+           integer(ilp),parameter :: kacmin = 14
+           integer(ilp),parameter :: nibble = 14
+           integer(ilp),parameter :: knwswp = 500
+           integer(ilp),parameter :: rcost = 10
+           real(sp),parameter :: two = 2.0
            
            ! .. local scalars ..
-           integer(ilp) :: nh, ns
-           integer(ilp) :: i, ic, iz
+           integer(ilp) :: nh,ns
+           integer(ilp) :: i,ic,iz
            character :: subnam*6
            ! .. intrinsic functions ..
-           intrinsic :: log, max, mod, nint, real
+           intrinsic :: log,max,mod,nint,real
            ! .. executable statements ..
            if ((ispec == ishfts) .or. (ispec == inwin) .or. (ispec == iacc22)) then
               ! ==== set the number simultaneous shifts ====
@@ -563,12 +563,12 @@ module stdlib_linalg_lapack_aux
               ns = 2
               if (nh >= 30) ns = 4
               if (nh >= 60) ns = 10
-              if (nh >= 150) ns = max(10, nh/nint(log(real(nh, KIND=dp))/log(two), &
+              if (nh >= 150) ns = max(10,nh/nint(log(real(nh,KIND=dp))/log(two), &
                         KIND=ilp))
               if (nh >= 590) ns = 64
               if (nh >= 3000) ns = 128
               if (nh >= 6000) ns = 256
-              ns = max(2, ns - mod(ns, 2))
+              ns = max(2,ns - mod(ns,2))
            end if
            if (ispec == inmin) then
               ! ===== matrices of order smaller than nmin get sent
@@ -606,7 +606,7 @@ module stdlib_linalg_lapack_aux
                  ! ascii character set
                  if (ic >= 97 .and. ic <= 122) then
                     subnam(1:1) = char(ic - 32)
-                    do i = 2, 6
+                    do i = 2,6
                        ic = ichar(subnam(i:i))
                        if (ic >= 97 .and. ic <= 122) subnam(i:i) = char(ic - 32)
                     end do
@@ -616,7 +616,7 @@ module stdlib_linalg_lapack_aux
                  if ((ic >= 129 .and. ic <= 137) .or. (ic >= 145 .and. ic <= 153) .or. (ic >= 162 .and. &
                            ic <= 169)) then
                     subnam(1:1) = char(ic + 64)
-                    do i = 2, 6
+                    do i = 2,6
                        ic = ichar(subnam(i:i))
                        if ((ic >= 129 .and. ic <= 137) .or. (ic >= 145 .and. ic <= 153) .or. (ic >= 162 &
                                  .and. ic <= 169)) subnam(i:i) = char(ic + 64)
@@ -626,7 +626,7 @@ module stdlib_linalg_lapack_aux
                  ! prime machines:  ascii+128
                  if (ic >= 225 .and. ic <= 250) then
                     subnam(1:1) = char(ic - 32)
-                    do i = 2, 6
+                    do i = 2,6
                        ic = ichar(subnam(i:i))
                        if (ic >= 225 .and. ic <= 250) subnam(i:i) = char(ic - 32)
                     end do
@@ -658,12 +658,12 @@ module stdlib_linalg_lapack_aux
      ! and .FALSE. otherwise.  LSAMEN also returns .FALSE. if LEN( CA )
      ! or LEN( CB ) is less than N.
 
-     logical(lk) function stdlib_lsamen(n, ca, cb)
+     logical(lk) function stdlib_lsamen(n,ca,cb)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character*(*) ca, cb
+           character*(*) ca,cb
            integer(ilp) :: n
        ! =====================================================================
            ! .. local scalars ..
@@ -674,9 +674,9 @@ module stdlib_linalg_lapack_aux
            stdlib_lsamen = .false.
            if (len(ca) < n .or. len(cb) < n) go to 20
            ! do for each character in the two strings.
-           do i = 1, n
+           do i = 1,n
               ! test if the characters are equal using stdlib_lsame.
-              if (.not. stdlib_lsame(ca(i:i), cb(i:i))) go to 20
+              if (.not. stdlib_lsame(ca(i:i),cb(i:i))) go to 20
            end do
            stdlib_lsamen = .true.
 20         continue
@@ -701,10 +701,10 @@ module stdlib_linalg_lapack_aux
            integer(ilp) :: lwork
        ! =====================================================================
            ! .. intrinsic functions ..
-           intrinsic :: epsilon, real, int
+           intrinsic :: epsilon,real,int
            ! .. executable statements ..
-           stdlib_sroundup_lwork = real(lwork, KIND=sp)
-           if (int(stdlib_sroundup_lwork, KIND=ilp) < lwork) then
+           stdlib_sroundup_lwork = real(lwork,KIND=sp)
+           if (int(stdlib_sroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_sroundup_lwork = stdlib_sroundup_lwork*(1.0e+0_sp + epsilon(0.0e+0_sp))
                          
@@ -730,10 +730,10 @@ module stdlib_linalg_lapack_aux
            integer(ilp) :: lwork
        ! =====================================================================
            ! .. intrinsic functions ..
-           intrinsic :: epsilon, real, int
+           intrinsic :: epsilon,real,int
            ! .. executable statements ..
-           stdlib_qroundup_lwork = real(lwork, KIND=qp)
-           if (int(stdlib_qroundup_lwork, KIND=ilp) < lwork) then
+           stdlib_qroundup_lwork = real(lwork,KIND=qp)
+           if (int(stdlib_qroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_qroundup_lwork = stdlib_qroundup_lwork*(1.0e+0_qp + epsilon(0.0e+0_qp))
                          
@@ -756,13 +756,13 @@ module stdlib_linalg_lapack_aux
            character :: diag
         ! =====================================================================
            ! .. parameters ..
-           integer(ilp), parameter :: blas_non_unit_qiag = 131
-           integer(ilp), parameter :: blas_unit_qiag = 132
+           integer(ilp),parameter :: blas_non_unit_qiag = 131
+           integer(ilp),parameter :: blas_unit_qiag = 132
            
            ! .. executable statements ..
-           if (stdlib_lsame(diag, 'n')) then
+           if (stdlib_lsame(diag,'n')) then
               stdlib_ilaqiag = blas_non_unit_qiag
-           else if (stdlib_lsame(diag, 'u')) then
+           else if (stdlib_lsame(diag,'u')) then
               stdlib_ilaqiag = blas_unit_qiag
            else
               stdlib_ilaqiag = -1
@@ -772,17 +772,17 @@ module stdlib_linalg_lapack_aux
 
      ! ILAQLC scans A for its last non-zero column.
 
-     integer(ilp) function stdlib_ilaqlc(m, n, a, lda)
+     integer(ilp) function stdlib_ilaqlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           real(qp) :: a(lda, *)
+           real(qp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           real(qp), parameter :: zero = 0.0d+0
+           real(qp),parameter :: zero = 0.0d+0
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -790,13 +790,13 @@ module stdlib_linalg_lapack_aux
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilaqlc = n
-           else if (a(1, n) /= zero .or. a(m, n) /= zero) then
+           else if (a(1,n) /= zero .or. a(m,n) /= zero) then
               stdlib_ilaqlc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilaqlc = n, 1, -1
-                 do i = 1, m
-                    if (a(i, stdlib_ilaqlc) /= zero) return
+              do stdlib_ilaqlc = n,1,-1
+                 do i = 1,m
+                    if (a(i,stdlib_ilaqlc) /= zero) return
                  end do
               end do
            end if
@@ -805,35 +805,35 @@ module stdlib_linalg_lapack_aux
 
      ! ILAQLR scans A for its last non-zero row.
 
-     integer(ilp) function stdlib_ilaqlr(m, n, a, lda)
+     integer(ilp) function stdlib_ilaqlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           real(qp) :: a(lda, *)
+           real(qp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           real(qp), parameter :: zero = 0.0d+0
+           real(qp),parameter :: zero = 0.0d+0
            
            ! .. local scalars ..
-           integer(ilp) :: i, j
+           integer(ilp) :: i,j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilaqlr = m
-           else if (a(m, 1) /= zero .or. a(m, n) /= zero) then
+           else if (a(m,1) /= zero .or. a(m,n) /= zero) then
               stdlib_ilaqlr = m
            else
            ! scan up each column tracking the last zero row seen.
               stdlib_ilaqlr = 0
-              do j = 1, n
+              do j = 1,n
                  i = m
-                 do while ((a(max(i, 1), j) == zero) .and. (i >= 1))
+                 do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilaqlr = max(stdlib_ilaqlr, i)
+                 stdlib_ilaqlr = max(stdlib_ilaqlr,i)
               end do
            end if
            return
@@ -841,17 +841,17 @@ module stdlib_linalg_lapack_aux
 
      ! ILAWLC scans A for its last non-zero column.
 
-     integer(ilp) function stdlib_ilawlc(m, n, a, lda)
+     integer(ilp) function stdlib_ilawlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           complex(qp) :: a(lda, *)
+           complex(qp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           complex(qp), parameter :: zero = (0.0d+0, 0.0d+0)
+           complex(qp),parameter :: zero = (0.0d+0,0.0d+0)
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -859,13 +859,13 @@ module stdlib_linalg_lapack_aux
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilawlc = n
-           else if (a(1, n) /= zero .or. a(m, n) /= zero) then
+           else if (a(1,n) /= zero .or. a(m,n) /= zero) then
               stdlib_ilawlc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilawlc = n, 1, -1
-                 do i = 1, m
-                    if (a(i, stdlib_ilawlc) /= zero) return
+              do stdlib_ilawlc = n,1,-1
+                 do i = 1,m
+                    if (a(i,stdlib_ilawlc) /= zero) return
                  end do
               end do
            end if
@@ -874,35 +874,35 @@ module stdlib_linalg_lapack_aux
 
      ! ILAWLR scans A for its last non-zero row.
 
-     integer(ilp) function stdlib_ilawlr(m, n, a, lda)
+     integer(ilp) function stdlib_ilawlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           complex(qp) :: a(lda, *)
+           complex(qp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           complex(qp), parameter :: zero = (0.0d+0, 0.0d+0)
+           complex(qp),parameter :: zero = (0.0d+0,0.0d+0)
            
            ! .. local scalars ..
-           integer(ilp) :: i, j
+           integer(ilp) :: i,j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilawlr = m
-           else if (a(m, 1) /= zero .or. a(m, n) /= zero) then
+           else if (a(m,1) /= zero .or. a(m,n) /= zero) then
               stdlib_ilawlr = m
            else
            ! scan up each column tracking the last zero row seen.
               stdlib_ilawlr = 0
-              do j = 1, n
+              do j = 1,n
                  i = m
-                 do while ((a(max(i, 1), j) == zero) .and. (i >= 1))
+                 do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilawlr = max(stdlib_ilawlr, i)
+                 stdlib_ilawlr = max(stdlib_ilawlr,i)
               end do
            end if
            return
@@ -912,18 +912,18 @@ module stdlib_linalg_lapack_aux
      ! Based on IZAMAX from Level 1 BLAS.
      ! The change is to use the 'genuine' absolute value.
 
-     integer(ilp) function stdlib_iwmax1(n, zx, incx)
+     integer(ilp) function stdlib_iwmax1(n,zx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx, n
+           integer(ilp) :: incx,n
            ! .. array arguments ..
            complex(qp) :: zx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: dmax
-           integer(ilp) :: i, ix
+           integer(ilp) :: i,ix
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. executable statements ..
@@ -934,7 +934,7 @@ module stdlib_linalg_lapack_aux
            if (incx == 1) then
               ! code for increment equal to 1
               dmax = abs(zx(1))
-              do i = 2, n
+              do i = 2,n
                  if (abs(zx(i)) > dmax) then
                     stdlib_iwmax1 = i
                     dmax = abs(zx(i))
@@ -945,7 +945,7 @@ module stdlib_linalg_lapack_aux
               ix = 1
               dmax = abs(zx(1))
               ix = ix + incx
-              do i = 2, n
+              do i = 2,n
                  if (abs(zx(ix)) > dmax) then
                     stdlib_iwmax1 = i
                     dmax = abs(zx(ix))
@@ -974,10 +974,10 @@ module stdlib_linalg_lapack_aux
            integer(ilp) :: lwork
        ! =====================================================================
            ! .. intrinsic functions ..
-           intrinsic :: epsilon, real, int
+           intrinsic :: epsilon,real,int
            ! .. executable statements ..
-           stdlib_droundup_lwork = real(lwork, KIND=dp)
-           if (int(stdlib_droundup_lwork, KIND=ilp) < lwork) then
+           stdlib_droundup_lwork = real(lwork,KIND=dp)
+           if (int(stdlib_droundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_droundup_lwork = stdlib_droundup_lwork*(1.0e+0_dp + epsilon(0.0e+0_dp))
                          
@@ -1000,13 +1000,13 @@ module stdlib_linalg_lapack_aux
            character :: diag
         ! =====================================================================
            ! .. parameters ..
-           integer(ilp), parameter :: blas_non_unit_diag = 131
-           integer(ilp), parameter :: blas_unit_diag = 132
+           integer(ilp),parameter :: blas_non_unit_diag = 131
+           integer(ilp),parameter :: blas_unit_diag = 132
            
            ! .. executable statements ..
-           if (stdlib_lsame(diag, 'n')) then
+           if (stdlib_lsame(diag,'n')) then
               stdlib_iladiag = blas_non_unit_diag
-           else if (stdlib_lsame(diag, 'u')) then
+           else if (stdlib_lsame(diag,'u')) then
               stdlib_iladiag = blas_unit_diag
            else
               stdlib_iladiag = -1
@@ -1016,17 +1016,17 @@ module stdlib_linalg_lapack_aux
 
      ! ILADLC scans A for its last non-zero column.
 
-     integer(ilp) function stdlib_iladlc(m, n, a, lda)
+     integer(ilp) function stdlib_iladlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           real(dp) :: a(lda, *)
+           real(dp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d+0
+           real(dp),parameter :: zero = 0.0d+0
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -1034,13 +1034,13 @@ module stdlib_linalg_lapack_aux
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_iladlc = n
-           else if (a(1, n) /= zero .or. a(m, n) /= zero) then
+           else if (a(1,n) /= zero .or. a(m,n) /= zero) then
               stdlib_iladlc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_iladlc = n, 1, -1
-                 do i = 1, m
-                    if (a(i, stdlib_iladlc) /= zero) return
+              do stdlib_iladlc = n,1,-1
+                 do i = 1,m
+                    if (a(i,stdlib_iladlc) /= zero) return
                  end do
               end do
            end if
@@ -1049,35 +1049,35 @@ module stdlib_linalg_lapack_aux
 
      ! ILADLR scans A for its last non-zero row.
 
-     integer(ilp) function stdlib_iladlr(m, n, a, lda)
+     integer(ilp) function stdlib_iladlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           real(dp) :: a(lda, *)
+           real(dp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           real(dp), parameter :: zero = 0.0d+0
+           real(dp),parameter :: zero = 0.0d+0
            
            ! .. local scalars ..
-           integer(ilp) :: i, j
+           integer(ilp) :: i,j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_iladlr = m
-           else if (a(m, 1) /= zero .or. a(m, n) /= zero) then
+           else if (a(m,1) /= zero .or. a(m,n) /= zero) then
               stdlib_iladlr = m
            else
            ! scan up each column tracking the last zero row seen.
               stdlib_iladlr = 0
-              do j = 1, n
+              do j = 1,n
                  i = m
-                 do while ((a(max(i, 1), j) == zero) .and. (i >= 1))
+                 do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_iladlr = max(stdlib_iladlr, i)
+                 stdlib_iladlr = max(stdlib_iladlr,i)
               end do
            end if
            return
@@ -1097,22 +1097,22 @@ module stdlib_linalg_lapack_aux
      ! This routine will not function correctly if it is converted to all
      ! lower case.  Converting it to all upper case is allowed.
 
-     integer(ilp) function stdlib_ilaenv(ispec, name, opts, n1, n2, n3, n4)
+     integer(ilp) function stdlib_ilaenv(ispec,name,opts,n1,n2,n3,n4)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character*(*) name, opts
-           integer(ilp) :: ispec, n1, n2, n3, n4
+           character*(*) name,opts
+           integer(ilp) :: ispec,n1,n2,n3,n4
         ! =====================================================================
            ! .. local scalars ..
-           integer(ilp) :: i, ic, iz, nb, nbmin, nx
-           logical(lk) :: cname, sname, twostage
-           character :: c1*1, c2*2, c4*2, c3*3, subnam*16
+           integer(ilp) :: i,ic,iz,nb,nbmin,nx
+           logical(lk) :: cname,sname,twostage
+           character :: c1*1,c2*2,c4*2,c3*3,subnam*16
            ! .. intrinsic functions ..
-           intrinsic :: char, ichar, int, min, real
+           intrinsic :: char,ichar,int,min,real
            ! .. executable statements ..
-           go to(10, 10, 10, 80, 90, 100, 110, 120, 130, 140, 150, 160, 160, 160, 160, 160, 160) &
+           go to(10,10,10,80,90,100,110,120,130,140,150,160,160,160,160,160,160) &
                      ispec
            ! invalid value for ispec
            stdlib_ilaenv = -1
@@ -1127,7 +1127,7 @@ module stdlib_linalg_lapack_aux
               ! ascii character set
               if (ic >= 97 .and. ic <= 122) then
                  subnam(1:1) = char(ic - 32)
-                 do i = 2, 6
+                 do i = 2,6
                     ic = ichar(subnam(i:i))
                     if (ic >= 97 .and. ic <= 122) subnam(i:i) = char(ic - 32)
                  end do
@@ -1137,7 +1137,7 @@ module stdlib_linalg_lapack_aux
               if ((ic >= 129 .and. ic <= 137) .or. (ic >= 145 .and. ic <= 153) .or. (ic >= 162 .and. &
                         ic <= 169)) then
                  subnam(1:1) = char(ic + 64)
-                 do i = 2, 6
+                 do i = 2,6
                     ic = ichar(subnam(i:i))
                     if ((ic >= 129 .and. ic <= 137) .or. (ic >= 145 .and. ic <= 153) .or. (ic >= 162 &
                               .and. ic <= 169)) subnam(i:i) = char(ic + 64)
@@ -1147,7 +1147,7 @@ module stdlib_linalg_lapack_aux
               ! prime machines:  ascii+128
               if (ic >= 225 .and. ic <= 250) then
                  subnam(1:1) = char(ic - 32)
-                 do i = 2, 6
+                 do i = 2,6
                     ic = ichar(subnam(i:i))
                     if (ic >= 225 .and. ic <= 250) subnam(i:i) = char(ic - 32)
                  end do
@@ -1161,7 +1161,7 @@ module stdlib_linalg_lapack_aux
            c3 = subnam(4:6)
            c4 = c3(2:3)
            twostage = len(subnam) >= 11 .and. subnam(11:11) == '2'
-           go to(50, 60, 70) ispec
+           go to(50,60,70) ispec
 50         continue
            ! ispec = 1:  block size
            ! in these examples, separate code is provided for setting nb for
@@ -1525,7 +1525,7 @@ module stdlib_linalg_lapack_aux
            return
 100        continue
            ! ispec = 6:  crossover point for svd (used by xgelss and xgesvd)
-           stdlib_ilaenv = int(real(min(n1, n2), KIND=dp)*1.6e0, KIND=ilp)
+           stdlib_ilaenv = int(real(min(n1,n2),KIND=dp)*1.6e0,KIND=ilp)
            return
 110        continue
            ! ispec = 7:  number of processors (not used)
@@ -1546,7 +1546,7 @@ module stdlib_linalg_lapack_aux
            ! stdlib_ilaenv = 0
            stdlib_ilaenv = 1
            if (stdlib_ilaenv == 1) then
-              stdlib_ilaenv = stdlib_ieeeck(1, 0.0, 1.0)
+              stdlib_ilaenv = stdlib_ieeeck(1,0.0,1.0)
            end if
            return
 150        continue
@@ -1554,28 +1554,28 @@ module stdlib_linalg_lapack_aux
            ! stdlib_ilaenv = 0
            stdlib_ilaenv = 1
            if (stdlib_ilaenv == 1) then
-              stdlib_ilaenv = stdlib_ieeeck(0, 0.0, 1.0)
+              stdlib_ilaenv = stdlib_ieeeck(0,0.0,1.0)
            end if
            return
 160        continue
            ! 12 <= ispec <= 17: xhseqr or related subroutines.
-           stdlib_ilaenv = stdlib_iparmq(ispec, name, opts, n1, n2, n3, n4)
+           stdlib_ilaenv = stdlib_iparmq(ispec,name,opts,n1,n2,n3,n4)
            return
      end function stdlib_ilaenv
 
      ! ILAZLC scans A for its last non-zero column.
 
-     integer(ilp) function stdlib_ilazlc(m, n, a, lda)
+     integer(ilp) function stdlib_ilazlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           complex(dp) :: a(lda, *)
+           complex(dp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0d+0, 0.0d+0)
+           complex(dp),parameter :: zero = (0.0d+0,0.0d+0)
            
            ! .. local scalars ..
            integer(ilp) :: i
@@ -1583,13 +1583,13 @@ module stdlib_linalg_lapack_aux
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilazlc = n
-           else if (a(1, n) /= zero .or. a(m, n) /= zero) then
+           else if (a(1,n) /= zero .or. a(m,n) /= zero) then
               stdlib_ilazlc = n
            else
            ! now scan each column from the end, returning with the first non-zero.
-              do stdlib_ilazlc = n, 1, -1
-                 do i = 1, m
-                    if (a(i, stdlib_ilazlc) /= zero) return
+              do stdlib_ilazlc = n,1,-1
+                 do i = 1,m
+                    if (a(i,stdlib_ilazlc) /= zero) return
                  end do
               end do
            end if
@@ -1598,35 +1598,35 @@ module stdlib_linalg_lapack_aux
 
      ! ILAZLR scans A for its last non-zero row.
 
-     integer(ilp) function stdlib_ilazlr(m, n, a, lda)
+     integer(ilp) function stdlib_ilazlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: m, n, lda
+           integer(ilp) :: m,n,lda
            ! .. array arguments ..
-           complex(dp) :: a(lda, *)
+           complex(dp) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
-           complex(dp), parameter :: zero = (0.0d+0, 0.0d+0)
+           complex(dp),parameter :: zero = (0.0d+0,0.0d+0)
            
            ! .. local scalars ..
-           integer(ilp) :: i, j
+           integer(ilp) :: i,j
            ! .. executable statements ..
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilazlr = m
-           else if (a(m, 1) /= zero .or. a(m, n) /= zero) then
+           else if (a(m,1) /= zero .or. a(m,n) /= zero) then
               stdlib_ilazlr = m
            else
            ! scan up each column tracking the last zero row seen.
               stdlib_ilazlr = 0
-              do j = 1, n
+              do j = 1,n
                  i = m
-                 do while ((a(max(i, 1), j) == zero) .and. (i >= 1))
+                 do while ((a(max(i,1),j) == zero) .and. (i >= 1))
                     i = i - 1
                  end do
-                 stdlib_ilazlr = max(stdlib_ilazlr, i)
+                 stdlib_ilazlr = max(stdlib_ilazlr,i)
               end do
            end if
            return
@@ -1640,23 +1640,23 @@ module stdlib_linalg_lapack_aux
      ! It is called whenever ILAENV2STAGE is called with 1 <= ISPEC <= 5
      ! with a direct conversion ISPEC + 16.
 
-     integer(ilp) function stdlib_iparam2stage(ispec, name, opts, ni, nbi, ibi, nxi)
+     integer(ilp) function stdlib_iparam2stage(ispec,name,opts,ni,nbi,ibi,nxi)
 #if defined(_OPENMP)
 #endif
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character*(*) name, opts
-           integer(ilp) :: ispec, ni, nbi, ibi, nxi
+           character*(*) name,opts
+           integer(ilp) :: ispec,ni,nbi,ibi,nxi
         ! ================================================================
            ! .. local scalars ..
-           integer(ilp) :: i, ic, iz, kd, ib, lhous, lwork, nthreads, factoptnb, qroptnb, &
+           integer(ilp) :: i,ic,iz,kd,ib,lhous,lwork,nthreads,factoptnb,qroptnb, &
                      lqoptnb
-           logical(lk) :: rprec, cprec
-           character :: prec*1, algo*3, stag*5, subnam*12, vect*1
+           logical(lk) :: rprec,cprec
+           character :: prec*1,algo*3,stag*5,subnam*12,vect*1
            ! .. intrinsic functions ..
-           intrinsic :: char, ichar, max
+           intrinsic :: char,ichar,max
            ! .. executable statements ..
            ! invalid value for ispec
            if ((ispec < 17) .or. (ispec > 21)) then
@@ -1681,7 +1681,7 @@ module stdlib_linalg_lapack_aux
                  ! ascii character set
                  if (ic >= 97 .and. ic <= 122) then
                     subnam(1:1) = char(ic - 32)
-                    do i = 2, 12
+                    do i = 2,12
                        ic = ichar(subnam(i:i))
                        if (ic >= 97 .and. ic <= 122) subnam(i:i) = char(ic - 32)
                     end do
@@ -1691,7 +1691,7 @@ module stdlib_linalg_lapack_aux
                  if ((ic >= 129 .and. ic <= 137) .or. (ic >= 145 .and. ic <= 153) .or. (ic >= 162 .and. &
                            ic <= 169)) then
                     subnam(1:1) = char(ic + 64)
-                    do i = 2, 12
+                    do i = 2,12
                        ic = ichar(subnam(i:i))
                        if ((ic >= 129 .and. ic <= 137) .or. (ic >= 145 .and. ic <= 153) .or. (ic >= 162 &
                                  .and. ic <= 169)) subnam(i:i) = char(ic + 64)
@@ -1701,7 +1701,7 @@ module stdlib_linalg_lapack_aux
                  ! prime machines:  ascii+128
                  if (ic >= 225 .and. ic <= 250) then
                     subnam(1:1) = char(ic - 32)
-                    do i = 2, 12
+                    do i = 2,12
                       ic = ichar(subnam(i:i))
                       if (ic >= 225 .and. ic <= 250) subnam(i:i) = char(ic - 32)
                     end do
@@ -1758,10 +1758,10 @@ module stdlib_linalg_lapack_aux
            ! will add the vect option here next release
               vect = opts(1:1)
               if (vect == 'n') then
-                 lhous = max(1, 4*ni)
+                 lhous = max(1,4*ni)
               else
                  ! this is not correct, it need to call the algo and the stage2
-                 lhous = max(1, 4*ni) + ibi
+                 lhous = max(1,4*ni) + ibi
               end if
               if (lhous >= 0) then
                  stdlib_iparam2stage = lhous
@@ -1785,31 +1785,31 @@ module stdlib_linalg_lapack_aux
               lwork = -1
               subnam(1:1) = prec
               subnam(2:6) = 'geqrf'
-              qroptnb = stdlib_ilaenv(1, subnam, ' ', ni, nbi, -1, -1)
+              qroptnb = stdlib_ilaenv(1,subnam,' ',ni,nbi,-1,-1)
               subnam(2:6) = 'gelqf'
-              lqoptnb = stdlib_ilaenv(1, subnam, ' ', nbi, ni, -1, -1)
+              lqoptnb = stdlib_ilaenv(1,subnam,' ',nbi,ni,-1,-1)
               ! could be qr or lq for trd and the max for brd
-              factoptnb = max(qroptnb, lqoptnb)
+              factoptnb = max(qroptnb,lqoptnb)
               if (algo == 'trd') then
                  if (stag == '2stag') then
-                    lwork = ni*nbi + ni*max(nbi + 1, factoptnb) + max(2*nbi*nbi, nbi*nthreads) + (nbi + &
+                    lwork = ni*nbi + ni*max(nbi + 1,factoptnb) + max(2*nbi*nbi,nbi*nthreads) + (nbi + &
                               1)*ni
                  else if ((stag == 'he2hb') .or. (stag == 'sy2sb')) then
-                    lwork = ni*nbi + ni*max(nbi, factoptnb) + 2*nbi*nbi
+                    lwork = ni*nbi + ni*max(nbi,factoptnb) + 2*nbi*nbi
                  else if ((stag == 'hb2st') .or. (stag == 'sb2st')) then
                     lwork = (2*nbi + 1)*ni + nbi*nthreads
                  end if
               else if (algo == 'brd') then
                  if (stag == '2stag') then
-                    lwork = 2*ni*nbi + ni*max(nbi + 1, factoptnb) + max(2*nbi*nbi, nbi*nthreads) + ( &
+                    lwork = 2*ni*nbi + ni*max(nbi + 1,factoptnb) + max(2*nbi*nbi,nbi*nthreads) + ( &
                               nbi + 1)*ni
                  else if (stag == 'ge2gb') then
-                    lwork = ni*nbi + ni*max(nbi, factoptnb) + 2*nbi*nbi
+                    lwork = ni*nbi + ni*max(nbi,factoptnb) + 2*nbi*nbi
                  else if (stag == 'gb2bd') then
                     lwork = (3*nbi + 1)*ni + nbi*nthreads
                  end if
               end if
-              lwork = max(1, lwork)
+              lwork = max(1,lwork)
               if (lwork > 0) then
                  stdlib_iparam2stage = lwork
               else
@@ -1825,18 +1825,18 @@ module stdlib_linalg_lapack_aux
      ! Based on IZAMAX from Level 1 BLAS.
      ! The change is to use the 'genuine' absolute value.
 
-     integer(ilp) function stdlib_izmax1(n, zx, incx)
+     integer(ilp) function stdlib_izmax1(n,zx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx, n
+           integer(ilp) :: incx,n
            ! .. array arguments ..
            complex(dp) :: zx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: dmax
-           integer(ilp) :: i, ix
+           integer(ilp) :: i,ix
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. executable statements ..
@@ -1847,7 +1847,7 @@ module stdlib_linalg_lapack_aux
            if (incx == 1) then
               ! code for increment equal to 1
               dmax = abs(zx(1))
-              do i = 2, n
+              do i = 2,n
                  if (abs(zx(i)) > dmax) then
                     stdlib_izmax1 = i
                     dmax = abs(zx(i))
@@ -1858,7 +1858,7 @@ module stdlib_linalg_lapack_aux
               ix = 1
               dmax = abs(zx(1))
               ix = ix + incx
-              do i = 2, n
+              do i = 2,n
                  if (abs(zx(ix)) > dmax) then
                     stdlib_izmax1 = i
                     dmax = abs(zx(ix))
@@ -1887,26 +1887,26 @@ module stdlib_linalg_lapack_aux
      ! This routine will not function correctly if it is converted to all
      ! lower case.  Converting it to all upper case is allowed.
 
-     integer(ilp) function stdlib_ilaenv2stage(ispec, name, opts, n1, n2, n3, n4)
+     integer(ilp) function stdlib_ilaenv2stage(ispec,name,opts,n1,n2,n3,n4)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! july 2017
            ! .. scalar arguments ..
-           character*(*) name, opts
-           integer(ilp) :: ispec, n1, n2, n3, n4
+           character*(*) name,opts
+           integer(ilp) :: ispec,n1,n2,n3,n4
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: iispec
            ! .. executable statements ..
-           go to(10, 10, 10, 10, 10) ispec
+           go to(10,10,10,10,10) ispec
            ! invalid value for ispec
            stdlib_ilaenv2stage = -1
            return
 10         continue
            ! 2stage eigenvalues and svd or related subroutines.
            iispec = 16 + ispec
-           stdlib_ilaenv2stage = stdlib_iparam2stage(iispec, name, opts, n1, n2, n3, n4)
+           stdlib_ilaenv2stage = stdlib_iparam2stage(iispec,name,opts,n1,n2,n3,n4)
            return
      end function stdlib_ilaenv2stage
 

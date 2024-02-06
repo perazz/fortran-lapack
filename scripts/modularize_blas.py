@@ -243,12 +243,22 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
     # Type-agnostic procedure interfaces
     for j in range(len(interfaces)):
         interf_functions = []
+        interf_subroutines = []
         for f in fortran_functions:
             if interfaces[j] == f.old_name[1:]:
-                interf_functions.append(f)
+                if f.is_subroutine: interf_subroutines.append(f)
+                if f.is_function: interf_functions.append(f)
 
         # Write interface
-        if len(interf_functions)>0: write_interface(fid,interfaces[j],interf_functions,INDENT,prefix,module_name)
+        if len(interf_functions)>0 and len(interf_subroutines)>0:
+            # There are mixed subroutines and functions with the same name, so, we need to 
+            # write two separate interfaces. Add _s and _f suffixes to differentiate between them
+            write_interface(fid,interfaces[j]+"_f",interf_functions,INDENT,prefix,module_name)
+            write_interface(fid,interfaces[j]+"_s",interf_subroutines,INDENT,prefix,module_name)
+        elif len(interf_functions)>0: 
+            write_interface(fid,interfaces[j],interf_functions,INDENT,prefix,module_name)
+        elif len(interf_subroutines)>0:
+            write_interface(fid,interfaces[j],interf_subroutines,INDENT,prefix,module_name)
 
     # Close module
     fid.write("\n\n\nend module {}\n".format(module_name))
@@ -257,7 +267,7 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
 # write interface
 def write_interface(fid,name,functions,INDENT,prefix,module_name):
 
-    MAX_LINE_LENGTH = 150 # No line limits for the comments
+    MAX_LINE_LENGTH = 100 # No line limits for the comments
 
     if module_name.endswith('blas'):
         blas_or_lapack = 'BLAS'
@@ -505,7 +515,19 @@ def function_in_module(initial,function_name):
    # PATCH: exclude functions
    # - with names ending in *x or *_extended, as they require external subroutines
    # which are not provided by the Fortran implementation
-   elif ((len(oname)>6 and oname.endswith('x')) or \
+   elif exclude_function(oname):
+       in_module = False
+   elif initial[0].lower() in ['c','s','d','z','q','w'] :
+       in_module = oname[0]==initial[0].lower()
+   else:
+       in_module = not (oname[0] in ['c','s','d','z','q','w'])
+   return in_module
+
+# PATCH: exclude functions
+# - with names ending in *x or *_extended, as they require external subroutines
+# which are not provided by the Fortran implementation
+def exclude_function(oname):
+   if ((len(oname)>6 and oname.endswith('x')) or \
          (len(oname)>6 and (oname.endswith('2') \
                             and not oname.endswith('ladiv2')   \
                             and not oname.endswith('geqrt2')   \
@@ -532,12 +554,9 @@ def function_in_module(initial,function_name):
           or oname.endswith('ssytri2') \
           or oname.endswith('_2stage') \
           or oname.endswith('ssysv_rk')):
-       in_module = False
-   elif initial[0].lower() in ['c','s','d','z','q','w'] :
-       in_module = oname[0]==initial[0].lower()
+        return True
    else:
-       in_module = not (oname[0] in ['c','s','d','z','q','w'])
-   return in_module
+        return False
 
 # Enum for file sections
 class Section(Enum):
@@ -1094,7 +1113,13 @@ class Fortran_Source:
            args = args.split(",")
 
         else:
-           m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)',head)
+           m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\s*\(([^\(\)]+)\)',head)
+
+           if m is None:
+               print("HEAD="+head)
+               print("ERROR: CANNOT FIND SUBROUTINE NAME")
+               exit(1)
+
            args = m.group(3).split(",")
 
         print(args)
@@ -2254,7 +2279,9 @@ def parse_interfaces(Sources):
     # Iterate over the lines of the file
     for k in range(len(Sources)):
 
-        ls = Sources.new_name.lower()
+        ls = Sources[k].new_name.lower().strip()
+
+        if exclude_function(ls): continue
 
         # Extract function mame
         m = re.search(r'^stdlib_(.+)$',ls)

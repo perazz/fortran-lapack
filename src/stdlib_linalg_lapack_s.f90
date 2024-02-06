@@ -46467,9 +46467,9 @@ module stdlib_linalg_lapack_s
      end subroutine stdlib_slabrd
 
      ! SLADIV performs complex division in  real arithmetic
-     ! a + i*b
+     !            a + i*b
      ! p + i*q = ---------
-     ! c + i*d
+     !            c + i*d
      ! The algorithm is due to Michael Baudin and Robert L. Smith
      ! and can be found in the paper
      ! "A Robust Complex Division in Scilab"
