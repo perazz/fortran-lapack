@@ -3,11 +3,6 @@ module stdlib_linalg_blas_aux
      implicit none(type,external)
      private
 
-
-
-
-
-
      public :: sp,dp,qp,lk,ilp
      public :: stdlib_dcabs1
      public :: stdlib_icamax
@@ -21,7 +16,6 @@ module stdlib_linalg_blas_aux
      public :: stdlib_qcabs1
      public :: stdlib_iqamax
      public :: stdlib_iwamax
-
 
      contains
 
@@ -42,14 +36,14 @@ module stdlib_linalg_blas_aux
            ! .. intrinsic functions ..
            intrinsic :: abs
            stdlib_isamax = 0
-           if (n<1 .or. incx<=0) return
+           if (n < 1 .or. incx <= 0) return
            stdlib_isamax = 1
-           if (n==1) return
-           if (incx==1) then
+           if (n == 1) return
+           if (incx == 1) then
               ! code for increment equal to 1
               smax = abs(sx(1))
               do i = 2,n
-                 if (abs(sx(i))>smax) then
+                 if (abs(sx(i)) > smax) then
                     stdlib_isamax = i
                     smax = abs(sx(i))
                  end if
@@ -60,7 +54,7 @@ module stdlib_linalg_blas_aux
               smax = abs(sx(1))
               ix = ix + incx
               do i = 2,n
-                 if (abs(sx(ix))>smax) then
+                 if (abs(sx(ix)) > smax) then
                     stdlib_isamax = i
                     smax = abs(sx(ix))
                  end if
@@ -95,23 +89,23 @@ module stdlib_linalg_blas_aux
            ! ichar('a') on an ebcdic machine.
            inta = ichar(ca)
            intb = ichar(cb)
-           if (zcode==90 .or. zcode==122) then
+           if (zcode == 90 .or. zcode == 122) then
               ! ascii is assumed - zcode is the ascii code of either lower or
               ! upper case 'z'.
-               if (inta>=97 .and. inta<=122) inta = inta - 32
-               if (intb>=97 .and. intb<=122) intb = intb - 32
-           else if (zcode==233 .or. zcode==169) then
+               if (inta >= 97 .and. inta <= 122) inta = inta - 32
+               if (intb >= 97 .and. intb <= 122) intb = intb - 32
+           else if (zcode == 233 .or. zcode == 169) then
               ! ebcdic is assumed - zcode is the ebcdic code of either lower or
               ! upper case 'z'.
-               if (inta>=129 .and. inta<=137 .or.inta>=145 .and. inta<=153 .or.inta>=162 .and. &
-                         inta<=169) inta = inta + 64
-               if (intb>=129 .and. intb<=137 .or.intb>=145 .and. intb<=153 .or.intb>=162 .and. &
-                         intb<=169) intb = intb + 64
-           else if (zcode==218 .or. zcode==250) then
+               if (inta >= 129 .and. inta <= 137 .or. inta >= 145 .and. inta <= 153 .or. inta >= 162 .and. &
+                         inta <= 169) inta = inta + 64
+               if (intb >= 129 .and. intb <= 137 .or. intb >= 145 .and. intb <= 153 .or. intb >= 162 .and. &
+                         intb <= 169) intb = intb + 64
+           else if (zcode == 218 .or. zcode == 250) then
               ! ascii is assumed, on prime machines - zcode is the ascii code
               ! plus 128 of either lower or upper case 'z'.
-               if (inta>=225 .and. inta<=250) inta = inta - 32
-               if (intb>=225 .and. intb<=250) intb = intb - 32
+               if (inta >= 225 .and. inta <= 250) inta = inta - 32
+               if (intb >= 225 .and. intb <= 250) intb = intb - 32
            end if
            stdlib_lsame = inta == intb
            ! return
@@ -138,7 +132,7 @@ module stdlib_linalg_blas_aux
      ! Installers may consider modifying the STOP statement in order to
      ! call system-specific exception-handling facilities.
 
-     subroutine stdlib_xerbla( srname, info )
+     subroutine stdlib_xerbla(srname,info)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -149,9 +143,9 @@ module stdlib_linalg_blas_aux
            ! .. intrinsic functions ..
            intrinsic :: len_trim
            ! .. executable statements ..
-           write( *, fmt = 9999 )srname( 1:len_trim( srname ) ), info
+           write (*,fmt=9999) srname(1:len_trim(srname)),info
            stop
-      9999 format( ' ** on entry to ', a, ' parameter number ', i2, ' had ','an illegal value' )
+9999  format(' ** on entry to ',a,' parameter number ',i2,' had ','an illegal value')
                 
      end subroutine stdlib_xerbla
 
@@ -172,12 +166,12 @@ module stdlib_linalg_blas_aux
      ! Providing XERBLA_ARRAY is not necessary for intercepting LAPACK
      ! errors.  XERBLA_ARRAY calls XERBLA.
 
-     subroutine stdlib_xerbla_array(srname_array, srname_len, info)
+     subroutine stdlib_xerbla_array(srname_array,srname_len,info)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: srname_len, info
+           integer(ilp) :: srname_len,info
            ! .. array arguments ..
            character(1) srname_array(srname_len)
        ! =====================================================================
@@ -189,10 +183,10 @@ module stdlib_linalg_blas_aux
            intrinsic :: min,len
            ! .. executable statements ..
            srname = ''
-           do i = 1, min( srname_len, len( srname ) )
-              srname( i:i ) = srname_array( i )
+           do i = 1,min(srname_len,len(srname))
+              srname(i:i) = srname_array(i)
            end do
-           call stdlib_xerbla( srname, info )
+           call stdlib_xerbla(srname,info)
            return
      end subroutine stdlib_xerbla_array
 
@@ -228,14 +222,14 @@ module stdlib_linalg_blas_aux
            ! .. intrinsic functions ..
            intrinsic :: abs
            stdlib_iqamax = 0
-           if (n<1 .or. incx<=0) return
+           if (n < 1 .or. incx <= 0) return
            stdlib_iqamax = 1
-           if (n==1) return
-           if (incx==1) then
+           if (n == 1) return
+           if (incx == 1) then
               ! code for increment equal to 1
               dmax = abs(dx(1))
               do i = 2,n
-                 if (abs(dx(i))>dmax) then
+                 if (abs(dx(i)) > dmax) then
                     stdlib_iqamax = i
                     dmax = abs(dx(i))
                  end if
@@ -246,7 +240,7 @@ module stdlib_linalg_blas_aux
               dmax = abs(dx(1))
               ix = ix + incx
               do i = 2,n
-                 if (abs(dx(ix))>dmax) then
+                 if (abs(dx(ix)) > dmax) then
                     stdlib_iqamax = i
                     dmax = abs(dx(ix))
                  end if
@@ -271,14 +265,14 @@ module stdlib_linalg_blas_aux
            real(qp) :: dmax
            integer(ilp) :: i,ix
            stdlib_iwamax = 0
-           if (n<1 .or. incx<=0) return
+           if (n < 1 .or. incx <= 0) return
            stdlib_iwamax = 1
-           if (n==1) return
-           if (incx==1) then
+           if (n == 1) return
+           if (incx == 1) then
               ! code for increment equal to 1
               dmax = stdlib_qcabs1(zx(1))
               do i = 2,n
-                 if (stdlib_qcabs1(zx(i))>dmax) then
+                 if (stdlib_qcabs1(zx(i)) > dmax) then
                     stdlib_iwamax = i
                     dmax = stdlib_qcabs1(zx(i))
                  end if
@@ -289,7 +283,7 @@ module stdlib_linalg_blas_aux
               dmax = stdlib_qcabs1(zx(1))
               ix = ix + incx
               do i = 2,n
-                 if (stdlib_qcabs1(zx(ix))>dmax) then
+                 if (stdlib_qcabs1(zx(ix)) > dmax) then
                     stdlib_iwamax = i
                     dmax = stdlib_qcabs1(zx(ix))
                  end if
@@ -329,14 +323,14 @@ module stdlib_linalg_blas_aux
            real(sp) :: smax
            integer(ilp) :: i,ix
            stdlib_icamax = 0
-           if (n<1 .or. incx<=0) return
+           if (n < 1 .or. incx <= 0) return
            stdlib_icamax = 1
-           if (n==1) return
-           if (incx==1) then
+           if (n == 1) return
+           if (incx == 1) then
               ! code for increment equal to 1
               smax = stdlib_scabs1(cx(1))
               do i = 2,n
-                 if (stdlib_scabs1(cx(i))>smax) then
+                 if (stdlib_scabs1(cx(i)) > smax) then
                     stdlib_icamax = i
                     smax = stdlib_scabs1(cx(i))
                  end if
@@ -347,7 +341,7 @@ module stdlib_linalg_blas_aux
               smax = stdlib_scabs1(cx(1))
               ix = ix + incx
               do i = 2,n
-                 if (stdlib_scabs1(cx(ix))>smax) then
+                 if (stdlib_scabs1(cx(ix)) > smax) then
                     stdlib_icamax = i
                     smax = stdlib_scabs1(cx(ix))
                  end if
@@ -374,14 +368,14 @@ module stdlib_linalg_blas_aux
            ! .. intrinsic functions ..
            intrinsic :: abs
            stdlib_idamax = 0
-           if (n<1 .or. incx<=0) return
+           if (n < 1 .or. incx <= 0) return
            stdlib_idamax = 1
-           if (n==1) return
-           if (incx==1) then
+           if (n == 1) return
+           if (incx == 1) then
               ! code for increment equal to 1
               dmax = abs(dx(1))
               do i = 2,n
-                 if (abs(dx(i))>dmax) then
+                 if (abs(dx(i)) > dmax) then
                     stdlib_idamax = i
                     dmax = abs(dx(i))
                  end if
@@ -392,7 +386,7 @@ module stdlib_linalg_blas_aux
               dmax = abs(dx(1))
               ix = ix + incx
               do i = 2,n
-                 if (abs(dx(ix))>dmax) then
+                 if (abs(dx(ix)) > dmax) then
                     stdlib_idamax = i
                     dmax = abs(dx(ix))
                  end if
@@ -417,14 +411,14 @@ module stdlib_linalg_blas_aux
            real(dp) :: dmax
            integer(ilp) :: i,ix
            stdlib_izamax = 0
-           if (n<1 .or. incx<=0) return
+           if (n < 1 .or. incx <= 0) return
            stdlib_izamax = 1
-           if (n==1) return
-           if (incx==1) then
+           if (n == 1) return
+           if (incx == 1) then
               ! code for increment equal to 1
               dmax = stdlib_dcabs1(zx(1))
               do i = 2,n
-                 if (stdlib_dcabs1(zx(i))>dmax) then
+                 if (stdlib_dcabs1(zx(i)) > dmax) then
                     stdlib_izamax = i
                     dmax = stdlib_dcabs1(zx(i))
                  end if
@@ -435,7 +429,7 @@ module stdlib_linalg_blas_aux
               dmax = stdlib_dcabs1(zx(1))
               ix = ix + incx
               do i = 2,n
-                 if (stdlib_dcabs1(zx(ix))>dmax) then
+                 if (stdlib_dcabs1(zx(ix)) > dmax) then
                     stdlib_izamax = i
                     dmax = stdlib_dcabs1(zx(ix))
                  end if
@@ -444,7 +438,5 @@ module stdlib_linalg_blas_aux
            end if
            return
      end function stdlib_izamax
-
-
 
 end module stdlib_linalg_blas_aux

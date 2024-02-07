@@ -251,11 +251,11 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
 
         # Write interface
         if len(interf_functions)>0 and len(interf_subroutines)>0:
-            # There are mixed subroutines and functions with the same name, so, we need to 
+            # There are mixed subroutines and functions with the same name, so, we need to
             # write two separate interfaces. Add _s and _f suffixes to differentiate between them
             write_interface(fid,interfaces[j]+"_f",interf_functions,INDENT,prefix,module_name)
             write_interface(fid,interfaces[j]+"_s",interf_subroutines,INDENT,prefix,module_name)
-        elif len(interf_functions)>0: 
+        elif len(interf_functions)>0:
             write_interface(fid,interfaces[j],interf_functions,INDENT,prefix,module_name)
         elif len(interf_subroutines)>0:
             write_interface(fid,interfaces[j],interf_subroutines,INDENT,prefix,module_name)
@@ -552,8 +552,7 @@ def exclude_function(oname):
                             and not oname.endswith('trevc3'))) \
           or oname.endswith('extended') \
           or oname.endswith('ssytri2') \
-          or oname.endswith('_2stage') \
-          or oname.endswith('ssysv_rk')):
+          or oname.endswith('_2stage')): # or oname.endswith('ssysv_rk')):
         return True
    else:
         return False
@@ -2265,6 +2264,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 # Parse interfaces from procedure names
 def parse_interfaces(Sources):
 
+    # PATCH: Exclude functions with the same interface
+    exclude_interfaces = ['lastd','roundup_lwork','lamch','lasdt']
+
     # Create an empty list to store the lines
     s = []
     d = []
@@ -2309,7 +2311,7 @@ def parse_interfaces(Sources):
             stripped = name[1:]
 
             # Add to interface
-            if not stripped in interfaces:
+            if not (stripped in interfaces or stripped in exclude_interfaces):
                 if ('c'+stripped in c and \
                     'z'+stripped in z and \
                     'w'+stripped in w) or \

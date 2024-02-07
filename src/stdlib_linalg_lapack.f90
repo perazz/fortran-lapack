@@ -7361,10 +7361,10 @@ module stdlib_linalg_lapack
 #endif
           end interface lacrt
 
-          ! LADIV := X / Y, where X and Y are complex.  The computation of X / Y
+          ! LADIV_F := X / Y, where X and Y are complex.  The computation of X / Y
           ! will not overflow on an intermediary step unless the results
           ! overflows.
-          interface ladiv
+          interface ladiv_f
 #ifdef STDLIB_EXTERNAL_LAPACK
                complex(sp) function cladiv(x,y)
                     import sp,dp,qp,ilp,lk
@@ -7374,6 +7374,26 @@ module stdlib_linalg_lapack
 #else
                module procedure stdlib_cladiv
 #endif
+               module procedure stdlib_wladiv
+#ifdef STDLIB_EXTERNAL_LAPACK
+               complex(dp) function zladiv(x,y)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    complex(dp) :: x,y
+               end function zladiv
+#else
+               module procedure stdlib_zladiv
+#endif
+          end interface ladiv_f
+
+          ! LADIV_S performs complex division in  real arithmetic
+          ! a + i*b
+          ! p + i*q = ---------
+          ! c + i*d
+          ! The algorithm is due to Michael Baudin and Robert L. Smith
+          ! and can be found in the paper
+          ! "A Robust Complex Division in Scilab"
+          interface ladiv_s
 #ifdef STDLIB_EXTERNAL_LAPACK
                subroutine dladiv(a,b,c,d,p,q)
                     import sp,dp,qp,ilp,lk
@@ -7393,17 +7413,7 @@ module stdlib_linalg_lapack
 #else
                module procedure stdlib_sladiv
 #endif
-               module procedure stdlib_wladiv
-#ifdef STDLIB_EXTERNAL_LAPACK
-               complex(dp) function zladiv(x,y)
-                    import sp,dp,qp,ilp,lk
-                    implicit none(type,external)
-                    complex(dp) :: x,y
-               end function zladiv
-#else
-               module procedure stdlib_zladiv
-#endif
-          end interface ladiv
+          end interface ladiv_s
 
           interface ladiv1
 #ifdef STDLIB_EXTERNAL_LAPACK
@@ -8691,29 +8701,6 @@ module stdlib_linalg_lapack
                module procedure stdlib_zlalsd
 #endif
           end interface lalsd
-
-          ! LAMCH determines double precision machine parameters.
-          interface lamch
-#ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function dlamch(cmach)
-                    import sp,dp,qp,ilp,lk
-                    implicit none(type,external)
-                    character :: cmach
-               end function dlamch
-#else
-               module procedure stdlib_dlamch
-#endif
-               module procedure stdlib_qlamch
-#ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function slamch(cmach)
-                    import sp,dp,qp,ilp,lk
-                    implicit none(type,external)
-                    character :: cmach
-               end function slamch
-#else
-               module procedure stdlib_slamch
-#endif
-          end interface lamch
 
           ! LAMRG will create a permutation list which will merge the elements
           ! of A (which is composed of two independently sorted sets) into a
@@ -12635,30 +12622,6 @@ module stdlib_linalg_lapack
                module procedure stdlib_slasdq
 #endif
           end interface lasdq
-
-          ! LASDT creates a tree of subproblems for bidiagonal divide and
-          ! conquer.
-          interface lasdt
-#ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasdt(n,lvl,nd,inode,ndiml,ndimr,msub)
-                    import sp,dp,qp,ilp,lk
-                    implicit none(type,external)
-                    integer(ilp) :: lvl,msub,n,nd,inode,ndiml,ndimr
-               end subroutine dlasdt
-#else
-               module procedure stdlib_dlasdt
-#endif
-               module procedure stdlib_qlasdt
-#ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasdt(n,lvl,nd,inode,ndiml,ndimr,msub)
-                    import sp,dp,qp,ilp,lk
-                    implicit none(type,external)
-                    integer(ilp) :: lvl,msub,n,nd,inode,ndiml,ndimr
-               end subroutine slasdt
-#else
-               module procedure stdlib_slasdt
-#endif
-          end interface lasdt
 
           ! LASET initializes a 2-D array A to BETA on the diagonal and
           ! ALPHA on the offdiagonals.
@@ -17060,37 +17023,6 @@ module stdlib_linalg_lapack
                module procedure stdlib_zrot
 #endif
           end interface rot
-
-          ! ROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
-          ! This routine guarantees it is rounded up instead of down by
-          ! multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
-          ! E.g.,
-          ! float( 9007199254740993            ) == 9007199254740992
-          ! float( 9007199254740993 ) * (1.+eps) == 9007199254740994
-          ! \return ROUNDUP_LWORK
-          ! ROUNDUP_LWORK >= LWORK.
-          ! ROUNDUP_LWORK is guaranteed to have zero decimal part.
-          interface roundup_lwork
-#ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function droundup_lwork(lwork)
-                    import sp,dp,qp,ilp,lk
-                    implicit none(type,external)
-                    integer(ilp) :: lwork
-               end function droundup_lwork
-#else
-               module procedure stdlib_droundup_lwork
-#endif
-               module procedure stdlib_qroundup_lwork
-#ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function sroundup_lwork(lwork)
-                    import sp,dp,qp,ilp,lk
-                    implicit none(type,external)
-                    integer(ilp) :: lwork
-               end function sroundup_lwork
-#else
-               module procedure stdlib_sroundup_lwork
-#endif
-          end interface roundup_lwork
 
           ! RSCL multiplies an n-element real vector x by the real scalar 1/a.
           ! This is done without overflow or underflow as long as
