@@ -214,13 +214,16 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
     # Add quad-precision modules
     initials = ['aux','s','d','q','c','z','w']
 
-    interfaces = ['asu','axpy','copy','dot','gbmv','gemm','gemv','ger','nrm2','rot','rotg','rotm','rotmg', \
-                  'sbmv','scal','sdot','spmv','spr','spr2','swap','symm','symv','syr','syr2','syr2k','syrk', \
-                  'tbmv','tbsv','tpmv','tpsv','trmm','trmv','trsm','trsv', \
-                  'dotc','dotu','gerc','geru','hbmv','hemm','hemv','her','her2','her2k','herk','hpmv', \
-                  'hpr','hpr2','srot','sscal']
-    interfaces.sort()
+    if module_name.endswith('blas'):
+        interfaces = ['asu','axpy','copy','dot','gbmv','gemm','gemv','ger','nrm2','rot','rotg','rotm','rotmg', \
+                      'sbmv','scal','sdot','spmv','spr','spr2','swap','symm','symv','syr','syr2','syr2k','syrk', \
+                      'tbmv','tbsv','tpmv','tpsv','trmm','trmv','trsm','trsv', \
+                      'dotc','dotu','gerc','geru','hbmv','hemm','hemv','her','her2','her2k','herk','hpmv', \
+                      'hpr','hpr2','srot','sscal']
+    elif module_name.endswith('lapack'):
+        interfaces = parse_interfaces(fortran_functions)
 
+    interfaces.sort()
 
     module_file = module_name + ".f90"
     module_path = os.path.join(out_folder,module_file)
@@ -240,22 +243,36 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
     # Type-agnostic procedure interfaces
     for j in range(len(interfaces)):
         interf_functions = []
+        interf_subroutines = []
         for f in fortran_functions:
             if interfaces[j] == f.old_name[1:]:
-                interf_functions.append(f)
+                if f.is_subroutine: interf_subroutines.append(f)
+                if f.is_function: interf_functions.append(f)
 
         # Write interface
-        if len(interf_functions)>0: write_interface(fid,interfaces[j],interf_functions,INDENT,prefix)
-
+        if len(interf_functions)>0 and len(interf_subroutines)>0:
+            # There are mixed subroutines and functions with the same name, so, we need to
+            # write two separate interfaces. Add _s and _f suffixes to differentiate between them
+            write_interface(fid,interfaces[j]+"_f",interf_functions,INDENT,prefix,module_name)
+            write_interface(fid,interfaces[j]+"_s",interf_subroutines,INDENT,prefix,module_name)
+        elif len(interf_functions)>0:
+            write_interface(fid,interfaces[j],interf_functions,INDENT,prefix,module_name)
+        elif len(interf_subroutines)>0:
+            write_interface(fid,interfaces[j],interf_subroutines,INDENT,prefix,module_name)
 
     # Close module
     fid.write("\n\n\nend module {}\n".format(module_name))
     fid.close()
 
 # write interface
-def write_interface(fid,name,functions,INDENT,prefix):
+def write_interface(fid,name,functions,INDENT,prefix,module_name):
 
-    MAX_LINE_LENGTH = 150 # No line limits for the comments
+    MAX_LINE_LENGTH = 100 # No line limits for the comments
+
+    if module_name.endswith('blas'):
+        blas_or_lapack = 'BLAS'
+    else:
+        blas_or_lapack = 'LAPACK'
 
     # Ensure all functions are sorted
     functions.sort(key=lambda x: x.old_name, reverse=False)
@@ -280,22 +297,25 @@ def write_interface(fid,name,functions,INDENT,prefix):
 
         # External blas interface
         if has_external:
-           fid.write("#ifdef STDLIB_EXTERNAL_BLAS\n".format(name))
-           fid.write(INDENT*3+"{}\n".format(declaration))
+           fid.write("#ifdef STDLIB_EXTERNAL_{}\n".format(blas_or_lapack))
+
+           declaration = INDENT*3+declaration
+           write_with_continuation(declaration,fid,INDENT,MAX_LINE_LENGTH)
            fid.write(INDENT*4+"import sp,dp,qp,ilp,lk \n")
            fid.write(INDENT*4+"implicit none(type,external) \n")
            for a in arguments:
-               fid.write(INDENT*4+a+" \n")
+               this_arg = INDENT*4+a
+               write_with_continuation(this_arg,fid,INDENT,MAX_LINE_LENGTH)
            fid.write(INDENT*3+"end {ptype} {pname}\n".format(ptype=f.procedure_type(),pname=f.old_name))
 
-           fid.write("#else\n".format(name))
+           fid.write("#else\n")
 
 
         # Local implementation
         fid.write(INDENT*3+"module procedure {}\n".format(f.new_name))
 
         if has_external:
-           fid.write("#endif\n".format(name))
+           fid.write("#endif\n")
 
     # Close interface
     fid.write(INDENT*2+"end interface {}\n\n\n".format(name))
@@ -495,7 +515,19 @@ def function_in_module(initial,function_name):
    # PATCH: exclude functions
    # - with names ending in *x or *_extended, as they require external subroutines
    # which are not provided by the Fortran implementation
-   elif ((len(oname)>6 and oname.endswith('x')) or \
+   elif exclude_function(oname):
+       in_module = False
+   elif initial[0].lower() in ['c','s','d','z','q','w'] :
+       in_module = oname[0]==initial[0].lower()
+   else:
+       in_module = not (oname[0] in ['c','s','d','z','q','w'])
+   return in_module
+
+# PATCH: exclude functions
+# - with names ending in *x or *_extended, as they require external subroutines
+# which are not provided by the Fortran implementation
+def exclude_function(oname):
+   if ((len(oname)>6 and oname.endswith('x')) or \
          (len(oname)>6 and (oname.endswith('2') \
                             and not oname.endswith('ladiv2')   \
                             and not oname.endswith('geqrt2')   \
@@ -520,14 +552,10 @@ def function_in_module(initial,function_name):
                             and not oname.endswith('trevc3'))) \
           or oname.endswith('extended') \
           or oname.endswith('ssytri2') \
-          or oname.endswith('_2stage') \
-          or oname.endswith('ssysv_rk')):
-       in_module = False
-   elif initial[0].lower() in ['c','s','d','z','q','w'] :
-       in_module = oname[0]==initial[0].lower()
+          or oname.endswith('_2stage')): # or oname.endswith('ssysv_rk')):
+        return True
    else:
-       in_module = not (oname[0] in ['c','s','d','z','q','w'])
-   return in_module
+        return False
 
 # Enum for file sections
 class Section(Enum):
@@ -863,7 +891,6 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
 
     for i in range(len(body)):
        line = body[i]
-       continued = False
 
        # Blank line
        if line.strip()=="":
@@ -907,39 +934,45 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
            # If line is '!', just print a blank line
            fid.write(INDENT + "\n")
        else:
+           write_with_continuation(line,fid,INDENT,MAX_LINE_LENGTH)
 
-           while (len(line)>MAX_LINE_LENGTH - 2*len(INDENT)) and not is_comment_line:
 
-              shift = 0
 
-              # Find last non-reserved character
-              m = re.search(r'[^a-zA-Z\d\.\_\'\"\*\=\<\>\/][a-zA-Z\d\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LINE_LENGTH-2])
+# Write with continuation
+def write_with_continuation(line,fid,INDENT,MAX_LENGTH):
 
-              if m is None:
-                  print(m)
-                  print(line)
-                  print("EEEEEEEE")
-                  exit(1)
+   continued = False
 
-              # PATCH :: Check that we're not splitting a string between quotes, aka ' &\n'
-              if re.search(r'\'\s+$',line[:m.start()+1]): shift = -2
+   mat = re.match(r'^\s*!', line)
+   is_comment_line = bool(mat)
 
-              next = line[m.start()+1+shift:]
+   while (len(line)>MAX_LENGTH - 2*len(INDENT)) and not is_comment_line:
 
-              end_line = "&\n" if len(next.strip())>0 else "\n"
-              comment  = "continued" if continued else "non      "
-              fid.write(line[:m.start()+1+shift] + end_line)
+      shift = 0
 
-              # Start with reminder (add same number of trailing spaces
-              nspaces = len(line)-len(line.lstrip(' '))
-              line = (" " * nspaces) + next
-              print("remainder line:" + line)
-              continued = True
-           if len(line)>0:
-               if not continued:
-                   fid.write(line + "\n")
-               else:
-                   fid.write(INDENT*2 + line + "\n")
+      # Find last non-reserved character
+      m = re.search(r'[^a-zA-Z\d\.\_\'\"\*\=\<\>\/][a-zA-Z\d\.\_\'\"\*\=\<\>\/]*$',line[:MAX_LENGTH-2])
+
+      # PATCH :: Check that we're not splitting a string between quotes, aka ' &\n'
+      if re.search(r'\'\s+$',line[:m.start()+1]): shift = -2
+
+      next = line[m.start()+1+shift:]
+
+      end_line = "&\n" if len(next.strip())>0 else "\n"
+      fid.write(line[:m.start()+1+shift] + end_line)
+
+      # Start with reminder (add same number of trailing spaces
+      nspaces = len(line)-len(line.lstrip(' '))
+      line = (" " * nspaces) + next
+      continued = True
+
+   if len(line)>0:
+       if not continued:
+           fid.write(line + "\n")
+       else:
+           fid.write(INDENT*2 + line + "\n")
+
+
 
 # This class represents the contents of a 1-function/1-subroutine Fortran source file parsed from BLAS/LAPACK
 class Fortran_Source:
@@ -1079,7 +1112,13 @@ class Fortran_Source:
            args = args.split(",")
 
         else:
-           m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)',head)
+           m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\s*\(([^\(\)]+)\)',head)
+
+           if m is None:
+               print("HEAD="+head)
+               print("ERROR: CANNOT FIND SUBROUTINE NAME")
+               exit(1)
+
            args = m.group(3).split(",")
 
         print(args)
@@ -1087,8 +1126,8 @@ class Fortran_Source:
             for a in range(len(args)):
                 args[a] = args[a].strip()
         else:
+            if isinstance(args, type([])): args = args[0]
             args = args.strip()
-
 
         # extract all variables
         var_types = []
@@ -2222,6 +2261,73 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
     return Procedures
 
+# Parse interfaces from procedure names
+def parse_interfaces(Sources):
+
+    # PATCH: Exclude functions with the same interface
+    exclude_interfaces = ['lastd','roundup_lwork','lamch','lasdt']
+
+    # Create an empty list to store the lines
+    s = []
+    d = []
+    q = []
+    c = []
+    z = []
+    w = []
+
+    interfaces = []
+    all_funs = []
+
+    # Iterate over the lines of the file
+    for k in range(len(Sources)):
+
+        ls = Sources[k].new_name.lower().strip()
+
+        if exclude_function(ls): continue
+
+        # Extract function mame
+        m = re.search(r'^stdlib_(.+)$',ls)
+
+        if not m is None:
+
+            name = m.group(1)
+
+            if name[0]=='s':
+                s.append(name)
+            elif name[0]=='d':
+                d.append(name)
+            elif name[0]=='q':
+                q.append(name)
+            elif name[0]=='c':
+                c.append(name)
+            elif name[0]=='z':
+                z.append(name)
+            elif name[0]=='w':
+                w.append(name)
+
+            all_funs.append(name)
+
+            # Strip initial
+            stripped = name[1:]
+
+            # Add to interface
+            if not (stripped in interfaces or stripped in exclude_interfaces):
+                if ('c'+stripped in c and \
+                    'z'+stripped in z and \
+                    'w'+stripped in w) or \
+                   ('s'+stripped in s and \
+                    'd'+stripped in d and \
+                    'q'+stripped in q):
+                   interfaces.append(stripped)
+
+    pass_interfaces = []
+    for j in range(len(interfaces)):
+        occurrence = 0
+        for i in range(len(all_funs)):
+           if all_funs[i][1:]==interfaces[j]: occurrence += 1
+        if occurrence>1: pass_interfaces.append(interfaces[j])
+
+    return pass_interfaces
 
 # Copy files into a temporary folder
 import shutil
