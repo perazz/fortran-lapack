@@ -13,15 +13,15 @@ module stdlib_linalg_lapack
 
           ! BBCSD computes the CS decomposition of a unitary matrix in
           ! bidiagonal-block form,
-          ! [ B11 | B12 0  0 ]
-          ! [  0  |  0 -I  0 ]
+          !     [ B11 | B12 0  0 ]
+          !     [  0  |  0 -I  0 ]
           ! X = [----------------]
-          ! [ B21 | B22 0  0 ]
-          ! [  0  |  0  0  I ]
-          ! [  C | -S  0  0 ]
-          ! [ U1 |    ] [  0 |  0 -I  0 ] [ V1 |    ]**H
+          !     [ B21 | B22 0  0 ]
+          !     [  0  |  0  0  I ]
+          !     [  C | -S  0  0 ]
+          !   [ U1 |    ] [  0 |  0 -I  0 ] [ V1 |    ]**H
           ! = [---------] [---------------] [---------]   .
-          ! [    | U2 ] [  S |  C  0  0 ] [    | V2 ]
+          !   [    | U2 ] [  S |  C  0  0 ] [    | V2 ]
           ! [  0 |  0  0  I ]
           ! X is M-by-M, its top-left block is P-by-Q, and Q must be no larger
           ! than P, M-P, or M-Q. (If Q is not the smallest index, then X must be
