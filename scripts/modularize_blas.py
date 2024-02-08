@@ -1069,7 +1069,7 @@ class Fortran_Source:
     # Return declaration line of a function
     def declaration(self,strip_prefix):
 
-        DEBUG = False
+        DEBUG = False #self.old_name == 'claqz0'
 
         # Find header
         head = ""
@@ -1140,10 +1140,16 @@ class Fortran_Source:
         var_decl  = []
         for i in range(len(self.decl)):
             line = self.decl[i].lower().strip()
-            m = re.search(r'\s*(\S+)\s+\:{2}\s+(.+)',line)
+            m = re.search(r'\s*(.+)\s+\:{2}\s+(.+)',line)
 
             if not (m is None):
-                datatype = m.group(1).strip()
+
+                if DEBUG: print("DECLARATION :: DATATYPE "+line)
+                if DEBUG: print("DECLARATION :: DATATYPE "+m.group(1))
+
+                datatype = m.group(1).replace(" ","")
+                # Add exactly one space after every comma
+                datatype = re.sub(r'(?<=[,])(?=[^\s])', r' ', datatype)
                 # Remove all spaces from the variables
                 variables = m.group(2).replace(" ","")
 
@@ -1925,7 +1931,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False
+    DEBUG  = False # file_name.startswith("claqz0")
 
     Procedures = []
 
