@@ -13,15 +13,15 @@ module stdlib_linalg_lapack
 
           ! BBCSD computes the CS decomposition of a unitary matrix in
           ! bidiagonal-block form,
-          !     [ B11 | B12 0  0 ]
-          !     [  0  |  0 -I  0 ]
+          ! [ B11 | B12 0  0 ]
+          ! [  0  |  0 -I  0 ]
           ! X = [----------------]
-          !     [ B21 | B22 0  0 ]
-          !     [  0  |  0  0  I ]
-          !     [  C | -S  0  0 ]
-          !   [ U1 |    ] [  0 |  0 -I  0 ] [ V1 |    ]**H
+          ! [ B21 | B22 0  0 ]
+          ! [  0  |  0  0  I ]
+          ! [  C | -S  0  0 ]
+          ! [ U1 |    ] [  0 |  0 -I  0 ] [ V1 |    ]**H
           ! = [---------] [---------------] [---------]   .
-          !   [    | U2 ] [  S |  C  0  0 ] [    | V2 ]
+          ! [    | U2 ] [  S |  C  0  0 ] [    | V2 ]
           ! [  0 |  0  0  I ]
           ! X is M-by-M, its top-left block is P-by-Q, and Q must be no larger
           ! than P, M-P, or M-Q. (If Q is not the smallest index, then X must be
@@ -6220,7 +6220,7 @@ module stdlib_linalg_lapack
                logical(lk) function disnan(din)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    intent(in) :: din
+                    real(dp),intent(in) :: din
                end function disnan
 #else
                module procedure stdlib_disnan
@@ -6230,7 +6230,7 @@ module stdlib_linalg_lapack
                logical(lk) function sisnan(sin)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    intent(in) :: sin
+                    real(sp),intent(in) :: sin
                end function sisnan
 #else
                module procedure stdlib_sisnan
@@ -8501,7 +8501,7 @@ module stdlib_linalg_lapack
                logical(lk) function dlaisnan(din1,din2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    intent(in) :: din1,din2
+                    real(dp),intent(in) :: din1,din2
                end function dlaisnan
 #else
                module procedure stdlib_dlaisnan
@@ -8511,7 +8511,7 @@ module stdlib_linalg_lapack
                logical(lk) function slaisnan(sin1,sin2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    intent(in) :: sin1,sin2
+                    real(sp),intent(in) :: sin1,sin2
                end function slaisnan
 #else
                module procedure stdlib_slaisnan
@@ -10720,8 +10720,12 @@ module stdlib_linalg_lapack
                          alpha,beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a(lda,*),b( &
-                              ldb,*),q(ldq,*),z(ldz,*),alpha(*),beta(*),work(*),rwork(*)
+                    character,intent(in) :: wants,wantq,wantz
+                    integer(ilp),intent(in) :: n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec
+                    integer(ilp),intent(out) :: info
+                    complex(sp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),alpha(*), &
+                              beta(*),work(*)
+                    real(sp),intent(out) :: rwork(*)
                end subroutine claqz0
 #else
                module procedure stdlib_claqz0
@@ -10731,8 +10735,11 @@ module stdlib_linalg_lapack
                          alphar,alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a(lda,*),b( &
-                              ldb,*),q(ldq,*),z(ldz,*),alphar(*),alphai(*),beta(*),work(*)
+                    character,intent(in) :: wants,wantq,wantz
+                    integer(ilp),intent(in) :: n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec
+                    integer(ilp),intent(out) :: info
+                    real(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),alphar(*), &
+                              alphai(*),beta(*),work(*)
                end subroutine dlaqz0
 #else
                module procedure stdlib_dlaqz0
@@ -10743,8 +10750,11 @@ module stdlib_linalg_lapack
                          alphar,alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a(lda,*),b( &
-                              ldb,*),q(ldq,*),z(ldz,*),alphar(*),alphai(*),beta(*),work(*)
+                    character,intent(in) :: wants,wantq,wantz
+                    integer(ilp),intent(in) :: n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec
+                    integer(ilp),intent(out) :: info
+                    real(sp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),alphar(*), &
+                              alphai(*),beta(*),work(*)
                end subroutine slaqz0
 #else
                module procedure stdlib_slaqz0
@@ -10755,8 +10765,12 @@ module stdlib_linalg_lapack
                          alpha,beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a(lda,*),b( &
-                              ldb,*),q(ldq,*),z(ldz,*),alpha(*),beta(*),work(*),rwork(*)
+                    character,intent(in) :: wants,wantq,wantz
+                    integer(ilp),intent(in) :: n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec
+                    integer(ilp),intent(out) :: info
+                    complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),alpha(*), &
+                              beta(*),work(*)
+                    real(dp),intent(out) :: rwork(*)
                end subroutine zlaqz0
 #else
                module procedure stdlib_zlaqz0
@@ -10770,7 +10784,9 @@ module stdlib_linalg_lapack
                           ldq,nz,zstart,z,ldz)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: ilq,ilz,k,lda,ldb,ldq,ldz,istartm,istopm,nq,nz,qstart,zstart,ihi
+                    logical(lk),intent(in) :: ilq,ilz
+                    integer(ilp),intent(in) :: k,lda,ldb,ldq,ldz,istartm,istopm,nq,nz,qstart, &
+                              zstart,ihi
                     complex(sp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine claqz1
 #else
@@ -10780,7 +10796,9 @@ module stdlib_linalg_lapack
                subroutine dlaqz1(a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: lda,ldb,a(lda,*),b(ldb,*),sr1,sr2,si,beta1,beta2,v(*)
+                    integer(ilp),intent(in) :: lda,ldb
+                    real(dp),intent(in) :: a(lda,*),b(ldb,*),sr1,sr2,si,beta1,beta2
+                    real(dp),intent(out) :: v(*)
                end subroutine dlaqz1
 #else
                module procedure stdlib_dlaqz1
@@ -10790,7 +10808,9 @@ module stdlib_linalg_lapack
                subroutine slaqz1(a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: lda,ldb,a(lda,*),b(ldb,*),sr1,sr2,si,beta1,beta2,v(*)
+                    integer(ilp),intent(in) :: lda,ldb
+                    real(sp),intent(in) :: a(lda,*),b(ldb,*),sr1,sr2,si,beta1,beta2
+                    real(sp),intent(out) :: v(*)
                end subroutine slaqz1
 #else
                module procedure stdlib_slaqz1
@@ -10801,7 +10821,9 @@ module stdlib_linalg_lapack
                           ldq,nz,zstart,z,ldz)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: ilq,ilz,k,lda,ldb,ldq,ldz,istartm,istopm,nq,nz,qstart,zstart,ihi
+                    logical(lk),intent(in) :: ilq,ilz
+                    integer(ilp),intent(in) :: k,lda,ldb,ldq,ldz,istartm,istopm,nq,nz,qstart, &
+                              zstart,ihi
                     complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine zlaqz1
 #else
@@ -10816,9 +10838,12 @@ module stdlib_linalg_lapack
                          ss,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: ilschur,ilq,ilz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,nshifts,nblock_desired, &
-                    ldqc,ldzc,a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),qc(ldqc,*),zc(ldzc,*),work(*), &
-                              sr(*),si(*),ss(*),info
+                    logical(lk),intent(in) :: ilschur,ilq,ilz
+                    integer(ilp),intent(in) :: n,ilo,ihi,lda,ldb,ldq,ldz,lwork,nshifts, &
+                              nblock_desired,ldqc,ldzc
+                    real(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),qc(ldqc,*),zc( &
+                              ldzc,*),work(*),sr(*),si(*),ss(*)
+                    integer(ilp),intent(out) :: info
                end subroutine dlaqz4
 #else
                module procedure stdlib_dlaqz4
@@ -10829,9 +10854,12 @@ module stdlib_linalg_lapack
                          ss,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: ilschur,ilq,ilz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,nshifts,nblock_desired, &
-                    ldqc,ldzc,a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),qc(ldqc,*),zc(ldzc,*),work(*), &
-                              sr(*),si(*),ss(*),info
+                    logical(lk),intent(in) :: ilschur,ilq,ilz
+                    integer(ilp),intent(in) :: n,ilo,ihi,lda,ldb,ldq,ldz,lwork,nshifts, &
+                              nblock_desired,ldqc,ldzc
+                    real(sp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),qc(ldqc,*),zc( &
+                              ldzc,*),work(*),sr(*),si(*),ss(*)
+                    integer(ilp),intent(out) :: info
                end subroutine slaqz4
 #else
                module procedure stdlib_slaqz4
