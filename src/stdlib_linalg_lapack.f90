@@ -41,8 +41,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu1,jobu2,jobv1t,jobv2t,trans
                     integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,lrwork,m,p,q
-                    real(sp) :: b11d,b11e,b12d,b12e,b21d,b21e,b22d,b22e,phi,theta,rwork
-                    complex(sp) :: u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t
+                    real(sp) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e(*),b22d(*),b22e(*), &
+                              phi(*),theta(*),rwork(*)
+                    complex(sp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
                end subroutine cbbcsd
 #else
                module procedure stdlib_cbbcsd
@@ -55,8 +56,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu1,jobu2,jobv1t,jobv2t,trans
                     integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,lwork,m,p,q
-                    real(dp) :: b11d,b11e,b12d,b12e,b21d,b21e,b22d,b22e,phi,theta,work,u1,ldu1,u2, &
-                              ldu2,v1t,ldv1t,v2t,ldv2t
+                    real(dp) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e(*),b22d(*),b22e(*), &
+                    phi(*),theta(*),work(*),u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
+                              
                end subroutine dbbcsd
 #else
                module procedure stdlib_dbbcsd
@@ -70,8 +72,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu1,jobu2,jobv1t,jobv2t,trans
                     integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,lwork,m,p,q
-                    real(sp) :: b11d,b11e,b12d,b12e,b21d,b21e,b22d,b22e,phi,theta,work,u1,ldu1,u2, &
-                              ldu2,v1t,ldv1t,v2t,ldv2t
+                    real(sp) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e(*),b22d(*),b22e(*), &
+                    phi(*),theta(*),work(*),u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
+                              
                end subroutine sbbcsd
 #else
                module procedure stdlib_sbbcsd
@@ -85,8 +88,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu1,jobu2,jobv1t,jobv2t,trans
                     integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,lrwork,m,p,q
-                    real(dp) :: b11d,b11e,b12d,b12e,b21d,b21e,b22d,b22e,phi,theta,rwork
-                    complex(dp) :: u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t
+                    real(dp) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e(*),b22d(*),b22e(*), &
+                              phi(*),theta(*),rwork(*)
+                    complex(dp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
                end subroutine zbbcsd
 #else
                module procedure stdlib_zbbcsd
@@ -116,8 +120,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: compq,uplo
-                    integer(ilp) :: info,ldu,ldvt,n,iq,iwork
-                    real(dp) :: d,e,q,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,ldu,ldvt,n,iq(*),iwork(*)
+                    real(dp) :: d(*),e(*),q(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine dbdsdc
 #else
                module procedure stdlib_dbdsdc
@@ -129,8 +133,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: compq,uplo
-                    integer(ilp) :: info,ldu,ldvt,n,iq,iwork
-                    real(sp) :: d,e,q,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,ldu,ldvt,n,iq(*),iwork(*)
+                    real(sp) :: d(*),e(*),q(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine sbdsdc
 #else
                module procedure stdlib_sbdsdc
@@ -169,8 +173,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldc,ldu,ldvt,n,ncc,ncvt,nru
-                    real(sp) :: d,e,rwork
-                    complex(sp) :: c,ldc,u,ldu,vt,ldvt
+                    real(sp) :: d(*),e(*),rwork(*)
+                    complex(sp) :: c(ldc,*),u(ldu,*),vt(ldvt,*)
                end subroutine cbdsqr
 #else
                module procedure stdlib_cbdsqr
@@ -182,7 +186,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldc,ldu,ldvt,n,ncc,ncvt,nru
-                    real(dp) :: c,ldc,d,e,u,ldu,vt,ldvt,work
+                    real(dp) :: c(ldc,*),d(*),e(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine dbdsqr
 #else
                module procedure stdlib_dbdsqr
@@ -195,7 +199,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldc,ldu,ldvt,n,ncc,ncvt,nru
-                    real(sp) :: c,ldc,d,e,u,ldu,vt,ldvt,work
+                    real(sp) :: c(ldc,*),d(*),e(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine sbdsqr
 #else
                module procedure stdlib_sbdsqr
@@ -208,8 +212,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldc,ldu,ldvt,n,ncc,ncvt,nru
-                    real(dp) :: d,e,rwork
-                    complex(dp) :: c,ldc,u,ldu,vt,ldvt
+                    real(dp) :: d(*),e(*),rwork(*)
+                    complex(dp) :: c(ldc,*),u(ldu,*),vt(ldvt,*)
                end subroutine zbdsqr
 #else
                module procedure stdlib_zbdsqr
@@ -236,7 +240,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: info,m,n
-                    real(dp) :: d,sep
+                    real(dp) :: d(*),sep(*)
                end subroutine ddisna
 #else
                module procedure stdlib_ddisna
@@ -248,7 +252,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: info,m,n
-                    real(sp) :: d,sep
+                    real(sp) :: d(*),sep(*)
                end subroutine sdisna
 #else
                module procedure stdlib_sdisna
@@ -267,8 +271,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: vect
                     integer(ilp) :: info,kl,ku,ldab,ldc,ldpt,ldq,m,n,ncc
-                    real(sp) :: d,e,rwork
-                    complex(sp) :: ab,ldab,c,ldc,pt,ldpt,q,ldq,work
+                    real(sp) :: d(*),e(*),rwork(*)
+                    complex(sp) :: ab(ldab,*),c(ldc,*),pt(ldpt,*),q(ldq,*),work(*)
                end subroutine cgbbrd
 #else
                module procedure stdlib_cgbbrd
@@ -280,7 +284,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: vect
                     integer(ilp) :: info,kl,ku,ldab,ldc,ldpt,ldq,m,n,ncc
-                    real(dp) :: ab,ldab,c,ldc,d,e,pt,ldpt,q,ldq,work
+                    real(dp) :: ab(ldab,*),c(ldc,*),d(*),e(*),pt(ldpt,*),q(ldq,*),work(*)
                end subroutine dgbbrd
 #else
                module procedure stdlib_dgbbrd
@@ -293,7 +297,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: vect
                     integer(ilp) :: info,kl,ku,ldab,ldc,ldpt,ldq,m,n,ncc
-                    real(sp) :: ab,ldab,c,ldc,d,e,pt,ldpt,q,ldq,work
+                    real(sp) :: ab(ldab,*),c(ldc,*),d(*),e(*),pt(ldpt,*),q(ldq,*),work(*)
                end subroutine sgbbrd
 #else
                module procedure stdlib_sgbbrd
@@ -306,8 +310,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: vect
                     integer(ilp) :: info,kl,ku,ldab,ldc,ldpt,ldq,m,n,ncc
-                    real(dp) :: d,e,rwork
-                    complex(dp) :: ab,ldab,c,ldc,pt,ldpt,q,ldq,work
+                    real(dp) :: d(*),e(*),rwork(*)
+                    complex(dp) :: ab(ldab,*),c(ldc,*),pt(ldpt,*),q(ldq,*),work(*)
                end subroutine zgbbrd
 #else
                module procedure stdlib_zgbbrd
@@ -327,9 +331,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,kl,ku,ldab,n,ipiv
-                    real(sp) :: anorm,rcond,rwork
-                    complex(sp) :: ab,ldab,work
+                    integer(ilp) :: info,kl,ku,ldab,n,ipiv(*)
+                    real(sp) :: anorm,rcond,rwork(*)
+                    complex(sp) :: ab(ldab,*),work(*)
                end subroutine cgbcon
 #else
                module procedure stdlib_cgbcon
@@ -340,8 +344,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,kl,ku,ldab,n,ipiv,iwork
-                    real(dp) :: anorm,rcond,ab,ldab,work
+                    integer(ilp) :: info,kl,ku,ldab,n,ipiv(*),iwork(*)
+                    real(dp) :: anorm,rcond,ab(ldab,*),work(*)
                end subroutine dgbcon
 #else
                module procedure stdlib_dgbcon
@@ -353,8 +357,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,kl,ku,ldab,n,ipiv,iwork
-                    real(sp) :: anorm,rcond,ab,ldab,work
+                    integer(ilp) :: info,kl,ku,ldab,n,ipiv(*),iwork(*)
+                    real(sp) :: anorm,rcond,ab(ldab,*),work(*)
                end subroutine sgbcon
 #else
                module procedure stdlib_sgbcon
@@ -366,9 +370,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,kl,ku,ldab,n,ipiv
-                    real(dp) :: anorm,rcond,rwork
-                    complex(dp) :: ab,ldab,work
+                    integer(ilp) :: info,kl,ku,ldab,n,ipiv(*)
+                    real(dp) :: anorm,rcond,rwork(*)
+                    complex(dp) :: ab(ldab,*),work(*)
                end subroutine zgbcon
 #else
                module procedure stdlib_zgbcon
@@ -391,8 +395,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,kl,ku,ldab,m,n
-                    real(sp) :: amax,colcnd,rowcnd,c,r
-                    complex(sp) :: ab,ldab
+                    real(sp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(sp) :: ab(ldab,*)
                end subroutine cgbequ
 #else
                module procedure stdlib_cgbequ
@@ -403,7 +407,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,kl,ku,ldab,m,n
-                    real(dp) :: amax,colcnd,rowcnd,ab,ldab,c,r
+                    real(dp) :: amax,colcnd,rowcnd,ab(ldab,*),c(*),r(*)
                end subroutine dgbequ
 #else
                module procedure stdlib_dgbequ
@@ -415,7 +419,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,kl,ku,ldab,m,n
-                    real(sp) :: amax,colcnd,rowcnd,ab,ldab,c,r
+                    real(sp) :: amax,colcnd,rowcnd,ab(ldab,*),c(*),r(*)
                end subroutine sgbequ
 #else
                module procedure stdlib_sgbequ
@@ -427,8 +431,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,kl,ku,ldab,m,n
-                    real(dp) :: amax,colcnd,rowcnd,c,r
-                    complex(dp) :: ab,ldab
+                    real(dp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(dp) :: ab(ldab,*)
                end subroutine zgbequ
 #else
                module procedure stdlib_zgbequ
@@ -457,8 +461,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,kl,ku,ldab,m,n
-                    real(sp) :: amax,colcnd,rowcnd,c,r
-                    complex(sp) :: ab,ldab
+                    real(sp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(sp) :: ab(ldab,*)
                end subroutine cgbequb
 #else
                module procedure stdlib_cgbequb
@@ -469,7 +473,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,kl,ku,ldab,m,n
-                    real(dp) :: amax,colcnd,rowcnd,ab,ldab,c,r
+                    real(dp) :: amax,colcnd,rowcnd,ab(ldab,*),c(*),r(*)
                end subroutine dgbequb
 #else
                module procedure stdlib_dgbequb
@@ -481,7 +485,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,kl,ku,ldab,m,n
-                    real(sp) :: amax,colcnd,rowcnd,ab,ldab,c,r
+                    real(sp) :: amax,colcnd,rowcnd,ab(ldab,*),c(*),r(*)
                end subroutine sgbequb
 #else
                module procedure stdlib_sgbequb
@@ -493,8 +497,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,kl,ku,ldab,m,n
-                    real(dp) :: amax,colcnd,rowcnd,c,r
-                    complex(dp) :: ab,ldab
+                    real(dp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(dp) :: ab(ldab,*)
                end subroutine zgbequb
 #else
                module procedure stdlib_zgbequb
@@ -511,9 +515,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs,ipiv
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: ab,ldab,afb,ldafb,b,ldb,work,x,ldx
+                    integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs,ipiv(*)
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine cgbrfs
 #else
                module procedure stdlib_cgbrfs
@@ -524,8 +528,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(dp) :: ab,ldab,afb,ldafb,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(dp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine dgbrfs
 #else
                module procedure stdlib_dgbrfs
@@ -537,8 +542,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(sp) :: ab,ldab,afb,ldafb,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(sp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine sgbrfs
 #else
                module procedure stdlib_sgbrfs
@@ -550,9 +556,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs,ipiv
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: ab,ldab,afb,ldafb,b,ldb,work,x,ldx
+                    integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs,ipiv(*)
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine zgbrfs
 #else
                module procedure stdlib_zgbrfs
@@ -572,8 +578,8 @@ module stdlib_linalg_lapack
                subroutine cgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv
-                    complex(sp) :: ab,ldab,b,ldb
+                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine cgbsv
 #else
                module procedure stdlib_cgbsv
@@ -582,8 +588,8 @@ module stdlib_linalg_lapack
                subroutine dgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv
-                    real(dp) :: ab,ldab,b,ldb
+                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine dgbsv
 #else
                module procedure stdlib_dgbsv
@@ -593,8 +599,8 @@ module stdlib_linalg_lapack
                subroutine sgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv
-                    real(sp) :: ab,ldab,b,ldb
+                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine sgbsv
 #else
                module procedure stdlib_sgbsv
@@ -604,8 +610,8 @@ module stdlib_linalg_lapack
                subroutine zgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv
-                    complex(dp) :: ab,ldab,b,ldb
+                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine zgbsv
 #else
                module procedure stdlib_zgbsv
@@ -620,8 +626,8 @@ module stdlib_linalg_lapack
                subroutine cgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,kl,ku,ldab,m,n,ipiv
-                    complex(sp) :: ab,ldab
+                    integer(ilp) :: info,kl,ku,ldab,m,n,ipiv(*)
+                    complex(sp) :: ab(ldab,*)
                end subroutine cgbtrf
 #else
                module procedure stdlib_cgbtrf
@@ -630,8 +636,8 @@ module stdlib_linalg_lapack
                subroutine dgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,kl,ku,ldab,m,n,ipiv
-                    real(dp) :: ab,ldab
+                    integer(ilp) :: info,kl,ku,ldab,m,n,ipiv(*)
+                    real(dp) :: ab(ldab,*)
                end subroutine dgbtrf
 #else
                module procedure stdlib_dgbtrf
@@ -641,8 +647,8 @@ module stdlib_linalg_lapack
                subroutine sgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,kl,ku,ldab,m,n,ipiv
-                    real(sp) :: ab,ldab
+                    integer(ilp) :: info,kl,ku,ldab,m,n,ipiv(*)
+                    real(sp) :: ab(ldab,*)
                end subroutine sgbtrf
 #else
                module procedure stdlib_sgbtrf
@@ -652,8 +658,8 @@ module stdlib_linalg_lapack
                subroutine zgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,kl,ku,ldab,m,n,ipiv
-                    complex(dp) :: ab,ldab
+                    integer(ilp) :: info,kl,ku,ldab,m,n,ipiv(*)
+                    complex(dp) :: ab(ldab,*)
                end subroutine zgbtrf
 #else
                module procedure stdlib_zgbtrf
@@ -670,8 +676,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv
-                    complex(sp) :: ab,ldab,b,ldb
+                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine cgbtrs
 #else
                module procedure stdlib_cgbtrs
@@ -681,8 +687,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv
-                    real(dp) :: ab,ldab,b,ldb
+                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine dgbtrs
 #else
                module procedure stdlib_dgbtrs
@@ -693,8 +699,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv
-                    real(sp) :: ab,ldab,b,ldb
+                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine sgbtrs
 #else
                module procedure stdlib_sgbtrs
@@ -705,8 +711,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv
-                    complex(dp) :: ab,ldab,b,ldb
+                    integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine zgbtrs
 #else
                module procedure stdlib_zgbtrs
@@ -723,8 +729,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job,side
                     integer(ilp) :: ihi,ilo,info,ldv,m,n
-                    real(sp) :: scale
-                    complex(sp) :: v,ldv
+                    real(sp) :: scale(*)
+                    complex(sp) :: v(ldv,*)
                end subroutine cgebak
 #else
                module procedure stdlib_cgebak
@@ -735,7 +741,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job,side
                     integer(ilp) :: ihi,ilo,info,ldv,m,n
-                    real(dp) :: scale,v,ldv
+                    real(dp) :: scale(*),v(ldv,*)
                end subroutine dgebak
 #else
                module procedure stdlib_dgebak
@@ -747,7 +753,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job,side
                     integer(ilp) :: ihi,ilo,info,ldv,m,n
-                    real(sp) :: v,ldv,scale
+                    real(sp) :: v(ldv,*),scale(*)
                end subroutine sgebak
 #else
                module procedure stdlib_sgebak
@@ -759,8 +765,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job,side
                     integer(ilp) :: ihi,ilo,info,ldv,m,n
-                    real(dp) :: scale
-                    complex(dp) :: v,ldv
+                    real(dp) :: scale(*)
+                    complex(dp) :: v(ldv,*)
                end subroutine zgebak
 #else
                module procedure stdlib_zgebak
@@ -782,8 +788,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: ihi,ilo,info,lda,n
-                    real(sp) :: scale
-                    complex(sp) :: a,lda
+                    real(sp) :: scale(*)
+                    complex(sp) :: a(lda,*)
                end subroutine cgebal
 #else
                module procedure stdlib_cgebal
@@ -794,7 +800,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: ihi,ilo,info,lda,n
-                    real(dp) :: a,lda,scale
+                    real(dp) :: a(lda,*),scale(*)
                end subroutine dgebal
 #else
                module procedure stdlib_dgebal
@@ -806,7 +812,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: ihi,ilo,info,lda,n
-                    real(sp) :: a,lda,scale
+                    real(sp) :: a(lda,*),scale(*)
                end subroutine sgebal
 #else
                module procedure stdlib_sgebal
@@ -818,8 +824,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: ihi,ilo,info,lda,n
-                    real(dp) :: scale
-                    complex(dp) :: a,lda
+                    real(dp) :: scale(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zgebal
 #else
                module procedure stdlib_zgebal
@@ -835,8 +841,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(sp) :: d,e
-                    complex(sp) :: a,lda,taup,tauq,work
+                    real(sp) :: d(*),e(*)
+                    complex(sp) :: a(lda,*),taup(*),tauq(*),work(*)
                end subroutine cgebrd
 #else
                module procedure stdlib_cgebrd
@@ -846,7 +852,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(dp) :: a,lda,d,e,taup,tauq,work
+                    real(dp) :: a(lda,*),d(*),e(*),taup(*),tauq(*),work(*)
                end subroutine dgebrd
 #else
                module procedure stdlib_dgebrd
@@ -857,7 +863,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(sp) :: a,lda,d,e,taup,tauq,work
+                    real(sp) :: a(lda,*),d(*),e(*),taup(*),tauq(*),work(*)
                end subroutine sgebrd
 #else
                module procedure stdlib_sgebrd
@@ -868,8 +874,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(dp) :: d,e
-                    complex(dp) :: a,lda,taup,tauq,work
+                    real(dp) :: d(*),e(*)
+                    complex(dp) :: a(lda,*),taup(*),tauq(*),work(*)
                end subroutine zgebrd
 #else
                module procedure stdlib_zgebrd
@@ -889,8 +895,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: info,lda,n
-                    real(sp) :: anorm,rcond,rwork
-                    complex(sp) :: a,lda,work
+                    real(sp) :: anorm,rcond,rwork(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine cgecon
 #else
                module procedure stdlib_cgecon
@@ -900,8 +906,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,lda,n,iwork
-                    real(dp) :: anorm,rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,iwork(*)
+                    real(dp) :: anorm,rcond,a(lda,*),work(*)
                end subroutine dgecon
 #else
                module procedure stdlib_dgecon
@@ -912,8 +918,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,lda,n,iwork
-                    real(sp) :: anorm,rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,iwork(*)
+                    real(sp) :: anorm,rcond,a(lda,*),work(*)
                end subroutine sgecon
 #else
                module procedure stdlib_sgecon
@@ -925,8 +931,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: info,lda,n
-                    real(dp) :: anorm,rcond,rwork
-                    complex(dp) :: a,lda,work
+                    real(dp) :: anorm,rcond,rwork(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zgecon
 #else
                module procedure stdlib_zgecon
@@ -948,8 +954,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(sp) :: amax,colcnd,rowcnd,c,r
-                    complex(sp) :: a,lda
+                    real(sp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(sp) :: a(lda,*)
                end subroutine cgeequ
 #else
                module procedure stdlib_cgeequ
@@ -959,7 +965,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(dp) :: amax,colcnd,rowcnd,a,lda,c,r
+                    real(dp) :: amax,colcnd,rowcnd,a(lda,*),c(*),r(*)
                end subroutine dgeequ
 #else
                module procedure stdlib_dgeequ
@@ -970,7 +976,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(sp) :: amax,colcnd,rowcnd,a,lda,c,r
+                    real(sp) :: amax,colcnd,rowcnd,a(lda,*),c(*),r(*)
                end subroutine sgeequ
 #else
                module procedure stdlib_sgeequ
@@ -981,8 +987,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(dp) :: amax,colcnd,rowcnd,c,r
-                    complex(dp) :: a,lda
+                    real(dp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zgeequ
 #else
                module procedure stdlib_zgeequ
@@ -1010,8 +1016,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(sp) :: amax,colcnd,rowcnd,c,r
-                    complex(sp) :: a,lda
+                    real(sp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(sp) :: a(lda,*)
                end subroutine cgeequb
 #else
                module procedure stdlib_cgeequb
@@ -1021,7 +1027,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(dp) :: amax,colcnd,rowcnd,a,lda,c,r
+                    real(dp) :: amax,colcnd,rowcnd,a(lda,*),c(*),r(*)
                end subroutine dgeequb
 #else
                module procedure stdlib_dgeequb
@@ -1032,7 +1038,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(sp) :: amax,colcnd,rowcnd,a,lda,c,r
+                    real(sp) :: amax,colcnd,rowcnd,a(lda,*),c(*),r(*)
                end subroutine sgeequb
 #else
                module procedure stdlib_sgeequb
@@ -1043,8 +1049,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(dp) :: amax,colcnd,rowcnd,c,r
-                    complex(dp) :: a,lda
+                    real(dp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zgeequb
 #else
                module procedure stdlib_zgeequb
@@ -1067,9 +1073,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvs,sort
                     integer(ilp) :: info,lda,ldvs,lwork,n,sdim
-                    logical(lk) :: bwork
-                    real(sp) :: rwork
-                    complex(sp) :: a,lda,vs,ldvs,w,work
+                    logical(lk) :: bwork(*)
+                    real(sp) :: rwork(*)
+                    complex(sp) :: a(lda,*),vs(ldvs,*),w(*),work(*)
                     procedure(stdlib_select_c) :: select
                end subroutine cgees
 #else
@@ -1082,8 +1088,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvs,sort
                     integer(ilp) :: info,lda,ldvs,lwork,n,sdim
-                    logical(lk) :: bwork
-                    real(dp) :: a,lda,vs,ldvs,wi,work,wr
+                    logical(lk) :: bwork(*)
+                    real(dp) :: a(lda,*),vs(ldvs,*),wi(*),work(*),wr(*)
                     procedure(stdlib_select_d) :: select
                end subroutine dgees
 #else
@@ -1097,8 +1103,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvs,sort
                     integer(ilp) :: info,lda,ldvs,lwork,n,sdim
-                    logical(lk) :: bwork
-                    real(sp) :: a,lda,vs,ldvs,wi,work,wr
+                    logical(lk) :: bwork(*)
+                    real(sp) :: a(lda,*),vs(ldvs,*),wi(*),work(*),wr(*)
                     procedure(stdlib_select_s) :: select
                end subroutine sgees
 #else
@@ -1112,9 +1118,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvs,sort
                     integer(ilp) :: info,lda,ldvs,lwork,n,sdim
-                    logical(lk) :: bwork
-                    real(dp) :: rwork
-                    complex(dp) :: a,lda,vs,ldvs,w,work
+                    logical(lk) :: bwork(*)
+                    real(dp) :: rwork(*)
+                    complex(dp) :: a(lda,*),vs(ldvs,*),w(*),work(*)
                     procedure(stdlib_select_z) :: select
                end subroutine zgees
 #else
@@ -1140,8 +1146,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvl,jobvr
                     integer(ilp) :: info,lda,ldvl,ldvr,lwork,n
-                    real(sp) :: rwork
-                    complex(sp) :: a,lda,vl,ldvl,vr,ldvr,w,work
+                    real(sp) :: rwork(*)
+                    complex(sp) :: a(lda,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
                end subroutine cgeev
 #else
                module procedure stdlib_cgeev
@@ -1153,7 +1159,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvl,jobvr
                     integer(ilp) :: info,lda,ldvl,ldvr,lwork,n
-                    real(dp) :: a,lda,vl,ldvl,vr,ldvr,wi,work,wr
+                    real(dp) :: a(lda,*),vl(ldvl,*),vr(ldvr,*),wi(*),work(*),wr(*)
                end subroutine dgeev
 #else
                module procedure stdlib_dgeev
@@ -1166,7 +1172,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvl,jobvr
                     integer(ilp) :: info,lda,ldvl,ldvr,lwork,n
-                    real(sp) :: a,lda,vl,ldvl,vr,ldvr,wi,work,wr
+                    real(sp) :: a(lda,*),vl(ldvl,*),vr(ldvr,*),wi(*),work(*),wr(*)
                end subroutine sgeev
 #else
                module procedure stdlib_sgeev
@@ -1179,8 +1185,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvl,jobvr
                     integer(ilp) :: info,lda,ldvl,ldvr,lwork,n
-                    real(dp) :: rwork
-                    complex(dp) :: a,lda,vl,ldvl,vr,ldvr,w,work
+                    real(dp) :: rwork(*)
+                    complex(dp) :: a(lda,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
                end subroutine zgeev
 #else
                module procedure stdlib_zgeev
@@ -1195,7 +1201,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,lda,lwork,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cgehrd
 #else
                module procedure stdlib_cgehrd
@@ -1205,7 +1211,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,lda,lwork,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dgehrd
 #else
                module procedure stdlib_dgehrd
@@ -1216,7 +1222,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,lda,lwork,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sgehrd
 #else
                module procedure stdlib_sgehrd
@@ -1227,7 +1233,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,lda,lwork,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zgehrd
 #else
                module procedure stdlib_zgehrd
@@ -1250,9 +1256,9 @@ module stdlib_linalg_lapack
                           ldv,cwork,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldu,ldv,lwork,lrwork,m,n,iwork
-                    complex(sp) :: a,lda,u,ldu,v,ldv,cwork,lwork
-                    real(sp) :: sva,n,rwork,lrwork
+                    integer(ilp) :: info,lda,ldu,ldv,lwork,lrwork,m,n,iwork(*)
+                    complex(sp) :: a(lda,*),u(ldu,*),v(ldv,*),cwork(lwork)
+                    real(sp) :: sva(n),rwork(lrwork)
                end subroutine cgejsv
 #else
                module procedure stdlib_cgejsv
@@ -1262,8 +1268,8 @@ module stdlib_linalg_lapack
                           ldv,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldu,ldv,lwork,m,n,iwork
-                    real(dp) :: a,lda,sva,n,u,ldu,v,ldv,work,lwork
+                    integer(ilp) :: info,lda,ldu,ldv,lwork,m,n,iwork(*)
+                    real(dp) :: a(lda,*),sva(n),u(ldu,*),v(ldv,*),work(lwork)
                end subroutine dgejsv
 #else
                module procedure stdlib_dgejsv
@@ -1274,8 +1280,8 @@ module stdlib_linalg_lapack
                           ldv,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldu,ldv,lwork,m,n,iwork
-                    real(sp) :: a,lda,sva,n,u,ldu,v,ldv,work,lwork
+                    integer(ilp) :: info,lda,ldu,ldv,lwork,m,n,iwork(*)
+                    real(sp) :: a(lda,*),sva(n),u(ldu,*),v(ldv,*),work(lwork)
                end subroutine sgejsv
 #else
                module procedure stdlib_sgejsv
@@ -1286,9 +1292,9 @@ module stdlib_linalg_lapack
                           ldv,cwork,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldu,ldv,lwork,lrwork,m,n,iwork
-                    complex(dp) :: a,lda,u,ldu,v,ldv,cwork,lwork
-                    real(dp) :: sva,n,rwork,lrwork
+                    integer(ilp) :: info,lda,ldu,ldv,lwork,lrwork,m,n,iwork(*)
+                    complex(dp) :: a(lda,*),u(ldu,*),v(ldv,*),cwork(lwork)
+                    real(dp) :: sva(n),rwork(lrwork)
                end subroutine zgejsv
 #else
                module procedure stdlib_zgejsv
@@ -1307,7 +1313,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,tsize,lwork
-                    complex(sp) :: a,lda,t,work
+                    complex(sp) :: a(lda,*),t(*),work(*)
                end subroutine cgelq
 #else
                module procedure stdlib_cgelq
@@ -1317,7 +1323,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,tsize,lwork
-                    real(dp) :: a,lda,t,work
+                    real(dp) :: a(lda,*),t(*),work(*)
                end subroutine dgelq
 #else
                module procedure stdlib_dgelq
@@ -1328,7 +1334,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,tsize,lwork
-                    real(sp) :: a,lda,t,work
+                    real(sp) :: a(lda,*),t(*),work(*)
                end subroutine sgelq
 #else
                module procedure stdlib_sgelq
@@ -1339,7 +1345,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,tsize,lwork
-                    complex(dp) :: a,lda,t,work
+                    complex(dp) :: a(lda,*),t(*),work(*)
                end subroutine zgelq
 #else
                module procedure stdlib_zgelq
@@ -1358,7 +1364,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cgelqf
 #else
                module procedure stdlib_cgelqf
@@ -1368,7 +1374,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dgelqf
 #else
                module procedure stdlib_dgelqf
@@ -1379,7 +1385,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sgelqf
 #else
                module procedure stdlib_sgelqf
@@ -1390,7 +1396,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zgelqf
 #else
                module procedure stdlib_zgelqf
@@ -1405,7 +1411,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,mb
-                    complex(sp) :: a,lda,t,ldt,work
+                    complex(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine cgelqt
 #else
                module procedure stdlib_cgelqt
@@ -1415,7 +1421,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,mb
-                    real(dp) :: a,lda,t,ldt,work
+                    real(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine dgelqt
 #else
                module procedure stdlib_dgelqt
@@ -1426,7 +1432,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,mb
-                    real(sp) :: a,lda,t,ldt,work
+                    real(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine sgelqt
 #else
                module procedure stdlib_sgelqt
@@ -1437,7 +1443,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,mb
-                    complex(dp) :: a,lda,t,ldt,work
+                    complex(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine zgelqt
 #else
                module procedure stdlib_zgelqt
@@ -1454,7 +1460,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,ldt
-                    complex(sp) :: a,lda,t,ldt
+                    complex(sp) :: a(lda,*),t(ldt,*)
                end subroutine cgelqt3
 #else
                module procedure stdlib_cgelqt3
@@ -1464,7 +1470,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,ldt
-                    real(dp) :: a,lda,t,ldt
+                    real(dp) :: a(lda,*),t(ldt,*)
                end subroutine dgelqt3
 #else
                module procedure stdlib_dgelqt3
@@ -1475,7 +1481,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,ldt
-                    real(sp) :: a,lda,t,ldt
+                    real(sp) :: a(lda,*),t(ldt,*)
                end subroutine sgelqt3
 #else
                module procedure stdlib_sgelqt3
@@ -1486,7 +1492,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,ldt
-                    complex(dp) :: a,lda,t,ldt
+                    complex(dp) :: a(lda,*),t(ldt,*)
                end subroutine zgelqt3
 #else
                module procedure stdlib_zgelqt3
@@ -1518,7 +1524,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
-                    complex(sp) :: a,lda,b,ldb,work
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine cgels
 #else
                module procedure stdlib_cgels
@@ -1529,7 +1535,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
-                    real(dp) :: a,lda,b,ldb,work
+                    real(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine dgels
 #else
                module procedure stdlib_dgels
@@ -1541,7 +1547,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
-                    real(sp) :: a,lda,b,ldb,work
+                    real(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine sgels
 #else
                module procedure stdlib_sgels
@@ -1553,7 +1559,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
-                    complex(dp) :: a,lda,b,ldb,work
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zgels
 #else
                module procedure stdlib_zgels
@@ -1591,9 +1597,9 @@ module stdlib_linalg_lapack
                          iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,iwork
-                    real(sp) :: rcond,rwork,s
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,iwork(*)
+                    real(sp) :: rcond,rwork(*),s(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine cgelsd
 #else
                module procedure stdlib_cgelsd
@@ -1603,8 +1609,8 @@ module stdlib_linalg_lapack
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,iwork
-                    real(dp) :: rcond,a,lda,b,ldb,s,work
+                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,iwork(*)
+                    real(dp) :: rcond,a(lda,*),b(ldb,*),s(*),work(*)
                end subroutine dgelsd
 #else
                module procedure stdlib_dgelsd
@@ -1615,8 +1621,8 @@ module stdlib_linalg_lapack
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,iwork
-                    real(sp) :: rcond,a,lda,b,ldb,s,work
+                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,iwork(*)
+                    real(sp) :: rcond,a(lda,*),b(ldb,*),s(*),work(*)
                end subroutine sgelsd
 #else
                module procedure stdlib_sgelsd
@@ -1627,9 +1633,9 @@ module stdlib_linalg_lapack
                          iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,iwork
-                    real(dp) :: rcond,rwork,s
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,iwork(*)
+                    real(dp) :: rcond,rwork(*),s(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zgelsd
 #else
                module procedure stdlib_zgelsd
@@ -1655,8 +1661,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-                    real(sp) :: rcond,rwork,s
-                    complex(sp) :: a,lda,b,ldb,work
+                    real(sp) :: rcond,rwork(*),s(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine cgelss
 #else
                module procedure stdlib_cgelss
@@ -1667,7 +1673,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-                    real(dp) :: rcond,a,lda,b,ldb,s,work
+                    real(dp) :: rcond,a(lda,*),b(ldb,*),s(*),work(*)
                end subroutine dgelss
 #else
                module procedure stdlib_dgelss
@@ -1679,7 +1685,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-                    real(sp) :: rcond,a,lda,b,ldb,s,work
+                    real(sp) :: rcond,a(lda,*),b(ldb,*),s(*),work(*)
                end subroutine sgelss
 #else
                module procedure stdlib_sgelss
@@ -1691,8 +1697,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-                    real(dp) :: rcond,rwork,s
-                    complex(dp) :: a,lda,b,ldb,work
+                    real(dp) :: rcond,rwork(*),s(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zgelss
 #else
                module procedure stdlib_zgelss
@@ -1737,9 +1743,9 @@ module stdlib_linalg_lapack
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,jpvt
-                    real(sp) :: rcond,rwork
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,jpvt(*)
+                    real(sp) :: rcond,rwork(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine cgelsy
 #else
                module procedure stdlib_cgelsy
@@ -1749,8 +1755,8 @@ module stdlib_linalg_lapack
                          )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,jpvt
-                    real(dp) :: rcond,a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,jpvt(*)
+                    real(dp) :: rcond,a(lda,*),b(ldb,*),work(*)
                end subroutine dgelsy
 #else
                module procedure stdlib_dgelsy
@@ -1761,8 +1767,8 @@ module stdlib_linalg_lapack
                          )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,jpvt
-                    real(sp) :: rcond,a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,jpvt(*)
+                    real(sp) :: rcond,a(lda,*),b(ldb,*),work(*)
                end subroutine sgelsy
 #else
                module procedure stdlib_sgelsy
@@ -1773,9 +1779,9 @@ module stdlib_linalg_lapack
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,jpvt
-                    real(dp) :: rcond,rwork
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank,jpvt(*)
+                    real(dp) :: rcond,rwork(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zgelsy
 #else
                module procedure stdlib_zgelsy
@@ -1797,7 +1803,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
-                    complex(sp) :: a,lda,t,c,ldc,work
+                    complex(sp) :: a(lda,*),t(*),c(ldc,*),work(*)
                end subroutine cgemlq
 #else
                module procedure stdlib_cgemlq
@@ -1809,7 +1815,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
-                    real(dp) :: a,lda,t,c,ldc,work
+                    real(dp) :: a(lda,*),t(*),c(ldc,*),work(*)
                end subroutine dgemlq
 #else
                module procedure stdlib_dgemlq
@@ -1822,7 +1828,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
-                    real(sp) :: a,lda,t,c,ldc,work
+                    real(sp) :: a(lda,*),t(*),c(ldc,*),work(*)
                end subroutine sgemlq
 #else
                module procedure stdlib_sgemlq
@@ -1835,7 +1841,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
-                    complex(dp) :: a,lda,t,c,ldc,work
+                    complex(dp) :: a(lda,*),t(*),c(ldc,*),work(*)
                end subroutine zgemlq
 #else
                module procedure stdlib_zgemlq
@@ -1859,7 +1865,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,ldc,m,n,mb,ldt
-                    complex(sp) :: v,ldv,c,ldc,t,ldt,work
+                    complex(sp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
                end subroutine cgemlqt
 #else
                module procedure stdlib_cgemlqt
@@ -1871,7 +1877,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,ldc,m,n,mb,ldt
-                    real(dp) :: v,ldv,c,ldc,t,ldt,work
+                    real(dp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
                end subroutine dgemlqt
 #else
                module procedure stdlib_dgemlqt
@@ -1884,7 +1890,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,ldc,m,n,mb,ldt
-                    real(sp) :: v,ldv,c,ldc,t,ldt,work
+                    real(sp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
                end subroutine sgemlqt
 #else
                module procedure stdlib_sgemlqt
@@ -1897,7 +1903,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,ldc,m,n,mb,ldt
-                    complex(dp) :: v,ldv,c,ldc,t,ldt,work
+                    complex(dp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
                end subroutine zgemlqt
 #else
                module procedure stdlib_zgemlqt
@@ -1919,7 +1925,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
-                    complex(sp) :: a,lda,t,c,ldc,work
+                    complex(sp) :: a(lda,*),t(*),c(ldc,*),work(*)
                end subroutine cgemqr
 #else
                module procedure stdlib_cgemqr
@@ -1931,7 +1937,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
-                    real(dp) :: a,lda,t,c,ldc,work
+                    real(dp) :: a(lda,*),t(*),c(ldc,*),work(*)
                end subroutine dgemqr
 #else
                module procedure stdlib_dgemqr
@@ -1944,7 +1950,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
-                    real(sp) :: a,lda,t,c,ldc,work
+                    real(sp) :: a(lda,*),t(*),c(ldc,*),work(*)
                end subroutine sgemqr
 #else
                module procedure stdlib_sgemqr
@@ -1957,7 +1963,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
-                    complex(dp) :: a,lda,t,c,ldc,work
+                    complex(dp) :: a(lda,*),t(*),c(ldc,*),work(*)
                end subroutine zgemqr
 #else
                module procedure stdlib_zgemqr
@@ -1981,7 +1987,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,ldc,m,n,nb,ldt
-                    complex(sp) :: v,ldv,c,ldc,t,ldt,work
+                    complex(sp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
                end subroutine cgemqrt
 #else
                module procedure stdlib_cgemqrt
@@ -1993,7 +1999,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,ldc,m,n,nb,ldt
-                    real(dp) :: v,ldv,c,ldc,t,ldt,work
+                    real(dp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
                end subroutine dgemqrt
 #else
                module procedure stdlib_dgemqrt
@@ -2006,7 +2012,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,ldc,m,n,nb,ldt
-                    real(sp) :: v,ldv,c,ldc,t,ldt,work
+                    real(sp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
                end subroutine sgemqrt
 #else
                module procedure stdlib_sgemqrt
@@ -2019,7 +2025,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,ldc,m,n,nb,ldt
-                    complex(dp) :: v,ldv,c,ldc,t,ldt,work
+                    complex(dp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
                end subroutine zgemqrt
 #else
                module procedure stdlib_zgemqrt
@@ -2034,7 +2040,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cgeqlf
 #else
                module procedure stdlib_cgeqlf
@@ -2044,7 +2050,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dgeqlf
 #else
                module procedure stdlib_dgeqlf
@@ -2055,7 +2061,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sgeqlf
 #else
                module procedure stdlib_sgeqlf
@@ -2066,7 +2072,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zgeqlf
 #else
                module procedure stdlib_zgeqlf
@@ -2086,7 +2092,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,tsize,lwork
-                    complex(sp) :: a,lda,t,work
+                    complex(sp) :: a(lda,*),t(*),work(*)
                end subroutine cgeqr
 #else
                module procedure stdlib_cgeqr
@@ -2096,7 +2102,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,tsize,lwork
-                    real(dp) :: a,lda,t,work
+                    real(dp) :: a(lda,*),t(*),work(*)
                end subroutine dgeqr
 #else
                module procedure stdlib_dgeqr
@@ -2107,7 +2113,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,tsize,lwork
-                    real(sp) :: a,lda,t,work
+                    real(sp) :: a(lda,*),t(*),work(*)
                end subroutine sgeqr
 #else
                module procedure stdlib_sgeqr
@@ -2118,7 +2124,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,tsize,lwork
-                    complex(dp) :: a,lda,t,work
+                    complex(dp) :: a(lda,*),t(*),work(*)
                end subroutine zgeqr
 #else
                module procedure stdlib_zgeqr
@@ -2139,7 +2145,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cgeqr2p
 #else
                module procedure stdlib_cgeqr2p
@@ -2149,7 +2155,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dgeqr2p
 #else
                module procedure stdlib_dgeqr2p
@@ -2160,7 +2166,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sgeqr2p
 #else
                module procedure stdlib_sgeqr2p
@@ -2171,7 +2177,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zgeqr2p
 #else
                module procedure stdlib_zgeqr2p
@@ -2191,7 +2197,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cgeqrf
 #else
                module procedure stdlib_cgeqrf
@@ -2201,7 +2207,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dgeqrf
 #else
                module procedure stdlib_dgeqrf
@@ -2212,7 +2218,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sgeqrf
 #else
                module procedure stdlib_sgeqrf
@@ -2223,7 +2229,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zgeqrf
 #else
                module procedure stdlib_zgeqrf
@@ -2244,7 +2250,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cgeqrfp
 #else
                module procedure stdlib_cgeqrfp
@@ -2254,7 +2260,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dgeqrfp
 #else
                module procedure stdlib_dgeqrfp
@@ -2265,7 +2271,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sgeqrfp
 #else
                module procedure stdlib_sgeqrfp
@@ -2276,7 +2282,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zgeqrfp
 #else
                module procedure stdlib_zgeqrfp
@@ -2291,7 +2297,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,nb
-                    complex(sp) :: a,lda,t,ldt,work
+                    complex(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine cgeqrt
 #else
                module procedure stdlib_cgeqrt
@@ -2301,7 +2307,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,nb
-                    real(dp) :: a,lda,t,ldt,work
+                    real(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine dgeqrt
 #else
                module procedure stdlib_dgeqrt
@@ -2312,7 +2318,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,nb
-                    real(sp) :: a,lda,t,ldt,work
+                    real(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine sgeqrt
 #else
                module procedure stdlib_sgeqrt
@@ -2323,7 +2329,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,nb
-                    complex(dp) :: a,lda,t,ldt,work
+                    complex(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine zgeqrt
 #else
                module procedure stdlib_zgeqrt
@@ -2338,7 +2344,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n
-                    complex(sp) :: a,lda,t,ldt
+                    complex(sp) :: a(lda,*),t(ldt,*)
                end subroutine cgeqrt2
 #else
                module procedure stdlib_cgeqrt2
@@ -2348,7 +2354,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n
-                    real(dp) :: a,lda,t,ldt
+                    real(dp) :: a(lda,*),t(ldt,*)
                end subroutine dgeqrt2
 #else
                module procedure stdlib_dgeqrt2
@@ -2359,7 +2365,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n
-                    real(sp) :: a,lda,t,ldt
+                    real(sp) :: a(lda,*),t(ldt,*)
                end subroutine sgeqrt2
 #else
                module procedure stdlib_sgeqrt2
@@ -2370,7 +2376,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n
-                    complex(dp) :: a,lda,t,ldt
+                    complex(dp) :: a(lda,*),t(ldt,*)
                end subroutine zgeqrt2
 #else
                module procedure stdlib_zgeqrt2
@@ -2387,7 +2393,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,ldt
-                    complex(sp) :: a,lda,t,ldt
+                    complex(sp) :: a(lda,*),t(ldt,*)
                end subroutine cgeqrt3
 #else
                module procedure stdlib_cgeqrt3
@@ -2397,7 +2403,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,ldt
-                    real(dp) :: a,lda,t,ldt
+                    real(dp) :: a(lda,*),t(ldt,*)
                end subroutine dgeqrt3
 #else
                module procedure stdlib_dgeqrt3
@@ -2408,7 +2414,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,ldt
-                    real(sp) :: a,lda,t,ldt
+                    real(sp) :: a(lda,*),t(ldt,*)
                end subroutine sgeqrt3
 #else
                module procedure stdlib_sgeqrt3
@@ -2419,7 +2425,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,ldt
-                    complex(dp) :: a,lda,t,ldt
+                    complex(dp) :: a(lda,*),t(ldt,*)
                end subroutine zgeqrt3
 #else
                module procedure stdlib_zgeqrt3
@@ -2436,9 +2442,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: a,lda,af,ldaf,b,ldb,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*)
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine cgerfs
 #else
                module procedure stdlib_cgerfs
@@ -2449,8 +2455,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(dp) :: a,lda,af,ldaf,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine dgerfs
 #else
                module procedure stdlib_dgerfs
@@ -2462,8 +2469,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(sp) :: a,lda,af,ldaf,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(sp) :: a(lda,*),af(ldaf,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine sgerfs
 #else
                module procedure stdlib_sgerfs
@@ -2475,9 +2483,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: a,lda,af,ldaf,b,ldb,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*)
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine zgerfs
 #else
                module procedure stdlib_zgerfs
@@ -2492,7 +2500,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cgerqf
 #else
                module procedure stdlib_cgerqf
@@ -2502,7 +2510,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dgerqf
 #else
                module procedure stdlib_dgerqf
@@ -2513,7 +2521,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sgerqf
 #else
                module procedure stdlib_sgerqf
@@ -2524,7 +2532,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zgerqf
 #else
                module procedure stdlib_zgerqf
@@ -2555,9 +2563,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz
-                    integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n,iwork
-                    real(sp) :: rwork,s
-                    complex(sp) :: a,lda,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n,iwork(*)
+                    real(sp) :: rwork(*),s(*)
+                    complex(sp) :: a(lda,*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine cgesdd
 #else
                module procedure stdlib_cgesdd
@@ -2568,8 +2576,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz
-                    integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n,iwork
-                    real(dp) :: a,lda,s,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n,iwork(*)
+                    real(dp) :: a(lda,*),s(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine dgesdd
 #else
                module procedure stdlib_dgesdd
@@ -2581,8 +2589,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz
-                    integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n,iwork
-                    real(sp) :: a,lda,s,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n,iwork(*)
+                    real(sp) :: a(lda,*),s(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine sgesdd
 #else
                module procedure stdlib_sgesdd
@@ -2594,9 +2602,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz
-                    integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n,iwork
-                    real(dp) :: rwork,s
-                    complex(dp) :: a,lda,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n,iwork(*)
+                    real(dp) :: rwork(*),s(*)
+                    complex(dp) :: a(lda,*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine zgesdd
 #else
                module procedure stdlib_zgesdd
@@ -2617,8 +2625,8 @@ module stdlib_linalg_lapack
                subroutine cgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine cgesv
 #else
                module procedure stdlib_cgesv
@@ -2627,8 +2635,8 @@ module stdlib_linalg_lapack
                subroutine dgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*)
                end subroutine dgesv
 #else
                module procedure stdlib_dgesv
@@ -2638,8 +2646,8 @@ module stdlib_linalg_lapack
                subroutine sgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*)
                end subroutine sgesv
 #else
                module procedure stdlib_sgesv
@@ -2649,8 +2657,8 @@ module stdlib_linalg_lapack
                subroutine zgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zgesv
 #else
                module procedure stdlib_zgesv
@@ -2676,8 +2684,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu,jobvt
                     integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n
-                    real(sp) :: rwork,s
-                    complex(sp) :: a,lda,u,ldu,vt,ldvt,work
+                    real(sp) :: rwork(*),s(*)
+                    complex(sp) :: a(lda,*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine cgesvd
 #else
                module procedure stdlib_cgesvd
@@ -2689,7 +2697,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu,jobvt
                     integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n
-                    real(dp) :: a,lda,s,u,ldu,vt,ldvt,work
+                    real(dp) :: a(lda,*),s(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine dgesvd
 #else
                module procedure stdlib_dgesvd
@@ -2702,7 +2710,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu,jobvt
                     integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n
-                    real(sp) :: a,lda,s,u,ldu,vt,ldvt,work
+                    real(sp) :: a(lda,*),s(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine sgesvd
 #else
                module procedure stdlib_sgesvd
@@ -2715,8 +2723,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu,jobvt
                     integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n
-                    real(dp) :: rwork,s
-                    complex(dp) :: a,lda,u,ldu,vt,ldvt,work
+                    real(dp) :: rwork(*),s(*)
+                    complex(dp) :: a(lda,*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine zgesvd
 #else
                module procedure stdlib_zgesvd
@@ -2739,10 +2747,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: joba,jobp,jobr,jobu,jobv
-                    integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lcwork,lrwork,info, &
-                              iwork
-                    complex(sp) :: a,lda,u,ldu,v,ldv,cwork
-                    real(sp) :: s,rwork
+                    integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lcwork,lrwork,info,iwork(*)
+                              
+                    complex(sp) :: a(lda,*),u(ldu,*),v(ldv,*),cwork(*)
+                    real(sp) :: s(*),rwork(*)
                end subroutine cgesvdq
 #else
                module procedure stdlib_cgesvdq
@@ -2753,8 +2761,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: joba,jobp,jobr,jobu,jobv
-                    integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lwork,lrwork,info,iwork
-                    real(dp) :: a,lda,u,ldu,v,ldv,work,s,rwork
+                    integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lwork,lrwork,info,iwork(*)
+                              
+                    real(dp) :: a(lda,*),u(ldu,*),v(ldv,*),work(*),s(*),rwork(*)
                end subroutine dgesvdq
 #else
                module procedure stdlib_dgesvdq
@@ -2766,8 +2775,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: joba,jobp,jobr,jobu,jobv
-                    integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lwork,lrwork,info,iwork
-                    real(sp) :: a,lda,u,ldu,v,ldv,work,s,rwork
+                    integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lwork,lrwork,info,iwork(*)
+                              
+                    real(sp) :: a(lda,*),u(ldu,*),v(ldv,*),work(*),s(*),rwork(*)
                end subroutine sgesvdq
 #else
                module procedure stdlib_sgesvdq
@@ -2779,10 +2789,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: joba,jobp,jobr,jobu,jobv
-                    integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lcwork,lrwork,info, &
-                              iwork
-                    complex(dp) :: a,lda,u,ldu,v,ldv,cwork
-                    real(dp) :: s,rwork
+                    integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lcwork,lrwork,info,iwork(*)
+                              
+                    complex(dp) :: a(lda,*),u(ldu,*),v(ldv,*),cwork(*)
+                    real(dp) :: s(*),rwork(*)
                end subroutine zgesvdq
 #else
                module procedure stdlib_zgesvdq
@@ -2805,8 +2815,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldv,lwork,lrwork,m,mv,n
-                    complex(sp) :: a,lda,v,ldv,cwork,lwork
-                    real(sp) :: rwork,lrwork,sva,n
+                    complex(sp) :: a(lda,*),v(ldv,*),cwork(lwork)
+                    real(sp) :: rwork(lrwork),sva(n)
                end subroutine cgesvj
 #else
                module procedure stdlib_cgesvj
@@ -2817,7 +2827,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n
-                    real(dp) :: a,lda,sva,n,v,ldv,work,lwork
+                    real(dp) :: a(lda,*),sva(n),v(ldv,*),work(lwork)
                end subroutine dgesvj
 #else
                module procedure stdlib_dgesvj
@@ -2829,7 +2839,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n
-                    real(sp) :: a,lda,sva,n,v,ldv,work,lwork
+                    real(sp) :: a(lda,*),sva(n),v(ldv,*),work(lwork)
                end subroutine sgesvj
 #else
                module procedure stdlib_sgesvj
@@ -2841,8 +2851,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldv,lwork,lrwork,m,mv,n
-                    complex(dp) :: a,lda,v,ldv,cwork,lwork
-                    real(dp) :: rwork,lrwork,sva,n
+                    complex(dp) :: a(lda,*),v(ldv,*),cwork(lwork)
+                    real(dp) :: rwork(lrwork),sva(n)
                end subroutine zgesvj
 #else
                module procedure stdlib_zgesvj
@@ -2862,8 +2872,8 @@ module stdlib_linalg_lapack
                subroutine cgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,m,n,ipiv
-                    complex(sp) :: a,lda
+                    integer(ilp) :: info,lda,m,n,ipiv(*)
+                    complex(sp) :: a(lda,*)
                end subroutine cgetrf
 #else
                module procedure stdlib_cgetrf
@@ -2872,8 +2882,8 @@ module stdlib_linalg_lapack
                subroutine dgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,m,n,ipiv
-                    real(dp) :: a,lda
+                    integer(ilp) :: info,lda,m,n,ipiv(*)
+                    real(dp) :: a(lda,*)
                end subroutine dgetrf
 #else
                module procedure stdlib_dgetrf
@@ -2883,8 +2893,8 @@ module stdlib_linalg_lapack
                subroutine sgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,m,n,ipiv
-                    real(sp) :: a,lda
+                    integer(ilp) :: info,lda,m,n,ipiv(*)
+                    real(sp) :: a(lda,*)
                end subroutine sgetrf
 #else
                module procedure stdlib_sgetrf
@@ -2894,8 +2904,8 @@ module stdlib_linalg_lapack
                subroutine zgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,m,n,ipiv
-                    complex(dp) :: a,lda
+                    integer(ilp) :: info,lda,m,n,ipiv(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zgetrf
 #else
                module procedure stdlib_zgetrf
@@ -2926,8 +2936,8 @@ module stdlib_linalg_lapack
                recursive subroutine cgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,m,n,ipiv
-                    complex(sp) :: a,lda
+                    integer(ilp) :: info,lda,m,n,ipiv(*)
+                    complex(sp) :: a(lda,*)
                end subroutine cgetrf2
 #else
                module procedure stdlib_cgetrf2
@@ -2936,8 +2946,8 @@ module stdlib_linalg_lapack
                recursive subroutine dgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,m,n,ipiv
-                    real(dp) :: a,lda
+                    integer(ilp) :: info,lda,m,n,ipiv(*)
+                    real(dp) :: a(lda,*)
                end subroutine dgetrf2
 #else
                module procedure stdlib_dgetrf2
@@ -2947,8 +2957,8 @@ module stdlib_linalg_lapack
                recursive subroutine sgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,m,n,ipiv
-                    real(sp) :: a,lda
+                    integer(ilp) :: info,lda,m,n,ipiv(*)
+                    real(sp) :: a(lda,*)
                end subroutine sgetrf2
 #else
                module procedure stdlib_sgetrf2
@@ -2958,8 +2968,8 @@ module stdlib_linalg_lapack
                recursive subroutine zgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,m,n,ipiv
-                    complex(dp) :: a,lda
+                    integer(ilp) :: info,lda,m,n,ipiv(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zgetrf2
 #else
                module procedure stdlib_zgetrf2
@@ -2975,8 +2985,8 @@ module stdlib_linalg_lapack
                subroutine cgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine cgetri
 #else
                module procedure stdlib_cgetri
@@ -2985,8 +2995,8 @@ module stdlib_linalg_lapack
                subroutine dgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    real(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    real(dp) :: a(lda,*),work(*)
                end subroutine dgetri
 #else
                module procedure stdlib_dgetri
@@ -2996,8 +3006,8 @@ module stdlib_linalg_lapack
                subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    real(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    real(sp) :: a(lda,*),work(*)
                end subroutine sgetri
 #else
                module procedure stdlib_sgetri
@@ -3007,8 +3017,8 @@ module stdlib_linalg_lapack
                subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zgetri
 #else
                module procedure stdlib_zgetri
@@ -3025,8 +3035,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine cgetrs
 #else
                module procedure stdlib_cgetrs
@@ -3036,8 +3046,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*)
                end subroutine dgetrs
 #else
                module procedure stdlib_dgetrs
@@ -3048,8 +3058,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*)
                end subroutine sgetrs
 #else
                module procedure stdlib_sgetrs
@@ -3060,8 +3070,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zgetrs
 #else
                module procedure stdlib_zgetrs
@@ -3093,7 +3103,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
-                    complex(sp) :: a,lda,b,ldb,work
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine cgetsls
 #else
                module procedure stdlib_cgetsls
@@ -3104,7 +3114,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
-                    real(dp) :: a,lda,b,ldb,work
+                    real(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine dgetsls
 #else
                module procedure stdlib_dgetsls
@@ -3116,7 +3126,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
-                    real(sp) :: a,lda,b,ldb,work
+                    real(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine sgetsls
 #else
                module procedure stdlib_sgetsls
@@ -3128,7 +3138,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
-                    complex(dp) :: a,lda,b,ldb,work
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zgetsls
 #else
                module procedure stdlib_zgetsls
@@ -3154,7 +3164,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,nb1,nb2,mb1
-                    complex(sp) :: a,lda,t,ldt,work
+                    complex(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine cgetsqrhrt
 #else
                module procedure stdlib_cgetsqrhrt
@@ -3165,7 +3175,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,nb1,nb2,mb1
-                    real(dp) :: a,lda,t,ldt,work
+                    real(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine dgetsqrhrt
 #else
                module procedure stdlib_dgetsqrhrt
@@ -3177,7 +3187,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,nb1,nb2,mb1
-                    real(sp) :: a,lda,t,ldt,work
+                    real(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine sgetsqrhrt
 #else
                module procedure stdlib_sgetsqrhrt
@@ -3189,7 +3199,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,nb1,nb2,mb1
-                    complex(dp) :: a,lda,t,ldt,work
+                    complex(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine zgetsqrhrt
 #else
                module procedure stdlib_zgetsqrhrt
@@ -3207,8 +3217,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job,side
                     integer(ilp) :: ihi,ilo,info,ldv,m,n
-                    real(sp) :: lscale,rscale
-                    complex(sp) :: v,ldv
+                    real(sp) :: lscale(*),rscale(*)
+                    complex(sp) :: v(ldv,*)
                end subroutine cggbak
 #else
                module procedure stdlib_cggbak
@@ -3219,7 +3229,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job,side
                     integer(ilp) :: ihi,ilo,info,ldv,m,n
-                    real(dp) :: lscale,rscale,v,ldv
+                    real(dp) :: lscale(*),rscale(*),v(ldv,*)
                end subroutine dggbak
 #else
                module procedure stdlib_dggbak
@@ -3231,7 +3241,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job,side
                     integer(ilp) :: ihi,ilo,info,ldv,m,n
-                    real(sp) :: lscale,rscale,v,ldv
+                    real(sp) :: lscale(*),rscale(*),v(ldv,*)
                end subroutine sggbak
 #else
                module procedure stdlib_sggbak
@@ -3243,8 +3253,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job,side
                     integer(ilp) :: ihi,ilo,info,ldv,m,n
-                    real(dp) :: lscale,rscale
-                    complex(dp) :: v,ldv
+                    real(dp) :: lscale(*),rscale(*)
+                    complex(dp) :: v(ldv,*)
                end subroutine zggbak
 #else
                module procedure stdlib_zggbak
@@ -3268,8 +3278,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: ihi,ilo,info,lda,ldb,n
-                    real(sp) :: lscale,rscale,work
-                    complex(sp) :: a,lda,b,ldb
+                    real(sp) :: lscale(*),rscale(*),work(*)
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine cggbal
 #else
                module procedure stdlib_cggbal
@@ -3281,7 +3291,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: ihi,ilo,info,lda,ldb,n
-                    real(dp) :: a,lda,b,ldb,lscale,rscale,work
+                    real(dp) :: a(lda,*),b(ldb,*),lscale(*),rscale(*),work(*)
                end subroutine dggbal
 #else
                module procedure stdlib_dggbal
@@ -3294,7 +3304,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: ihi,ilo,info,lda,ldb,n
-                    real(sp) :: a,lda,b,ldb,lscale,rscale,work
+                    real(sp) :: a(lda,*),b(ldb,*),lscale(*),rscale(*),work(*)
                end subroutine sggbal
 #else
                module procedure stdlib_sggbal
@@ -3307,8 +3317,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: job
                     integer(ilp) :: ihi,ilo,info,lda,ldb,n
-                    real(dp) :: lscale,rscale,work
-                    complex(dp) :: a,lda,b,ldb
+                    real(dp) :: lscale(*),rscale(*),work(*)
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zggbal
 #else
                module procedure stdlib_zggbal
@@ -3343,9 +3353,10 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvsl,jobvsr,sort
                     integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,lwork,n,sdim
-                    logical(lk) :: bwork
-                    real(sp) :: rwork
-                    complex(sp) :: a,lda,alpha,b,ldb,beta,vsl,ldvsl,vsr,ldvsr,work
+                    logical(lk) :: bwork(*)
+                    real(sp) :: rwork(*)
+                    complex(sp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                              work(*)
                     procedure(stdlib_selctg_c) :: selctg
                end subroutine cgges
 #else
@@ -3358,8 +3369,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvsl,jobvsr,sort
                     integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,lwork,n,sdim
-                    logical(lk) :: bwork
-                    real(dp) :: a,lda,alphai,alphar,b,ldb,beta,vsl,ldvsl,vsr,ldvsr,work
+                    logical(lk) :: bwork(*)
+                    real(dp) :: a(lda,*),alphai(*),alphar(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr( &
+                              ldvsr,*),work(*)
                     procedure(stdlib_selctg_d) :: selctg
                end subroutine dgges
 #else
@@ -3373,8 +3385,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvsl,jobvsr,sort
                     integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,lwork,n,sdim
-                    logical(lk) :: bwork
-                    real(sp) :: a,lda,alphai,alphar,b,ldb,beta,vsl,ldvsl,vsr,ldvsr,work
+                    logical(lk) :: bwork(*)
+                    real(sp) :: a(lda,*),alphai(*),alphar(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr( &
+                              ldvsr,*),work(*)
                     procedure(stdlib_selctg_s) :: selctg
                end subroutine sgges
 #else
@@ -3388,9 +3401,10 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvsl,jobvsr,sort
                     integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,lwork,n,sdim
-                    logical(lk) :: bwork
-                    real(dp) :: rwork
-                    complex(dp) :: a,lda,alpha,b,ldb,beta,vsl,ldvsl,vsr,ldvsr,work
+                    logical(lk) :: bwork(*)
+                    real(dp) :: rwork(*)
+                    complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                              work(*)
                     procedure(stdlib_selctg_z) :: selctg
                end subroutine zgges
 #else
@@ -3421,8 +3435,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvl,jobvr
                     integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,n
-                    real(sp) :: rwork
-                    complex(sp) :: a,lda,alpha,b,ldb,beta,vl,ldvl,vr,ldvr,work
+                    real(sp) :: rwork(*)
+                    complex(sp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
+                              *)
                end subroutine cggev
 #else
                module procedure stdlib_cggev
@@ -3434,7 +3449,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvl,jobvr
                     integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,n
-                    real(dp) :: a,lda,alphai,alphar,b,ldb,beta,vl,ldvl,vr,ldvr,work
+                    real(dp) :: a(lda,*),alphai(*),alphar(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr, &
+                              *),work(*)
                end subroutine dggev
 #else
                module procedure stdlib_dggev
@@ -3447,7 +3463,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvl,jobvr
                     integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,n
-                    real(sp) :: a,lda,alphai,alphar,b,ldb,beta,vl,ldvl,vr,ldvr,work
+                    real(sp) :: a(lda,*),alphai(*),alphar(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr, &
+                              *),work(*)
                end subroutine sggev
 #else
                module procedure stdlib_sggev
@@ -3460,8 +3477,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobvl,jobvr
                     integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,n
-                    real(dp) :: rwork
-                    complex(dp) :: a,lda,alpha,b,ldb,beta,vl,ldvl,vr,ldvr,work
+                    real(dp) :: rwork(*)
+                    complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
+                              *)
                end subroutine zggev
 #else
                module procedure stdlib_zggev
@@ -3492,7 +3510,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    complex(sp) :: a,lda,b,ldb,d,work,x,y
+                    complex(sp) :: a(lda,*),b(ldb,*),d(*),work(*),x(*),y(*)
                end subroutine cggglm
 #else
                module procedure stdlib_cggglm
@@ -3502,7 +3520,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    real(dp) :: a,lda,b,ldb,d,work,x,y
+                    real(dp) :: a(lda,*),b(ldb,*),d(*),work(*),x(*),y(*)
                end subroutine dggglm
 #else
                module procedure stdlib_dggglm
@@ -3513,7 +3531,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    real(sp) :: a,lda,b,ldb,d,work,x,y
+                    real(sp) :: a(lda,*),b(ldb,*),d(*),work(*),x(*),y(*)
                end subroutine sggglm
 #else
                module procedure stdlib_sggglm
@@ -3524,7 +3542,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    complex(dp) :: a,lda,b,ldb,d,work,x,y
+                    complex(dp) :: a(lda,*),b(ldb,*),d(*),work(*),x(*),y(*)
                end subroutine zggglm
 #else
                module procedure stdlib_zggglm
@@ -3562,7 +3580,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq,compz
                     integer(ilp) :: ihi,ilo,info,lda,ldb,ldq,ldz,n
-                    complex(sp) :: a,lda,b,ldb,q,ldq,z,ldz
+                    complex(sp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine cgghrd
 #else
                module procedure stdlib_cgghrd
@@ -3574,7 +3592,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq,compz
                     integer(ilp) :: ihi,ilo,info,lda,ldb,ldq,ldz,n
-                    real(dp) :: a,lda,b,ldb,q,ldq,z,ldz
+                    real(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine dgghrd
 #else
                module procedure stdlib_dgghrd
@@ -3587,7 +3605,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq,compz
                     integer(ilp) :: ihi,ilo,info,lda,ldb,ldq,ldz,n
-                    real(sp) :: a,lda,b,ldb,q,ldq,z,ldz
+                    real(sp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine sgghrd
 #else
                module procedure stdlib_sgghrd
@@ -3600,7 +3618,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq,compz
                     integer(ilp) :: ihi,ilo,info,lda,ldb,ldq,ldz,n
-                    complex(dp) :: a,lda,b,ldb,q,ldq,z,ldz
+                    complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine zgghrd
 #else
                module procedure stdlib_zgghrd
@@ -3625,7 +3643,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    complex(sp) :: a,lda,b,ldb,c,d,work,x
+                    complex(sp) :: a(lda,*),b(ldb,*),c(*),d(*),work(*),x(*)
                end subroutine cgglse
 #else
                module procedure stdlib_cgglse
@@ -3635,7 +3653,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    real(dp) :: a,lda,b,ldb,c,d,work,x
+                    real(dp) :: a(lda,*),b(ldb,*),c(*),d(*),work(*),x(*)
                end subroutine dgglse
 #else
                module procedure stdlib_dgglse
@@ -3646,7 +3664,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    real(sp) :: a,lda,b,ldb,c,d,work,x
+                    real(sp) :: a(lda,*),b(ldb,*),c(*),d(*),work(*),x(*)
                end subroutine sgglse
 #else
                module procedure stdlib_sgglse
@@ -3657,7 +3675,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    complex(dp) :: a,lda,b,ldb,c,d,work,x
+                    complex(dp) :: a(lda,*),b(ldb,*),c(*),d(*),work(*),x(*)
                end subroutine zgglse
 #else
                module procedure stdlib_zgglse
@@ -3688,7 +3706,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    complex(sp) :: a,lda,b,ldb,taua,taub,work
+                    complex(sp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
                end subroutine cggqrf
 #else
                module procedure stdlib_cggqrf
@@ -3698,7 +3716,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    real(dp) :: a,lda,b,ldb,taua,taub,work
+                    real(dp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
                end subroutine dggqrf
 #else
                module procedure stdlib_dggqrf
@@ -3709,7 +3727,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    real(sp) :: a,lda,b,ldb,taua,taub,work
+                    real(sp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
                end subroutine sggqrf
 #else
                module procedure stdlib_sggqrf
@@ -3720,7 +3738,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    complex(dp) :: a,lda,b,ldb,taua,taub,work
+                    complex(dp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
                end subroutine zggqrf
 #else
                module procedure stdlib_zggqrf
@@ -3751,7 +3769,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    complex(sp) :: a,lda,b,ldb,taua,taub,work
+                    complex(sp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
                end subroutine cggrqf
 #else
                module procedure stdlib_cggrqf
@@ -3761,7 +3779,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    real(dp) :: a,lda,b,ldb,taua,taub,work
+                    real(dp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
                end subroutine dggrqf
 #else
                module procedure stdlib_dggrqf
@@ -3772,7 +3790,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    real(sp) :: a,lda,b,ldb,taua,taub,work
+                    real(sp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
                end subroutine sggrqf
 #else
                module procedure stdlib_sggrqf
@@ -3783,7 +3801,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,lwork,m,n,p
-                    complex(dp) :: a,lda,b,ldb,taua,taub,work
+                    complex(dp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
                end subroutine zggrqf
 #else
                module procedure stdlib_zggrqf
@@ -3801,8 +3819,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n,nsweep
-                    real(sp) :: eps,sfmin,tol,sva,n
-                    complex(sp) :: a,lda,d,n,v,ldv,work,lwork
+                    real(sp) :: eps,sfmin,tol,sva(n)
+                    complex(sp) :: a(lda,*),d(n),v(ldv,*),work(lwork)
                end subroutine cgsvj0
 #else
                module procedure stdlib_cgsvj0
@@ -3813,7 +3831,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n,nsweep
-                    real(dp) :: eps,sfmin,tol,a,lda,sva,n,d,n,v,ldv,work,lwork
+                    real(dp) :: eps,sfmin,tol,a(lda,*),sva(n),d(n),v(ldv,*),work(lwork)
                end subroutine dgsvj0
 #else
                module procedure stdlib_dgsvj0
@@ -3825,7 +3843,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n,nsweep
-                    real(sp) :: eps,sfmin,tol,a,lda,sva,n,d,n,v,ldv,work,lwork
+                    real(sp) :: eps,sfmin,tol,a(lda,*),sva(n),d(n),v(ldv,*),work(lwork)
                end subroutine sgsvj0
 #else
                module procedure stdlib_sgsvj0
@@ -3837,8 +3855,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n,nsweep
-                    real(dp) :: eps,sfmin,tol,sva,n
-                    complex(dp) :: a,lda,d,n,v,ldv,work,lwork
+                    real(dp) :: eps,sfmin,tol,sva(n)
+                    complex(dp) :: a(lda,*),d(n),v(ldv,*),work(lwork)
                end subroutine zgsvj0
 #else
                module procedure stdlib_zgsvj0
@@ -3875,9 +3893,9 @@ module stdlib_linalg_lapack
                          nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: eps,sfmin,tol,sva,n
+                    real(sp) :: eps,sfmin,tol,sva(n)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n,n1,nsweep
-                    complex(sp) :: a,lda,d,n,v,ldv,work,lwork
+                    complex(sp) :: a(lda,*),d(n),v(ldv,*),work(lwork)
                end subroutine cgsvj1
 #else
                module procedure stdlib_cgsvj1
@@ -3887,7 +3905,7 @@ module stdlib_linalg_lapack
                          nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: eps,sfmin,tol,a,lda,d,n,sva,n,v,ldv,work,lwork
+                    real(dp) :: eps,sfmin,tol,a(lda,*),d(n),sva(n),v(ldv,*),work(lwork)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n,n1,nsweep
                end subroutine dgsvj1
 #else
@@ -3899,7 +3917,7 @@ module stdlib_linalg_lapack
                          nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: eps,sfmin,tol,a,lda,d,n,sva,n,v,ldv,work,lwork
+                    real(sp) :: eps,sfmin,tol,a(lda,*),d(n),sva(n),v(ldv,*),work(lwork)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n,n1,nsweep
                end subroutine sgsvj1
 #else
@@ -3911,9 +3929,9 @@ module stdlib_linalg_lapack
                          nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: eps,sfmin,tol,sva,n
+                    real(dp) :: eps,sfmin,tol,sva(n)
                     integer(ilp) :: info,lda,ldv,lwork,m,mv,n,n1,nsweep
-                    complex(dp) :: a,lda,d,n,v,ldv,work,lwork
+                    complex(dp) :: a(lda,*),d(n),v(ldv,*),work(lwork)
                end subroutine zgsvj1
 #else
                module procedure stdlib_zgsvj1
@@ -3931,9 +3949,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,n,ipiv
+                    integer(ilp) :: info,n,ipiv(*)
                     real(sp) :: anorm,rcond
-                    complex(sp) :: d,dl,du,du2,work
+                    complex(sp) :: d(*),dl(*),du(*),du2(*),work(*)
                end subroutine cgtcon
 #else
                module procedure stdlib_cgtcon
@@ -3944,8 +3962,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,n,ipiv,iwork
-                    real(dp) :: anorm,rcond,d,dl,du,du2,work
+                    integer(ilp) :: info,n,ipiv(*),iwork(*)
+                    real(dp) :: anorm,rcond,d(*),dl(*),du(*),du2(*),work(*)
                end subroutine dgtcon
 #else
                module procedure stdlib_dgtcon
@@ -3957,8 +3975,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,n,ipiv,iwork
-                    real(sp) :: anorm,rcond,d,dl,du,du2,work
+                    integer(ilp) :: info,n,ipiv(*),iwork(*)
+                    real(sp) :: anorm,rcond,d(*),dl(*),du(*),du2(*),work(*)
                end subroutine sgtcon
 #else
                module procedure stdlib_sgtcon
@@ -3969,9 +3987,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: norm
-                    integer(ilp) :: info,n,ipiv
+                    integer(ilp) :: info,n,ipiv(*)
                     real(dp) :: anorm,rcond
-                    complex(dp) :: d,dl,du,du2,work
+                    complex(dp) :: d(*),dl(*),du(*),du2(*),work(*)
                end subroutine zgtcon
 #else
                module procedure stdlib_zgtcon
@@ -3988,9 +4006,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: b,ldb,d,df,dl,dlf,du,du2,duf,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*)
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf(*),work(*),x( &
+                              ldx,*)
                end subroutine cgtrfs
 #else
                module procedure stdlib_cgtrfs
@@ -4001,8 +4020,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(dp) :: b,ldb,berr,d,df,dl,dlf,du,du2,duf,ferr,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(dp) :: b(ldb,*),berr(*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf(*),ferr( &
+                              *),work(*),x(ldx,*)
                end subroutine dgtrfs
 #else
                module procedure stdlib_dgtrfs
@@ -4014,8 +4034,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(sp) :: b,ldb,berr,d,df,dl,dlf,du,du2,duf,ferr,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(sp) :: b(ldb,*),berr(*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf(*),ferr( &
+                              *),work(*),x(ldx,*)
                end subroutine sgtrfs
 #else
                module procedure stdlib_sgtrfs
@@ -4027,9 +4048,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: b,ldb,d,df,dl,dlf,du,du2,duf,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*)
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf(*),work(*),x( &
+                              ldx,*)
                end subroutine zgtrfs
 #else
                module procedure stdlib_zgtrfs
@@ -4048,7 +4070,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(sp) :: b,ldb,d,dl,du
+                    complex(sp) :: b(ldb,*),d(*),dl(*),du(*)
                end subroutine cgtsv
 #else
                module procedure stdlib_cgtsv
@@ -4058,7 +4080,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(dp) :: b,ldb,d,dl,du
+                    real(dp) :: b(ldb,*),d(*),dl(*),du(*)
                end subroutine dgtsv
 #else
                module procedure stdlib_dgtsv
@@ -4069,7 +4091,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(sp) :: b,ldb,d,dl,du
+                    real(sp) :: b(ldb,*),d(*),dl(*),du(*)
                end subroutine sgtsv
 #else
                module procedure stdlib_sgtsv
@@ -4080,7 +4102,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(dp) :: b,ldb,d,dl,du
+                    complex(dp) :: b(ldb,*),d(*),dl(*),du(*)
                end subroutine zgtsv
 #else
                module procedure stdlib_zgtsv
@@ -4099,8 +4121,8 @@ module stdlib_linalg_lapack
                subroutine cgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,n,ipiv
-                    complex(sp) :: d,dl,du,du2
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(sp) :: d(*),dl(*),du(*),du2(*)
                end subroutine cgttrf
 #else
                module procedure stdlib_cgttrf
@@ -4109,8 +4131,8 @@ module stdlib_linalg_lapack
                subroutine dgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,n,ipiv
-                    real(dp) :: d,dl,du,du2
+                    integer(ilp) :: info,n,ipiv(*)
+                    real(dp) :: d(*),dl(*),du(*),du2(*)
                end subroutine dgttrf
 #else
                module procedure stdlib_dgttrf
@@ -4120,8 +4142,8 @@ module stdlib_linalg_lapack
                subroutine sgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,n,ipiv
-                    real(sp) :: d,dl,du,du2
+                    integer(ilp) :: info,n,ipiv(*)
+                    real(sp) :: d(*),dl(*),du(*),du2(*)
                end subroutine sgttrf
 #else
                module procedure stdlib_sgttrf
@@ -4131,8 +4153,8 @@ module stdlib_linalg_lapack
                subroutine zgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,n,ipiv
-                    complex(dp) :: d,dl,du,du2
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(dp) :: d(*),dl(*),du(*),du2(*)
                end subroutine zgttrf
 #else
                module procedure stdlib_zgttrf
@@ -4149,8 +4171,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(sp) :: b,ldb,d,dl,du,du2
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: b(ldb,*),d(*),dl(*),du(*),du2(*)
                end subroutine cgttrs
 #else
                module procedure stdlib_cgttrs
@@ -4160,8 +4182,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    real(dp) :: b,ldb,d,dl,du,du2
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: b(ldb,*),d(*),dl(*),du(*),du2(*)
                end subroutine dgttrs
 #else
                module procedure stdlib_dgttrs
@@ -4172,8 +4194,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    real(sp) :: b,ldb,d,dl,du,du2
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: b(ldb,*),d(*),dl(*),du(*),du2(*)
                end subroutine sgttrs
 #else
                module procedure stdlib_sgttrs
@@ -4184,8 +4206,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(dp) :: b,ldb,d,dl,du,du2
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: b(ldb,*),d(*),dl(*),du(*),du2(*)
                end subroutine zgttrs
 #else
                module procedure stdlib_zgttrs
@@ -4203,7 +4225,7 @@ module stdlib_linalg_lapack
                     character :: uplo
                     logical(lk) :: wantz
                     integer(ilp) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
-                    complex(sp) :: a,lda,v,tau,work
+                    complex(sp) :: a(lda,*),v(*),tau(*),work(*)
                end subroutine chb2st_kernels
 #else
                module procedure stdlib_chb2st_kernels
@@ -4217,7 +4239,7 @@ module stdlib_linalg_lapack
                     character :: uplo
                     logical(lk) :: wantz
                     integer(ilp) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
-                    complex(dp) :: a,lda,v,tau,work
+                    complex(dp) :: a(lda,*),v(*),tau(*),work(*)
                end subroutine zhb2st_kernels
 #else
                module procedure stdlib_zhb2st_kernels
@@ -4234,8 +4256,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,kd,ldab,ldz,n
-                    real(sp) :: rwork,w
-                    complex(sp) :: ab,ldab,work,z,ldz
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: ab(ldab,*),work(*),z(ldz,*)
                end subroutine chbev
 #else
                module procedure stdlib_chbev
@@ -4248,8 +4270,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,kd,ldab,ldz,n
-                    real(dp) :: rwork,w
-                    complex(dp) :: ab,ldab,work,z,ldz
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: ab(ldab,*),work(*),z(ldz,*)
                end subroutine zhbev
 #else
                module procedure stdlib_zhbev
@@ -4272,9 +4294,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,kd,ldab,ldz,liwork,lrwork,lwork,n,iwork
-                    real(sp) :: rwork,w
-                    complex(sp) :: ab,ldab,work,z,ldz
+                    integer(ilp) :: info,kd,ldab,ldz,liwork,lrwork,lwork,n,iwork(*)
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: ab(ldab,*),work(*),z(ldz,*)
                end subroutine chbevd
 #else
                module procedure stdlib_chbevd
@@ -4286,9 +4308,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,kd,ldab,ldz,liwork,lrwork,lwork,n,iwork
-                    real(dp) :: rwork,w
-                    complex(dp) :: ab,ldab,work,z,ldz
+                    integer(ilp) :: info,kd,ldab,ldz,liwork,lrwork,lwork,n,iwork(*)
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: ab(ldab,*),work(*),z(ldz,*)
                end subroutine zhbevd
 #else
                module procedure stdlib_zhbevd
@@ -4310,8 +4332,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo,vect
                     integer(ilp) :: info,ka,kb,ldab,ldbb,ldx,n
-                    real(sp) :: rwork
-                    complex(sp) :: ab,ldab,bb,ldbb,work,x,ldx
+                    real(sp) :: rwork(*)
+                    complex(sp) :: ab(ldab,*),bb(ldbb,*),work(*),x(ldx,*)
                end subroutine chbgst
 #else
                module procedure stdlib_chbgst
@@ -4324,8 +4346,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo,vect
                     integer(ilp) :: info,ka,kb,ldab,ldbb,ldx,n
-                    real(dp) :: rwork
-                    complex(dp) :: ab,ldab,bb,ldbb,work,x,ldx
+                    real(dp) :: rwork(*)
+                    complex(dp) :: ab(ldab,*),bb(ldbb,*),work(*),x(ldx,*)
                end subroutine zhbgst
 #else
                module procedure stdlib_zhbgst
@@ -4344,8 +4366,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,n
-                    real(sp) :: rwork,w
-                    complex(sp) :: ab,ldab,bb,ldbb,work,z,ldz
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: ab(ldab,*),bb(ldbb,*),work(*),z(ldz,*)
                end subroutine chbgv
 #else
                module procedure stdlib_chbgv
@@ -4358,8 +4380,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,n
-                    real(dp) :: rwork,w
-                    complex(dp) :: ab,ldab,bb,ldbb,work,z,ldz
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: ab(ldab,*),bb(ldbb,*),work(*),z(ldz,*)
                end subroutine zhbgv
 #else
                module procedure stdlib_zhbgv
@@ -4384,9 +4406,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n,iwork
-                    real(sp) :: rwork,w
-                    complex(sp) :: ab,ldab,bb,ldbb,work,z,ldz
+                    integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n,iwork(*)
+                              
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: ab(ldab,*),bb(ldbb,*),work(*),z(ldz,*)
                end subroutine chbgvd
 #else
                module procedure stdlib_chbgvd
@@ -4398,9 +4421,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n,iwork
-                    real(dp) :: rwork,w
-                    complex(dp) :: ab,ldab,bb,ldbb,work,z,ldz
+                    integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n,iwork(*)
+                              
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: ab(ldab,*),bb(ldbb,*),work(*),z(ldz,*)
                end subroutine zhbgvd
 #else
                module procedure stdlib_zhbgvd
@@ -4417,8 +4441,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo,vect
                     integer(ilp) :: info,kd,ldab,ldq,n
-                    real(sp) :: d,e
-                    complex(sp) :: ab,ldab,q,ldq,work
+                    real(sp) :: d(*),e(*)
+                    complex(sp) :: ab(ldab,*),q(ldq,*),work(*)
                end subroutine chbtrd
 #else
                module procedure stdlib_chbtrd
@@ -4430,8 +4454,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo,vect
                     integer(ilp) :: info,kd,ldab,ldq,n
-                    real(dp) :: d,e
-                    complex(dp) :: ab,ldab,q,ldq,work
+                    real(dp) :: d(*),e(*)
+                    complex(dp) :: ab(ldab,*),q(ldq,*),work(*)
                end subroutine zhbtrd
 #else
                module procedure stdlib_zhbtrd
@@ -4449,9 +4473,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
+                    integer(ilp) :: info,lda,n,ipiv(*)
                     real(sp) :: anorm,rcond
-                    complex(sp) :: a,lda,work
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine checon
 #else
                module procedure stdlib_checon
@@ -4462,9 +4486,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
+                    integer(ilp) :: info,lda,n,ipiv(*)
                     real(dp) :: anorm,rcond
-                    complex(dp) :: a,lda,work
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zhecon
 #else
                module procedure stdlib_zhecon
@@ -4482,9 +4506,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
+                    integer(ilp) :: info,lda,n,ipiv(*)
                     real(sp) :: anorm,rcond
-                    complex(sp) :: a,lda,work
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine checon_rook
 #else
                module procedure stdlib_checon_rook
@@ -4495,9 +4519,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
+                    integer(ilp) :: info,lda,n,ipiv(*)
                     real(dp) :: anorm,rcond
-                    complex(dp) :: a,lda,work
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zhecon_rook
 #else
                module procedure stdlib_zhecon_rook
@@ -4517,9 +4541,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(sp) :: amax,scond,s
+                    real(sp) :: amax,scond,s(*)
                     character :: uplo
-                    complex(sp) :: a,lda,work
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine cheequb
 #else
                module procedure stdlib_cheequb
@@ -4530,9 +4554,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(dp) :: amax,scond,s
+                    real(dp) :: amax,scond,s(*)
                     character :: uplo
-                    complex(dp) :: a,lda,work
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zheequb
 #else
                module procedure stdlib_zheequb
@@ -4548,8 +4572,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(sp) :: rwork,w
-                    complex(sp) :: a,lda,work
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine cheev
 #else
                module procedure stdlib_cheev
@@ -4561,8 +4585,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(dp) :: rwork,w
-                    complex(dp) :: a,lda,work
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zheev
 #else
                module procedure stdlib_zheev
@@ -4585,9 +4609,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,lda,liwork,lrwork,lwork,n,iwork
-                    real(sp) :: rwork,w
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,liwork,lrwork,lwork,n,iwork(*)
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine cheevd
 #else
                module procedure stdlib_cheevd
@@ -4599,9 +4623,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,lda,liwork,lrwork,lwork,n,iwork
-                    real(dp) :: rwork,w
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,liwork,lrwork,lwork,n,iwork(*)
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zheevd
 #else
                module procedure stdlib_zheevd
@@ -4665,10 +4689,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range,uplo
-                    integer(ilp) :: il,info,iu,lda,ldz,liwork,lrwork,lwork,m,n,isuppz, &
-                              iwork
-                    real(sp) :: abstol,vl,vu,rwork,w
-                    complex(sp) :: a,lda,work,z,ldz
+                    integer(ilp) :: il,info,iu,lda,ldz,liwork,lrwork,lwork,m,n,isuppz(*),iwork(*)
+                              
+                    real(sp) :: abstol,vl,vu,rwork(*),w(*)
+                    complex(sp) :: a(lda,*),work(*),z(ldz,*)
                end subroutine cheevr
 #else
                module procedure stdlib_cheevr
@@ -4680,10 +4704,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range,uplo
-                    integer(ilp) :: il,info,iu,lda,ldz,liwork,lrwork,lwork,m,n,isuppz, &
-                              iwork
-                    real(dp) :: abstol,vl,vu,rwork,w
-                    complex(dp) :: a,lda,work,z,ldz
+                    integer(ilp) :: il,info,iu,lda,ldz,liwork,lrwork,lwork,m,n,isuppz(*),iwork(*)
+                              
+                    real(dp) :: abstol,vl,vu,rwork(*),w(*)
+                    complex(dp) :: a(lda,*),work(*),z(ldz,*)
                end subroutine zheevr
 #else
                module procedure stdlib_zheevr
@@ -4704,7 +4728,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,itype,lda,ldb,n
-                    complex(sp) :: a,lda,b,ldb
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine chegst
 #else
                module procedure stdlib_chegst
@@ -4716,7 +4740,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,itype,lda,ldb,n
-                    complex(dp) :: a,lda,b,ldb
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zhegst
 #else
                module procedure stdlib_zhegst
@@ -4736,8 +4760,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,itype,lda,ldb,lwork,n
-                    real(sp) :: rwork,w
-                    complex(sp) :: a,lda,b,ldb,work
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine chegv
 #else
                module procedure stdlib_chegv
@@ -4750,8 +4774,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,itype,lda,ldb,lwork,n
-                    real(dp) :: rwork,w
-                    complex(dp) :: a,lda,b,ldb,work
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zhegv
 #else
                module procedure stdlib_zhegv
@@ -4776,9 +4800,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,itype,lda,ldb,liwork,lrwork,lwork,n,iwork
-                    real(sp) :: rwork,w
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,itype,lda,ldb,liwork,lrwork,lwork,n,iwork(*)
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine chegvd
 #else
                module procedure stdlib_chegvd
@@ -4790,9 +4814,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,itype,lda,ldb,liwork,lrwork,lwork,n,iwork
-                    real(dp) :: rwork,w
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,itype,lda,ldb,liwork,lrwork,lwork,n,iwork(*)
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zhegvd
 #else
                module procedure stdlib_zhegvd
@@ -4809,9 +4833,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: a,lda,af,ldaf,b,ldb,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*)
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine cherfs
 #else
                module procedure stdlib_cherfs
@@ -4823,9 +4847,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: a,lda,af,ldaf,b,ldb,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*)
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine zherfs
 #else
                module procedure stdlib_zherfs
@@ -4849,8 +4873,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine chesv
 #else
                module procedure stdlib_chesv
@@ -4861,8 +4885,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zhesv
 #else
                module procedure stdlib_zhesv
@@ -4886,8 +4910,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine chesv_aa
 #else
                module procedure stdlib_chesv_aa
@@ -4899,8 +4923,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zhesv_aa
 #else
                module procedure stdlib_zhesv_aa
@@ -4928,8 +4952,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,e,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),e(*),work(*)
                end subroutine chesv_rk
 #else
                module procedure stdlib_chesv_rk
@@ -4941,8 +4965,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,e,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),e(*),work(*)
                end subroutine zhesv_rk
 #else
                module procedure stdlib_zhesv_rk
@@ -4972,8 +4996,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine chesv_rook
 #else
                module procedure stdlib_chesv_rook
@@ -4985,8 +5009,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zhesv_rook
 #else
                module procedure stdlib_zhesv_rook
@@ -5002,7 +5026,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: i1,i2,lda,n
-                    complex(sp) :: a,lda,n
+                    complex(sp) :: a(lda,n)
                end subroutine cheswapr
 #else
                module procedure stdlib_cheswapr
@@ -5014,7 +5038,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: i1,i2,lda,n
-                    complex(dp) :: a,lda,n
+                    complex(dp) :: a(lda,n)
                end subroutine zheswapr
 #else
                module procedure stdlib_zheswapr
@@ -5036,8 +5060,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*),e(*)
                end subroutine chetf2_rk
 #else
                module procedure stdlib_chetf2_rk
@@ -5048,8 +5072,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*),e(*)
                end subroutine zhetf2_rk
 #else
                module procedure stdlib_zhetf2_rk
@@ -5069,8 +5093,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*)
                end subroutine chetf2_rook
 #else
                module procedure stdlib_chetf2_rook
@@ -5081,8 +5105,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zhetf2_rook
 #else
                module procedure stdlib_zhetf2_rook
@@ -5099,8 +5123,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(sp) :: d,e
-                    complex(sp) :: a,lda,tau,work
+                    real(sp) :: d(*),e(*)
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine chetrd
 #else
                module procedure stdlib_chetrd
@@ -5112,8 +5136,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(dp) :: d,e
-                    complex(dp) :: a,lda,tau,work
+                    real(dp) :: d(*),e(*)
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zhetrd
 #else
                module procedure stdlib_zhetrd
@@ -5131,8 +5155,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: stage1,uplo,vect
                     integer(ilp) :: n,kd,ldab,lhous,lwork,info
-                    real(sp) :: d,e
-                    complex(sp) :: ab,ldab,hous,work
+                    real(sp) :: d(*),e(*)
+                    complex(sp) :: ab(ldab,*),hous(*),work(*)
                end subroutine chetrd_hb2st
 #else
                module procedure stdlib_chetrd_hb2st
@@ -5145,8 +5169,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: stage1,uplo,vect
                     integer(ilp) :: n,kd,ldab,lhous,lwork,info
-                    real(dp) :: d,e
-                    complex(dp) :: ab,ldab,hous,work
+                    real(dp) :: d(*),e(*)
+                    complex(dp) :: ab(ldab,*),hous(*),work(*)
                end subroutine zhetrd_hb2st
 #else
                module procedure stdlib_zhetrd_hb2st
@@ -5164,7 +5188,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldab,lwork,n,kd
-                    complex(sp) :: a,lda,ab,ldab,tau,work
+                    complex(sp) :: a(lda,*),ab(ldab,*),tau(*),work(*)
                end subroutine chetrd_he2hb
 #else
                module procedure stdlib_chetrd_he2hb
@@ -5177,7 +5201,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldab,lwork,n,kd
-                    complex(dp) :: a,lda,ab,ldab,tau,work
+                    complex(dp) :: a(lda,*),ab(ldab,*),tau(*),work(*)
                end subroutine zhetrd_he2hb
 #else
                module procedure stdlib_zhetrd_he2hb
@@ -5198,8 +5222,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine chetrf
 #else
                module procedure stdlib_chetrf
@@ -5210,8 +5234,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zhetrf
 #else
                module procedure stdlib_zhetrf
@@ -5230,8 +5254,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,lwork,info,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: n,lda,lwork,info,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine chetrf_aa
 #else
                module procedure stdlib_chetrf_aa
@@ -5242,8 +5266,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,lwork,info,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: n,lda,lwork,info,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zhetrf_aa
 #else
                module procedure stdlib_zhetrf_aa
@@ -5265,8 +5289,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(sp) :: a,lda,e,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(sp) :: a(lda,*),e(*),work(*)
                end subroutine chetrf_rk
 #else
                module procedure stdlib_chetrf_rk
@@ -5277,8 +5301,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(dp) :: a,lda,e,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(dp) :: a(lda,*),e(*),work(*)
                end subroutine zhetrf_rk
 #else
                module procedure stdlib_zhetrf_rk
@@ -5299,8 +5323,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine chetrf_rook
 #else
                module procedure stdlib_chetrf_rook
@@ -5311,8 +5335,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zhetrf_rook
 #else
                module procedure stdlib_zhetrf_rook
@@ -5328,8 +5352,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine chetri
 #else
                module procedure stdlib_chetri
@@ -5340,8 +5364,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zhetri
 #else
                module procedure stdlib_zhetri
@@ -5357,8 +5381,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine chetri_rook
 #else
                module procedure stdlib_chetri_rook
@@ -5369,8 +5393,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zhetri_rook
 #else
                module procedure stdlib_zhetri_rook
@@ -5386,8 +5410,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine chetrs
 #else
                module procedure stdlib_chetrs
@@ -5398,8 +5422,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zhetrs
 #else
                module procedure stdlib_zhetrs
@@ -5415,8 +5439,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine chetrs2
 #else
                module procedure stdlib_chetrs2
@@ -5427,8 +5451,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zhetrs2
 #else
                module procedure stdlib_zhetrs2
@@ -5450,8 +5474,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,e
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),e(*)
                end subroutine chetrs_3
 #else
                module procedure stdlib_chetrs_3
@@ -5462,8 +5486,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,e
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),e(*)
                end subroutine zhetrs_3
 #else
                module procedure stdlib_zhetrs_3
@@ -5480,8 +5504,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine chetrs_aa
 #else
                module procedure stdlib_chetrs_aa
@@ -5493,8 +5517,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zhetrs_aa
 #else
                module procedure stdlib_zhetrs_aa
@@ -5510,8 +5534,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine chetrs_rook
 #else
                module procedure stdlib_chetrs_rook
@@ -5522,8 +5546,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zhetrs_rook
 #else
                module procedure stdlib_zhetrs_rook
@@ -5546,7 +5570,7 @@ module stdlib_linalg_lapack
                     real(sp) :: alpha,beta
                     integer(ilp) :: k,lda,n
                     character :: trans,transr,uplo
-                    complex(sp) :: a,lda,c
+                    complex(sp) :: a(lda,*),c(*)
                end subroutine chfrk
 #else
                module procedure stdlib_chfrk
@@ -5559,7 +5583,7 @@ module stdlib_linalg_lapack
                     real(dp) :: alpha,beta
                     integer(ilp) :: k,lda,n
                     character :: trans,transr,uplo
-                    complex(dp) :: a,lda,c
+                    complex(dp) :: a(lda,*),c(*)
                end subroutine zhfrk
 #else
                module procedure stdlib_zhfrk
@@ -5607,8 +5631,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq,compz,job
                     integer(ilp) :: ihi,ilo,info,ldh,ldq,ldt,ldz,lwork,n
-                    real(sp) :: rwork
-                    complex(sp) :: alpha,beta,h,ldh,q,ldq,t,ldt,work,z,ldz
+                    real(sp) :: rwork(*)
+                    complex(sp) :: alpha(*),beta(*),h(ldh,*),q(ldq,*),t(ldt,*),work(*),z(ldz,*)
+                              
                end subroutine chgeqz
 #else
                module procedure stdlib_chgeqz
@@ -5620,7 +5645,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq,compz,job
                     integer(ilp) :: ihi,ilo,info,ldh,ldq,ldt,ldz,lwork,n
-                    real(dp) :: alphai,alphar,beta,h,ldh,q,ldq,t,ldt,work,z,ldz
+                    real(dp) :: alphai(*),alphar(*),beta(*),h(ldh,*),q(ldq,*),t(ldt,*),work(*),z( &
+                              ldz,*)
                end subroutine dhgeqz
 #else
                module procedure stdlib_dhgeqz
@@ -5633,7 +5659,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq,compz,job
                     integer(ilp) :: ihi,ilo,info,ldh,ldq,ldt,ldz,lwork,n
-                    real(sp) :: alphai,alphar,beta,h,ldh,q,ldq,t,ldt,work,z,ldz
+                    real(sp) :: alphai(*),alphar(*),beta(*),h(ldh,*),q(ldq,*),t(ldt,*),work(*),z( &
+                              ldz,*)
                end subroutine shgeqz
 #else
                module procedure stdlib_shgeqz
@@ -5646,8 +5673,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq,compz,job
                     integer(ilp) :: ihi,ilo,info,ldh,ldq,ldt,ldz,lwork,n
-                    real(dp) :: rwork
-                    complex(dp) :: alpha,beta,h,ldh,q,ldq,t,ldt,work,z,ldz
+                    real(dp) :: rwork(*)
+                    complex(dp) :: alpha(*),beta(*),h(ldh,*),q(ldq,*),t(ldt,*),work(*),z(ldz,*)
+                              
                end subroutine zhgeqz
 #else
                module procedure stdlib_zhgeqz
@@ -5665,9 +5693,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
+                    integer(ilp) :: info,n,ipiv(*)
                     real(sp) :: anorm,rcond
-                    complex(sp) :: ap,work
+                    complex(sp) :: ap(*),work(*)
                end subroutine chpcon
 #else
                module procedure stdlib_chpcon
@@ -5678,9 +5706,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
+                    integer(ilp) :: info,n,ipiv(*)
                     real(dp) :: anorm,rcond
-                    complex(dp) :: ap,work
+                    complex(dp) :: ap(*),work(*)
                end subroutine zhpcon
 #else
                module procedure stdlib_zhpcon
@@ -5696,8 +5724,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,ldz,n
-                    real(sp) :: rwork,w
-                    complex(sp) :: ap,work,z,ldz
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: ap(*),work(*),z(ldz,*)
                end subroutine chpev
 #else
                module procedure stdlib_chpev
@@ -5709,8 +5737,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,ldz,n
-                    real(dp) :: rwork,w
-                    complex(dp) :: ap,work,z,ldz
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: ap(*),work(*),z(ldz,*)
                end subroutine zhpev
 #else
                module procedure stdlib_zhpev
@@ -5733,9 +5761,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,ldz,liwork,lrwork,lwork,n,iwork
-                    real(sp) :: rwork,w
-                    complex(sp) :: ap,work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lrwork,lwork,n,iwork(*)
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: ap(*),work(*),z(ldz,*)
                end subroutine chpevd
 #else
                module procedure stdlib_chpevd
@@ -5747,9 +5775,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,ldz,liwork,lrwork,lwork,n,iwork
-                    real(dp) :: rwork,w
-                    complex(dp) :: ap,work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lrwork,lwork,n,iwork(*)
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: ap(*),work(*),z(ldz,*)
                end subroutine zhpevd
 #else
                module procedure stdlib_zhpevd
@@ -5770,7 +5798,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,itype,n
-                    complex(sp) :: ap,bp
+                    complex(sp) :: ap(*),bp(*)
                end subroutine chpgst
 #else
                module procedure stdlib_chpgst
@@ -5782,7 +5810,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,itype,n
-                    complex(dp) :: ap,bp
+                    complex(dp) :: ap(*),bp(*)
                end subroutine zhpgst
 #else
                module procedure stdlib_zhpgst
@@ -5802,8 +5830,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,itype,ldz,n
-                    real(sp) :: rwork,w
-                    complex(sp) :: ap,bp,work,z,ldz
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: ap(*),bp(*),work(*),z(ldz,*)
                end subroutine chpgv
 #else
                module procedure stdlib_chpgv
@@ -5816,8 +5844,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,itype,ldz,n
-                    real(dp) :: rwork,w
-                    complex(dp) :: ap,bp,work,z,ldz
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: ap(*),bp(*),work(*),z(ldz,*)
                end subroutine zhpgv
 #else
                module procedure stdlib_zhpgv
@@ -5843,9 +5871,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,itype,ldz,liwork,lrwork,lwork,n,iwork
-                    real(sp) :: rwork,w
-                    complex(sp) :: ap,bp,work,z,ldz
+                    integer(ilp) :: info,itype,ldz,liwork,lrwork,lwork,n,iwork(*)
+                    real(sp) :: rwork(*),w(*)
+                    complex(sp) :: ap(*),bp(*),work(*),z(ldz,*)
                end subroutine chpgvd
 #else
                module procedure stdlib_chpgvd
@@ -5857,9 +5885,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,itype,ldz,liwork,lrwork,lwork,n,iwork
-                    real(dp) :: rwork,w
-                    complex(dp) :: ap,bp,work,z,ldz
+                    integer(ilp) :: info,itype,ldz,liwork,lrwork,lwork,n,iwork(*)
+                    real(dp) :: rwork(*),w(*)
+                    complex(dp) :: ap(*),bp(*),work(*),z(ldz,*)
                end subroutine zhpgvd
 #else
                module procedure stdlib_zhpgvd
@@ -5877,9 +5905,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: afp,ap,b,ldb,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*)
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
                end subroutine chprfs
 #else
                module procedure stdlib_chprfs
@@ -5891,9 +5919,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: afp,ap,b,ldb,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*)
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
                end subroutine zhprfs
 #else
                module procedure stdlib_zhprfs
@@ -5917,8 +5945,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(sp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: ap(*),b(ldb,*)
                end subroutine chpsv
 #else
                module procedure stdlib_chpsv
@@ -5929,8 +5957,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(dp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: ap(*),b(ldb,*)
                end subroutine zhpsv
 #else
                module procedure stdlib_zhpsv
@@ -5947,8 +5975,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(sp) :: d,e
-                    complex(sp) :: ap,tau
+                    real(sp) :: d(*),e(*)
+                    complex(sp) :: ap(*),tau(*)
                end subroutine chptrd
 #else
                module procedure stdlib_chptrd
@@ -5960,8 +5988,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(dp) :: d,e
-                    complex(dp) :: ap,tau
+                    real(dp) :: d(*),e(*)
+                    complex(dp) :: ap(*),tau(*)
                end subroutine zhptrd
 #else
                module procedure stdlib_zhptrd
@@ -5980,8 +6008,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    complex(sp) :: ap
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(sp) :: ap(*)
                end subroutine chptrf
 #else
                module procedure stdlib_chptrf
@@ -5992,8 +6020,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    complex(dp) :: ap
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(dp) :: ap(*)
                end subroutine zhptrf
 #else
                module procedure stdlib_zhptrf
@@ -6009,8 +6037,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    complex(sp) :: ap,work
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(sp) :: ap(*),work(*)
                end subroutine chptri
 #else
                module procedure stdlib_chptri
@@ -6021,8 +6049,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    complex(dp) :: ap,work
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(dp) :: ap(*),work(*)
                end subroutine zhptri
 #else
                module procedure stdlib_zhptri
@@ -6038,8 +6066,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(sp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: ap(*),b(ldb,*)
                end subroutine chptrs
 #else
                module procedure stdlib_chptrs
@@ -6050,8 +6078,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(dp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: ap(*),b(ldb,*)
                end subroutine zhptrs
 #else
                module procedure stdlib_zhptrs
@@ -6071,10 +6099,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: eigsrc,initv,side
-                    integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n,ifaill,ifailr
-                    logical(lk) :: select
-                    real(sp) :: rwork
-                    complex(sp) :: h,ldh,vl,ldvl,vr,ldvr,w,work
+                    integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n,ifaill(*),ifailr(*)
+                    logical(lk) :: select(*)
+                    real(sp) :: rwork(*)
+                    complex(sp) :: h(ldh,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
                end subroutine chsein
 #else
                module procedure stdlib_chsein
@@ -6085,9 +6113,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: eigsrc,initv,side
-                    integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n,ifaill,ifailr
-                    logical(lk) :: select
-                    real(dp) :: h,ldh,vl,ldvl,vr,ldvr,wi,work,wr
+                    integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n,ifaill(*),ifailr(*)
+                    logical(lk) :: select(*)
+                    real(dp) :: h(ldh,*),vl(ldvl,*),vr(ldvr,*),wi(*),work(*),wr(*)
                end subroutine dhsein
 #else
                module procedure stdlib_dhsein
@@ -6099,9 +6127,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: eigsrc,initv,side
-                    integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n,ifaill,ifailr
-                    logical(lk) :: select
-                    real(sp) :: h,ldh,vl,ldvl,vr,ldvr,wi,work,wr
+                    integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n,ifaill(*),ifailr(*)
+                    logical(lk) :: select(*)
+                    real(sp) :: h(ldh,*),vl(ldvl,*),vr(ldvr,*),wi(*),work(*),wr(*)
                end subroutine shsein
 #else
                module procedure stdlib_shsein
@@ -6113,10 +6141,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: eigsrc,initv,side
-                    integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n,ifaill,ifailr
-                    logical(lk) :: select
-                    real(dp) :: rwork
-                    complex(dp) :: h,ldh,vl,ldvl,vr,ldvr,w,work
+                    integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n,ifaill(*),ifailr(*)
+                    logical(lk) :: select(*)
+                    real(dp) :: rwork(*)
+                    complex(dp) :: h(ldh,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
                end subroutine zhsein
 #else
                module procedure stdlib_zhsein
@@ -6139,7 +6167,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,ldh,ldz,lwork,n
                     character :: compz,job
-                    complex(sp) :: h,ldh,w,work,z,ldz
+                    complex(sp) :: h(ldh,*),w(*),work(*),z(ldz,*)
                end subroutine chseqr
 #else
                module procedure stdlib_chseqr
@@ -6151,7 +6179,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,ldh,ldz,lwork,n
                     character :: compz,job
-                    real(dp) :: h,ldh,wi,work,wr,z,ldz
+                    real(dp) :: h(ldh,*),wi(*),work(*),wr(*),z(ldz,*)
                end subroutine dhseqr
 #else
                module procedure stdlib_dhseqr
@@ -6164,7 +6192,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,ldh,ldz,lwork,n
                     character :: compz,job
-                    real(sp) :: h,ldh,wi,work,wr,z,ldz
+                    real(sp) :: h(ldh,*),wi(*),work(*),wr(*),z(ldz,*)
                end subroutine shseqr
 #else
                module procedure stdlib_shseqr
@@ -6177,7 +6205,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,ldh,ldz,lwork,n
                     character :: compz,job
-                    complex(dp) :: h,ldh,w,work,z,ldz
+                    complex(dp) :: h(ldh,*),w(*),work(*),z(ldz,*)
                end subroutine zhseqr
 #else
                module procedure stdlib_zhseqr
@@ -6228,9 +6256,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,y
+                    real(sp) :: alpha,beta,y(*)
                     integer(ilp) :: incx,incy,ldab,m,n,kl,ku,trans
-                    complex(sp) :: ab,ldab,x
+                    complex(sp) :: ab(ldab,*),x(*)
                end subroutine cla_gbamv
 #else
                module procedure stdlib_cla_gbamv
@@ -6240,7 +6268,7 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,ab,ldab,x,y
+                    real(dp) :: alpha,beta,ab(ldab,*),x(*),y(*)
                     integer(ilp) :: incx,incy,ldab,m,n,kl,ku,trans
                end subroutine dla_gbamv
 #else
@@ -6252,7 +6280,7 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,ab,ldab,x,y
+                    real(sp) :: alpha,beta,ab(ldab,*),x(*),y(*)
                     integer(ilp) :: incx,incy,ldab,m,n,kl,ku,trans
                end subroutine sla_gbamv
 #else
@@ -6264,9 +6292,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,y
+                    real(dp) :: alpha,beta,y(*)
                     integer(ilp) :: incx,incy,ldab,m,n,kl,ku,trans
-                    complex(dp) :: ab,ldab,x
+                    complex(dp) :: ab(ldab,*),x(*)
                end subroutine zla_gbamv
 #else
                module procedure stdlib_zla_gbamv
@@ -6289,8 +6317,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: n,ldab,ldafb,info,kl,ku,cmode,iwork,ipiv
-                    real(dp) :: ab,ldab,afb,ldafb,work,c
+                    integer(ilp) :: n,ldab,ldafb,info,kl,ku,cmode,iwork(*),ipiv(*)
+                    real(dp) :: ab(ldab,*),afb(ldafb,*),work(*),c(*)
                end function dla_gbrcond
 #else
                module procedure stdlib_dla_gbrcond
@@ -6302,8 +6330,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: n,ldab,ldafb,info,kl,ku,cmode,iwork,ipiv
-                    real(sp) :: ab,ldab,afb,ldafb,work,c
+                    integer(ilp) :: n,ldab,ldafb,info,kl,ku,cmode,iwork(*),ipiv(*)
+                    real(sp) :: ab(ldab,*),afb(ldafb,*),work(*),c(*)
                end function sla_gbrcond
 #else
                module procedure stdlib_sla_gbrcond
@@ -6320,9 +6348,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     logical(lk) :: capply
-                    integer(ilp) :: n,kl,ku,ldab,ldafb,info,ipiv
-                    complex(sp) :: ab,ldab,afb,ldafb,work
-                    real(sp) :: c,rwork
+                    integer(ilp) :: n,kl,ku,ldab,ldafb,info,ipiv(*)
+                    complex(sp) :: ab(ldab,*),afb(ldafb,*),work(*)
+                    real(sp) :: c(*),rwork(*)
                end function cla_gbrcond_c
 #else
                module procedure stdlib_cla_gbrcond_c
@@ -6335,9 +6363,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     logical(lk) :: capply
-                    integer(ilp) :: n,kl,ku,ldab,ldafb,info,ipiv
-                    complex(dp) :: ab,ldab,afb,ldafb,work
-                    real(dp) :: c,rwork
+                    integer(ilp) :: n,kl,ku,ldab,ldafb,info,ipiv(*)
+                    complex(dp) :: ab(ldab,*),afb(ldafb,*),work(*)
+                    real(dp) :: c(*),rwork(*)
                end function zla_gbrcond_c
 #else
                module procedure stdlib_zla_gbrcond_c
@@ -6356,7 +6384,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,kl,ku,ncols,ldab,ldafb
-                    complex(sp) :: ab,ldab,afb,ldafb
+                    complex(sp) :: ab(ldab,*),afb(ldafb,*)
                end function cla_gbrpvgrw
 #else
                module procedure stdlib_cla_gbrpvgrw
@@ -6366,7 +6394,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,kl,ku,ncols,ldab,ldafb
-                    real(dp) :: ab,ldab,afb,ldafb
+                    real(dp) :: ab(ldab,*),afb(ldafb,*)
                end function dla_gbrpvgrw
 #else
                module procedure stdlib_dla_gbrpvgrw
@@ -6377,7 +6405,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,kl,ku,ncols,ldab,ldafb
-                    real(sp) :: ab,ldab,afb,ldafb
+                    real(sp) :: ab(ldab,*),afb(ldafb,*)
                end function sla_gbrpvgrw
 #else
                module procedure stdlib_sla_gbrpvgrw
@@ -6388,7 +6416,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,kl,ku,ncols,ldab,ldafb
-                    complex(dp) :: ab,ldab,afb,ldafb
+                    complex(dp) :: ab(ldab,*),afb(ldafb,*)
                end function zla_gbrpvgrw
 #else
                module procedure stdlib_zla_gbrpvgrw
@@ -6413,9 +6441,9 @@ module stdlib_linalg_lapack
                subroutine cla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,y
+                    real(sp) :: alpha,beta,y(*)
                     integer(ilp) :: incx,incy,lda,m,n,trans
-                    complex(sp) :: a,lda,x
+                    complex(sp) :: a(lda,*),x(*)
                end subroutine cla_geamv
 #else
                module procedure stdlib_cla_geamv
@@ -6424,7 +6452,7 @@ module stdlib_linalg_lapack
                subroutine dla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a,lda,x,y
+                    real(dp) :: alpha,beta,a(lda,*),x(*),y(*)
                     integer(ilp) :: incx,incy,lda,m,n,trans
                end subroutine dla_geamv
 #else
@@ -6435,7 +6463,7 @@ module stdlib_linalg_lapack
                subroutine sla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a,lda,x,y
+                    real(sp) :: alpha,beta,a(lda,*),x(*),y(*)
                     integer(ilp) :: incx,incy,lda,m,n,trans
                end subroutine sla_geamv
 #else
@@ -6446,9 +6474,9 @@ module stdlib_linalg_lapack
                subroutine zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,y
+                    real(dp) :: alpha,beta,y(*)
                     integer(ilp) :: incx,incy,lda,m,n,trans
-                    complex(dp) :: a,lda,x
+                    complex(dp) :: a(lda,*),x(*)
                end subroutine zla_geamv
 #else
                module procedure stdlib_zla_geamv
@@ -6471,8 +6499,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: n,lda,ldaf,info,cmode,ipiv,iwork
-                    real(dp) :: a,lda,af,ldaf,work,c
+                    integer(ilp) :: n,lda,ldaf,info,cmode,ipiv(*),iwork(*)
+                    real(dp) :: a(lda,*),af(ldaf,*),work(*),c(*)
                end function dla_gercond
 #else
                module procedure stdlib_dla_gercond
@@ -6484,8 +6512,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: n,lda,ldaf,info,cmode,ipiv,iwork
-                    real(sp) :: a,lda,af,ldaf,work,c
+                    integer(ilp) :: n,lda,ldaf,info,cmode,ipiv(*),iwork(*)
+                    real(sp) :: a(lda,*),af(ldaf,*),work(*),c(*)
                end function sla_gercond
 #else
                module procedure stdlib_sla_gercond
@@ -6502,9 +6530,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     logical(lk) :: capply
-                    integer(ilp) :: n,lda,ldaf,info,ipiv
-                    complex(sp) :: a,lda,af,ldaf,work
-                    real(sp) :: c,rwork
+                    integer(ilp) :: n,lda,ldaf,info,ipiv(*)
+                    complex(sp) :: a(lda,*),af(ldaf,*),work(*)
+                    real(sp) :: c(*),rwork(*)
                end function cla_gercond_c
 #else
                module procedure stdlib_cla_gercond_c
@@ -6517,9 +6545,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     logical(lk) :: capply
-                    integer(ilp) :: n,lda,ldaf,info,ipiv
-                    complex(dp) :: a,lda,af,ldaf,work
-                    real(dp) :: c,rwork
+                    integer(ilp) :: n,lda,ldaf,info,ipiv(*)
+                    complex(dp) :: a(lda,*),af(ldaf,*),work(*)
+                    real(dp) :: c(*),rwork(*)
                end function zla_gercond_c
 #else
                module procedure stdlib_zla_gercond_c
@@ -6538,7 +6566,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,ncols,lda,ldaf
-                    complex(sp) :: a,lda,af,ldaf
+                    complex(sp) :: a(lda,*),af(ldaf,*)
                end function cla_gerpvgrw
 #else
                module procedure stdlib_cla_gerpvgrw
@@ -6548,7 +6576,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,ncols,lda,ldaf
-                    real(dp) :: a,lda,af,ldaf
+                    real(dp) :: a(lda,*),af(ldaf,*)
                end function dla_gerpvgrw
 #else
                module procedure stdlib_dla_gerpvgrw
@@ -6559,7 +6587,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,ncols,lda,ldaf
-                    real(sp) :: a,lda,af,ldaf
+                    real(sp) :: a(lda,*),af(ldaf,*)
                end function sla_gerpvgrw
 #else
                module procedure stdlib_sla_gerpvgrw
@@ -6570,7 +6598,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,ncols,lda,ldaf
-                    complex(dp) :: a,lda,af,ldaf
+                    complex(dp) :: a(lda,*),af(ldaf,*)
                end function zla_gerpvgrw
 #else
                module procedure stdlib_zla_gerpvgrw
@@ -6594,9 +6622,9 @@ module stdlib_linalg_lapack
                subroutine cla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,y
+                    real(sp) :: alpha,beta,y(*)
                     integer(ilp) :: incx,incy,lda,n,uplo
-                    complex(sp) :: a,lda,x
+                    complex(sp) :: a(lda,*),x(*)
                end subroutine cla_heamv
 #else
                module procedure stdlib_cla_heamv
@@ -6606,9 +6634,9 @@ module stdlib_linalg_lapack
                subroutine zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,y
+                    real(dp) :: alpha,beta,y(*)
                     integer(ilp) :: incx,incy,lda,n,uplo
-                    complex(dp) :: a,lda,x
+                    complex(dp) :: a(lda,*),x(*)
                end subroutine zla_heamv
 #else
                module procedure stdlib_zla_heamv
@@ -6625,9 +6653,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     logical(lk) :: capply
-                    integer(ilp) :: n,lda,ldaf,info,ipiv
-                    complex(sp) :: a,lda,af,ldaf,work
-                    real(sp) :: c,rwork
+                    integer(ilp) :: n,lda,ldaf,info,ipiv(*)
+                    complex(sp) :: a(lda,*),af(ldaf,*),work(*)
+                    real(sp) :: c(*),rwork(*)
                end function cla_hercond_c
 #else
                module procedure stdlib_cla_hercond_c
@@ -6640,9 +6668,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     logical(lk) :: capply
-                    integer(ilp) :: n,lda,ldaf,info,ipiv
-                    complex(dp) :: a,lda,af,ldaf,work
-                    real(dp) :: c,rwork
+                    integer(ilp) :: n,lda,ldaf,info,ipiv(*)
+                    complex(dp) :: a(lda,*),af(ldaf,*),work(*)
+                    real(dp) :: c(*),rwork(*)
                end function zla_hercond_c
 #else
                module procedure stdlib_zla_hercond_c
@@ -6661,9 +6689,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: n,info,lda,ldaf,ipiv
-                    complex(sp) :: a,lda,af,ldaf
-                    real(sp) :: work
+                    integer(ilp) :: n,info,lda,ldaf,ipiv(*)
+                    complex(sp) :: a(lda,*),af(ldaf,*)
+                    real(sp) :: work(*)
                end function cla_herpvgrw
 #else
                module procedure stdlib_cla_herpvgrw
@@ -6674,9 +6702,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: n,info,lda,ldaf,ipiv
-                    complex(dp) :: a,lda,af,ldaf
-                    real(dp) :: work
+                    integer(ilp) :: n,info,lda,ldaf,ipiv(*)
+                    complex(dp) :: a(lda,*),af(ldaf,*)
+                    real(dp) :: work(*)
                end function zla_herpvgrw
 #else
                module procedure stdlib_zla_herpvgrw
@@ -6694,8 +6722,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,nz,nrhs
-                    real(sp) :: ayb,n,nrhs,berr,nrhs
-                    complex(sp) :: res,n,nrhs
+                    real(sp) :: ayb(n,nrhs),berr(nrhs)
+                    complex(sp) :: res(n,nrhs)
                end subroutine cla_lin_berr
 #else
                module procedure stdlib_cla_lin_berr
@@ -6705,7 +6733,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,nz,nrhs
-                    real(dp) :: ayb,n,nrhs,berr,nrhs,res,n,nrhs
+                    real(dp) :: ayb(n,nrhs),berr(nrhs),res(n,nrhs)
                end subroutine dla_lin_berr
 #else
                module procedure stdlib_dla_lin_berr
@@ -6716,7 +6744,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,nz,nrhs
-                    real(sp) :: ayb,n,nrhs,berr,nrhs,res,n,nrhs
+                    real(sp) :: ayb(n,nrhs),berr(nrhs),res(n,nrhs)
                end subroutine sla_lin_berr
 #else
                module procedure stdlib_sla_lin_berr
@@ -6727,8 +6755,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,nz,nrhs
-                    real(dp) :: ayb,n,nrhs,berr,nrhs
-                    complex(dp) :: res,n,nrhs
+                    real(dp) :: ayb(n,nrhs),berr(nrhs)
+                    complex(dp) :: res(n,nrhs)
                end subroutine zla_lin_berr
 #else
                module procedure stdlib_zla_lin_berr
@@ -6751,8 +6779,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,ldaf,info,cmode,iwork
-                    real(dp) :: a,lda,af,ldaf,work,c
+                    integer(ilp) :: n,lda,ldaf,info,cmode,iwork(*)
+                    real(dp) :: a(lda,*),af(ldaf,*),work(*),c(*)
                end function dla_porcond
 #else
                module procedure stdlib_dla_porcond
@@ -6764,8 +6792,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,ldaf,info,cmode,iwork
-                    real(sp) :: a,lda,af,ldaf,work,c
+                    integer(ilp) :: n,lda,ldaf,info,cmode,iwork(*)
+                    real(sp) :: a(lda,*),af(ldaf,*),work(*),c(*)
                end function sla_porcond
 #else
                module procedure stdlib_sla_porcond
@@ -6783,8 +6811,8 @@ module stdlib_linalg_lapack
                     character :: uplo
                     logical(lk) :: capply
                     integer(ilp) :: n,lda,ldaf,info
-                    complex(sp) :: a,lda,af,ldaf,work
-                    real(sp) :: c,rwork
+                    complex(sp) :: a(lda,*),af(ldaf,*),work(*)
+                    real(sp) :: c(*),rwork(*)
                end function cla_porcond_c
 #else
                module procedure stdlib_cla_porcond_c
@@ -6798,8 +6826,8 @@ module stdlib_linalg_lapack
                     character :: uplo
                     logical(lk) :: capply
                     integer(ilp) :: n,lda,ldaf,info
-                    complex(dp) :: a,lda,af,ldaf,work
-                    real(dp) :: c,rwork
+                    complex(dp) :: a(lda,*),af(ldaf,*),work(*)
+                    real(dp) :: c(*),rwork(*)
                end function zla_porcond_c
 #else
                module procedure stdlib_zla_porcond_c
@@ -6818,8 +6846,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ncols,lda,ldaf
-                    complex(sp) :: a,lda,af,ldaf
-                    real(sp) :: work
+                    complex(sp) :: a(lda,*),af(ldaf,*)
+                    real(sp) :: work(*)
                end function cla_porpvgrw
 #else
                module procedure stdlib_cla_porpvgrw
@@ -6829,7 +6857,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ncols,lda,ldaf
-                    real(dp) :: a,lda,af,ldaf,work
+                    real(dp) :: a(lda,*),af(ldaf,*),work(*)
                end function dla_porpvgrw
 #else
                module procedure stdlib_dla_porpvgrw
@@ -6840,7 +6868,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ncols,lda,ldaf
-                    real(sp) :: a,lda,af,ldaf,work
+                    real(sp) :: a(lda,*),af(ldaf,*),work(*)
                end function sla_porpvgrw
 #else
                module procedure stdlib_sla_porpvgrw
@@ -6851,8 +6879,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ncols,lda,ldaf
-                    complex(dp) :: a,lda,af,ldaf
-                    real(dp) :: work
+                    complex(dp) :: a(lda,*),af(ldaf,*)
+                    real(dp) :: work(*)
                end function zla_porpvgrw
 #else
                module procedure stdlib_zla_porpvgrw
@@ -6876,9 +6904,9 @@ module stdlib_linalg_lapack
                subroutine cla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,y
+                    real(sp) :: alpha,beta,y(*)
                     integer(ilp) :: incx,incy,lda,n,uplo
-                    complex(sp) :: a,lda,x
+                    complex(sp) :: a(lda,*),x(*)
                end subroutine cla_syamv
 #else
                module procedure stdlib_cla_syamv
@@ -6887,7 +6915,7 @@ module stdlib_linalg_lapack
                subroutine dla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a,lda,x,y
+                    real(dp) :: alpha,beta,a(lda,*),x(*),y(*)
                     integer(ilp) :: incx,incy,lda,n,uplo
                end subroutine dla_syamv
 #else
@@ -6898,7 +6926,7 @@ module stdlib_linalg_lapack
                subroutine sla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a,lda,x,y
+                    real(sp) :: alpha,beta,a(lda,*),x(*),y(*)
                     integer(ilp) :: incx,incy,lda,n,uplo
                end subroutine sla_syamv
 #else
@@ -6909,9 +6937,9 @@ module stdlib_linalg_lapack
                subroutine zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,y
+                    real(dp) :: alpha,beta,y(*)
                     integer(ilp) :: incx,incy,lda,n,uplo
-                    complex(dp) :: a,lda,x
+                    complex(dp) :: a(lda,*),x(*)
                end subroutine zla_syamv
 #else
                module procedure stdlib_zla_syamv
@@ -6934,8 +6962,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,ldaf,info,cmode,iwork,ipiv
-                    real(dp) :: a,lda,af,ldaf,work,c
+                    integer(ilp) :: n,lda,ldaf,info,cmode,iwork(*),ipiv(*)
+                    real(dp) :: a(lda,*),af(ldaf,*),work(*),c(*)
                end function dla_syrcond
 #else
                module procedure stdlib_dla_syrcond
@@ -6947,8 +6975,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,ldaf,info,cmode,iwork,ipiv
-                    real(sp) :: a,lda,af,ldaf,work,c
+                    integer(ilp) :: n,lda,ldaf,info,cmode,iwork(*),ipiv(*)
+                    real(sp) :: a(lda,*),af(ldaf,*),work(*),c(*)
                end function sla_syrcond
 #else
                module procedure stdlib_sla_syrcond
@@ -6965,9 +6993,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     logical(lk) :: capply
-                    integer(ilp) :: n,lda,ldaf,info,ipiv
-                    complex(sp) :: a,lda,af,ldaf,work
-                    real(sp) :: c,rwork
+                    integer(ilp) :: n,lda,ldaf,info,ipiv(*)
+                    complex(sp) :: a(lda,*),af(ldaf,*),work(*)
+                    real(sp) :: c(*),rwork(*)
                end function cla_syrcond_c
 #else
                module procedure stdlib_cla_syrcond_c
@@ -6980,9 +7008,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     logical(lk) :: capply
-                    integer(ilp) :: n,lda,ldaf,info,ipiv
-                    complex(dp) :: a,lda,af,ldaf,work
-                    real(dp) :: c,rwork
+                    integer(ilp) :: n,lda,ldaf,info,ipiv(*)
+                    complex(dp) :: a(lda,*),af(ldaf,*),work(*)
+                    real(dp) :: c(*),rwork(*)
                end function zla_syrcond_c
 #else
                module procedure stdlib_zla_syrcond_c
@@ -7001,9 +7029,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: n,info,lda,ldaf,ipiv
-                    complex(sp) :: a,lda,af,ldaf
-                    real(sp) :: work
+                    integer(ilp) :: n,info,lda,ldaf,ipiv(*)
+                    complex(sp) :: a(lda,*),af(ldaf,*)
+                    real(sp) :: work(*)
                end function cla_syrpvgrw
 #else
                module procedure stdlib_cla_syrpvgrw
@@ -7013,8 +7041,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: n,info,lda,ldaf,ipiv
-                    real(dp) :: a,lda,af,ldaf,work
+                    integer(ilp) :: n,info,lda,ldaf,ipiv(*)
+                    real(dp) :: a(lda,*),af(ldaf,*),work(*)
                end function dla_syrpvgrw
 #else
                module procedure stdlib_dla_syrpvgrw
@@ -7025,8 +7053,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: n,info,lda,ldaf,ipiv
-                    real(sp) :: a,lda,af,ldaf,work
+                    integer(ilp) :: n,info,lda,ldaf,ipiv(*)
+                    real(sp) :: a(lda,*),af(ldaf,*),work(*)
                end function sla_syrpvgrw
 #else
                module procedure stdlib_sla_syrpvgrw
@@ -7037,9 +7065,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: n,info,lda,ldaf,ipiv
-                    complex(dp) :: a,lda,af,ldaf
-                    real(dp) :: work
+                    integer(ilp) :: n,info,lda,ldaf,ipiv(*)
+                    complex(dp) :: a(lda,*),af(ldaf,*)
+                    real(dp) :: work(*)
                end function zla_syrpvgrw
 #else
                module procedure stdlib_zla_syrpvgrw
@@ -7055,7 +7083,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n
-                    complex(sp) :: x,y,w
+                    complex(sp) :: x(*),y(*),w(*)
                end subroutine cla_wwaddw
 #else
                module procedure stdlib_cla_wwaddw
@@ -7065,7 +7093,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n
-                    real(dp) :: x,y,w
+                    real(dp) :: x(*),y(*),w(*)
                end subroutine dla_wwaddw
 #else
                module procedure stdlib_dla_wwaddw
@@ -7076,7 +7104,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n
-                    real(sp) :: x,y,w
+                    real(sp) :: x(*),y(*),w(*)
                end subroutine sla_wwaddw
 #else
                module procedure stdlib_sla_wwaddw
@@ -7087,7 +7115,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n
-                    complex(dp) :: x,y,w
+                    complex(dp) :: x(*),y(*),w(*)
                end subroutine zla_wwaddw
 #else
                module procedure stdlib_zla_wwaddw
@@ -7137,8 +7165,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: lda,ldx,ldy,m,n,nb
-                    real(sp) :: d,e
-                    complex(sp) :: a,lda,taup,tauq,x,ldx,y,ldy
+                    real(sp) :: d(*),e(*)
+                    complex(sp) :: a(lda,*),taup(*),tauq(*),x(ldx,*),y(ldy,*)
                end subroutine clabrd
 #else
                module procedure stdlib_clabrd
@@ -7148,7 +7176,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: lda,ldx,ldy,m,n,nb
-                    real(dp) :: a,lda,d,e,taup,tauq,x,ldx,y,ldy
+                    real(dp) :: a(lda,*),d(*),e(*),taup(*),tauq(*),x(ldx,*),y(ldy,*)
                end subroutine dlabrd
 #else
                module procedure stdlib_dlabrd
@@ -7159,7 +7187,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: lda,ldx,ldy,m,n,nb
-                    real(sp) :: a,lda,d,e,taup,tauq,x,ldx,y,ldy
+                    real(sp) :: a(lda,*),d(*),e(*),taup(*),tauq(*),x(ldx,*),y(ldy,*)
                end subroutine slabrd
 #else
                module procedure stdlib_slabrd
@@ -7170,8 +7198,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: lda,ldx,ldy,m,n,nb
-                    real(dp) :: d,e
-                    complex(dp) :: a,lda,taup,tauq,x,ldx,y,ldy
+                    real(dp) :: d(*),e(*)
+                    complex(dp) :: a(lda,*),taup(*),tauq(*),x(ldx,*),y(ldy,*)
                end subroutine zlabrd
 #else
                module procedure stdlib_zlabrd
@@ -7185,7 +7213,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    complex(sp) :: x
+                    complex(sp) :: x(*)
                end subroutine clacgv
 #else
                module procedure stdlib_clacgv
@@ -7196,7 +7224,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    complex(dp) :: x
+                    complex(dp) :: x(*)
                end subroutine zlacgv
 #else
                module procedure stdlib_zlacgv
@@ -7212,7 +7240,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: kase,n
                     real(sp) :: est
-                    complex(sp) :: v,n,x,n
+                    complex(sp) :: v(n),x(n)
                end subroutine clacon
 #else
                module procedure stdlib_clacon
@@ -7221,8 +7249,8 @@ module stdlib_linalg_lapack
                subroutine dlacon(n,v,x,isgn,est,kase)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: kase,n,isgn
-                    real(dp) :: est,v,x
+                    integer(ilp) :: kase,n,isgn(*)
+                    real(dp) :: est,v(*),x(*)
                end subroutine dlacon
 #else
                module procedure stdlib_dlacon
@@ -7232,8 +7260,8 @@ module stdlib_linalg_lapack
                subroutine slacon(n,v,x,isgn,est,kase)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: kase,n,isgn
-                    real(sp) :: est,v,x
+                    integer(ilp) :: kase,n,isgn(*)
+                    real(sp) :: est,v(*),x(*)
                end subroutine slacon
 #else
                module procedure stdlib_slacon
@@ -7245,7 +7273,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: kase,n
                     real(dp) :: est
-                    complex(dp) :: v,n,x,n
+                    complex(dp) :: v(n),x(n)
                end subroutine zlacon
 #else
                module procedure stdlib_zlacon
@@ -7261,7 +7289,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,ldb,m,n
-                    complex(sp) :: a,lda,b,ldb
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine clacpy
 #else
                module procedure stdlib_clacpy
@@ -7272,7 +7300,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,ldb,m,n
-                    real(dp) :: a,lda,b,ldb
+                    real(dp) :: a(lda,*),b(ldb,*)
                end subroutine dlacpy
 #else
                module procedure stdlib_dlacpy
@@ -7284,7 +7312,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,ldb,m,n
-                    real(sp) :: a,lda,b,ldb
+                    real(sp) :: a(lda,*),b(ldb,*)
                end subroutine slacpy
 #else
                module procedure stdlib_slacpy
@@ -7296,7 +7324,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,ldb,m,n
-                    complex(dp) :: a,lda,b,ldb
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zlacpy
 #else
                module procedure stdlib_zlacpy
@@ -7313,8 +7341,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: lda,ldb,ldc,m,n
-                    real(sp) :: b,ldb,rwork
-                    complex(sp) :: a,lda,c,ldc
+                    real(sp) :: b(ldb,*),rwork(*)
+                    complex(sp) :: a(lda,*),c(ldc,*)
                end subroutine clacrm
 #else
                module procedure stdlib_clacrm
@@ -7325,8 +7353,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: lda,ldb,ldc,m,n
-                    real(dp) :: b,ldb,rwork
-                    complex(dp) :: a,lda,c,ldc
+                    real(dp) :: b(ldb,*),rwork(*)
+                    complex(dp) :: a(lda,*),c(ldc,*)
                end subroutine zlacrm
 #else
                module procedure stdlib_zlacrm
@@ -7343,7 +7371,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,incy,n
-                    complex(sp) :: c,s,cx,cy
+                    complex(sp) :: c,s,cx(*),cy(*)
                end subroutine clacrt
 #else
                module procedure stdlib_clacrt
@@ -7354,7 +7382,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,incy,n
-                    complex(dp) :: c,s,cx,cy
+                    complex(dp) :: c,s,cx(*),cy(*)
                end subroutine zlacrt
 #else
                module procedure stdlib_zlacrt
@@ -7496,9 +7524,10 @@ module stdlib_linalg_lapack
                           e2,nval,ab,c,mout,nab,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ijob,info,minp,mmax,mout,n,nbmin,nitmax,iwork,nab,mmax, &
-                              nval
-                    real(dp) :: abstol,pivmin,reltol,ab,mmax,c,d,e,e2,work
+                    integer(ilp) :: ijob,info,minp,mmax,mout,n,nbmin,nitmax,iwork(*),nab(mmax,*), &
+                              nval(*)
+                    real(dp) :: abstol,pivmin,reltol,ab(mmax,*),c(*),d(*),e(*),e2(*),work(*)
+                              
                end subroutine dlaebz
 #else
                module procedure stdlib_dlaebz
@@ -7509,9 +7538,10 @@ module stdlib_linalg_lapack
                           e2,nval,ab,c,mout,nab,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ijob,info,minp,mmax,mout,n,nbmin,nitmax,iwork,nab,mmax, &
-                              nval
-                    real(sp) :: abstol,pivmin,reltol,ab,mmax,c,d,e,e2,work
+                    integer(ilp) :: ijob,info,minp,mmax,mout,n,nbmin,nitmax,iwork(*),nab(mmax,*), &
+                              nval(*)
+                    real(sp) :: abstol,pivmin,reltol,ab(mmax,*),c(*),d(*),e(*),e2(*),work(*)
+                              
                end subroutine slaebz
 #else
                module procedure stdlib_slaebz
@@ -7527,9 +7557,9 @@ module stdlib_linalg_lapack
                subroutine claed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldq,ldqs,n,qsiz,iwork
-                    real(sp) :: d,e,rwork
-                    complex(sp) :: q,ldq,qstore,ldqs
+                    integer(ilp) :: info,ldq,ldqs,n,qsiz,iwork(*)
+                    real(sp) :: d(*),e(*),rwork(*)
+                    complex(sp) :: q(ldq,*),qstore(ldqs,*)
                end subroutine claed0
 #else
                module procedure stdlib_claed0
@@ -7539,8 +7569,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: icompq,info,ldq,ldqs,n,qsiz,iwork
-                    real(dp) :: d,e,q,ldq,qstore,ldqs,work
+                    integer(ilp) :: icompq,info,ldq,ldqs,n,qsiz,iwork(*)
+                    real(dp) :: d(*),e(*),q(ldq,*),qstore(ldqs,*),work(*)
                end subroutine dlaed0
 #else
                module procedure stdlib_dlaed0
@@ -7551,8 +7581,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: icompq,info,ldq,ldqs,n,qsiz,iwork
-                    real(sp) :: d,e,q,ldq,qstore,ldqs,work
+                    integer(ilp) :: icompq,info,ldq,ldqs,n,qsiz,iwork(*)
+                    real(sp) :: d(*),e(*),q(ldq,*),qstore(ldqs,*),work(*)
                end subroutine slaed0
 #else
                module procedure stdlib_slaed0
@@ -7562,9 +7592,9 @@ module stdlib_linalg_lapack
                subroutine zlaed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldq,ldqs,n,qsiz,iwork
-                    real(dp) :: d,e,rwork
-                    complex(dp) :: q,ldq,qstore,ldqs
+                    integer(ilp) :: info,ldq,ldqs,n,qsiz,iwork(*)
+                    real(dp) :: d(*),e(*),rwork(*)
+                    complex(dp) :: q(ldq,*),qstore(ldqs,*)
                end subroutine zlaed0
 #else
                module procedure stdlib_zlaed0
@@ -7602,8 +7632,8 @@ module stdlib_linalg_lapack
                subroutine dlaed1(n,d,q,ldq,indxq,rho,cutpnt,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: cutpnt,info,ldq,n,indxq,iwork
-                    real(dp) :: rho,d,q,ldq,work
+                    integer(ilp) :: cutpnt,info,ldq,n,indxq(*),iwork(*)
+                    real(dp) :: rho,d(*),q(ldq,*),work(*)
                end subroutine dlaed1
 #else
                module procedure stdlib_dlaed1
@@ -7613,8 +7643,8 @@ module stdlib_linalg_lapack
                subroutine slaed1(n,d,q,ldq,indxq,rho,cutpnt,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: cutpnt,info,ldq,n,indxq,iwork
-                    real(sp) :: rho,d,q,ldq,work
+                    integer(ilp) :: cutpnt,info,ldq,n,indxq(*),iwork(*)
+                    real(sp) :: rho,d(*),q(ldq,*),work(*)
                end subroutine slaed1
 #else
                module procedure stdlib_slaed1
@@ -7637,7 +7667,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i,info,n
-                    real(dp) :: dlam,rho,d,delta,z
+                    real(dp) :: dlam,rho,d(*),delta(*),z(*)
                end subroutine dlaed4
 #else
                module procedure stdlib_dlaed4
@@ -7648,7 +7678,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i,info,n
-                    real(sp) :: dlam,rho,d,delta,z
+                    real(sp) :: dlam,rho,d(*),delta(*),z(*)
                end subroutine slaed4
 #else
                module procedure stdlib_slaed4
@@ -7668,7 +7698,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i
-                    real(dp) :: dlam,rho,d,delta,z
+                    real(dp) :: dlam,rho,d(2),delta(2),z(2)
                end subroutine dlaed5
 #else
                module procedure stdlib_dlaed5
@@ -7679,7 +7709,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i
-                    real(sp) :: dlam,rho,d,delta,z
+                    real(sp) :: dlam,rho,d(2),delta(2),z(2)
                end subroutine slaed5
 #else
                module procedure stdlib_slaed5
@@ -7704,7 +7734,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: orgati
                     integer(ilp) :: info,kniter
-                    real(dp) :: finit,rho,tau,d,z
+                    real(dp) :: finit,rho,tau,d(3),z(3)
                end subroutine dlaed6
 #else
                module procedure stdlib_dlaed6
@@ -7716,7 +7746,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: orgati
                     integer(ilp) :: info,kniter
-                    real(sp) :: finit,rho,tau,d,z
+                    real(sp) :: finit,rho,tau,d(3),z(3)
                end subroutine slaed6
 #else
                module procedure stdlib_slaed6
@@ -7754,10 +7784,10 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: curlvl,curpbm,cutpnt,info,ldq,n,qsiz,tlvls,givcol,givptr, &
-                              indxq,iwork,perm,prmptr,qptr
-                    real(sp) :: rho,d,givnum,qstore,rwork
-                    complex(sp) :: q,ldq,work
+                    integer(ilp) :: curlvl,curpbm,cutpnt,info,ldq,n,qsiz,tlvls,givcol(2,*),givptr( &
+                              *),indxq(*),iwork(*),perm(*),prmptr(*),qptr(*)
+                    real(sp) :: rho,d(*),givnum(2,*),qstore(*),rwork(*)
+                    complex(sp) :: q(ldq,*),work(*)
                end subroutine claed7
 #else
                module procedure stdlib_claed7
@@ -7768,9 +7798,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: curlvl,curpbm,cutpnt,icompq,info,ldq,n,qsiz,tlvls,givcol, &
-                              givptr,indxq,iwork,perm,prmptr,qptr
-                    real(dp) :: rho,d,givnum,q,ldq,qstore,work
+                    integer(ilp) :: curlvl,curpbm,cutpnt,icompq,info,ldq,n,qsiz,tlvls,givcol(2,*), &
+                              givptr(*),indxq(*),iwork(*),perm(*),prmptr(*),qptr(*)
+                    real(dp) :: rho,d(*),givnum(2,*),q(ldq,*),qstore(*),work(*)
                end subroutine dlaed7
 #else
                module procedure stdlib_dlaed7
@@ -7782,9 +7812,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: curlvl,curpbm,cutpnt,icompq,info,ldq,n,qsiz,tlvls,givcol, &
-                              givptr,indxq,iwork,perm,prmptr,qptr
-                    real(sp) :: rho,d,givnum,q,ldq,qstore,work
+                    integer(ilp) :: curlvl,curpbm,cutpnt,icompq,info,ldq,n,qsiz,tlvls,givcol(2,*), &
+                              givptr(*),indxq(*),iwork(*),perm(*),prmptr(*),qptr(*)
+                    real(sp) :: rho,d(*),givnum(2,*),q(ldq,*),qstore(*),work(*)
                end subroutine slaed7
 #else
                module procedure stdlib_slaed7
@@ -7796,10 +7826,10 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: curlvl,curpbm,cutpnt,info,ldq,n,qsiz,tlvls,givcol,givptr, &
-                              indxq,iwork,perm,prmptr,qptr
-                    real(dp) :: rho,d,givnum,qstore,rwork
-                    complex(dp) :: q,ldq,work
+                    integer(ilp) :: curlvl,curpbm,cutpnt,info,ldq,n,qsiz,tlvls,givcol(2,*),givptr( &
+                              *),indxq(*),iwork(*),perm(*),prmptr(*),qptr(*)
+                    real(dp) :: rho,d(*),givnum(2,*),qstore(*),rwork(*)
+                    complex(dp) :: q(ldq,*),work(*)
                end subroutine zlaed7
 #else
                module procedure stdlib_zlaed7
@@ -7818,10 +7848,10 @@ module stdlib_linalg_lapack
                          indxp,indx,indxq,perm,givptr,givcol,givnum,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: cutpnt,givptr,info,k,ldq,ldq2,n,qsiz,givcol,indx,indxp,indxq, &
-                              perm
-                    real(sp) :: rho,d,dlamda,givnum,w,z
-                    complex(sp) :: q,ldq,q2,ldq2
+                    integer(ilp) :: cutpnt,givptr,info,k,ldq,ldq2,n,qsiz,givcol(2,*),indx(*), &
+                              indxp(*),indxq(*),perm(*)
+                    real(sp) :: rho,d(*),dlamda(*),givnum(2,*),w(*),z(*)
+                    complex(sp) :: q(ldq,*),q2(ldq2,*)
                end subroutine claed8
 #else
                module procedure stdlib_claed8
@@ -7831,9 +7861,10 @@ module stdlib_linalg_lapack
                           ldq2,w,perm,givptr,givcol,givnum,indxp,indx,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: cutpnt,givptr,icompq,info,k,ldq,ldq2,n,qsiz,givcol,indx,indxp, &
-                              indxq,perm
-                    real(dp) :: rho,d,dlamda,givnum,q,ldq,q2,ldq2,w,z
+                    integer(ilp) :: cutpnt,givptr,icompq,info,k,ldq,ldq2,n,qsiz,givcol(2,*),indx( &
+                              *),indxp(*),indxq(*),perm(*)
+                    real(dp) :: rho,d(*),dlamda(*),givnum(2,*),q(ldq,*),q2(ldq2,*),w(*),z(*)
+                              
                end subroutine dlaed8
 #else
                module procedure stdlib_dlaed8
@@ -7844,9 +7875,10 @@ module stdlib_linalg_lapack
                           ldq2,w,perm,givptr,givcol,givnum,indxp,indx,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: cutpnt,givptr,icompq,info,k,ldq,ldq2,n,qsiz,givcol,indx,indxp, &
-                              indxq,perm
-                    real(sp) :: rho,d,dlamda,givnum,q,ldq,q2,ldq2,w,z
+                    integer(ilp) :: cutpnt,givptr,icompq,info,k,ldq,ldq2,n,qsiz,givcol(2,*),indx( &
+                              *),indxp(*),indxq(*),perm(*)
+                    real(sp) :: rho,d(*),dlamda(*),givnum(2,*),q(ldq,*),q2(ldq2,*),w(*),z(*)
+                              
                end subroutine slaed8
 #else
                module procedure stdlib_slaed8
@@ -7857,10 +7889,10 @@ module stdlib_linalg_lapack
                          indxp,indx,indxq,perm,givptr,givcol,givnum,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: cutpnt,givptr,info,k,ldq,ldq2,n,qsiz,givcol,indx,indxp,indxq, &
-                              perm
-                    real(dp) :: rho,d,dlamda,givnum,w,z
-                    complex(dp) :: q,ldq,q2,ldq2
+                    integer(ilp) :: cutpnt,givptr,info,k,ldq,ldq2,n,qsiz,givcol(2,*),indx(*), &
+                              indxp(*),indxq(*),perm(*)
+                    real(dp) :: rho,d(*),dlamda(*),givnum(2,*),w(*),z(*)
+                    complex(dp) :: q(ldq,*),q2(ldq2,*)
                end subroutine zlaed8
 #else
                module procedure stdlib_zlaed8
@@ -7878,7 +7910,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,kstart,kstop,ldq,lds,n
-                    real(dp) :: rho,d,dlamda,q,ldq,s,lds,w
+                    real(dp) :: rho,d(*),dlamda(*),q(ldq,*),s(lds,*),w(*)
                end subroutine dlaed9
 #else
                module procedure stdlib_dlaed9
@@ -7890,7 +7922,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,kstart,kstop,ldq,lds,n
-                    real(sp) :: rho,d,dlamda,q,ldq,s,lds,w
+                    real(sp) :: rho,d(*),dlamda(*),q(ldq,*),s(lds,*),w(*)
                end subroutine slaed9
 #else
                module procedure stdlib_slaed9
@@ -7906,9 +7938,9 @@ module stdlib_linalg_lapack
                          q,qptr,z,ztemp,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: curlvl,curpbm,info,n,tlvls,givcol,givptr,perm,prmptr, &
-                              qptr
-                    real(dp) :: givnum,q,z,ztemp
+                    integer(ilp) :: curlvl,curpbm,info,n,tlvls,givcol(2,*),givptr(*),perm(*), &
+                              prmptr(*),qptr(*)
+                    real(dp) :: givnum(2,*),q(*),z(*),ztemp(*)
                end subroutine dlaeda
 #else
                module procedure stdlib_dlaeda
@@ -7919,9 +7951,9 @@ module stdlib_linalg_lapack
                          q,qptr,z,ztemp,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: curlvl,curpbm,info,n,tlvls,givcol,givptr,perm,prmptr, &
-                              qptr
-                    real(sp) :: givnum,q,z,ztemp
+                    integer(ilp) :: curlvl,curpbm,info,n,tlvls,givcol(2,*),givptr(*),perm(*), &
+                              prmptr(*),qptr(*)
+                    real(sp) :: givnum(2,*),q(*),z(*),ztemp(*)
                end subroutine slaeda
 #else
                module procedure stdlib_slaeda
@@ -7939,8 +7971,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: noinit,rightv
                     integer(ilp) :: info,ldb,ldh,n
-                    real(sp) :: eps3,smlnum,rwork
-                    complex(sp) :: w,b,ldb,h,ldh,v
+                    real(sp) :: eps3,smlnum,rwork(*)
+                    complex(sp) :: w,b(ldb,*),h(ldh,*),v(*)
                end subroutine claein
 #else
                module procedure stdlib_claein
@@ -7952,7 +7984,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: noinit,rightv
                     integer(ilp) :: info,ldb,ldh,n
-                    real(dp) :: bignum,eps3,smlnum,wi,wr,b,ldb,h,ldh,vi,vr,work
+                    real(dp) :: bignum,eps3,smlnum,wi,wr,b(ldb,*),h(ldh,*),vi(*),vr(*),work(*)
+                              
                end subroutine dlaein
 #else
                module procedure stdlib_dlaein
@@ -7965,7 +7998,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: noinit,rightv
                     integer(ilp) :: info,ldb,ldh,n
-                    real(sp) :: bignum,eps3,smlnum,wi,wr,b,ldb,h,ldh,vi,vr,work
+                    real(sp) :: bignum,eps3,smlnum,wi,wr,b(ldb,*),h(ldh,*),vi(*),vr(*),work(*)
+                              
                end subroutine slaein
 #else
                module procedure stdlib_slaein
@@ -7978,8 +8012,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: noinit,rightv
                     integer(ilp) :: info,ldb,ldh,n
-                    real(dp) :: eps3,smlnum,rwork
-                    complex(dp) :: w,b,ldb,h,ldh,v
+                    real(dp) :: eps3,smlnum,rwork(*)
+                    complex(dp) :: w,b(ldb,*),h(ldh,*),v(*)
                end subroutine zlaein
 #else
                module procedure stdlib_zlaein
@@ -8031,7 +8065,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: wantq
                     integer(ilp) :: info,j1,ldq,ldt,n,n1,n2
-                    real(dp) :: q,ldq,t,ldt,work
+                    real(dp) :: q(ldq,*),t(ldt,*),work(*)
                end subroutine dlaexc
 #else
                module procedure stdlib_dlaexc
@@ -8043,7 +8077,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: wantq
                     integer(ilp) :: info,j1,ldq,ldt,n,n1,n2
-                    real(sp) :: q,ldq,t,ldt,work
+                    real(sp) :: q(ldq,*),t(ldt,*),work(*)
                end subroutine slaexc
 #else
                module procedure stdlib_slaexc
@@ -8067,8 +8101,8 @@ module stdlib_linalg_lapack
                subroutine dlagtf(n,a,lambda,b,c,tol,d,in,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,n,in
-                    real(dp) :: lambda,tol,a,b,c,d
+                    integer(ilp) :: info,n,in(*)
+                    real(dp) :: lambda,tol,a(*),b(*),c(*),d(*)
                end subroutine dlagtf
 #else
                module procedure stdlib_dlagtf
@@ -8078,8 +8112,8 @@ module stdlib_linalg_lapack
                subroutine slagtf(n,a,lambda,b,c,tol,d,in,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,n,in
-                    real(sp) :: lambda,tol,a,b,c,d
+                    integer(ilp) :: info,n,in(*)
+                    real(sp) :: lambda,tol,a(*),b(*),c(*),d(*)
                end subroutine slagtf
 #else
                module procedure stdlib_slagtf
@@ -8099,7 +8133,7 @@ module stdlib_linalg_lapack
                     character :: trans
                     integer(ilp) :: ldb,ldx,n,nrhs
                     real(sp) :: alpha,beta
-                    complex(sp) :: b,ldb,d,dl,du,x,ldx
+                    complex(sp) :: b(ldb,*),d(*),dl(*),du(*),x(ldx,*)
                end subroutine clagtm
 #else
                module procedure stdlib_clagtm
@@ -8110,7 +8144,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: ldb,ldx,n,nrhs
-                    real(dp) :: alpha,beta,b,ldb,d,dl,du,x,ldx
+                    real(dp) :: alpha,beta,b(ldb,*),d(*),dl(*),du(*),x(ldx,*)
                end subroutine dlagtm
 #else
                module procedure stdlib_dlagtm
@@ -8122,7 +8156,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trans
                     integer(ilp) :: ldb,ldx,n,nrhs
-                    real(sp) :: alpha,beta,b,ldb,d,dl,du,x,ldx
+                    real(sp) :: alpha,beta,b(ldb,*),d(*),dl(*),du(*),x(ldx,*)
                end subroutine slagtm
 #else
                module procedure stdlib_slagtm
@@ -8135,7 +8169,7 @@ module stdlib_linalg_lapack
                     character :: trans
                     integer(ilp) :: ldb,ldx,n,nrhs
                     real(dp) :: alpha,beta
-                    complex(dp) :: b,ldb,d,dl,du,x,ldx
+                    complex(dp) :: b(ldb,*),d(*),dl(*),du(*),x(ldx,*)
                end subroutine zlagtm
 #else
                module procedure stdlib_zlagtm
@@ -8156,8 +8190,8 @@ module stdlib_linalg_lapack
                subroutine dlagts(job,n,a,b,c,d,in,y,tol,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,job,n,in
-                    real(dp) :: tol,a,b,c,d,y
+                    integer(ilp) :: info,job,n,in(*)
+                    real(dp) :: tol,a(*),b(*),c(*),d(*),y(*)
                end subroutine dlagts
 #else
                module procedure stdlib_dlagts
@@ -8167,8 +8201,8 @@ module stdlib_linalg_lapack
                subroutine slagts(job,n,a,b,c,d,in,y,tol,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,job,n,in
-                    real(sp) :: tol,a,b,c,d,y
+                    integer(ilp) :: info,job,n,in(*)
+                    real(sp) :: tol,a(*),b(*),c(*),d(*),y(*)
                end subroutine slagts
 #else
                module procedure stdlib_slagts
@@ -8194,8 +8228,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(sp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(sp) :: a(lda,*),w(ldw,*)
                end subroutine clahef
 #else
                module procedure stdlib_clahef
@@ -8206,8 +8240,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(dp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(dp) :: a(lda,*),w(ldw,*)
                end subroutine zlahef
 #else
                module procedure stdlib_zlahef
@@ -8230,8 +8264,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv
-                    complex(sp) :: a,lda,h,ldh,work
+                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv(*)
+                    complex(sp) :: a(lda,*),h(ldh,*),work(*)
                end subroutine clahef_aa
 #else
                module procedure stdlib_clahef_aa
@@ -8242,8 +8276,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv
-                    complex(dp) :: a,lda,h,ldh,work
+                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv(*)
+                    complex(dp) :: a(lda,*),h(ldh,*),work(*)
                end subroutine zlahef_aa
 #else
                module procedure stdlib_zlahef_aa
@@ -8268,8 +8302,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(sp) :: a,lda,w,ldw,e
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(sp) :: a(lda,*),w(ldw,*),e(*)
                end subroutine clahef_rk
 #else
                module procedure stdlib_clahef_rk
@@ -8280,8 +8314,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(dp) :: a,lda,w,ldw,e
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(dp) :: a(lda,*),w(ldw,*),e(*)
                end subroutine zlahef_rk
 #else
                module procedure stdlib_zlahef_rk
@@ -8307,8 +8341,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(sp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(sp) :: a(lda,*),w(ldw,*)
                end subroutine clahef_rook
 #else
                module procedure stdlib_clahef_rook
@@ -8319,8 +8353,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(dp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(dp) :: a(lda,*),w(ldw,*)
                end subroutine zlahef_rook
 #else
                module procedure stdlib_zlahef_rook
@@ -8339,7 +8373,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,n
                     logical(lk) :: wantt,wantz
-                    complex(sp) :: h,ldh,w,z,ldz
+                    complex(sp) :: h(ldh,*),w(*),z(ldz,*)
                end subroutine clahqr
 #else
                module procedure stdlib_clahqr
@@ -8351,7 +8385,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,n
                     logical(lk) :: wantt,wantz
-                    real(dp) :: h,ldh,wi,wr,z,ldz
+                    real(dp) :: h(ldh,*),wi(*),wr(*),z(ldz,*)
                end subroutine dlahqr
 #else
                module procedure stdlib_dlahqr
@@ -8364,7 +8398,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,n
                     logical(lk) :: wantt,wantz
-                    real(sp) :: h,ldh,wi,wr,z,ldz
+                    real(sp) :: h(ldh,*),wi(*),wr(*),z(ldz,*)
                end subroutine slahqr
 #else
                module procedure stdlib_slahqr
@@ -8377,7 +8411,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,n
                     logical(lk) :: wantt,wantz
-                    complex(dp) :: h,ldh,w,z,ldz
+                    complex(dp) :: h(ldh,*),w(*),z(ldz,*)
                end subroutine zlahqr
 #else
                module procedure stdlib_zlahqr
@@ -8411,7 +8445,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: j,job
                     real(sp) :: sest,sestpr
-                    complex(sp) :: c,gamma,s,w,j,x,j
+                    complex(sp) :: c,gamma,s,w(j),x(j)
                end subroutine claic1
 #else
                module procedure stdlib_claic1
@@ -8421,7 +8455,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: j,job
-                    real(dp) :: c,gamma,s,sest,sestpr,w,j,x,j
+                    real(dp) :: c,gamma,s,sest,sestpr,w(j),x(j)
                end subroutine dlaic1
 #else
                module procedure stdlib_dlaic1
@@ -8432,7 +8466,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: j,job
-                    real(sp) :: c,gamma,s,sest,sestpr,w,j,x,j
+                    real(sp) :: c,gamma,s,sest,sestpr,w(j),x(j)
                end subroutine slaic1
 #else
                module procedure stdlib_slaic1
@@ -8444,7 +8478,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: j,job
                     real(dp) :: sest,sestpr
-                    complex(dp) :: c,gamma,s,w,j,x,j
+                    complex(dp) :: c,gamma,s,w(j),x(j)
                end subroutine zlaic1
 #else
                module procedure stdlib_zlaic1
@@ -8511,9 +8545,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: givptr,icompq,info,k,ldb,ldbx,ldgcol,ldgnum,nl,nr,nrhs,sqre, &
-                              givcol,ldgcol,perm
-                    real(sp) :: c,s,difl,difr,ldgnum,givnum,ldgnum,poles,ldgnum,rwork,z
-                    complex(sp) :: b,ldb,bx,ldbx
+                              givcol(ldgcol,*),perm(*)
+                    real(sp) :: c,s,difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles(ldgnum,*),rwork( &
+                              *),z(*)
+                    complex(sp) :: b(ldb,*),bx(ldbx,*)
                end subroutine clals0
 #else
                module procedure stdlib_clals0
@@ -8524,9 +8559,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: givptr,icompq,info,k,ldb,ldbx,ldgcol,ldgnum,nl,nr,nrhs,sqre, &
-                              givcol,ldgcol,perm
-                    real(dp) :: c,s,b,ldb,bx,ldbx,difl,difr,ldgnum,givnum,ldgnum,poles,ldgnum, &
-                              work,z
+                              givcol(ldgcol,*),perm(*)
+                    real(dp) :: c,s,b(ldb,*),bx(ldbx,*),difl(*),difr(ldgnum,*),givnum(ldgnum,*), &
+                              poles(ldgnum,*),work(*),z(*)
                end subroutine dlals0
 #else
                module procedure stdlib_dlals0
@@ -8538,9 +8573,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: givptr,icompq,info,k,ldb,ldbx,ldgcol,ldgnum,nl,nr,nrhs,sqre, &
-                              givcol,ldgcol,perm
-                    real(sp) :: c,s,b,ldb,bx,ldbx,difl,difr,ldgnum,givnum,ldgnum,poles,ldgnum, &
-                              work,z
+                              givcol(ldgcol,*),perm(*)
+                    real(sp) :: c,s,b(ldb,*),bx(ldbx,*),difl(*),difr(ldgnum,*),givnum(ldgnum,*), &
+                              poles(ldgnum,*),work(*),z(*)
                end subroutine slals0
 #else
                module procedure stdlib_slals0
@@ -8552,9 +8587,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: givptr,icompq,info,k,ldb,ldbx,ldgcol,ldgnum,nl,nr,nrhs,sqre, &
-                              givcol,ldgcol,perm
-                    real(dp) :: c,s,difl,difr,ldgnum,givnum,ldgnum,poles,ldgnum,rwork,z
-                    complex(dp) :: b,ldb,bx,ldbx
+                              givcol(ldgcol,*),perm(*)
+                    real(dp) :: c,s,difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles(ldgnum,*),rwork( &
+                              *),z(*)
+                    complex(dp) :: b(ldb,*),bx(ldbx,*)
                end subroutine zlals0
 #else
                module procedure stdlib_zlals0
@@ -8577,11 +8613,11 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol,ldgcol, &
-                              givptr,iwork,k,perm,ldgcol
-                    real(sp) :: c,difl,ldu,difr,ldu,givnum,ldu,poles,ldu,rwork,s,u,ldu,vt,ldu,z, &
-                              ldu
-                    complex(sp) :: b,ldb,bx,ldbx
+                    integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol(ldgcol,*) &
+                              ,givptr(*),iwork(*),k(*),perm(ldgcol,*)
+                    real(sp) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*),poles(ldu,*),rwork(*), &
+                              s(*),u(ldu,*),vt(ldu,*),z(ldu,*)
+                    complex(sp) :: b(ldb,*),bx(ldbx,*)
                end subroutine clalsa
 #else
                module procedure stdlib_clalsa
@@ -8592,10 +8628,10 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol,ldgcol, &
-                              givptr,iwork,k,perm,ldgcol
-                    real(dp) :: b,ldb,bx,ldbx,c,difl,ldu,difr,ldu,givnum,ldu,poles,ldu,s,u,ldu,vt, &
-                              ldu,work,z,ldu
+                    integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol(ldgcol,*) &
+                              ,givptr(*),iwork(*),k(*),perm(ldgcol,*)
+                    real(dp) :: b(ldb,*),bx(ldbx,*),c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*), &
+                              poles(ldu,*),s(*),u(ldu,*),vt(ldu,*),work(*),z(ldu,*)
                end subroutine dlalsa
 #else
                module procedure stdlib_dlalsa
@@ -8607,10 +8643,10 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol,ldgcol, &
-                              givptr,iwork,k,perm,ldgcol
-                    real(sp) :: b,ldb,bx,ldbx,c,difl,ldu,difr,ldu,givnum,ldu,poles,ldu,s,u,ldu,vt, &
-                              ldu,work,z,ldu
+                    integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol(ldgcol,*) &
+                              ,givptr(*),iwork(*),k(*),perm(ldgcol,*)
+                    real(sp) :: b(ldb,*),bx(ldbx,*),c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*), &
+                              poles(ldu,*),s(*),u(ldu,*),vt(ldu,*),work(*),z(ldu,*)
                end subroutine slalsa
 #else
                module procedure stdlib_slalsa
@@ -8622,11 +8658,11 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol,ldgcol, &
-                              givptr,iwork,k,perm,ldgcol
-                    real(dp) :: c,difl,ldu,difr,ldu,givnum,ldu,poles,ldu,rwork,s,u,ldu,vt,ldu,z, &
-                              ldu
-                    complex(dp) :: b,ldb,bx,ldbx
+                    integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol(ldgcol,*) &
+                              ,givptr(*),iwork(*),k(*),perm(ldgcol,*)
+                    real(dp) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*),poles(ldu,*),rwork(*), &
+                              s(*),u(ldu,*),vt(ldu,*),z(ldu,*)
+                    complex(dp) :: b(ldb,*),bx(ldbx,*)
                end subroutine zlalsa
 #else
                module procedure stdlib_zlalsa
@@ -8654,9 +8690,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz,iwork
-                    real(sp) :: rcond,d,e,rwork
-                    complex(sp) :: b,ldb,work
+                    integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz,iwork(*)
+                    real(sp) :: rcond,d(*),e(*),rwork(*)
+                    complex(sp) :: b(ldb,*),work(*)
                end subroutine clalsd
 #else
                module procedure stdlib_clalsd
@@ -8667,8 +8703,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz,iwork
-                    real(dp) :: rcond,b,ldb,d,e,work
+                    integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz,iwork(*)
+                    real(dp) :: rcond,b(ldb,*),d(*),e(*),work(*)
                end subroutine dlalsd
 #else
                module procedure stdlib_dlalsd
@@ -8680,8 +8716,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz,iwork
-                    real(sp) :: rcond,b,ldb,d,e,work
+                    integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz,iwork(*)
+                    real(sp) :: rcond,b(ldb,*),d(*),e(*),work(*)
                end subroutine slalsd
 #else
                module procedure stdlib_slalsd
@@ -8693,9 +8729,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz,iwork
-                    real(dp) :: rcond,d,e,rwork
-                    complex(dp) :: b,ldb,work
+                    integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz,iwork(*)
+                    real(dp) :: rcond,d(*),e(*),rwork(*)
+                    complex(dp) :: b(ldb,*),work(*)
                end subroutine zlalsd
 #else
                module procedure stdlib_zlalsd
@@ -8710,8 +8746,8 @@ module stdlib_linalg_lapack
                subroutine dlamrg(n1,n2,a,dtrd1,dtrd2,index)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: dtrd1,dtrd2,n1,n2,index
-                    real(dp) :: a
+                    integer(ilp) :: dtrd1,dtrd2,n1,n2,index(*)
+                    real(dp) :: a(*)
                end subroutine dlamrg
 #else
                module procedure stdlib_dlamrg
@@ -8721,8 +8757,8 @@ module stdlib_linalg_lapack
                subroutine slamrg(n1,n2,a,strd1,strd2,index)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: n1,n2,strd1,strd2,index
-                    real(sp) :: a
+                    integer(ilp) :: n1,n2,strd1,strd2,index(*)
+                    real(sp) :: a(*)
                end subroutine slamrg
 #else
                module procedure stdlib_slamrg
@@ -8744,7 +8780,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
-                    complex(sp) :: a,lda,work,c,ldc,t,ldt
+                    complex(sp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
                end subroutine clamswlq
 #else
                module procedure stdlib_clamswlq
@@ -8756,7 +8792,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
-                    real(dp) :: a,lda,work,c,ldc,t,ldt
+                    real(dp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
                end subroutine dlamswlq
 #else
                module procedure stdlib_dlamswlq
@@ -8769,7 +8805,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
-                    real(sp) :: a,lda,work,c,ldc,t,ldt
+                    real(sp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
                end subroutine slamswlq
 #else
                module procedure stdlib_slamswlq
@@ -8782,7 +8818,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
-                    complex(dp) :: a,lda,work,c,ldc,t,ldt
+                    complex(dp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
                end subroutine zlamswlq
 #else
                module procedure stdlib_zlamswlq
@@ -8804,7 +8840,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
-                    complex(sp) :: a,lda,work,c,ldc,t,ldt
+                    complex(sp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
                end subroutine clamtsqr
 #else
                module procedure stdlib_clamtsqr
@@ -8816,7 +8852,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
-                    real(dp) :: a,lda,work,c,ldc,t,ldt
+                    real(dp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
                end subroutine dlamtsqr
 #else
                module procedure stdlib_dlamtsqr
@@ -8829,7 +8865,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
-                    real(sp) :: a,lda,work,c,ldc,t,ldt
+                    real(sp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
                end subroutine slamtsqr
 #else
                module procedure stdlib_slamtsqr
@@ -8842,7 +8878,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
-                    complex(dp) :: a,lda,work,c,ldc,t,ldt
+                    complex(dp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
                end subroutine zlamtsqr
 #else
                module procedure stdlib_zlamtsqr
@@ -8870,7 +8906,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,r
-                    real(dp) :: pivmin,sigma,d,lld
+                    real(dp) :: pivmin,sigma,d(*),lld(*)
                end function dlaneg
 #else
                module procedure stdlib_dlaneg
@@ -8881,7 +8917,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,r
-                    real(sp) :: pivmin,sigma,d,lld
+                    real(sp) :: pivmin,sigma,d(*),lld(*)
                end function slaneg
 #else
                module procedure stdlib_slaneg
@@ -8898,8 +8934,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: kl,ku,ldab,n
-                    real(sp) :: work
-                    complex(sp) :: ab,ldab
+                    real(sp) :: work(*)
+                    complex(sp) :: ab(ldab,*)
                end function clangb
 #else
                module procedure stdlib_clangb
@@ -8910,7 +8946,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: kl,ku,ldab,n
-                    real(dp) :: ab,ldab,work
+                    real(dp) :: ab(ldab,*),work(*)
                end function dlangb
 #else
                module procedure stdlib_dlangb
@@ -8922,7 +8958,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: kl,ku,ldab,n
-                    real(sp) :: ab,ldab,work
+                    real(sp) :: ab(ldab,*),work(*)
                end function slangb
 #else
                module procedure stdlib_slangb
@@ -8934,8 +8970,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: kl,ku,ldab,n
-                    real(dp) :: work
-                    complex(dp) :: ab,ldab
+                    real(dp) :: work(*)
+                    complex(dp) :: ab(ldab,*)
                end function zlangb
 #else
                module procedure stdlib_zlangb
@@ -8952,8 +8988,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: lda,m,n
-                    real(sp) :: work
-                    complex(sp) :: a,lda
+                    real(sp) :: work(*)
+                    complex(sp) :: a(lda,*)
                end function clange
 #else
                module procedure stdlib_clange
@@ -8964,7 +9000,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: lda,m,n
-                    real(dp) :: a,lda,work
+                    real(dp) :: a(lda,*),work(*)
                end function dlange
 #else
                module procedure stdlib_dlange
@@ -8976,7 +9012,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: lda,m,n
-                    real(sp) :: a,lda,work
+                    real(sp) :: a(lda,*),work(*)
                end function slange
 #else
                module procedure stdlib_slange
@@ -8988,8 +9024,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: lda,m,n
-                    real(dp) :: work
-                    complex(dp) :: a,lda
+                    real(dp) :: work(*)
+                    complex(dp) :: a(lda,*)
                end function zlange
 #else
                module procedure stdlib_zlange
@@ -9006,7 +9042,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: n
-                    complex(sp) :: d,dl,du
+                    complex(sp) :: d(*),dl(*),du(*)
                end function clangt
 #else
                module procedure stdlib_clangt
@@ -9017,7 +9053,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: n
-                    real(dp) :: d,dl,du
+                    real(dp) :: d(*),dl(*),du(*)
                end function dlangt
 #else
                module procedure stdlib_dlangt
@@ -9029,7 +9065,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: n
-                    real(sp) :: d,dl,du
+                    real(sp) :: d(*),dl(*),du(*)
                end function slangt
 #else
                module procedure stdlib_slangt
@@ -9041,7 +9077,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: n
-                    complex(dp) :: d,dl,du
+                    complex(dp) :: d(*),dl(*),du(*)
                end function zlangt
 #else
                module procedure stdlib_zlangt
@@ -9058,8 +9094,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(sp) :: work
-                    complex(sp) :: ab,ldab
+                    real(sp) :: work(*)
+                    complex(sp) :: ab(ldab,*)
                end function clanhb
 #else
                module procedure stdlib_clanhb
@@ -9071,8 +9107,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(dp) :: work
-                    complex(dp) :: ab,ldab
+                    real(dp) :: work(*)
+                    complex(dp) :: ab(ldab,*)
                end function zlanhb
 #else
                module procedure stdlib_zlanhb
@@ -9089,8 +9125,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: lda,n
-                    real(sp) :: work
-                    complex(sp) :: a,lda
+                    real(sp) :: work(*)
+                    complex(sp) :: a(lda,*)
                end function clanhe
 #else
                module procedure stdlib_clanhe
@@ -9102,8 +9138,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: lda,n
-                    real(dp) :: work
-                    complex(dp) :: a,lda
+                    real(dp) :: work(*)
+                    complex(dp) :: a(lda,*)
                end function zlanhe
 #else
                module procedure stdlib_zlanhe
@@ -9120,8 +9156,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,transr,uplo
                     integer(ilp) :: n
-                    real(sp) :: work
-                    complex(sp) :: a
+                    real(sp) :: work(0:*)
+                    complex(sp) :: a(0:*)
                end function clanhf
 #else
                module procedure stdlib_clanhf
@@ -9133,8 +9169,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,transr,uplo
                     integer(ilp) :: n
-                    real(dp) :: work
-                    complex(dp) :: a
+                    real(dp) :: work(0:*)
+                    complex(dp) :: a(0:*)
                end function zlanhf
 #else
                module procedure stdlib_zlanhf
@@ -9151,8 +9187,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: n
-                    real(sp) :: work
-                    complex(sp) :: ap
+                    real(sp) :: work(*)
+                    complex(sp) :: ap(*)
                end function clanhp
 #else
                module procedure stdlib_clanhp
@@ -9164,8 +9200,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: n
-                    real(dp) :: work
-                    complex(dp) :: ap
+                    real(dp) :: work(*)
+                    complex(dp) :: ap(*)
                end function zlanhp
 #else
                module procedure stdlib_zlanhp
@@ -9182,8 +9218,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: lda,n
-                    real(sp) :: work
-                    complex(sp) :: a,lda
+                    real(sp) :: work(*)
+                    complex(sp) :: a(lda,*)
                end function clanhs
 #else
                module procedure stdlib_clanhs
@@ -9194,7 +9230,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: lda,n
-                    real(dp) :: a,lda,work
+                    real(dp) :: a(lda,*),work(*)
                end function dlanhs
 #else
                module procedure stdlib_dlanhs
@@ -9206,7 +9242,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: lda,n
-                    real(sp) :: a,lda,work
+                    real(sp) :: a(lda,*),work(*)
                end function slanhs
 #else
                module procedure stdlib_slanhs
@@ -9218,8 +9254,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: lda,n
-                    real(dp) :: work
-                    complex(dp) :: a,lda
+                    real(dp) :: work(*)
+                    complex(dp) :: a(lda,*)
                end function zlanhs
 #else
                module procedure stdlib_zlanhs
@@ -9236,8 +9272,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: n
-                    real(sp) :: d
-                    complex(sp) :: e
+                    real(sp) :: d(*)
+                    complex(sp) :: e(*)
                end function clanht
 #else
                module procedure stdlib_clanht
@@ -9249,8 +9285,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: n
-                    real(dp) :: d
-                    complex(dp) :: e
+                    real(dp) :: d(*)
+                    complex(dp) :: e(*)
                end function zlanht
 #else
                module procedure stdlib_zlanht
@@ -9267,8 +9303,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(sp) :: work
-                    complex(sp) :: ab,ldab
+                    real(sp) :: work(*)
+                    complex(sp) :: ab(ldab,*)
                end function clansb
 #else
                module procedure stdlib_clansb
@@ -9279,7 +9315,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(dp) :: ab,ldab,work
+                    real(dp) :: ab(ldab,*),work(*)
                end function dlansb
 #else
                module procedure stdlib_dlansb
@@ -9291,7 +9327,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(sp) :: ab,ldab,work
+                    real(sp) :: ab(ldab,*),work(*)
                end function slansb
 #else
                module procedure stdlib_slansb
@@ -9303,8 +9339,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(dp) :: work
-                    complex(dp) :: ab,ldab
+                    real(dp) :: work(*)
+                    complex(dp) :: ab(ldab,*)
                end function zlansb
 #else
                module procedure stdlib_zlansb
@@ -9321,7 +9357,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,transr,uplo
                     integer(ilp) :: n
-                    real(dp) :: a,work
+                    real(dp) :: a(0:*),work(0:*)
                end function dlansf
 #else
                module procedure stdlib_dlansf
@@ -9333,7 +9369,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,transr,uplo
                     integer(ilp) :: n
-                    real(sp) :: a,work
+                    real(sp) :: a(0:*),work(0:*)
                end function slansf
 #else
                module procedure stdlib_slansf
@@ -9350,8 +9386,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: n
-                    real(sp) :: work
-                    complex(sp) :: ap
+                    real(sp) :: work(*)
+                    complex(sp) :: ap(*)
                end function clansp
 #else
                module procedure stdlib_clansp
@@ -9362,7 +9398,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: n
-                    real(dp) :: ap,work
+                    real(dp) :: ap(*),work(*)
                end function dlansp
 #else
                module procedure stdlib_dlansp
@@ -9374,7 +9410,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: n
-                    real(sp) :: ap,work
+                    real(sp) :: ap(*),work(*)
                end function slansp
 #else
                module procedure stdlib_slansp
@@ -9386,8 +9422,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: n
-                    real(dp) :: work
-                    complex(dp) :: ap
+                    real(dp) :: work(*)
+                    complex(dp) :: ap(*)
                end function zlansp
 #else
                module procedure stdlib_zlansp
@@ -9404,7 +9440,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: n
-                    real(dp) :: d,e
+                    real(dp) :: d(*),e(*)
                end function dlanst
 #else
                module procedure stdlib_dlanst
@@ -9416,7 +9452,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm
                     integer(ilp) :: n
-                    real(sp) :: d,e
+                    real(sp) :: d(*),e(*)
                end function slanst
 #else
                module procedure stdlib_slanst
@@ -9433,8 +9469,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: lda,n
-                    real(sp) :: work
-                    complex(sp) :: a,lda
+                    real(sp) :: work(*)
+                    complex(sp) :: a(lda,*)
                end function clansy
 #else
                module procedure stdlib_clansy
@@ -9445,7 +9481,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: lda,n
-                    real(dp) :: a,lda,work
+                    real(dp) :: a(lda,*),work(*)
                end function dlansy
 #else
                module procedure stdlib_dlansy
@@ -9457,7 +9493,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: lda,n
-                    real(sp) :: a,lda,work
+                    real(sp) :: a(lda,*),work(*)
                end function slansy
 #else
                module procedure stdlib_slansy
@@ -9469,8 +9505,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: norm,uplo
                     integer(ilp) :: lda,n
-                    real(dp) :: work
-                    complex(dp) :: a,lda
+                    real(dp) :: work(*)
+                    complex(dp) :: a(lda,*)
                end function zlansy
 #else
                module procedure stdlib_zlansy
@@ -9488,8 +9524,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(sp) :: work
-                    complex(sp) :: ab,ldab
+                    real(sp) :: work(*)
+                    complex(sp) :: ab(ldab,*)
                end function clantb
 #else
                module procedure stdlib_clantb
@@ -9500,7 +9536,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(dp) :: ab,ldab,work
+                    real(dp) :: ab(ldab,*),work(*)
                end function dlantb
 #else
                module procedure stdlib_dlantb
@@ -9513,7 +9549,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(sp) :: ab,ldab,work
+                    real(sp) :: ab(ldab,*),work(*)
                end function slantb
 #else
                module procedure stdlib_slantb
@@ -9525,8 +9561,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: k,ldab,n
-                    real(dp) :: work
-                    complex(dp) :: ab,ldab
+                    real(dp) :: work(*)
+                    complex(dp) :: ab(ldab,*)
                end function zlantb
 #else
                module procedure stdlib_zlantb
@@ -9543,8 +9579,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: n
-                    real(sp) :: work
-                    complex(sp) :: ap
+                    real(sp) :: work(*)
+                    complex(sp) :: ap(*)
                end function clantp
 #else
                module procedure stdlib_clantp
@@ -9555,7 +9591,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: n
-                    real(dp) :: ap,work
+                    real(dp) :: ap(*),work(*)
                end function dlantp
 #else
                module procedure stdlib_dlantp
@@ -9567,7 +9603,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: n
-                    real(sp) :: ap,work
+                    real(sp) :: ap(*),work(*)
                end function slantp
 #else
                module procedure stdlib_slantp
@@ -9579,8 +9615,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: n
-                    real(dp) :: work
-                    complex(dp) :: ap
+                    real(dp) :: work(*)
+                    complex(dp) :: ap(*)
                end function zlantp
 #else
                module procedure stdlib_zlantp
@@ -9597,8 +9633,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: lda,m,n
-                    real(sp) :: work
-                    complex(sp) :: a,lda
+                    real(sp) :: work(*)
+                    complex(sp) :: a(lda,*)
                end function clantr
 #else
                module procedure stdlib_clantr
@@ -9609,7 +9645,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: lda,m,n
-                    real(dp) :: a,lda,work
+                    real(dp) :: a(lda,*),work(*)
                end function dlantr
 #else
                module procedure stdlib_dlantr
@@ -9621,7 +9657,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: lda,m,n
-                    real(sp) :: a,lda,work
+                    real(sp) :: a(lda,*),work(*)
                end function slantr
 #else
                module procedure stdlib_slantr
@@ -9633,8 +9669,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: lda,m,n
-                    real(dp) :: work
-                    complex(dp) :: a,lda
+                    real(dp) :: work(*)
+                    complex(dp) :: a(lda,*)
                end function zlantr
 #else
                module procedure stdlib_zlantr
@@ -9680,7 +9716,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(dp) :: a,lda,d
+                    real(dp) :: a(lda,*),d(*)
                end subroutine dlaorhr_col_getrfnp
 #else
                module procedure stdlib_dlaorhr_col_getrfnp
@@ -9691,7 +9727,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(sp) :: a,lda,d
+                    real(sp) :: a(lda,*),d(*)
                end subroutine slaorhr_col_getrfnp
 #else
                module procedure stdlib_slaorhr_col_getrfnp
@@ -9752,7 +9788,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(dp) :: a,lda,d
+                    real(dp) :: a(lda,*),d(*)
                end subroutine dlaorhr_col_getrfnp2
 #else
                module procedure stdlib_dlaorhr_col_getrfnp2
@@ -9763,7 +9799,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    real(sp) :: a,lda,d
+                    real(sp) :: a(lda,*),d(*)
                end subroutine slaorhr_col_getrfnp2
 #else
                module procedure stdlib_slaorhr_col_getrfnp2
@@ -9783,7 +9819,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: incx,incy,n
                     real(sp) :: ssmin
-                    complex(sp) :: x,y
+                    complex(sp) :: x(*),y(*)
                end subroutine clapll
 #else
                module procedure stdlib_clapll
@@ -9793,7 +9829,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,incy,n
-                    real(dp) :: ssmin,x,y
+                    real(dp) :: ssmin,x(*),y(*)
                end subroutine dlapll
 #else
                module procedure stdlib_dlapll
@@ -9804,7 +9840,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,incy,n
-                    real(sp) :: ssmin,x,y
+                    real(sp) :: ssmin,x(*),y(*)
                end subroutine slapll
 #else
                module procedure stdlib_slapll
@@ -9816,7 +9852,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: incx,incy,n
                     real(dp) :: ssmin
-                    complex(dp) :: x,y
+                    complex(dp) :: x(*),y(*)
                end subroutine zlapll
 #else
                module procedure stdlib_zlapll
@@ -9835,8 +9871,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: forwrd
-                    integer(ilp) :: ldx,m,n,k
-                    complex(sp) :: x,ldx
+                    integer(ilp) :: ldx,m,n,k(*)
+                    complex(sp) :: x(ldx,*)
                end subroutine clapmr
 #else
                module procedure stdlib_clapmr
@@ -9846,8 +9882,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: forwrd
-                    integer(ilp) :: ldx,m,n,k
-                    real(dp) :: x,ldx
+                    integer(ilp) :: ldx,m,n,k(*)
+                    real(dp) :: x(ldx,*)
                end subroutine dlapmr
 #else
                module procedure stdlib_dlapmr
@@ -9858,8 +9894,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: forwrd
-                    integer(ilp) :: ldx,m,n,k
-                    real(sp) :: x,ldx
+                    integer(ilp) :: ldx,m,n,k(*)
+                    real(sp) :: x(ldx,*)
                end subroutine slapmr
 #else
                module procedure stdlib_slapmr
@@ -9870,8 +9906,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: forwrd
-                    integer(ilp) :: ldx,m,n,k
-                    complex(dp) :: x,ldx
+                    integer(ilp) :: ldx,m,n,k(*)
+                    complex(dp) :: x(ldx,*)
                end subroutine zlapmr
 #else
                module procedure stdlib_zlapmr
@@ -9890,8 +9926,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: forwrd
-                    integer(ilp) :: ldx,m,n,k
-                    complex(sp) :: x,ldx
+                    integer(ilp) :: ldx,m,n,k(*)
+                    complex(sp) :: x(ldx,*)
                end subroutine clapmt
 #else
                module procedure stdlib_clapmt
@@ -9901,8 +9937,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: forwrd
-                    integer(ilp) :: ldx,m,n,k
-                    real(dp) :: x,ldx
+                    integer(ilp) :: ldx,m,n,k(*)
+                    real(dp) :: x(ldx,*)
                end subroutine dlapmt
 #else
                module procedure stdlib_dlapmt
@@ -9913,8 +9949,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: forwrd
-                    integer(ilp) :: ldx,m,n,k
-                    real(sp) :: x,ldx
+                    integer(ilp) :: ldx,m,n,k(*)
+                    real(sp) :: x(ldx,*)
                end subroutine slapmt
 #else
                module procedure stdlib_slapmt
@@ -9925,8 +9961,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: forwrd
-                    integer(ilp) :: ldx,m,n,k
-                    complex(dp) :: x,ldx
+                    integer(ilp) :: ldx,m,n,k(*)
+                    complex(dp) :: x(ldx,*)
                end subroutine zlapmt
 #else
                module procedure stdlib_zlapmt
@@ -9944,8 +9980,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed
                     integer(ilp) :: kl,ku,ldab,m,n
-                    real(sp) :: amax,colcnd,rowcnd,c,r
-                    complex(sp) :: ab,ldab
+                    real(sp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(sp) :: ab(ldab,*)
                end subroutine claqgb
 #else
                module procedure stdlib_claqgb
@@ -9957,7 +9993,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed
                     integer(ilp) :: kl,ku,ldab,m,n
-                    real(dp) :: amax,colcnd,rowcnd,ab,ldab,c,r
+                    real(dp) :: amax,colcnd,rowcnd,ab(ldab,*),c(*),r(*)
                end subroutine dlaqgb
 #else
                module procedure stdlib_dlaqgb
@@ -9970,7 +10006,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed
                     integer(ilp) :: kl,ku,ldab,m,n
-                    real(sp) :: amax,colcnd,rowcnd,ab,ldab,c,r
+                    real(sp) :: amax,colcnd,rowcnd,ab(ldab,*),c(*),r(*)
                end subroutine slaqgb
 #else
                module procedure stdlib_slaqgb
@@ -9983,8 +10019,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed
                     integer(ilp) :: kl,ku,ldab,m,n
-                    real(dp) :: amax,colcnd,rowcnd,c,r
-                    complex(dp) :: ab,ldab
+                    real(dp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(dp) :: ab(ldab,*)
                end subroutine zlaqgb
 #else
                module procedure stdlib_zlaqgb
@@ -10000,8 +10036,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed
                     integer(ilp) :: lda,m,n
-                    real(sp) :: amax,colcnd,rowcnd,c,r
-                    complex(sp) :: a,lda
+                    real(sp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(sp) :: a(lda,*)
                end subroutine claqge
 #else
                module procedure stdlib_claqge
@@ -10012,7 +10048,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed
                     integer(ilp) :: lda,m,n
-                    real(dp) :: amax,colcnd,rowcnd,a,lda,c,r
+                    real(dp) :: amax,colcnd,rowcnd,a(lda,*),c(*),r(*)
                end subroutine dlaqge
 #else
                module procedure stdlib_dlaqge
@@ -10024,7 +10060,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed
                     integer(ilp) :: lda,m,n
-                    real(sp) :: amax,colcnd,rowcnd,a,lda,c,r
+                    real(sp) :: amax,colcnd,rowcnd,a(lda,*),c(*),r(*)
                end subroutine slaqge
 #else
                module procedure stdlib_slaqge
@@ -10036,8 +10072,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed
                     integer(ilp) :: lda,m,n
-                    real(dp) :: amax,colcnd,rowcnd,c,r
-                    complex(dp) :: a,lda
+                    real(dp) :: amax,colcnd,rowcnd,c(*),r(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zlaqge
 #else
                module procedure stdlib_zlaqge
@@ -10053,8 +10089,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: kd,ldab,n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: ab,ldab
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: ab(ldab,*)
                end subroutine claqhb
 #else
                module procedure stdlib_claqhb
@@ -10066,8 +10102,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: kd,ldab,n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: ab,ldab
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: ab(ldab,*)
                end subroutine zlaqhb
 #else
                module procedure stdlib_zlaqhb
@@ -10083,8 +10119,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: lda,n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: a,lda
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: a(lda,*)
                end subroutine claqhe
 #else
                module procedure stdlib_claqhe
@@ -10096,8 +10132,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: lda,n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: a,lda
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zlaqhe
 #else
                module procedure stdlib_zlaqhe
@@ -10113,8 +10149,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: ap
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: ap(*)
                end subroutine claqhp
 #else
                module procedure stdlib_claqhp
@@ -10126,8 +10162,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: ap
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: ap(*)
                end subroutine zlaqhp
 #else
                module procedure stdlib_zlaqhp
@@ -10148,9 +10184,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: kb,lda,ldf,m,n,nb,offset,jpvt
-                    real(sp) :: vn1,vn2
-                    complex(sp) :: a,lda,auxv,f,ldf,tau
+                    integer(ilp) :: kb,lda,ldf,m,n,nb,offset,jpvt(*)
+                    real(sp) :: vn1(*),vn2(*)
+                    complex(sp) :: a(lda,*),auxv(*),f(ldf,*),tau(*)
                end subroutine claqps
 #else
                module procedure stdlib_claqps
@@ -10160,8 +10196,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: kb,lda,ldf,m,n,nb,offset,jpvt
-                    real(dp) :: a,lda,auxv,f,ldf,tau,vn1,vn2
+                    integer(ilp) :: kb,lda,ldf,m,n,nb,offset,jpvt(*)
+                    real(dp) :: a(lda,*),auxv(*),f(ldf,*),tau(*),vn1(*),vn2(*)
                end subroutine dlaqps
 #else
                module procedure stdlib_dlaqps
@@ -10172,8 +10208,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: kb,lda,ldf,m,n,nb,offset,jpvt
-                    real(sp) :: a,lda,auxv,f,ldf,tau,vn1,vn2
+                    integer(ilp) :: kb,lda,ldf,m,n,nb,offset,jpvt(*)
+                    real(sp) :: a(lda,*),auxv(*),f(ldf,*),tau(*),vn1(*),vn2(*)
                end subroutine slaqps
 #else
                module procedure stdlib_slaqps
@@ -10184,9 +10220,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: kb,lda,ldf,m,n,nb,offset,jpvt
-                    real(dp) :: vn1,vn2
-                    complex(dp) :: a,lda,auxv,f,ldf,tau
+                    integer(ilp) :: kb,lda,ldf,m,n,nb,offset,jpvt(*)
+                    real(dp) :: vn1(*),vn2(*)
+                    complex(dp) :: a(lda,*),auxv(*),f(ldf,*),tau(*)
                end subroutine zlaqps
 #else
                module procedure stdlib_zlaqps
@@ -10209,7 +10245,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
                     logical(lk) :: wantt,wantz
-                    complex(sp) :: h,ldh,w,work,z,ldz
+                    complex(sp) :: h(ldh,*),w(*),work(*),z(ldz,*)
                end subroutine claqr0
 #else
                module procedure stdlib_claqr0
@@ -10221,7 +10257,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
                     logical(lk) :: wantt,wantz
-                    real(dp) :: h,ldh,wi,work,wr,z,ldz
+                    real(dp) :: h(ldh,*),wi(*),work(*),wr(*),z(ldz,*)
                end subroutine dlaqr0
 #else
                module procedure stdlib_dlaqr0
@@ -10234,7 +10270,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
                     logical(lk) :: wantt,wantz
-                    real(sp) :: h,ldh,wi,work,wr,z,ldz
+                    real(sp) :: h(ldh,*),wi(*),work(*),wr(*),z(ldz,*)
                end subroutine slaqr0
 #else
                module procedure stdlib_slaqr0
@@ -10247,7 +10283,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
                     logical(lk) :: wantt,wantz
-                    complex(dp) :: h,ldh,w,work,z,ldz
+                    complex(dp) :: h(ldh,*),w(*),work(*),z(ldz,*)
                end subroutine zlaqr0
 #else
                module procedure stdlib_zlaqr0
@@ -10265,7 +10301,7 @@ module stdlib_linalg_lapack
                subroutine claqr1(n,h,ldh,s1,s2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: s1,s2,h,ldh,v
+                    complex(sp) :: s1,s2,h(ldh,*),v(*)
                     integer(ilp) :: ldh,n
                end subroutine claqr1
 #else
@@ -10275,7 +10311,7 @@ module stdlib_linalg_lapack
                subroutine dlaqr1(n,h,ldh,sr1,si1,sr2,si2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: si1,si2,sr1,sr2,h,ldh,v
+                    real(dp) :: si1,si2,sr1,sr2,h(ldh,*),v(*)
                     integer(ilp) :: ldh,n
                end subroutine dlaqr1
 #else
@@ -10286,7 +10322,7 @@ module stdlib_linalg_lapack
                subroutine slaqr1(n,h,ldh,sr1,si1,sr2,si2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: si1,si2,sr1,sr2,h,ldh,v
+                    real(sp) :: si1,si2,sr1,sr2,h(ldh,*),v(*)
                     integer(ilp) :: ldh,n
                end subroutine slaqr1
 #else
@@ -10297,7 +10333,7 @@ module stdlib_linalg_lapack
                subroutine zlaqr1(n,h,ldh,s1,s2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: s1,s2,h,ldh,v
+                    complex(dp) :: s1,s2,h(ldh,*),v(*)
                     integer(ilp) :: ldh,n
                end subroutine zlaqr1
 #else
@@ -10327,7 +10363,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
                     logical(lk) :: wantt,wantz
-                    complex(sp) :: h,ldh,w,work,z,ldz
+                    complex(sp) :: h(ldh,*),w(*),work(*),z(ldz,*)
                end subroutine claqr4
 #else
                module procedure stdlib_claqr4
@@ -10339,7 +10375,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
                     logical(lk) :: wantt,wantz
-                    real(dp) :: h,ldh,wi,work,wr,z,ldz
+                    real(dp) :: h(ldh,*),wi(*),work(*),wr(*),z(ldz,*)
                end subroutine dlaqr4
 #else
                module procedure stdlib_dlaqr4
@@ -10352,7 +10388,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
                     logical(lk) :: wantt,wantz
-                    real(sp) :: h,ldh,wi,work,wr,z,ldz
+                    real(sp) :: h(ldh,*),wi(*),work(*),wr(*),z(ldz,*)
                end subroutine slaqr4
 #else
                module procedure stdlib_slaqr4
@@ -10365,7 +10401,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
                     logical(lk) :: wantt,wantz
-                    complex(dp) :: h,ldh,w,work,z,ldz
+                    complex(dp) :: h(ldh,*),w(*),work(*),z(ldz,*)
                end subroutine zlaqr4
 #else
                module procedure stdlib_zlaqr4
@@ -10383,7 +10419,8 @@ module stdlib_linalg_lapack
                     integer(ilp) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv,ldz,n,nh, &
                               nshfts,nv
                     logical(lk) :: wantt,wantz
-                    complex(sp) :: h,ldh,s,u,ldu,v,ldv,wh,ldwh,wv,ldwv,z,ldz
+                    complex(sp) :: h(ldh,*),s(*),u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv,*),z(ldz,*)
+                              
                end subroutine claqr5
 #else
                module procedure stdlib_claqr5
@@ -10396,7 +10433,8 @@ module stdlib_linalg_lapack
                     integer(ilp) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv,ldz,n,nh, &
                               nshfts,nv
                     logical(lk) :: wantt,wantz
-                    real(dp) :: h,ldh,si,sr,u,ldu,v,ldv,wh,ldwh,wv,ldwv,z,ldz
+                    real(dp) :: h(ldh,*),si(*),sr(*),u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv,*),z( &
+                              ldz,*)
                end subroutine dlaqr5
 #else
                module procedure stdlib_dlaqr5
@@ -10410,7 +10448,8 @@ module stdlib_linalg_lapack
                     integer(ilp) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv,ldz,n,nh, &
                               nshfts,nv
                     logical(lk) :: wantt,wantz
-                    real(sp) :: h,ldh,si,sr,u,ldu,v,ldv,wh,ldwh,wv,ldwv,z,ldz
+                    real(sp) :: h(ldh,*),si(*),sr(*),u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv,*),z( &
+                              ldz,*)
                end subroutine slaqr5
 #else
                module procedure stdlib_slaqr5
@@ -10424,7 +10463,8 @@ module stdlib_linalg_lapack
                     integer(ilp) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv,ldz,n,nh, &
                               nshfts,nv
                     logical(lk) :: wantt,wantz
-                    complex(dp) :: h,ldh,s,u,ldu,v,ldv,wh,ldwh,wv,ldwv,z,ldz
+                    complex(dp) :: h(ldh,*),s(*),u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv,*),z(ldz,*)
+                              
                end subroutine zlaqr5
 #else
                module procedure stdlib_zlaqr5
@@ -10440,8 +10480,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: kd,ldab,n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: ab,ldab
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: ab(ldab,*)
                end subroutine claqsb
 #else
                module procedure stdlib_claqsb
@@ -10452,7 +10492,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: kd,ldab,n
-                    real(dp) :: amax,scond,ab,ldab,s
+                    real(dp) :: amax,scond,ab(ldab,*),s(*)
                end subroutine dlaqsb
 #else
                module procedure stdlib_dlaqsb
@@ -10464,7 +10504,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: kd,ldab,n
-                    real(sp) :: amax,scond,ab,ldab,s
+                    real(sp) :: amax,scond,ab(ldab,*),s(*)
                end subroutine slaqsb
 #else
                module procedure stdlib_slaqsb
@@ -10476,8 +10516,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: kd,ldab,n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: ab,ldab
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: ab(ldab,*)
                end subroutine zlaqsb
 #else
                module procedure stdlib_zlaqsb
@@ -10493,8 +10533,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: ap
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: ap(*)
                end subroutine claqsp
 #else
                module procedure stdlib_claqsp
@@ -10505,7 +10545,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: n
-                    real(dp) :: amax,scond,ap,s
+                    real(dp) :: amax,scond,ap(*),s(*)
                end subroutine dlaqsp
 #else
                module procedure stdlib_dlaqsp
@@ -10517,7 +10557,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: n
-                    real(sp) :: amax,scond,ap,s
+                    real(sp) :: amax,scond,ap(*),s(*)
                end subroutine slaqsp
 #else
                module procedure stdlib_slaqsp
@@ -10529,8 +10569,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: ap
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: ap(*)
                end subroutine zlaqsp
 #else
                module procedure stdlib_zlaqsp
@@ -10546,8 +10586,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: lda,n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: a,lda
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: a(lda,*)
                end subroutine claqsy
 #else
                module procedure stdlib_claqsy
@@ -10558,7 +10598,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: lda,n
-                    real(dp) :: amax,scond,a,lda,s
+                    real(dp) :: amax,scond,a(lda,*),s(*)
                end subroutine dlaqsy
 #else
                module procedure stdlib_dlaqsy
@@ -10570,7 +10610,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: lda,n
-                    real(sp) :: amax,scond,a,lda,s
+                    real(sp) :: amax,scond,a(lda,*),s(*)
                end subroutine slaqsy
 #else
                module procedure stdlib_slaqsy
@@ -10582,8 +10622,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: equed,uplo
                     integer(ilp) :: lda,n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: a,lda
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zlaqsy
 #else
                module procedure stdlib_zlaqsy
@@ -10615,7 +10655,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: lreal,ltran
                     integer(ilp) :: info,ldt,n
-                    real(dp) :: scale,w,b,t,ldt,work,x
+                    real(dp) :: scale,w,b(*),t(ldt,*),work(*),x(*)
                end subroutine dlaqtr
 #else
                module procedure stdlib_dlaqtr
@@ -10627,7 +10667,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: lreal,ltran
                     integer(ilp) :: info,ldt,n
-                    real(sp) :: scale,w,b,t,ldt,work,x
+                    real(sp) :: scale,w,b(*),t(ldt,*),work(*),x(*)
                end subroutine slaqtr
 #else
                module procedure stdlib_slaqtr
@@ -10680,8 +10720,8 @@ module stdlib_linalg_lapack
                          alpha,beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a,lda,b,ldb,q, &
-                              ldq,z,ldz,alpha,beta,work,rwork
+                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a(lda,*),b( &
+                              ldb,*),q(ldq,*),z(ldz,*),alpha(*),beta(*),work(*),rwork(*)
                end subroutine claqz0
 #else
                module procedure stdlib_claqz0
@@ -10691,8 +10731,8 @@ module stdlib_linalg_lapack
                          alphar,alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a,lda,b,ldb,q, &
-                              ldq,z,ldz,alphar,alphai,beta,work
+                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a(lda,*),b( &
+                              ldb,*),q(ldq,*),z(ldz,*),alphar(*),alphai(*),beta(*),work(*)
                end subroutine dlaqz0
 #else
                module procedure stdlib_dlaqz0
@@ -10703,8 +10743,8 @@ module stdlib_linalg_lapack
                          alphar,alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a,lda,b,ldb,q, &
-                              ldq,z,ldz,alphar,alphai,beta,work
+                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a(lda,*),b( &
+                              ldb,*),q(ldq,*),z(ldz,*),alphar(*),alphai(*),beta(*),work(*)
                end subroutine slaqz0
 #else
                module procedure stdlib_slaqz0
@@ -10715,8 +10755,8 @@ module stdlib_linalg_lapack
                          alpha,beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a,lda,b,ldb,q, &
-                              ldq,z,ldz,alpha,beta,work,rwork
+                    ) :: wants,wantq,wantz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,rec,info,a(lda,*),b( &
+                              ldb,*),q(ldq,*),z(ldz,*),alpha(*),beta(*),work(*),rwork(*)
                end subroutine zlaqz0
 #else
                module procedure stdlib_zlaqz0
@@ -10731,7 +10771,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     ) :: ilq,ilz,k,lda,ldb,ldq,ldz,istartm,istopm,nq,nz,qstart,zstart,ihi
-                    complex(sp) :: a,lda,b,ldb,q,ldq,z,ldz
+                    complex(sp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine claqz1
 #else
                module procedure stdlib_claqz1
@@ -10740,7 +10780,7 @@ module stdlib_linalg_lapack
                subroutine dlaqz1(a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: lda,ldb,a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v
+                    ) :: lda,ldb,a(lda,*),b(ldb,*),sr1,sr2,si,beta1,beta2,v(*)
                end subroutine dlaqz1
 #else
                module procedure stdlib_dlaqz1
@@ -10750,7 +10790,7 @@ module stdlib_linalg_lapack
                subroutine slaqz1(a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    ) :: lda,ldb,a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v
+                    ) :: lda,ldb,a(lda,*),b(ldb,*),sr1,sr2,si,beta1,beta2,v(*)
                end subroutine slaqz1
 #else
                module procedure stdlib_slaqz1
@@ -10762,7 +10802,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     ) :: ilq,ilz,k,lda,ldb,ldq,ldz,istartm,istopm,nq,nz,qstart,zstart,ihi
-                    complex(dp) :: a,lda,b,ldb,q,ldq,z,ldz
+                    complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine zlaqz1
 #else
                module procedure stdlib_zlaqz1
@@ -10777,7 +10817,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     ) :: ilschur,ilq,ilz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,nshifts,nblock_desired, &
-                              ldqc,ldzc,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,sr,si,ss,info
+                    ldqc,ldzc,a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),qc(ldqc,*),zc(ldzc,*),work(*), &
+                              sr(*),si(*),ss(*),info
                end subroutine dlaqz4
 #else
                module procedure stdlib_dlaqz4
@@ -10789,7 +10830,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     ) :: ilschur,ilq,ilz,n,ilo,ihi,lda,ldb,ldq,ldz,lwork,nshifts,nblock_desired, &
-                              ldqc,ldzc,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,sr,si,ss,info
+                    ldqc,ldzc,a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),qc(ldqc,*),zc(ldzc,*),work(*), &
+                              sr(*),si(*),ss(*),info
                end subroutine slaqz4
 #else
                module procedure stdlib_slaqz4
@@ -10818,10 +10860,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: wantnc
-                    integer(ilp) :: b1,bn,n,negcnt,r,isuppz
-                    real(sp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz,d,l,ld,lld, &
-                              work
-                    complex(sp) :: z
+                    integer(ilp) :: b1,bn,n,negcnt,r,isuppz(*)
+                    real(sp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz,d(*),l(*),ld( &
+                              *),lld(*),work(*)
+                    complex(sp) :: z(*)
                end subroutine clar1v
 #else
                module procedure stdlib_clar1v
@@ -10832,9 +10874,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: wantnc
-                    integer(ilp) :: b1,bn,n,negcnt,r,isuppz
-                    real(dp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz,d,l,ld,lld, &
-                              work,z
+                    integer(ilp) :: b1,bn,n,negcnt,r,isuppz(*)
+                    real(dp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz,d(*),l(*),ld( &
+                              *),lld(*),work(*),z(*)
                end subroutine dlar1v
 #else
                module procedure stdlib_dlar1v
@@ -10846,9 +10888,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: wantnc
-                    integer(ilp) :: b1,bn,n,negcnt,r,isuppz
-                    real(sp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz,d,l,ld,lld, &
-                              work,z
+                    integer(ilp) :: b1,bn,n,negcnt,r,isuppz(*)
+                    real(sp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz,d(*),l(*),ld( &
+                              *),lld(*),work(*),z(*)
                end subroutine slar1v
 #else
                module procedure stdlib_slar1v
@@ -10860,10 +10902,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk) :: wantnc
-                    integer(ilp) :: b1,bn,n,negcnt,r,isuppz
-                    real(dp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz,d,l,ld,lld, &
-                              work
-                    complex(dp) :: z
+                    integer(ilp) :: b1,bn,n,negcnt,r,isuppz(*)
+                    real(dp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz,d(*),l(*),ld( &
+                              *),lld(*),work(*)
+                    complex(dp) :: z(*)
                end subroutine zlar1v
 #else
                module procedure stdlib_zlar1v
@@ -10883,8 +10925,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,n
-                    real(sp) :: c
-                    complex(sp) :: s,x,y,z
+                    real(sp) :: c(*)
+                    complex(sp) :: s(*),x(*),y(*),z(*)
                end subroutine clar2v
 #else
                module procedure stdlib_clar2v
@@ -10894,7 +10936,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,n
-                    real(dp) :: c,s,x,y,z
+                    real(dp) :: c(*),s(*),x(*),y(*),z(*)
                end subroutine dlar2v
 #else
                module procedure stdlib_dlar2v
@@ -10905,7 +10947,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,n
-                    real(sp) :: c,s,x,y,z
+                    real(sp) :: c(*),s(*),x(*),y(*),z(*)
                end subroutine slar2v
 #else
                module procedure stdlib_slar2v
@@ -10916,8 +10958,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,n
-                    real(dp) :: c
-                    complex(dp) :: s,x,y,z
+                    real(dp) :: c(*)
+                    complex(dp) :: s(*),x(*),y(*),z(*)
                end subroutine zlar2v
 #else
                module procedure stdlib_zlar2v
@@ -10934,8 +10976,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: lda,ldb,ldc,m,n
-                    real(sp) :: a,lda,rwork
-                    complex(sp) :: b,ldb,c,ldc
+                    real(sp) :: a(lda,*),rwork(*)
+                    complex(sp) :: b(ldb,*),c(ldc,*)
                end subroutine clarcm
 #else
                module procedure stdlib_clarcm
@@ -10946,8 +10988,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: lda,ldb,ldc,m,n
-                    real(dp) :: a,lda,rwork
-                    complex(dp) :: b,ldb,c,ldc
+                    real(dp) :: a(lda,*),rwork(*)
+                    complex(dp) :: b(ldb,*),c(ldc,*)
                end subroutine zlarcm
 #else
                module procedure stdlib_zlarcm
@@ -10969,7 +11011,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side
                     integer(ilp) :: incv,ldc,m,n
-                    complex(sp) :: tau,c,ldc,v,work
+                    complex(sp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine clarf
 #else
                module procedure stdlib_clarf
@@ -10980,7 +11022,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side
                     integer(ilp) :: incv,ldc,m,n
-                    real(dp) :: tau,c,ldc,v,work
+                    real(dp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine dlarf
 #else
                module procedure stdlib_dlarf
@@ -10992,7 +11034,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side
                     integer(ilp) :: incv,ldc,m,n
-                    real(sp) :: tau,c,ldc,v,work
+                    real(sp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine slarf
 #else
                module procedure stdlib_slarf
@@ -11004,7 +11046,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side
                     integer(ilp) :: incv,ldc,m,n
-                    complex(dp) :: tau,c,ldc,v,work
+                    complex(dp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine zlarf
 #else
                module procedure stdlib_zlarf
@@ -11021,7 +11063,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,ldc,ldt,ldv,ldwork,m,n
-                    complex(sp) :: c,ldc,t,ldt,v,ldv,work,ldwork
+                    complex(sp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine clarfb
 #else
                module procedure stdlib_clarfb
@@ -11033,7 +11075,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,ldc,ldt,ldv,ldwork,m,n
-                    real(dp) :: c,ldc,t,ldt,v,ldv,work,ldwork
+                    real(dp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine dlarfb
 #else
                module procedure stdlib_dlarfb
@@ -11046,7 +11088,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,ldc,ldt,ldv,ldwork,m,n
-                    real(sp) :: c,ldc,t,ldt,v,ldv,work,ldwork
+                    real(sp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine slarfb
 #else
                module procedure stdlib_slarfb
@@ -11059,7 +11101,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,ldc,ldt,ldv,ldwork,m,n
-                    complex(dp) :: c,ldc,t,ldt,v,ldv,work,ldwork
+                    complex(dp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine zlarfb
 #else
                module procedure stdlib_zlarfb
@@ -11081,7 +11123,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: ident
                     integer(ilp) :: k,lda,ldb,ldt,ldwork,m,n
-                    complex(sp) :: a,lda,b,ldb,t,ldt,work,ldwork
+                    complex(sp) :: a(lda,*),b(ldb,*),t(ldt,*),work(ldwork,*)
                end subroutine clarfb_gett
 #else
                module procedure stdlib_clarfb_gett
@@ -11093,7 +11135,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: ident
                     integer(ilp) :: k,lda,ldb,ldt,ldwork,m,n
-                    real(dp) :: a,lda,b,ldb,t,ldt,work,ldwork
+                    real(dp) :: a(lda,*),b(ldb,*),t(ldt,*),work(ldwork,*)
                end subroutine dlarfb_gett
 #else
                module procedure stdlib_dlarfb_gett
@@ -11106,7 +11148,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: ident
                     integer(ilp) :: k,lda,ldb,ldt,ldwork,m,n
-                    real(sp) :: a,lda,b,ldb,t,ldt,work,ldwork
+                    real(sp) :: a(lda,*),b(ldb,*),t(ldt,*),work(ldwork,*)
                end subroutine slarfb_gett
 #else
                module procedure stdlib_slarfb_gett
@@ -11119,7 +11161,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: ident
                     integer(ilp) :: k,lda,ldb,ldt,ldwork,m,n
-                    complex(dp) :: a,lda,b,ldb,t,ldt,work,ldwork
+                    complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*),work(ldwork,*)
                end subroutine zlarfb_gett
 #else
                module procedure stdlib_zlarfb_gett
@@ -11145,7 +11187,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    complex(sp) :: alpha,tau,x
+                    complex(sp) :: alpha,tau,x(*)
                end subroutine clarfg
 #else
                module procedure stdlib_clarfg
@@ -11155,7 +11197,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    real(dp) :: alpha,tau,x
+                    real(dp) :: alpha,tau,x(*)
                end subroutine dlarfg
 #else
                module procedure stdlib_dlarfg
@@ -11166,7 +11208,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    real(sp) :: alpha,tau,x
+                    real(sp) :: alpha,tau,x(*)
                end subroutine slarfg
 #else
                module procedure stdlib_slarfg
@@ -11177,7 +11219,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    complex(dp) :: alpha,tau,x
+                    complex(dp) :: alpha,tau,x(*)
                end subroutine zlarfg
 #else
                module procedure stdlib_zlarfg
@@ -11202,7 +11244,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    complex(sp) :: alpha,tau,x
+                    complex(sp) :: alpha,tau,x(*)
                end subroutine clarfgp
 #else
                module procedure stdlib_clarfgp
@@ -11212,7 +11254,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    real(dp) :: alpha,tau,x
+                    real(dp) :: alpha,tau,x(*)
                end subroutine dlarfgp
 #else
                module procedure stdlib_dlarfgp
@@ -11223,7 +11265,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    real(sp) :: alpha,tau,x
+                    real(sp) :: alpha,tau,x(*)
                end subroutine slarfgp
 #else
                module procedure stdlib_slarfgp
@@ -11234,7 +11276,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    complex(dp) :: alpha,tau,x
+                    complex(dp) :: alpha,tau,x(*)
                end subroutine zlarfgp
 #else
                module procedure stdlib_zlarfgp
@@ -11258,7 +11300,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,storev
                     integer(ilp) :: k,ldt,ldv,n
-                    complex(sp) :: t,ldt,tau,v,ldv
+                    complex(sp) :: t(ldt,*),tau(*),v(ldv,*)
                end subroutine clarft
 #else
                module procedure stdlib_clarft
@@ -11269,7 +11311,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,storev
                     integer(ilp) :: k,ldt,ldv,n
-                    real(dp) :: t,ldt,tau,v,ldv
+                    real(dp) :: t(ldt,*),tau(*),v(ldv,*)
                end subroutine dlarft
 #else
                module procedure stdlib_dlarft
@@ -11281,7 +11323,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,storev
                     integer(ilp) :: k,ldt,ldv,n
-                    real(sp) :: t,ldt,tau,v,ldv
+                    real(sp) :: t(ldt,*),tau(*),v(ldv,*)
                end subroutine slarft
 #else
                module procedure stdlib_slarft
@@ -11293,7 +11335,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,storev
                     integer(ilp) :: k,ldt,ldv,n
-                    complex(dp) :: t,ldt,tau,v,ldv
+                    complex(dp) :: t(ldt,*),tau(*),v(ldv,*)
                end subroutine zlarft
 #else
                module procedure stdlib_zlarft
@@ -11313,7 +11355,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incv,ldc,n
-                    complex(sp) :: tau,c,ldc,v,work
+                    complex(sp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine clarfy
 #else
                module procedure stdlib_clarfy
@@ -11324,7 +11366,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incv,ldc,n
-                    real(dp) :: tau,c,ldc,v,work
+                    real(dp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine dlarfy
 #else
                module procedure stdlib_dlarfy
@@ -11336,7 +11378,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incv,ldc,n
-                    real(sp) :: tau,c,ldc,v,work
+                    real(sp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine slarfy
 #else
                module procedure stdlib_slarfy
@@ -11348,7 +11390,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incv,ldc,n
-                    complex(dp) :: tau,c,ldc,v,work
+                    complex(dp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine zlarfy
 #else
                module procedure stdlib_zlarfy
@@ -11371,8 +11413,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,incy,n
-                    real(sp) :: c
-                    complex(sp) :: x,y
+                    real(sp) :: c(*)
+                    complex(sp) :: x(*),y(*)
                end subroutine clargv
 #else
                module procedure stdlib_clargv
@@ -11382,7 +11424,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,incy,n
-                    real(dp) :: c,x,y
+                    real(dp) :: c(*),x(*),y(*)
                end subroutine dlargv
 #else
                module procedure stdlib_dlargv
@@ -11393,7 +11435,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,incy,n
-                    real(sp) :: c,x,y
+                    real(sp) :: c(*),x(*),y(*)
                end subroutine slargv
 #else
                module procedure stdlib_slargv
@@ -11404,8 +11446,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,incy,n
-                    real(dp) :: c
-                    complex(dp) :: x,y
+                    real(dp) :: c(*)
+                    complex(dp) :: x(*),y(*)
                end subroutine zlargv
 #else
                module procedure stdlib_zlargv
@@ -11419,8 +11461,8 @@ module stdlib_linalg_lapack
                subroutine clarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: idist,n,iseed
-                    complex(sp) :: x
+                    integer(ilp) :: idist,n,iseed(4)
+                    complex(sp) :: x(*)
                end subroutine clarnv
 #else
                module procedure stdlib_clarnv
@@ -11429,8 +11471,8 @@ module stdlib_linalg_lapack
                subroutine dlarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: idist,n,iseed
-                    real(dp) :: x
+                    integer(ilp) :: idist,n,iseed(4)
+                    real(dp) :: x(*)
                end subroutine dlarnv
 #else
                module procedure stdlib_dlarnv
@@ -11440,8 +11482,8 @@ module stdlib_linalg_lapack
                subroutine slarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: idist,n,iseed
-                    real(sp) :: x
+                    integer(ilp) :: idist,n,iseed(4)
+                    real(sp) :: x(*)
                end subroutine slarnv
 #else
                module procedure stdlib_slarnv
@@ -11451,8 +11493,8 @@ module stdlib_linalg_lapack
                subroutine zlarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: idist,n,iseed
-                    complex(dp) :: x
+                    integer(ilp) :: idist,n,iseed(4)
+                    complex(dp) :: x(*)
                end subroutine zlarnv
 #else
                module procedure stdlib_zlarnv
@@ -11466,8 +11508,8 @@ module stdlib_linalg_lapack
                subroutine dlarra(n,d,e,e2,spltol,tnrm,nsplit,isplit,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,n,nsplit,isplit
-                    real(dp) :: spltol,tnrm,d,e,e2
+                    integer(ilp) :: info,n,nsplit,isplit(*)
+                    real(dp) :: spltol,tnrm,d(*),e(*),e2(*)
                end subroutine dlarra
 #else
                module procedure stdlib_dlarra
@@ -11477,8 +11519,8 @@ module stdlib_linalg_lapack
                subroutine slarra(n,d,e,e2,spltol,tnrm,nsplit,isplit,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,n,nsplit,isplit
-                    real(sp) :: spltol,tnrm,d,e,e2
+                    integer(ilp) :: info,n,nsplit,isplit(*)
+                    real(sp) :: spltol,tnrm,d(*),e(*),e2(*)
                end subroutine slarra
 #else
                module procedure stdlib_slarra
@@ -11499,8 +11541,9 @@ module stdlib_linalg_lapack
                          work,iwork,pivmin,spdiam,twist,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ifirst,ilast,info,n,offset,twist,iwork
-                    real(dp) :: pivmin,rtol1,rtol2,spdiam,d,lld,w,werr,wgap,work
+                    integer(ilp) :: ifirst,ilast,info,n,offset,twist,iwork(*)
+                    real(dp) :: pivmin,rtol1,rtol2,spdiam,d(*),lld(*),w(*),werr(*),wgap(*),work(*)
+                              
                end subroutine dlarrb
 #else
                module procedure stdlib_dlarrb
@@ -11511,8 +11554,9 @@ module stdlib_linalg_lapack
                          work,iwork,pivmin,spdiam,twist,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ifirst,ilast,info,n,offset,twist,iwork
-                    real(sp) :: pivmin,rtol1,rtol2,spdiam,d,lld,w,werr,wgap,work
+                    integer(ilp) :: ifirst,ilast,info,n,offset,twist,iwork(*)
+                    real(sp) :: pivmin,rtol1,rtol2,spdiam,d(*),lld(*),w(*),werr(*),wgap(*),work(*)
+                              
                end subroutine slarrb
 #else
                module procedure stdlib_slarrb
@@ -11529,7 +11573,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobt
                     integer(ilp) :: eigcnt,info,lcnt,n,rcnt
-                    real(dp) :: pivmin,vl,vu,d,e
+                    real(dp) :: pivmin,vl,vu,d(*),e(*)
                end subroutine dlarrc
 #else
                module procedure stdlib_dlarrc
@@ -11541,7 +11585,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobt
                     integer(ilp) :: eigcnt,info,lcnt,n,rcnt
-                    real(sp) :: pivmin,vl,vu,d,e
+                    real(sp) :: pivmin,vl,vu,d(*),e(*)
                end subroutine slarrc
 #else
                module procedure stdlib_slarrc
@@ -11567,8 +11611,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: order,range
-                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock,indexw,isplit,iwork
-                    real(dp) :: pivmin,reltol,vl,vu,wl,wu,d,e,e2,gers,w,werr,work
+                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock(*),indexw(*),isplit(*),iwork(*)
+                              
+                    real(dp) :: pivmin,reltol,vl,vu,wl,wu,d(*),e(*),e2(*),gers(*),w(*),werr(*), &
+                              work(*)
                end subroutine dlarrd
 #else
                module procedure stdlib_dlarrd
@@ -11580,8 +11626,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: order,range
-                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock,indexw,isplit,iwork
-                    real(sp) :: pivmin,reltol,vl,vu,wl,wu,d,e,e2,gers,w,werr,work
+                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock(*),indexw(*),isplit(*),iwork(*)
+                              
+                    real(sp) :: pivmin,reltol,vl,vu,wl,wu,d(*),e(*),e2(*),gers(*),w(*),werr(*), &
+                              work(*)
                end subroutine slarrd
 #else
                module procedure stdlib_slarrd
@@ -11608,9 +11656,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: range
-                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock,isplit,iwork,indexw
-                    real(dp) :: pivmin,rtol1,rtol2,spltol,vl,vu,d,e,e2,gers,w,werr,wgap, &
-                              work
+                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock(*),isplit(*),iwork(*),indexw(*)
+                              
+                    real(dp) :: pivmin,rtol1,rtol2,spltol,vl,vu,d(*),e(*),e2(*),gers(*),w(*),werr( &
+                              *),wgap(*),work(*)
                end subroutine dlarre
 #else
                module procedure stdlib_dlarre
@@ -11622,9 +11671,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: range
-                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock,isplit,iwork,indexw
-                    real(sp) :: pivmin,rtol1,rtol2,spltol,vl,vu,d,e,e2,gers,w,werr,wgap, &
-                              work
+                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock(*),isplit(*),iwork(*),indexw(*)
+                              
+                    real(sp) :: pivmin,rtol1,rtol2,spltol,vl,vu,d(*),e(*),e2(*),gers(*),w(*),werr( &
+                              *),wgap(*),work(*)
                end subroutine slarre
 #else
                module procedure stdlib_slarre
@@ -11643,8 +11693,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: clstrt,clend,info,n
-                    real(dp) :: clgapl,clgapr,pivmin,sigma,spdiam,d,dplus,l,ld,lplus,w,wgap,werr, &
-                              work
+                    real(dp) :: clgapl,clgapr,pivmin,sigma,spdiam,d(*),dplus(*),l(*),ld(*),lplus( &
+                              *),w(*),wgap(*),werr(*),work(*)
                end subroutine dlarrf
 #else
                module procedure stdlib_dlarrf
@@ -11656,8 +11706,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: clstrt,clend,info,n
-                    real(sp) :: clgapl,clgapr,pivmin,sigma,spdiam,d,dplus,l,ld,lplus,w,wgap,werr, &
-                              work
+                    real(sp) :: clgapl,clgapr,pivmin,sigma,spdiam,d(*),dplus(*),l(*),ld(*),lplus( &
+                              *),w(*),wgap(*),werr(*),work(*)
                end subroutine slarrf
 #else
                module procedure stdlib_slarrf
@@ -11677,8 +11727,8 @@ module stdlib_linalg_lapack
                          pivmin,spdiam,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ifirst,ilast,info,n,offset,iwork
-                    real(dp) :: pivmin,rtol,spdiam,d,e2,w,werr,work
+                    integer(ilp) :: ifirst,ilast,info,n,offset,iwork(*)
+                    real(dp) :: pivmin,rtol,spdiam,d(*),e2(*),w(*),werr(*),work(*)
                end subroutine dlarrj
 #else
                module procedure stdlib_dlarrj
@@ -11689,8 +11739,8 @@ module stdlib_linalg_lapack
                          pivmin,spdiam,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ifirst,ilast,info,n,offset,iwork
-                    real(sp) :: pivmin,rtol,spdiam,d,e2,w,werr,work
+                    integer(ilp) :: ifirst,ilast,info,n,offset,iwork(*)
+                    real(sp) :: pivmin,rtol,spdiam,d(*),e2(*),w(*),werr(*),work(*)
                end subroutine slarrj
 #else
                module procedure stdlib_slarrj
@@ -11712,7 +11762,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,iw,n
-                    real(dp) :: pivmin,reltol,gl,gu,w,werr,d,e2
+                    real(dp) :: pivmin,reltol,gl,gu,w,werr,d(*),e2(*)
                end subroutine dlarrk
 #else
                module procedure stdlib_dlarrk
@@ -11723,7 +11773,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,iw,n
-                    real(sp) :: pivmin,reltol,gl,gu,w,werr,d,e2
+                    real(sp) :: pivmin,reltol,gl,gu,w,werr,d(*),e2(*)
                end subroutine slarrk
 #else
                module procedure stdlib_slarrk
@@ -11739,7 +11789,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,info
-                    real(dp) :: d,e
+                    real(dp) :: d(*),e(*)
                end subroutine dlarrr
 #else
                module procedure stdlib_dlarrr
@@ -11750,7 +11800,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: n,info
-                    real(sp) :: d,e
+                    real(sp) :: d(*),e(*)
                end subroutine slarrr
 #else
                module procedure stdlib_slarrr
@@ -11767,9 +11817,11 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: dol,dou,info,ldz,m,n,iblock,indexw,isplit,isuppz,iwork
-                    real(sp) :: minrgp,pivmin,rtol1,rtol2,vl,vu,d,gers,l,w,werr,wgap,work
-                    complex(sp) :: z,ldz
+                    integer(ilp) :: dol,dou,info,ldz,m,n,iblock(*),indexw(*),isplit(*),isuppz(*), &
+                              iwork(*)
+                    real(sp) :: minrgp,pivmin,rtol1,rtol2,vl,vu,d(*),gers(*),l(*),w(*),werr(*), &
+                              wgap(*),work(*)
+                    complex(sp) :: z(ldz,*)
                end subroutine clarrv
 #else
                module procedure stdlib_clarrv
@@ -11780,9 +11832,10 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: dol,dou,info,ldz,m,n,iblock,indexw,isplit,isuppz,iwork
-                    real(dp) :: minrgp,pivmin,rtol1,rtol2,vl,vu,d,gers,l,w,werr,wgap,work,z, &
-                              ldz
+                    integer(ilp) :: dol,dou,info,ldz,m,n,iblock(*),indexw(*),isplit(*),isuppz(*), &
+                              iwork(*)
+                    real(dp) :: minrgp,pivmin,rtol1,rtol2,vl,vu,d(*),gers(*),l(*),w(*),werr(*), &
+                              wgap(*),work(*),z(ldz,*)
                end subroutine dlarrv
 #else
                module procedure stdlib_dlarrv
@@ -11794,9 +11847,10 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: dol,dou,info,ldz,m,n,iblock,indexw,isplit,isuppz,iwork
-                    real(sp) :: minrgp,pivmin,rtol1,rtol2,vl,vu,d,gers,l,w,werr,wgap,work,z, &
-                              ldz
+                    integer(ilp) :: dol,dou,info,ldz,m,n,iblock(*),indexw(*),isplit(*),isuppz(*), &
+                              iwork(*)
+                    real(sp) :: minrgp,pivmin,rtol1,rtol2,vl,vu,d(*),gers(*),l(*),w(*),werr(*), &
+                              wgap(*),work(*),z(ldz,*)
                end subroutine slarrv
 #else
                module procedure stdlib_slarrv
@@ -11808,9 +11862,11 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: dol,dou,info,ldz,m,n,iblock,indexw,isplit,isuppz,iwork
-                    real(dp) :: minrgp,pivmin,rtol1,rtol2,vl,vu,d,gers,l,w,werr,wgap,work
-                    complex(dp) :: z,ldz
+                    integer(ilp) :: dol,dou,info,ldz,m,n,iblock(*),indexw(*),isplit(*),isuppz(*), &
+                              iwork(*)
+                    real(dp) :: minrgp,pivmin,rtol1,rtol2,vl,vu,d(*),gers(*),l(*),w(*),werr(*), &
+                              wgap(*),work(*)
+                    complex(dp) :: z(ldz,*)
                end subroutine zlarrv
 #else
                module procedure stdlib_zlarrv
@@ -11954,8 +12010,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,incy,n
-                    real(sp) :: c
-                    complex(sp) :: s,x,y
+                    real(sp) :: c(*)
+                    complex(sp) :: s(*),x(*),y(*)
                end subroutine clartv
 #else
                module procedure stdlib_clartv
@@ -11965,7 +12021,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,incy,n
-                    real(dp) :: c,s,x,y
+                    real(dp) :: c(*),s(*),x(*),y(*)
                end subroutine dlartv
 #else
                module procedure stdlib_dlartv
@@ -11976,7 +12032,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,incy,n
-                    real(sp) :: c,s,x,y
+                    real(sp) :: c(*),s(*),x(*),y(*)
                end subroutine slartv
 #else
                module procedure stdlib_slartv
@@ -11987,8 +12043,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incc,incx,incy,n
-                    real(dp) :: c
-                    complex(dp) :: s,x,y
+                    real(dp) :: c(*)
+                    complex(dp) :: s(*),x(*),y(*)
                end subroutine zlartv
 #else
                module procedure stdlib_zlartv
@@ -12003,8 +12059,8 @@ module stdlib_linalg_lapack
                subroutine dlaruv(iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: n,iseed
-                    real(dp) :: x,n
+                    integer(ilp) :: n,iseed(4)
+                    real(dp) :: x(n)
                end subroutine dlaruv
 #else
                module procedure stdlib_dlaruv
@@ -12014,8 +12070,8 @@ module stdlib_linalg_lapack
                subroutine slaruv(iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: n,iseed
-                    real(sp) :: x,n
+                    integer(ilp) :: n,iseed(4)
+                    real(sp) :: x(n)
                end subroutine slaruv
 #else
                module procedure stdlib_slaruv
@@ -12038,7 +12094,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side
                     integer(ilp) :: incv,l,ldc,m,n
-                    complex(sp) :: tau,c,ldc,v,work
+                    complex(sp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine clarz
 #else
                module procedure stdlib_clarz
@@ -12049,7 +12105,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side
                     integer(ilp) :: incv,l,ldc,m,n
-                    real(dp) :: tau,c,ldc,v,work
+                    real(dp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine dlarz
 #else
                module procedure stdlib_dlarz
@@ -12061,7 +12117,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side
                     integer(ilp) :: incv,l,ldc,m,n
-                    real(sp) :: tau,c,ldc,v,work
+                    real(sp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine slarz
 #else
                module procedure stdlib_slarz
@@ -12073,7 +12129,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side
                     integer(ilp) :: incv,l,ldc,m,n
-                    complex(dp) :: tau,c,ldc,v,work
+                    complex(dp) :: tau,c(ldc,*),v(*),work(*)
                end subroutine zlarz
 #else
                module procedure stdlib_zlarz
@@ -12091,7 +12147,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,l,ldc,ldt,ldv,ldwork,m,n
-                    complex(sp) :: c,ldc,t,ldt,v,ldv,work,ldwork
+                    complex(sp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine clarzb
 #else
                module procedure stdlib_clarzb
@@ -12103,7 +12159,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,l,ldc,ldt,ldv,ldwork,m,n
-                    real(dp) :: c,ldc,t,ldt,v,ldv,work,ldwork
+                    real(dp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine dlarzb
 #else
                module procedure stdlib_dlarzb
@@ -12116,7 +12172,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,l,ldc,ldt,ldv,ldwork,m,n
-                    real(sp) :: c,ldc,t,ldt,v,ldv,work,ldwork
+                    real(sp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine slarzb
 #else
                module procedure stdlib_slarzb
@@ -12129,7 +12185,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,l,ldc,ldt,ldv,ldwork,m,n
-                    complex(dp) :: c,ldc,t,ldt,v,ldv,work,ldwork
+                    complex(dp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine zlarzb
 #else
                module procedure stdlib_zlarzb
@@ -12155,7 +12211,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,storev
                     integer(ilp) :: k,ldt,ldv,n
-                    complex(sp) :: t,ldt,tau,v,ldv
+                    complex(sp) :: t(ldt,*),tau(*),v(ldv,*)
                end subroutine clarzt
 #else
                module procedure stdlib_clarzt
@@ -12166,7 +12222,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,storev
                     integer(ilp) :: k,ldt,ldv,n
-                    real(dp) :: t,ldt,tau,v,ldv
+                    real(dp) :: t(ldt,*),tau(*),v(ldv,*)
                end subroutine dlarzt
 #else
                module procedure stdlib_dlarzt
@@ -12178,7 +12234,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,storev
                     integer(ilp) :: k,ldt,ldv,n
-                    real(sp) :: t,ldt,tau,v,ldv
+                    real(sp) :: t(ldt,*),tau(*),v(ldv,*)
                end subroutine slarzt
 #else
                module procedure stdlib_slarzt
@@ -12190,7 +12246,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,storev
                     integer(ilp) :: k,ldt,ldv,n
-                    complex(dp) :: t,ldt,tau,v,ldv
+                    complex(dp) :: t(ldt,*),tau(*),v(ldv,*)
                end subroutine zlarzt
 #else
                module procedure stdlib_zlarzt
@@ -12210,7 +12266,7 @@ module stdlib_linalg_lapack
                     character :: type
                     integer(ilp) :: info,kl,ku,lda,m,n
                     real(sp) :: cfrom,cto
-                    complex(sp) :: a,lda
+                    complex(sp) :: a(lda,*)
                end subroutine clascl
 #else
                module procedure stdlib_clascl
@@ -12221,7 +12277,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: type
                     integer(ilp) :: info,kl,ku,lda,m,n
-                    real(dp) :: cfrom,cto,a,lda
+                    real(dp) :: cfrom,cto,a(lda,*)
                end subroutine dlascl
 #else
                module procedure stdlib_dlascl
@@ -12233,7 +12289,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: type
                     integer(ilp) :: info,kl,ku,lda,m,n
-                    real(sp) :: cfrom,cto,a,lda
+                    real(sp) :: cfrom,cto,a(lda,*)
                end subroutine slascl
 #else
                module procedure stdlib_slascl
@@ -12246,7 +12302,7 @@ module stdlib_linalg_lapack
                     character :: type
                     integer(ilp) :: info,kl,ku,lda,m,n
                     real(dp) :: cfrom,cto
-                    complex(dp) :: a,lda
+                    complex(dp) :: a(lda,*)
                end subroutine zlascl
 #else
                module procedure stdlib_zlascl
@@ -12266,8 +12322,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldu,ldvt,n,smlsiz,sqre,iwork
-                    real(dp) :: d,e,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,ldu,ldvt,n,smlsiz,sqre,iwork(*)
+                    real(dp) :: d(*),e(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine dlasd0
 #else
                module procedure stdlib_dlasd0
@@ -12278,8 +12334,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldu,ldvt,n,smlsiz,sqre,iwork
-                    real(sp) :: d,e,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,ldu,ldvt,n,smlsiz,sqre,iwork(*)
+                    real(sp) :: d(*),e(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine slasd0
 #else
                module procedure stdlib_slasd0
@@ -12321,8 +12377,8 @@ module stdlib_linalg_lapack
                          work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldu,ldvt,nl,nr,sqre,idxq,iwork
-                    real(dp) :: alpha,beta,d,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,ldu,ldvt,nl,nr,sqre,idxq(*),iwork(*)
+                    real(dp) :: alpha,beta,d(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine dlasd1
 #else
                module procedure stdlib_dlasd1
@@ -12333,8 +12389,8 @@ module stdlib_linalg_lapack
                          work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldu,ldvt,nl,nr,sqre,idxq,iwork
-                    real(sp) :: alpha,beta,d,u,ldu,vt,ldvt,work
+                    integer(ilp) :: info,ldu,ldvt,nl,nr,sqre,idxq(*),iwork(*)
+                    real(sp) :: alpha,beta,d(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine slasd1
 #else
                module procedure stdlib_slasd1
@@ -12358,7 +12414,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i,info,n
-                    real(dp) :: rho,sigma,d,delta,work,z
+                    real(dp) :: rho,sigma,d(*),delta(*),work(*),z(*)
                end subroutine dlasd4
 #else
                module procedure stdlib_dlasd4
@@ -12369,7 +12425,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i,info,n
-                    real(sp) :: rho,sigma,d,delta,work,z
+                    real(sp) :: rho,sigma,d(*),delta(*),work(*),z(*)
                end subroutine slasd4
 #else
                module procedure stdlib_slasd4
@@ -12390,7 +12446,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i
-                    real(dp) :: dsigma,rho,d,delta,work,z
+                    real(dp) :: dsigma,rho,d(2),delta(2),work(2),z(2)
                end subroutine dlasd5
 #else
                module procedure stdlib_dlasd5
@@ -12401,7 +12457,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i
-                    real(sp) :: dsigma,rho,d,delta,work,z
+                    real(sp) :: dsigma,rho,d(2),delta(2),work(2),z(2)
                end subroutine slasd5
 #else
                module procedure stdlib_slasd5
@@ -12450,10 +12506,10 @@ module stdlib_linalg_lapack
                           
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: givptr,icompq,info,k,ldgcol,ldgnum,nl,nr,sqre,givcol,ldgcol, &
-                              idxq,iwork,perm
-                    real(dp) :: alpha,beta,c,s,d,difl,difr,givnum,ldgnum,poles,ldgnum,vf,vl,work, &
-                              z
+                    integer(ilp) :: givptr,icompq,info,k,ldgcol,ldgnum,nl,nr,sqre,givcol(ldgcol,*) &
+                              ,idxq(*),iwork(*),perm(*)
+                    real(dp) :: alpha,beta,c,s,d(*),difl(*),difr(*),givnum(ldgnum,*),poles(ldgnum, &
+                              *),vf(*),vl(*),work(*),z(*)
                end subroutine dlasd6
 #else
                module procedure stdlib_dlasd6
@@ -12465,10 +12521,10 @@ module stdlib_linalg_lapack
                           
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: givptr,icompq,info,k,ldgcol,ldgnum,nl,nr,sqre,givcol,ldgcol, &
-                              idxq,iwork,perm
-                    real(sp) :: alpha,beta,c,s,d,difl,difr,givnum,ldgnum,poles,ldgnum,vf,vl,work, &
-                              z
+                    integer(ilp) :: givptr,icompq,info,k,ldgcol,ldgnum,nl,nr,sqre,givcol(ldgcol,*) &
+                              ,idxq(*),iwork(*),perm(*)
+                    real(sp) :: alpha,beta,c,s,d(*),difl(*),difr(*),givnum(ldgnum,*),poles(ldgnum, &
+                              *),vf(*),vl(*),work(*),z(*)
                end subroutine slasd6
 #else
                module procedure stdlib_slasd6
@@ -12489,9 +12545,10 @@ module stdlib_linalg_lapack
                           
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: givptr,icompq,info,k,ldgcol,ldgnum,nl,nr,sqre,givcol,ldgcol, &
-                              idx,idxp,idxq,perm
-                    real(dp) :: alpha,beta,c,s,d,dsigma,givnum,ldgnum,vf,vfw,vl,vlw,z,zw
+                    integer(ilp) :: givptr,icompq,info,k,ldgcol,ldgnum,nl,nr,sqre,givcol(ldgcol,*) &
+                              ,idx(*),idxp(*),idxq(*),perm(*)
+                    real(dp) :: alpha,beta,c,s,d(*),dsigma(*),givnum(ldgnum,*),vf(*),vfw(*),vl(*), &
+                              vlw(*),z(*),zw(*)
                end subroutine dlasd7
 #else
                module procedure stdlib_dlasd7
@@ -12503,9 +12560,10 @@ module stdlib_linalg_lapack
                           
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: givptr,icompq,info,k,ldgcol,ldgnum,nl,nr,sqre,givcol,ldgcol, &
-                              idx,idxp,idxq,perm
-                    real(sp) :: alpha,beta,c,s,d,dsigma,givnum,ldgnum,vf,vfw,vl,vlw,z,zw
+                    integer(ilp) :: givptr,icompq,info,k,ldgcol,ldgnum,nl,nr,sqre,givcol(ldgcol,*) &
+                              ,idx(*),idxp(*),idxq(*),perm(*)
+                    real(sp) :: alpha,beta,c,s,d(*),dsigma(*),givnum(ldgnum,*),vf(*),vfw(*),vl(*), &
+                              vlw(*),z(*),zw(*)
                end subroutine slasd7
 #else
                module procedure stdlib_slasd7
@@ -12526,7 +12584,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: icompq,info,k,lddifr
-                    real(dp) :: d,difl,difr,lddifr,dsigma,vf,vl,work,z
+                    real(dp) :: d(*),difl(*),difr(lddifr,*),dsigma(*),vf(*),vl(*),work(*),z(*)
+                              
                end subroutine dlasd8
 #else
                module procedure stdlib_dlasd8
@@ -12538,7 +12597,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: icompq,info,k,lddifr
-                    real(sp) :: d,difl,difr,lddifr,dsigma,vf,vl,work,z
+                    real(sp) :: d(*),difl(*),difr(lddifr,*),dsigma(*),vf(*),vl(*),work(*),z(*)
+                              
                end subroutine slasd8
 #else
                module procedure stdlib_slasd8
@@ -12559,10 +12619,10 @@ module stdlib_linalg_lapack
                          poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: icompq,info,ldgcol,ldu,n,smlsiz,sqre,givcol,ldgcol,givptr, &
-                              iwork,k,perm,ldgcol
-                    real(dp) :: c,d,difl,ldu,difr,ldu,e,givnum,ldu,poles,ldu,s,u,ldu,vt,ldu,work, &
-                              z,ldu
+                    integer(ilp) :: icompq,info,ldgcol,ldu,n,smlsiz,sqre,givcol(ldgcol,*),givptr( &
+                              *),iwork(*),k(*),perm(ldgcol,*)
+                    real(dp) :: c(*),d(*),difl(ldu,*),difr(ldu,*),e(*),givnum(ldu,*),poles(ldu,*), &
+                              s(*),u(ldu,*),vt(ldu,*),work(*),z(ldu,*)
                end subroutine dlasda
 #else
                module procedure stdlib_dlasda
@@ -12573,10 +12633,10 @@ module stdlib_linalg_lapack
                          poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: icompq,info,ldgcol,ldu,n,smlsiz,sqre,givcol,ldgcol,givptr, &
-                              iwork,k,perm,ldgcol
-                    real(sp) :: c,d,difl,ldu,difr,ldu,e,givnum,ldu,poles,ldu,s,u,ldu,vt,ldu,work, &
-                              z,ldu
+                    integer(ilp) :: icompq,info,ldgcol,ldu,n,smlsiz,sqre,givcol(ldgcol,*),givptr( &
+                              *),iwork(*),k(*),perm(ldgcol,*)
+                    real(sp) :: c(*),d(*),difl(ldu,*),difr(ldu,*),e(*),givnum(ldu,*),poles(ldu,*), &
+                              s(*),u(ldu,*),vt(ldu,*),work(*),z(ldu,*)
                end subroutine slasda
 #else
                module procedure stdlib_slasda
@@ -12603,7 +12663,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldc,ldu,ldvt,n,ncc,ncvt,nru,sqre
-                    real(dp) :: c,ldc,d,e,u,ldu,vt,ldvt,work
+                    real(dp) :: c(ldc,*),d(*),e(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine dlasdq
 #else
                module procedure stdlib_dlasdq
@@ -12616,7 +12676,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldc,ldu,ldvt,n,ncc,ncvt,nru,sqre
-                    real(sp) :: c,ldc,d,e,u,ldu,vt,ldvt,work
+                    real(sp) :: c(ldc,*),d(*),e(*),u(ldu,*),vt(ldvt,*),work(*)
                end subroutine slasdq
 #else
                module procedure stdlib_slasdq
@@ -12632,7 +12692,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,m,n
-                    complex(sp) :: alpha,beta,a,lda
+                    complex(sp) :: alpha,beta,a(lda,*)
                end subroutine claset
 #else
                module procedure stdlib_claset
@@ -12643,7 +12703,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,m,n
-                    real(dp) :: alpha,beta,a,lda
+                    real(dp) :: alpha,beta,a(lda,*)
                end subroutine dlaset
 #else
                module procedure stdlib_dlaset
@@ -12655,7 +12715,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,m,n
-                    real(sp) :: alpha,beta,a,lda
+                    real(sp) :: alpha,beta,a(lda,*)
                end subroutine slaset
 #else
                module procedure stdlib_slaset
@@ -12667,7 +12727,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,m,n
-                    complex(dp) :: alpha,beta,a,lda
+                    complex(dp) :: alpha,beta,a(lda,*)
                end subroutine zlaset
 #else
                module procedure stdlib_zlaset
@@ -12690,7 +12750,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(dp) :: d,e,work
+                    real(dp) :: d(*),e(*),work(*)
                end subroutine dlasq1
 #else
                module procedure stdlib_dlasq1
@@ -12701,7 +12761,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(sp) :: d,e,work
+                    real(sp) :: d(*),e(*),work(*)
                end subroutine slasq1
 #else
                module procedure stdlib_slasq1
@@ -12717,7 +12777,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i0,n0,n0in,pp,ttype
-                    real(dp) :: dmin,dmin1,dmin2,dn,dn1,dn2,g,tau,z
+                    real(dp) :: dmin,dmin1,dmin2,dn,dn1,dn2,g,tau,z(*)
                end subroutine dlasq4
 #else
                module procedure stdlib_dlasq4
@@ -12729,7 +12789,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i0,n0,n0in,pp,ttype
-                    real(sp) :: dmin,dmin1,dmin2,dn,dn1,dn2,g,tau,z
+                    real(sp) :: dmin,dmin1,dmin2,dn,dn1,dn2,g,tau,z(*)
                end subroutine slasq4
 #else
                module procedure stdlib_slasq4
@@ -12746,7 +12806,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: ieee
                     integer(ilp) :: i0,n0,pp
-                    real(dp) :: dmin,dmin1,dmin2,dn,dnm1,dnm2,tau,sigma,eps,z
+                    real(dp) :: dmin,dmin1,dmin2,dn,dnm1,dnm2,tau,sigma,eps,z(*)
                end subroutine dlasq5
 #else
                module procedure stdlib_dlasq5
@@ -12759,7 +12819,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: ieee
                     integer(ilp) :: i0,n0,pp
-                    real(sp) :: dmin,dmin1,dmin2,dn,dnm1,dnm2,tau,sigma,eps,z
+                    real(sp) :: dmin,dmin1,dmin2,dn,dnm1,dnm2,tau,sigma,eps,z(*)
                end subroutine slasq5
 #else
                module procedure stdlib_slasq5
@@ -12774,7 +12834,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i0,n0,pp
-                    real(dp) :: dmin,dmin1,dmin2,dn,dnm1,dnm2,z
+                    real(dp) :: dmin,dmin1,dmin2,dn,dnm1,dnm2,z(*)
                end subroutine dlasq6
 #else
                module procedure stdlib_dlasq6
@@ -12785,7 +12845,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: i0,n0,pp
-                    real(sp) :: dmin,dmin1,dmin2,dn,dnm1,dnm2,z
+                    real(sp) :: dmin,dmin1,dmin2,dn,dnm1,dnm2,z(*)
                end subroutine slasq6
 #else
                module procedure stdlib_slasq6
@@ -12850,8 +12910,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,pivot,side
                     integer(ilp) :: lda,m,n
-                    real(sp) :: c,s
-                    complex(sp) :: a,lda
+                    real(sp) :: c(*),s(*)
+                    complex(sp) :: a(lda,*)
                end subroutine clasr
 #else
                module procedure stdlib_clasr
@@ -12862,7 +12922,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,pivot,side
                     integer(ilp) :: lda,m,n
-                    real(dp) :: a,lda,c,s
+                    real(dp) :: a(lda,*),c(*),s(*)
                end subroutine dlasr
 #else
                module procedure stdlib_dlasr
@@ -12874,7 +12934,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,pivot,side
                     integer(ilp) :: lda,m,n
-                    real(sp) :: a,lda,c,s
+                    real(sp) :: a(lda,*),c(*),s(*)
                end subroutine slasr
 #else
                module procedure stdlib_slasr
@@ -12886,8 +12946,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,pivot,side
                     integer(ilp) :: lda,m,n
-                    real(dp) :: c,s
-                    complex(dp) :: a,lda
+                    real(dp) :: c(*),s(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zlasr
 #else
                module procedure stdlib_zlasr
@@ -12905,7 +12965,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: id
                     integer(ilp) :: info,n
-                    real(dp) :: d
+                    real(dp) :: d(*)
                end subroutine dlasrt
 #else
                module procedure stdlib_dlasrt
@@ -12917,7 +12977,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: id
                     integer(ilp) :: info,n
-                    real(sp) :: d
+                    real(sp) :: d(*)
                end subroutine slasrt
 #else
                module procedure stdlib_slasrt
@@ -13006,7 +13066,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,mb,nb,lwork,ldt
-                    complex(sp) :: a,lda,work,t,ldt
+                    complex(sp) :: a(lda,*),work(*),t(ldt,*)
                end subroutine claswlq
 #else
                module procedure stdlib_claswlq
@@ -13016,7 +13076,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,mb,nb,lwork,ldt
-                    real(dp) :: a,lda,work,t,ldt
+                    real(dp) :: a(lda,*),work(*),t(ldt,*)
                end subroutine dlaswlq
 #else
                module procedure stdlib_dlaswlq
@@ -13027,7 +13087,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,mb,nb,lwork,ldt
-                    real(sp) :: a,lda,work,t,ldt
+                    real(sp) :: a(lda,*),work(*),t(ldt,*)
                end subroutine slaswlq
 #else
                module procedure stdlib_slaswlq
@@ -13038,7 +13098,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,mb,nb,lwork,ldt
-                    complex(dp) :: a,lda,work,t,ldt
+                    complex(dp) :: a(lda,*),work(*),t(ldt,*)
                end subroutine zlaswlq
 #else
                module procedure stdlib_zlaswlq
@@ -13052,8 +13112,8 @@ module stdlib_linalg_lapack
                subroutine claswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k1,k2,lda,n,ipiv
-                    complex(sp) :: a,lda
+                    integer(ilp) :: incx,k1,k2,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*)
                end subroutine claswp
 #else
                module procedure stdlib_claswp
@@ -13062,8 +13122,8 @@ module stdlib_linalg_lapack
                subroutine dlaswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k1,k2,lda,n,ipiv
-                    real(dp) :: a,lda
+                    integer(ilp) :: incx,k1,k2,lda,n,ipiv(*)
+                    real(dp) :: a(lda,*)
                end subroutine dlaswp
 #else
                module procedure stdlib_dlaswp
@@ -13073,8 +13133,8 @@ module stdlib_linalg_lapack
                subroutine slaswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k1,k2,lda,n,ipiv
-                    real(sp) :: a,lda
+                    integer(ilp) :: incx,k1,k2,lda,n,ipiv(*)
+                    real(sp) :: a(lda,*)
                end subroutine slaswp
 #else
                module procedure stdlib_slaswp
@@ -13084,8 +13144,8 @@ module stdlib_linalg_lapack
                subroutine zlaswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k1,k2,lda,n,ipiv
-                    complex(dp) :: a,lda
+                    integer(ilp) :: incx,k1,k2,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zlaswp
 #else
                module procedure stdlib_zlaswp
@@ -13111,8 +13171,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(sp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(sp) :: a(lda,*),w(ldw,*)
                end subroutine clasyf
 #else
                module procedure stdlib_clasyf
@@ -13122,8 +13182,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    real(dp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    real(dp) :: a(lda,*),w(ldw,*)
                end subroutine dlasyf
 #else
                module procedure stdlib_dlasyf
@@ -13134,8 +13194,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    real(sp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    real(sp) :: a(lda,*),w(ldw,*)
                end subroutine slasyf
 #else
                module procedure stdlib_slasyf
@@ -13146,8 +13206,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(dp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(dp) :: a(lda,*),w(ldw,*)
                end subroutine zlasyf
 #else
                module procedure stdlib_zlasyf
@@ -13170,8 +13230,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv
-                    complex(sp) :: a,lda,h,ldh,work
+                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv(*)
+                    complex(sp) :: a(lda,*),h(ldh,*),work(*)
                end subroutine clasyf_aa
 #else
                module procedure stdlib_clasyf_aa
@@ -13181,8 +13241,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv
-                    real(dp) :: a,lda,h,ldh,work
+                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv(*)
+                    real(dp) :: a(lda,*),h(ldh,*),work(*)
                end subroutine dlasyf_aa
 #else
                module procedure stdlib_dlasyf_aa
@@ -13193,8 +13253,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv
-                    real(sp) :: a,lda,h,ldh,work
+                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv(*)
+                    real(sp) :: a(lda,*),h(ldh,*),work(*)
                end subroutine slasyf_aa
 #else
                module procedure stdlib_slasyf_aa
@@ -13205,8 +13265,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv
-                    complex(dp) :: a,lda,h,ldh,work
+                    integer(ilp) :: m,nb,j1,lda,ldh,ipiv(*)
+                    complex(dp) :: a(lda,*),h(ldh,*),work(*)
                end subroutine zlasyf_aa
 #else
                module procedure stdlib_zlasyf_aa
@@ -13231,8 +13291,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(sp) :: a,lda,e,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(sp) :: a(lda,*),e(*),w(ldw,*)
                end subroutine clasyf_rk
 #else
                module procedure stdlib_clasyf_rk
@@ -13242,8 +13302,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    real(dp) :: a,lda,e,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    real(dp) :: a(lda,*),e(*),w(ldw,*)
                end subroutine dlasyf_rk
 #else
                module procedure stdlib_dlasyf_rk
@@ -13254,8 +13314,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    real(sp) :: a,lda,e,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    real(sp) :: a(lda,*),e(*),w(ldw,*)
                end subroutine slasyf_rk
 #else
                module procedure stdlib_slasyf_rk
@@ -13266,8 +13326,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(dp) :: a,lda,e,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(dp) :: a(lda,*),e(*),w(ldw,*)
                end subroutine zlasyf_rk
 #else
                module procedure stdlib_zlasyf_rk
@@ -13292,8 +13352,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(sp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(sp) :: a(lda,*),w(ldw,*)
                end subroutine clasyf_rook
 #else
                module procedure stdlib_clasyf_rook
@@ -13303,8 +13363,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    real(dp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    real(dp) :: a(lda,*),w(ldw,*)
                end subroutine dlasyf_rook
 #else
                module procedure stdlib_dlasyf_rook
@@ -13315,8 +13375,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    real(sp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    real(sp) :: a(lda,*),w(ldw,*)
                end subroutine slasyf_rook
 #else
                module procedure stdlib_slasyf_rook
@@ -13327,8 +13387,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv
-                    complex(dp) :: a,lda,w,ldw
+                    integer(ilp) :: info,kb,lda,ldw,n,nb,ipiv(*)
+                    complex(dp) :: a(lda,*),w(ldw,*)
                end subroutine zlasyf_rook
 #else
                module procedure stdlib_zlasyf_rook
@@ -13353,8 +13413,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(sp) :: scale,cnorm
-                    complex(sp) :: ab,ldab,x
+                    real(sp) :: scale,cnorm(*)
+                    complex(sp) :: ab(ldab,*),x(*)
                end subroutine clatbs
 #else
                module procedure stdlib_clatbs
@@ -13366,7 +13426,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(dp) :: scale,ab,ldab,cnorm,x
+                    real(dp) :: scale,ab(ldab,*),cnorm(*),x(*)
                end subroutine dlatbs
 #else
                module procedure stdlib_dlatbs
@@ -13379,7 +13439,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(sp) :: scale,ab,ldab,cnorm,x
+                    real(sp) :: scale,ab(ldab,*),cnorm(*),x(*)
                end subroutine slatbs
 #else
                module procedure stdlib_slatbs
@@ -13392,8 +13452,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(dp) :: scale,cnorm
-                    complex(dp) :: ab,ldab,x
+                    real(dp) :: scale,cnorm(*)
+                    complex(dp) :: ab(ldab,*),x(*)
                end subroutine zlatbs
 #else
                module procedure stdlib_zlatbs
@@ -13413,9 +13473,9 @@ module stdlib_linalg_lapack
                subroutine clatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ijob,ldz,n,ipiv,jpiv
+                    integer(ilp) :: ijob,ldz,n,ipiv(*),jpiv(*)
                     real(sp) :: rdscal,rdsum
-                    complex(sp) :: rhs,z,ldz
+                    complex(sp) :: rhs(*),z(ldz,*)
                end subroutine clatdf
 #else
                module procedure stdlib_clatdf
@@ -13424,8 +13484,8 @@ module stdlib_linalg_lapack
                subroutine dlatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ijob,ldz,n,ipiv,jpiv
-                    real(dp) :: rdscal,rdsum,rhs,z,ldz
+                    integer(ilp) :: ijob,ldz,n,ipiv(*),jpiv(*)
+                    real(dp) :: rdscal,rdsum,rhs(*),z(ldz,*)
                end subroutine dlatdf
 #else
                module procedure stdlib_dlatdf
@@ -13435,8 +13495,8 @@ module stdlib_linalg_lapack
                subroutine slatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ijob,ldz,n,ipiv,jpiv
-                    real(sp) :: rdscal,rdsum,rhs,z,ldz
+                    integer(ilp) :: ijob,ldz,n,ipiv(*),jpiv(*)
+                    real(sp) :: rdscal,rdsum,rhs(*),z(ldz,*)
                end subroutine slatdf
 #else
                module procedure stdlib_slatdf
@@ -13446,9 +13506,9 @@ module stdlib_linalg_lapack
                subroutine zlatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: ijob,ldz,n,ipiv,jpiv
+                    integer(ilp) :: ijob,ldz,n,ipiv(*),jpiv(*)
                     real(dp) :: rdscal,rdsum
-                    complex(dp) :: rhs,z,ldz
+                    complex(dp) :: rhs(*),z(ldz,*)
                end subroutine zlatdf
 #else
                module procedure stdlib_zlatdf
@@ -13473,8 +13533,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,n
-                    real(sp) :: scale,cnorm
-                    complex(sp) :: ap,x
+                    real(sp) :: scale,cnorm(*)
+                    complex(sp) :: ap(*),x(*)
                end subroutine clatps
 #else
                module procedure stdlib_clatps
@@ -13485,7 +13545,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,n
-                    real(dp) :: scale,ap,cnorm,x
+                    real(dp) :: scale,ap(*),cnorm(*),x(*)
                end subroutine dlatps
 #else
                module procedure stdlib_dlatps
@@ -13497,7 +13557,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,n
-                    real(sp) :: scale,ap,cnorm,x
+                    real(sp) :: scale,ap(*),cnorm(*),x(*)
                end subroutine slatps
 #else
                module procedure stdlib_slatps
@@ -13509,8 +13569,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,n
-                    real(dp) :: scale,cnorm
-                    complex(dp) :: ap,x
+                    real(dp) :: scale,cnorm(*)
+                    complex(dp) :: ap(*),x(*)
                end subroutine zlatps
 #else
                module procedure stdlib_zlatps
@@ -13533,8 +13593,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,ldw,n,nb
-                    real(sp) :: e
-                    complex(sp) :: a,lda,tau,w,ldw
+                    real(sp) :: e(*)
+                    complex(sp) :: a(lda,*),tau(*),w(ldw,*)
                end subroutine clatrd
 #else
                module procedure stdlib_clatrd
@@ -13545,7 +13605,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,ldw,n,nb
-                    real(dp) :: a,lda,e,tau,w,ldw
+                    real(dp) :: a(lda,*),e(*),tau(*),w(ldw,*)
                end subroutine dlatrd
 #else
                module procedure stdlib_dlatrd
@@ -13557,7 +13617,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,ldw,n,nb
-                    real(sp) :: a,lda,e,tau,w,ldw
+                    real(sp) :: a(lda,*),e(*),tau(*),w(ldw,*)
                end subroutine slatrd
 #else
                module procedure stdlib_slatrd
@@ -13569,8 +13629,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: lda,ldw,n,nb
-                    real(dp) :: e
-                    complex(dp) :: a,lda,tau,w,ldw
+                    real(dp) :: e(*)
+                    complex(dp) :: a(lda,*),tau(*),w(ldw,*)
                end subroutine zlatrd
 #else
                module procedure stdlib_zlatrd
@@ -13595,8 +13655,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,lda,n
-                    real(sp) :: scale,cnorm
-                    complex(sp) :: a,lda,x
+                    real(sp) :: scale,cnorm(*)
+                    complex(sp) :: a(lda,*),x(*)
                end subroutine clatrs
 #else
                module procedure stdlib_clatrs
@@ -13608,7 +13668,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,lda,n
-                    real(dp) :: scale,a,lda,cnorm,x
+                    real(dp) :: scale,a(lda,*),cnorm(*),x(*)
                end subroutine dlatrs
 #else
                module procedure stdlib_dlatrs
@@ -13621,7 +13681,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,lda,n
-                    real(sp) :: scale,a,lda,cnorm,x
+                    real(sp) :: scale,a(lda,*),cnorm(*),x(*)
                end subroutine slatrs
 #else
                module procedure stdlib_slatrs
@@ -13634,8 +13694,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,normin,trans,uplo
                     integer(ilp) :: info,lda,n
-                    real(dp) :: scale,cnorm
-                    complex(dp) :: a,lda,x
+                    real(dp) :: scale,cnorm(*)
+                    complex(dp) :: a(lda,*),x(*)
                end subroutine zlatrs
 #else
                module procedure stdlib_zlatrs
@@ -13652,7 +13712,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: l,lda,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine clatrz
 #else
                module procedure stdlib_clatrz
@@ -13662,7 +13722,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: l,lda,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dlatrz
 #else
                module procedure stdlib_dlatrz
@@ -13673,7 +13733,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: l,lda,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine slatrz
 #else
                module procedure stdlib_slatrz
@@ -13684,7 +13744,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: l,lda,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zlatrz
 #else
                module procedure stdlib_zlatrz
@@ -13708,7 +13768,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,mb,nb,ldt,lwork
-                    complex(sp) :: a,lda,work,t,ldt
+                    complex(sp) :: a(lda,*),work(*),t(ldt,*)
                end subroutine clatsqr
 #else
                module procedure stdlib_clatsqr
@@ -13718,7 +13778,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,mb,nb,ldt,lwork
-                    real(dp) :: a,lda,work,t,ldt
+                    real(dp) :: a(lda,*),work(*),t(ldt,*)
                end subroutine dlatsqr
 #else
                module procedure stdlib_dlatsqr
@@ -13729,7 +13789,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,mb,nb,ldt,lwork
-                    real(sp) :: a,lda,work,t,ldt
+                    real(sp) :: a(lda,*),work(*),t(ldt,*)
                end subroutine slatsqr
 #else
                module procedure stdlib_slatsqr
@@ -13740,7 +13800,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n,mb,nb,ldt,lwork
-                    complex(dp) :: a,lda,work,t,ldt
+                    complex(dp) :: a(lda,*),work(*),t(ldt,*)
                end subroutine zlatsqr
 #else
                module procedure stdlib_zlatsqr
@@ -13786,7 +13846,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    complex(sp) :: a,lda,d
+                    complex(sp) :: a(lda,*),d(*)
                end subroutine claunhr_col_getrfnp
 #else
                module procedure stdlib_claunhr_col_getrfnp
@@ -13797,7 +13857,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    complex(dp) :: a,lda,d
+                    complex(dp) :: a(lda,*),d(*)
                end subroutine zlaunhr_col_getrfnp
 #else
                module procedure stdlib_zlaunhr_col_getrfnp
@@ -13858,7 +13918,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    complex(sp) :: a,lda,d
+                    complex(sp) :: a(lda,*),d(*)
                end subroutine claunhr_col_getrfnp2
 #else
                module procedure stdlib_claunhr_col_getrfnp2
@@ -13869,7 +13929,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,m,n
-                    complex(dp) :: a,lda,d
+                    complex(dp) :: a(lda,*),d(*)
                end subroutine zlaunhr_col_getrfnp2
 #else
                module procedure stdlib_zlaunhr_col_getrfnp2
@@ -13891,7 +13951,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    complex(sp) :: a,lda
+                    complex(sp) :: a(lda,*)
                end subroutine clauum
 #else
                module procedure stdlib_clauum
@@ -13902,7 +13962,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(dp) :: a,lda
+                    real(dp) :: a(lda,*)
                end subroutine dlauum
 #else
                module procedure stdlib_dlauum
@@ -13914,7 +13974,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(sp) :: a,lda
+                    real(sp) :: a(lda,*)
                end subroutine slauum
 #else
                module procedure stdlib_slauum
@@ -13926,7 +13986,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    complex(dp) :: a,lda
+                    complex(dp) :: a(lda,*)
                end subroutine zlauum
 #else
                module procedure stdlib_zlauum
@@ -13945,7 +14005,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldq,n
-                    real(dp) :: ap,q,ldq,tau,work
+                    real(dp) :: ap(*),q(ldq,*),tau(*),work(*)
                end subroutine dopgtr
 #else
                module procedure stdlib_dopgtr
@@ -13957,7 +14017,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldq,n
-                    real(sp) :: ap,q,ldq,tau,work
+                    real(sp) :: ap(*),q(ldq,*),tau(*),work(*)
                end subroutine sopgtr
 #else
                module procedure stdlib_sopgtr
@@ -13981,7 +14041,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,uplo
                     integer(ilp) :: info,ldc,m,n
-                    real(dp) :: ap,c,ldc,tau,work
+                    real(dp) :: ap(*),c(ldc,*),tau(*),work(*)
                end subroutine dopmtr
 #else
                module procedure stdlib_dopmtr
@@ -13993,7 +14053,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,uplo
                     integer(ilp) :: info,ldc,m,n
-                    real(sp) :: ap,c,ldc,tau,work
+                    real(sp) :: ap(*),c(ldc,*),tau(*),work(*)
                end subroutine sopmtr
 #else
                module procedure stdlib_sopmtr
@@ -14024,8 +14084,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: signs,trans
                     integer(ilp) :: info,ldx11,ldx12,ldx21,ldx22,lwork,m,p,q
-                    real(dp) :: phi,theta,taup1,taup2,tauq1,tauq2,work,x11,ldx11,x12,ldx12,x21, &
-                              ldx21,x22,ldx22
+                    real(dp) :: phi(*),theta(*),taup1(*),taup2(*),tauq1(*),tauq2(*),work(*),x11( &
+                              ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
                end subroutine dorbdb
 #else
                module procedure stdlib_dorbdb
@@ -14038,8 +14098,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: signs,trans
                     integer(ilp) :: info,ldx11,ldx12,ldx21,ldx22,lwork,m,p,q
-                    real(sp) :: phi,theta,taup1,taup2,tauq1,tauq2,work,x11,ldx11,x12,ldx12,x21, &
-                              ldx21,x22,ldx22
+                    real(sp) :: phi(*),theta(*),taup1(*),taup2(*),tauq1(*),tauq2(*),work(*),x11( &
+                              ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
                end subroutine sorbdb
 #else
                module procedure stdlib_sorbdb
@@ -14312,9 +14372,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu1,jobu2,jobv1t,jobv2t,signs,trans
                     integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,ldx11,ldx12,ldx21,ldx22,lwork,m,p, &
-                              q,iwork
-                    real(dp) :: theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,work,x11,ldx11,x12, &
-                              ldx12,x21,ldx21,x22,ldx22
+                              q,iwork(*)
+                    real(dp) :: theta(*),u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*),work(*), &
+                              x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
                end subroutine dorcsd
 #else
                module procedure stdlib_dorcsd
@@ -14328,9 +14388,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu1,jobu2,jobv1t,jobv2t,signs,trans
                     integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,ldx11,ldx12,ldx21,ldx22,lwork,m,p, &
-                              q,iwork
-                    real(sp) :: theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,work,x11,ldx11,x12, &
-                              ldx12,x21,ldx21,x22,ldx22
+                              q,iwork(*)
+                    real(sp) :: theta(*),u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*),work(*), &
+                              x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
                end subroutine sorcsd
 #else
                module procedure stdlib_sorcsd
@@ -14393,7 +14453,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dorg2l
 #else
                module procedure stdlib_dorg2l
@@ -14404,7 +14464,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sorg2l
 #else
                module procedure stdlib_sorg2l
@@ -14422,7 +14482,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dorg2r
 #else
                module procedure stdlib_dorg2r
@@ -14433,7 +14493,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sorg2r
 #else
                module procedure stdlib_sorg2r
@@ -14463,7 +14523,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: vect
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dorgbr
 #else
                module procedure stdlib_dorgbr
@@ -14475,7 +14535,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: vect
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sorgbr
 #else
                module procedure stdlib_sorgbr
@@ -14492,7 +14552,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,lda,lwork,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dorghr
 #else
                module procedure stdlib_dorghr
@@ -14503,7 +14563,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,lda,lwork,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sorghr
 #else
                module procedure stdlib_sorghr
@@ -14521,7 +14581,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dorglq
 #else
                module procedure stdlib_dorglq
@@ -14532,7 +14592,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sorglq
 #else
                module procedure stdlib_sorglq
@@ -14550,7 +14610,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dorgql
 #else
                module procedure stdlib_dorgql
@@ -14561,7 +14621,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sorgql
 #else
                module procedure stdlib_sorgql
@@ -14579,7 +14639,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dorgqr
 #else
                module procedure stdlib_dorgqr
@@ -14590,7 +14650,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sorgqr
 #else
                module procedure stdlib_sorgqr
@@ -14608,7 +14668,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dorgrq
 #else
                module procedure stdlib_dorgrq
@@ -14619,7 +14679,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sorgrq
 #else
                module procedure stdlib_sorgrq
@@ -14638,7 +14698,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dorgtr
 #else
                module procedure stdlib_dorgtr
@@ -14650,7 +14710,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine sorgtr
 #else
                module procedure stdlib_sorgtr
@@ -14668,7 +14728,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
-                    real(dp) :: a,lda,t,ldt,work
+                    real(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine dorgtsqr
 #else
                module procedure stdlib_dorgtsqr
@@ -14679,7 +14739,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
-                    real(sp) :: a,lda,t,ldt,work
+                    real(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine sorgtsqr
 #else
                module procedure stdlib_sorgtsqr
@@ -14707,7 +14767,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
-                    real(dp) :: a,lda,t,ldt,work
+                    real(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine dorgtsqr_row
 #else
                module procedure stdlib_dorgtsqr_row
@@ -14718,7 +14778,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
-                    real(sp) :: a,lda,t,ldt,work
+                    real(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine sorgtsqr_row
 #else
                module procedure stdlib_sorgtsqr_row
@@ -14740,7 +14800,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,nb
-                    real(dp) :: a,lda,d,t,ldt
+                    real(dp) :: a(lda,*),d(*),t(ldt,*)
                end subroutine dorhr_col
 #else
                module procedure stdlib_dorhr_col
@@ -14751,7 +14811,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,nb
-                    real(sp) :: a,lda,d,t,ldt
+                    real(sp) :: a(lda,*),d(*),t(ldt,*)
                end subroutine sorhr_col
 #else
                module procedure stdlib_sorhr_col
@@ -14775,7 +14835,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dorm2l
 #else
                module procedure stdlib_dorm2l
@@ -14787,7 +14847,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sorm2l
 #else
                module procedure stdlib_sorm2l
@@ -14811,7 +14871,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dorm2r
 #else
                module procedure stdlib_dorm2r
@@ -14823,7 +14883,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sorm2r
 #else
                module procedure stdlib_sorm2r
@@ -14860,7 +14920,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,vect
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dormbr
 #else
                module procedure stdlib_dormbr
@@ -14873,7 +14933,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,vect
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sormbr
 #else
                module procedure stdlib_sormbr
@@ -14896,7 +14956,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: ihi,ilo,info,lda,ldc,lwork,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dormhr
 #else
                module procedure stdlib_dormhr
@@ -14909,7 +14969,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: ihi,ilo,info,lda,ldc,lwork,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sormhr
 #else
                module procedure stdlib_sormhr
@@ -14933,7 +14993,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dormlq
 #else
                module procedure stdlib_dormlq
@@ -14946,7 +15006,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sormlq
 #else
                module procedure stdlib_sormlq
@@ -14970,7 +15030,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dormql
 #else
                module procedure stdlib_dormql
@@ -14983,7 +15043,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sormql
 #else
                module procedure stdlib_sormql
@@ -15007,7 +15067,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dormqr
 #else
                module procedure stdlib_dormqr
@@ -15020,7 +15080,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sormqr
 #else
                module procedure stdlib_sormqr
@@ -15044,7 +15104,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dormrq
 #else
                module procedure stdlib_dormrq
@@ -15057,7 +15117,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sormrq
 #else
                module procedure stdlib_sormrq
@@ -15081,7 +15141,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,l,lda,ldc,lwork,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dormrz
 #else
                module procedure stdlib_dormrz
@@ -15094,7 +15154,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,l,lda,ldc,lwork,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sormrz
 #else
                module procedure stdlib_sormrz
@@ -15118,7 +15178,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,uplo
                     integer(ilp) :: info,lda,ldc,lwork,m,n
-                    real(dp) :: a,lda,c,ldc,tau,work
+                    real(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine dormtr
 #else
                module procedure stdlib_dormtr
@@ -15131,7 +15191,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,uplo
                     integer(ilp) :: info,lda,ldc,lwork,m,n
-                    real(sp) :: a,lda,c,ldc,tau,work
+                    real(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine sormtr
 #else
                module procedure stdlib_sormtr
@@ -15151,8 +15211,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(sp) :: anorm,rcond,rwork
-                    complex(sp) :: ab,ldab,work
+                    real(sp) :: anorm,rcond,rwork(*)
+                    complex(sp) :: ab(ldab,*),work(*)
                end subroutine cpbcon
 #else
                module procedure stdlib_cpbcon
@@ -15162,8 +15222,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kd,ldab,n,iwork
-                    real(dp) :: anorm,rcond,ab,ldab,work
+                    integer(ilp) :: info,kd,ldab,n,iwork(*)
+                    real(dp) :: anorm,rcond,ab(ldab,*),work(*)
                end subroutine dpbcon
 #else
                module procedure stdlib_dpbcon
@@ -15174,8 +15234,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kd,ldab,n,iwork
-                    real(sp) :: anorm,rcond,ab,ldab,work
+                    integer(ilp) :: info,kd,ldab,n,iwork(*)
+                    real(sp) :: anorm,rcond,ab(ldab,*),work(*)
                end subroutine spbcon
 #else
                module procedure stdlib_spbcon
@@ -15187,8 +15247,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(dp) :: anorm,rcond,rwork
-                    complex(dp) :: ab,ldab,work
+                    real(dp) :: anorm,rcond,rwork(*)
+                    complex(dp) :: ab(ldab,*),work(*)
                end subroutine zpbcon
 #else
                module procedure stdlib_zpbcon
@@ -15210,8 +15270,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: ab,ldab
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: ab(ldab,*)
                end subroutine cpbequ
 #else
                module procedure stdlib_cpbequ
@@ -15222,7 +15282,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(dp) :: amax,scond,ab,ldab,s
+                    real(dp) :: amax,scond,ab(ldab,*),s(*)
                end subroutine dpbequ
 #else
                module procedure stdlib_dpbequ
@@ -15234,7 +15294,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(sp) :: amax,scond,ab,ldab,s
+                    real(sp) :: amax,scond,ab(ldab,*),s(*)
                end subroutine spbequ
 #else
                module procedure stdlib_spbequ
@@ -15246,8 +15306,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: ab,ldab
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: ab(ldab,*)
                end subroutine zpbequ
 #else
                module procedure stdlib_zpbequ
@@ -15266,8 +15326,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: ab,ldab,afb,ldafb,b,ldb,work,x,ldx
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine cpbrfs
 #else
                module procedure stdlib_cpbrfs
@@ -15278,8 +15338,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs,iwork
-                    real(dp) :: ab,ldab,afb,ldafb,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs,iwork(*)
+                    real(dp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine dpbrfs
 #else
                module procedure stdlib_dpbrfs
@@ -15291,8 +15352,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs,iwork
-                    real(sp) :: ab,ldab,afb,ldafb,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs,iwork(*)
+                    real(sp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine spbrfs
 #else
                module procedure stdlib_spbrfs
@@ -15305,8 +15367,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: ab,ldab,afb,ldafb,b,ldb,work,x,ldx
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine zpbrfs
 #else
                module procedure stdlib_zpbrfs
@@ -15329,7 +15391,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    complex(sp) :: ab,ldab
+                    complex(sp) :: ab(ldab,*)
                end subroutine cpbstf
 #else
                module procedure stdlib_cpbstf
@@ -15340,7 +15402,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(dp) :: ab,ldab
+                    real(dp) :: ab(ldab,*)
                end subroutine dpbstf
 #else
                module procedure stdlib_dpbstf
@@ -15352,7 +15414,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(sp) :: ab,ldab
+                    real(sp) :: ab(ldab,*)
                end subroutine spbstf
 #else
                module procedure stdlib_spbstf
@@ -15364,7 +15426,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    complex(dp) :: ab,ldab
+                    complex(dp) :: ab(ldab,*)
                end subroutine zpbstf
 #else
                module procedure stdlib_zpbstf
@@ -15389,7 +15451,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    complex(sp) :: ab,ldab,b,ldb
+                    complex(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine cpbsv
 #else
                module procedure stdlib_cpbsv
@@ -15400,7 +15462,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    real(dp) :: ab,ldab,b,ldb
+                    real(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine dpbsv
 #else
                module procedure stdlib_dpbsv
@@ -15412,7 +15474,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    real(sp) :: ab,ldab,b,ldb
+                    real(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine spbsv
 #else
                module procedure stdlib_spbsv
@@ -15424,7 +15486,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    complex(dp) :: ab,ldab,b,ldb
+                    complex(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine zpbsv
 #else
                module procedure stdlib_zpbsv
@@ -15444,7 +15506,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    complex(sp) :: ab,ldab
+                    complex(sp) :: ab(ldab,*)
                end subroutine cpbtrf
 #else
                module procedure stdlib_cpbtrf
@@ -15455,7 +15517,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(dp) :: ab,ldab
+                    real(dp) :: ab(ldab,*)
                end subroutine dpbtrf
 #else
                module procedure stdlib_dpbtrf
@@ -15467,7 +15529,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(sp) :: ab,ldab
+                    real(sp) :: ab(ldab,*)
                end subroutine spbtrf
 #else
                module procedure stdlib_spbtrf
@@ -15479,7 +15541,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,n
-                    complex(dp) :: ab,ldab
+                    complex(dp) :: ab(ldab,*)
                end subroutine zpbtrf
 #else
                module procedure stdlib_zpbtrf
@@ -15496,7 +15558,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    complex(sp) :: ab,ldab,b,ldb
+                    complex(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine cpbtrs
 #else
                module procedure stdlib_cpbtrs
@@ -15507,7 +15569,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    real(dp) :: ab,ldab,b,ldb
+                    real(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine dpbtrs
 #else
                module procedure stdlib_dpbtrs
@@ -15519,7 +15581,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    real(sp) :: ab,ldab,b,ldb
+                    real(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine spbtrs
 #else
                module procedure stdlib_spbtrs
@@ -15531,7 +15593,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    complex(dp) :: ab,ldab,b,ldb
+                    complex(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine zpbtrs
 #else
                module procedure stdlib_zpbtrs
@@ -15552,7 +15614,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: n,info
-                    complex(sp) :: a
+                    complex(sp) :: a(0:*)
                end subroutine cpftrf
 #else
                module procedure stdlib_cpftrf
@@ -15563,7 +15625,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: n,info
-                    real(dp) :: a
+                    real(dp) :: a(0:*)
                end subroutine dpftrf
 #else
                module procedure stdlib_dpftrf
@@ -15575,7 +15637,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: n,info
-                    real(sp) :: a
+                    real(sp) :: a(0:*)
                end subroutine spftrf
 #else
                module procedure stdlib_spftrf
@@ -15587,7 +15649,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: n,info
-                    complex(dp) :: a
+                    complex(dp) :: a(0:*)
                end subroutine zpftrf
 #else
                module procedure stdlib_zpftrf
@@ -15604,7 +15666,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    complex(sp) :: a
+                    complex(sp) :: a(0:*)
                end subroutine cpftri
 #else
                module procedure stdlib_cpftri
@@ -15615,7 +15677,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    real(dp) :: a
+                    real(dp) :: a(0:*)
                end subroutine dpftri
 #else
                module procedure stdlib_dpftri
@@ -15627,7 +15689,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    real(sp) :: a
+                    real(sp) :: a(0:*)
                end subroutine spftri
 #else
                module procedure stdlib_spftri
@@ -15639,7 +15701,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    complex(dp) :: a
+                    complex(dp) :: a(0:*)
                end subroutine zpftri
 #else
                module procedure stdlib_zpftri
@@ -15656,7 +15718,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(sp) :: a,b,ldb
+                    complex(sp) :: a(0:*),b(ldb,*)
                end subroutine cpftrs
 #else
                module procedure stdlib_cpftrs
@@ -15667,7 +15729,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(dp) :: a,b,ldb
+                    real(dp) :: a(0:*),b(ldb,*)
                end subroutine dpftrs
 #else
                module procedure stdlib_dpftrs
@@ -15679,7 +15741,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(sp) :: a,b,ldb
+                    real(sp) :: a(0:*),b(ldb,*)
                end subroutine spftrs
 #else
                module procedure stdlib_spftrs
@@ -15691,7 +15753,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(dp) :: a,b,ldb
+                    complex(dp) :: a(0:*),b(ldb,*)
                end subroutine zpftrs
 #else
                module procedure stdlib_zpftrs
@@ -15710,8 +15772,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(sp) :: anorm,rcond,rwork
-                    complex(sp) :: a,lda,work
+                    real(sp) :: anorm,rcond,rwork(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine cpocon
 #else
                module procedure stdlib_cpocon
@@ -15721,8 +15783,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,iwork
-                    real(dp) :: anorm,rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,iwork(*)
+                    real(dp) :: anorm,rcond,a(lda,*),work(*)
                end subroutine dpocon
 #else
                module procedure stdlib_dpocon
@@ -15733,8 +15795,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,iwork
-                    real(sp) :: anorm,rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,iwork(*)
+                    real(sp) :: anorm,rcond,a(lda,*),work(*)
                end subroutine spocon
 #else
                module procedure stdlib_spocon
@@ -15746,8 +15808,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(dp) :: anorm,rcond,rwork
-                    complex(dp) :: a,lda,work
+                    real(dp) :: anorm,rcond,rwork(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zpocon
 #else
                module procedure stdlib_zpocon
@@ -15768,8 +15830,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: a,lda
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: a(lda,*)
                end subroutine cpoequ
 #else
                module procedure stdlib_cpoequ
@@ -15779,7 +15841,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(dp) :: amax,scond,a,lda,s
+                    real(dp) :: amax,scond,a(lda,*),s(*)
                end subroutine dpoequ
 #else
                module procedure stdlib_dpoequ
@@ -15790,7 +15852,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(sp) :: amax,scond,a,lda,s
+                    real(sp) :: amax,scond,a(lda,*),s(*)
                end subroutine spoequ
 #else
                module procedure stdlib_spoequ
@@ -15801,8 +15863,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: a,lda
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zpoequ
 #else
                module procedure stdlib_zpoequ
@@ -15828,8 +15890,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: a,lda
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: a(lda,*)
                end subroutine cpoequb
 #else
                module procedure stdlib_cpoequb
@@ -15839,7 +15901,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(dp) :: amax,scond,a,lda,s
+                    real(dp) :: amax,scond,a(lda,*),s(*)
                end subroutine dpoequb
 #else
                module procedure stdlib_dpoequb
@@ -15850,7 +15912,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(sp) :: amax,scond,a,lda,s
+                    real(sp) :: amax,scond,a(lda,*),s(*)
                end subroutine spoequb
 #else
                module procedure stdlib_spoequb
@@ -15861,8 +15923,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: a,lda
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zpoequb
 #else
                module procedure stdlib_zpoequb
@@ -15881,8 +15943,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: a,lda,af,ldaf,b,ldb,work,x,ldx
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine cporfs
 #else
                module procedure stdlib_cporfs
@@ -15893,8 +15955,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,iwork
-                    real(dp) :: a,lda,af,ldaf,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,iwork(*)
+                    real(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine dporfs
 #else
                module procedure stdlib_dporfs
@@ -15906,8 +15969,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,iwork
-                    real(sp) :: a,lda,af,ldaf,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,iwork(*)
+                    real(sp) :: a(lda,*),af(ldaf,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine sporfs
 #else
                module procedure stdlib_sporfs
@@ -15920,8 +15984,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: a,lda,af,ldaf,b,ldb,work,x,ldx
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine zporfs
 #else
                module procedure stdlib_zporfs
@@ -15945,7 +16009,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    complex(sp) :: a,lda,b,ldb
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine cposv
 #else
                module procedure stdlib_cposv
@@ -15956,7 +16020,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    real(dp) :: a,lda,b,ldb
+                    real(dp) :: a(lda,*),b(ldb,*)
                end subroutine dposv
 #else
                module procedure stdlib_dposv
@@ -15968,7 +16032,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    real(sp) :: a,lda,b,ldb
+                    real(sp) :: a(lda,*),b(ldb,*)
                end subroutine sposv
 #else
                module procedure stdlib_sposv
@@ -15980,7 +16044,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    complex(dp) :: a,lda,b,ldb
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zposv
 #else
                module procedure stdlib_zposv
@@ -16001,7 +16065,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    complex(sp) :: a,lda
+                    complex(sp) :: a(lda,*)
                end subroutine cpotrf
 #else
                module procedure stdlib_cpotrf
@@ -16012,7 +16076,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(dp) :: a,lda
+                    real(dp) :: a(lda,*)
                end subroutine dpotrf
 #else
                module procedure stdlib_dpotrf
@@ -16024,7 +16088,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(sp) :: a,lda
+                    real(sp) :: a(lda,*)
                end subroutine spotrf
 #else
                module procedure stdlib_spotrf
@@ -16036,7 +16100,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    complex(dp) :: a,lda
+                    complex(dp) :: a(lda,*)
                end subroutine zpotrf
 #else
                module procedure stdlib_zpotrf
@@ -16063,7 +16127,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    complex(sp) :: a,lda
+                    complex(sp) :: a(lda,*)
                end subroutine cpotrf2
 #else
                module procedure stdlib_cpotrf2
@@ -16074,7 +16138,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(dp) :: a,lda
+                    real(dp) :: a(lda,*)
                end subroutine dpotrf2
 #else
                module procedure stdlib_dpotrf2
@@ -16086,7 +16150,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(sp) :: a,lda
+                    real(sp) :: a(lda,*)
                end subroutine spotrf2
 #else
                module procedure stdlib_spotrf2
@@ -16098,7 +16162,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    complex(dp) :: a,lda
+                    complex(dp) :: a(lda,*)
                end subroutine zpotrf2
 #else
                module procedure stdlib_zpotrf2
@@ -16115,7 +16179,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    complex(sp) :: a,lda
+                    complex(sp) :: a(lda,*)
                end subroutine cpotri
 #else
                module procedure stdlib_cpotri
@@ -16126,7 +16190,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(dp) :: a,lda
+                    real(dp) :: a(lda,*)
                end subroutine dpotri
 #else
                module procedure stdlib_dpotri
@@ -16138,7 +16202,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    real(sp) :: a,lda
+                    real(sp) :: a(lda,*)
                end subroutine spotri
 #else
                module procedure stdlib_spotri
@@ -16150,7 +16214,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,n
-                    complex(dp) :: a,lda
+                    complex(dp) :: a(lda,*)
                end subroutine zpotri
 #else
                module procedure stdlib_zpotri
@@ -16167,7 +16231,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    complex(sp) :: a,lda,b,ldb
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine cpotrs
 #else
                module procedure stdlib_cpotrs
@@ -16178,7 +16242,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    real(dp) :: a,lda,b,ldb
+                    real(dp) :: a(lda,*),b(ldb,*)
                end subroutine dpotrs
 #else
                module procedure stdlib_dpotrs
@@ -16190,7 +16254,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    real(sp) :: a,lda,b,ldb
+                    real(sp) :: a(lda,*),b(ldb,*)
                end subroutine spotrs
 #else
                module procedure stdlib_spotrs
@@ -16202,7 +16266,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    complex(dp) :: a,lda,b,ldb
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zpotrs
 #else
                module procedure stdlib_zpotrs
@@ -16222,8 +16286,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(sp) :: anorm,rcond,rwork
-                    complex(sp) :: ap,work
+                    real(sp) :: anorm,rcond,rwork(*)
+                    complex(sp) :: ap(*),work(*)
                end subroutine cppcon
 #else
                module procedure stdlib_cppcon
@@ -16233,8 +16297,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,iwork
-                    real(dp) :: anorm,rcond,ap,work
+                    integer(ilp) :: info,n,iwork(*)
+                    real(dp) :: anorm,rcond,ap(*),work(*)
                end subroutine dppcon
 #else
                module procedure stdlib_dppcon
@@ -16245,8 +16309,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,iwork
-                    real(sp) :: anorm,rcond,ap,work
+                    integer(ilp) :: info,n,iwork(*)
+                    real(sp) :: anorm,rcond,ap(*),work(*)
                end subroutine sppcon
 #else
                module procedure stdlib_sppcon
@@ -16258,8 +16322,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(dp) :: anorm,rcond,rwork
-                    complex(dp) :: ap,work
+                    real(dp) :: anorm,rcond,rwork(*)
+                    complex(dp) :: ap(*),work(*)
                end subroutine zppcon
 #else
                module procedure stdlib_zppcon
@@ -16281,8 +16345,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(sp) :: amax,scond,s
-                    complex(sp) :: ap
+                    real(sp) :: amax,scond,s(*)
+                    complex(sp) :: ap(*)
                end subroutine cppequ
 #else
                module procedure stdlib_cppequ
@@ -16293,7 +16357,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(dp) :: amax,scond,ap,s
+                    real(dp) :: amax,scond,ap(*),s(*)
                end subroutine dppequ
 #else
                module procedure stdlib_dppequ
@@ -16305,7 +16369,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(sp) :: amax,scond,ap,s
+                    real(sp) :: amax,scond,ap(*),s(*)
                end subroutine sppequ
 #else
                module procedure stdlib_sppequ
@@ -16317,8 +16381,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(dp) :: amax,scond,s
-                    complex(dp) :: ap
+                    real(dp) :: amax,scond,s(*)
+                    complex(dp) :: ap(*)
                end subroutine zppequ
 #else
                module procedure stdlib_zppequ
@@ -16337,8 +16401,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,ldx,n,nrhs
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: afp,ap,b,ldb,work,x,ldx
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
                end subroutine cpprfs
 #else
                module procedure stdlib_cpprfs
@@ -16349,8 +16413,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,iwork
-                    real(dp) :: afp,ap,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,iwork(*)
+                    real(dp) :: afp(*),ap(*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine dpprfs
 #else
                module procedure stdlib_dpprfs
@@ -16362,8 +16426,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,iwork
-                    real(sp) :: afp,ap,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,iwork(*)
+                    real(sp) :: afp(*),ap(*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine spprfs
 #else
                module procedure stdlib_spprfs
@@ -16376,8 +16440,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,ldx,n,nrhs
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: afp,ap,b,ldb,work,x,ldx
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
                end subroutine zpprfs
 #else
                module procedure stdlib_zpprfs
@@ -16401,7 +16465,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(sp) :: ap,b,ldb
+                    complex(sp) :: ap(*),b(ldb,*)
                end subroutine cppsv
 #else
                module procedure stdlib_cppsv
@@ -16412,7 +16476,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(dp) :: ap,b,ldb
+                    real(dp) :: ap(*),b(ldb,*)
                end subroutine dppsv
 #else
                module procedure stdlib_dppsv
@@ -16424,7 +16488,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(sp) :: ap,b,ldb
+                    real(sp) :: ap(*),b(ldb,*)
                end subroutine sppsv
 #else
                module procedure stdlib_sppsv
@@ -16436,7 +16500,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(dp) :: ap,b,ldb
+                    complex(dp) :: ap(*),b(ldb,*)
                end subroutine zppsv
 #else
                module procedure stdlib_zppsv
@@ -16456,7 +16520,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    complex(sp) :: ap
+                    complex(sp) :: ap(*)
                end subroutine cpptrf
 #else
                module procedure stdlib_cpptrf
@@ -16467,7 +16531,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(dp) :: ap
+                    real(dp) :: ap(*)
                end subroutine dpptrf
 #else
                module procedure stdlib_dpptrf
@@ -16479,7 +16543,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(sp) :: ap
+                    real(sp) :: ap(*)
                end subroutine spptrf
 #else
                module procedure stdlib_spptrf
@@ -16491,7 +16555,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    complex(dp) :: ap
+                    complex(dp) :: ap(*)
                end subroutine zpptrf
 #else
                module procedure stdlib_zpptrf
@@ -16508,7 +16572,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    complex(sp) :: ap
+                    complex(sp) :: ap(*)
                end subroutine cpptri
 #else
                module procedure stdlib_cpptri
@@ -16519,7 +16583,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(dp) :: ap
+                    real(dp) :: ap(*)
                end subroutine dpptri
 #else
                module procedure stdlib_dpptri
@@ -16531,7 +16595,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(sp) :: ap
+                    real(sp) :: ap(*)
                end subroutine spptri
 #else
                module procedure stdlib_spptri
@@ -16543,7 +16607,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    complex(dp) :: ap
+                    complex(dp) :: ap(*)
                end subroutine zpptri
 #else
                module procedure stdlib_zpptri
@@ -16560,7 +16624,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(sp) :: ap,b,ldb
+                    complex(sp) :: ap(*),b(ldb,*)
                end subroutine cpptrs
 #else
                module procedure stdlib_cpptrs
@@ -16571,7 +16635,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(dp) :: ap,b,ldb
+                    real(dp) :: ap(*),b(ldb,*)
                end subroutine dpptrs
 #else
                module procedure stdlib_dpptrs
@@ -16583,7 +16647,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(sp) :: ap,b,ldb
+                    real(sp) :: ap(*),b(ldb,*)
                end subroutine spptrs
 #else
                module procedure stdlib_spptrs
@@ -16595,7 +16659,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(dp) :: ap,b,ldb
+                    complex(dp) :: ap(*),b(ldb,*)
                end subroutine zpptrs
 #else
                module procedure stdlib_zpptrs
@@ -16616,10 +16680,10 @@ module stdlib_linalg_lapack
                subroutine cpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: tol,work,n
-                    integer(ilp) :: info,lda,n,rank,piv,n
+                    real(sp) :: tol,work(2*n)
+                    integer(ilp) :: info,lda,n,rank,piv(n)
                     character :: uplo
-                    complex(sp) :: a,lda
+                    complex(sp) :: a(lda,*)
                end subroutine cpstrf
 #else
                module procedure stdlib_cpstrf
@@ -16628,8 +16692,8 @@ module stdlib_linalg_lapack
                subroutine dpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: tol,a,lda,work,n
-                    integer(ilp) :: info,lda,n,rank,piv,n
+                    real(dp) :: tol,a(lda,*),work(2*n)
+                    integer(ilp) :: info,lda,n,rank,piv(n)
                     character :: uplo
                end subroutine dpstrf
 #else
@@ -16640,8 +16704,8 @@ module stdlib_linalg_lapack
                subroutine spstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: tol,a,lda,work,n
-                    integer(ilp) :: info,lda,n,rank,piv,n
+                    real(sp) :: tol,a(lda,*),work(2*n)
+                    integer(ilp) :: info,lda,n,rank,piv(n)
                     character :: uplo
                end subroutine spstrf
 #else
@@ -16652,10 +16716,10 @@ module stdlib_linalg_lapack
                subroutine zpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: tol,work,n
-                    integer(ilp) :: info,lda,n,rank,piv,n
+                    real(dp) :: tol,work(2*n)
+                    integer(ilp) :: info,lda,n,rank,piv(n)
                     character :: uplo
-                    complex(dp) :: a,lda
+                    complex(dp) :: a(lda,*)
                end subroutine zpstrf
 #else
                module procedure stdlib_zpstrf
@@ -16675,8 +16739,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(sp) :: anorm,rcond,d,rwork
-                    complex(sp) :: e
+                    real(sp) :: anorm,rcond,d(*),rwork(*)
+                    complex(sp) :: e(*)
                end subroutine cptcon
 #else
                module procedure stdlib_cptcon
@@ -16686,7 +16750,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(dp) :: anorm,rcond,d,e,work
+                    real(dp) :: anorm,rcond,d(*),e(*),work(*)
                end subroutine dptcon
 #else
                module procedure stdlib_dptcon
@@ -16697,7 +16761,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(sp) :: anorm,rcond,d,e,work
+                    real(sp) :: anorm,rcond,d(*),e(*),work(*)
                end subroutine sptcon
 #else
                module procedure stdlib_sptcon
@@ -16708,8 +16772,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(dp) :: anorm,rcond,d,rwork
-                    complex(dp) :: e
+                    real(dp) :: anorm,rcond,d(*),rwork(*)
+                    complex(dp) :: e(*)
                end subroutine zptcon
 #else
                module procedure stdlib_zptcon
@@ -16738,8 +16802,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compz
                     integer(ilp) :: info,ldz,n
-                    real(sp) :: d,e,work
-                    complex(sp) :: z,ldz
+                    real(sp) :: d(*),e(*),work(*)
+                    complex(sp) :: z(ldz,*)
                end subroutine cpteqr
 #else
                module procedure stdlib_cpteqr
@@ -16750,7 +16814,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compz
                     integer(ilp) :: info,ldz,n
-                    real(dp) :: d,e,work,z,ldz
+                    real(dp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine dpteqr
 #else
                module procedure stdlib_dpteqr
@@ -16762,7 +16826,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compz
                     integer(ilp) :: info,ldz,n
-                    real(sp) :: d,e,work,z,ldz
+                    real(sp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine spteqr
 #else
                module procedure stdlib_spteqr
@@ -16774,8 +16838,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compz
                     integer(ilp) :: info,ldz,n
-                    real(dp) :: d,e,work
-                    complex(dp) :: z,ldz
+                    real(dp) :: d(*),e(*),work(*)
+                    complex(dp) :: z(ldz,*)
                end subroutine zpteqr
 #else
                module procedure stdlib_zpteqr
@@ -16794,8 +16858,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,ldx,n,nrhs
-                    real(sp) :: berr,d,df,ferr,rwork
-                    complex(sp) :: b,ldb,e,ef,work,x,ldx
+                    real(sp) :: berr(*),d(*),df(*),ferr(*),rwork(*)
+                    complex(sp) :: b(ldb,*),e(*),ef(*),work(*),x(ldx,*)
                end subroutine cptrfs
 #else
                module procedure stdlib_cptrfs
@@ -16806,7 +16870,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,ldx,n,nrhs
-                    real(dp) :: b,ldb,berr,d,df,e,ef,ferr,work,x,ldx
+                    real(dp) :: b(ldb,*),berr(*),d(*),df(*),e(*),ef(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine dptrfs
 #else
                module procedure stdlib_dptrfs
@@ -16818,7 +16883,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,ldx,n,nrhs
-                    real(sp) :: b,ldb,berr,d,df,e,ef,ferr,work,x,ldx
+                    real(sp) :: b(ldb,*),berr(*),d(*),df(*),e(*),ef(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine sptrfs
 #else
                module procedure stdlib_sptrfs
@@ -16831,8 +16897,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,ldx,n,nrhs
-                    real(dp) :: berr,d,df,ferr,rwork
-                    complex(dp) :: b,ldb,e,ef,work,x,ldx
+                    real(dp) :: berr(*),d(*),df(*),ferr(*),rwork(*)
+                    complex(dp) :: b(ldb,*),e(*),ef(*),work(*),x(ldx,*)
                end subroutine zptrfs
 #else
                module procedure stdlib_zptrfs
@@ -16850,8 +16916,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(sp) :: d
-                    complex(sp) :: b,ldb,e
+                    real(sp) :: d(*)
+                    complex(sp) :: b(ldb,*),e(*)
                end subroutine cptsv
 #else
                module procedure stdlib_cptsv
@@ -16861,7 +16927,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(dp) :: b,ldb,d,e
+                    real(dp) :: b(ldb,*),d(*),e(*)
                end subroutine dptsv
 #else
                module procedure stdlib_dptsv
@@ -16872,7 +16938,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(sp) :: b,ldb,d,e
+                    real(sp) :: b(ldb,*),d(*),e(*)
                end subroutine sptsv
 #else
                module procedure stdlib_sptsv
@@ -16883,8 +16949,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(dp) :: d
-                    complex(dp) :: b,ldb,e
+                    real(dp) :: d(*)
+                    complex(dp) :: b(ldb,*),e(*)
                end subroutine zptsv
 #else
                module procedure stdlib_zptsv
@@ -16900,8 +16966,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(sp) :: d
-                    complex(sp) :: e
+                    real(sp) :: d(*)
+                    complex(sp) :: e(*)
                end subroutine cpttrf
 #else
                module procedure stdlib_cpttrf
@@ -16911,7 +16977,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(dp) :: d,e
+                    real(dp) :: d(*),e(*)
                end subroutine dpttrf
 #else
                module procedure stdlib_dpttrf
@@ -16922,7 +16988,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(sp) :: d,e
+                    real(sp) :: d(*),e(*)
                end subroutine spttrf
 #else
                module procedure stdlib_spttrf
@@ -16933,8 +16999,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(dp) :: d
-                    complex(dp) :: e
+                    real(dp) :: d(*)
+                    complex(dp) :: e(*)
                end subroutine zpttrf
 #else
                module procedure stdlib_zpttrf
@@ -16954,8 +17020,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(sp) :: d
-                    complex(sp) :: b,ldb,e
+                    real(sp) :: d(*)
+                    complex(sp) :: b(ldb,*),e(*)
                end subroutine cpttrs
 #else
                module procedure stdlib_cpttrs
@@ -16965,7 +17031,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(dp) :: b,ldb,d,e
+                    real(dp) :: b(ldb,*),d(*),e(*)
                end subroutine dpttrs
 #else
                module procedure stdlib_dpttrs
@@ -16976,7 +17042,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(sp) :: b,ldb,d,e
+                    real(sp) :: b(ldb,*),d(*),e(*)
                end subroutine spttrs
 #else
                module procedure stdlib_spttrs
@@ -16988,8 +17054,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(dp) :: d
-                    complex(dp) :: b,ldb,e
+                    real(dp) :: d(*)
+                    complex(dp) :: b(ldb,*),e(*)
                end subroutine zpttrs
 #else
                module procedure stdlib_zpttrs
@@ -17005,7 +17071,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: incx,incy,n
                     real(sp) :: c
-                    complex(sp) :: s,cx,cy
+                    complex(sp) :: s,cx(*),cy(*)
                end subroutine crot
 #else
                module procedure stdlib_crot
@@ -17017,7 +17083,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     integer(ilp) :: incx,incy,n
                     real(dp) :: c
-                    complex(dp) :: s,cx,cy
+                    complex(dp) :: s,cx(*),cy(*)
                end subroutine zrot
 #else
                module procedure stdlib_zrot
@@ -17033,7 +17099,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    real(dp) :: sa,sx
+                    real(dp) :: sa,sx(*)
                end subroutine drscl
 #else
                module procedure stdlib_drscl
@@ -17044,7 +17110,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: incx,n
-                    real(sp) :: sa,sx
+                    real(sp) :: sa,sx(*)
                end subroutine srscl
 #else
                module procedure stdlib_srscl
@@ -17062,7 +17128,7 @@ module stdlib_linalg_lapack
                     character :: uplo
                     logical(lk) :: wantz
                     integer(ilp) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
-                    real(dp) :: a,lda,v,tau,work
+                    real(dp) :: a(lda,*),v(*),tau(*),work(*)
                end subroutine dsb2st_kernels
 #else
                module procedure stdlib_dsb2st_kernels
@@ -17076,7 +17142,7 @@ module stdlib_linalg_lapack
                     character :: uplo
                     logical(lk) :: wantz
                     integer(ilp) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
-                    real(sp) :: a,lda,v,tau,work
+                    real(sp) :: a(lda,*),v(*),tau(*),work(*)
                end subroutine ssb2st_kernels
 #else
                module procedure stdlib_ssb2st_kernels
@@ -17092,7 +17158,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,kd,ldab,ldz,n
-                    real(dp) :: ab,ldab,w,work,z,ldz
+                    real(dp) :: ab(ldab,*),w(*),work(*),z(ldz,*)
                end subroutine dsbev
 #else
                module procedure stdlib_dsbev
@@ -17104,7 +17170,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,kd,ldab,ldz,n
-                    real(sp) :: ab,ldab,w,work,z,ldz
+                    real(sp) :: ab(ldab,*),w(*),work(*),z(ldz,*)
                end subroutine ssbev
 #else
                module procedure stdlib_ssbev
@@ -17127,8 +17193,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,kd,ldab,ldz,liwork,lwork,n,iwork
-                    real(dp) :: ab,ldab,w,work,z,ldz
+                    integer(ilp) :: info,kd,ldab,ldz,liwork,lwork,n,iwork(*)
+                    real(dp) :: ab(ldab,*),w(*),work(*),z(ldz,*)
                end subroutine dsbevd
 #else
                module procedure stdlib_dsbevd
@@ -17140,8 +17206,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,kd,ldab,ldz,liwork,lwork,n,iwork
-                    real(sp) :: ab,ldab,w,work,z,ldz
+                    integer(ilp) :: info,kd,ldab,ldz,liwork,lwork,n,iwork(*)
+                    real(sp) :: ab(ldab,*),w(*),work(*),z(ldz,*)
                end subroutine ssbevd
 #else
                module procedure stdlib_ssbevd
@@ -17163,7 +17229,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo,vect
                     integer(ilp) :: info,ka,kb,ldab,ldbb,ldx,n
-                    real(dp) :: ab,ldab,bb,ldbb,work,x,ldx
+                    real(dp) :: ab(ldab,*),bb(ldbb,*),work(*),x(ldx,*)
                end subroutine dsbgst
 #else
                module procedure stdlib_dsbgst
@@ -17176,7 +17242,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo,vect
                     integer(ilp) :: info,ka,kb,ldab,ldbb,ldx,n
-                    real(sp) :: ab,ldab,bb,ldbb,work,x,ldx
+                    real(sp) :: ab(ldab,*),bb(ldbb,*),work(*),x(ldx,*)
                end subroutine ssbgst
 #else
                module procedure stdlib_ssbgst
@@ -17195,7 +17261,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,n
-                    real(dp) :: ab,ldab,bb,ldbb,w,work,z,ldz
+                    real(dp) :: ab(ldab,*),bb(ldbb,*),w(*),work(*),z(ldz,*)
                end subroutine dsbgv
 #else
                module procedure stdlib_dsbgv
@@ -17208,7 +17274,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,n
-                    real(sp) :: ab,ldab,bb,ldbb,w,work,z,ldz
+                    real(sp) :: ab(ldab,*),bb(ldbb,*),w(*),work(*),z(ldz,*)
                end subroutine ssbgv
 #else
                module procedure stdlib_ssbgv
@@ -17233,8 +17299,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lwork,n,iwork
-                    real(dp) :: ab,ldab,bb,ldbb,w,work,z,ldz
+                    integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lwork,n,iwork(*)
+                    real(dp) :: ab(ldab,*),bb(ldbb,*),w(*),work(*),z(ldz,*)
                end subroutine dsbgvd
 #else
                module procedure stdlib_dsbgvd
@@ -17246,8 +17312,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lwork,n,iwork
-                    real(sp) :: ab,ldab,bb,ldbb,w,work,z,ldz
+                    integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lwork,n,iwork(*)
+                    real(sp) :: ab(ldab,*),bb(ldbb,*),w(*),work(*),z(ldz,*)
                end subroutine ssbgvd
 #else
                module procedure stdlib_ssbgvd
@@ -17264,7 +17330,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo,vect
                     integer(ilp) :: info,kd,ldab,ldq,n
-                    real(dp) :: ab,ldab,d,e,q,ldq,work
+                    real(dp) :: ab(ldab,*),d(*),e(*),q(ldq,*),work(*)
                end subroutine dsbtrd
 #else
                module procedure stdlib_dsbtrd
@@ -17276,7 +17342,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo,vect
                     integer(ilp) :: info,kd,ldab,ldq,n
-                    real(sp) :: ab,ldab,d,e,q,ldq,work
+                    real(sp) :: ab(ldab,*),d(*),e(*),q(ldq,*),work(*)
                end subroutine ssbtrd
 #else
                module procedure stdlib_ssbtrd
@@ -17296,7 +17362,7 @@ module stdlib_linalg_lapack
                subroutine dsfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a,lda,c
+                    real(dp) :: alpha,beta,a(lda,*),c(*)
                     integer(ilp) :: k,lda,n
                     character :: trans,transr,uplo
                end subroutine dsfrk
@@ -17308,7 +17374,7 @@ module stdlib_linalg_lapack
                subroutine ssfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a,lda,c
+                    real(sp) :: alpha,beta,a(lda,*),c(*)
                     integer(ilp) :: k,lda,n
                     character :: trans,transr,uplo
                end subroutine ssfrk
@@ -17328,9 +17394,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
+                    integer(ilp) :: info,n,ipiv(*)
                     real(sp) :: anorm,rcond
-                    complex(sp) :: ap,work
+                    complex(sp) :: ap(*),work(*)
                end subroutine cspcon
 #else
                module procedure stdlib_cspcon
@@ -17340,8 +17406,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv,iwork
-                    real(dp) :: anorm,rcond,ap,work
+                    integer(ilp) :: info,n,ipiv(*),iwork(*)
+                    real(dp) :: anorm,rcond,ap(*),work(*)
                end subroutine dspcon
 #else
                module procedure stdlib_dspcon
@@ -17352,8 +17418,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv,iwork
-                    real(sp) :: anorm,rcond,ap,work
+                    integer(ilp) :: info,n,ipiv(*),iwork(*)
+                    real(sp) :: anorm,rcond,ap(*),work(*)
                end subroutine sspcon
 #else
                module procedure stdlib_sspcon
@@ -17364,9 +17430,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
+                    integer(ilp) :: info,n,ipiv(*)
                     real(dp) :: anorm,rcond
-                    complex(dp) :: ap,work
+                    complex(dp) :: ap(*),work(*)
                end subroutine zspcon
 #else
                module procedure stdlib_zspcon
@@ -17382,7 +17448,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,ldz,n
-                    real(dp) :: ap,w,work,z,ldz
+                    real(dp) :: ap(*),w(*),work(*),z(ldz,*)
                end subroutine dspev
 #else
                module procedure stdlib_dspev
@@ -17394,7 +17460,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,ldz,n
-                    real(sp) :: ap,w,work,z,ldz
+                    real(sp) :: ap(*),w(*),work(*),z(ldz,*)
                end subroutine sspev
 #else
                module procedure stdlib_sspev
@@ -17417,8 +17483,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork
-                    real(dp) :: ap,w,work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork(*)
+                    real(dp) :: ap(*),w(*),work(*),z(ldz,*)
                end subroutine dspevd
 #else
                module procedure stdlib_dspevd
@@ -17430,8 +17496,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork
-                    real(sp) :: ap,w,work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork(*)
+                    real(sp) :: ap(*),w(*),work(*),z(ldz,*)
                end subroutine sspevd
 #else
                module procedure stdlib_sspevd
@@ -17452,7 +17518,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,itype,n
-                    real(dp) :: ap,bp
+                    real(dp) :: ap(*),bp(*)
                end subroutine dspgst
 #else
                module procedure stdlib_dspgst
@@ -17464,7 +17530,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,itype,n
-                    real(sp) :: ap,bp
+                    real(sp) :: ap(*),bp(*)
                end subroutine sspgst
 #else
                module procedure stdlib_sspgst
@@ -17483,7 +17549,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,itype,ldz,n
-                    real(dp) :: ap,bp,w,work,z,ldz
+                    real(dp) :: ap(*),bp(*),w(*),work(*),z(ldz,*)
                end subroutine dspgv
 #else
                module procedure stdlib_dspgv
@@ -17495,7 +17561,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,itype,ldz,n
-                    real(sp) :: ap,bp,w,work,z,ldz
+                    real(sp) :: ap(*),bp(*),w(*),work(*),z(ldz,*)
                end subroutine sspgv
 #else
                module procedure stdlib_sspgv
@@ -17521,8 +17587,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,itype,ldz,liwork,lwork,n,iwork
-                    real(dp) :: ap,bp,w,work,z,ldz
+                    integer(ilp) :: info,itype,ldz,liwork,lwork,n,iwork(*)
+                    real(dp) :: ap(*),bp(*),w(*),work(*),z(ldz,*)
                end subroutine dspgvd
 #else
                module procedure stdlib_dspgvd
@@ -17534,8 +17600,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,itype,ldz,liwork,lwork,n,iwork
-                    real(sp) :: ap,bp,w,work,z,ldz
+                    integer(ilp) :: info,itype,ldz,liwork,lwork,n,iwork(*)
+                    real(sp) :: ap(*),bp(*),w(*),work(*),z(ldz,*)
                end subroutine sspgvd
 #else
                module procedure stdlib_sspgvd
@@ -17553,7 +17619,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incx,incy,n
-                    complex(sp) :: alpha,beta,ap,x,y
+                    complex(sp) :: alpha,beta,ap(*),x(*),y(*)
                end subroutine cspmv
 #else
                module procedure stdlib_cspmv
@@ -17565,7 +17631,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incx,incy,n
-                    complex(dp) :: alpha,beta,ap,x,y
+                    complex(dp) :: alpha,beta,ap(*),x(*),y(*)
                end subroutine zspmv
 #else
                module procedure stdlib_zspmv
@@ -17583,7 +17649,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incx,n
-                    complex(sp) :: alpha,ap,x
+                    complex(sp) :: alpha,ap(*),x(*)
                end subroutine cspr
 #else
                module procedure stdlib_cspr
@@ -17595,7 +17661,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incx,n
-                    complex(dp) :: alpha,ap,x
+                    complex(dp) :: alpha,ap(*),x(*)
                end subroutine zspr
 #else
                module procedure stdlib_zspr
@@ -17613,9 +17679,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: afp,ap,b,ldb,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*)
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
                end subroutine csprfs
 #else
                module procedure stdlib_csprfs
@@ -17626,8 +17692,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(dp) :: afp,ap,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(dp) :: afp(*),ap(*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine dsprfs
 #else
                module procedure stdlib_dsprfs
@@ -17639,8 +17705,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(sp) :: afp,ap,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(sp) :: afp(*),ap(*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine ssprfs
 #else
                module procedure stdlib_ssprfs
@@ -17652,9 +17718,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: afp,ap,b,ldb,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,ipiv(*)
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
                end subroutine zsprfs
 #else
                module procedure stdlib_zsprfs
@@ -17678,8 +17744,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(sp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: ap(*),b(ldb,*)
                end subroutine cspsv
 #else
                module procedure stdlib_cspsv
@@ -17689,8 +17755,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    real(dp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: ap(*),b(ldb,*)
                end subroutine dspsv
 #else
                module procedure stdlib_dspsv
@@ -17701,8 +17767,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    real(sp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: ap(*),b(ldb,*)
                end subroutine sspsv
 #else
                module procedure stdlib_sspsv
@@ -17713,8 +17779,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(dp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: ap(*),b(ldb,*)
                end subroutine zspsv
 #else
                module procedure stdlib_zspsv
@@ -17731,7 +17797,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(dp) :: ap,d,e,tau
+                    real(dp) :: ap(*),d(*),e(*),tau(*)
                end subroutine dsptrd
 #else
                module procedure stdlib_dsptrd
@@ -17743,7 +17809,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n
-                    real(sp) :: ap,d,e,tau
+                    real(sp) :: ap(*),d(*),e(*),tau(*)
                end subroutine ssptrd
 #else
                module procedure stdlib_ssptrd
@@ -17763,8 +17829,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    complex(sp) :: ap
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(sp) :: ap(*)
                end subroutine csptrf
 #else
                module procedure stdlib_csptrf
@@ -17774,8 +17840,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    real(dp) :: ap
+                    integer(ilp) :: info,n,ipiv(*)
+                    real(dp) :: ap(*)
                end subroutine dsptrf
 #else
                module procedure stdlib_dsptrf
@@ -17786,8 +17852,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    real(sp) :: ap
+                    integer(ilp) :: info,n,ipiv(*)
+                    real(sp) :: ap(*)
                end subroutine ssptrf
 #else
                module procedure stdlib_ssptrf
@@ -17798,8 +17864,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    complex(dp) :: ap
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(dp) :: ap(*)
                end subroutine zsptrf
 #else
                module procedure stdlib_zsptrf
@@ -17815,8 +17881,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    complex(sp) :: ap,work
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(sp) :: ap(*),work(*)
                end subroutine csptri
 #else
                module procedure stdlib_csptri
@@ -17826,8 +17892,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    real(dp) :: ap,work
+                    integer(ilp) :: info,n,ipiv(*)
+                    real(dp) :: ap(*),work(*)
                end subroutine dsptri
 #else
                module procedure stdlib_dsptri
@@ -17838,8 +17904,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    real(sp) :: ap,work
+                    integer(ilp) :: info,n,ipiv(*)
+                    real(sp) :: ap(*),work(*)
                end subroutine ssptri
 #else
                module procedure stdlib_ssptri
@@ -17850,8 +17916,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,n,ipiv
-                    complex(dp) :: ap,work
+                    integer(ilp) :: info,n,ipiv(*)
+                    complex(dp) :: ap(*),work(*)
                end subroutine zsptri
 #else
                module procedure stdlib_zsptri
@@ -17867,8 +17933,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(sp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: ap(*),b(ldb,*)
                end subroutine csptrs
 #else
                module procedure stdlib_csptrs
@@ -17878,8 +17944,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    real(dp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: ap(*),b(ldb,*)
                end subroutine dsptrs
 #else
                module procedure stdlib_dsptrs
@@ -17890,8 +17956,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    real(sp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: ap(*),b(ldb,*)
                end subroutine ssptrs
 #else
                module procedure stdlib_ssptrs
@@ -17902,8 +17968,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,ldb,n,nrhs,ipiv
-                    complex(dp) :: ap,b,ldb
+                    integer(ilp) :: info,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: ap(*),b(ldb,*)
                end subroutine zsptrs
 #else
                module procedure stdlib_zsptrs
@@ -17927,8 +17993,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: order,range
-                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock,isplit,iwork
-                    real(dp) :: abstol,vl,vu,d,e,w,work
+                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock(*),isplit(*),iwork(*)
+                    real(dp) :: abstol,vl,vu,d(*),e(*),w(*),work(*)
                end subroutine dstebz
 #else
                module procedure stdlib_dstebz
@@ -17940,8 +18006,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: order,range
-                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock,isplit,iwork
-                    real(sp) :: abstol,vl,vu,d,e,w,work
+                    integer(ilp) :: il,info,iu,m,n,nsplit,iblock(*),isplit(*),iwork(*)
+                    real(sp) :: abstol,vl,vu,d(*),e(*),w(*),work(*)
                end subroutine sstebz
 #else
                module procedure stdlib_sstebz
@@ -17966,9 +18032,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: compz
-                    integer(ilp) :: info,ldz,liwork,lrwork,lwork,n,iwork
-                    real(sp) :: d,e,rwork
-                    complex(sp) :: work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lrwork,lwork,n,iwork(*)
+                    real(sp) :: d(*),e(*),rwork(*)
+                    complex(sp) :: work(*),z(ldz,*)
                end subroutine cstedc
 #else
                module procedure stdlib_cstedc
@@ -17979,8 +18045,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: compz
-                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork
-                    real(dp) :: d,e,work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork(*)
+                    real(dp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine dstedc
 #else
                module procedure stdlib_dstedc
@@ -17992,8 +18058,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: compz
-                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork
-                    real(sp) :: d,e,work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork(*)
+                    real(sp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine sstedc
 #else
                module procedure stdlib_sstedc
@@ -18005,9 +18071,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: compz
-                    integer(ilp) :: info,ldz,liwork,lrwork,lwork,n,iwork
-                    real(dp) :: d,e,rwork
-                    complex(dp) :: work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lrwork,lwork,n,iwork(*)
+                    real(dp) :: d(*),e(*),rwork(*)
+                    complex(dp) :: work(*),z(ldz,*)
                end subroutine zstedc
 #else
                module procedure stdlib_zstedc
@@ -18037,9 +18103,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range
-                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz,iwork
-                    real(sp) :: abstol,vl,vu,d,e,w,work
-                    complex(sp) :: z,ldz
+                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(sp) :: abstol,vl,vu,d(*),e(*),w(*),work(*)
+                    complex(sp) :: z(ldz,*)
                end subroutine cstegr
 #else
                module procedure stdlib_cstegr
@@ -18050,8 +18116,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range
-                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz,iwork
-                    real(dp) :: abstol,vl,vu,d,e,w,work,z,ldz
+                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(dp) :: abstol,vl,vu,d(*),e(*),w(*),work(*),z(ldz,*)
                end subroutine dstegr
 #else
                module procedure stdlib_dstegr
@@ -18063,8 +18129,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range
-                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz,iwork
-                    real(sp) :: abstol,vl,vu,d,e,w,work,z,ldz
+                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(sp) :: abstol,vl,vu,d(*),e(*),w(*),work(*),z(ldz,*)
                end subroutine sstegr
 #else
                module procedure stdlib_sstegr
@@ -18076,9 +18142,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range
-                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz,iwork
-                    real(dp) :: abstol,vl,vu,d,e,w,work
-                    complex(dp) :: z,ldz
+                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(dp) :: abstol,vl,vu,d(*),e(*),w(*),work(*)
+                    complex(dp) :: z(ldz,*)
                end subroutine zstegr
 #else
                module procedure stdlib_zstegr
@@ -18100,9 +18166,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldz,m,n,iblock,ifail,isplit,iwork
-                    real(sp) :: d,e,w,work
-                    complex(sp) :: z,ldz
+                    integer(ilp) :: info,ldz,m,n,iblock(*),ifail(*),isplit(*),iwork(*)
+                    real(sp) :: d(*),e(*),w(*),work(*)
+                    complex(sp) :: z(ldz,*)
                end subroutine cstein
 #else
                module procedure stdlib_cstein
@@ -18112,8 +18178,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldz,m,n,iblock,ifail,isplit,iwork
-                    real(dp) :: d,e,w,work,z,ldz
+                    integer(ilp) :: info,ldz,m,n,iblock(*),ifail(*),isplit(*),iwork(*)
+                    real(dp) :: d(*),e(*),w(*),work(*),z(ldz,*)
                end subroutine dstein
 #else
                module procedure stdlib_dstein
@@ -18124,8 +18190,8 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldz,m,n,iblock,ifail,isplit,iwork
-                    real(sp) :: d,e,w,work,z,ldz
+                    integer(ilp) :: info,ldz,m,n,iblock(*),ifail(*),isplit(*),iwork(*)
+                    real(sp) :: d(*),e(*),w(*),work(*),z(ldz,*)
                end subroutine sstein
 #else
                module procedure stdlib_sstein
@@ -18136,9 +18202,9 @@ module stdlib_linalg_lapack
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: info,ldz,m,n,iblock,ifail,isplit,iwork
-                    real(dp) :: d,e,w,work
-                    complex(dp) :: z,ldz
+                    integer(ilp) :: info,ldz,m,n,iblock(*),ifail(*),isplit(*),iwork(*)
+                    real(dp) :: d(*),e(*),w(*),work(*)
+                    complex(dp) :: z(ldz,*)
                end subroutine zstein
 #else
                module procedure stdlib_zstein
@@ -18212,9 +18278,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,range
                     logical(lk) :: tryrac
-                    integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n,isuppz,iwork
-                    real(sp) :: vl,vu,d,e,w,work
-                    complex(sp) :: z,ldz
+                    integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(sp) :: vl,vu,d(*),e(*),w(*),work(*)
+                    complex(sp) :: z(ldz,*)
                end subroutine cstemr
 #else
                module procedure stdlib_cstemr
@@ -18226,8 +18292,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,range
                     logical(lk) :: tryrac
-                    integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n,isuppz,iwork
-                    real(dp) :: vl,vu,d,e,w,work,z,ldz
+                    integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(dp) :: vl,vu,d(*),e(*),w(*),work(*),z(ldz,*)
                end subroutine dstemr
 #else
                module procedure stdlib_dstemr
@@ -18240,8 +18306,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,range
                     logical(lk) :: tryrac
-                    integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n,isuppz,iwork
-                    real(sp) :: vl,vu,d,e,w,work,z,ldz
+                    integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(sp) :: vl,vu,d(*),e(*),w(*),work(*),z(ldz,*)
                end subroutine sstemr
 #else
                module procedure stdlib_sstemr
@@ -18254,9 +18320,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,range
                     logical(lk) :: tryrac
-                    integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n,isuppz,iwork
-                    real(dp) :: vl,vu,d,e,w,work
-                    complex(dp) :: z,ldz
+                    integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(dp) :: vl,vu,d(*),e(*),w(*),work(*)
+                    complex(dp) :: z(ldz,*)
                end subroutine zstemr
 #else
                module procedure stdlib_zstemr
@@ -18275,8 +18341,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compz
                     integer(ilp) :: info,ldz,n
-                    real(sp) :: d,e,work
-                    complex(sp) :: z,ldz
+                    real(sp) :: d(*),e(*),work(*)
+                    complex(sp) :: z(ldz,*)
                end subroutine csteqr
 #else
                module procedure stdlib_csteqr
@@ -18287,7 +18353,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compz
                     integer(ilp) :: info,ldz,n
-                    real(dp) :: d,e,work,z,ldz
+                    real(dp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine dsteqr
 #else
                module procedure stdlib_dsteqr
@@ -18299,7 +18365,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compz
                     integer(ilp) :: info,ldz,n
-                    real(sp) :: d,e,work,z,ldz
+                    real(sp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine ssteqr
 #else
                module procedure stdlib_ssteqr
@@ -18311,8 +18377,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compz
                     integer(ilp) :: info,ldz,n
-                    real(dp) :: d,e,work
-                    complex(dp) :: z,ldz
+                    real(dp) :: d(*),e(*),work(*)
+                    complex(dp) :: z(ldz,*)
                end subroutine zsteqr
 #else
                module procedure stdlib_zsteqr
@@ -18327,7 +18393,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(dp) :: d,e
+                    real(dp) :: d(*),e(*)
                end subroutine dsterf
 #else
                module procedure stdlib_dsterf
@@ -18338,7 +18404,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,n
-                    real(sp) :: d,e
+                    real(sp) :: d(*),e(*)
                end subroutine ssterf
 #else
                module procedure stdlib_ssterf
@@ -18354,7 +18420,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz
                     integer(ilp) :: info,ldz,n
-                    real(dp) :: d,e,work,z,ldz
+                    real(dp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine dstev
 #else
                module procedure stdlib_dstev
@@ -18366,7 +18432,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz
                     integer(ilp) :: info,ldz,n
-                    real(sp) :: d,e,work,z,ldz
+                    real(sp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine sstev
 #else
                module procedure stdlib_sstev
@@ -18388,8 +18454,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz
-                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork
-                    real(dp) :: d,e,work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork(*)
+                    real(dp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine dstevd
 #else
                module procedure stdlib_dstevd
@@ -18400,8 +18466,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz
-                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork
-                    real(sp) :: d,e,work,z,ldz
+                    integer(ilp) :: info,ldz,liwork,lwork,n,iwork(*)
+                    real(sp) :: d(*),e(*),work(*),z(ldz,*)
                end subroutine sstevd
 #else
                module procedure stdlib_sstevd
@@ -18450,8 +18516,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range
-                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz,iwork
-                    real(dp) :: abstol,vl,vu,d,e,w,work,z,ldz
+                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(dp) :: abstol,vl,vu,d(*),e(*),w(*),work(*),z(ldz,*)
                end subroutine dstevr
 #else
                module procedure stdlib_dstevr
@@ -18463,8 +18529,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range
-                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz,iwork
-                    real(sp) :: abstol,vl,vu,d,e,w,work,z,ldz
+                    integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(sp) :: abstol,vl,vu,d(*),e(*),w(*),work(*),z(ldz,*)
                end subroutine sstevr
 #else
                module procedure stdlib_sstevr
@@ -18482,9 +18548,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
+                    integer(ilp) :: info,lda,n,ipiv(*)
                     real(sp) :: anorm,rcond
-                    complex(sp) :: a,lda,work
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine csycon
 #else
                module procedure stdlib_csycon
@@ -18494,8 +18560,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv,iwork
-                    real(dp) :: anorm,rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*),iwork(*)
+                    real(dp) :: anorm,rcond,a(lda,*),work(*)
                end subroutine dsycon
 #else
                module procedure stdlib_dsycon
@@ -18506,8 +18572,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv,iwork
-                    real(sp) :: anorm,rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*),iwork(*)
+                    real(sp) :: anorm,rcond,a(lda,*),work(*)
                end subroutine ssycon
 #else
                module procedure stdlib_ssycon
@@ -18518,9 +18584,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
+                    integer(ilp) :: info,lda,n,ipiv(*)
                     real(dp) :: anorm,rcond
-                    complex(dp) :: a,lda,work
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zsycon
 #else
                module procedure stdlib_zsycon
@@ -18538,9 +18604,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
+                    integer(ilp) :: info,lda,n,ipiv(*)
                     real(sp) :: anorm,rcond
-                    complex(sp) :: a,lda,work
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine csycon_rook
 #else
                module procedure stdlib_csycon_rook
@@ -18551,8 +18617,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv,iwork
-                    real(dp) :: anorm,rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*),iwork(*)
+                    real(dp) :: anorm,rcond,a(lda,*),work(*)
                end subroutine dsycon_rook
 #else
                module procedure stdlib_dsycon_rook
@@ -18564,8 +18630,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv,iwork
-                    real(sp) :: anorm,rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*),iwork(*)
+                    real(sp) :: anorm,rcond,a(lda,*),work(*)
                end subroutine ssycon_rook
 #else
                module procedure stdlib_ssycon_rook
@@ -18576,9 +18642,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
+                    integer(ilp) :: info,lda,n,ipiv(*)
                     real(dp) :: anorm,rcond
-                    complex(dp) :: a,lda,work
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zsycon_rook
 #else
                module procedure stdlib_zsycon_rook
@@ -18594,8 +18660,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*),e(*)
                end subroutine csyconv
 #else
                module procedure stdlib_csyconv
@@ -18605,8 +18671,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(dp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(dp) :: a(lda,*),e(*)
                end subroutine dsyconv
 #else
                module procedure stdlib_dsyconv
@@ -18617,8 +18683,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(sp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(sp) :: a(lda,*),e(*)
                end subroutine ssyconv
 #else
                module procedure stdlib_ssyconv
@@ -18629,8 +18695,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*),e(*)
                end subroutine zsyconv
 #else
                module procedure stdlib_zsyconv
@@ -18660,8 +18726,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*),e(*)
                end subroutine csyconvf
 #else
                module procedure stdlib_csyconvf
@@ -18671,8 +18737,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(dp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(dp) :: a(lda,*),e(*)
                end subroutine dsyconvf
 #else
                module procedure stdlib_dsyconvf
@@ -18683,8 +18749,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(sp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(sp) :: a(lda,*),e(*)
                end subroutine ssyconvf
 #else
                module procedure stdlib_ssyconvf
@@ -18695,8 +18761,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*),e(*)
                end subroutine zsyconvf
 #else
                module procedure stdlib_zsyconvf
@@ -18724,8 +18790,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*),e(*)
                end subroutine csyconvf_rook
 #else
                module procedure stdlib_csyconvf_rook
@@ -18735,8 +18801,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(dp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(dp) :: a(lda,*),e(*)
                end subroutine dsyconvf_rook
 #else
                module procedure stdlib_dsyconvf_rook
@@ -18747,8 +18813,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(sp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(sp) :: a(lda,*),e(*)
                end subroutine ssyconvf_rook
 #else
                module procedure stdlib_ssyconvf_rook
@@ -18759,8 +18825,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo,way
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*),e(*)
                end subroutine zsyconvf_rook
 #else
                module procedure stdlib_zsyconvf_rook
@@ -18780,9 +18846,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(sp) :: amax,scond,s
+                    real(sp) :: amax,scond,s(*)
                     character :: uplo
-                    complex(sp) :: a,lda,work
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine csyequb
 #else
                module procedure stdlib_csyequb
@@ -18792,7 +18858,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(dp) :: amax,scond,a,lda,s,work
+                    real(dp) :: amax,scond,a(lda,*),s(*),work(*)
                     character :: uplo
                end subroutine dsyequb
 #else
@@ -18804,7 +18870,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(sp) :: amax,scond,a,lda,s,work
+                    real(sp) :: amax,scond,a(lda,*),s(*),work(*)
                     character :: uplo
                end subroutine ssyequb
 #else
@@ -18816,9 +18882,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,n
-                    real(dp) :: amax,scond,s
+                    real(dp) :: amax,scond,s(*)
                     character :: uplo
-                    complex(dp) :: a,lda,work
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zsyequb
 #else
                module procedure stdlib_zsyequb
@@ -18834,7 +18900,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(dp) :: a,lda,w,work
+                    real(dp) :: a(lda,*),w(*),work(*)
                end subroutine dsyev
 #else
                module procedure stdlib_dsyev
@@ -18846,7 +18912,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(sp) :: a,lda,w,work
+                    real(sp) :: a(lda,*),w(*),work(*)
                end subroutine ssyev
 #else
                module procedure stdlib_ssyev
@@ -18871,8 +18937,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,lda,liwork,lwork,n,iwork
-                    real(dp) :: a,lda,w,work
+                    integer(ilp) :: info,lda,liwork,lwork,n,iwork(*)
+                    real(dp) :: a(lda,*),w(*),work(*)
                end subroutine dsyevd
 #else
                module procedure stdlib_dsyevd
@@ -18884,8 +18950,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,lda,liwork,lwork,n,iwork
-                    real(sp) :: a,lda,w,work
+                    integer(ilp) :: info,lda,liwork,lwork,n,iwork(*)
+                    real(sp) :: a(lda,*),w(*),work(*)
                end subroutine ssyevd
 #else
                module procedure stdlib_ssyevd
@@ -18949,8 +19015,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range,uplo
-                    integer(ilp) :: il,info,iu,lda,ldz,liwork,lwork,m,n,isuppz,iwork
-                    real(dp) :: abstol,vl,vu,a,lda,w,work,z,ldz
+                    integer(ilp) :: il,info,iu,lda,ldz,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(dp) :: abstol,vl,vu,a(lda,*),w(*),work(*),z(ldz,*)
                end subroutine dsyevr
 #else
                module procedure stdlib_dsyevr
@@ -18962,8 +19028,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,range,uplo
-                    integer(ilp) :: il,info,iu,lda,ldz,liwork,lwork,m,n,isuppz,iwork
-                    real(sp) :: abstol,vl,vu,a,lda,w,work,z,ldz
+                    integer(ilp) :: il,info,iu,lda,ldz,liwork,lwork,m,n,isuppz(*),iwork(*)
+                    real(sp) :: abstol,vl,vu,a(lda,*),w(*),work(*),z(ldz,*)
                end subroutine ssyevr
 #else
                module procedure stdlib_ssyevr
@@ -18984,7 +19050,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,itype,lda,ldb,n
-                    real(dp) :: a,lda,b,ldb
+                    real(dp) :: a(lda,*),b(ldb,*)
                end subroutine dsygst
 #else
                module procedure stdlib_dsygst
@@ -18996,7 +19062,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,itype,lda,ldb,n
-                    real(sp) :: a,lda,b,ldb
+                    real(sp) :: a(lda,*),b(ldb,*)
                end subroutine ssygst
 #else
                module procedure stdlib_ssygst
@@ -19016,7 +19082,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,itype,lda,ldb,lwork,n
-                    real(dp) :: a,lda,b,ldb,w,work
+                    real(dp) :: a(lda,*),b(ldb,*),w(*),work(*)
                end subroutine dsygv
 #else
                module procedure stdlib_dsygv
@@ -19029,7 +19095,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobz,uplo
                     integer(ilp) :: info,itype,lda,ldb,lwork,n
-                    real(sp) :: a,lda,b,ldb,w,work
+                    real(sp) :: a(lda,*),b(ldb,*),w(*),work(*)
                end subroutine ssygv
 #else
                module procedure stdlib_ssygv
@@ -19054,8 +19120,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,itype,lda,ldb,liwork,lwork,n,iwork
-                    real(dp) :: a,lda,b,ldb,w,work
+                    integer(ilp) :: info,itype,lda,ldb,liwork,lwork,n,iwork(*)
+                    real(dp) :: a(lda,*),b(ldb,*),w(*),work(*)
                end subroutine dsygvd
 #else
                module procedure stdlib_dsygvd
@@ -19067,8 +19133,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: jobz,uplo
-                    integer(ilp) :: info,itype,lda,ldb,liwork,lwork,n,iwork
-                    real(sp) :: a,lda,b,ldb,w,work
+                    integer(ilp) :: info,itype,lda,ldb,liwork,lwork,n,iwork(*)
+                    real(sp) :: a(lda,*),b(ldb,*),w(*),work(*)
                end subroutine ssygvd
 #else
                module procedure stdlib_ssygvd
@@ -19086,7 +19152,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incx,incy,lda,n
-                    complex(sp) :: alpha,beta,a,lda,x,y
+                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*)
                end subroutine csymv
 #else
                module procedure stdlib_csymv
@@ -19098,7 +19164,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incx,incy,lda,n
-                    complex(dp) :: alpha,beta,a,lda,x,y
+                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*)
                end subroutine zsymv
 #else
                module procedure stdlib_zsymv
@@ -19116,7 +19182,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incx,lda,n
-                    complex(sp) :: alpha,a,lda,x
+                    complex(sp) :: alpha,a(lda,*),x(*)
                end subroutine csyr
 #else
                module procedure stdlib_csyr
@@ -19128,7 +19194,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: incx,lda,n
-                    complex(dp) :: alpha,a,lda,x
+                    complex(dp) :: alpha,a(lda,*),x(*)
                end subroutine zsyr
 #else
                module procedure stdlib_zsyr
@@ -19145,9 +19211,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: a,lda,af,ldaf,b,ldb,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*)
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine csyrfs
 #else
                module procedure stdlib_csyrfs
@@ -19158,8 +19224,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(dp) :: a,lda,af,ldaf,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine dsyrfs
 #else
                module procedure stdlib_dsyrfs
@@ -19171,8 +19238,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv,iwork
-                    real(sp) :: a,lda,af,ldaf,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*),iwork(*)
+                    real(sp) :: a(lda,*),af(ldaf,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
+                              
                end subroutine ssyrfs
 #else
                module procedure stdlib_ssyrfs
@@ -19184,9 +19252,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: a,lda,af,ldaf,b,ldb,work,x,ldx
+                    integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs,ipiv(*)
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine zsyrfs
 #else
                module procedure stdlib_zsyrfs
@@ -19210,8 +19278,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine csysv
 #else
                module procedure stdlib_csysv
@@ -19221,8 +19289,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine dsysv
 #else
                module procedure stdlib_dsysv
@@ -19233,8 +19301,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine ssysv
 #else
                module procedure stdlib_ssysv
@@ -19245,8 +19313,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zsysv
 #else
                module procedure stdlib_zsysv
@@ -19270,8 +19338,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine csysv_aa
 #else
                module procedure stdlib_csysv_aa
@@ -19282,8 +19350,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine dsysv_aa
 #else
                module procedure stdlib_dsysv_aa
@@ -19295,8 +19363,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine ssysv_aa
 #else
                module procedure stdlib_ssysv_aa
@@ -19308,8 +19376,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zsysv_aa
 #else
                module procedure stdlib_zsysv_aa
@@ -19337,8 +19405,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,e,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),e(*),work(*)
                end subroutine csysv_rk
 #else
                module procedure stdlib_csysv_rk
@@ -19349,8 +19417,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb,e,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*),e(*),work(*)
                end subroutine dsysv_rk
 #else
                module procedure stdlib_dsysv_rk
@@ -19362,8 +19430,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb,e,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*),e(*),work(*)
                end subroutine ssysv_rk
 #else
                module procedure stdlib_ssysv_rk
@@ -19375,8 +19443,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,e,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),e(*),work(*)
                end subroutine zsysv_rk
 #else
                module procedure stdlib_zsysv_rk
@@ -19406,8 +19474,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine csysv_rook
 #else
                module procedure stdlib_csysv_rook
@@ -19418,8 +19486,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine dsysv_rook
 #else
                module procedure stdlib_dsysv_rook
@@ -19431,8 +19499,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine ssysv_rook
 #else
                module procedure stdlib_ssysv_rook
@@ -19444,8 +19512,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,lwork,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zsysv_rook
 #else
                module procedure stdlib_zsysv_rook
@@ -19461,7 +19529,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: i1,i2,lda,n
-                    complex(sp) :: a,lda,n
+                    complex(sp) :: a(lda,n)
                end subroutine csyswapr
 #else
                module procedure stdlib_csyswapr
@@ -19472,7 +19540,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: i1,i2,lda,n
-                    real(dp) :: a,lda,n
+                    real(dp) :: a(lda,n)
                end subroutine dsyswapr
 #else
                module procedure stdlib_dsyswapr
@@ -19484,7 +19552,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: i1,i2,lda,n
-                    real(sp) :: a,lda,n
+                    real(sp) :: a(lda,n)
                end subroutine ssyswapr
 #else
                module procedure stdlib_ssyswapr
@@ -19496,7 +19564,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: i1,i2,lda,n
-                    complex(dp) :: a,lda,n
+                    complex(dp) :: a(lda,n)
                end subroutine zsyswapr
 #else
                module procedure stdlib_zsyswapr
@@ -19518,8 +19586,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*),e(*)
                end subroutine csytf2_rk
 #else
                module procedure stdlib_csytf2_rk
@@ -19529,8 +19597,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(dp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(dp) :: a(lda,*),e(*)
                end subroutine dsytf2_rk
 #else
                module procedure stdlib_dsytf2_rk
@@ -19541,8 +19609,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(sp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(sp) :: a(lda,*),e(*)
                end subroutine ssytf2_rk
 #else
                module procedure stdlib_ssytf2_rk
@@ -19553,8 +19621,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda,e
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*),e(*)
                end subroutine zsytf2_rk
 #else
                module procedure stdlib_zsytf2_rk
@@ -19574,8 +19642,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*)
                end subroutine csytf2_rook
 #else
                module procedure stdlib_csytf2_rook
@@ -19585,8 +19653,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(dp) :: a,lda
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(dp) :: a(lda,*)
                end subroutine dsytf2_rook
 #else
                module procedure stdlib_dsytf2_rook
@@ -19597,8 +19665,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(sp) :: a,lda
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(sp) :: a(lda,*)
                end subroutine ssytf2_rook
 #else
                module procedure stdlib_ssytf2_rook
@@ -19609,8 +19677,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*)
                end subroutine zsytf2_rook
 #else
                module procedure stdlib_zsytf2_rook
@@ -19627,7 +19695,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(dp) :: a,lda,d,e,tau,work
+                    real(dp) :: a(lda,*),d(*),e(*),tau(*),work(*)
                end subroutine dsytrd
 #else
                module procedure stdlib_dsytrd
@@ -19639,7 +19707,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,lwork,n
-                    real(sp) :: a,lda,d,e,tau,work
+                    real(sp) :: a(lda,*),d(*),e(*),tau(*),work(*)
                end subroutine ssytrd
 #else
                module procedure stdlib_ssytrd
@@ -19657,7 +19725,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: stage1,uplo,vect
                     integer(ilp) :: n,kd,ldab,lhous,lwork,info
-                    real(dp) :: d,e,ab,ldab,hous,work
+                    real(dp) :: d(*),e(*),ab(ldab,*),hous(*),work(*)
                end subroutine dsytrd_sb2st
 #else
                module procedure stdlib_dsytrd_sb2st
@@ -19670,7 +19738,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: stage1,uplo,vect
                     integer(ilp) :: n,kd,ldab,lhous,lwork,info
-                    real(sp) :: d,e,ab,ldab,hous,work
+                    real(sp) :: d(*),e(*),ab(ldab,*),hous(*),work(*)
                end subroutine ssytrd_sb2st
 #else
                module procedure stdlib_ssytrd_sb2st
@@ -19688,7 +19756,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldab,lwork,n,kd
-                    real(dp) :: a,lda,ab,ldab,tau,work
+                    real(dp) :: a(lda,*),ab(ldab,*),tau(*),work(*)
                end subroutine dsytrd_sy2sb
 #else
                module procedure stdlib_dsytrd_sy2sb
@@ -19701,7 +19769,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,ldab,lwork,n,kd
-                    real(sp) :: a,lda,ab,ldab,tau,work
+                    real(sp) :: a(lda,*),ab(ldab,*),tau(*),work(*)
                end subroutine ssytrd_sy2sb
 #else
                module procedure stdlib_ssytrd_sy2sb
@@ -19722,8 +19790,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine csytrf
 #else
                module procedure stdlib_csytrf
@@ -19733,8 +19801,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    real(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    real(dp) :: a(lda,*),work(*)
                end subroutine dsytrf
 #else
                module procedure stdlib_dsytrf
@@ -19745,8 +19813,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    real(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    real(sp) :: a(lda,*),work(*)
                end subroutine ssytrf
 #else
                module procedure stdlib_ssytrf
@@ -19757,8 +19825,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zsytrf
 #else
                module procedure stdlib_zsytrf
@@ -19777,8 +19845,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,lwork,info,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: n,lda,lwork,info,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine csytrf_aa
 #else
                module procedure stdlib_csytrf_aa
@@ -19788,8 +19856,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,lwork,info,ipiv
-                    real(dp) :: a,lda,work
+                    integer(ilp) :: n,lda,lwork,info,ipiv(*)
+                    real(dp) :: a(lda,*),work(*)
                end subroutine dsytrf_aa
 #else
                module procedure stdlib_dsytrf_aa
@@ -19800,8 +19868,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,lwork,info,ipiv
-                    real(sp) :: a,lda,work
+                    integer(ilp) :: n,lda,lwork,info,ipiv(*)
+                    real(sp) :: a(lda,*),work(*)
                end subroutine ssytrf_aa
 #else
                module procedure stdlib_ssytrf_aa
@@ -19812,8 +19880,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,lda,lwork,info,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: n,lda,lwork,info,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zsytrf_aa
 #else
                module procedure stdlib_zsytrf_aa
@@ -19835,8 +19903,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(sp) :: a,lda,e,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(sp) :: a(lda,*),e(*),work(*)
                end subroutine csytrf_rk
 #else
                module procedure stdlib_csytrf_rk
@@ -19846,8 +19914,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    real(dp) :: a,lda,e,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    real(dp) :: a(lda,*),e(*),work(*)
                end subroutine dsytrf_rk
 #else
                module procedure stdlib_dsytrf_rk
@@ -19858,8 +19926,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    real(sp) :: a,lda,e,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    real(sp) :: a(lda,*),e(*),work(*)
                end subroutine ssytrf_rk
 #else
                module procedure stdlib_ssytrf_rk
@@ -19870,8 +19938,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(dp) :: a,lda,e,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(dp) :: a(lda,*),e(*),work(*)
                end subroutine zsytrf_rk
 #else
                module procedure stdlib_zsytrf_rk
@@ -19892,8 +19960,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine csytrf_rook
 #else
                module procedure stdlib_csytrf_rook
@@ -19903,8 +19971,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    real(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    real(dp) :: a(lda,*),work(*)
                end subroutine dsytrf_rook
 #else
                module procedure stdlib_dsytrf_rook
@@ -19915,8 +19983,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    real(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    real(sp) :: a(lda,*),work(*)
                end subroutine ssytrf_rook
 #else
                module procedure stdlib_ssytrf_rook
@@ -19927,8 +19995,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,lwork,n,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,lwork,n,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zsytrf_rook
 #else
                module procedure stdlib_zsytrf_rook
@@ -19944,8 +20012,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine csytri
 #else
                module procedure stdlib_csytri
@@ -19955,8 +20023,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(dp) :: a(lda,*),work(*)
                end subroutine dsytri
 #else
                module procedure stdlib_dsytri
@@ -19967,8 +20035,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(sp) :: a(lda,*),work(*)
                end subroutine ssytri
 #else
                module procedure stdlib_ssytri
@@ -19979,8 +20047,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zsytri
 #else
                module procedure stdlib_zsytri
@@ -19996,8 +20064,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine csytri_rook
 #else
                module procedure stdlib_csytri_rook
@@ -20007,8 +20075,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(dp) :: a(lda,*),work(*)
                end subroutine dsytri_rook
 #else
                module procedure stdlib_dsytri_rook
@@ -20019,8 +20087,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    real(sp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    real(sp) :: a(lda,*),work(*)
                end subroutine ssytri_rook
 #else
                module procedure stdlib_ssytri_rook
@@ -20031,8 +20099,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,n,ipiv
-                    complex(dp) :: a,lda,work
+                    integer(ilp) :: info,lda,n,ipiv(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine zsytri_rook
 #else
                module procedure stdlib_zsytri_rook
@@ -20048,8 +20116,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine csytrs
 #else
                module procedure stdlib_csytrs
@@ -20059,8 +20127,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*)
                end subroutine dsytrs
 #else
                module procedure stdlib_dsytrs
@@ -20071,8 +20139,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*)
                end subroutine ssytrs
 #else
                module procedure stdlib_ssytrs
@@ -20083,8 +20151,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zsytrs
 #else
                module procedure stdlib_zsytrs
@@ -20100,8 +20168,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine csytrs2
 #else
                module procedure stdlib_csytrs2
@@ -20111,8 +20179,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine dsytrs2
 #else
                module procedure stdlib_dsytrs2
@@ -20123,8 +20191,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine ssytrs2
 #else
                module procedure stdlib_ssytrs2
@@ -20135,8 +20203,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zsytrs2
 #else
                module procedure stdlib_zsytrs2
@@ -20158,8 +20226,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb,e
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),e(*)
                end subroutine csytrs_3
 #else
                module procedure stdlib_csytrs_3
@@ -20169,8 +20237,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb,e
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*),e(*)
                end subroutine dsytrs_3
 #else
                module procedure stdlib_dsytrs_3
@@ -20181,8 +20249,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb,e
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*),e(*)
                end subroutine ssytrs_3
 #else
                module procedure stdlib_ssytrs_3
@@ -20193,8 +20261,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb,e
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),e(*)
                end subroutine zsytrs_3
 #else
                module procedure stdlib_zsytrs_3
@@ -20211,8 +20279,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv
-                    complex(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine csytrs_aa
 #else
                module procedure stdlib_csytrs_aa
@@ -20223,8 +20291,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv
-                    real(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine dsytrs_aa
 #else
                module procedure stdlib_dsytrs_aa
@@ -20236,8 +20304,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv
-                    real(sp) :: a,lda,b,ldb,work
+                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine ssytrs_aa
 #else
                module procedure stdlib_ssytrs_aa
@@ -20249,8 +20317,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv
-                    complex(dp) :: a,lda,b,ldb,work
+                    integer(ilp) :: n,nrhs,lda,ldb,lwork,info,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*)
                end subroutine zsytrs_aa
 #else
                module procedure stdlib_zsytrs_aa
@@ -20266,8 +20334,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine csytrs_rook
 #else
                module procedure stdlib_csytrs_rook
@@ -20277,8 +20345,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(dp) :: a(lda,*),b(ldb,*)
                end subroutine dsytrs_rook
 #else
                module procedure stdlib_dsytrs_rook
@@ -20289,8 +20357,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    real(sp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    real(sp) :: a(lda,*),b(ldb,*)
                end subroutine ssytrs_rook
 #else
                module procedure stdlib_ssytrs_rook
@@ -20301,8 +20369,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: uplo
-                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv
-                    complex(dp) :: a,lda,b,ldb
+                    integer(ilp) :: info,lda,ldb,n,nrhs,ipiv(*)
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine zsytrs_rook
 #else
                module procedure stdlib_zsytrs_rook
@@ -20323,8 +20391,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(sp) :: rcond,rwork
-                    complex(sp) :: ab,ldab,work
+                    real(sp) :: rcond,rwork(*)
+                    complex(sp) :: ab(ldab,*),work(*)
                end subroutine ctbcon
 #else
                module procedure stdlib_ctbcon
@@ -20335,8 +20403,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,norm,uplo
-                    integer(ilp) :: info,kd,ldab,n,iwork
-                    real(dp) :: rcond,ab,ldab,work
+                    integer(ilp) :: info,kd,ldab,n,iwork(*)
+                    real(dp) :: rcond,ab(ldab,*),work(*)
                end subroutine dtbcon
 #else
                module procedure stdlib_dtbcon
@@ -20348,8 +20416,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,norm,uplo
-                    integer(ilp) :: info,kd,ldab,n,iwork
-                    real(sp) :: rcond,ab,ldab,work
+                    integer(ilp) :: info,kd,ldab,n,iwork(*)
+                    real(sp) :: rcond,ab(ldab,*),work(*)
                end subroutine stbcon
 #else
                module procedure stdlib_stbcon
@@ -20362,8 +20430,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: info,kd,ldab,n
-                    real(dp) :: rcond,rwork
-                    complex(dp) :: ab,ldab,work
+                    real(dp) :: rcond,rwork(*)
+                    complex(dp) :: ab(ldab,*),work(*)
                end subroutine ztbcon
 #else
                module procedure stdlib_ztbcon
@@ -20384,8 +20452,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,kd,ldab,ldb,ldx,n,nrhs
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: ab,ldab,b,ldb,work,x,ldx
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: ab(ldab,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine ctbrfs
 #else
                module procedure stdlib_ctbrfs
@@ -20396,8 +20464,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,trans,uplo
-                    integer(ilp) :: info,kd,ldab,ldb,ldx,n,nrhs,iwork
-                    real(dp) :: ab,ldab,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,kd,ldab,ldb,ldx,n,nrhs,iwork(*)
+                    real(dp) :: ab(ldab,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine dtbrfs
 #else
                module procedure stdlib_dtbrfs
@@ -20409,8 +20477,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,trans,uplo
-                    integer(ilp) :: info,kd,ldab,ldb,ldx,n,nrhs,iwork
-                    real(sp) :: ab,ldab,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,kd,ldab,ldb,ldx,n,nrhs,iwork(*)
+                    real(sp) :: ab(ldab,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine stbrfs
 #else
                module procedure stdlib_stbrfs
@@ -20423,8 +20491,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,kd,ldab,ldb,ldx,n,nrhs
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: ab,ldab,b,ldb,work,x,ldx
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: ab(ldab,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine ztbrfs
 #else
                module procedure stdlib_ztbrfs
@@ -20442,7 +20510,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    complex(sp) :: ab,ldab,b,ldb
+                    complex(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine ctbtrs
 #else
                module procedure stdlib_ctbtrs
@@ -20453,7 +20521,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    real(dp) :: ab,ldab,b,ldb
+                    real(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine dtbtrs
 #else
                module procedure stdlib_dtbtrs
@@ -20465,7 +20533,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    real(sp) :: ab,ldab,b,ldb
+                    real(sp) :: ab(ldab,*),b(ldb,*)
                end subroutine stbtrs
 #else
                module procedure stdlib_stbtrs
@@ -20477,7 +20545,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,kd,ldab,ldb,n,nrhs
-                    complex(dp) :: ab,ldab,b,ldb
+                    complex(dp) :: ab(ldab,*),b(ldb,*)
                end subroutine ztbtrs
 #else
                module procedure stdlib_ztbtrs
@@ -20499,7 +20567,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,diag,side,trans,uplo
                     integer(ilp) :: ldb,m,n
-                    complex(sp) :: alpha,a,b,ldb
+                    complex(sp) :: alpha,a(0:*),b,ldb
                end subroutine ctfsm
 #else
                module procedure stdlib_ctfsm
@@ -20510,7 +20578,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,diag,side,trans,uplo
                     integer(ilp) :: ldb,m,n
-                    real(dp) :: alpha,a,b,ldb
+                    real(dp) :: alpha,a(0:*),b,ldb
                end subroutine dtfsm
 #else
                module procedure stdlib_dtfsm
@@ -20522,7 +20590,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,diag,side,trans,uplo
                     integer(ilp) :: ldb,m,n
-                    real(sp) :: alpha,a,b,ldb
+                    real(sp) :: alpha,a(0:*),b,ldb
                end subroutine stfsm
 #else
                module procedure stdlib_stfsm
@@ -20534,7 +20602,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,diag,side,trans,uplo
                     integer(ilp) :: ldb,m,n
-                    complex(dp) :: alpha,a,b,ldb
+                    complex(dp) :: alpha,a(0:*),b,ldb
                end subroutine ztfsm
 #else
                module procedure stdlib_ztfsm
@@ -20551,7 +20619,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo,diag
                     integer(ilp) :: info,n
-                    complex(sp) :: a
+                    complex(sp) :: a(0:*)
                end subroutine ctftri
 #else
                module procedure stdlib_ctftri
@@ -20562,7 +20630,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo,diag
                     integer(ilp) :: info,n
-                    real(dp) :: a
+                    real(dp) :: a(0:*)
                end subroutine dtftri
 #else
                module procedure stdlib_dtftri
@@ -20574,7 +20642,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo,diag
                     integer(ilp) :: info,n
-                    real(sp) :: a
+                    real(sp) :: a(0:*)
                end subroutine stftri
 #else
                module procedure stdlib_stftri
@@ -20586,7 +20654,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo,diag
                     integer(ilp) :: info,n
-                    complex(dp) :: a
+                    complex(dp) :: a(0:*)
                end subroutine ztftri
 #else
                module procedure stdlib_ztftri
@@ -20602,7 +20670,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    complex(sp) :: ap,arf
+                    complex(sp) :: ap(0:*),arf(0:*)
                end subroutine ctfttp
 #else
                module procedure stdlib_ctfttp
@@ -20613,7 +20681,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    real(dp) :: ap,arf
+                    real(dp) :: ap(0:*),arf(0:*)
                end subroutine dtfttp
 #else
                module procedure stdlib_dtfttp
@@ -20625,7 +20693,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    real(sp) :: ap,arf
+                    real(sp) :: ap(0:*),arf(0:*)
                end subroutine stfttp
 #else
                module procedure stdlib_stfttp
@@ -20637,7 +20705,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    complex(dp) :: ap,arf
+                    complex(dp) :: ap(0:*),arf(0:*)
                end subroutine ztfttp
 #else
                module procedure stdlib_ztfttp
@@ -20653,7 +20721,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n,lda
-                    complex(sp) :: a,lda,arf
+                    complex(sp) :: a,lda,arf(0:*)
                end subroutine ctfttr
 #else
                module procedure stdlib_ctfttr
@@ -20664,7 +20732,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n,lda
-                    real(dp) :: a,lda,arf
+                    real(dp) :: a,lda,arf(0:*)
                end subroutine dtfttr
 #else
                module procedure stdlib_dtfttr
@@ -20676,7 +20744,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n,lda
-                    real(sp) :: a,lda,arf
+                    real(sp) :: a,lda,arf(0:*)
                end subroutine stfttr
 #else
                module procedure stdlib_stfttr
@@ -20688,7 +20756,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n,lda
-                    complex(dp) :: a,lda,arf
+                    complex(dp) :: a,lda,arf(0:*)
                end subroutine ztfttr
 #else
                module procedure stdlib_ztfttr
@@ -20721,9 +20789,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldp,lds,ldvl,ldvr,m,mm,n
-                    logical(lk) :: select
-                    real(sp) :: rwork
-                    complex(sp) :: p,ldp,s,lds,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(sp) :: rwork(*)
+                    complex(sp) :: p(ldp,*),s(lds,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine ctgevc
 #else
                module procedure stdlib_ctgevc
@@ -20735,8 +20803,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldp,lds,ldvl,ldvr,m,mm,n
-                    logical(lk) :: select
-                    real(dp) :: p,ldp,s,lds,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(dp) :: p(ldp,*),s(lds,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine dtgevc
 #else
                module procedure stdlib_dtgevc
@@ -20749,8 +20817,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldp,lds,ldvl,ldvr,m,mm,n
-                    logical(lk) :: select
-                    real(sp) :: p,ldp,s,lds,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(sp) :: p(ldp,*),s(lds,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine stgevc
 #else
                module procedure stdlib_stgevc
@@ -20763,9 +20831,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldp,lds,ldvl,ldvr,m,mm,n
-                    logical(lk) :: select
-                    real(dp) :: rwork
-                    complex(dp) :: p,ldp,s,lds,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(dp) :: rwork(*)
+                    complex(dp) :: p(ldp,*),s(lds,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine ztgevc
 #else
                module procedure stdlib_ztgevc
@@ -20790,7 +20858,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: wantq,wantz
                     integer(ilp) :: ifst,ilst,info,lda,ldb,ldq,ldz,n
-                    complex(sp) :: a,lda,b,ldb,q,ldq,z,ldz
+                    complex(sp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine ctgexc
 #else
                module procedure stdlib_ctgexc
@@ -20802,7 +20870,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: wantq,wantz
                     integer(ilp) :: ifst,ilst,info,lda,ldb,ldq,ldz,lwork,n
-                    real(dp) :: a,lda,b,ldb,q,ldq,work,z,ldz
+                    real(dp) :: a(lda,*),b(ldb,*),q(ldq,*),work(*),z(ldz,*)
                end subroutine dtgexc
 #else
                module procedure stdlib_dtgexc
@@ -20815,7 +20883,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: wantq,wantz
                     integer(ilp) :: ifst,ilst,info,lda,ldb,ldq,ldz,lwork,n
-                    real(sp) :: a,lda,b,ldb,q,ldq,work,z,ldz
+                    real(sp) :: a(lda,*),b(ldb,*),q(ldq,*),work(*),z(ldz,*)
                end subroutine stgexc
 #else
                module procedure stdlib_stgexc
@@ -20828,7 +20896,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     logical(lk) :: wantq,wantz
                     integer(ilp) :: ifst,ilst,info,lda,ldb,ldq,ldz,n
-                    complex(dp) :: a,lda,b,ldb,q,ldq,z,ldz
+                    complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
                end subroutine ztgexc
 #else
                module procedure stdlib_ztgexc
@@ -20859,10 +20927,11 @@ module stdlib_linalg_lapack
                          ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    logical(lk) :: wantq,wantz,select
-                    integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n,iwork
-                    real(sp) :: pl,pr,dif
-                    complex(sp) :: a,lda,alpha,b,ldb,beta,q,ldq,work,z,ldz
+                    logical(lk) :: wantq,wantz,select(*)
+                    integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n,iwork(*)
+                    real(sp) :: pl,pr,dif(*)
+                    complex(sp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),q(ldq,*),work(*),z(ldz,*)
+                              
                end subroutine ctgsen
 #else
                module procedure stdlib_ctgsen
@@ -20872,9 +20941,10 @@ module stdlib_linalg_lapack
                          beta,q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    logical(lk) :: wantq,wantz,select
-                    integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n,iwork
-                    real(dp) :: pl,pr,a,lda,alphai,alphar,b,ldb,beta,dif,q,ldq,work,z,ldz
+                    logical(lk) :: wantq,wantz,select(*)
+                    integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n,iwork(*)
+                    real(dp) :: pl,pr,a(lda,*),alphai(*),alphar(*),b(ldb,*),beta(*),dif(*),q(ldq, &
+                              *),work(*),z(ldz,*)
                end subroutine dtgsen
 #else
                module procedure stdlib_dtgsen
@@ -20885,9 +20955,10 @@ module stdlib_linalg_lapack
                          beta,q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    logical(lk) :: wantq,wantz,select
-                    integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n,iwork
-                    real(sp) :: pl,pr,a,lda,alphai,alphar,b,ldb,beta,dif,q,ldq,work,z,ldz
+                    logical(lk) :: wantq,wantz,select(*)
+                    integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n,iwork(*)
+                    real(sp) :: pl,pr,a(lda,*),alphai(*),alphar(*),b(ldb,*),beta(*),dif(*),q(ldq, &
+                              *),work(*),z(ldz,*)
                end subroutine stgsen
 #else
                module procedure stdlib_stgsen
@@ -20898,10 +20969,11 @@ module stdlib_linalg_lapack
                          ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    logical(lk) :: wantq,wantz,select
-                    integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n,iwork
-                    real(dp) :: pl,pr,dif
-                    complex(dp) :: a,lda,alpha,b,ldb,beta,q,ldq,work,z,ldz
+                    logical(lk) :: wantq,wantz,select(*)
+                    integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n,iwork(*)
+                    real(dp) :: pl,pr,dif(*)
+                    complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),q(ldq,*),work(*),z(ldz,*)
+                              
                end subroutine ztgsen
 #else
                module procedure stdlib_ztgsen
@@ -20978,8 +21050,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobq,jobu,jobv
                     integer(ilp) :: info,k,l,lda,ldb,ldq,ldu,ldv,m,n,ncycle,p
-                    real(sp) :: tola,tolb,alpha,beta
-                    complex(sp) :: a,lda,b,ldb,q,ldq,u,ldu,v,ldv,work
+                    real(sp) :: tola,tolb,alpha(*),beta(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v(ldv,*),work(*)
                end subroutine ctgsja
 #else
                module procedure stdlib_ctgsja
@@ -20991,7 +21063,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobq,jobu,jobv
                     integer(ilp) :: info,k,l,lda,ldb,ldq,ldu,ldv,m,n,ncycle,p
-                    real(dp) :: tola,tolb,a,lda,alpha,b,ldb,beta,q,ldq,u,ldu,v,ldv,work
+                    real(dp) :: tola,tolb,a(lda,*),alpha(*),b(ldb,*),beta(*),q(ldq,*),u(ldu,*),v( &
+                              ldv,*),work(*)
                end subroutine dtgsja
 #else
                module procedure stdlib_dtgsja
@@ -21004,7 +21077,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobq,jobu,jobv
                     integer(ilp) :: info,k,l,lda,ldb,ldq,ldu,ldv,m,n,ncycle,p
-                    real(sp) :: tola,tolb,a,lda,alpha,b,ldb,beta,q,ldq,u,ldu,v,ldv,work
+                    real(sp) :: tola,tolb,a(lda,*),alpha(*),b(ldb,*),beta(*),q(ldq,*),u(ldu,*),v( &
+                              ldv,*),work(*)
                end subroutine stgsja
 #else
                module procedure stdlib_stgsja
@@ -21017,8 +21091,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobq,jobu,jobv
                     integer(ilp) :: info,k,l,lda,ldb,ldq,ldu,ldv,m,n,ncycle,p
-                    real(dp) :: tola,tolb,alpha,beta
-                    complex(dp) :: a,lda,b,ldb,q,ldq,u,ldu,v,ldv,work
+                    real(dp) :: tola,tolb,alpha(*),beta(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v(ldv,*),work(*)
                end subroutine ztgsja
 #else
                module procedure stdlib_ztgsja
@@ -21036,10 +21110,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: howmny,job
-                    integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n,iwork
-                    logical(lk) :: select
-                    real(sp) :: dif,s
-                    complex(sp) :: a,lda,b,ldb,vl,ldvl,vr,ldvr,work
+                    integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n,iwork(*)
+                    logical(lk) :: select(*)
+                    real(sp) :: dif(*),s(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine ctgsna
 #else
                module procedure stdlib_ctgsna
@@ -21050,9 +21124,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: howmny,job
-                    integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n,iwork
-                    logical(lk) :: select
-                    real(dp) :: a,lda,b,ldb,dif,s,vl,ldvl,vr,ldvr,work
+                    integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n,iwork(*)
+                    logical(lk) :: select(*)
+                    real(dp) :: a(lda,*),b(ldb,*),dif(*),s(*),vl(ldvl,*),vr(ldvr,*),work(*)
+                              
                end subroutine dtgsna
 #else
                module procedure stdlib_dtgsna
@@ -21064,9 +21139,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: howmny,job
-                    integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n,iwork
-                    logical(lk) :: select
-                    real(sp) :: a,lda,b,ldb,dif,s,vl,ldvl,vr,ldvr,work
+                    integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n,iwork(*)
+                    logical(lk) :: select(*)
+                    real(sp) :: a(lda,*),b(ldb,*),dif(*),s(*),vl(ldvl,*),vr(ldvr,*),work(*)
+                              
                end subroutine stgsna
 #else
                module procedure stdlib_stgsna
@@ -21078,10 +21154,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: howmny,job
-                    integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n,iwork
-                    logical(lk) :: select
-                    real(dp) :: dif,s
-                    complex(dp) :: a,lda,b,ldb,vl,ldvl,vr,ldvr,work
+                    integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n,iwork(*)
+                    logical(lk) :: select(*)
+                    real(dp) :: dif(*),s(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine ztgsna
 #else
                module procedure stdlib_ztgsna
@@ -21122,9 +21198,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n,iwork
+                    integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n,iwork(*)
                     real(sp) :: dif,scale
-                    complex(sp) :: a,lda,b,ldb,c,ldc,d,ldd,e,lde,f,ldf,work
+                    complex(sp) :: a(lda,*),b(ldb,*),c(ldc,*),d(ldd,*),e(lde,*),f(ldf,*),work(*)
+                              
                end subroutine ctgsyl
 #else
                module procedure stdlib_ctgsyl
@@ -21135,8 +21212,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n,iwork
-                    real(dp) :: dif,scale,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f,ldf,work
+                    integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n,iwork(*)
+                    real(dp) :: dif,scale,a(lda,*),b(ldb,*),c(ldc,*),d(ldd,*),e(lde,*),f(ldf,*), &
+                              work(*)
                end subroutine dtgsyl
 #else
                module procedure stdlib_dtgsyl
@@ -21148,8 +21226,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n,iwork
-                    real(sp) :: dif,scale,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f,ldf,work
+                    integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n,iwork(*)
+                    real(sp) :: dif,scale,a(lda,*),b(ldb,*),c(ldc,*),d(ldd,*),e(lde,*),f(ldf,*), &
+                              work(*)
                end subroutine stgsyl
 #else
                module procedure stdlib_stgsyl
@@ -21161,9 +21240,10 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: trans
-                    integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n,iwork
+                    integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n,iwork(*)
                     real(dp) :: dif,scale
-                    complex(dp) :: a,lda,b,ldb,c,ldc,d,ldd,e,lde,f,ldf,work
+                    complex(dp) :: a(lda,*),b(ldb,*),c(ldc,*),d(ldd,*),e(lde,*),f(ldf,*),work(*)
+                              
                end subroutine ztgsyl
 #else
                module procedure stdlib_ztgsyl
@@ -21183,8 +21263,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: info,n
-                    real(sp) :: rcond,rwork
-                    complex(sp) :: ap,work
+                    real(sp) :: rcond,rwork(*)
+                    complex(sp) :: ap(*),work(*)
                end subroutine ctpcon
 #else
                module procedure stdlib_ctpcon
@@ -21194,8 +21274,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,norm,uplo
-                    integer(ilp) :: info,n,iwork
-                    real(dp) :: rcond,ap,work
+                    integer(ilp) :: info,n,iwork(*)
+                    real(dp) :: rcond,ap(*),work(*)
                end subroutine dtpcon
 #else
                module procedure stdlib_dtpcon
@@ -21206,8 +21286,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,norm,uplo
-                    integer(ilp) :: info,n,iwork
-                    real(sp) :: rcond,ap,work
+                    integer(ilp) :: info,n,iwork(*)
+                    real(sp) :: rcond,ap(*),work(*)
                end subroutine stpcon
 #else
                module procedure stdlib_stpcon
@@ -21219,8 +21299,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: info,n
-                    real(dp) :: rcond,rwork
-                    complex(dp) :: ap,work
+                    real(dp) :: rcond,rwork(*)
+                    complex(dp) :: ap(*),work(*)
                end subroutine ztpcon
 #else
                module procedure stdlib_ztpcon
@@ -21237,7 +21317,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l,mb
-                    complex(sp) :: a,lda,b,ldb,t,ldt,work
+                    complex(sp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine ctplqt
 #else
                module procedure stdlib_ctplqt
@@ -21247,7 +21327,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l,mb
-                    real(dp) :: a,lda,b,ldb,t,ldt,work
+                    real(dp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine dtplqt
 #else
                module procedure stdlib_dtplqt
@@ -21258,7 +21338,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l,mb
-                    real(sp) :: a,lda,b,ldb,t,ldt,work
+                    real(sp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine stplqt
 #else
                module procedure stdlib_stplqt
@@ -21269,7 +21349,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l,mb
-                    complex(dp) :: a,lda,b,ldb,t,ldt,work
+                    complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine ztplqt
 #else
                module procedure stdlib_ztplqt
@@ -21285,7 +21365,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l
-                    complex(sp) :: a,lda,b,ldb,t,ldt
+                    complex(sp) :: a(lda,*),b(ldb,*),t(ldt,*)
                end subroutine ctplqt2
 #else
                module procedure stdlib_ctplqt2
@@ -21295,7 +21375,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l
-                    real(dp) :: a,lda,b,ldb,t,ldt
+                    real(dp) :: a(lda,*),b(ldb,*),t(ldt,*)
                end subroutine dtplqt2
 #else
                module procedure stdlib_dtplqt2
@@ -21306,7 +21386,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l
-                    real(sp) :: a,lda,b,ldb,t,ldt
+                    real(sp) :: a(lda,*),b(ldb,*),t(ldt,*)
                end subroutine stplqt2
 #else
                module procedure stdlib_stplqt2
@@ -21317,7 +21397,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l
-                    complex(dp) :: a,lda,b,ldb,t,ldt
+                    complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*)
                end subroutine ztplqt2
 #else
                module procedure stdlib_ztplqt2
@@ -21335,7 +21415,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,mb,ldt
-                    complex(sp) :: v,ldv,a,lda,b,ldb,t,ldt,work
+                    complex(sp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine ctpmlqt
 #else
                module procedure stdlib_ctpmlqt
@@ -21347,7 +21427,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,mb,ldt
-                    real(dp) :: v,ldv,a,lda,b,ldb,t,ldt,work
+                    real(dp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine dtpmlqt
 #else
                module procedure stdlib_dtpmlqt
@@ -21360,7 +21440,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,mb,ldt
-                    real(sp) :: v,ldv,a,lda,b,ldb,t,ldt,work
+                    real(sp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine stpmlqt
 #else
                module procedure stdlib_stpmlqt
@@ -21373,7 +21453,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,mb,ldt
-                    complex(dp) :: v,ldv,a,lda,b,ldb,t,ldt,work
+                    complex(dp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine ztpmlqt
 #else
                module procedure stdlib_ztpmlqt
@@ -21391,7 +21471,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,nb,ldt
-                    complex(sp) :: v,ldv,a,lda,b,ldb,t,ldt,work
+                    complex(sp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine ctpmqrt
 #else
                module procedure stdlib_ctpmqrt
@@ -21403,7 +21483,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,nb,ldt
-                    real(dp) :: v,ldv,a,lda,b,ldb,t,ldt,work
+                    real(dp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine dtpmqrt
 #else
                module procedure stdlib_dtpmqrt
@@ -21416,7 +21496,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,nb,ldt
-                    real(sp) :: v,ldv,a,lda,b,ldb,t,ldt,work
+                    real(sp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine stpmqrt
 #else
                module procedure stdlib_stpmqrt
@@ -21429,7 +21509,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,nb,ldt
-                    complex(dp) :: v,ldv,a,lda,b,ldb,t,ldt,work
+                    complex(dp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine ztpmqrt
 #else
                module procedure stdlib_ztpmqrt
@@ -21446,7 +21526,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l,nb
-                    complex(sp) :: a,lda,b,ldb,t,ldt,work
+                    complex(sp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine ctpqrt
 #else
                module procedure stdlib_ctpqrt
@@ -21456,7 +21536,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l,nb
-                    real(dp) :: a,lda,b,ldb,t,ldt,work
+                    real(dp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine dtpqrt
 #else
                module procedure stdlib_dtpqrt
@@ -21467,7 +21547,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l,nb
-                    real(sp) :: a,lda,b,ldb,t,ldt,work
+                    real(sp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine stpqrt
 #else
                module procedure stdlib_stpqrt
@@ -21478,7 +21558,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l,nb
-                    complex(dp) :: a,lda,b,ldb,t,ldt,work
+                    complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
                end subroutine ztpqrt
 #else
                module procedure stdlib_ztpqrt
@@ -21494,7 +21574,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l
-                    complex(sp) :: a,lda,b,ldb,t,ldt
+                    complex(sp) :: a(lda,*),b(ldb,*),t(ldt,*)
                end subroutine ctpqrt2
 #else
                module procedure stdlib_ctpqrt2
@@ -21504,7 +21584,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l
-                    real(dp) :: a,lda,b,ldb,t,ldt
+                    real(dp) :: a(lda,*),b(ldb,*),t(ldt,*)
                end subroutine dtpqrt2
 #else
                module procedure stdlib_dtpqrt2
@@ -21515,7 +21595,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l
-                    real(sp) :: a,lda,b,ldb,t,ldt
+                    real(sp) :: a(lda,*),b(ldb,*),t(ldt,*)
                end subroutine stpqrt2
 #else
                module procedure stdlib_stpqrt2
@@ -21526,7 +21606,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldb,ldt,n,m,l
-                    complex(dp) :: a,lda,b,ldb,t,ldt
+                    complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*)
                end subroutine ztpqrt2
 #else
                module procedure stdlib_ztpqrt2
@@ -21544,7 +21624,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,l,lda,ldb,ldt,ldv,ldwork,m,n
-                    complex(sp) :: a,lda,b,ldb,t,ldt,v,ldv,work,ldwork
+                    complex(sp) :: a(lda,*),b(ldb,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine ctprfb
 #else
                module procedure stdlib_ctprfb
@@ -21556,7 +21636,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,l,lda,ldb,ldt,ldv,ldwork,m,n
-                    real(dp) :: a,lda,b,ldb,t,ldt,v,ldv,work,ldwork
+                    real(dp) :: a(lda,*),b(ldb,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine dtprfb
 #else
                module procedure stdlib_dtprfb
@@ -21569,7 +21649,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,l,lda,ldb,ldt,ldv,ldwork,m,n
-                    real(sp) :: a,lda,b,ldb,t,ldt,v,ldv,work,ldwork
+                    real(sp) :: a(lda,*),b(ldb,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine stprfb
 #else
                module procedure stdlib_stprfb
@@ -21582,7 +21662,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: direct,side,storev,trans
                     integer(ilp) :: k,l,lda,ldb,ldt,ldv,ldwork,m,n
-                    complex(dp) :: a,lda,b,ldb,t,ldt,v,ldv,work,ldwork
+                    complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*),v(ldv,*),work(ldwork,*)
                end subroutine ztprfb
 #else
                module procedure stdlib_ztprfb
@@ -21603,8 +21683,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,ldb,ldx,n,nrhs
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: ap,b,ldb,work,x,ldx
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: ap(*),b(ldb,*),work(*),x(ldx,*)
                end subroutine ctprfs
 #else
                module procedure stdlib_ctprfs
@@ -21615,8 +21695,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,trans,uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,iwork
-                    real(dp) :: ap,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,iwork(*)
+                    real(dp) :: ap(*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine dtprfs
 #else
                module procedure stdlib_dtprfs
@@ -21628,8 +21708,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,trans,uplo
-                    integer(ilp) :: info,ldb,ldx,n,nrhs,iwork
-                    real(sp) :: ap,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,ldb,ldx,n,nrhs,iwork(*)
+                    real(sp) :: ap(*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine stprfs
 #else
                module procedure stdlib_stprfs
@@ -21642,8 +21722,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,ldb,ldx,n,nrhs
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: ap,b,ldb,work,x,ldx
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: ap(*),b(ldb,*),work(*),x(ldx,*)
                end subroutine ztprfs
 #else
                module procedure stdlib_ztprfs
@@ -21659,7 +21739,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,uplo
                     integer(ilp) :: info,n
-                    complex(sp) :: ap
+                    complex(sp) :: ap(*)
                end subroutine ctptri
 #else
                module procedure stdlib_ctptri
@@ -21670,7 +21750,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,uplo
                     integer(ilp) :: info,n
-                    real(dp) :: ap
+                    real(dp) :: ap(*)
                end subroutine dtptri
 #else
                module procedure stdlib_dtptri
@@ -21682,7 +21762,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,uplo
                     integer(ilp) :: info,n
-                    real(sp) :: ap
+                    real(sp) :: ap(*)
                end subroutine stptri
 #else
                module procedure stdlib_stptri
@@ -21694,7 +21774,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,uplo
                     integer(ilp) :: info,n
-                    complex(dp) :: ap
+                    complex(dp) :: ap(*)
                end subroutine ztptri
 #else
                module procedure stdlib_ztptri
@@ -21713,7 +21793,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(sp) :: ap,b,ldb
+                    complex(sp) :: ap(*),b(ldb,*)
                end subroutine ctptrs
 #else
                module procedure stdlib_ctptrs
@@ -21724,7 +21804,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(dp) :: ap,b,ldb
+                    real(dp) :: ap(*),b(ldb,*)
                end subroutine dtptrs
 #else
                module procedure stdlib_dtptrs
@@ -21736,7 +21816,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    real(sp) :: ap,b,ldb
+                    real(sp) :: ap(*),b(ldb,*)
                end subroutine stptrs
 #else
                module procedure stdlib_stptrs
@@ -21748,7 +21828,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,ldb,n,nrhs
-                    complex(dp) :: ap,b,ldb
+                    complex(dp) :: ap(*),b(ldb,*)
                end subroutine ztptrs
 #else
                module procedure stdlib_ztptrs
@@ -21764,7 +21844,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    complex(sp) :: ap,arf
+                    complex(sp) :: ap(0:*),arf(0:*)
                end subroutine ctpttf
 #else
                module procedure stdlib_ctpttf
@@ -21775,7 +21855,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    real(dp) :: ap,arf
+                    real(dp) :: ap(0:*),arf(0:*)
                end subroutine dtpttf
 #else
                module procedure stdlib_dtpttf
@@ -21787,7 +21867,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    real(sp) :: ap,arf
+                    real(sp) :: ap(0:*),arf(0:*)
                end subroutine stpttf
 #else
                module procedure stdlib_stpttf
@@ -21799,7 +21879,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n
-                    complex(dp) :: ap,arf
+                    complex(dp) :: ap(0:*),arf(0:*)
                end subroutine ztpttf
 #else
                module procedure stdlib_ztpttf
@@ -21815,7 +21895,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n,lda
-                    complex(sp) :: a,lda,ap
+                    complex(sp) :: a(lda,*),ap(*)
                end subroutine ctpttr
 #else
                module procedure stdlib_ctpttr
@@ -21826,7 +21906,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n,lda
-                    real(dp) :: a,lda,ap
+                    real(dp) :: a(lda,*),ap(*)
                end subroutine dtpttr
 #else
                module procedure stdlib_dtpttr
@@ -21838,7 +21918,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n,lda
-                    real(sp) :: a,lda,ap
+                    real(sp) :: a(lda,*),ap(*)
                end subroutine stpttr
 #else
                module procedure stdlib_stpttr
@@ -21850,7 +21930,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n,lda
-                    complex(dp) :: a,lda,ap
+                    complex(dp) :: a(lda,*),ap(*)
                end subroutine ztpttr
 #else
                module procedure stdlib_ztpttr
@@ -21870,8 +21950,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: info,lda,n
-                    real(sp) :: rcond,rwork
-                    complex(sp) :: a,lda,work
+                    real(sp) :: rcond,rwork(*)
+                    complex(sp) :: a(lda,*),work(*)
                end subroutine ctrcon
 #else
                module procedure stdlib_ctrcon
@@ -21881,8 +21961,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,norm,uplo
-                    integer(ilp) :: info,lda,n,iwork
-                    real(dp) :: rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,iwork(*)
+                    real(dp) :: rcond,a(lda,*),work(*)
                end subroutine dtrcon
 #else
                module procedure stdlib_dtrcon
@@ -21893,8 +21973,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,norm,uplo
-                    integer(ilp) :: info,lda,n,iwork
-                    real(sp) :: rcond,a,lda,work
+                    integer(ilp) :: info,lda,n,iwork(*)
+                    real(sp) :: rcond,a(lda,*),work(*)
                end subroutine strcon
 #else
                module procedure stdlib_strcon
@@ -21906,8 +21986,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,norm,uplo
                     integer(ilp) :: info,lda,n
-                    real(dp) :: rcond,rwork
-                    complex(dp) :: a,lda,work
+                    real(dp) :: rcond,rwork(*)
+                    complex(dp) :: a(lda,*),work(*)
                end subroutine ztrcon
 #else
                module procedure stdlib_ztrcon
@@ -21937,9 +22017,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldt,ldvl,ldvr,m,mm,n
-                    logical(lk) :: select
-                    real(sp) :: rwork
-                    complex(sp) :: t,ldt,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(sp) :: rwork(*)
+                    complex(sp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine ctrevc
 #else
                module procedure stdlib_ctrevc
@@ -21951,8 +22031,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldt,ldvl,ldvr,m,mm,n
-                    logical(lk) :: select
-                    real(dp) :: t,ldt,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(dp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine dtrevc
 #else
                module procedure stdlib_dtrevc
@@ -21965,8 +22045,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldt,ldvl,ldvr,m,mm,n
-                    logical(lk) :: select
-                    real(sp) :: t,ldt,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(sp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine strevc
 #else
                module procedure stdlib_strevc
@@ -21979,9 +22059,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldt,ldvl,ldvr,m,mm,n
-                    logical(lk) :: select
-                    real(dp) :: rwork
-                    complex(dp) :: t,ldt,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(dp) :: rwork(*)
+                    complex(dp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine ztrevc
 #else
                module procedure stdlib_ztrevc
@@ -22012,9 +22092,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldt,ldvl,ldvr,lwork,lrwork,m,mm,n
-                    logical(lk) :: select
-                    real(sp) :: rwork
-                    complex(sp) :: t,ldt,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(sp) :: rwork(*)
+                    complex(sp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine ctrevc3
 #else
                module procedure stdlib_ctrevc3
@@ -22026,8 +22106,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldt,ldvl,ldvr,lwork,m,mm,n
-                    logical(lk) :: select
-                    real(dp) :: t,ldt,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(dp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine dtrevc3
 #else
                module procedure stdlib_dtrevc3
@@ -22040,8 +22120,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldt,ldvl,ldvr,lwork,m,mm,n
-                    logical(lk) :: select
-                    real(sp) :: t,ldt,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(sp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine strevc3
 #else
                module procedure stdlib_strevc3
@@ -22054,9 +22134,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,side
                     integer(ilp) :: info,ldt,ldvl,ldvr,lwork,lrwork,m,mm,n
-                    logical(lk) :: select
-                    real(dp) :: rwork
-                    complex(dp) :: t,ldt,vl,ldvl,vr,ldvr,work
+                    logical(lk) :: select(*)
+                    real(dp) :: rwork(*)
+                    complex(dp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
                end subroutine ztrevc3
 #else
                module procedure stdlib_ztrevc3
@@ -22076,7 +22156,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq
                     integer(ilp) :: ifst,ilst,info,ldq,ldt,n
-                    complex(sp) :: q,ldq,t,ldt
+                    complex(sp) :: q(ldq,*),t(ldt,*)
                end subroutine ctrexc
 #else
                module procedure stdlib_ctrexc
@@ -22087,7 +22167,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq
                     integer(ilp) :: ifst,ilst,info,ldq,ldt,n
-                    real(dp) :: q,ldq,t,ldt,work
+                    real(dp) :: q(ldq,*),t(ldt,*),work(*)
                end subroutine dtrexc
 #else
                module procedure stdlib_dtrexc
@@ -22099,7 +22179,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq
                     integer(ilp) :: ifst,ilst,info,ldq,ldt,n
-                    real(sp) :: q,ldq,t,ldt,work
+                    real(sp) :: q(ldq,*),t(ldt,*),work(*)
                end subroutine strexc
 #else
                module procedure stdlib_strexc
@@ -22111,7 +22191,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: compq
                     integer(ilp) :: ifst,ilst,info,ldq,ldt,n
-                    complex(dp) :: q,ldq,t,ldt
+                    complex(dp) :: q(ldq,*),t(ldt,*)
                end subroutine ztrexc
 #else
                module procedure stdlib_ztrexc
@@ -22132,8 +22212,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,lda,ldb,ldx,n,nrhs
-                    real(sp) :: berr,ferr,rwork
-                    complex(sp) :: a,lda,b,ldb,work,x,ldx
+                    real(sp) :: berr(*),ferr(*),rwork(*)
+                    complex(sp) :: a(lda,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine ctrrfs
 #else
                module procedure stdlib_ctrrfs
@@ -22144,8 +22224,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,trans,uplo
-                    integer(ilp) :: info,lda,ldb,ldx,n,nrhs,iwork
-                    real(dp) :: a,lda,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,lda,ldb,ldx,n,nrhs,iwork(*)
+                    real(dp) :: a(lda,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine dtrrfs
 #else
                module procedure stdlib_dtrrfs
@@ -22157,8 +22237,8 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: diag,trans,uplo
-                    integer(ilp) :: info,lda,ldb,ldx,n,nrhs,iwork
-                    real(sp) :: a,lda,b,ldb,berr,ferr,work,x,ldx
+                    integer(ilp) :: info,lda,ldb,ldx,n,nrhs,iwork(*)
+                    real(sp) :: a(lda,*),b(ldb,*),berr(*),ferr(*),work(*),x(ldx,*)
                end subroutine strrfs
 #else
                module procedure stdlib_strrfs
@@ -22171,8 +22251,8 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,lda,ldb,ldx,n,nrhs
-                    real(dp) :: berr,ferr,rwork
-                    complex(dp) :: a,lda,b,ldb,work,x,ldx
+                    real(dp) :: berr(*),ferr(*),rwork(*)
+                    complex(dp) :: a(lda,*),b(ldb,*),work(*),x(ldx,*)
                end subroutine ztrrfs
 #else
                module procedure stdlib_ztrrfs
@@ -22195,8 +22275,8 @@ module stdlib_linalg_lapack
                     character :: compq,job
                     integer(ilp) :: info,ldq,ldt,lwork,m,n
                     real(sp) :: s,sep
-                    logical(lk) :: select
-                    complex(sp) :: q,ldq,t,ldt,w,work
+                    logical(lk) :: select(*)
+                    complex(sp) :: q(ldq,*),t(ldt,*),w(*),work(*)
                end subroutine ctrsen
 #else
                module procedure stdlib_ctrsen
@@ -22207,9 +22287,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: compq,job
-                    integer(ilp) :: info,ldq,ldt,liwork,lwork,m,n,iwork
-                    real(dp) :: s,sep,q,ldq,t,ldt,wi,work,wr
-                    logical(lk) :: select
+                    integer(ilp) :: info,ldq,ldt,liwork,lwork,m,n,iwork(*)
+                    real(dp) :: s,sep,q(ldq,*),t(ldt,*),wi(*),work(*),wr(*)
+                    logical(lk) :: select(*)
                end subroutine dtrsen
 #else
                module procedure stdlib_dtrsen
@@ -22221,9 +22301,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: compq,job
-                    integer(ilp) :: info,ldq,ldt,liwork,lwork,m,n,iwork
-                    real(sp) :: s,sep,q,ldq,t,ldt,wi,work,wr
-                    logical(lk) :: select
+                    integer(ilp) :: info,ldq,ldt,liwork,lwork,m,n,iwork(*)
+                    real(sp) :: s,sep,q(ldq,*),t(ldt,*),wi(*),work(*),wr(*)
+                    logical(lk) :: select(*)
                end subroutine strsen
 #else
                module procedure stdlib_strsen
@@ -22237,8 +22317,8 @@ module stdlib_linalg_lapack
                     character :: compq,job
                     integer(ilp) :: info,ldq,ldt,lwork,m,n
                     real(dp) :: s,sep
-                    logical(lk) :: select
-                    complex(dp) :: q,ldq,t,ldt,w,work
+                    logical(lk) :: select(*)
+                    complex(dp) :: q(ldq,*),t(ldt,*),w(*),work(*)
                end subroutine ztrsen
 #else
                module procedure stdlib_ztrsen
@@ -22256,9 +22336,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,job
                     integer(ilp) :: info,ldt,ldvl,ldvr,ldwork,m,mm,n
-                    logical(lk) :: select
-                    real(sp) :: rwork,s,sep
-                    complex(sp) :: t,ldt,vl,ldvl,vr,ldvr,work,ldwork
+                    logical(lk) :: select(*)
+                    real(sp) :: rwork(*),s(*),sep(*)
+                    complex(sp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(ldwork,*)
                end subroutine ctrsna
 #else
                module procedure stdlib_ctrsna
@@ -22269,9 +22349,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: howmny,job
-                    integer(ilp) :: info,ldt,ldvl,ldvr,ldwork,m,mm,n,iwork
-                    logical(lk) :: select
-                    real(dp) :: s,sep,t,ldt,vl,ldvl,vr,ldvr,work,ldwork
+                    integer(ilp) :: info,ldt,ldvl,ldvr,ldwork,m,mm,n,iwork(*)
+                    logical(lk) :: select(*)
+                    real(dp) :: s(*),sep(*),t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(ldwork,*)
                end subroutine dtrsna
 #else
                module procedure stdlib_dtrsna
@@ -22283,9 +22363,9 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character :: howmny,job
-                    integer(ilp) :: info,ldt,ldvl,ldvr,ldwork,m,mm,n,iwork
-                    logical(lk) :: select
-                    real(sp) :: s,sep,t,ldt,vl,ldvl,vr,ldvr,work,ldwork
+                    integer(ilp) :: info,ldt,ldvl,ldvr,ldwork,m,mm,n,iwork(*)
+                    logical(lk) :: select(*)
+                    real(sp) :: s(*),sep(*),t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(ldwork,*)
                end subroutine strsna
 #else
                module procedure stdlib_strsna
@@ -22298,9 +22378,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: howmny,job
                     integer(ilp) :: info,ldt,ldvl,ldvr,ldwork,m,mm,n
-                    logical(lk) :: select
-                    real(dp) :: rwork,s,sep
-                    complex(dp) :: t,ldt,vl,ldvl,vr,ldvr,work,ldwork
+                    logical(lk) :: select(*)
+                    real(dp) :: rwork(*),s(*),sep(*)
+                    complex(dp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(ldwork,*)
                end subroutine ztrsna
 #else
                module procedure stdlib_ztrsna
@@ -22323,7 +22403,7 @@ module stdlib_linalg_lapack
                     character :: trana,tranb
                     integer(ilp) :: info,isgn,lda,ldb,ldc,m,n
                     real(sp) :: scale
-                    complex(sp) :: a,lda,b,ldb,c,ldc
+                    complex(sp) :: a(lda,*),b(ldb,*),c(ldc,*)
                end subroutine ctrsyl
 #else
                module procedure stdlib_ctrsyl
@@ -22335,7 +22415,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trana,tranb
                     integer(ilp) :: info,isgn,lda,ldb,ldc,m,n
-                    real(dp) :: scale,a,lda,b,ldb,c,ldc
+                    real(dp) :: scale,a(lda,*),b(ldb,*),c(ldc,*)
                end subroutine dtrsyl
 #else
                module procedure stdlib_dtrsyl
@@ -22348,7 +22428,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: trana,tranb
                     integer(ilp) :: info,isgn,lda,ldb,ldc,m,n
-                    real(sp) :: scale,a,lda,b,ldb,c,ldc
+                    real(sp) :: scale,a(lda,*),b(ldb,*),c(ldc,*)
                end subroutine strsyl
 #else
                module procedure stdlib_strsyl
@@ -22362,7 +22442,7 @@ module stdlib_linalg_lapack
                     character :: trana,tranb
                     integer(ilp) :: info,isgn,lda,ldb,ldc,m,n
                     real(dp) :: scale
-                    complex(dp) :: a,lda,b,ldb,c,ldc
+                    complex(dp) :: a(lda,*),b(ldb,*),c(ldc,*)
                end subroutine ztrsyl
 #else
                module procedure stdlib_ztrsyl
@@ -22379,7 +22459,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,uplo
                     integer(ilp) :: info,lda,n
-                    complex(sp) :: a,lda
+                    complex(sp) :: a(lda,*)
                end subroutine ctrtri
 #else
                module procedure stdlib_ctrtri
@@ -22390,7 +22470,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,uplo
                     integer(ilp) :: info,lda,n
-                    real(dp) :: a,lda
+                    real(dp) :: a(lda,*)
                end subroutine dtrtri
 #else
                module procedure stdlib_dtrtri
@@ -22402,7 +22482,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,uplo
                     integer(ilp) :: info,lda,n
-                    real(sp) :: a,lda
+                    real(sp) :: a(lda,*)
                end subroutine strtri
 #else
                module procedure stdlib_strtri
@@ -22414,7 +22494,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,uplo
                     integer(ilp) :: info,lda,n
-                    complex(dp) :: a,lda
+                    complex(dp) :: a(lda,*)
                end subroutine ztrtri
 #else
                module procedure stdlib_ztrtri
@@ -22432,7 +22512,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    complex(sp) :: a,lda,b,ldb
+                    complex(sp) :: a(lda,*),b(ldb,*)
                end subroutine ctrtrs
 #else
                module procedure stdlib_ctrtrs
@@ -22443,7 +22523,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    real(dp) :: a,lda,b,ldb
+                    real(dp) :: a(lda,*),b(ldb,*)
                end subroutine dtrtrs
 #else
                module procedure stdlib_dtrtrs
@@ -22455,7 +22535,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    real(sp) :: a,lda,b,ldb
+                    real(sp) :: a(lda,*),b(ldb,*)
                end subroutine strtrs
 #else
                module procedure stdlib_strtrs
@@ -22467,7 +22547,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: diag,trans,uplo
                     integer(ilp) :: info,lda,ldb,n,nrhs
-                    complex(dp) :: a,lda,b,ldb
+                    complex(dp) :: a(lda,*),b(ldb,*)
                end subroutine ztrtrs
 #else
                module procedure stdlib_ztrtrs
@@ -22483,7 +22563,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n,lda
-                    complex(sp) :: a,lda,arf
+                    complex(sp) :: a,lda,arf(0:*)
                end subroutine ctrttf
 #else
                module procedure stdlib_ctrttf
@@ -22494,7 +22574,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n,lda
-                    real(dp) :: a,lda,arf
+                    real(dp) :: a,lda,arf(0:*)
                end subroutine dtrttf
 #else
                module procedure stdlib_dtrttf
@@ -22506,7 +22586,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n,lda
-                    real(sp) :: a,lda,arf
+                    real(sp) :: a,lda,arf(0:*)
                end subroutine strttf
 #else
                module procedure stdlib_strttf
@@ -22518,7 +22598,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: transr,uplo
                     integer(ilp) :: info,n,lda
-                    complex(dp) :: a,lda,arf
+                    complex(dp) :: a,lda,arf(0:*)
                end subroutine ztrttf
 #else
                module procedure stdlib_ztrttf
@@ -22534,7 +22614,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n,lda
-                    complex(sp) :: a,lda,ap
+                    complex(sp) :: a(lda,*),ap(*)
                end subroutine ctrttp
 #else
                module procedure stdlib_ctrttp
@@ -22545,7 +22625,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n,lda
-                    real(dp) :: a,lda,ap
+                    real(dp) :: a(lda,*),ap(*)
                end subroutine dtrttp
 #else
                module procedure stdlib_dtrttp
@@ -22557,7 +22637,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n,lda
-                    real(sp) :: a,lda,ap
+                    real(sp) :: a(lda,*),ap(*)
                end subroutine strttp
 #else
                module procedure stdlib_strttp
@@ -22569,7 +22649,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,n,lda
-                    complex(dp) :: a,lda,ap
+                    complex(dp) :: a(lda,*),ap(*)
                end subroutine ztrttp
 #else
                module procedure stdlib_ztrttp
@@ -22588,7 +22668,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine ctzrzf
 #else
                module procedure stdlib_ctzrzf
@@ -22598,7 +22678,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(dp) :: a,lda,tau,work
+                    real(dp) :: a(lda,*),tau(*),work(*)
                end subroutine dtzrzf
 #else
                module procedure stdlib_dtzrzf
@@ -22609,7 +22689,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    real(sp) :: a,lda,tau,work
+                    real(sp) :: a(lda,*),tau(*),work(*)
                end subroutine stzrzf
 #else
                module procedure stdlib_stzrzf
@@ -22620,7 +22700,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine ztzrzf
 #else
                module procedure stdlib_ztzrzf
@@ -22651,9 +22731,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: signs,trans
                     integer(ilp) :: info,ldx11,ldx12,ldx21,ldx22,lwork,m,p,q
-                    real(sp) :: phi,theta
-                    complex(sp) :: taup1,taup2,tauq1,tauq2,work,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
-                              ldx22
+                    real(sp) :: phi(*),theta(*)
+                    complex(sp) :: taup1(*),taup2(*),tauq1(*),tauq2(*),work(*),x11(ldx11,*),x12( &
+                              ldx12,*),x21(ldx21,*),x22(ldx22,*)
                end subroutine cunbdb
 #else
                module procedure stdlib_cunbdb
@@ -22666,9 +22746,9 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: signs,trans
                     integer(ilp) :: info,ldx11,ldx12,ldx21,ldx22,lwork,m,p,q
-                    real(dp) :: phi,theta
-                    complex(dp) :: taup1,taup2,tauq1,tauq2,work,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
-                              ldx22
+                    real(dp) :: phi(*),theta(*)
+                    complex(dp) :: taup1(*),taup2(*),tauq1(*),tauq2(*),work(*),x11(ldx11,*),x12( &
+                              ldx12,*),x21(ldx21,*),x22(ldx22,*)
                end subroutine zunbdb
 #else
                module procedure stdlib_zunbdb
@@ -22949,10 +23029,10 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu1,jobu2,jobv1t,jobv2t,signs,trans
                     integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,ldx11,ldx12,ldx21,ldx22,lrwork, &
-                              lwork,m,p,q,iwork
-                    real(sp) :: theta,rwork
-                    complex(sp) :: u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,work,x11,ldx11,x12,ldx12, &
-                              x21,ldx21,x22,ldx22
+                              lwork,m,p,q,iwork(*)
+                    real(sp) :: theta(*),rwork(*)
+                    complex(sp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*),work(*),x11( &
+                              ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
                end subroutine cuncsd
 #else
                module procedure stdlib_cuncsd
@@ -22966,10 +23046,10 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: jobu1,jobu2,jobv1t,jobv2t,signs,trans
                     integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,ldx11,ldx12,ldx21,ldx22,lrwork, &
-                              lwork,m,p,q,iwork
-                    real(dp) :: theta,rwork
-                    complex(dp) :: u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,work,x11,ldx11,x12,ldx12, &
-                              x21,ldx21,x22,ldx22
+                              lwork,m,p,q,iwork(*)
+                    real(dp) :: theta(*),rwork(*)
+                    complex(dp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*),work(*),x11( &
+                              ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
                end subroutine zuncsd
 #else
                module procedure stdlib_zuncsd
@@ -23036,7 +23116,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cung2l
 #else
                module procedure stdlib_cung2l
@@ -23047,7 +23127,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zung2l
 #else
                module procedure stdlib_zung2l
@@ -23065,7 +23145,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cung2r
 #else
                module procedure stdlib_cung2r
@@ -23076,7 +23156,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zung2r
 #else
                module procedure stdlib_zung2r
@@ -23106,7 +23186,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: vect
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cungbr
 #else
                module procedure stdlib_cungbr
@@ -23118,7 +23198,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: vect
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zungbr
 #else
                module procedure stdlib_zungbr
@@ -23135,7 +23215,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,lda,lwork,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cunghr
 #else
                module procedure stdlib_cunghr
@@ -23146,7 +23226,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: ihi,ilo,info,lda,lwork,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zunghr
 #else
                module procedure stdlib_zunghr
@@ -23164,7 +23244,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cunglq
 #else
                module procedure stdlib_cunglq
@@ -23175,7 +23255,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zunglq
 #else
                module procedure stdlib_zunglq
@@ -23193,7 +23273,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cungql
 #else
                module procedure stdlib_cungql
@@ -23204,7 +23284,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zungql
 #else
                module procedure stdlib_zungql
@@ -23222,7 +23302,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cungqr
 #else
                module procedure stdlib_cungqr
@@ -23233,7 +23313,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zungqr
 #else
                module procedure stdlib_zungqr
@@ -23251,7 +23331,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cungrq
 #else
                module procedure stdlib_cungrq
@@ -23262,7 +23342,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,k,lda,lwork,m,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zungrq
 #else
                module procedure stdlib_zungrq
@@ -23281,7 +23361,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,lwork,n
-                    complex(sp) :: a,lda,tau,work
+                    complex(sp) :: a(lda,*),tau(*),work(*)
                end subroutine cungtr
 #else
                module procedure stdlib_cungtr
@@ -23293,7 +23373,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,lda,lwork,n
-                    complex(dp) :: a,lda,tau,work
+                    complex(dp) :: a(lda,*),tau(*),work(*)
                end subroutine zungtr
 #else
                module procedure stdlib_zungtr
@@ -23311,7 +23391,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
-                    complex(sp) :: a,lda,t,ldt,work
+                    complex(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine cungtsqr
 #else
                module procedure stdlib_cungtsqr
@@ -23322,7 +23402,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
-                    complex(dp) :: a,lda,t,ldt,work
+                    complex(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine zungtsqr
 #else
                module procedure stdlib_zungtsqr
@@ -23350,7 +23430,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
-                    complex(sp) :: a,lda,t,ldt,work
+                    complex(sp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine cungtsqr_row
 #else
                module procedure stdlib_cungtsqr_row
@@ -23361,7 +23441,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
-                    complex(dp) :: a,lda,t,ldt,work
+                    complex(dp) :: a(lda,*),t(ldt,*),work(*)
                end subroutine zungtsqr_row
 #else
                module procedure stdlib_zungtsqr_row
@@ -23383,7 +23463,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,nb
-                    complex(sp) :: a,lda,d,t,ldt
+                    complex(sp) :: a(lda,*),d(*),t(ldt,*)
                end subroutine cunhr_col
 #else
                module procedure stdlib_cunhr_col
@@ -23394,7 +23474,7 @@ module stdlib_linalg_lapack
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp) :: info,lda,ldt,m,n,nb
-                    complex(dp) :: a,lda,d,t,ldt
+                    complex(dp) :: a(lda,*),d(*),t(ldt,*)
                end subroutine zunhr_col
 #else
                module procedure stdlib_zunhr_col
@@ -23418,7 +23498,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunm2l
 #else
                module procedure stdlib_cunm2l
@@ -23430,7 +23510,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunm2l
 #else
                module procedure stdlib_zunm2l
@@ -23454,7 +23534,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunm2r
 #else
                module procedure stdlib_cunm2r
@@ -23466,7 +23546,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunm2r
 #else
                module procedure stdlib_zunm2r
@@ -23503,7 +23583,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,vect
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunmbr
 #else
                module procedure stdlib_cunmbr
@@ -23516,7 +23596,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,vect
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunmbr
 #else
                module procedure stdlib_zunmbr
@@ -23539,7 +23619,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: ihi,ilo,info,lda,ldc,lwork,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunmhr
 #else
                module procedure stdlib_cunmhr
@@ -23552,7 +23632,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: ihi,ilo,info,lda,ldc,lwork,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunmhr
 #else
                module procedure stdlib_zunmhr
@@ -23576,7 +23656,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunmlq
 #else
                module procedure stdlib_cunmlq
@@ -23589,7 +23669,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunmlq
 #else
                module procedure stdlib_zunmlq
@@ -23613,7 +23693,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunmql
 #else
                module procedure stdlib_cunmql
@@ -23626,7 +23706,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunmql
 #else
                module procedure stdlib_zunmql
@@ -23650,7 +23730,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunmqr
 #else
                module procedure stdlib_cunmqr
@@ -23663,7 +23743,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunmqr
 #else
                module procedure stdlib_zunmqr
@@ -23687,7 +23767,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunmrq
 #else
                module procedure stdlib_cunmrq
@@ -23700,7 +23780,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,lda,ldc,lwork,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunmrq
 #else
                module procedure stdlib_zunmrq
@@ -23724,7 +23804,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,l,lda,ldc,lwork,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunmrz
 #else
                module procedure stdlib_cunmrz
@@ -23737,7 +23817,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans
                     integer(ilp) :: info,k,l,lda,ldc,lwork,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunmrz
 #else
                module procedure stdlib_zunmrz
@@ -23761,7 +23841,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,uplo
                     integer(ilp) :: info,lda,ldc,lwork,m,n
-                    complex(sp) :: a,lda,c,ldc,tau,work
+                    complex(sp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine cunmtr
 #else
                module procedure stdlib_cunmtr
@@ -23774,7 +23854,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,uplo
                     integer(ilp) :: info,lda,ldc,lwork,m,n
-                    complex(dp) :: a,lda,c,ldc,tau,work
+                    complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
                end subroutine zunmtr
 #else
                module procedure stdlib_zunmtr
@@ -23793,7 +23873,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldq,n
-                    complex(sp) :: ap,q,ldq,tau,work
+                    complex(sp) :: ap(*),q(ldq,*),tau(*),work(*)
                end subroutine cupgtr
 #else
                module procedure stdlib_cupgtr
@@ -23805,7 +23885,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: uplo
                     integer(ilp) :: info,ldq,n
-                    complex(dp) :: ap,q,ldq,tau,work
+                    complex(dp) :: ap(*),q(ldq,*),tau(*),work(*)
                end subroutine zupgtr
 #else
                module procedure stdlib_zupgtr
@@ -23829,7 +23909,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,uplo
                     integer(ilp) :: info,ldc,m,n
-                    complex(sp) :: ap,c,ldc,tau,work
+                    complex(sp) :: ap(*),c(ldc,*),tau(*),work(*)
                end subroutine cupmtr
 #else
                module procedure stdlib_cupmtr
@@ -23841,7 +23921,7 @@ module stdlib_linalg_lapack
                     implicit none(type,external)
                     character :: side,trans,uplo
                     integer(ilp) :: info,ldc,m,n
-                    complex(dp) :: ap,c,ldc,tau,work
+                    complex(dp) :: ap(*),c(ldc,*),tau(*),work(*)
                end subroutine zupmtr
 #else
                module procedure stdlib_zupmtr
