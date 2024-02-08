@@ -1069,6 +1069,8 @@ class Fortran_Source:
     # Return declaration line of a function
     def declaration(self,strip_prefix):
 
+        DEBUG = False
+
         # Find header
         head = ""
         for i in range(len(self.body)):
@@ -1084,6 +1086,7 @@ class Fortran_Source:
 
         # Strip, lower
         head = head.lower().strip()
+        if DEBUG: print("DECLARATION:: HEAD "+head)
 
         # extract arguments
         if self.is_function:
@@ -1129,6 +1132,8 @@ class Fortran_Source:
             if isinstance(args, type([])): args = args[0]
             args = args.strip()
 
+
+
         # extract all variables
         var_types = []
         var_names = []
@@ -1139,23 +1144,30 @@ class Fortran_Source:
 
             if not (m is None):
                 datatype = m.group(1).strip()
-                variables = m.group(2).strip()
+                # Remove all spaces from the variables
+                variables = m.group(2).replace(" ","")
+
 
                 # Extract variable declarations
                 v = re.findall(r'([a-zA-Z0-9\_]+(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
+
+                if DEBUG: print("DECLARATION:: LINE VARIABLES "+variables)
 
                 # Add to variables
                 for k in range(len(v)):
 
                     v[k] = v[k].strip()
+                    if DEBUG: print("DECLARATION:: VARIABLE "+v[k])
 
                     # Clean trailing commas
                     if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
 
                     # Extract name with no (*) or other arguments
-                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}',v[k])
+                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\_\*\:\,]+\)){0,1}',v[k])
                     name = vname.group(1).strip()
                     print(name)
+                    print(v[k])
+
 
                     # Add to list if this is an argument
                     if name in args:
@@ -1913,7 +1925,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False #file_name.lower().startswith("zcposv")
+    DEBUG  = False
 
     Procedures = []
 
@@ -2257,6 +2269,15 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     if DEBUG:
         for i in range(len(Source.body)):
            print(Source.body[i])
+
+        Procedures[-1].old_name
+
+        ddd, aaa = Procedures[-1].declaration('stdlib_')
+
+        print(ddd)
+        for i in range(len(aaa)):
+           print(aaa[i])
+
         exit(1)
 
     return Procedures
