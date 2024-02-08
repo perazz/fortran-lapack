@@ -123,7 +123,7 @@ module stdlib_linalg_state
          class(linalg_state),intent(in) :: this
          character(len=:),allocatable :: msg
 
-         if (len(this%where_at) > 0) then
+         if (len_trim(this%where_at) > 0) then
             msg = '['//trim(this%where_at)//'] returned '//state_message(this)
          elseif (this%error()) then
             msg = 'Error encountered: '//state_message(this)
