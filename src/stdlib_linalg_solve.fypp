@@ -2,6 +2,10 @@
 #:set REAL_INITIALS = ["s","d","q"]
 #:set REAL_TYPES    = ["real({})".format(k) for k in REAL_KINDS]
 #:set REAL_KINDS_TYPES = list(zip(REAL_KINDS, REAL_TYPES, REAL_INITIALS))
+#:set CMPL_INITIALS = ["c","z","w"]
+#:set CMPL_TYPES    = ["complex({})".format(k) for k in REAL_KINDS]
+#:set CMPL_KINDS_TYPES = list(zip(REAL_KINDS, CMPL_TYPES, CMPL_INITIALS))
+#:set ALL_KINDS_TYPES = list(zip(REAL_KINDS+REAL_KINDS,REAL_TYPES+CMPL_TYPES,REAL_INITIALS+CMPL_INITIALS))
 
 module stdlib_linalg_solve
      use stdlib_linalg_constants
@@ -21,7 +25,7 @@ module stdlib_linalg_solve
 
 
      interface solve
-        #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure stdlib_linalg_${ri}$solve
         #:endfor
      end interface solve
@@ -29,19 +33,19 @@ module stdlib_linalg_solve
 
      contains
 
-     #:for rk,rt,ri in REAL_KINDS_TYPES
+     #:for rk,rt,ri in ALL_KINDS_TYPES
      ! Compute the solution to a real system of linear equations A * X = B
      function stdlib_linalg_${ri}$solve(a,b,err) result(x)
-         real(${rk}$),                     intent(inout) :: a(:,:)
-         real(${rk}$),                     intent(in)    :: b(:)
+         ${rt}$,                     intent(inout) :: a(:,:)
+         ${rt}$,                     intent(in)    :: b(:)
          type(linalg_state), optional, intent(out)   :: err
-         real(${rk}$), allocatable, target :: x(:)
+         ${rt}$, allocatable, target :: x(:)
 
          ! Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         real(${rk}$), pointer :: xmat(:,:)
+         ${rt}$, pointer :: xmat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes

@@ -20,6 +20,9 @@ module stdlib_linalg_solve
         module procedure stdlib_linalg_ssolve
         module procedure stdlib_linalg_dsolve
         module procedure stdlib_linalg_qsolve
+        module procedure stdlib_linalg_csolve
+        module procedure stdlib_linalg_zsolve
+        module procedure stdlib_linalg_wsolve
      end interface solve
 
 
@@ -200,6 +203,183 @@ module stdlib_linalg_solve
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_qsolve
+
+
+     ! Compute the solution to a real system of linear equations A * X = B
+     function stdlib_linalg_csolve(a,b,err) result(x)
+         complex(sp),                     intent(inout) :: a(:,:)
+         complex(sp),                     intent(in)    :: b(:)
+         type(linalg_state), optional, intent(out)   :: err
+         complex(sp), allocatable, target :: x(:)
+
+         ! Local variables
+         type(linalg_state) :: err0
+         integer(ilp) :: lda,n,ldb,nrhs,info
+         integer(ilp), allocatable :: ipiv(:)
+         complex(sp), pointer :: xmat(:,:)
+         character(*), parameter :: this = 'solve'
+
+         !> Problem sizes
+         lda  = size(a,1,kind=ilp)
+         n    = size(a,2,kind=ilp)
+         ldb  = size(b,1,kind=ilp)
+         nrhs = 1
+
+         if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'], b=[',ldb,']')
+            goto 1
+         end if
+
+         ! Pivot indices
+         allocate(ipiv(n))
+
+         ! Initialize solution with the rhs
+         allocate(x(n),source=b)
+         xmat(1:n,1:1) => x
+
+         ! Solve system
+         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+
+         ! Process output
+         select case (info)
+            case (0)
+                ! Success
+            case (-1)
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
+            case (-2)
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
+            case (-4)
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
+            case (-7)
+                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
+            case (1:)
+                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+            case default
+                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+         end select
+
+         ! Process output
+         1 call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_csolve
+
+
+     ! Compute the solution to a real system of linear equations A * X = B
+     function stdlib_linalg_zsolve(a,b,err) result(x)
+         complex(dp),                     intent(inout) :: a(:,:)
+         complex(dp),                     intent(in)    :: b(:)
+         type(linalg_state), optional, intent(out)   :: err
+         complex(dp), allocatable, target :: x(:)
+
+         ! Local variables
+         type(linalg_state) :: err0
+         integer(ilp) :: lda,n,ldb,nrhs,info
+         integer(ilp), allocatable :: ipiv(:)
+         complex(dp), pointer :: xmat(:,:)
+         character(*), parameter :: this = 'solve'
+
+         !> Problem sizes
+         lda  = size(a,1,kind=ilp)
+         n    = size(a,2,kind=ilp)
+         ldb  = size(b,1,kind=ilp)
+         nrhs = 1
+
+         if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'], b=[',ldb,']')
+            goto 1
+         end if
+
+         ! Pivot indices
+         allocate(ipiv(n))
+
+         ! Initialize solution with the rhs
+         allocate(x(n),source=b)
+         xmat(1:n,1:1) => x
+
+         ! Solve system
+         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+
+         ! Process output
+         select case (info)
+            case (0)
+                ! Success
+            case (-1)
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
+            case (-2)
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
+            case (-4)
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
+            case (-7)
+                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
+            case (1:)
+                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+            case default
+                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+         end select
+
+         ! Process output
+         1 call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_zsolve
+
+
+     ! Compute the solution to a real system of linear equations A * X = B
+     function stdlib_linalg_wsolve(a,b,err) result(x)
+         complex(qp),                     intent(inout) :: a(:,:)
+         complex(qp),                     intent(in)    :: b(:)
+         type(linalg_state), optional, intent(out)   :: err
+         complex(qp), allocatable, target :: x(:)
+
+         ! Local variables
+         type(linalg_state) :: err0
+         integer(ilp) :: lda,n,ldb,nrhs,info
+         integer(ilp), allocatable :: ipiv(:)
+         complex(qp), pointer :: xmat(:,:)
+         character(*), parameter :: this = 'solve'
+
+         !> Problem sizes
+         lda  = size(a,1,kind=ilp)
+         n    = size(a,2,kind=ilp)
+         ldb  = size(b,1,kind=ilp)
+         nrhs = 1
+
+         if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'], b=[',ldb,']')
+            goto 1
+         end if
+
+         ! Pivot indices
+         allocate(ipiv(n))
+
+         ! Initialize solution with the rhs
+         allocate(x(n),source=b)
+         xmat(1:n,1:1) => x
+
+         ! Solve system
+         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+
+         ! Process output
+         select case (info)
+            case (0)
+                ! Success
+            case (-1)
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
+            case (-2)
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
+            case (-4)
+                err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=[',lda,',',n,']')
+            case (-7)
+                err0 = linalg_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
+            case (1:)
+                err0 = linalg_state(this,LINALG_ERROR,'singular matrix')
+            case default
+                err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+         end select
+
+         ! Process output
+         1 call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_wsolve
 
 
 
