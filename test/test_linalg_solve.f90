@@ -20,9 +20,15 @@ module test_linalg_solve
         if (error) return
         call test_csolve(error)
         if (error) return
+        call test_2x2_csolve(error)
+        if (error) return
         call test_zsolve(error)
         if (error) return
+        call test_2x2_zsolve(error)
+        if (error) return
         call test_wsolve(error)
+        if (error) return
+        call test_2x2_wsolve(error)
         if (error) return
     end subroutine test_solve
 
@@ -98,6 +104,8 @@ module test_linalg_solve
     end subroutine test_qsolve
 
     !> Complex linear system
+    !> Militaru, Popa, "On the numerical solving of complex linear systems",
+    !> Int J Pure Appl Math 76(1), 113-122, 2012.
     subroutine test_csolve(error)
         logical, intent(out) :: error
 
@@ -125,7 +133,7 @@ module test_linalg_solve
         error = state%error() .or. .not.all(abs(x-res)<abs(res)*1.0e-3_sp)
 
         do i=1,5
-           print *, 'res = ',res(i),' x  =',x(i)
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
         end do
         print *, 'state = ',state%print()
 
@@ -157,7 +165,7 @@ module test_linalg_solve
         error = state%error() .or. .not.all(abs(x-res)<abs(res)*1.0e-3_dp)
 
         do i=1,5
-           print *, 'res = ',res(i),' x  =',x(i)
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
         end do
         print *, 'state = ',state%print()
 
@@ -189,11 +197,94 @@ module test_linalg_solve
         error = state%error() .or. .not.all(abs(x-res)<abs(res)*1.0e-3_qp)
 
         do i=1,5
-           print *, 'res = ',res(i),' x  =',x(i)
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
         end do
         print *, 'state = ',state%print()
 
     end subroutine test_wsolve
+
+    !> 2x2 Complex linear system
+    subroutine test_2x2_csolve(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        complex(sp) :: A(2,2), b(2), res(2), x(2)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A(1,:) = [(+1.0_sp,+1.0_sp),(-1.0_sp,0.0_sp)]
+        A(2,:) = [(+1.0_sp,-1.0_sp),(+1.0_sp,1.0_sp)]
+
+        b = [(0.0_sp,1.0_sp),(1.0_sp,0.0_sp)]
+
+        ! Exact result
+        res = [(0.5_sp,0.5_sp),(0.0_sp,0.0_sp)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not.all(abs(x-res)<max(tiny(0.0_sp),abs(res)*epsilon(0.0_sp)))
+
+        do i=1,2
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_2x2_csolve
+    subroutine test_2x2_zsolve(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        complex(dp) :: A(2,2), b(2), res(2), x(2)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A(1,:) = [(+1.0_dp,+1.0_dp),(-1.0_dp,0.0_dp)]
+        A(2,:) = [(+1.0_dp,-1.0_dp),(+1.0_dp,1.0_dp)]
+
+        b = [(0.0_dp,1.0_dp),(1.0_dp,0.0_dp)]
+
+        ! Exact result
+        res = [(0.5_dp,0.5_dp),(0.0_dp,0.0_dp)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not.all(abs(x-res)<max(tiny(0.0_dp),abs(res)*epsilon(0.0_dp)))
+
+        do i=1,2
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_2x2_zsolve
+    subroutine test_2x2_wsolve(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        complex(qp) :: A(2,2), b(2), res(2), x(2)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A(1,:) = [(+1.0_qp,+1.0_qp),(-1.0_qp,0.0_qp)]
+        A(2,:) = [(+1.0_qp,-1.0_qp),(+1.0_qp,1.0_qp)]
+
+        b = [(0.0_qp,1.0_qp),(1.0_qp,0.0_qp)]
+
+        ! Exact result
+        res = [(0.5_qp,0.5_qp),(0.0_qp,0.0_qp)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not.all(abs(x-res)<max(tiny(0.0_qp),abs(res)*epsilon(0.0_qp)))
+
+        do i=1,2
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_2x2_wsolve
 
 end module test_linalg_solve
 

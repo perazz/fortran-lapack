@@ -26,6 +26,8 @@ module test_linalg_solve
         #:for ck,ct,ci in CMPL_KINDS_TYPES
         call test_${ci}$solve(error)
         if (error) return
+        call test_2x2_${ci}$solve(error)
+        if (error) return
         #: endfor
     end subroutine test_solve
 
@@ -57,6 +59,8 @@ module test_linalg_solve
     #:endfor
 
     !> Complex linear system
+    !> Militaru, Popa, "On the numerical solving of complex linear systems",
+    !> Int J Pure Appl Math 76(1), 113-122, 2012.
     #:for rk,rt,ri in CMPL_KINDS_TYPES
     subroutine test_${ri}$solve(error)
         logical, intent(out) :: error
@@ -85,11 +89,42 @@ module test_linalg_solve
         error = state%error() .or. .not.all(abs(x-res)<abs(res)*1.0e-3_${rk}$)
 
         do i=1,5
-           print *, 'res = ',res(i),' x  =',x(i)
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
         end do
         print *, 'state = ',state%print()
 
     end subroutine test_${ri}$solve
+    #:endfor
+
+    !> 2x2 Complex linear system
+    #:for rk,rt,ri in CMPL_KINDS_TYPES
+    subroutine test_2x2_${ri}$solve(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        ${rt}$ :: A(2,2), b(2), res(2), x(2)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A(1,:) = [(+1.0_${rk}$,+1.0_${rk}$),(-1.0_${rk}$,0.0_${rk}$)]
+        A(2,:) = [(+1.0_${rk}$,-1.0_${rk}$),(+1.0_${rk}$,1.0_${rk}$)]
+
+        b = [(0.0_${rk}$,1.0_${rk}$),(1.0_${rk}$,0.0_${rk}$)]
+
+        ! Exact result
+        res = [(0.5_${rk}$,0.5_${rk}$),(0.0_${rk}$,0.0_${rk}$)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not.all(abs(x-res)<max(tiny(0.0_${rk}$),abs(res)*epsilon(0.0_${rk}$)))
+
+        do i=1,2
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_2x2_${ri}$solve
     #:endfor
 
 end module test_linalg_solve
