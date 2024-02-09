@@ -97,6 +97,7 @@ module test_linalg_solve
     #:endfor
 
     !> 2x2 Complex linear system
+    !> https://math.stackexchange.com/questions/1996540/solving-linear-equation-systems-with-complex-coefficients-and-variables
     #:for rk,rt,ri in CMPL_KINDS_TYPES
     subroutine test_2x2_${ri}$solve(error)
         logical, intent(out) :: error
