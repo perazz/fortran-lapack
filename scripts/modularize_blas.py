@@ -806,17 +806,31 @@ def adjust_variable_declaration(line,datatype):
     for i in range(len(declarations)):
         m  = re.match(r'^\s*' + declarations[i] + r'\s+\w',ll)
         if m:
+
             variable = line[m.end()-1:].lstrip()
-            line = line[:m.end()-2].rstrip() + " :: " + variable
+            var_type = line[:m.end()-2].rstrip()
+            line = var_type + " :: " + variable
 
             # Patch function argument
-            if i==4 and variable.lower().strip()=='selctg':
+            if variable.lower().strip()=='selctg':
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_selctg_"+datatype[0]+") :: selctg"
+                if not datatype[0] in ['d','c','s','z','w','q']:
+                    print("invalid datatype")
+                    print(line)
+                    print(variable)
+                    print(datatype)
+                    exit(1)
 
-            if i==4 and variable.lower().strip()=='select':
+            if variable.lower().strip()=='select':
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_select_"+datatype[0]+") :: select"
+                if not datatype[0] in ['d','c','s','z','w','q']:
+                    print("invalid datatype")
+                    print(line)
+                    print(variable)
+                    print(datatype)
+                    exit(1)
 
             return line
 
@@ -1069,6 +1083,8 @@ class Fortran_Source:
     # Return declaration line of a function
     def declaration(self,strip_prefix):
 
+        DEBUG = False # self.old_name == 'cgejsv'
+
         # Find header
         head = ""
         for i in range(len(self.body)):
@@ -1084,6 +1100,7 @@ class Fortran_Source:
 
         # Strip, lower
         head = head.lower().strip()
+        if DEBUG: print("DECLARATION:: HEAD "+head)
 
         # extract arguments
         if self.is_function:
@@ -1135,27 +1152,40 @@ class Fortran_Source:
         var_decl  = []
         for i in range(len(self.decl)):
             line = self.decl[i].lower().strip()
-            m = re.search(r'\s*(\S+)\s+\:{2}\s+(.+)',line)
+            m = re.search(r'\s*(.+)\s+\:{2}\s+(.+)',line)
 
             if not (m is None):
-                datatype = m.group(1).strip()
-                variables = m.group(2).strip()
+
+                if DEBUG: print("DECLARATION :: DATATYPE "+line)
+                if DEBUG: print("DECLARATION :: DATATYPE "+m.group(1))
+
+                datatype = m.group(1).replace(" ","")
+                # Add exactly one space after every comma
+                datatype = re.sub(r'(?<=[,])(?=[^\s])', r' ', datatype)
+                # Remove all spaces from the variables
+                variables = m.group(2).replace(" ","")
+
 
                 # Extract variable declarations
-                v = re.findall(r'([a-zA-Z0-9\_]+(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
+                v = re.findall(r'([a-zA-Z0-9\_]+(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
+
+                if DEBUG: print("DECLARATION:: LINE VARIABLES "+variables)
 
                 # Add to variables
                 for k in range(len(v)):
 
                     v[k] = v[k].strip()
+                    if DEBUG: print("DECLARATION:: VARIABLE "+v[k])
 
                     # Clean trailing commas
                     if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
 
                     # Extract name with no (*) or other arguments
-                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}',v[k])
+                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',v[k])
                     name = vname.group(1).strip()
                     print(name)
+                    print(v[k])
+
 
                     # Add to list if this is an argument
                     if name in args:
@@ -1171,6 +1201,8 @@ class Fortran_Source:
                         if not exists: var_decl.append(datatype+" :: "+v[k])
                     else:
                         print("variable <"+v[k]+"> not in args")
+
+        if DEBUG: exit(1)
 
         return head,var_decl
 
@@ -1265,6 +1297,8 @@ def replace_f77_types(line,is_free_form):
     new_line = re.sub(r'^\s*LOGICAL,',INDENT+'LOGICAL(lk),',new_line)
     new_line = re.sub(r'^\s*REAL,',INDENT+'REAL(sp),',new_line)
     new_line = re.sub(r'^\s*DOUBLE PRECISION,',INDENT+'REAL(dp),',new_line)
+    new_line = re.sub(r'^\s*CHARACTER\*1 ',INDENT+'CHARACTER ',new_line)
+    new_line = re.sub(r'^\s*CHARACTER\*\(\*\) ',INDENT+'CHARACTER(len=*) ',new_line)
 
     # Relabel double precision intrinsic functions with kind-agnostic ones
     new_line = re.sub(r'\bDABS\b',r'ABS',new_line) # abs
@@ -1913,7 +1947,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False #file_name.lower().startswith("zcposv")
+    DEBUG  = False # file_name.startswith("cgejsv")
 
     Procedures = []
 
@@ -2257,6 +2291,15 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     if DEBUG:
         for i in range(len(Source.body)):
            print(Source.body[i])
+
+        Procedures[-1].old_name
+
+        ddd, aaa = Procedures[-1].declaration('stdlib_')
+
+        print(ddd)
+        for i in range(len(aaa)):
+           print(aaa[i])
+
         exit(1)
 
     return Procedures

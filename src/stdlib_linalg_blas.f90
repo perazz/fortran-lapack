@@ -1119,7 +1119,7 @@ module stdlib_linalg_blas
                     implicit none(type,external)
                     integer(ilp) :: incx,incy,n
                     real(sp) :: c,s
-                    complex(sp) :: cx,cy
+                    complex(sp) :: cx(*),cy(*)
                end subroutine csrot
 #else
                module procedure stdlib_csrot
