@@ -808,17 +808,29 @@ def adjust_variable_declaration(line,datatype):
         if m:
 
             variable = line[m.end()-1:].lstrip()
-            datatype = line[:m.end()-2].rstrip()
-            line = datatype + " :: " + variable
+            var_type = line[:m.end()-2].rstrip()
+            line = var_type + " :: " + variable
 
             # Patch function argument
-            if i==4 and variable.lower().strip()=='selctg':
+            if variable.lower().strip()=='selctg':
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_selctg_"+datatype[0]+") :: selctg"
+                if not datatype[0] in ['d','c','s','z','w','q']:
+                    print("invalid datatype")
+                    print(line)
+                    print(variable)
+                    print(datatype)
+                    exit(1)
 
-            if i==4 and variable.lower().strip()=='select':
+            if variable.lower().strip()=='select':
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_select_"+datatype[0]+") :: select"
+                if not datatype[0] in ['d','c','s','z','w','q']:
+                    print("invalid datatype")
+                    print(line)
+                    print(variable)
+                    print(datatype)
+                    exit(1)
 
             return line
 
