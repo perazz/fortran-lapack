@@ -18,7 +18,12 @@ module test_linalg_solve
         if (error) return
         call test_qsolve(error)
         if (error) return
-
+        call test_csolve(error)
+        if (error) return
+        call test_zsolve(error)
+        if (error) return
+        call test_wsolve(error)
+        if (error) return
     end subroutine test_solve
 
     !> Simple linear system
@@ -45,7 +50,6 @@ module test_linalg_solve
 
 
     end subroutine test_ssolve
-
     subroutine test_dsolve(error)
         logical, intent(out) :: error
 
@@ -69,7 +73,6 @@ module test_linalg_solve
 
 
     end subroutine test_dsolve
-
     subroutine test_qsolve(error)
         logical, intent(out) :: error
 
@@ -94,6 +97,103 @@ module test_linalg_solve
 
     end subroutine test_qsolve
 
+    !> Complex linear system
+    subroutine test_csolve(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        complex(sp) :: A(5,5), b(5), res(5), x(5)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A = (0.0_sp,0.0_sp)
+
+        A(1:2,1) = [(19.73_sp,0.0_sp),(0.0_sp,-0.51_sp)]
+        A(1:3,2) = [(12.11_sp,-1.0_sp),(32.3_sp,7.0_sp),(0.0_sp,-0.51_sp)]
+        A(1:4,3) = [(0.0_sp,5.0_sp),(23.07_sp,0.0_sp),(70.0_sp,7.3_sp),(1.0_sp,1.1_sp)]
+        A(2:5,4) = [(0.0_sp,1.0_sp),(3.95_sp,0.0_sp),(50.17_sp,0.0_sp),(0.0_sp,-9.351_sp)]
+        A(3:5,5) = [(19.0_sp,31.83_sp),(45.51_sp,0.0_sp),(55.0_sp,0.0_sp)]
+
+        b = [(77.38_sp,8.82_sp),(157.48_sp,19.8_sp),(1175.62_sp,20.69_sp),(912.12_sp,-801.75_sp),(550.0_sp,-1060.4_sp)]
+
+        ! Exact result
+        res = [(3.3_sp,-1.0_sp),(1.0_sp,0.17_sp),(5.5_sp,0.0_sp),(9.0_sp,0.0_sp),(10.0_sp,-17.75_sp)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not.all(abs(x-res)<abs(res)*1.0e-3_sp)
+
+        do i=1,5
+           print *, 'res = ',res(i),' x  =',x(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_csolve
+    subroutine test_zsolve(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        complex(dp) :: A(5,5), b(5), res(5), x(5)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A = (0.0_dp,0.0_dp)
+
+        A(1:2,1) = [(19.73_dp,0.0_dp),(0.0_dp,-0.51_dp)]
+        A(1:3,2) = [(12.11_dp,-1.0_dp),(32.3_dp,7.0_dp),(0.0_dp,-0.51_dp)]
+        A(1:4,3) = [(0.0_dp,5.0_dp),(23.07_dp,0.0_dp),(70.0_dp,7.3_dp),(1.0_dp,1.1_dp)]
+        A(2:5,4) = [(0.0_dp,1.0_dp),(3.95_dp,0.0_dp),(50.17_dp,0.0_dp),(0.0_dp,-9.351_dp)]
+        A(3:5,5) = [(19.0_dp,31.83_dp),(45.51_dp,0.0_dp),(55.0_dp,0.0_dp)]
+
+        b = [(77.38_dp,8.82_dp),(157.48_dp,19.8_dp),(1175.62_dp,20.69_dp),(912.12_dp,-801.75_dp),(550.0_dp,-1060.4_dp)]
+
+        ! Exact result
+        res = [(3.3_dp,-1.0_dp),(1.0_dp,0.17_dp),(5.5_dp,0.0_dp),(9.0_dp,0.0_dp),(10.0_dp,-17.75_dp)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not.all(abs(x-res)<abs(res)*1.0e-3_dp)
+
+        do i=1,5
+           print *, 'res = ',res(i),' x  =',x(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_zsolve
+    subroutine test_wsolve(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        complex(qp) :: A(5,5), b(5), res(5), x(5)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A = (0.0_qp,0.0_qp)
+
+        A(1:2,1) = [(19.73_qp,0.0_qp),(0.0_qp,-0.51_qp)]
+        A(1:3,2) = [(12.11_qp,-1.0_qp),(32.3_qp,7.0_qp),(0.0_qp,-0.51_qp)]
+        A(1:4,3) = [(0.0_qp,5.0_qp),(23.07_qp,0.0_qp),(70.0_qp,7.3_qp),(1.0_qp,1.1_qp)]
+        A(2:5,4) = [(0.0_qp,1.0_qp),(3.95_qp,0.0_qp),(50.17_qp,0.0_qp),(0.0_qp,-9.351_qp)]
+        A(3:5,5) = [(19.0_qp,31.83_qp),(45.51_qp,0.0_qp),(55.0_qp,0.0_qp)]
+
+        b = [(77.38_qp,8.82_qp),(157.48_qp,19.8_qp),(1175.62_qp,20.69_qp),(912.12_qp,-801.75_qp),(550.0_qp,-1060.4_qp)]
+
+        ! Exact result
+        res = [(3.3_qp,-1.0_qp),(1.0_qp,0.17_qp),(5.5_qp,0.0_qp),(9.0_qp,0.0_qp),(10.0_qp,-17.75_qp)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not.all(abs(x-res)<abs(res)*1.0e-3_qp)
+
+        do i=1,5
+           print *, 'res = ',res(i),' x  =',x(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_wsolve
 
 end module test_linalg_solve
 

@@ -2,6 +2,9 @@
 #:set REAL_INITIALS = ["s","d","q"]
 #:set REAL_TYPES    = ["real({})".format(k) for k in REAL_KINDS]
 #:set REAL_KINDS_TYPES = list(zip(REAL_KINDS, REAL_TYPES, REAL_INITIALS))
+#:set CMPL_INITIALS = ["c","z","w"]
+#:set CMPL_TYPES    = ["complex({})".format(k) for k in REAL_KINDS]
+#:set CMPL_KINDS_TYPES = list(zip(REAL_KINDS, CMPL_TYPES, CMPL_INITIALS))
 
 module test_linalg_solve
     use stdlib_linalg_constants
@@ -20,7 +23,10 @@ module test_linalg_solve
         call test_${ri}$solve(error)
         if (error) return
         #: endfor
-
+        #:for ck,ct,ci in CMPL_KINDS_TYPES
+        call test_${ci}$solve(error)
+        if (error) return
+        #: endfor
     end subroutine test_solve
 
     !> Simple linear system
@@ -48,7 +54,42 @@ module test_linalg_solve
 
 
     end subroutine test_${ri}$solve
+    #:endfor
 
+    !> Complex linear system
+    #:for rk,rt,ri in CMPL_KINDS_TYPES
+    subroutine test_${ri}$solve(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        ${rt}$ :: A(5,5), b(5), res(5), x(5)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A = (0.0_${rk}$,0.0_${rk}$)
+
+        A(1:2,1) = [(19.73_${rk}$,0.0_${rk}$),(0.0_${rk}$,-0.51_${rk}$)]
+        A(1:3,2) = [(12.11_${rk}$,-1.0_${rk}$),(32.3_${rk}$,7.0_${rk}$),(0.0_${rk}$,-0.51_${rk}$)]
+        A(1:4,3) = [(0.0_${rk}$,5.0_${rk}$),(23.07_${rk}$,0.0_${rk}$),(70.0_${rk}$,7.3_${rk}$),(1.0_${rk}$,1.1_${rk}$)]
+        A(2:5,4) = [(0.0_${rk}$,1.0_${rk}$),(3.95_${rk}$,0.0_${rk}$),(50.17_${rk}$,0.0_${rk}$),(0.0_${rk}$,-9.351_${rk}$)]
+        A(3:5,5) = [(19.0_${rk}$,31.83_${rk}$),(45.51_${rk}$,0.0_${rk}$),(55.0_${rk}$,0.0_${rk}$)]
+
+        b = [(77.38_${rk}$,8.82_${rk}$),(157.48_${rk}$,19.8_${rk}$),(1175.62_${rk}$,20.69_${rk}$),(912.12_${rk}$,-801.75_${rk}$),(550.0_${rk}$,-1060.4_${rk}$)]
+
+        ! Exact result
+        res = [(3.3_${rk}$,-1.0_${rk}$),(1.0_${rk}$,0.17_${rk}$),(5.5_${rk}$,0.0_${rk}$),(9.0_${rk}$,0.0_${rk}$),(10.0_${rk}$,-17.75_${rk}$)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not.all(abs(x-res)<abs(res)*1.0e-3_${rk}$)
+
+        do i=1,5
+           print *, 'res = ',res(i),' x  =',x(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_${ri}$solve
     #:endfor
 
 end module test_linalg_solve
