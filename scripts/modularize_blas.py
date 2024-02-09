@@ -806,8 +806,10 @@ def adjust_variable_declaration(line,datatype):
     for i in range(len(declarations)):
         m  = re.match(r'^\s*' + declarations[i] + r'\s+\w',ll)
         if m:
+
             variable = line[m.end()-1:].lstrip()
-            line = line[:m.end()-2].rstrip() + " :: " + variable
+            datatype = line[:m.end()-2].rstrip()
+            line = datatype + " :: " + variable
 
             # Patch function argument
             if i==4 and variable.lower().strip()=='selctg':
@@ -1069,7 +1071,7 @@ class Fortran_Source:
     # Return declaration line of a function
     def declaration(self,strip_prefix):
 
-        DEBUG = False #self.old_name == 'claqz0'
+        DEBUG = False # self.old_name == 'cgejsv'
 
         # Find header
         head = ""
@@ -1132,8 +1134,6 @@ class Fortran_Source:
             if isinstance(args, type([])): args = args[0]
             args = args.strip()
 
-
-
         # extract all variables
         var_types = []
         var_names = []
@@ -1155,7 +1155,7 @@ class Fortran_Source:
 
 
                 # Extract variable declarations
-                v = re.findall(r'([a-zA-Z0-9\_]+(?:\([a-zA-Z0-9\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
+                v = re.findall(r'([a-zA-Z0-9\_]+(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
 
                 if DEBUG: print("DECLARATION:: LINE VARIABLES "+variables)
 
@@ -1169,7 +1169,7 @@ class Fortran_Source:
                     if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
 
                     # Extract name with no (*) or other arguments
-                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\_\*\:\,]+\)){0,1}',v[k])
+                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',v[k])
                     name = vname.group(1).strip()
                     print(name)
                     print(v[k])
@@ -1189,6 +1189,8 @@ class Fortran_Source:
                         if not exists: var_decl.append(datatype+" :: "+v[k])
                     else:
                         print("variable <"+v[k]+"> not in args")
+
+        if DEBUG: exit(1)
 
         return head,var_decl
 
@@ -1283,6 +1285,8 @@ def replace_f77_types(line,is_free_form):
     new_line = re.sub(r'^\s*LOGICAL,',INDENT+'LOGICAL(lk),',new_line)
     new_line = re.sub(r'^\s*REAL,',INDENT+'REAL(sp),',new_line)
     new_line = re.sub(r'^\s*DOUBLE PRECISION,',INDENT+'REAL(dp),',new_line)
+    new_line = re.sub(r'^\s*CHARACTER\*1 ',INDENT+'CHARACTER ',new_line)
+    new_line = re.sub(r'^\s*CHARACTER\*\(\*\) ',INDENT+'CHARACTER(len=*) ',new_line)
 
     # Relabel double precision intrinsic functions with kind-agnostic ones
     new_line = re.sub(r'\bDABS\b',r'ABS',new_line) # abs
@@ -1931,7 +1935,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False # file_name.startswith("claqz0")
+    DEBUG  = False # file_name.startswith("cgejsv")
 
     Procedures = []
 
