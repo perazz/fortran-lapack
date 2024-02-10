@@ -14,7 +14,6 @@ module stdlib_linalg_solve
 
 
      ! Scipy: solve(a, b, lower=False, overwrite_a=False, overwrite_b=False, check_finite=True, assume_a='gen', transposed=False)[source]#
-     ! Numpy: solve(a, b)
      ! IMSL: lu_solve(a, b, transpose=False)
 
 
@@ -37,17 +36,24 @@ module stdlib_linalg_solve
      contains
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_ssolve_one(a,b,err) result(x)
-         real(sp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_ssolve_one(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         real(sp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(sp),                     intent(in)    :: b(:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          real(sp), allocatable, target :: x(:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         real(sp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         real(sp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -62,15 +68,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -90,24 +110,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_ssolve_one
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_dsolve_one(a,b,err) result(x)
-         real(dp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_dsolve_one(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         real(dp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(dp),                     intent(in)    :: b(:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          real(dp), allocatable, target :: x(:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         real(dp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         real(dp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -122,15 +151,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -150,24 +193,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_dsolve_one
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_qsolve_one(a,b,err) result(x)
-         real(qp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_qsolve_one(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         real(qp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(qp),                     intent(in)    :: b(:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          real(qp), allocatable, target :: x(:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         real(qp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         real(qp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -182,15 +234,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -210,24 +276,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_qsolve_one
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_csolve_one(a,b,err) result(x)
-         complex(sp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_csolve_one(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         complex(sp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(sp),                     intent(in)    :: b(:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          complex(sp), allocatable, target :: x(:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         complex(sp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         complex(sp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -242,15 +317,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -270,24 +359,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_csolve_one
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_zsolve_one(a,b,err) result(x)
-         complex(dp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_zsolve_one(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         complex(dp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(dp),                     intent(in)    :: b(:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          complex(dp), allocatable, target :: x(:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         complex(dp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         complex(dp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -302,15 +400,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -330,24 +442,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_zsolve_one
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_wsolve_one(a,b,err) result(x)
-         complex(qp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_wsolve_one(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         complex(qp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(qp),                     intent(in)    :: b(:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          complex(qp), allocatable, target :: x(:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         complex(qp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         complex(qp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -362,15 +483,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -390,24 +525,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_wsolve_one
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_ssolve_multiple(a,b,err) result(x)
-         real(sp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_ssolve_multiple(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         real(sp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(sp),                     intent(in)    :: b(:,:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          real(sp), allocatable, target :: x(:,:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         real(sp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         real(sp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -422,15 +566,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -450,24 +608,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_ssolve_multiple
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_dsolve_multiple(a,b,err) result(x)
-         real(dp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_dsolve_multiple(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         real(dp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(dp),                     intent(in)    :: b(:,:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          real(dp), allocatable, target :: x(:,:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         real(dp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         real(dp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -482,15 +649,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -510,24 +691,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_dsolve_multiple
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_qsolve_multiple(a,b,err) result(x)
-         real(qp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_qsolve_multiple(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         real(qp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(qp),                     intent(in)    :: b(:,:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          real(qp), allocatable, target :: x(:,:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         real(qp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         real(qp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -542,15 +732,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -570,24 +774,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_qsolve_multiple
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_csolve_multiple(a,b,err) result(x)
-         complex(sp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_csolve_multiple(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         complex(sp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(sp),                     intent(in)    :: b(:,:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          complex(sp), allocatable, target :: x(:,:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         complex(sp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         complex(sp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -602,15 +815,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -630,24 +857,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_csolve_multiple
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_zsolve_multiple(a,b,err) result(x)
-         complex(dp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_zsolve_multiple(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         complex(dp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(dp),                     intent(in)    :: b(:,:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          complex(dp), allocatable, target :: x(:,:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         complex(dp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         complex(dp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -662,15 +898,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -690,24 +940,33 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_zsolve_multiple
 
 
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_wsolve_multiple(a,b,err) result(x)
-         complex(qp),                     intent(inout) :: a(:,:)
+     function stdlib_linalg_wsolve_multiple(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         complex(qp),                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(qp),                     intent(in)    :: b(:,:)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          complex(qp), allocatable, target :: x(:,:)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         complex(qp), pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         complex(qp), pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -722,15 +981,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -750,7 +1023,9 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_wsolve_multiple

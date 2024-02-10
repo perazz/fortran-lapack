@@ -42,17 +42,24 @@ module stdlib_linalg_solve
      #:for nd,ndsuf in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
      ! Compute the solution to a real system of linear equations A * X = B
-     function stdlib_linalg_${ri}$solve${ndsuf}$(a,b,err) result(x)
-         ${rt}$,                     intent(inout) :: a(:,:)
+     function stdlib_linalg_${ri}$solve${ndsuf}$(a,b,overwrite_a,err) result(x)
+         !> Input matrix a[n,n]
+         ${rt}$,                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
          ${rt}$,                     intent(in)    :: b(${nd}$)
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
+         !> Result array/matrix x[n] or x[n,nrhs]
          ${rt}$, allocatable, target :: x(${nd}$)
 
-         ! Local variables
+         !> Local variables
          type(linalg_state) :: err0
          integer(ilp) :: lda,n,ldb,nrhs,info
          integer(ilp), allocatable :: ipiv(:)
-         ${rt}$, pointer :: xmat(:,:)
+         logical(lk) :: copy_a
+         ${rt}$, pointer :: xmat(:,:),amat(:,:)
          character(*), parameter :: this = 'solve'
 
          !> Problem sizes
@@ -67,15 +74,29 @@ module stdlib_linalg_solve
             goto 1
          end if
 
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
          ! Pivot indices
          allocate(ipiv(n))
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
 
          ! Initialize solution with the rhs
          allocate(x,source=b)
          xmat(1:n,1:nrhs) => x
 
          ! Solve system
-         call gesv(n,nrhs,a,lda,ipiv,xmat,ldb,info)
+         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
          select case (info)
@@ -95,7 +116,9 @@ module stdlib_linalg_solve
                 err0 = linalg_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         ! Process output
+         if (.not.copy_a) deallocate(amat)
+
+         ! Process output and return
          1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_${ri}$solve${ndsuf}$
