@@ -204,6 +204,7 @@ module test_linalg_solve
     end subroutine test_wsolve
 
     !> 2x2 Complex linear system
+    !> https://math.stackexchange.com/questions/1996540/solving-linear-equation-systems-with-complex-coefficients-and-variables
     subroutine test_2x2_csolve(error)
         logical, intent(out) :: error
 
