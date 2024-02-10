@@ -22,6 +22,8 @@ module test_linalg_solve
         #:for rk,rt,ri in REAL_KINDS_TYPES
         call test_${ri}$solve(error)
         if (error) return
+        call test_${ri}$solve_multiple(error)
+        if (error) return
         #: endfor
         #:for ck,ct,ci in CMPL_KINDS_TYPES
         call test_${ci}$solve(error)
@@ -56,6 +58,37 @@ module test_linalg_solve
 
 
     end subroutine test_${ri}$solve
+    #:endfor
+
+    !> Simple linear system with multiple right hand sides
+    #:for rk,rt,ri in REAL_KINDS_TYPES
+    subroutine test_${ri}$solve_multiple(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        ${rt}$ :: A(3,3) = transpose(reshape([${rt}$ :: 1,-1, 2, &
+                                                            0, 1, 1, &
+                                                            1,-1, 3], [3,3]))
+        ${rt}$ :: b(3,3) = transpose(reshape([${rt}$ :: 0, 1, 2, &
+                                                            1,-2,-1, &
+                                                            2, 3,-1], [3,3]))
+        ${rt}$ :: res(3,3) = transpose(reshape([${rt}$ ::-5,-7,10, &
+                                                           -1,-4, 2, &
+                                                            2, 2,-3], [3,3]))
+        ${rt}$ :: x(3,3)
+
+        x = solve(a,b,err=state)
+        error = state%error() .or. .not.all(abs(x-res)<abs(res*epsilon(0.0_${rk}$)))
+
+        print *, 'res = ',res
+        print *, 'x   = ',x
+        print *, 'err = ',abs(x-res)
+        print *, 'tst = ',res*epsilon(0.0_${rk}$)
+        print *, 'state = ',state%print()
+
+
+    end subroutine test_${ri}$solve_multiple
     #:endfor
 
     !> Complex linear system

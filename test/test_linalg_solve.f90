@@ -14,9 +14,15 @@ module test_linalg_solve
 
         call test_ssolve(error)
         if (error) return
+        call test_ssolve_multiple(error)
+        if (error) return
         call test_dsolve(error)
         if (error) return
+        call test_dsolve_multiple(error)
+        if (error) return
         call test_qsolve(error)
+        if (error) return
+        call test_qsolve_multiple(error)
         if (error) return
         call test_csolve(error)
         if (error) return
@@ -102,6 +108,89 @@ module test_linalg_solve
 
 
     end subroutine test_qsolve
+
+    !> Simple linear system with multiple right hand sides
+    subroutine test_ssolve_multiple(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        real(sp) :: A(3,3) = transpose(reshape([real(sp) :: 1,-1, 2, &
+                                                            0, 1, 1, &
+                                                            1,-1, 3], [3,3]))
+        real(sp) :: b(3,3) = transpose(reshape([real(sp) :: 0, 1, 2, &
+                                                            1,-2,-1, &
+                                                            2, 3,-1], [3,3]))
+        real(sp) :: res(3,3) = transpose(reshape([real(sp) ::-5,-7,10, &
+                                                           -1,-4, 2, &
+                                                            2, 2,-3], [3,3]))
+        real(sp) :: x(3,3)
+
+        x = solve(a,b,err=state)
+        error = state%error() .or. .not.all(abs(x-res)<abs(res*epsilon(0.0_sp)))
+
+        print *, 'res = ',res
+        print *, 'x   = ',x
+        print *, 'err = ',abs(x-res)
+        print *, 'tst = ',res*epsilon(0.0_sp)
+        print *, 'state = ',state%print()
+
+
+    end subroutine test_ssolve_multiple
+    subroutine test_dsolve_multiple(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        real(dp) :: A(3,3) = transpose(reshape([real(dp) :: 1,-1, 2, &
+                                                            0, 1, 1, &
+                                                            1,-1, 3], [3,3]))
+        real(dp) :: b(3,3) = transpose(reshape([real(dp) :: 0, 1, 2, &
+                                                            1,-2,-1, &
+                                                            2, 3,-1], [3,3]))
+        real(dp) :: res(3,3) = transpose(reshape([real(dp) ::-5,-7,10, &
+                                                           -1,-4, 2, &
+                                                            2, 2,-3], [3,3]))
+        real(dp) :: x(3,3)
+
+        x = solve(a,b,err=state)
+        error = state%error() .or. .not.all(abs(x-res)<abs(res*epsilon(0.0_dp)))
+
+        print *, 'res = ',res
+        print *, 'x   = ',x
+        print *, 'err = ',abs(x-res)
+        print *, 'tst = ',res*epsilon(0.0_dp)
+        print *, 'state = ',state%print()
+
+
+    end subroutine test_dsolve_multiple
+    subroutine test_qsolve_multiple(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        real(qp) :: A(3,3) = transpose(reshape([real(qp) :: 1,-1, 2, &
+                                                            0, 1, 1, &
+                                                            1,-1, 3], [3,3]))
+        real(qp) :: b(3,3) = transpose(reshape([real(qp) :: 0, 1, 2, &
+                                                            1,-2,-1, &
+                                                            2, 3,-1], [3,3]))
+        real(qp) :: res(3,3) = transpose(reshape([real(qp) ::-5,-7,10, &
+                                                           -1,-4, 2, &
+                                                            2, 2,-3], [3,3]))
+        real(qp) :: x(3,3)
+
+        x = solve(a,b,err=state)
+        error = state%error() .or. .not.all(abs(x-res)<abs(res*epsilon(0.0_qp)))
+
+        print *, 'res = ',res
+        print *, 'x   = ',x
+        print *, 'err = ',abs(x-res)
+        print *, 'tst = ',res*epsilon(0.0_qp)
+        print *, 'state = ',state%print()
+
+
+    end subroutine test_qsolve_multiple
 
     !> Complex linear system
     !> Militaru, Popa, "On the numerical solving of complex linear systems",
