@@ -18,4 +18,4 @@ source-form = "free"
 source-dir="src"
 [preprocess]
 [preprocess.cpp]
-macros = ["STDLIB_EXTERNAL_BLAS","STDLIB_EXTERNAL_LAPACK"]
+###macros = ["STDLIB_EXTERNAL_BLAS","STDLIB_EXTERNAL_LAPACK"]

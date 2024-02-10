@@ -2,19 +2,24 @@ module stdlib_linalg_state
      use stdlib_linalg_constants,only:ilp,lk
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
-     public
+     private
 
      !> Public interfaces
+     public :: linalg_state
+     public :: linalg_error_handling
      public :: operator(==),operator(/=)
      public :: operator(<),operator(<=)
      public :: operator(>),operator(>=)
 
      !> State return types
-     integer(ilp),parameter :: LINALG_SUCCESS = 0_ilp
+     integer(ilp),parameter,public :: LINALG_SUCCESS        = 0_ilp
+     integer(ilp),parameter,public :: LINALG_VALUE_ERROR    = -1_ilp
+     integer(ilp),parameter,public :: LINALG_ERROR          = -2_ilp
+     integer(ilp),parameter,public :: LINALG_INTERNAL_ERROR = -3_ilp
 
      !> Use fixed-size character storage for performance
-     integer(ilp),parameter,private :: MSG_LENGTH = 512_ilp
-     integer(ilp),parameter,private :: NAME_LENGTH = 32_ilp
+     integer(ilp),parameter :: MSG_LENGTH = 512_ilp
+     integer(ilp),parameter :: NAME_LENGTH = 32_ilp
 
      !> `linalg_state` defines a state return type for a
      !> linear algebra routine. State contains a status flag, a comment, and a
@@ -84,8 +89,11 @@ module stdlib_linalg_state
         character(len=:),allocatable :: msg
 
         select case (flag)
-           case (LINALG_SUCCESS); msg = 'Success!'
-           case default;          msg = 'ERROR/INVALID FLAG'
+           case (LINALG_SUCCESS);        msg = 'Success!'
+           case (LINALG_VALUE_ERROR);    msg = 'Value Error'
+           case (LINALG_ERROR);          msg = 'Algebra Error'
+           case (LINALG_INTERNAL_ERROR); msg = 'Internal Error'
+           case default;                 msg = 'ERROR/INVALID FLAG'
         end select
 
      end function LINALG_MESSAGE
