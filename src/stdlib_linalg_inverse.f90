@@ -13,10 +13,12 @@ module stdlib_linalg_inverse
      public :: inv
      !> Subroutine interface: invert matrix inplace
      public :: invert
+     !> Operator interface: .inv.A returns the matrix inverse of A
+     public :: operator(.inv.)
 
      ! Numpy: inv(a)
      ! Scipy: inv(a, overwrite_a=False, check_finite=True)
-     ! IMSL: lu_solve(a, b, transpose=False)
+     ! IMSL: .i.a
 
      ! Function interface
      interface inv
@@ -38,6 +40,15 @@ module stdlib_linalg_inverse
         module procedure stdlib_linalg_invert_w
      end interface invert
 
+     ! Operator interface
+     interface operator(.inv.)
+        module procedure stdlib_linalg_inverse_s_operator
+        module procedure stdlib_linalg_inverse_d_operator
+        module procedure stdlib_linalg_inverse_q_operator
+        module procedure stdlib_linalg_inverse_c_operator
+        module procedure stdlib_linalg_inverse_z_operator
+        module procedure stdlib_linalg_inverse_w_operator
+     end interface operator(.inv.)
 
      contains
 
@@ -102,7 +113,7 @@ module stdlib_linalg_inverse
 
      end subroutine stdlib_linalg_invert_s
 
-     ! Compute
+     ! Invert matrix in place
      function stdlib_linalg_inverse_s(a,err) result(inva)
          !> Input matrix a[n,n]
          real(sp), intent(in) :: a(:,:)
@@ -118,6 +129,25 @@ module stdlib_linalg_inverse
          call stdlib_linalg_invert_s(inva,err)
 
      end function stdlib_linalg_inverse_s
+
+     ! Inverse matrix operator
+     function stdlib_linalg_inverse_s_operator(a) result(inva)
+         !> Input matrix a[n,n]
+         real(sp), intent(in) :: a(:,:)
+         !> Result matrix
+         real(sp), allocatable :: inva(:,:)
+
+         type(linalg_state) :: err
+
+         inva = stdlib_linalg_inverse_s(a,err)
+
+         ! On error, return an empty matrix
+         if (err%error()) then
+            if (allocated(inva)) deallocate(inva)
+            allocate(inva(0,0))
+         endif
+
+     end function stdlib_linalg_inverse_s_operator
 
 
      ! Compute the in-place square matrix inverse of a
@@ -180,7 +210,7 @@ module stdlib_linalg_inverse
 
      end subroutine stdlib_linalg_invert_d
 
-     ! Compute
+     ! Invert matrix in place
      function stdlib_linalg_inverse_d(a,err) result(inva)
          !> Input matrix a[n,n]
          real(dp), intent(in) :: a(:,:)
@@ -196,6 +226,25 @@ module stdlib_linalg_inverse
          call stdlib_linalg_invert_d(inva,err)
 
      end function stdlib_linalg_inverse_d
+
+     ! Inverse matrix operator
+     function stdlib_linalg_inverse_d_operator(a) result(inva)
+         !> Input matrix a[n,n]
+         real(dp), intent(in) :: a(:,:)
+         !> Result matrix
+         real(dp), allocatable :: inva(:,:)
+
+         type(linalg_state) :: err
+
+         inva = stdlib_linalg_inverse_d(a,err)
+
+         ! On error, return an empty matrix
+         if (err%error()) then
+            if (allocated(inva)) deallocate(inva)
+            allocate(inva(0,0))
+         endif
+
+     end function stdlib_linalg_inverse_d_operator
 
 
      ! Compute the in-place square matrix inverse of a
@@ -258,7 +307,7 @@ module stdlib_linalg_inverse
 
      end subroutine stdlib_linalg_invert_q
 
-     ! Compute
+     ! Invert matrix in place
      function stdlib_linalg_inverse_q(a,err) result(inva)
          !> Input matrix a[n,n]
          real(qp), intent(in) :: a(:,:)
@@ -274,6 +323,25 @@ module stdlib_linalg_inverse
          call stdlib_linalg_invert_q(inva,err)
 
      end function stdlib_linalg_inverse_q
+
+     ! Inverse matrix operator
+     function stdlib_linalg_inverse_q_operator(a) result(inva)
+         !> Input matrix a[n,n]
+         real(qp), intent(in) :: a(:,:)
+         !> Result matrix
+         real(qp), allocatable :: inva(:,:)
+
+         type(linalg_state) :: err
+
+         inva = stdlib_linalg_inverse_q(a,err)
+
+         ! On error, return an empty matrix
+         if (err%error()) then
+            if (allocated(inva)) deallocate(inva)
+            allocate(inva(0,0))
+         endif
+
+     end function stdlib_linalg_inverse_q_operator
 
 
      ! Compute the in-place square matrix inverse of a
@@ -336,7 +404,7 @@ module stdlib_linalg_inverse
 
      end subroutine stdlib_linalg_invert_c
 
-     ! Compute
+     ! Invert matrix in place
      function stdlib_linalg_inverse_c(a,err) result(inva)
          !> Input matrix a[n,n]
          complex(sp), intent(in) :: a(:,:)
@@ -352,6 +420,25 @@ module stdlib_linalg_inverse
          call stdlib_linalg_invert_c(inva,err)
 
      end function stdlib_linalg_inverse_c
+
+     ! Inverse matrix operator
+     function stdlib_linalg_inverse_c_operator(a) result(inva)
+         !> Input matrix a[n,n]
+         complex(sp), intent(in) :: a(:,:)
+         !> Result matrix
+         complex(sp), allocatable :: inva(:,:)
+
+         type(linalg_state) :: err
+
+         inva = stdlib_linalg_inverse_c(a,err)
+
+         ! On error, return an empty matrix
+         if (err%error()) then
+            if (allocated(inva)) deallocate(inva)
+            allocate(inva(0,0))
+         endif
+
+     end function stdlib_linalg_inverse_c_operator
 
 
      ! Compute the in-place square matrix inverse of a
@@ -414,7 +501,7 @@ module stdlib_linalg_inverse
 
      end subroutine stdlib_linalg_invert_z
 
-     ! Compute
+     ! Invert matrix in place
      function stdlib_linalg_inverse_z(a,err) result(inva)
          !> Input matrix a[n,n]
          complex(dp), intent(in) :: a(:,:)
@@ -430,6 +517,25 @@ module stdlib_linalg_inverse
          call stdlib_linalg_invert_z(inva,err)
 
      end function stdlib_linalg_inverse_z
+
+     ! Inverse matrix operator
+     function stdlib_linalg_inverse_z_operator(a) result(inva)
+         !> Input matrix a[n,n]
+         complex(dp), intent(in) :: a(:,:)
+         !> Result matrix
+         complex(dp), allocatable :: inva(:,:)
+
+         type(linalg_state) :: err
+
+         inva = stdlib_linalg_inverse_z(a,err)
+
+         ! On error, return an empty matrix
+         if (err%error()) then
+            if (allocated(inva)) deallocate(inva)
+            allocate(inva(0,0))
+         endif
+
+     end function stdlib_linalg_inverse_z_operator
 
 
      ! Compute the in-place square matrix inverse of a
@@ -492,7 +598,7 @@ module stdlib_linalg_inverse
 
      end subroutine stdlib_linalg_invert_w
 
-     ! Compute
+     ! Invert matrix in place
      function stdlib_linalg_inverse_w(a,err) result(inva)
          !> Input matrix a[n,n]
          complex(qp), intent(in) :: a(:,:)
@@ -508,6 +614,25 @@ module stdlib_linalg_inverse
          call stdlib_linalg_invert_w(inva,err)
 
      end function stdlib_linalg_inverse_w
+
+     ! Inverse matrix operator
+     function stdlib_linalg_inverse_w_operator(a) result(inva)
+         !> Input matrix a[n,n]
+         complex(qp), intent(in) :: a(:,:)
+         !> Result matrix
+         complex(qp), allocatable :: inva(:,:)
+
+         type(linalg_state) :: err
+
+         inva = stdlib_linalg_inverse_w(a,err)
+
+         ! On error, return an empty matrix
+         if (err%error()) then
+            if (allocated(inva)) deallocate(inva)
+            allocate(inva(0,0))
+         endif
+
+     end function stdlib_linalg_inverse_w_operator
 
 
 end module stdlib_linalg_inverse
