@@ -136,16 +136,16 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_no_trans = 111
            integer(ilp),parameter :: blas_trans = 112
            integer(ilp),parameter :: blas_conj_trans = 113
-           
+
            ! .. executable statements ..
            if (trans == blas_no_trans) then
-              stdlib_chla_transtype = 'n'
+              stdlib_chla_transtype = 'N'
            else if (trans == blas_trans) then
-              stdlib_chla_transtype = 't'
+              stdlib_chla_transtype = 'T'
            else if (trans == blas_conj_trans) then
-              stdlib_chla_transtype = 'c'
+              stdlib_chla_transtype = 'C'
            else
-              stdlib_chla_transtype = 'x'
+              stdlib_chla_transtype = 'X'
            end if
            return
      end function stdlib_chla_transtype
@@ -301,7 +301,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(sp),parameter :: zero = (0.0e+0,0.0e+0)
-           
+
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -334,7 +334,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(sp),parameter :: zero = (0.0e+0,0.0e+0)
-           
+
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -376,7 +376,7 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_prec_double = 212
            integer(ilp),parameter :: blas_prec_indigenous = 213
            integer(ilp),parameter :: blas_prec_extra = 214
-           
+
            ! .. executable statements ..
            if (stdlib_lsame(prec,'s')) then
               stdlib_ilaprec = blas_prec_single
@@ -405,7 +405,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(sp),parameter :: zero = 0.0e+0
-           
+
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -438,7 +438,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(sp),parameter :: zero = 0.0e+0
-           
+
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -479,7 +479,7 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_no_trans = 111
            integer(ilp),parameter :: blas_trans = 112
            integer(ilp),parameter :: blas_conj_trans = 113
-           
+
            ! .. executable statements ..
            if (stdlib_lsame(trans,'n')) then
               stdlib_ilatrans = blas_no_trans
@@ -510,7 +510,7 @@ module stdlib_linalg_lapack_aux
            ! .. parameters ..
            integer(ilp),parameter :: blas_upper = 121
            integer(ilp),parameter :: blas_lower = 122
-           
+
            ! .. executable statements ..
            if (stdlib_lsame(uplo,'u')) then
               stdlib_ilauplo = blas_upper
@@ -549,7 +549,7 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: knwswp = 500
            integer(ilp),parameter :: rcost = 10
            real(sp),parameter :: two = 2.0
-           
+
            ! .. local scalars ..
            integer(ilp) :: nh,ns
            integer(ilp) :: i,ic,iz
@@ -601,7 +601,7 @@ module stdlib_linalg_lapack_aux
               stdlib_iparmq = 0
               subnam = name
               ic = ichar(subnam(1:1))
-              iz = ichar('z')
+              iz = ichar('Z')
               if (iz == 90 .or. iz == 122) then
                  ! ascii character set
                  if (ic >= 97 .and. ic <= 122) then
@@ -632,13 +632,13 @@ module stdlib_linalg_lapack_aux
                     end do
                  end if
               end if
-              if (subnam(2:6) == 'gghrd' .or. subnam(2:6) == 'gghd3') then
+              if (subnam(2:6) == 'GGHRD' .or. subnam(2:6) == 'GGHD3') then
                  stdlib_iparmq = 1
                  if (nh >= k22min) stdlib_iparmq = 2
-              else if (subnam(4:6) == 'exc') then
+              else if (subnam(4:6) == 'EXC') then
                  if (nh >= kacmin) stdlib_iparmq = 1
                  if (nh >= k22min) stdlib_iparmq = 2
-              else if (subnam(2:6) == 'hseqr' .or. subnam(2:5) == 'laqr') then
+              else if (subnam(2:6) == 'HSEQR' .or. subnam(2:5) == 'LAQR') then
                  if (ns >= kacmin) stdlib_iparmq = 1
                  if (ns >= k22min) stdlib_iparmq = 2
               end if
@@ -707,7 +707,7 @@ module stdlib_linalg_lapack_aux
            if (int(stdlib_sroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_sroundup_lwork = stdlib_sroundup_lwork*(1.0e+0_sp + epsilon(0.0e+0_sp))
-                         
+
            end if
            return
      end function stdlib_sroundup_lwork
@@ -736,7 +736,7 @@ module stdlib_linalg_lapack_aux
            if (int(stdlib_qroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_qroundup_lwork = stdlib_qroundup_lwork*(1.0e+0_qp + epsilon(0.0e+0_qp))
-                         
+
            end if
            return
      end function stdlib_qroundup_lwork
@@ -758,7 +758,7 @@ module stdlib_linalg_lapack_aux
            ! .. parameters ..
            integer(ilp),parameter :: blas_non_unit_qiag = 131
            integer(ilp),parameter :: blas_unit_qiag = 132
-           
+
            ! .. executable statements ..
            if (stdlib_lsame(diag,'n')) then
               stdlib_ilaqiag = blas_non_unit_qiag
@@ -783,7 +783,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: zero = 0.0d+0
-           
+
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -816,7 +816,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: zero = 0.0d+0
-           
+
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -852,7 +852,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(qp),parameter :: zero = (0.0d+0,0.0d+0)
-           
+
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -885,7 +885,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(qp),parameter :: zero = (0.0d+0,0.0d+0)
-           
+
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -980,7 +980,7 @@ module stdlib_linalg_lapack_aux
            if (int(stdlib_droundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_droundup_lwork = stdlib_droundup_lwork*(1.0e+0_dp + epsilon(0.0e+0_dp))
-                         
+
            end if
            return
      end function stdlib_droundup_lwork
@@ -1002,7 +1002,7 @@ module stdlib_linalg_lapack_aux
            ! .. parameters ..
            integer(ilp),parameter :: blas_non_unit_diag = 131
            integer(ilp),parameter :: blas_unit_diag = 132
-           
+
            ! .. executable statements ..
            if (stdlib_lsame(diag,'n')) then
               stdlib_iladiag = blas_non_unit_diag
@@ -1027,7 +1027,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: zero = 0.0d+0
-           
+
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -1060,7 +1060,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: zero = 0.0d+0
-           
+
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -1122,7 +1122,7 @@ module stdlib_linalg_lapack_aux
            stdlib_ilaenv = 1
            subnam = name
            ic = ichar(subnam(1:1))
-           iz = ichar('z')
+           iz = ichar('Z')
            if (iz == 90 .or. iz == 122) then
               ! ascii character set
               if (ic >= 97 .and. ic <= 122) then
@@ -1154,8 +1154,8 @@ module stdlib_linalg_lapack_aux
               end if
            end if
            c1 = subnam(1:1)
-           sname = c1 == 's' .or. c1 == 'd'
-           cname = c1 == 'c' .or. c1 == 'z'
+           sname = c1 == 'S' .or. c1 == 'D'
+           cname = c1 == 'C' .or. c1 == 'Z'
            if (.not. (cname .or. sname)) return
            c2 = subnam(2:3)
            c3 = subnam(4:6)
@@ -1168,27 +1168,27 @@ module stdlib_linalg_lapack_aux
            ! real and complex.  we assume that nb will take the same value in
            ! single or double precision.
            nb = 1
-           if (subnam(2:6) == 'laorh') then
+           if (subnam(2:6) == 'LAORH') then
               ! this is for *laorhr_getrfnp routine
               if (sname) then
                   nb = 32
               else
                   nb = 32
               end if
-           else if (c2 == 'ge') then
-              if (c3 == 'trf') then
+           else if (c2 == 'GE') then
+              if (c3 == 'TRF') then
                  if (sname) then
                     nb = 64
                  else
                     nb = 64
                  end if
-              else if (c3 == 'qrf' .or. c3 == 'rqf' .or. c3 == 'lqf' .or. c3 == 'qlf') then
+              else if (c3 == 'QRF' .or. c3 == 'RQF' .or. c3 == 'LQF' .or. c3 == 'QLF') then
                  if (sname) then
                     nb = 32
                  else
                     nb = 32
                  end if
-              else if (c3 == 'qr ') then
+              else if (c3 == 'QR ') then
                  if (n3 == 1) then
                     if (sname) then
            ! m*n
@@ -1211,7 +1211,7 @@ module stdlib_linalg_lapack_aux
                        nb = 1
                     end if
                  end if
-              else if (c3 == 'lq ') then
+              else if (c3 == 'LQ ') then
                  if (n3 == 2) then
                     if (sname) then
            ! m*n
@@ -1234,35 +1234,35 @@ module stdlib_linalg_lapack_aux
                        nb = 1
                     end if
                  end if
-              else if (c3 == 'hrd') then
+              else if (c3 == 'HRD') then
                  if (sname) then
                     nb = 32
                  else
                     nb = 32
                  end if
-              else if (c3 == 'brd') then
+              else if (c3 == 'BRD') then
                  if (sname) then
                     nb = 32
                  else
                     nb = 32
                  end if
-              else if (c3 == 'tri') then
-                 if (sname) then
-                    nb = 64
-                 else
-                    nb = 64
-                 end if
-              end if
-           else if (c2 == 'po') then
-              if (c3 == 'trf') then
+              else if (c3 == 'TRI') then
                  if (sname) then
                     nb = 64
                  else
                     nb = 64
                  end if
               end if
-           else if (c2 == 'sy') then
-              if (c3 == 'trf') then
+           else if (c2 == 'PO') then
+              if (c3 == 'TRF') then
+                 if (sname) then
+                    nb = 64
+                 else
+                    nb = 64
+                 end if
+              end if
+           else if (c2 == 'SY') then
+              if (c3 == 'TRF') then
                  if (sname) then
                     if (twostage) then
                        nb = 192
@@ -1276,49 +1276,49 @@ module stdlib_linalg_lapack_aux
                        nb = 64
                     end if
                  end if
-              else if (sname .and. c3 == 'trd') then
+              else if (sname .and. c3 == 'TRD') then
                  nb = 32
-              else if (sname .and. c3 == 'gst') then
+              else if (sname .and. c3 == 'GST') then
                  nb = 64
               end if
-           else if (cname .and. c2 == 'he') then
-              if (c3 == 'trf') then
+           else if (cname .and. c2 == 'HE') then
+              if (c3 == 'TRF') then
                  if (twostage) then
                     nb = 192
                  else
                     nb = 64
                  end if
-              else if (c3 == 'trd') then
+              else if (c3 == 'TRD') then
                  nb = 32
-              else if (c3 == 'gst') then
+              else if (c3 == 'GST') then
                  nb = 64
               end if
-           else if (sname .and. c2 == 'or') then
-              if (c3(1:1) == 'g') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
+           else if (sname .and. c2 == 'OR') then
+              if (c3(1:1) == 'G') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
                     nb = 32
                  end if
               else if (c3(1:1) == 'm') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
                     nb = 32
                  end if
               end if
-           else if (cname .and. c2 == 'un') then
-              if (c3(1:1) == 'g') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
+           else if (cname .and. c2 == 'UN') then
+              if (c3(1:1) == 'G') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
                     nb = 32
                  end if
-              else if (c3(1:1) == 'm') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
+              else if (c3(1:1) == 'M') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
                     nb = 32
                  end if
               end if
-           else if (c2 == 'gb') then
-              if (c3 == 'trf') then
+           else if (c2 == 'GB') then
+              if (c3 == 'TRF') then
                  if (sname) then
                     if (n4 <= 64) then
                        nb = 1
@@ -1333,8 +1333,8 @@ module stdlib_linalg_lapack_aux
                     end if
                  end if
               end if
-           else if (c2 == 'pb') then
-              if (c3 == 'trf') then
+           else if (c2 == 'PB') then
+              if (c3 == 'TRF') then
                  if (sname) then
                     if (n2 <= 64) then
                        nb = 1
@@ -1349,35 +1349,35 @@ module stdlib_linalg_lapack_aux
                     end if
                  end if
               end if
-           else if (c2 == 'tr') then
-              if (c3 == 'tri') then
+           else if (c2 == 'TR') then
+              if (c3 == 'TRI') then
                  if (sname) then
                     nb = 64
                  else
                     nb = 64
                  end if
-              else if (c3 == 'evc') then
-                 if (sname) then
-                    nb = 64
-                 else
-                    nb = 64
-                 end if
-              end if
-           else if (c2 == 'la') then
-              if (c3 == 'uum') then
+              else if (c3 == 'EVC') then
                  if (sname) then
                     nb = 64
                  else
                     nb = 64
                  end if
               end if
-           else if (sname .and. c2 == 'st') then
-              if (c3 == 'ebz') then
+           else if (c2 == 'LA') then
+              if (c3 == 'UUM') then
+                 if (sname) then
+                    nb = 64
+                 else
+                    nb = 64
+                 end if
+              end if
+           else if (sname .and. c2 == 'ST') then
+              if (c3 == 'EBZ') then
                  nb = 1
               end if
-           else if (c2 == 'gg') then
+           else if (c2 == 'GG') then
               nb = 32
-              if (c3 == 'hd3') then
+              if (c3 == 'HD3') then
                  if (sname) then
                     nb = 32
                  else
@@ -1390,73 +1390,73 @@ module stdlib_linalg_lapack_aux
 60         continue
            ! ispec = 2:  minimum block size
            nbmin = 2
-           if (c2 == 'ge') then
-              if (c3 == 'qrf' .or. c3 == 'rqf' .or. c3 == 'lqf' .or. c3 == 'qlf') then
+           if (c2 == 'GE') then
+              if (c3 == 'QRF' .or. c3 == 'RQF' .or. c3 == 'LQF' .or. c3 == 'QLF') then
                  if (sname) then
                     nbmin = 2
                  else
                     nbmin = 2
                  end if
-              else if (c3 == 'hrd') then
+              else if (c3 == 'HRD') then
                  if (sname) then
                     nbmin = 2
                  else
                     nbmin = 2
                  end if
-              else if (c3 == 'brd') then
+              else if (c3 == 'BRD') then
                  if (sname) then
                     nbmin = 2
                  else
                     nbmin = 2
                  end if
-              else if (c3 == 'tri') then
+              else if (c3 == 'TRI') then
                  if (sname) then
                     nbmin = 2
                  else
                     nbmin = 2
                  end if
               end if
-           else if (c2 == 'sy') then
-              if (c3 == 'trf') then
+           else if (c2 == 'SY') then
+              if (c3 == 'TRF') then
                  if (sname) then
                     nbmin = 8
                  else
                     nbmin = 8
                  end if
-              else if (sname .and. c3 == 'trd') then
+              else if (sname .and. c3 == 'TRD') then
                  nbmin = 2
               end if
-           else if (cname .and. c2 == 'he') then
-              if (c3 == 'trd') then
+           else if (cname .and. c2 == 'HE') then
+              if (c3 == 'TRD') then
                  nbmin = 2
               end if
-           else if (sname .and. c2 == 'or') then
-              if (c3(1:1) == 'g') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
+           else if (sname .and. c2 == 'OR') then
+              if (c3(1:1) == 'G') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
                     nbmin = 2
                  end if
-              else if (c3(1:1) == 'm') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
-                    nbmin = 2
-                 end if
-              end if
-           else if (cname .and. c2 == 'un') then
-              if (c3(1:1) == 'g') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
-                    nbmin = 2
-                 end if
-              else if (c3(1:1) == 'm') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
+              else if (c3(1:1) == 'M') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
                     nbmin = 2
                  end if
               end if
-           else if (c2 == 'gg') then
+           else if (cname .and. c2 == 'UN') then
+              if (c3(1:1) == 'g') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
+                    nbmin = 2
+                 end if
+              else if (c3(1:1) == 'M') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
+                    nbmin = 2
+                 end if
+              end if
+           else if (c2 == 'GG') then
               nbmin = 2
-              if (c3 == 'hd3') then
+              if (c3 == 'HD3') then
                  nbmin = 2
               end if
            end if
@@ -1465,51 +1465,51 @@ module stdlib_linalg_lapack_aux
 70         continue
            ! ispec = 3:  crossover point
            nx = 0
-           if (c2 == 'ge') then
-              if (c3 == 'qrf' .or. c3 == 'rqf' .or. c3 == 'lqf' .or. c3 == 'qlf') then
+           if (c2 == 'GE') then
+              if (c3 == 'QRF' .or. c3 == 'RQF' .or. c3 == 'LQF' .or. c3 == 'QLF') then
                  if (sname) then
                     nx = 128
                  else
                     nx = 128
                  end if
-              else if (c3 == 'hrd') then
+              else if (c3 == 'HRD') then
                  if (sname) then
                     nx = 128
                  else
                     nx = 128
                  end if
-              else if (c3 == 'brd') then
+              else if (c3 == 'BRD') then
                  if (sname) then
                     nx = 128
                  else
                     nx = 128
                  end if
               end if
-           else if (c2 == 'sy') then
-              if (sname .and. c3 == 'trd') then
+           else if (c2 == 'SY') then
+              if (sname .and. c3 == 'TRD') then
                  nx = 32
               end if
-           else if (cname .and. c2 == 'he') then
-              if (c3 == 'trd') then
+           else if (cname .and. c2 == 'HE') then
+              if (c3 == 'TRD') then
                  nx = 32
               end if
-           else if (sname .and. c2 == 'or') then
-              if (c3(1:1) == 'g') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
+           else if (sname .and. c2 == 'OR') then
+              if (c3(1:1) == 'G') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
                     nx = 128
                  end if
               end if
-           else if (cname .and. c2 == 'un') then
-              if (c3(1:1) == 'g') then
-                 if (c4 == 'qr' .or. c4 == 'rq' .or. c4 == 'lq' .or. c4 == 'ql' .or. c4 == 'hr' .or. &
-                           c4 == 'tr' .or. c4 == 'br') then
+           else if (cname .and. c2 == 'UN') then
+              if (c3(1:1) == 'G') then
+                 if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
+                           c4 == 'TR' .or. c4 == 'BR') then
                     nx = 128
                  end if
               end if
-           else if (c2 == 'gg') then
+           else if (c2 == 'GG') then
               nx = 128
-              if (c3 == 'hd3') then
+              if (c3 == 'HD3') then
                  nx = 128
               end if
            end if
@@ -1576,7 +1576,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(dp),parameter :: zero = (0.0d+0,0.0d+0)
-           
+
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -1609,7 +1609,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(dp),parameter :: zero = (0.0d+0,0.0d+0)
-           
+
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -1676,7 +1676,7 @@ module stdlib_linalg_lapack_aux
               stdlib_iparam2stage = -1
               subnam = name
               ic = ichar(subnam(1:1))
-              iz = ichar('z')
+              iz = ichar('Z')
               if (iz == 90 .or. iz == 122) then
                  ! ascii character set
                  if (ic >= 97 .and. ic <= 122) then
@@ -1710,8 +1710,8 @@ module stdlib_linalg_lapack_aux
               prec = subnam(1:1)
               algo = subnam(4:6)
               stag = subnam(8:12)
-              rprec = prec == 's' .or. prec == 'd'
-              cprec = prec == 'c' .or. prec == 'z'
+              rprec = prec == 'S' .or. prec == 'D'
+              cprec = prec == 'C' .or. prec == 'Z'
               ! invalid value for precision
               if (.not. (rprec .or. cprec)) then
                   stdlib_iparam2stage = -1
@@ -1757,7 +1757,7 @@ module stdlib_linalg_lapack_aux
            ! matrix (v,t) of the second stage. should be >= 1.
            ! will add the vect option here next release
               vect = opts(1:1)
-              if (vect == 'n') then
+              if (vect == 'N') then
                  lhous = max(1,4*ni)
               else
                  ! this is not correct, it need to call the algo and the stage2
@@ -1784,28 +1784,28 @@ module stdlib_linalg_lapack_aux
                           ! + (kd+1)*n
               lwork = -1
               subnam(1:1) = prec
-              subnam(2:6) = 'geqrf'
+              subnam(2:6) = 'GEQRF'
               qroptnb = stdlib_ilaenv(1,subnam,' ',ni,nbi,-1,-1)
-              subnam(2:6) = 'gelqf'
+              subnam(2:6) = 'GELQF'
               lqoptnb = stdlib_ilaenv(1,subnam,' ',nbi,ni,-1,-1)
               ! could be qr or lq for trd and the max for brd
               factoptnb = max(qroptnb,lqoptnb)
-              if (algo == 'trd') then
-                 if (stag == '2stag') then
+              if (algo == 'TRD') then
+                 if (stag == '2STAG') then
                     lwork = ni*nbi + ni*max(nbi + 1,factoptnb) + max(2*nbi*nbi,nbi*nthreads) + (nbi + &
                               1)*ni
-                 else if ((stag == 'he2hb') .or. (stag == 'sy2sb')) then
+                 else if ((stag == 'HE2HB') .or. (stag == 'SY2SB')) then
                     lwork = ni*nbi + ni*max(nbi,factoptnb) + 2*nbi*nbi
-                 else if ((stag == 'hb2st') .or. (stag == 'sb2st')) then
+                 else if ((stag == 'HB2ST') .or. (stag == 'SB2ST')) then
                     lwork = (2*nbi + 1)*ni + nbi*nthreads
                  end if
-              else if (algo == 'brd') then
-                 if (stag == '2stag') then
+              else if (algo == 'BRD') then
+                 if (stag == '2STAG') then
                     lwork = 2*ni*nbi + ni*max(nbi + 1,factoptnb) + max(2*nbi*nbi,nbi*nthreads) + ( &
                               nbi + 1)*ni
-                 else if (stag == 'ge2gb') then
+                 else if (stag == 'GE2GB') then
                     lwork = ni*nbi + ni*max(nbi,factoptnb) + 2*nbi*nbi
-                 else if (stag == 'gb2bd') then
+                 else if (stag == 'GB2BD') then
                     lwork = (3*nbi + 1)*ni + nbi*nthreads
                  end if
               end if
