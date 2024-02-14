@@ -1,6 +1,5 @@
 module test_linalg_aux
-    use stdlib_linalg_state
-    use stdlib_linalg_constants
+    use stdlib_linalg_interface
     implicit none (type,external)
 
 
