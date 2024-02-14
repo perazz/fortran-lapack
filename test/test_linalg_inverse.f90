@@ -42,12 +42,12 @@ module test_linalg_inverse
 
         !> Invert function
         inva = inv(a,err=state)
-        error = state%error() .or. .not.all(abs(a-inva)==0.0_sp)
+        error = state%error() .or. .not.all(abs(a-inva)<tiny(0.0_sp))
         if (error) return
 
         !> Inverse subroutine
         call invert(a,err=state)
-        error = state%error() .or. .not.all(a==inva)
+        error = state%error() .or. .not.all(abs(a-inva)<tiny(0.0_sp))
 
     end subroutine test_s_eye_inverse
 
@@ -67,12 +67,12 @@ module test_linalg_inverse
 
         !> Invert function
         inva = inv(a,err=state)
-        error = state%error() .or. .not.all(abs(a-inva)==0.0_dp)
+        error = state%error() .or. .not.all(abs(a-inva)<tiny(0.0_dp))
         if (error) return
 
         !> Inverse subroutine
         call invert(a,err=state)
-        error = state%error() .or. .not.all(a==inva)
+        error = state%error() .or. .not.all(abs(a-inva)<tiny(0.0_dp))
 
     end subroutine test_d_eye_inverse
 
@@ -92,12 +92,12 @@ module test_linalg_inverse
 
         !> Invert function
         inva = inv(a,err=state)
-        error = state%error() .or. .not.all(abs(a-inva)==0.0_qp)
+        error = state%error() .or. .not.all(abs(a-inva)<tiny(0.0_qp))
         if (error) return
 
         !> Inverse subroutine
         call invert(a,err=state)
-        error = state%error() .or. .not.all(a==inva)
+        error = state%error() .or. .not.all(abs(a-inva)<tiny(0.0_qp))
 
     end subroutine test_q_eye_inverse
 
@@ -108,23 +108,53 @@ module test_linalg_inverse
 
         type(linalg_state) :: state
 
-        integer(ilp) :: i,j
+        integer(ilp) :: i,j,failed
         integer(ilp), parameter :: n = 500_ilp
 
-        complex(sp) :: a(n,n),inva(n,n)
+        complex(sp) :: a(n,n),copya(n,n),inva(n,n)
 
         do concurrent (i=1:n,j=1:n)
           a(i,j) = merge((1.0_sp,1.0_sp),(0.0_sp,0.0_sp),i==j)
         end do
+        copya = a
 
-        !> Invert function
+        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
         inva = inv(a,err=state)
-        error = state%error() .or. .not.all(abs(a-inva)==0.0_sp)
+
+        failed = 0
+        do i=1,n
+            do j=1,n
+                if (.not.is_diagonal_inverse(a(i,j),inva(i,j),i,j)) failed = failed+1
+            end do
+        end do
+
+        error = state%error() .or. .not.failed==0
         if (error) return
 
         !> Inverse subroutine
-        call invert(a,err=state)
-        error = state%error() .or. .not.all(a==inva)
+        call invert(copya,err=state)
+
+        failed = 0
+        do i=1,n
+            do j=1,n
+                if (.not.is_diagonal_inverse(a(i,j),copya(i,j),i,j)) failed = failed+1
+            end do
+        end do
+
+        error = state%error() .or. .not.failed==0
+
+        contains
+
+           elemental logical function is_diagonal_inverse(aij,invaij,i,j)
+               complex(sp), intent(in) :: aij,invaij
+               integer(ilp), intent(in) :: i,j
+               if (i/=j) then
+                  is_diagonal_inverse = max(abs(aij),abs(invaij))<tiny(0.0_sp)
+               else
+                  ! Product should return the real identity
+                  is_diagonal_inverse = abs(aij*invaij - (1.0_sp,0.0_sp))<tiny(0.0_sp)
+               endif
+           end function is_diagonal_inverse
 
     end subroutine test_c_eye_inverse
 
@@ -133,23 +163,53 @@ module test_linalg_inverse
 
         type(linalg_state) :: state
 
-        integer(ilp) :: i,j
+        integer(ilp) :: i,j,failed
         integer(ilp), parameter :: n = 500_ilp
 
-        complex(dp) :: a(n,n),inva(n,n)
+        complex(dp) :: a(n,n),copya(n,n),inva(n,n)
 
         do concurrent (i=1:n,j=1:n)
           a(i,j) = merge((1.0_dp,1.0_dp),(0.0_dp,0.0_dp),i==j)
         end do
+        copya = a
 
-        !> Invert function
+        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
         inva = inv(a,err=state)
-        error = state%error() .or. .not.all(abs(a-inva)==0.0_dp)
+
+        failed = 0
+        do i=1,n
+            do j=1,n
+                if (.not.is_diagonal_inverse(a(i,j),inva(i,j),i,j)) failed = failed+1
+            end do
+        end do
+
+        error = state%error() .or. .not.failed==0
         if (error) return
 
         !> Inverse subroutine
-        call invert(a,err=state)
-        error = state%error() .or. .not.all(a==inva)
+        call invert(copya,err=state)
+
+        failed = 0
+        do i=1,n
+            do j=1,n
+                if (.not.is_diagonal_inverse(a(i,j),copya(i,j),i,j)) failed = failed+1
+            end do
+        end do
+
+        error = state%error() .or. .not.failed==0
+
+        contains
+
+           elemental logical function is_diagonal_inverse(aij,invaij,i,j)
+               complex(dp), intent(in) :: aij,invaij
+               integer(ilp), intent(in) :: i,j
+               if (i/=j) then
+                  is_diagonal_inverse = max(abs(aij),abs(invaij))<tiny(0.0_dp)
+               else
+                  ! Product should return the real identity
+                  is_diagonal_inverse = abs(aij*invaij - (1.0_dp,0.0_dp))<tiny(0.0_dp)
+               endif
+           end function is_diagonal_inverse
 
     end subroutine test_z_eye_inverse
 
@@ -158,23 +218,53 @@ module test_linalg_inverse
 
         type(linalg_state) :: state
 
-        integer(ilp) :: i,j
+        integer(ilp) :: i,j,failed
         integer(ilp), parameter :: n = 500_ilp
 
-        complex(qp) :: a(n,n),inva(n,n)
+        complex(qp) :: a(n,n),copya(n,n),inva(n,n)
 
         do concurrent (i=1:n,j=1:n)
           a(i,j) = merge((1.0_qp,1.0_qp),(0.0_qp,0.0_qp),i==j)
         end do
+        copya = a
 
-        !> Invert function
+        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
         inva = inv(a,err=state)
-        error = state%error() .or. .not.all(abs(a-inva)==0.0_qp)
+
+        failed = 0
+        do i=1,n
+            do j=1,n
+                if (.not.is_diagonal_inverse(a(i,j),inva(i,j),i,j)) failed = failed+1
+            end do
+        end do
+
+        error = state%error() .or. .not.failed==0
         if (error) return
 
         !> Inverse subroutine
-        call invert(a,err=state)
-        error = state%error() .or. .not.all(a==inva)
+        call invert(copya,err=state)
+
+        failed = 0
+        do i=1,n
+            do j=1,n
+                if (.not.is_diagonal_inverse(a(i,j),copya(i,j),i,j)) failed = failed+1
+            end do
+        end do
+
+        error = state%error() .or. .not.failed==0
+
+        contains
+
+           elemental logical function is_diagonal_inverse(aij,invaij,i,j)
+               complex(qp), intent(in) :: aij,invaij
+               integer(ilp), intent(in) :: i,j
+               if (i/=j) then
+                  is_diagonal_inverse = max(abs(aij),abs(invaij))<tiny(0.0_qp)
+               else
+                  ! Product should return the real identity
+                  is_diagonal_inverse = abs(aij*invaij - (1.0_qp,0.0_qp))<tiny(0.0_qp)
+               endif
+           end function is_diagonal_inverse
 
     end subroutine test_w_eye_inverse
 

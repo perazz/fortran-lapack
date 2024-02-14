@@ -46,12 +46,12 @@ module test_linalg_inverse
 
         !> Invert function
         inva = inv(a,err=state)
-        error = state%error() .or. .not.all(abs(a-inva)==0.0_${rk}$)
+        error = state%error() .or. .not.all(abs(a-inva)<tiny(0.0_${rk}$))
         if (error) return
 
         !> Inverse subroutine
         call invert(a,err=state)
-        error = state%error() .or. .not.all(a==inva)
+        error = state%error() .or. .not.all(abs(a-inva)<tiny(0.0_${rk}$))
 
     end subroutine test_${ri}$_eye_inverse
 
@@ -64,23 +64,53 @@ module test_linalg_inverse
 
         type(linalg_state) :: state
 
-        integer(ilp) :: i,j
+        integer(ilp) :: i,j,failed
         integer(ilp), parameter :: n = 500_ilp
 
-        ${ct}$ :: a(n,n),inva(n,n)
+        ${ct}$ :: a(n,n),copya(n,n),inva(n,n)
 
         do concurrent (i=1:n,j=1:n)
           a(i,j) = merge((1.0_${ck}$,1.0_${ck}$),(0.0_${ck}$,0.0_${ck}$),i==j)
         end do
+        copya = a
 
-        !> Invert function
+        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
         inva = inv(a,err=state)
-        error = state%error() .or. .not.all(abs(a-inva)==0.0_${ck}$)
+
+        failed = 0
+        do i=1,n
+            do j=1,n
+                if (.not.is_diagonal_inverse(a(i,j),inva(i,j),i,j)) failed = failed+1
+            end do
+        end do
+
+        error = state%error() .or. .not.failed==0
         if (error) return
 
         !> Inverse subroutine
-        call invert(a,err=state)
-        error = state%error() .or. .not.all(a==inva)
+        call invert(copya,err=state)
+
+        failed = 0
+        do i=1,n
+            do j=1,n
+                if (.not.is_diagonal_inverse(a(i,j),copya(i,j),i,j)) failed = failed+1
+            end do
+        end do
+
+        error = state%error() .or. .not.failed==0
+
+        contains
+
+           elemental logical function is_diagonal_inverse(aij,invaij,i,j)
+               ${ct}$, intent(in) :: aij,invaij
+               integer(ilp), intent(in) :: i,j
+               if (i/=j) then
+                  is_diagonal_inverse = max(abs(aij),abs(invaij))<tiny(0.0_${ck}$)
+               else
+                  ! Product should return the real identity
+                  is_diagonal_inverse = abs(aij*invaij - (1.0_${ck}$,0.0_${ck}$))<tiny(0.0_${ck}$)
+               endif
+           end function is_diagonal_inverse
 
     end subroutine test_${ci}$_eye_inverse
 
