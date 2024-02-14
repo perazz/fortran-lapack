@@ -17,6 +17,10 @@ module test_linalg_inverse
     subroutine test_inverse_matrix(error)
         logical, intent(out) :: error
 
+        real :: t0,t1
+
+        call cpu_time(t0)
+
         #:for rk,rt,ri in REAL_KINDS_TYPES
         call test_${ri}$_eye_inverse(error)
         if (error) return
@@ -25,6 +29,12 @@ module test_linalg_inverse
         call test_${ci}$_eye_inverse(error)
         if (error) return
         #: endfor
+
+        call cpu_time(t1)
+
+        print 1, 1000*(t1-t0)
+
+        1 format('Inverse matrix tests completed in ',f9.4,' milliseconds.')
 
     end subroutine test_inverse_matrix
 

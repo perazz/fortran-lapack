@@ -10,6 +10,10 @@ module test_linalg_inverse
     subroutine test_inverse_matrix(error)
         logical, intent(out) :: error
 
+        real :: t0,t1
+
+        call cpu_time(t0)
+
         call test_s_eye_inverse(error)
         if (error) return
         call test_d_eye_inverse(error)
@@ -22,6 +26,12 @@ module test_linalg_inverse
         if (error) return
         call test_w_eye_inverse(error)
         if (error) return
+
+        call cpu_time(t1)
+
+        print 1, 1000*(t1-t0)
+
+        1 format('Inverse matrix tests completed in ',f9.4,' milliseconds.')
 
     end subroutine test_inverse_matrix
 
