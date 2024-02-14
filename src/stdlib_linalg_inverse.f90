@@ -12,7 +12,7 @@ module stdlib_linalg_inverse
      !> Function interface return the matrix inverse
      public :: inv
      !> Subroutine interface: invert matrix inplace
-     !public :: invert
+     public :: invert
 
      ! Numpy: inv(a)
      ! Scipy: inv(a, overwrite_a=False, check_finite=True)
@@ -65,26 +65,26 @@ module stdlib_linalg_inverse
             goto 1
          end if
 
-         !> Call getrf to factorize the matrix
-         call getrf(lda,n,a,lda,ipiv,info)
-
          ! Pivot indices
          allocate(ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         print *, 'GETRF INFO = ',info
 
          ! Return codes from getrf and getri are identical
          if (info==0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'getri',' ',n,-1,-1,-1)
+            nb = stdlib_ilaenv(1,'sgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
+            print *, 'NB = ',nb, ' LWORK=',lwork
 
             allocate(work(lwork))
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            print *, 'GETRI INFO = ',info
 
          endif
 
@@ -146,26 +146,26 @@ module stdlib_linalg_inverse
             goto 1
          end if
 
-         !> Call getrf to factorize the matrix
-         call getrf(lda,n,a,lda,ipiv,info)
-
          ! Pivot indices
          allocate(ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         print *, 'GETRF INFO = ',info
 
          ! Return codes from getrf and getri are identical
          if (info==0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'getri',' ',n,-1,-1,-1)
+            nb = stdlib_ilaenv(1,'dgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
+            print *, 'NB = ',nb, ' LWORK=',lwork
 
             allocate(work(lwork))
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            print *, 'GETRI INFO = ',info
 
          endif
 
@@ -227,26 +227,26 @@ module stdlib_linalg_inverse
             goto 1
          end if
 
-         !> Call getrf to factorize the matrix
-         call getrf(lda,n,a,lda,ipiv,info)
-
          ! Pivot indices
          allocate(ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         print *, 'GETRF INFO = ',info
 
          ! Return codes from getrf and getri are identical
          if (info==0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'getri',' ',n,-1,-1,-1)
+            nb = stdlib_ilaenv(1,'qgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
+            print *, 'NB = ',nb, ' LWORK=',lwork
 
             allocate(work(lwork))
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            print *, 'GETRI INFO = ',info
 
          endif
 
@@ -308,26 +308,26 @@ module stdlib_linalg_inverse
             goto 1
          end if
 
-         !> Call getrf to factorize the matrix
-         call getrf(lda,n,a,lda,ipiv,info)
-
          ! Pivot indices
          allocate(ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         print *, 'GETRF INFO = ',info
 
          ! Return codes from getrf and getri are identical
          if (info==0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'getri',' ',n,-1,-1,-1)
+            nb = stdlib_ilaenv(1,'cgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
+            print *, 'NB = ',nb, ' LWORK=',lwork
 
             allocate(work(lwork))
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            print *, 'GETRI INFO = ',info
 
          endif
 
@@ -389,26 +389,26 @@ module stdlib_linalg_inverse
             goto 1
          end if
 
-         !> Call getrf to factorize the matrix
-         call getrf(lda,n,a,lda,ipiv,info)
-
          ! Pivot indices
          allocate(ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         print *, 'GETRF INFO = ',info
 
          ! Return codes from getrf and getri are identical
          if (info==0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'getri',' ',n,-1,-1,-1)
+            nb = stdlib_ilaenv(1,'zgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
+            print *, 'NB = ',nb, ' LWORK=',lwork
 
             allocate(work(lwork))
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            print *, 'GETRI INFO = ',info
 
          endif
 
@@ -470,26 +470,26 @@ module stdlib_linalg_inverse
             goto 1
          end if
 
-         !> Call getrf to factorize the matrix
-         call getrf(lda,n,a,lda,ipiv,info)
-
          ! Pivot indices
          allocate(ipiv(n))
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         print *, 'GETRF INFO = ',info
 
          ! Return codes from getrf and getri are identical
          if (info==0) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
-            nb = stdlib_ilaenv(1,'getri',' ',n,-1,-1,-1)
+            nb = stdlib_ilaenv(1,'wgetri',' ',n,-1,-1,-1)
             lwork = nint(1.02*n*nb,kind=ilp)
+            print *, 'NB = ',nb, ' LWORK=',lwork
 
             allocate(work(lwork))
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            print *, 'GETRI INFO = ',info
 
          endif
 
