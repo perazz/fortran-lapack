@@ -24,10 +24,12 @@ module stdlib_linalg_inverse
      public :: inv
      !> Subroutine interface: invert matrix inplace
      public :: invert
+     !> Operator interface: .inv.A returns the matrix inverse of A
+     public :: operator(.inv.)
 
      ! Numpy: inv(a)
      ! Scipy: inv(a, overwrite_a=False, check_finite=True)
-     ! IMSL: lu_solve(a, b, transpose=False)
+     ! IMSL: .i.a
 
      ! Function interface
      interface inv
@@ -43,6 +45,12 @@ module stdlib_linalg_inverse
         #:endfor
      end interface invert
 
+     ! Operator interface
+     interface operator(.inv.)
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure stdlib_linalg_inverse_${ri}$_operator
+        #:endfor
+     end interface operator(.inv.)
 
      contains
 
@@ -108,7 +116,7 @@ module stdlib_linalg_inverse
 
      end subroutine stdlib_linalg_invert_${ri}$
 
-     ! Compute
+     ! Invert matrix in place
      function stdlib_linalg_inverse_${ri}$(a,err) result(inva)
          !> Input matrix a[n,n]
          ${rt}$, intent(in) :: a(:,:)
@@ -124,6 +132,25 @@ module stdlib_linalg_inverse
          call stdlib_linalg_invert_${ri}$(inva,err)
 
      end function stdlib_linalg_inverse_${ri}$
+
+     ! Inverse matrix operator
+     function stdlib_linalg_inverse_${ri}$_operator(a) result(inva)
+         !> Input matrix a[n,n]
+         ${rt}$, intent(in) :: a(:,:)
+         !> Result matrix
+         ${rt}$, allocatable :: inva(:,:)
+
+         type(linalg_state) :: err
+
+         inva = stdlib_linalg_inverse_${ri}$(a,err)
+
+         ! On error, return an empty matrix
+         if (err%error()) then
+            if (allocated(inva)) deallocate(inva)
+            allocate(inva(0,0))
+         endif
+
+     end function stdlib_linalg_inverse_${ri}$_operator
 
      #:endfor
 
