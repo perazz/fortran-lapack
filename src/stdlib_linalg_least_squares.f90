@@ -229,11 +229,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_slstsq_one(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_slstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(sp),                     intent(in)            :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -293,9 +295,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_sp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_sp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_sp)*mnmax
 
          ! Allocate working space
          call sgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -329,11 +336,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_dlstsq_one(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_dlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(dp),                     intent(in)            :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -393,9 +402,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_dp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_dp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_dp)*mnmax
 
          ! Allocate working space
          call dgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -429,11 +443,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_qlstsq_one(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_qlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(qp),                     intent(in)            :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -493,9 +509,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_qp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_qp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_qp)*mnmax
 
          ! Allocate working space
          call qgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -529,11 +550,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_clstsq_one(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_clstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(sp),                     intent(in)            :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -593,9 +616,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_sp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_sp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_sp)*mnmax
 
          ! Allocate working space
          call cgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -629,11 +657,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_zlstsq_one(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_zlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(dp),                     intent(in)            :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -693,9 +723,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_dp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_dp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_dp)*mnmax
 
          ! Allocate working space
          call zgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -729,11 +764,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_wlstsq_one(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_wlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(qp),                     intent(in)            :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -793,9 +830,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_qp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_qp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_qp)*mnmax
 
          ! Allocate working space
          call wgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -829,11 +871,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_slstsq_multiple(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_slstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(sp),                     intent(in)            :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -893,9 +937,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_sp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_sp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_sp)*mnmax
 
          ! Allocate working space
          call sgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -929,11 +978,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_dlstsq_multiple(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_dlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(dp),                     intent(in)            :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -993,9 +1044,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_dp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_dp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_dp)*mnmax
 
          ! Allocate working space
          call dgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -1029,11 +1085,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_qlstsq_multiple(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_qlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(qp),                     intent(in)            :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -1093,9 +1151,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_qp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_qp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_qp)*mnmax
 
          ! Allocate working space
          call qgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -1129,11 +1192,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_clstsq_multiple(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_clstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(sp),                     intent(in)            :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -1193,9 +1258,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_sp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_sp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_sp)*mnmax
 
          ! Allocate working space
          call cgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -1229,11 +1299,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_zlstsq_multiple(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_zlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(dp),                     intent(in)            :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -1293,9 +1365,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_dp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_dp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_dp)*mnmax
 
          ! Allocate working space
          call zgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
@@ -1329,11 +1406,13 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_wlstsq_multiple(a,b,overwrite_a,rank,err) result(x)
+     function stdlib_linalg_wlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(qp),                     intent(in)            :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp), optional, intent(in) :: cond
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
          !> [optional] Return rank of A
@@ -1393,9 +1472,14 @@ module stdlib_linalg_least_squares
          allocate(singular(mnmin))
 
          ! rcond is used to determine the effective rank of A.
-         ! Singular values S(i) <= RCOND*S(1) are treated as zero.
+         ! Singular values S(i) <= RCOND*maxval(S) are treated as zero.
          ! Use same default value as NumPy
-         rcond = epsilon(0.0_qp)*mnmax
+         if (present(cond)) then
+            rcond = cond
+         else
+            rcond = epsilon(0.0_qp)*mnmax
+         endif
+         if (rcond<0) rcond = epsilon(0.0_qp)*mnmax
 
          ! Allocate working space
          call wgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
