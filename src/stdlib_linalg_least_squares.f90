@@ -31,6 +31,7 @@ module stdlib_linalg_least_squares
         module procedure stdlib_linalg_wlstsq_multiple
      end interface lstsq
 
+
      contains
 
      ! Workspace needed by gesv

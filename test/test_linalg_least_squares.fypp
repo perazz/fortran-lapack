@@ -1,0 +1,60 @@
+#:set REAL_KINDS    = ["sp", "dp", "qp"]
+#:set REAL_INITIALS = ["s","d","q"]
+#:set REAL_TYPES    = ["real({})".format(k) for k in REAL_KINDS]
+#:set REAL_KINDS_TYPES = list(zip(REAL_KINDS, REAL_TYPES, REAL_INITIALS))
+#:set CMPL_INITIALS = ["c","z","w"]
+#:set CMPL_TYPES    = ["complex({})".format(k) for k in REAL_KINDS]
+#:set CMPL_KINDS_TYPES = list(zip(REAL_KINDS, CMPL_TYPES, CMPL_INITIALS))
+module test_linalg_least_squares
+    use stdlib_linalg_constants
+    use stdlib_linalg_state
+    use stdlib_linalg_least_squares
+
+    implicit none (type,external)
+
+    contains
+
+    !> Solve sample least square problems
+    subroutine test_least_squares(error)
+        logical, intent(out) :: error
+
+        print *, 'Least squares tests...'
+
+        #:for rk,rt,ri in REAL_KINDS_TYPES
+        call test_${ri}$lstsq_one(error)
+        if (error) return
+        #: endfor
+
+    end subroutine test_least_squares
+
+    !> Simple polynomial fit
+    #:for rk,rt,ri in REAL_KINDS_TYPES
+    subroutine test_${ri}$lstsq_one(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        !> Example scattered data
+        ${rt}$, parameter :: x(*)  = real([1.0, 2.5, 3.5, 4.0, 5.0, 7.0, 8.5], ${rk}$)
+        ${rt}$, parameter :: y(*)  = real([0.3, 1.1, 1.5, 2.0, 3.2, 6.6, 8.6], ${rk}$)
+        ${rt}$, parameter :: ab(*) = real([0.20925829,  0.12013861], ${rk}$)
+
+        ${rt}$ :: M(size(x),2),p(2)
+
+        ! Coefficient matrix for polynomial y = a + b*x**2
+        M(:,1) = x**0
+        M(:,2) = x**2
+
+        ! Find polynomial
+        p = lstsq(M,y,err=state)
+
+        print *, '${rt}$: p = ',p
+
+        error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_${rk}$)
+
+    end subroutine test_${ri}$lstsq_one
+    #:endfor
+
+end module test_linalg_least_squares
+
+
