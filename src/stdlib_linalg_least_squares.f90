@@ -229,13 +229,15 @@ module stdlib_linalg_least_squares
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_slstsq_one(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_slstsq_one(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(sp),                     intent(in)            :: b(:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -265,6 +267,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0))
+            arank = 0
             goto 1
          end if
 
@@ -320,18 +323,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_slstsq_one
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_dlstsq_one(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_dlstsq_one(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(dp),                     intent(in)            :: b(:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -361,6 +367,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0))
+            arank = 0
             goto 1
          end if
 
@@ -416,18 +423,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_dlstsq_one
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_qlstsq_one(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_qlstsq_one(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(qp),                     intent(in)            :: b(:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -457,6 +467,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0))
+            arank = 0
             goto 1
          end if
 
@@ -512,18 +523,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_qlstsq_one
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_clstsq_one(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_clstsq_one(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(sp),                     intent(in)            :: b(:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -553,6 +567,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0))
+            arank = 0
             goto 1
          end if
 
@@ -608,18 +623,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_clstsq_one
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_zlstsq_one(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_zlstsq_one(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(dp),                     intent(in)            :: b(:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -649,6 +667,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0))
+            arank = 0
             goto 1
          end if
 
@@ -704,18 +723,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_zlstsq_one
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_wlstsq_one(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_wlstsq_one(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(qp),                     intent(in)            :: b(:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -745,6 +767,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0))
+            arank = 0
             goto 1
          end if
 
@@ -800,18 +823,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_wlstsq_one
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_slstsq_multiple(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_slstsq_multiple(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(sp),                     intent(in)            :: b(:,:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -841,6 +867,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0,0))
+            arank = 0
             goto 1
          end if
 
@@ -896,18 +923,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_slstsq_multiple
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_dlstsq_multiple(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_dlstsq_multiple(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(dp),                     intent(in)            :: b(:,:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -937,6 +967,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0,0))
+            arank = 0
             goto 1
          end if
 
@@ -992,18 +1023,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_dlstsq_multiple
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_qlstsq_multiple(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_qlstsq_multiple(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(qp),                     intent(in)            :: b(:,:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -1033,6 +1067,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0,0))
+            arank = 0
             goto 1
          end if
 
@@ -1088,18 +1123,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_qlstsq_multiple
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_clstsq_multiple(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_clstsq_multiple(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(sp),                     intent(in)            :: b(:,:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -1129,6 +1167,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0,0))
+            arank = 0
             goto 1
          end if
 
@@ -1184,18 +1223,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_clstsq_multiple
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_zlstsq_multiple(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_zlstsq_multiple(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(dp),                     intent(in)            :: b(:,:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -1225,6 +1267,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0,0))
+            arank = 0
             goto 1
          end if
 
@@ -1280,18 +1323,21 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_zlstsq_multiple
 
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
-     function stdlib_linalg_wlstsq_multiple(a,b,overwrite_a,err) result(x)
+     function stdlib_linalg_wlstsq_multiple(a,b,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),                     intent(inout), target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(qp),                     intent(in)            :: b(:,:)
          !> [optional] Can A,b data be overwritten and destroyed?
          logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] Return rank of A
+         integer(ilp), optional, intent(out) :: rank
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
@@ -1321,6 +1367,7 @@ module stdlib_linalg_least_squares
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
             allocate(x(0,0))
+            arank = 0
             goto 1
          end if
 
@@ -1376,6 +1423,7 @@ module stdlib_linalg_least_squares
 
          ! Process output and return
          1 call linalg_error_handling(err0,err)
+         if (present(rank)) rank = arank
 
      end function stdlib_linalg_wlstsq_multiple
 

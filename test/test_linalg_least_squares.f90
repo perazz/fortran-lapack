@@ -27,6 +27,7 @@ module test_linalg_least_squares
         logical, intent(out) :: error
 
         type(linalg_state) :: state
+        integer(ilp) :: rank
 
         !> Example scattered data
         real(sp), parameter :: x(*)  = real([1.0, 2.5, 3.5, 4.0, 5.0, 7.0, 8.5], sp)
@@ -40,17 +41,18 @@ module test_linalg_least_squares
         M(:,2) = x**2
 
         ! Find polynomial
-        p = lstsq(M,y,err=state)
+        p = lstsq(M,y,rank=rank,err=state)
 
         print *, 'real(sp): p = ',p
 
-        error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_sp)
+        error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_sp) .or. rank/=2
 
     end subroutine test_slstsq_one
     subroutine test_dlstsq_one(error)
         logical, intent(out) :: error
 
         type(linalg_state) :: state
+        integer(ilp) :: rank
 
         !> Example scattered data
         real(dp), parameter :: x(*)  = real([1.0, 2.5, 3.5, 4.0, 5.0, 7.0, 8.5], dp)
@@ -64,17 +66,18 @@ module test_linalg_least_squares
         M(:,2) = x**2
 
         ! Find polynomial
-        p = lstsq(M,y,err=state)
+        p = lstsq(M,y,rank=rank,err=state)
 
         print *, 'real(dp): p = ',p
 
-        error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_dp)
+        error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_dp) .or. rank/=2
 
     end subroutine test_dlstsq_one
     subroutine test_qlstsq_one(error)
         logical, intent(out) :: error
 
         type(linalg_state) :: state
+        integer(ilp) :: rank
 
         !> Example scattered data
         real(qp), parameter :: x(*)  = real([1.0, 2.5, 3.5, 4.0, 5.0, 7.0, 8.5], qp)
@@ -88,11 +91,11 @@ module test_linalg_least_squares
         M(:,2) = x**2
 
         ! Find polynomial
-        p = lstsq(M,y,err=state)
+        p = lstsq(M,y,rank=rank,err=state)
 
         print *, 'real(qp): p = ',p
 
-        error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_qp)
+        error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_qp) .or. rank/=2
 
     end subroutine test_qlstsq_one
 

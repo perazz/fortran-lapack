@@ -33,6 +33,7 @@ module test_linalg_least_squares
         logical, intent(out) :: error
 
         type(linalg_state) :: state
+        integer(ilp) :: rank
 
         !> Example scattered data
         ${rt}$, parameter :: x(*)  = real([1.0, 2.5, 3.5, 4.0, 5.0, 7.0, 8.5], ${rk}$)
@@ -46,11 +47,11 @@ module test_linalg_least_squares
         M(:,2) = x**2
 
         ! Find polynomial
-        p = lstsq(M,y,err=state)
+        p = lstsq(M,y,rank=rank,err=state)
 
         print *, '${rt}$: p = ',p
 
-        error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_${rk}$)
+        error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_${rk}$) .or. rank/=2
 
     end subroutine test_${ri}$lstsq_one
     #:endfor
