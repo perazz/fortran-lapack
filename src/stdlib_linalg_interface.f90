@@ -5,6 +5,7 @@ module stdlib_linalg_interface
      use stdlib_linalg_state
      use stdlib_linalg_solve
      use stdlib_linalg_inverse
+     use stdlib_linalg_least_squares
      implicit none(type,external)
      public
 
