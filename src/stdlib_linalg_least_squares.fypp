@@ -9,7 +9,8 @@
 
 #:set RANK_SUFFIX = ["_one","_multiple"]
 #:set RANK_SYMBOL = [":",":,:"]
-#:set ALL_RANKS = list(zip(RANK_SYMBOL,RANK_SUFFIX))
+#:set RANK_EMPTY  = ["0","0,0"]
+#:set ALL_RANKS = list(zip(RANK_SYMBOL,RANK_SUFFIX,RANK_EMPTY))
 
 module stdlib_linalg_least_squares
      use stdlib_linalg_constants
@@ -28,7 +29,7 @@ module stdlib_linalg_least_squares
      ! IMSL: Result = IMSL_QRSOL(B, [A] [, AUXQR] [, BASIS] [, /DOUBLE] [, QR] [, PIVOT] [, RESIDUAL] [, TOLERANCE])
 
      interface lstsq
-        #:for nd,ndsuf in ALL_RANKS
+        #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure stdlib_linalg_${ri}$lstsq${ndsuf}$
         #:endfor
@@ -77,7 +78,7 @@ module stdlib_linalg_least_squares
 
      #:endfor
 
-     #:for nd,ndsuf in ALL_RANKS
+     #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
      ! Compute the least-squares solution to a real system of linear equations Ax = B
@@ -116,6 +117,7 @@ module stdlib_linalg_least_squares
          if (lda<1 .or. n<1 .or. ldb<1 .or. ldb/=m) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(${nde}$))
             goto 1
          end if
 

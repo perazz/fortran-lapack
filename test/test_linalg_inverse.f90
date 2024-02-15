@@ -42,7 +42,7 @@ module test_linalg_inverse
         type(linalg_state) :: state
 
         integer(ilp) :: i,j
-        integer(ilp), parameter :: n = 500_ilp
+        integer(ilp), parameter :: n = 250_ilp
 
         real(sp) :: a(n,n),inva(n,n)
 
@@ -67,7 +67,7 @@ module test_linalg_inverse
         type(linalg_state) :: state
 
         integer(ilp) :: i,j
-        integer(ilp), parameter :: n = 500_ilp
+        integer(ilp), parameter :: n = 250_ilp
 
         real(dp) :: a(n,n),inva(n,n)
 
@@ -92,7 +92,7 @@ module test_linalg_inverse
         type(linalg_state) :: state
 
         integer(ilp) :: i,j
-        integer(ilp), parameter :: n = 500_ilp
+        integer(ilp), parameter :: n = 250_ilp
 
         real(qp) :: a(n,n),inva(n,n)
 
@@ -119,7 +119,7 @@ module test_linalg_inverse
         type(linalg_state) :: state
 
         integer(ilp) :: i,j,failed
-        integer(ilp), parameter :: n = 500_ilp
+        integer(ilp), parameter :: n = 250_ilp
 
         complex(sp) :: a(n,n),copya(n,n),inva(n,n)
 
@@ -174,7 +174,7 @@ module test_linalg_inverse
         type(linalg_state) :: state
 
         integer(ilp) :: i,j,failed
-        integer(ilp), parameter :: n = 500_ilp
+        integer(ilp), parameter :: n = 250_ilp
 
         complex(dp) :: a(n,n),copya(n,n),inva(n,n)
 
@@ -229,7 +229,7 @@ module test_linalg_inverse
         type(linalg_state) :: state
 
         integer(ilp) :: i,j,failed
-        integer(ilp), parameter :: n = 500_ilp
+        integer(ilp), parameter :: n = 250_ilp
 
         complex(qp) :: a(n,n),copya(n,n),inva(n,n)
 

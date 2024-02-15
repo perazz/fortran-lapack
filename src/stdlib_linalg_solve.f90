@@ -65,6 +65,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0))
             goto 1
          end if
 
@@ -148,6 +149,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0))
             goto 1
          end if
 
@@ -231,6 +233,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0))
             goto 1
          end if
 
@@ -314,6 +317,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0))
             goto 1
          end if
 
@@ -397,6 +401,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0))
             goto 1
          end if
 
@@ -480,6 +485,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0))
             goto 1
          end if
 
@@ -563,6 +569,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0,0))
             goto 1
          end if
 
@@ -646,6 +653,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0,0))
             goto 1
          end if
 
@@ -729,6 +737,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0,0))
             goto 1
          end if
 
@@ -812,6 +821,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0,0))
             goto 1
          end if
 
@@ -895,6 +905,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0,0))
             goto 1
          end if
 
@@ -978,6 +989,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(0,0))
             goto 1
          end if
 
