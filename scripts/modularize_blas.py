@@ -1729,10 +1729,10 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     # do not replace their names
     whole_decl = '\n'.join(decl).lower()
     for j in range(len(old_names)):
-        pattern = r"(\b"+old_names[j]+r"\b)+(?=(?:[^']*'[^']*')*[^']*$)"
-        if bool(re.search(pattern,whole_decl)) \
+        if bool(re.search(r"\b"+old_names[j]+r"\b",whole_decl)) \
            and not old_names[j]==Source.old_name: is_declared[j] = True
         if "la_constants" in whole_decl: la_const = True
+
 
     replacement = prefix+r'\g<0>'
 
@@ -1741,10 +1741,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     for j in range(len(old_names)):
         if is_declared[j]: continue
         old = len(whole)
-
-        pattern = r"(\b"+old_names[j]+r"\b)+(?=(?:[^']*'[^']*')*[^']*$)"
-
-        whole = re.sub(pattern,replacement,whole)
+        whole = re.sub(r"\b"+old_names[j]+r"\b",replacement,whole)
         if len(whole)>old:
             print("***match***" + old_names[j])
             is_found[j] = True
@@ -1754,8 +1751,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
         for j in range(len(la_names)):
             if is_declared[j]: continue
             old = len(whole)
-            pattern = r"(\b"+la_names[j]+r"\b)+(?=(?:[^']*'[^']*')*[^']*$)"
-            whole = re.sub(pattern,la_repl[j],whole)
+            whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
 
 
     body = whole.split('\n')
