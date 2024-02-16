@@ -9,7 +9,8 @@
 
 #:set RANK_SUFFIX = ["_one","_multiple"]
 #:set RANK_SYMBOL = [":",":,:"]
-#:set ALL_RANKS = list(zip(RANK_SYMBOL,RANK_SUFFIX))
+#:set RANK_EMPTY  = ["0","0,0"]
+#:set ALL_RANKS = list(zip(RANK_SYMBOL,RANK_SUFFIX,RANK_EMPTY))
 
 module stdlib_linalg_solve
      use stdlib_linalg_constants
@@ -29,7 +30,7 @@ module stdlib_linalg_solve
 
 
      interface solve
-        #:for nd,ndsuf in ALL_RANKS
+        #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
         module procedure stdlib_linalg_${ri}$solve${ndsuf}$
         #:endfor
@@ -39,7 +40,7 @@ module stdlib_linalg_solve
 
      contains
 
-     #:for nd,ndsuf in ALL_RANKS
+     #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
      ! Compute the solution to a real system of linear equations A * X = B
      function stdlib_linalg_${ri}$solve${ndsuf}$(a,b,overwrite_a,err) result(x)
@@ -71,6 +72,7 @@ module stdlib_linalg_solve
          if (lda<1 .or. n<1 .or. ldb<1 .or. lda/=n .or. ldb/=n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
                                                                        'b=[',ldb,',',nrhs,']')
+            allocate(x(${nde}$))
             goto 1
          end if
 

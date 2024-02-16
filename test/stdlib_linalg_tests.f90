@@ -2,6 +2,7 @@ program stdlib_linalg_tests
     use test_linalg_aux
     use test_linalg_solve
     use test_linalg_inverse
+    use test_linalg_least_squares
     implicit none(type, external)
 
     logical :: error
@@ -15,6 +16,9 @@ program stdlib_linalg_tests
 
     call test_inverse_matrix(error)
     if (error) error stop 'test_inverse_matrix'
+
+    call test_least_squares(error)
+    if (error) error stop 'test_least_squares'
 
     !> All tests passed
     stop 0
