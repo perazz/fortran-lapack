@@ -125,7 +125,7 @@ module stdlib_linalg_lapack_aux
      ! Otherwise CHLA_TRANSTYPE returns the constant value corresponding to
      ! TRANS.
 
-     character*1 function stdlib_chla_transtype(trans)
+     character function stdlib_chla_transtype(trans)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -136,7 +136,7 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_no_trans = 111
            integer(ilp),parameter :: blas_trans = 112
            integer(ilp),parameter :: blas_conj_trans = 113
-
+           
            ! .. executable statements ..
            if (trans == blas_no_trans) then
               stdlib_chla_transtype = 'N'
@@ -301,7 +301,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(sp),parameter :: zero = (0.0e+0,0.0e+0)
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -334,7 +334,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(sp),parameter :: zero = (0.0e+0,0.0e+0)
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -376,15 +376,15 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_prec_double = 212
            integer(ilp),parameter :: blas_prec_indigenous = 213
            integer(ilp),parameter :: blas_prec_extra = 214
-
+           
            ! .. executable statements ..
-           if (stdlib_lsame(prec,'s')) then
+           if (stdlib_lsame(prec,'S')) then
               stdlib_ilaprec = blas_prec_single
-           else if (stdlib_lsame(prec,'d')) then
+           else if (stdlib_lsame(prec,'D')) then
               stdlib_ilaprec = blas_prec_double
-           else if (stdlib_lsame(prec,'i')) then
+           else if (stdlib_lsame(prec,'I')) then
               stdlib_ilaprec = blas_prec_indigenous
-           else if (stdlib_lsame(prec,'x') .or. stdlib_lsame(prec,'e')) then
+           else if (stdlib_lsame(prec,'X') .or. stdlib_lsame(prec,'E')) then
               stdlib_ilaprec = blas_prec_extra
            else
               stdlib_ilaprec = -1
@@ -405,7 +405,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(sp),parameter :: zero = 0.0e+0
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -438,7 +438,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(sp),parameter :: zero = 0.0e+0
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -479,13 +479,13 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: blas_no_trans = 111
            integer(ilp),parameter :: blas_trans = 112
            integer(ilp),parameter :: blas_conj_trans = 113
-
+           
            ! .. executable statements ..
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               stdlib_ilatrans = blas_no_trans
-           else if (stdlib_lsame(trans,'t')) then
+           else if (stdlib_lsame(trans,'T')) then
               stdlib_ilatrans = blas_trans
-           else if (stdlib_lsame(trans,'c')) then
+           else if (stdlib_lsame(trans,'C')) then
               stdlib_ilatrans = blas_conj_trans
            else
               stdlib_ilatrans = -1
@@ -510,11 +510,11 @@ module stdlib_linalg_lapack_aux
            ! .. parameters ..
            integer(ilp),parameter :: blas_upper = 121
            integer(ilp),parameter :: blas_lower = 122
-
+           
            ! .. executable statements ..
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo,'U')) then
               stdlib_ilauplo = blas_upper
-           else if (stdlib_lsame(uplo,'l')) then
+           else if (stdlib_lsame(uplo,'L')) then
               stdlib_ilauplo = blas_lower
            else
               stdlib_ilauplo = -1
@@ -549,7 +549,7 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: knwswp = 500
            integer(ilp),parameter :: rcost = 10
            real(sp),parameter :: two = 2.0
-
+           
            ! .. local scalars ..
            integer(ilp) :: nh,ns
            integer(ilp) :: i,ic,iz
@@ -707,7 +707,7 @@ module stdlib_linalg_lapack_aux
            if (int(stdlib_sroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_sroundup_lwork = stdlib_sroundup_lwork*(1.0e+0_sp + epsilon(0.0e+0_sp))
-
+                         
            end if
            return
      end function stdlib_sroundup_lwork
@@ -736,7 +736,7 @@ module stdlib_linalg_lapack_aux
            if (int(stdlib_qroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_qroundup_lwork = stdlib_qroundup_lwork*(1.0e+0_qp + epsilon(0.0e+0_qp))
-
+                         
            end if
            return
      end function stdlib_qroundup_lwork
@@ -758,11 +758,11 @@ module stdlib_linalg_lapack_aux
            ! .. parameters ..
            integer(ilp),parameter :: blas_non_unit_qiag = 131
            integer(ilp),parameter :: blas_unit_qiag = 132
-
+           
            ! .. executable statements ..
-           if (stdlib_lsame(diag,'n')) then
+           if (stdlib_lsame(diag,'N')) then
               stdlib_ilaqiag = blas_non_unit_qiag
-           else if (stdlib_lsame(diag,'u')) then
+           else if (stdlib_lsame(diag,'U')) then
               stdlib_ilaqiag = blas_unit_qiag
            else
               stdlib_ilaqiag = -1
@@ -783,7 +783,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: zero = 0.0d+0
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -816,7 +816,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: zero = 0.0d+0
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -852,7 +852,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(qp),parameter :: zero = (0.0d+0,0.0d+0)
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -885,7 +885,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(qp),parameter :: zero = (0.0d+0,0.0d+0)
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -980,7 +980,7 @@ module stdlib_linalg_lapack_aux
            if (int(stdlib_droundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
                stdlib_droundup_lwork = stdlib_droundup_lwork*(1.0e+0_dp + epsilon(0.0e+0_dp))
-
+                         
            end if
            return
      end function stdlib_droundup_lwork
@@ -1002,11 +1002,11 @@ module stdlib_linalg_lapack_aux
            ! .. parameters ..
            integer(ilp),parameter :: blas_non_unit_diag = 131
            integer(ilp),parameter :: blas_unit_diag = 132
-
+           
            ! .. executable statements ..
-           if (stdlib_lsame(diag,'n')) then
+           if (stdlib_lsame(diag,'N')) then
               stdlib_iladiag = blas_non_unit_diag
-           else if (stdlib_lsame(diag,'u')) then
+           else if (stdlib_lsame(diag,'U')) then
               stdlib_iladiag = blas_unit_diag
            else
               stdlib_iladiag = -1
@@ -1027,7 +1027,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: zero = 0.0d+0
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -1060,7 +1060,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: zero = 0.0d+0
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..
@@ -1299,7 +1299,7 @@ module stdlib_linalg_lapack_aux
                            c4 == 'TR' .or. c4 == 'BR') then
                     nb = 32
                  end if
-              else if (c3(1:1) == 'm') then
+              else if (c3(1:1) == 'M') then
                  if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
                            c4 == 'TR' .or. c4 == 'BR') then
                     nb = 32
@@ -1443,7 +1443,7 @@ module stdlib_linalg_lapack_aux
                  end if
               end if
            else if (cname .and. c2 == 'UN') then
-              if (c3(1:1) == 'g') then
+              if (c3(1:1) == 'G') then
                  if (c4 == 'QR' .or. c4 == 'RQ' .or. c4 == 'LQ' .or. c4 == 'QL' .or. c4 == 'HR' .or. &
                            c4 == 'TR' .or. c4 == 'BR') then
                     nbmin = 2
@@ -1576,7 +1576,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(dp),parameter :: zero = (0.0d+0,0.0d+0)
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            ! .. executable statements ..
@@ -1609,7 +1609,7 @@ module stdlib_linalg_lapack_aux
         ! =====================================================================
            ! .. parameters ..
            complex(dp),parameter :: zero = (0.0d+0,0.0d+0)
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. executable statements ..

@@ -261,8 +261,8 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(trans,'n') .and. .not. stdlib_lsame(trans,'t') &
-                     .and. .not. stdlib_lsame(trans,'c')) then
+           if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 1
            else if (m < 0) then
                info = 2
@@ -280,15 +280,15 @@ module stdlib_linalg_blas_c
                info = 13
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_cgbmv ',info)
+               call stdlib_xerbla('CGBMV ',info)
                return
            end if
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
-           noconj = stdlib_lsame(trans,'t')
+           noconj = stdlib_lsame(trans,'T')
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
                lenx = n
                leny = m
            else
@@ -336,7 +336,7 @@ module stdlib_linalg_blas_c
            end if
            if (alpha == czero) return
            kup1 = ku + 1
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  y := alpha*a*x + y.
                jx = kx
                if (incy == 1) then
@@ -434,10 +434,10 @@ module stdlib_linalg_blas_c
            ! conjugated or transposed, set  conja and conjb  as true if  a  and
            ! b  respectively are to be  transposed but  not conjugated  and set
            ! nrowa and  nrowb  as the number of rows of  a  and  b  respectively.
-           nota = stdlib_lsame(transa,'n')
-           notb = stdlib_lsame(transb,'n')
-           conja = stdlib_lsame(transa,'c')
-           conjb = stdlib_lsame(transb,'c')
+           nota = stdlib_lsame(transa,'N')
+           notb = stdlib_lsame(transb,'N')
+           conja = stdlib_lsame(transa,'C')
+           conjb = stdlib_lsame(transb,'C')
            if (nota) then
                nrowa = m
            else
@@ -450,9 +450,9 @@ module stdlib_linalg_blas_c
            end if
            ! test the input parameters.
            info = 0
-           if ((.not. nota) .and. (.not. conja) .and. (.not. stdlib_lsame(transa,'t'))) then
+           if ((.not. nota) .and. (.not. conja) .and. (.not. stdlib_lsame(transa,'T'))) then
                info = 1
-           else if ((.not. notb) .and. (.not. conjb) .and. (.not. stdlib_lsame(transb,'t'))) &
+           else if ((.not. notb) .and. (.not. conjb) .and. (.not. stdlib_lsame(transb,'T'))) &
                      then
                info = 2
            else if (m < 0) then
@@ -469,7 +469,7 @@ module stdlib_linalg_blas_c
                info = 13
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_cgemm ',info)
+               call stdlib_xerbla('CGEMM ',info)
                return
            end if
            ! quick return if possible.
@@ -678,8 +678,8 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(trans,'n') .and. .not. stdlib_lsame(trans,'t') &
-                     .and. .not. stdlib_lsame(trans,'c')) then
+           if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 1
            else if (m < 0) then
                info = 2
@@ -693,15 +693,15 @@ module stdlib_linalg_blas_c
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_cgemv ',info)
+               call stdlib_xerbla('CGEMV ',info)
                return
            end if
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
-           noconj = stdlib_lsame(trans,'t')
+           noconj = stdlib_lsame(trans,'T')
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
                lenx = n
                leny = m
            else
@@ -748,7 +748,7 @@ module stdlib_linalg_blas_c
                end if
            end if
            if (alpha == czero) return
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  y := alpha*a*x + y.
                jx = kx
                if (incy == 1) then
@@ -846,7 +846,7 @@ module stdlib_linalg_blas_c
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_cgerc ',info)
+               call stdlib_xerbla('CGERC ',info)
                return
            end if
            ! quick return if possible.
@@ -924,7 +924,7 @@ module stdlib_linalg_blas_c
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_cgeru ',info)
+               call stdlib_xerbla('CGERU ',info)
                return
            end if
            ! quick return if possible.
@@ -991,7 +991,7 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max,min,real
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1005,7 +1005,7 @@ module stdlib_linalg_blas_c
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_chbmv ',info)
+               call stdlib_xerbla('CHBMV ',info)
                return
            end if
            ! quick return if possible.
@@ -1051,7 +1051,7 @@ module stdlib_linalg_blas_c
                end if
            end if
            if (alpha == czero) return
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo,'U')) then
               ! form  y  when upper triangle of a is stored.
                kplus1 = k + 1
                if ((incx == 1) .and. (incy == 1)) then
@@ -1154,17 +1154,17 @@ module stdlib_linalg_blas_c
            logical(lk) :: upper
            
            ! set nrowa as the number of rows of a.
-           if (stdlib_lsame(side,'l')) then
+           if (stdlib_lsame(side,'L')) then
                nrowa = m
            else
                nrowa = n
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo,'U')
            ! test the input parameters.
            info = 0
-           if ((.not. stdlib_lsame(side,'l')) .and. (.not. stdlib_lsame(side,'r'))) then
+           if ((.not. stdlib_lsame(side,'L')) .and. (.not. stdlib_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'l'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 2
            else if (m < 0) then
                info = 3
@@ -1178,7 +1178,7 @@ module stdlib_linalg_blas_c
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_chemm ',info)
+               call stdlib_xerbla('CHEMM ',info)
                return
            end if
            ! quick return if possible.
@@ -1201,7 +1201,7 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(side,'l')) then
+           if (stdlib_lsame(side,'L')) then
               ! form  c := alpha*a*b + beta*c.
                if (upper) then
                    do j = 1,n
@@ -1300,7 +1300,7 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max,real
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1312,7 +1312,7 @@ module stdlib_linalg_blas_c
                info = 10
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_chemv ',info)
+               call stdlib_xerbla('CHEMV ',info)
                return
            end if
            ! quick return if possible.
@@ -1359,7 +1359,7 @@ module stdlib_linalg_blas_c
                end if
            end if
            if (alpha == czero) return
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo,'U')) then
               ! form  y  when a is stored in upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -1451,7 +1451,7 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max,real
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1461,7 +1461,7 @@ module stdlib_linalg_blas_c
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_cher  ',info)
+               call stdlib_xerbla('CHER  ',info)
                return
            end if
            ! quick return if possible.
@@ -1475,7 +1475,7 @@ module stdlib_linalg_blas_c
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through the triangular part
            ! of a.
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo,'U')) then
               ! form  a  when a is stored in upper triangle.
                if (incx == 1) then
                    do j = 1,n
@@ -1565,7 +1565,7 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max,real
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -1577,7 +1577,7 @@ module stdlib_linalg_blas_c
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_cher2 ',info)
+               call stdlib_xerbla('CHER2 ',info)
                return
            end if
            ! quick return if possible.
@@ -1601,7 +1601,7 @@ module stdlib_linalg_blas_c
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through the triangular part
            ! of a.
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo,'U')) then
               ! form  a  when a is stored in the upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -1707,16 +1707,16 @@ module stdlib_linalg_blas_c
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'l'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'n')) .and. (.not. stdlib_lsame(trans,'c'))) &
+           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'C'))) &
                      then
                info = 2
            else if (n < 0) then
@@ -1731,7 +1731,7 @@ module stdlib_linalg_blas_c
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_cher2k',info)
+               call stdlib_xerbla('CHER2K',info)
                return
            end if
            ! quick return if possible.
@@ -1772,7 +1772,7 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  c := alpha*a*b**h + conjg( alpha )*b*a**h +
                          ! c.
                if (upper) then
@@ -1914,16 +1914,16 @@ module stdlib_linalg_blas_c
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'l'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'n')) .and. (.not. stdlib_lsame(trans,'c'))) &
+           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'C'))) &
                      then
                info = 2
            else if (n < 0) then
@@ -1936,7 +1936,7 @@ module stdlib_linalg_blas_c
                info = 10
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_cherk ',info)
+               call stdlib_xerbla('CHERK ',info)
                return
            end if
            ! quick return if possible.
@@ -1977,7 +1977,7 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  c := alpha*a*a**h + beta*c.
                if (upper) then
                    do j = 1,n
@@ -2105,7 +2105,7 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,real
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -2115,7 +2115,7 @@ module stdlib_linalg_blas_c
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_chpmv ',info)
+               call stdlib_xerbla('CHPMV ',info)
                return
            end if
            ! quick return if possible.
@@ -2162,7 +2162,7 @@ module stdlib_linalg_blas_c
            end if
            if (alpha == czero) return
            kk = 1
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo,'U')) then
               ! form  y  when ap contains the upper triangle.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -2262,7 +2262,7 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,real
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -2270,7 +2270,7 @@ module stdlib_linalg_blas_c
                info = 5
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_chpr  ',info)
+               call stdlib_xerbla('CHPR  ',info)
                return
            end if
            ! quick return if possible.
@@ -2284,7 +2284,7 @@ module stdlib_linalg_blas_c
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with cone pass through ap.
            kk = 1
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo,'U')) then
               ! form  a  when upper triangle is stored in ap.
                if (incx == 1) then
                    do j = 1,n
@@ -2383,7 +2383,7 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,real
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
            else if (n < 0) then
                info = 2
@@ -2393,7 +2393,7 @@ module stdlib_linalg_blas_c
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_chpr2 ',info)
+               call stdlib_xerbla('CHPR2 ',info)
                return
            end if
            ! quick return if possible.
@@ -2417,7 +2417,7 @@ module stdlib_linalg_blas_c
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with cone pass through ap.
            kk = 1
-           if (stdlib_lsame(uplo,'u')) then
+           if (stdlib_lsame(uplo,'U')) then
               ! form  a  when upper triangle is stored in ap.
                if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
@@ -2800,17 +2800,17 @@ module stdlib_linalg_blas_c
            logical(lk) :: upper
            
            ! set nrowa as the number of rows of a.
-           if (stdlib_lsame(side,'l')) then
+           if (stdlib_lsame(side,'L')) then
                nrowa = m
            else
                nrowa = n
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo,'U')
            ! test the input parameters.
            info = 0
-           if ((.not. stdlib_lsame(side,'l')) .and. (.not. stdlib_lsame(side,'r'))) then
+           if ((.not. stdlib_lsame(side,'L')) .and. (.not. stdlib_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'l'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 2
            else if (m < 0) then
                info = 3
@@ -2824,7 +2824,7 @@ module stdlib_linalg_blas_c
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_csymm ',info)
+               call stdlib_xerbla('CSYMM ',info)
                return
            end if
            ! quick return if possible.
@@ -2847,7 +2847,7 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(side,'l')) then
+           if (stdlib_lsame(side,'L')) then
               ! form  c := alpha*a*b + beta*c.
                if (upper) then
                    do j = 1,n
@@ -2947,16 +2947,16 @@ module stdlib_linalg_blas_c
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'l'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'n')) .and. (.not. stdlib_lsame(trans,'t'))) &
+           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'T'))) &
                      then
                info = 2
            else if (n < 0) then
@@ -2971,7 +2971,7 @@ module stdlib_linalg_blas_c
                info = 12
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_csyr2k',info)
+               call stdlib_xerbla('CSYR2K',info)
                return
            end if
            ! quick return if possible.
@@ -3010,7 +3010,7 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  c := alpha*a*b**t + alpha*b*a**t + c.
                if (upper) then
                    do j = 1,n
@@ -3121,16 +3121,16 @@ module stdlib_linalg_blas_c
            logical(lk) :: upper
            
            ! test the input parameters.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
                nrowa = n
            else
                nrowa = k
            end if
-           upper = stdlib_lsame(uplo,'u')
+           upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'l'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not. stdlib_lsame(trans,'n')) .and. (.not. stdlib_lsame(trans,'t'))) &
+           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'T'))) &
                      then
                info = 2
            else if (n < 0) then
@@ -3143,7 +3143,7 @@ module stdlib_linalg_blas_c
                info = 10
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_csyrk ',info)
+               call stdlib_xerbla('CSYRK ',info)
                return
            end if
            ! quick return if possible.
@@ -3182,7 +3182,7 @@ module stdlib_linalg_blas_c
                return
            end if
            ! start the operations.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  c := alpha*a*a**t + beta*c.
                if (upper) then
                    do j = 1,n
@@ -3284,12 +3284,12 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'n') .and. .not. stdlib_lsame(trans,'t') &
-                     .and. .not. stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'u') .and. .not. stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3301,13 +3301,13 @@ module stdlib_linalg_blas_c
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_ctbmv ',info)
+               call stdlib_xerbla('CTBMV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           noconj = stdlib_lsame(trans,'T')
+           nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx   too small for descending loops.
            if (incx <= 0) then
@@ -3317,9 +3317,9 @@ module stdlib_linalg_blas_c
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through a.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
                ! form  x := a*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = 1,n
@@ -3382,7 +3382,7 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  x := a**t*x  or  x := a**h*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3500,12 +3500,12 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max,min
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'n') .and. .not. stdlib_lsame(trans,'t') &
-                     .and. .not. stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'u') .and. .not. stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3517,13 +3517,13 @@ module stdlib_linalg_blas_c
                info = 9
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_ctbsv ',info)
+               call stdlib_xerbla('CTBSV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           noconj = stdlib_lsame(trans,'T')
+           nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3533,9 +3533,9 @@ module stdlib_linalg_blas_c
            end if
            ! start the operations. in this version the elements of a are
            ! accessed by sequentially with cone pass through a.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3598,7 +3598,7 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    kplus1 = k + 1
                    if (incx == 1) then
                        do j = 1,n
@@ -3713,12 +3713,12 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'n') .and. .not. stdlib_lsame(trans,'t') &
-                     .and. .not. stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'u') .and. .not. stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3726,13 +3726,13 @@ module stdlib_linalg_blas_c
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_ctpmv ',info)
+               call stdlib_xerbla('CTPMV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           noconj = stdlib_lsame(trans,'T')
+           nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3742,9 +3742,9 @@ module stdlib_linalg_blas_c
            end if
            ! start the operations. in this version the elements of ap are
            ! accessed sequentially with cone pass through ap.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  x:= a*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    kk = 1
                    if (incx == 1) then
                        do j = 1,n
@@ -3810,7 +3810,7 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  x := a**t*x  or  x := a**h*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    kk = (n*(n + 1))/2
                    if (incx == 1) then
                        do j = n,1,-1
@@ -3931,12 +3931,12 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'n') .and. .not. stdlib_lsame(trans,'t') &
-                     .and. .not. stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'u') .and. .not. stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -3944,13 +3944,13 @@ module stdlib_linalg_blas_c
                info = 7
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_ctpsv ',info)
+               call stdlib_xerbla('CTPSV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           noconj = stdlib_lsame(trans,'T')
+           nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -3960,9 +3960,9 @@ module stdlib_linalg_blas_c
            end if
            ! start the operations. in this version the elements of ap are
            ! accessed sequentially with cone pass through ap.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    kk = (n*(n + 1))/2
                    if (incx == 1) then
                        do j = n,1,-1
@@ -4027,7 +4027,7 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    kk = 1
                    if (incx == 1) then
                        do j = 1,n
@@ -4148,24 +4148,24 @@ module stdlib_linalg_blas_c
            logical(lk) :: lside,noconj,nounit,upper
            
            ! test the input parameters.
-           lside = stdlib_lsame(side,'l')
+           lside = stdlib_lsame(side,'L')
            if (lside) then
                nrowa = m
            else
                nrowa = n
            end if
-           noconj = stdlib_lsame(transa,'t')
-           nounit = stdlib_lsame(diag,'n')
-           upper = stdlib_lsame(uplo,'u')
+           noconj = stdlib_lsame(transa,'T')
+           nounit = stdlib_lsame(diag,'N')
+           upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not. lside) .and. (.not. stdlib_lsame(side,'r'))) then
+           if ((.not. lside) .and. (.not. stdlib_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'l'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 2
-           else if ((.not. stdlib_lsame(transa,'n')) .and. (.not. stdlib_lsame(transa,'t')) .and. ( &
-                     .not. stdlib_lsame(transa,'c'))) then
+           else if ((.not. stdlib_lsame(transa,'N')) .and. (.not. stdlib_lsame(transa,'T')) .and. ( &
+                     .not. stdlib_lsame(transa,'C'))) then
                info = 3
-           else if ((.not. stdlib_lsame(diag,'u')) .and. (.not. stdlib_lsame(diag,'n'))) &
+           else if ((.not. stdlib_lsame(diag,'U')) .and. (.not. stdlib_lsame(diag,'N'))) &
                      then
                info = 4
            else if (m < 0) then
@@ -4178,7 +4178,7 @@ module stdlib_linalg_blas_c
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_ctrmm ',info)
+               call stdlib_xerbla('CTRMM ',info)
                return
            end if
            ! quick return if possible.
@@ -4194,7 +4194,7 @@ module stdlib_linalg_blas_c
            end if
            ! start the operations.
            if (lside) then
-               if (stdlib_lsame(transa,'n')) then
+               if (stdlib_lsame(transa,'N')) then
                  ! form  b := alpha*a*b.
                    if (upper) then
                        do j = 1,n
@@ -4264,7 +4264,7 @@ module stdlib_linalg_blas_c
                    end if
                end if
            else
-               if (stdlib_lsame(transa,'n')) then
+               if (stdlib_lsame(transa,'N')) then
                  ! form  b := alpha*b*a.
                    if (upper) then
                        do j = n,1,-1
@@ -4387,12 +4387,12 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'n') .and. .not. stdlib_lsame(trans,'t') &
-                     .and. .not. stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'u') .and. .not. stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -4402,13 +4402,13 @@ module stdlib_linalg_blas_c
                info = 8
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_ctrmv ',info)
+               call stdlib_xerbla('CTRMV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           noconj = stdlib_lsame(trans,'T')
+           nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -4418,9 +4418,9 @@ module stdlib_linalg_blas_c
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through a.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  x := a*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = 1,n
                            if (x(j) /= czero) then
@@ -4476,7 +4476,7 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  x := a**t*x  or  x := a**h*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = n,1,-1
                            temp = x(j)
@@ -4585,24 +4585,24 @@ module stdlib_linalg_blas_c
            logical(lk) :: lside,noconj,nounit,upper
            
            ! test the input parameters.
-           lside = stdlib_lsame(side,'l')
+           lside = stdlib_lsame(side,'L')
            if (lside) then
                nrowa = m
            else
                nrowa = n
            end if
-           noconj = stdlib_lsame(transa,'t')
-           nounit = stdlib_lsame(diag,'n')
-           upper = stdlib_lsame(uplo,'u')
+           noconj = stdlib_lsame(transa,'T')
+           nounit = stdlib_lsame(diag,'N')
+           upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not. lside) .and. (.not. stdlib_lsame(side,'r'))) then
+           if ((.not. lside) .and. (.not. stdlib_lsame(side,'R'))) then
                info = 1
-           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'l'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 2
-           else if ((.not. stdlib_lsame(transa,'n')) .and. (.not. stdlib_lsame(transa,'t')) .and. ( &
-                     .not. stdlib_lsame(transa,'c'))) then
+           else if ((.not. stdlib_lsame(transa,'N')) .and. (.not. stdlib_lsame(transa,'T')) .and. ( &
+                     .not. stdlib_lsame(transa,'C'))) then
                info = 3
-           else if ((.not. stdlib_lsame(diag,'u')) .and. (.not. stdlib_lsame(diag,'n'))) &
+           else if ((.not. stdlib_lsame(diag,'U')) .and. (.not. stdlib_lsame(diag,'N'))) &
                      then
                info = 4
            else if (m < 0) then
@@ -4615,7 +4615,7 @@ module stdlib_linalg_blas_c
                info = 11
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_ctrsm ',info)
+               call stdlib_xerbla('CTRSM ',info)
                return
            end if
            ! quick return if possible.
@@ -4631,7 +4631,7 @@ module stdlib_linalg_blas_c
            end if
            ! start the operations.
            if (lside) then
-               if (stdlib_lsame(transa,'n')) then
+               if (stdlib_lsame(transa,'N')) then
                  ! form  b := alpha*inv( a )*b.
                    if (upper) then
                        do j = 1,n
@@ -4708,7 +4708,7 @@ module stdlib_linalg_blas_c
                    end if
                end if
            else
-               if (stdlib_lsame(transa,'n')) then
+               if (stdlib_lsame(transa,'N')) then
                  ! form  b := alpha*b*inv( a ).
                    if (upper) then
                        do j = 1,n
@@ -4848,12 +4848,12 @@ module stdlib_linalg_blas_c
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
-           if (.not. stdlib_lsame(uplo,'u') .and. .not. stdlib_lsame(uplo,'l')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not. stdlib_lsame(trans,'n') .and. .not. stdlib_lsame(trans,'t') &
-                     .and. .not. stdlib_lsame(trans,'c')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not. stdlib_lsame(diag,'u') .and. .not. stdlib_lsame(diag,'n')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
            else if (n < 0) then
                info = 4
@@ -4863,13 +4863,13 @@ module stdlib_linalg_blas_c
                info = 8
            end if
            if (info /= 0) then
-               call stdlib_xerbla('stdlib_ctrsv ',info)
+               call stdlib_xerbla('CTRSV ',info)
                return
            end if
            ! quick return if possible.
            if (n == 0) return
-           noconj = stdlib_lsame(trans,'t')
-           nounit = stdlib_lsame(diag,'n')
+           noconj = stdlib_lsame(trans,'T')
+           nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
            if (incx <= 0) then
@@ -4879,9 +4879,9 @@ module stdlib_linalg_blas_c
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with cone pass through a.
-           if (stdlib_lsame(trans,'n')) then
+           if (stdlib_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = n,1,-1
                            if (x(j) /= czero) then
@@ -4936,7 +4936,7 @@ module stdlib_linalg_blas_c
                end if
            else
               ! form  x := inv( a**t )*x  or  x := inv( a**h )*x.
-               if (stdlib_lsame(uplo,'u')) then
+               if (stdlib_lsame(uplo,'U')) then
                    if (incx == 1) then
                        do j = 1,n
                            temp = x(j)

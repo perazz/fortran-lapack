@@ -413,6 +413,7 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
     # Module header function names [old, new]
     if not (procedure_name is None):
         whole = re.sub(r'\! '+procedure_name[0].upper(),r'! '+procedure_name[1].upper(),whole)
+        whole = re.sub(r'\b'+procedure_name[0]+r'\b',r'\b'+procedure_name[1]+r'\b',whole)
 
     whole = re.sub(r'64\-bit',r'128-bit',whole)
     whole = re.sub(r'double precision',r'quad precision',whole)
@@ -893,6 +894,9 @@ def find_parameter_declaration(line,datatype):
 
     return parameter_name, parameter_value
 
+# Replace group match with uppercase
+def upper_repl(match):
+     return match.group(0).upper()
 
 # Write function body (list of lines)
 def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
@@ -941,6 +945,11 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
           else:
               # Just add indent
               line = INDENT + line.lstrip(' ')
+
+       # LAPACK fix: if there are strings between quotes, ensure all contents are capitalized
+       # (to be properly read in by ilaenv and other routines)
+       if not is_comment_line:
+           line = re.sub(r"([\"'])((?=(\\?))\3.)*?\1", upper_repl, line)
 
        if is_directive:
            fid.write(line+"\n")
@@ -1729,10 +1738,10 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     # do not replace their names
     whole_decl = '\n'.join(decl).lower()
     for j in range(len(old_names)):
-        if bool(re.search(r"\b"+old_names[j]+r"\b",whole_decl)) \
+        pattern = r"(?<!')(\b"+old_names[j]+r"\b)(?!\s*')"
+        if bool(re.search(pattern,whole_decl)) \
            and not old_names[j]==Source.old_name: is_declared[j] = True
         if "la_constants" in whole_decl: la_const = True
-
 
     replacement = prefix+r'\g<0>'
 
@@ -1741,7 +1750,10 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     for j in range(len(old_names)):
         if is_declared[j]: continue
         old = len(whole)
-        whole = re.sub(r"\b"+old_names[j]+r"\b",replacement,whole)
+
+        pattern = r"(?<!')(\b"+old_names[j]+r"\b)(?!\s*')"
+
+        whole = re.sub(pattern,replacement,whole)
         if len(whole)>old:
             print("***match***" + old_names[j])
             is_found[j] = True
@@ -1751,7 +1763,8 @@ def rename_source_body(Source,Sources,external_funs,prefix):
         for j in range(len(la_names)):
             if is_declared[j]: continue
             old = len(whole)
-            whole = re.sub(r"\b"+la_names[j]+r"\b",la_repl[j],whole)
+            pattern = r"(?<!')(\b"+la_names[j]+r"\b)(?!\s*')"
+            whole = re.sub(pattern,la_repl[j],whole)
 
 
     body = whole.split('\n')
