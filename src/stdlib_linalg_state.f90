@@ -12,9 +12,9 @@ module stdlib_linalg_state
      public :: operator(>),operator(>=)
 
      !> State return types
-     integer(ilp),parameter,public :: LINALG_SUCCESS        = 0_ilp
-     integer(ilp),parameter,public :: LINALG_VALUE_ERROR    = -1_ilp
-     integer(ilp),parameter,public :: LINALG_ERROR          = -2_ilp
+     integer(ilp),parameter,public :: LINALG_SUCCESS = 0_ilp
+     integer(ilp),parameter,public :: LINALG_VALUE_ERROR = -1_ilp
+     integer(ilp),parameter,public :: LINALG_ERROR = -2_ilp
      integer(ilp),parameter,public :: LINALG_INTERNAL_ERROR = -3_ilp
 
      !> Use fixed-size character storage for performance

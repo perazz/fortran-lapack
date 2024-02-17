@@ -82,7 +82,7 @@ module stdlib_linalg_blas_aux
            stdlib_lsame = ca == cb
            if (stdlib_lsame) return
            ! now test for equivalence if both characters are alphabetic.
-           zcode = ichar('z')
+           zcode = ichar('Z')
            ! use 'z' rather than 'a' so that ascii can be detected on prime
            ! machines, on which ichar returns a value with bit 8 set.
            ! ichar('a') on prime machines returns 193 which is the same as
@@ -137,7 +137,7 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character*(*) :: srname
+           character(len=*) srname
            integer(ilp) :: info
        ! =====================================================================
            ! .. intrinsic functions ..
@@ -145,7 +145,7 @@ module stdlib_linalg_blas_aux
            ! .. executable statements ..
            write (*,fmt=9999) srname(1:len_trim(srname)),info
            stop
-9999  format(' ** on entry to ',a,' parameter number ',i2,' had ','an illegal value')
+9999  format(' ** ON ENTRY TO ',a,' PARAMETER NUMBER ',i2,' HAD ','AN ILLEGAL VALUE')
                 
      end subroutine stdlib_xerbla
 
