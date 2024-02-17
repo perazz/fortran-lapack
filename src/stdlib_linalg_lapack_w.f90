@@ -510,10 +510,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
-           real(qp) :: sa
+           integer(ilp),intent(in) :: incx,n
+           real(qp),intent(in) :: sa
            ! .. array arguments ..
-           complex(qp) :: sx(*)
+           complex(qp),intent(inout) :: sx(*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -570,11 +570,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,m,n
-           real(qp) :: amax,colcnd,rowcnd
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
+           real(qp),intent(out) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(qp) :: c(*),r(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(out) :: c(*),r(*)
+           complex(qp),intent(in) :: ab(ldab,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -709,11 +710,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,m,n
-           real(qp) :: amax,colcnd,rowcnd
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
+           real(qp),intent(out) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(qp) :: c(*),r(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(out) :: c(*),r(*)
+           complex(qp),intent(in) :: ab(ldab,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -845,10 +847,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ab(ldab,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -930,11 +933,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: job,side
-           integer(ilp) :: ihi,ilo,info,ldv,m,n
+           character,intent(in) :: job,side
+           integer(ilp),intent(in) :: ihi,ilo,ldv,m,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           real(qp) :: scale(*)
-           complex(qp) :: v(ldv,*)
+           real(qp),intent(in) :: scale(*)
+           complex(qp),intent(inout) :: v(ldv,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -1031,11 +1035,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: job
-           integer(ilp) :: ihi,ilo,info,lda,n
+           character,intent(in) :: job
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(qp) :: scale(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(out) :: scale(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sclfac = 2.0e+0_qp
@@ -1199,11 +1204,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
-           real(qp) :: amax,colcnd,rowcnd
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
+           real(qp),intent(out) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(qp) :: c(*),r(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(out) :: c(*),r(*)
+           complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -1332,11 +1338,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
-           real(qp) :: amax,colcnd,rowcnd
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
+           real(qp),intent(out) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(qp) :: c(*),r(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(out) :: c(*),r(*)
+           complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -1465,10 +1472,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*),jpiv(*)
-           complex(qp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*),jpiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -1551,10 +1559,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -1619,11 +1628,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: job,side
-           integer(ilp) :: ihi,ilo,info,ldv,m,n
+           character,intent(in) :: job,side
+           integer(ilp),intent(in) :: ihi,ilo,ldv,m,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           real(qp) :: lscale(*),rscale(*)
-           complex(qp) :: v(ldv,*)
+           real(qp),intent(in) :: lscale(*),rscale(*)
+           complex(qp),intent(inout) :: v(ldv,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: leftv,rightv
@@ -1736,11 +1746,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: job
-           integer(ilp) :: ihi,ilo,info,lda,ldb,n
+           character,intent(in) :: job
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,ldb,n
            ! .. array arguments ..
-           real(qp) :: lscale(*),rscale(*),work(*)
-           complex(qp) :: a(lda,*),b(ldb,*)
+           real(qp),intent(out) :: lscale(*),rscale(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sclfac = 1.0e+1_qp
@@ -2033,9 +2044,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,ldb,n,nrhs
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: b(ldb,*),d(*),dl(*),du(*)
+           complex(qp),intent(inout) :: b(ldb,*),d(*),dl(*),du(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -2125,10 +2137,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: d(*),dl(*),du(*),du2(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: d(*),dl(*),du(*)
+           complex(qp),intent(out) :: du2(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -2216,10 +2230,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: itrans,ldb,n,nrhs
+           integer(ilp),intent(in) :: itrans,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: b(ldb,*),d(*),dl(*),du(*),du2(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(in) :: d(*),dl(*),du(*),du2(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -2384,10 +2399,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: i1,i2,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: i1,i2,lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,n)
+           complex(qp),intent(inout) :: a(lda,n)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -2461,11 +2476,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -2787,11 +2803,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),e(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: e(*)
         ! ======================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -3312,11 +3330,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! ======================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -3795,11 +3814,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -3996,11 +4017,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -4267,11 +4290,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),e(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),e(*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -4424,11 +4449,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: k,lda,n
-           character :: trans,transr,uplo
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: k,lda,n
+           character,intent(in) :: trans,transr,uplo
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: c(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -4681,10 +4707,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,itype,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,n
            ! .. array arguments ..
-           complex(qp) :: ap(*),bp(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(in) :: bp(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -4806,11 +4834,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -5151,11 +5180,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -5378,11 +5409,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: incx,incy,ldab,m,n,kl,ku,trans
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,ldab,m,n,kl,ku,trans
            ! .. array arguments ..
-           complex(qp) :: ab(ldab,*),x(*)
-           real(qp) :: y(*)
+           complex(qp),intent(in) :: ab(ldab,*),x(*)
+           real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -5565,9 +5596,9 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: n,kl,ku,ncols,ldab,ldafb
+           integer(ilp),intent(in) :: n,kl,ku,ncols,ldab,ldafb
            ! .. array arguments ..
-           complex(qp) :: ab(ldab,*),afb(ldafb,*)
+           complex(qp),intent(in) :: ab(ldab,*),afb(ldafb,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j,kd
@@ -5617,12 +5648,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: incx,incy,lda,m,n
-           integer(ilp) :: trans
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,m,n
+           integer(ilp),intent(in) :: trans
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),x(*)
-           real(qp) :: y(*)
+           complex(qp),intent(in) :: a(lda,*),x(*)
+           real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -5799,9 +5830,9 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: n,ncols,lda,ldaf
+           integer(ilp),intent(in) :: n,ncols,lda,ldaf
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),af(ldaf,*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -5849,11 +5880,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: incx,incy,lda,n,uplo
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,n,uplo
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),x(*)
-           real(qp) :: y(*)
+           complex(qp),intent(in) :: a(lda,*),x(*)
+           real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -6036,10 +6067,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: n,nz,nrhs
+           integer(ilp),intent(in) :: n,nz,nrhs
            ! .. array arguments ..
-           real(qp) :: ayb(n,nrhs),berr(nrhs)
-           complex(qp) :: res(n,nrhs)
+           real(qp),intent(in) :: ayb(n,nrhs)
+           real(qp),intent(out) :: berr(nrhs)
+           complex(qp),intent(in) :: res(n,nrhs)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: tmp,safe1
@@ -6082,11 +6114,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: ncols,lda,ldaf
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),af(ldaf,*)
-           real(qp) :: work(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -6181,12 +6213,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: incx,incy,lda,n
-           integer(ilp) :: uplo
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,n
+           integer(ilp),intent(in) :: uplo
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),x(*)
-           real(qp) :: y(*)
+           complex(qp),intent(in) :: a(lda,*),x(*)
+           real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -6367,9 +6399,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: n
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(qp) :: x(*),y(*),w(*)
+           complex(qp),intent(inout) :: x(*),y(*)
+           complex(qp),intent(in) :: w(*)
         ! =====================================================================
            ! .. local scalars ..
            complex(qp) :: s
@@ -6391,9 +6424,9 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           complex(qp) :: x(*)
+           complex(qp),intent(inout) :: x(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ioff
@@ -6423,11 +6456,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: kase,n
-           real(qp) :: est
+           integer(ilp),intent(inout) :: kase
+           integer(ilp),intent(in) :: n
+           real(qp),intent(inout) :: est
            ! .. array arguments ..
-           integer(ilp) :: isave(3)
-           complex(qp) :: v(*),x(*)
+           integer(ilp),intent(inout) :: isave(3)
+           complex(qp),intent(out) :: v(*)
+           complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -6546,10 +6581,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: kase,n
-           real(qp) :: est
+           integer(ilp),intent(inout) :: kase
+           integer(ilp),intent(in) :: n
+           real(qp),intent(inout) :: est
            ! .. array arguments ..
-           complex(qp) :: v(n),x(n)
+           complex(qp),intent(out) :: v(n)
+           complex(qp),intent(inout) :: x(n)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -6669,11 +6706,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: lda,ldb,m,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,ldb,m,n
            ! .. array arguments ..
-           real(qp) :: a(lda,*)
-           complex(qp) :: b(ldb,*)
+           real(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: b(ldb,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -6710,10 +6747,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: lda,ldb,m,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,ldb,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: b(ldb,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -6752,10 +6790,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,ldb,ldc,m,n
+           integer(ilp),intent(in) :: lda,ldb,ldc,m,n
            ! .. array arguments ..
-           real(qp) :: b(ldb,*),rwork(*)
-           complex(qp) :: a(lda,*),c(ldc,*)
+           real(qp),intent(in) :: b(ldb,*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: c(ldc,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -6804,10 +6844,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
-           complex(qp) :: c,s
+           integer(ilp),intent(in) :: incx,incy,n
+           complex(qp),intent(in) :: c,s
            ! .. array arguments ..
-           complex(qp) :: cx(*),cy(*)
+           complex(qp),intent(inout) :: cx(*),cy(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ix,iy
@@ -6847,7 +6887,7 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(qp) :: x,y
+           complex(qp),intent(in) :: x,y
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: zi,zr
@@ -6873,12 +6913,17 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: cutpnt,givptr,info,k,ldq,ldq2,n,qsiz
-           real(qp) :: rho
+           integer(ilp),intent(in) :: cutpnt,ldq,ldq2,n,qsiz
+           integer(ilp),intent(out) :: givptr,info,k
+           real(qp),intent(inout) :: rho
            ! .. array arguments ..
-           integer(ilp) :: givcol(2,*),indx(*),indxp(*),indxq(*),perm(*)
-           real(qp) :: d(*),dlamda(*),givnum(2,*),w(*),z(*)
-           complex(qp) :: q(ldq,*),q2(ldq2,*)
+           integer(ilp),intent(out) :: givcol(2,*),indx(*),indxp(*),perm(*)
+           integer(ilp),intent(in) :: indxq(*)
+           real(qp),intent(inout) :: d(*)
+           real(qp),intent(out) :: dlamda(*),givnum(2,*),w(*)
+           real(qp),intent(in) :: z(*)
+           complex(qp),intent(inout) :: q(ldq,*)
+           complex(qp),intent(out) :: q2(ldq2,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: mone = -1.0_qp
@@ -7074,7 +7119,8 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(qp) :: a,b,c,cs1,evscal,rt1,rt2,sn1
+           complex(qp),intent(in) :: a,b,c
+           complex(qp),intent(out) :: cs1,evscal,rt1,rt2,sn1
        ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: thresh = 0.1_qp
@@ -7158,8 +7204,9 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: cs1,rt1,rt2
-           complex(qp) :: a,b,c,sn1
+           real(qp),intent(out) :: cs1,rt1,rt2
+           complex(qp),intent(in) :: a,b,c
+           complex(qp),intent(out) :: sn1
        ! =====================================================================
            
            ! .. local scalars ..
@@ -7190,10 +7237,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldsa,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldsa,m,n
            ! .. array arguments ..
-           complex(dp) :: sa(ldsa,*)
-           complex(qp) :: a(lda,*)
+           complex(dp),intent(out) :: sa(ldsa,*)
+           complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -7228,11 +7276,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: ldb,ldx,n,nrhs
-           real(qp) :: alpha,beta
+           character,intent(in) :: trans
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(qp),intent(in) :: alpha,beta
            ! .. array arguments ..
-           complex(qp) :: b(ldb,*),d(*),dl(*),du(*),x(ldx,*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(in) :: d(*),dl(*),du(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -7370,11 +7419,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -7904,11 +7955,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),w(ldw,*),e(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: w(ldw,*),e(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -8540,11 +8593,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -9215,11 +9270,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: j,job
-           real(qp) :: sest,sestpr
-           complex(qp) :: c,gamma,s
+           integer(ilp),intent(in) :: j,job
+           real(qp),intent(in) :: sest
+           real(qp),intent(out) :: sestpr
+           complex(qp),intent(out) :: c,s
+           complex(qp),intent(in) :: gamma
            ! .. array arguments ..
-           complex(qp) :: w(j),x(j)
+           complex(qp),intent(in) :: w(j),x(j)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -9414,11 +9471,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: forwrd
-           integer(ilp) :: ldx,m,n
+           logical(lk),intent(in) :: forwrd
+           integer(ilp),intent(in) :: ldx,m,n
            ! .. array arguments ..
-           integer(ilp) :: k(*)
-           complex(qp) :: x(ldx,*)
+           integer(ilp),intent(inout) :: k(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,in,j,jj
@@ -9482,11 +9539,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: forwrd
-           integer(ilp) :: ldx,m,n
+           logical(lk),intent(in) :: forwrd
+           integer(ilp),intent(in) :: ldx,m,n
            ! .. array arguments ..
-           integer(ilp) :: k(*)
-           complex(qp) :: x(ldx,*)
+           integer(ilp),intent(inout) :: k(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ii,in,j
@@ -9547,12 +9604,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed
-           integer(ilp) :: kl,ku,ldab,m,n
-           real(qp) :: amax,colcnd,rowcnd
+           character,intent(out) :: equed
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
+           real(qp),intent(in) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(qp) :: c(*),r(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(in) :: c(*),r(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: thresh = 0.1e+0_qp
@@ -9615,12 +9672,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed
-           integer(ilp) :: lda,m,n
-           real(qp) :: amax,colcnd,rowcnd
+           character,intent(out) :: equed
+           integer(ilp),intent(in) :: lda,m,n
+           real(qp),intent(in) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(qp) :: c(*),r(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(in) :: c(*),r(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: thresh = 0.1e+0_qp
@@ -9681,12 +9738,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: kd,ldab,n
-           real(qp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(qp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(qp) :: s(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(out) :: s(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: thresh = 0.1e+0_qp
@@ -9742,12 +9800,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: lda,n
-           real(qp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(qp) :: s(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(in) :: s(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: thresh = 0.1e+0_qp
@@ -9803,12 +9862,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: n
-           real(qp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n
+           real(qp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(qp) :: s(*)
-           complex(qp) :: ap(*)
+           real(qp),intent(in) :: s(*)
+           complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: thresh = 0.1e+0_qp
@@ -9872,10 +9932,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(qp) :: s1,s2
-           integer(ilp) :: ldh,n
+           complex(qp),intent(in) :: s1,s2
+           integer(ilp),intent(in) :: ldh,n
            ! .. array arguments ..
-           complex(qp) :: h(ldh,*),v(*)
+           complex(qp),intent(in) :: h(ldh,*)
+           complex(qp),intent(out) :: v(*)
         ! ================================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0_qp
@@ -9929,12 +9990,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: kd,ldab,n
-           real(qp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(qp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(qp) :: s(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(in) :: s(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: thresh = 0.1e+0_qp
@@ -9988,12 +10050,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: n
-           real(qp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n
+           real(qp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(qp) :: s(*)
-           complex(qp) :: ap(*)
+           real(qp),intent(in) :: s(*)
+           complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: thresh = 0.1e+0_qp
@@ -10049,12 +10112,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: lda,n
-           real(qp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(qp) :: s(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(in) :: s(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: thresh = 0.1e+0_qp
@@ -10120,13 +10184,17 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: wantnc
-           integer(ilp) :: b1,bn,n,negcnt,r
-           real(qp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz
+           logical(lk),intent(in) :: wantnc
+           integer(ilp),intent(in) :: b1,bn,n
+           integer(ilp),intent(out) :: negcnt
+           integer(ilp),intent(inout) :: r
+           real(qp),intent(in) :: gaptol,lambda,pivmin
+           real(qp),intent(out) :: mingma,nrminv,resid,rqcorr,ztz
            ! .. array arguments ..
-           integer(ilp) :: isuppz(*)
-           real(qp) :: d(*),l(*),ld(*),lld(*),work(*)
-           complex(qp) :: z(*)
+           integer(ilp),intent(out) :: isuppz(*)
+           real(qp),intent(in) :: d(*),l(*),ld(*),lld(*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: z(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -10329,10 +10397,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incc,incx,n
+           integer(ilp),intent(in) :: incc,incx,n
            ! .. array arguments ..
-           real(qp) :: c(*)
-           complex(qp) :: s(*),x(*),y(*),z(*)
+           real(qp),intent(in) :: c(*)
+           complex(qp),intent(in) :: s(*)
+           complex(qp),intent(inout) :: x(*),y(*),z(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ic,ix
@@ -10379,10 +10448,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,ldb,ldc,m,n
+           integer(ilp),intent(in) :: lda,ldb,ldc,m,n
            ! .. array arguments ..
-           real(qp) :: a(lda,*),rwork(*)
-           complex(qp) :: b(ldb,*),c(ldc,*)
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: b(ldb,*)
+           complex(qp),intent(out) :: c(ldc,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -10435,11 +10506,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side
-           integer(ilp) :: incv,ldc,m,n
-           complex(qp) :: tau
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: incv,ldc,m,n
+           complex(qp),intent(in) :: tau
            ! .. array arguments ..
-           complex(qp) :: c(ldc,*),v(*),work(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(in) :: v(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -10508,10 +10581,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,side,storev,trans
-           integer(ilp) :: k,ldc,ldt,ldv,ldwork,m,n
+           character,intent(in) :: direct,side,storev,trans
+           integer(ilp),intent(in) :: k,ldc,ldt,ldv,ldwork,m,n
            ! .. array arguments ..
-           complex(qp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(in) :: t(ldt,*),v(ldv,*)
+           complex(qp),intent(out) :: work(ldwork,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -10838,10 +10913,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: ident
-           integer(ilp) :: k,lda,ldb,ldt,ldwork,m,n
+           character,intent(in) :: ident
+           integer(ilp),intent(in) :: k,lda,ldb,ldt,ldwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),t(ldt,*),work(ldwork,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(in) :: t(ldt,*)
+           complex(qp),intent(out) :: work(ldwork,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -10980,10 +11057,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
-           complex(qp) :: alpha,tau
+           integer(ilp),intent(in) :: incx,n
+           complex(qp),intent(inout) :: alpha
+           complex(qp),intent(out) :: tau
            ! .. array arguments ..
-           complex(qp) :: x(*)
+           complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -11052,10 +11130,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
-           complex(qp) :: alpha,tau
+           integer(ilp),intent(in) :: incx,n
+           complex(qp),intent(inout) :: alpha
+           complex(qp),intent(out) :: tau
            ! .. array arguments ..
-           complex(qp) :: x(*)
+           complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -11185,10 +11264,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,storev
-           integer(ilp) :: k,ldt,ldv,n
+           character,intent(in) :: direct,storev
+           integer(ilp),intent(in) :: k,ldt,ldv,n
            ! .. array arguments ..
-           complex(qp) :: t(ldt,*),tau(*),v(ldv,*)
+           complex(qp),intent(out) :: t(ldt,*)
+           complex(qp),intent(in) :: tau(*),v(ldv,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -11308,11 +11388,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side
-           integer(ilp) :: ldc,m,n
-           complex(qp) :: tau
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: ldc,m,n
+           complex(qp),intent(in) :: tau
            ! .. array arguments ..
-           complex(qp) :: c(ldc,*),v(*),work(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(in) :: v(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -11810,11 +11892,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incv,ldc,n
-           complex(qp) :: tau
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incv,ldc,n
+           complex(qp),intent(in) :: tau
            ! .. array arguments ..
-           complex(qp) :: c(ldc,*),v(*),work(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(in) :: v(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -11838,10 +11922,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: idist,n
+           integer(ilp),intent(in) :: idist,n
            ! .. array arguments ..
-           integer(ilp) :: iseed(4)
-           complex(qp) :: x(*)
+           integer(ilp),intent(inout) :: iseed(4)
+           complex(qp),intent(out) :: x(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: lv = 128
@@ -11918,13 +12002,16 @@ module stdlib_linalg_lapack_w
      ! Below, wp=>dp stands for quad precision from LA_CONSTANTS module.
 
      subroutine stdlib_wlartg(f,g,c,s,r)
+     use la_constants,only:wp => dp,zero => dzero,one => done,two => dtwo,czero => zzero, &
+               rtmin => drtmin,rtmax => drtmax,safmin => dsafmin,safmax => dsafmax
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! february 2021
         ! .. scalar arguments ..
-        real(qp) :: c
-        complex(qp) :: f,g,r,s
+        real(qp),intent(out) :: c
+        complex(qp),intent(in) :: f,g
+        complex(qp),intent(out) :: r,s
         ! .. local scalars ..
         real(qp) :: d,f1,f2,g1,g2,h2,p,u,uu,v,vv,w
         complex(qp) :: fs,gs,t
@@ -12021,10 +12108,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incc,incx,incy,n
+           integer(ilp),intent(in) :: incc,incx,incy,n
            ! .. array arguments ..
-           real(qp) :: c(*)
-           complex(qp) :: s(*),x(*),y(*)
+           real(qp),intent(in) :: c(*)
+           complex(qp),intent(in) :: s(*)
+           complex(qp),intent(inout) :: x(*),y(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ic,ix,iy
@@ -12062,11 +12150,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side
-           integer(ilp) :: incv,l,ldc,m,n
-           complex(qp) :: tau
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: incv,l,ldc,m,n
+           complex(qp),intent(in) :: tau
            ! .. array arguments ..
-           complex(qp) :: c(ldc,*),v(*),work(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(in) :: v(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. executable statements ..
@@ -12114,10 +12204,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,side,storev,trans
-           integer(ilp) :: k,l,ldc,ldt,ldv,ldwork,m,n
+           character,intent(in) :: direct,side,storev,trans
+           integer(ilp),intent(in) :: k,l,ldc,ldt,ldv,ldwork,m,n
            ! .. array arguments ..
-           complex(qp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(in) :: t(ldt,*),v(ldv,*)
+           complex(qp),intent(out) :: work(ldwork,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -12223,10 +12315,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,storev
-           integer(ilp) :: k,ldt,ldv,n
+           character,intent(in) :: direct,storev
+           integer(ilp),intent(in) :: k,ldt,ldv,n
            ! .. array arguments ..
-           complex(qp) :: t(ldt,*),tau(*),v(ldv,*)
+           complex(qp),intent(out) :: t(ldt,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(inout) :: v(ldv,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -12278,11 +12372,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: type
-           integer(ilp) :: info,kl,ku,lda,m,n
-           real(qp) :: cfrom,cto
+           character,intent(in) :: type
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,lda,m,n
+           real(qp),intent(in) :: cfrom,cto
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -12444,11 +12539,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: lda,m,n
-           complex(qp) :: alpha,beta
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,m,n
+           complex(qp),intent(in) :: alpha,beta
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(out) :: a(lda,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -12549,11 +12644,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,pivot,side
-           integer(ilp) :: lda,m,n
+           character,intent(in) :: direct,pivot,side
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           real(qp) :: c(*),s(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(in) :: c(*),s(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -12773,6 +12868,9 @@ module stdlib_linalg_lapack_w
      ! HUGE     -- biggest representable number.
 
      subroutine stdlib_wlassq(n,x,incx,scl,sumsq)
+     use la_constants,only:wp => dp,zero => dzero,one => done,sbig => dsbig,ssml => dssml, &
+               tbig => dtbig,tsml => dtsml
+        use la_xisnan
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12885,10 +12983,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,k1,k2,lda,n
+           integer(ilp),intent(in) :: incx,k1,k2,lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,i1,i2,inc,ip,ix,ix0,j,k,n32
@@ -12963,11 +13061,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -13398,11 +13498,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),e(*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: e(*),w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -13840,11 +13942,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -14296,11 +14400,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldsa,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldsa,n
            ! .. array arguments ..
-           complex(dp) :: sa(ldsa,*)
-           complex(qp) :: a(lda,*)
+           complex(dp),intent(out) :: sa(ldsa,*)
+           complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -14357,12 +14462,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,normin,trans,uplo
-           integer(ilp) :: info,kd,ldab,n
-           real(qp) :: scale
+           character,intent(in) :: diag,normin,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(qp),intent(out) :: scale
            ! .. array arguments ..
-           real(qp) :: cnorm(*)
-           complex(qp) :: ab(ldab,*),x(*)
+           real(qp),intent(inout) :: cnorm(*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -14911,12 +15018,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,normin,trans,uplo
-           integer(ilp) :: info,n
-           real(qp) :: scale
+           character,intent(in) :: diag,normin,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(qp),intent(out) :: scale
            ! .. array arguments ..
-           real(qp) :: cnorm(*)
-           complex(qp) :: ap(*),x(*)
+           real(qp),intent(inout) :: cnorm(*)
+           complex(qp),intent(in) :: ap(*)
+           complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -15457,11 +15566,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           real(qp) :: e(*)
-           complex(qp) :: a(lda,*),tau(*),w(ldw,*)
+           real(qp),intent(out) :: e(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),w(ldw,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -15574,12 +15684,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,normin,trans,uplo
-           integer(ilp) :: info,lda,n
-           real(qp) :: scale
+           character,intent(in) :: diag,normin,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(out) :: scale
            ! .. array arguments ..
-           real(qp) :: cnorm(*)
-           complex(qp) :: a(lda,*),x(*)
+           real(qp),intent(inout) :: cnorm(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -16094,9 +16206,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: l,lda,m,n
+           integer(ilp),intent(in) :: l,lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -16183,9 +16296,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),d(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: d(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -16276,10 +16391,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -16353,10 +16469,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -16433,12 +16550,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: ab(ldab,*),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -16535,12 +16655,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
-           real(qp) :: amax,scond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(qp),intent(out) :: amax,scond
            ! .. array arguments ..
-           real(qp) :: s(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(out) :: s(*)
+           complex(qp),intent(in) :: ab(ldab,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -16622,10 +16743,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
            ! .. array arguments ..
-           complex(qp) :: ab(ldab,*)
+           complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -16754,10 +16876,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
            ! .. array arguments ..
-           complex(qp) :: ab(ldab,*)
+           complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -16843,10 +16966,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: ab(ldab,*),b(ldb,*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -16911,12 +17036,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17011,11 +17139,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
-           real(qp) :: amax,scond
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(out) :: amax,scond
            ! .. array arguments ..
-           real(qp) :: s(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(out) :: s(*)
+           complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17089,11 +17218,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
-           real(qp) :: amax,scond
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(out) :: amax,scond
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
-           real(qp) :: s(*)
+           complex(qp),intent(in) :: a(lda,*)
+           real(qp),intent(out) :: s(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17164,10 +17294,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17262,10 +17393,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17351,10 +17483,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17414,12 +17548,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: ap(*),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: ap(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17512,12 +17649,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
-           real(qp) :: amax,scond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(qp),intent(out) :: amax,scond
            ! .. array arguments ..
-           real(qp) :: s(*)
-           complex(qp) :: ap(*)
+           real(qp),intent(out) :: s(*)
+           complex(qp),intent(in) :: ap(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17602,10 +17740,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(qp) :: ap(*)
+           complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17684,10 +17823,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: ap(*),b(ldb,*)
+           complex(qp),intent(in) :: ap(*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -17752,13 +17893,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: tol
-           integer(ilp) :: info,lda,n,rank
-           character :: uplo
+           real(qp),intent(in) :: tol
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
-           real(qp) :: work(2*n)
-           integer(ilp) :: piv(n)
+           complex(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: work(2*n)
+           integer(ilp),intent(out) :: piv(n)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17944,13 +18086,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: tol
-           integer(ilp) :: info,lda,n,rank
-           character :: uplo
+           real(qp),intent(in) :: tol
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
-           real(qp) :: work(2*n)
-           integer(ilp) :: piv(n)
+           complex(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(out) :: work(2*n)
+           integer(ilp),intent(out) :: piv(n)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -18166,11 +18309,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,n
-           real(qp) :: anorm,rcond
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: d(*),rwork(*)
-           complex(qp) :: e(*)
+           real(qp),intent(in) :: d(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: e(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -18233,10 +18379,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(qp) :: d(*)
-           complex(qp) :: e(*)
+           real(qp),intent(inout) :: d(*)
+           complex(qp),intent(inout) :: e(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -18334,10 +18481,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: iuplo,ldb,n,nrhs
+           integer(ilp),intent(in) :: iuplo,ldb,n,nrhs
            ! .. array arguments ..
-           real(qp) :: d(*)
-           complex(qp) :: b(ldb,*),e(*)
+           real(qp),intent(in) :: d(*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(in) :: e(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -18429,11 +18577,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
-           real(qp) :: c
-           complex(qp) :: s
+           integer(ilp),intent(in) :: incx,incy,n
+           real(qp),intent(in) :: c
+           complex(qp),intent(in) :: s
            ! .. array arguments ..
-           complex(qp) :: cx(*),cy(*)
+           complex(qp),intent(inout) :: cx(*),cy(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ix,iy
@@ -18476,11 +18624,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incx,incy,n
-           complex(qp) :: alpha,beta
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incx,incy,n
+           complex(qp),intent(in) :: alpha,beta
            ! .. array arguments ..
-           complex(qp) :: ap(*),x(*),y(*)
+           complex(qp),intent(in) :: ap(*),x(*)
+           complex(qp),intent(inout) :: y(*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -18632,11 +18781,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incx,n
-           complex(qp) :: alpha
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incx,n
+           complex(qp),intent(in) :: alpha
            ! .. array arguments ..
-           complex(qp) :: ap(*),x(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(in) :: x(*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -18754,11 +18904,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -19076,11 +19227,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -19285,11 +19438,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: ap(*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -19510,11 +19665,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,ldz,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,m,n
            ! .. array arguments ..
-           integer(ilp) :: iblock(*),ifail(*),isplit(*),iwork(*)
-           real(qp) :: d(*),e(*),w(*),work(*)
-           complex(qp) :: z(ldz,*)
+           integer(ilp),intent(in) :: iblock(*),isplit(*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(in) :: d(*),e(*),w(*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(out) :: z(ldz,*)
        ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: odm3 = 1.0e-3_qp
@@ -19523,8 +19681,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),parameter :: extra = 2
            
            ! .. local scalars ..
-           integer(ilp) :: b1,blksiz,bn,gpind,i,iinfo,indrv1,indrv2,indrv3,indrv4,indrv5, &
-                      its,j,j1,jblk,jmax,jr,nblk,nrmchk
+           integer(ilp) :: b1,blksiz,bn,gpind,i,iinfo,indrv1,indrv2,indrv3,indrv4, &
+                     indrv5,its,j,j1,jblk,jmax,jr,nblk,nrmchk
            real(qp) :: dtpcrt,eps,eps1,nrm,onenrm,ortol,pertol,scl,sep,tol,xj,xjm, &
                      ztr
            ! .. local arrays ..
@@ -19710,18 +19868,20 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compz
-           integer(ilp) :: info,ldz,n
+           character,intent(in) :: compz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
            ! .. array arguments ..
-           real(qp) :: d(*),e(*),work(*)
-           complex(qp) :: z(ldz,*)
+           real(qp),intent(inout) :: d(*),e(*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxit = 30
            
            ! .. local scalars ..
            integer(ilp) :: i,icompz,ii,iscale,j,jtot,k,l,l1,lend,lendm1,lendp1,lendsv, &
-                     lm1,lsv,m,mm,mm1,nm1,nmaxit
+                      lm1,lsv,m,mm,mm1,nm1,nmaxit
            real(qp) :: anorm,b,c,eps,eps2,f,g,p,r,rt1,rt2,s,safmax,safmin,ssfmax, &
                      ssfmin,tst
            ! .. intrinsic functions ..
@@ -20024,11 +20184,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,way
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo,way
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),e(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: e(*)
         ! =====================================================================
            
            ! .. external subroutines ..
@@ -20241,11 +20403,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,way
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo,way
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),e(*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),e(*)
         ! =====================================================================
            
            ! .. external subroutines ..
@@ -20495,11 +20658,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,way
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo,way
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),e(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),e(*)
         ! =====================================================================
            
            ! .. external subroutines ..
@@ -20741,12 +20905,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
-           real(qp) :: amax,scond
-           character :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(out) :: amax,scond
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),work(*)
-           real(qp) :: s(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(out) :: s(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: max_iter = 100
@@ -20917,11 +21083,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incx,incy,lda,n
-           complex(qp) :: alpha,beta
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incx,incy,lda,n
+           complex(qp),intent(in) :: alpha,beta
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),x(*),y(*)
+           complex(qp),intent(in) :: a(lda,*),x(*)
+           complex(qp),intent(inout) :: y(*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -21069,11 +21236,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incx,lda,n
-           complex(qp) :: alpha
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incx,lda,n
+           complex(qp),intent(in) :: alpha
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),x(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: x(*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -21170,10 +21338,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: i1,i2,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: i1,i2,lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,n)
+           complex(qp),intent(inout) :: a(lda,n)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -21243,11 +21411,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -21533,11 +21702,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),e(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: e(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -21984,11 +22155,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: sevten = 17.0e+0_qp
@@ -22398,11 +22570,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -22523,11 +22697,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),e(*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: e(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -22686,11 +22862,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -22807,11 +22985,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -22993,11 +23173,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -23219,11 +23401,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -23427,11 +23611,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -23609,11 +23795,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),e(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),e(*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -23758,11 +23946,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,nrhs,lda,ldb,lwork,info
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,nrhs,lda,ldb,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            logical(lk) :: lquery,upper
@@ -23873,11 +24064,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -24097,11 +24290,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,kd,ldab,ldb,ldx,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: ab(ldab,*),b(ldb,*),work(*),x(ldx,*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: ab(ldab,*),b(ldb,*),x(ldx,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -24334,10 +24529,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,kd,ldab,ldb,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: ab(ldab,*),b(ldb,*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -24408,11 +24605,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,diag,side,trans,uplo
-           integer(ilp) :: ldb,m,n
-           complex(qp) :: alpha
+           character,intent(in) :: transr,diag,side,trans,uplo
+           integer(ilp),intent(in) :: ldb,m,n
+           complex(qp),intent(in) :: alpha
            ! .. array arguments ..
-           complex(qp) :: a(0:*),b(0:ldb - 1,0:*)
+           complex(qp),intent(in) :: a(0:*)
+           complex(qp),intent(inout) :: b(0:ldb - 1,0:*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -24902,10 +25100,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(qp) :: ap(0:*),arf(0:*)
+           complex(qp),intent(out) :: ap(0:*)
+           complex(qp),intent(in) :: arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -25159,10 +25359,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n,lda
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n,lda
            ! .. array arguments ..
-           complex(qp) :: a(0:lda - 1,0:*),arf(0:*)
+           complex(qp),intent(out) :: a(0:lda - 1,0:*)
+           complex(qp),intent(in) :: arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -25424,12 +25626,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,side
-           integer(ilp) :: info,ldp,lds,ldvl,ldvr,m,mm,n
+           character,intent(in) :: howmny,side
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldp,lds,ldvl,ldvr,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: p(ldp,*),s(lds,*),vl(ldvl,*),vr(ldvr,*),work(*)
+           logical(lk),intent(in) :: select(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: p(ldp,*),s(lds,*)
+           complex(qp),intent(inout) :: vl(ldvl,*),vr(ldvr,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -25823,10 +26028,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: wantq,wantz
-           integer(ilp) :: info,j1,lda,ldb,ldq,ldz,n
+           logical(lk),intent(in) :: wantq,wantz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: j1,lda,ldb,ldq,ldz,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: twenty = 2.0e+1_qp
@@ -25962,10 +26169,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: wantq,wantz
-           integer(ilp) :: ifst,ilst,info,lda,ldb,ldq,ldz,n
+           logical(lk),intent(in) :: wantq,wantz
+           integer(ilp),intent(in) :: ifst,lda,ldb,ldq,ldz,n
+           integer(ilp),intent(inout) :: ilst
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: here
@@ -26036,9 +26246,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,ldt,n,m,l
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldt,n,m,l
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -26150,9 +26362,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,ldt,n,m,l
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldt,n,m,l
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -26240,11 +26454,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,side,storev,trans
-           integer(ilp) :: k,l,lda,ldb,ldt,ldv,ldwork,m,n
+           character,intent(in) :: direct,side,storev,trans
+           integer(ilp),intent(in) :: k,l,lda,ldb,ldt,ldv,ldwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),t(ldt,*),v(ldv,*),work(ldwork,*)
-                     
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(in) :: t(ldt,*),v(ldv,*)
+           complex(qp),intent(out) :: work(ldwork,*)
         ! ==========================================================================
            
            ! .. local scalars ..
@@ -26662,11 +26877,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: ap(*),b(ldb,*),work(*),x(ldx,*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: ap(*),b(ldb,*),x(ldx,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -26905,10 +27122,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: diag,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(qp) :: ap(*)
+           complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -26997,10 +27215,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: ap(*),b(ldb,*)
+           complex(qp),intent(in) :: ap(*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -27065,10 +27285,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(qp) :: ap(0:*),arf(0:*)
+           complex(qp),intent(in) :: ap(0:*)
+           complex(qp),intent(out) :: arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -27321,10 +27543,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n,lda
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n,lda
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),ap(*)
+           complex(qp),intent(out) :: a(lda,*)
+           complex(qp),intent(in) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -27387,12 +27611,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,side
-           integer(ilp) :: info,ldt,ldvl,ldvr,m,mm,n
+           character,intent(in) :: howmny,side
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldt,ldvl,ldvr,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
+           logical(lk),intent(in) :: select(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            complex(qp),parameter :: cmzero = (0.0e+0_qp,0.0e+0_qp)
@@ -27585,12 +27811,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,side
-           integer(ilp) :: info,ldt,ldvl,ldvr,lwork,lrwork,m,mm,n
+           character,intent(in) :: howmny,side
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldt,ldvl,ldvr,lwork,lrwork,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
+           logical(lk),intent(in) :: select(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmin = 8
@@ -27867,10 +28095,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq
-           integer(ilp) :: ifst,ilst,info,ldq,ldt,n
+           character,intent(in) :: compq
+           integer(ilp),intent(in) :: ifst,ilst,ldq,ldt,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: q(ldq,*),t(ldt,*)
+           complex(qp),intent(inout) :: q(ldq,*),t(ldt,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: wantq
@@ -27946,11 +28175,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,lda,ldb,ldx,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*),x(ldx,*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: a(lda,*),b(ldb,*),x(ldx,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -28181,12 +28412,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,job
-           integer(ilp) :: info,ldt,ldvl,ldvr,ldwork,m,mm,n
+           character,intent(in) :: howmny,job
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldt,ldvl,ldvr,ldwork,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           real(qp) :: rwork(*),s(*),sep(*)
-           complex(qp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(ldwork,*)
+           logical(lk),intent(in) :: select(*)
+           real(qp),intent(out) :: rwork(*),s(*),sep(*)
+           complex(qp),intent(in) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*)
+           complex(qp),intent(out) :: work(ldwork,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -28327,10 +28560,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: diag,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -28400,10 +28634,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: diag,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -28487,10 +28722,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -28543,10 +28780,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n,lda
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n,lda
            ! .. array arguments ..
-           complex(qp) :: a(0:lda - 1,0:*),arf(0:*)
+           complex(qp),intent(in) :: a(0:lda - 1,0:*)
+           complex(qp),intent(out) :: arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -28790,10 +29029,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n,lda
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n,lda
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),ap(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -28846,9 +29087,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -28971,12 +29214,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: signs,trans
-           integer(ilp) :: info,ldx11,ldx12,ldx21,ldx22,lwork,m,p,q
+           character,intent(in) :: signs,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldx11,ldx12,ldx21,ldx22,lwork,m,p,q
            ! .. array arguments ..
-           real(qp) :: phi(*),theta(*)
-           complex(qp) :: taup1(*),taup2(*),tauq1(*),tauq2(*),work(*),x11(ldx11,* &
-                     ),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
+           real(qp),intent(out) :: phi(*),theta(*)
+           complex(qp),intent(out) :: taup1(*),taup2(*),tauq1(*),tauq2(*),work(*)
+                     
+           complex(qp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22( &
+                     ldx22,*)
         ! ====================================================================
            ! .. parameters ..
            real(qp),parameter :: realone = 1.0_qp
@@ -29284,9 +29530,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx1,incx2,info,ldq1,ldq2,lwork,m1,m2,n
+           integer(ilp),intent(in) :: incx1,incx2,ldq1,ldq2,lwork,m1,m2,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: q1(ldq1,*),q2(ldq2,*),work(*),x1(*),x2(*)
+           complex(qp),intent(in) :: q1(ldq1,*),q2(ldq2,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x1(*),x2(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: alphasq = 0.01_qp
@@ -29403,9 +29652,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -29464,9 +29716,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -29526,9 +29781,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -29594,9 +29852,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -29707,9 +29968,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -29825,9 +30089,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -29938,9 +30205,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -30003,9 +30273,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -30132,15 +30405,18 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,lwork,m,n,mb,nb
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(ldt,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: t(ldt,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(ilp) :: nblocal,mb2,m_plus_one,itmp,ib_bottom,lworkopt,num_all_row_blocks, &
-                      jb_t,ib,imb,kb,kb_last,knb,mb1
+           integer(ilp) :: nblocal,mb2,m_plus_one,itmp,ib_bottom,lworkopt, &
+                     num_all_row_blocks,jb_t,ib,imb,kb,kb_last,knb,mb1
            ! .. local arrays ..
            complex(qp) :: dummy(1,1)
            ! .. intrinsic functions ..
@@ -30257,10 +30533,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: m,n,n1,n2,ldq,ldc,lwork,info
+           character,intent(in) :: side,trans
+           integer(ilp),intent(in) :: m,n,n1,n2,ldq,ldc,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: q(ldq,*),c(ldc,*),work(*)
+           complex(qp),intent(in) :: q(ldq,*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -30445,10 +30724,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -30541,10 +30823,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -30641,10 +30926,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -30744,10 +31032,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
@@ -30884,10 +31175,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
@@ -31018,10 +31312,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
@@ -31152,10 +31449,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -31250,10 +31550,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,l,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,l,lda,ldc,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,notran
@@ -31351,10 +31654,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
@@ -31491,10 +31797,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,l,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,l,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
@@ -31656,12 +31965,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobu1,jobu2,jobv1t,jobv2t,trans
-           integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,lrwork,m,p,q
+           character,intent(in) :: jobu1,jobu2,jobv1t,jobv2t,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldu1,ldu2,ldv1t,ldv2t,lrwork,m,p,q
            ! .. array arguments ..
-           real(qp) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e(*),b22d(*), &
-                      b22e(*),phi(*),theta(*),rwork(*)
-           complex(qp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
+           real(qp),intent(out) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e( &
+                     *),b22d(*),b22e(*),rwork(*)
+           real(qp),intent(inout) :: phi(*),theta(*)
+           complex(qp),intent(inout) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t( &
+                     ldv2t,*)
         ! ===================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxitr = 6
@@ -31672,8 +31984,8 @@ module stdlib_linalg_lapack_w
            ! .. local scalars ..
            logical(lk) :: colmajor,lquery,restart11,restart12,restart21,restart22,wantu1, &
                      wantu2,wantv1t,wantv2t
-           integer(ilp) :: i,imin,imax,iter,iu1cs,iu1sn,iu2cs,iu2sn,iv1tcs,iv1tsn,iv2tcs, &
-                      iv2tsn,j,lrworkmin,lrworkopt,maxit,mini
+           integer(ilp) :: i,imin,imax,iter,iu1cs,iu1sn,iu2cs,iu2sn,iv1tcs,iv1tsn, &
+                     iv2tcs,iv2tsn,j,lrworkmin,lrworkopt,maxit,mini
            real(qp) :: b11bulge,b12bulge,b21bulge,b22bulge,dummy,eps,mu,nu,r,sigma11, &
                      sigma21,temp,thetamax,thetamin,thresh,tol,tolmul,unfl,x1,x2,y1,y2
            ! .. intrinsic functions ..
@@ -32265,11 +32577,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldc,ldu,ldvt,n,ncc,ncvt,nru
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldc,ldu,ldvt,n,ncc,ncvt,nru
            ! .. array arguments ..
-           real(qp) :: d(*),e(*),rwork(*)
-           complex(qp) :: c(ldc,*),u(ldu,*),vt(ldvt,*)
+           real(qp),intent(inout) :: d(*),e(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: c(ldc,*),u(ldu,*),vt(ldvt,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: hndrth = 0.01_qp
@@ -32281,8 +32595,9 @@ module stdlib_linalg_lapack_w
            logical(lk) :: lower,rotate
            integer(ilp) :: i,idir,isub,iter,j,ll,lll,m,maxit,nm1,nm12,nm13,oldll, &
                      oldm
-           real(qp) :: abse,abss,cosl,cosr,cs,eps,f,g,h,mu,oldcs,oldsn,r,shift,sigmn, &
-                      sigmx,sinl,sinr,sll,smax,smin,sminl,sminoa,sn,thresh,tol,tolmul,unfl
+           real(qp) :: abse,abss,cosl,cosr,cs,eps,f,g,h,mu,oldcs,oldsn,r,shift, &
+           sigmn,sigmx,sinl,sinr,sll,smax,smin,sminl,sminoa,sn,thresh,tol,tolmul, &
+                     unfl
            ! .. intrinsic functions ..
            intrinsic :: abs,real,max,min,sign,sqrt
            ! .. executable statements ..
@@ -32700,13 +33015,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: info,kl,ku,ldab,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: norm
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: ab(ldab,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -32827,10 +33145,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ab(ldab,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
@@ -33076,11 +33395,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ab(ldab,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -33186,10 +33507,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           real(qp) :: d(*),e(*)
-           complex(qp) :: a(lda,*),taup(*),tauq(*),work(*)
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: taup(*),tauq(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -33285,12 +33608,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: info,lda,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: norm
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -33384,9 +33710,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ilo,info,lda,n
+           integer(ilp),intent(in) :: ihi,ilo,lda,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -33438,9 +33766,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -33492,9 +33822,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -33585,9 +33917,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,ldt
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,ldt
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -33679,10 +34013,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,ldv,ldc,m,n,mb,ldt
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,ldv,ldc,m,n,mb,ldt
            ! .. array arguments ..
-           complex(qp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
+           complex(qp),intent(in) :: v(ldv,*),t(ldt,*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran
@@ -33774,10 +34111,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,ldv,ldc,m,n,nb,ldt
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,ldv,ldc,m,n,nb,ldt
            ! .. array arguments ..
-           complex(qp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
+           complex(qp),intent(in) :: v(ldv,*),t(ldt,*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran
@@ -33861,9 +34201,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -33908,9 +34250,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -34017,9 +34361,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34071,9 +34417,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34124,9 +34472,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -34225,9 +34575,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -34316,9 +34668,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34384,9 +34738,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,ldt
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,ldt
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34468,9 +34824,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34517,9 +34875,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -34623,11 +34983,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,n
-           real(qp) :: scale
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(out) :: scale
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*),jpiv(*)
-           complex(qp) :: a(lda,*),rhs(*)
+           integer(ilp),intent(in) :: ipiv(*),jpiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: rhs(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34696,10 +35057,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34796,10 +35158,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34896,11 +35260,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34983,10 +35349,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq,compz
-           integer(ilp) :: ihi,ilo,info,lda,ldb,ldq,ldz,n
+           character,intent(in) :: compq,compz
+           integer(ilp),intent(in) :: ihi,ilo,lda,ldb,ldq,ldz,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -35108,9 +35476,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,p
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,p
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: taua(*),taub(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -35183,9 +35553,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,p
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,p
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: taua(*),taub(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -35244,11 +35616,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: b(ldb,*),d(*),dl(*),du(*),du2(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(in) :: d(*),dl(*),du(*),du2(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: notran
@@ -35307,11 +35681,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           logical(lk) :: wantz
-           integer(ilp) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: wantz
+           integer(ilp),intent(in) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),v(*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: v(*),tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -35455,12 +35830,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
-           real(qp) :: amax,scond
-           character :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(out) :: amax,scond
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),work(*)
-           real(qp) :: s(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(out) :: s(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: max_iter = 100
@@ -35634,10 +36011,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,itype,lda,ldb,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -35765,10 +36143,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,itype,lda,ldb,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -35898,11 +36277,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(qp) :: d(*),e(*)
-           complex(qp) :: a(lda,*),tau(*)
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -36000,11 +36381,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           real(qp) :: d(*),e(*)
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -36123,16 +36506,19 @@ module stdlib_linalg_lapack_w
      subroutine stdlib_whetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous,work, &
                lwork,info)
 #if defined(_OPENMP)
+           use omp_lib
 #endif
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: stage1,uplo,vect
-           integer(ilp) :: n,kd,ldab,lhous,lwork,info
+           character,intent(in) :: stage1,uplo,vect
+           integer(ilp),intent(in) :: n,kd,ldab,lhous,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           real(qp) :: d(*),e(*)
-           complex(qp) :: ab(ldab,*),hous(*),work(*)
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
+           complex(qp),intent(out) :: hous(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0e+0_qp
@@ -36140,9 +36526,9 @@ module stdlib_linalg_lapack_w
            ! .. local scalars ..
            logical(lk) :: lquery,wantq,upper,afters1
            integer(ilp) :: i,m,k,ib,sweepid,myid,shift,stt,st,ed,stind,edind, &
-           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype,tid, &
-           nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea,lda, &
-                     indv,indtau,sizev,sizetau,ldv,lhmin,lwmin
+           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype, &
+           tid,nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea, &
+                     lda,indv,indtau,sizev,sizetau,ldv,lhmin,lwmin
            real(qp) :: abstmp
            complex(qp) :: tmp
            ! .. intrinsic functions ..
@@ -36408,10 +36794,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldab,lwork,n,kd
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldab,lwork,n,kd
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),ab(ldab,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: ab(ldab,*),tau(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: rone = 1.0e+0_qp
@@ -36419,7 +36807,7 @@ module stdlib_linalg_lapack_w
            ! .. local scalars ..
            logical(lk) :: lquery,upper
            integer(ilp) :: i,j,iinfo,lwmin,pn,pk,lk,ldt,ldw,lds2,lds1,ls2,ls1,lw,lt, &
-                     tpos,wpos,s2pos,s1pos
+                      tpos,wpos,s2pos,s1pos
            ! .. intrinsic functions ..
            intrinsic :: min,max
            ! .. executable statements ..
@@ -36585,11 +36973,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -36710,11 +37100,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),e(*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: e(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -36873,11 +37265,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -36994,11 +37388,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -37223,11 +37619,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -37402,11 +37801,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,nrhs,lda,ldb,lwork,info
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,nrhs,lda,ldb,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            logical(lk) :: lquery,upper
@@ -37519,11 +37921,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -37756,11 +38160,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(qp) :: d(*),e(*)
-           complex(qp) :: ap(*),tau(*)
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(out) :: tau(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -37858,11 +38264,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: ap(*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -38097,13 +38505,17 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           logical(lk) :: capply
-           integer(ilp) :: n,kl,ku,kd,ke,ldab,ldafb,info
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,kl,ku,ldab,ldafb
+           integer(ilp) :: kd,ke
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ab(ldab,*),afb(ldafb,*),work(*)
-           real(qp) :: c(*),rwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: ab(ldab,*),afb(ldafb,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c(*)
+           real(qp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: notrans
@@ -38241,13 +38653,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           logical(lk) :: capply
-           integer(ilp) :: n,lda,ldaf,info
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),work(*)
-           real(qp) :: c(*),rwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c(*)
+           real(qp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: notrans
@@ -38379,13 +38794,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           logical(lk) :: capply
-           integer(ilp) :: n,lda,ldaf,info
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),work(*)
-           real(qp) :: c(*),rwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c
+           real(qp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: kase,i,j
@@ -38529,12 +38947,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,info,lda,ldaf
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),af(ldaf,*)
-           real(qp) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: ncols,i,j,k,kp
@@ -38715,12 +39133,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           logical(lk) :: capply
-           integer(ilp) :: n,lda,ldaf,info
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),af(ldaf,*),work(*)
-           real(qp) :: c(*),rwork(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c(*)
+           real(qp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: kase
@@ -38862,13 +39283,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           logical(lk) :: capply
-           integer(ilp) :: n,lda,ldaf,info
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),work(*)
-           real(qp) :: c(*),rwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c(*)
+           real(qp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: kase
@@ -39013,12 +39437,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,info,lda,ldaf
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),af(ldaf,*)
-           real(qp) :: work(*)
-           integer(ilp) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(qp),intent(out) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: ncols,i,j,k,kp
@@ -39203,10 +39627,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,ldx,ldy,m,n,nb
+           integer(ilp),intent(in) :: lda,ldx,ldy,m,n,nb
            ! .. array arguments ..
-           real(qp) :: d(*),e(*)
-           complex(qp) :: a(lda,*),taup(*),tauq(*),x(ldx,*),y(ldy,*)
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: taup(*),tauq(*),x(ldx,*),y(ldy,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -39370,13 +39795,18 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: curlvl,curpbm,cutpnt,info,ldq,n,qsiz,tlvls
-           real(qp) :: rho
+           integer(ilp),intent(in) :: curlvl,curpbm,cutpnt,ldq,n,qsiz,tlvls
+           integer(ilp),intent(out) :: info
+           real(qp),intent(in) :: rho
            ! .. array arguments ..
-           integer(ilp) :: givcol(2,*),givptr(*),indxq(*),iwork(*),perm(*),prmptr( &
-                     *),qptr(*)
-           real(qp) :: d(*),givnum(2,*),qstore(*),rwork(*)
-           complex(qp) :: q(ldq,*),work(*)
+           integer(ilp),intent(in) :: givcol(2,*),givptr(*),perm(*),prmptr(*)
+           integer(ilp),intent(out) :: indxq(*),iwork(*)
+           integer(ilp),intent(inout) :: qptr(*)
+           real(qp),intent(inout) :: d(*),qstore(*)
+           real(qp),intent(in) :: givnum(2,*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: q(ldq,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: coltyp,curr,i,idlmda,indx,indxc,indxp,iq,iw,iz,k,n1,n2, &
@@ -39472,13 +39902,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: noinit,rightv
-           integer(ilp) :: info,ldb,ldh,n
-           real(qp) :: eps3,smlnum
-           complex(qp) :: w
+           logical(lk),intent(in) :: noinit,rightv
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldh,n
+           real(qp),intent(in) :: eps3,smlnum
+           complex(qp),intent(in) :: w
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: b(ldb,*),h(ldh,*),v(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(out) :: b(ldb,*)
+           complex(qp),intent(in) :: h(ldh,*)
+           complex(qp),intent(inout) :: v(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: tenth = 1.0e-1_qp
@@ -39633,14 +40066,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: upper
-           real(qp) :: a1,a3,b1,b3,csq,csu,csv
-           complex(qp) :: a2,b2,snq,snu,snv
+           logical(lk),intent(in) :: upper
+           real(qp),intent(in) :: a1,a3,b1,b3
+           real(qp),intent(out) :: csq,csu,csv
+           complex(qp),intent(in) :: a2,b2
+           complex(qp),intent(out) :: snq,snu,snv
         ! =====================================================================
            
            ! .. local scalars ..
            real(qp) :: a,aua11,aua12,aua21,aua22,avb12,avb11,avb21,avb22,csl,csr,d,fb, &
-                     fc,s1,s2,snl,snr,ua11r,ua22r,vb11r,vb22r
+                      fc,s1,s2,snl,snr,ua11r,ua22r,vb11r,vb22r
            complex(qp) :: b,c,d1,r,t,ua11,ua12,ua21,ua22,vb11,vb12,vb21,vb22
            ! .. intrinsic functions ..
            intrinsic :: abs,real,cmplx,conjg,aimag
@@ -39798,10 +40233,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,n
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,n
+           integer(ilp),intent(out) :: info
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(qp) :: h(ldh,*),w(*),z(ldz,*)
+           complex(qp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(qp),intent(out) :: w(*)
         ! =========================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0_qp
@@ -40080,9 +40517,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: k,lda,ldt,ldy,n,nb
+           integer(ilp),intent(in) :: k,lda,ldt,ldy,n,nb
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(ldt,nb),tau(nb),y(ldy,nb)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: t(ldt,nb),tau(nb),y(ldy,nb)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -40184,14 +40622,17 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: givptr,icompq,info,k,ldb,ldbx,ldgcol,ldgnum,nl,nr,nrhs, &
-                     sqre
-           real(qp) :: c,s
+           integer(ilp),intent(in) :: givptr,icompq,k,ldb,ldbx,ldgcol,ldgnum,nl,nr,nrhs, &
+                      sqre
+           integer(ilp),intent(out) :: info
+           real(qp),intent(in) :: c,s
            ! .. array arguments ..
-           integer(ilp) :: givcol(ldgcol,*),perm(*)
-           real(qp) :: difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles(ldgnum,*),rwork( &
-                      *),z(*)
-           complex(qp) :: b(ldb,*),bx(ldbx,*)
+           integer(ilp),intent(in) :: givcol(ldgcol,*),perm(*)
+           real(qp),intent(in) :: difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles( &
+                     ldgnum,*),z(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(out) :: bx(ldbx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -40415,13 +40856,17 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz
+           integer(ilp),intent(in) :: icompq,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: givcol(ldgcol,*),givptr(*),iwork(*),k(*),perm(ldgcol,*)
+           integer(ilp),intent(in) :: givcol(ldgcol,*),givptr(*),k(*),perm(ldgcol,*)
                      
-           real(qp) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*),poles(ldu,*), &
-                     rwork(*),s(*),u(ldu,*),vt(ldu,*),z(ldu,*)
-           complex(qp) :: b(ldb,*),bx(ldbx,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(in) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*), &
+                     poles(ldu,*),s(*),u(ldu,*),vt(ldu,*),z(ldu,*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(out) :: bx(ldbx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -40720,19 +41165,23 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz
-           real(qp) :: rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: ldb,n,nrhs,smlsiz
+           real(qp),intent(in) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: d(*),e(*),rwork(*)
-           complex(qp) :: b(ldb,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(inout) :: d(*),e(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
            integer(ilp) :: bx,bxst,c,difl,difr,givcol,givnum,givptr,i,icmpq1,icmpq2, &
-           irwb,irwib,irwrb,irwu,irwvt,irwwrk,iwk,j,jcol,jimag,jreal,jrow,k,nlvl,nm1, &
-                     nrwork,nsize,nsub,perm,poles,s,sizei,smlszp,sqre,st,st1,u,vt,z
+           irwb,irwib,irwrb,irwu,irwvt,irwwrk,iwk,j,jcol,jimag,jreal,jrow,k,nlvl, &
+           nm1,nrwork,nsize,nsub,perm,poles,s,sizei,smlszp,sqre,st,st1,u,vt, &
+                     z
            real(qp) :: cs,eps,orgnrm,rcnd,r,sn,tol
            ! .. intrinsic functions ..
            intrinsic :: abs,real,cmplx,aimag,int,log,sign
@@ -41114,11 +41563,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: kl,ku,ldab,n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -41189,11 +41638,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: lda,m,n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -41261,10 +41710,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(qp) :: d(*),dl(*),du(*)
+           complex(qp),intent(in) :: d(*),dl(*),du(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -41337,11 +41786,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: k,ldab,n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -41456,11 +41905,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: lda,n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -41566,11 +42015,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,transr,uplo
-           integer(ilp) :: n
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(qp) :: work(0:*)
-           complex(qp) :: a(0:*)
+           real(qp),intent(out) :: work(0:*)
+           complex(qp),intent(in) :: a(0:*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -42786,11 +43235,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: ap(*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ap(*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -42914,11 +43363,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: lda,n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -42986,11 +43435,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(qp) :: d(*)
-           complex(qp) :: e(*)
+           real(qp),intent(in) :: d(*)
+           complex(qp),intent(in) :: e(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -43049,11 +43498,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: k,ldab,n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -43154,11 +43603,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: ap(*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ap(*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -43287,11 +43736,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: lda,n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -43383,11 +43832,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: k,ldab,n
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: ab(ldab,*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -43576,11 +44025,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: n
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: ap(*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ap(*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -43782,11 +44231,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: lda,m,n
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           real(qp) :: work(*)
-           complex(qp) :: a(lda,*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
            
            ! .. local scalars ..
@@ -43971,10 +44420,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
-           real(qp) :: ssmin
+           integer(ilp),intent(in) :: incx,incy,n
+           real(qp),intent(out) :: ssmin
            ! .. array arguments ..
-           complex(qp) :: x(*),y(*)
+           complex(qp),intent(inout) :: x(*),y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -44011,11 +44460,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,m,n,offset
+           integer(ilp),intent(in) :: lda,m,n,offset
            ! .. array arguments ..
-           integer(ilp) :: jpvt(*)
-           real(qp) :: vn1(*),vn2(*)
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(qp),intent(inout) :: vn1(*),vn2(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -44095,11 +44545,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: kb,lda,ldf,m,n,nb,offset
+           integer(ilp),intent(out) :: kb
+           integer(ilp),intent(in) :: lda,ldf,m,n,nb,offset
            ! .. array arguments ..
-           integer(ilp) :: jpvt(*)
-           real(qp) :: vn1(*),vn2(*)
-           complex(qp) :: a(lda,*),auxv(*),f(ldf,*),tau(*)
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(qp),intent(inout) :: vn1(*),vn2(*)
+           complex(qp),intent(inout) :: a(lda,*),auxv(*),f(ldf,*)
+           complex(qp),intent(out) :: tau(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -44229,12 +44681,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv,ldz,n,nh, &
-                     nshfts,nv
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv, &
+                     ldz,n,nh,nshfts,nv
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(qp) :: h(ldh,*),s(*),u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv, &
-                     *),z(ldz,*)
+           complex(qp),intent(inout) :: h(ldh,*),s(*),z(ldz,*)
+           complex(qp),intent(out) :: u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv,*)
+                     
         ! ================================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0_qp
@@ -44244,7 +44697,7 @@ module stdlib_linalg_lapack_w
            complex(qp) :: alpha,beta,cdum,refsum
            real(qp) :: h11,h12,h21,h22,safmax,safmin,scl,smlnum,tst1,tst2,ulp
            integer(ilp) :: i2,i4,incol,j,jbot,jcol,jlen,jrow,jtop,k,k1,kdu,kms,krcol, &
-                     m,m22,mbot,mtop,nbmps,ndcol,ns,nu
+                      m,m22,mbot,mtop,nbmps,ndcol,ns,nu
            logical(lk) :: accum,bmp22
            ! .. intrinsic functions ..
            intrinsic :: abs,real,conjg,aimag,max,min,mod
@@ -44925,10 +45378,10 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incc,incx,incy,n
+           integer(ilp),intent(in) :: incc,incx,incy,n
            ! .. array arguments ..
-           real(qp) :: c(*)
-           complex(qp) :: x(*),y(*)
+           real(qp),intent(out) :: c(*)
+           complex(qp),intent(inout) :: x(*),y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -45072,12 +45525,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: dol,dou,info,ldz,m,n
-           real(qp) :: minrgp,pivmin,rtol1,rtol2,vl,vu
+           integer(ilp),intent(in) :: dol,dou,ldz,m,n
+           integer(ilp),intent(out) :: info
+           real(qp),intent(in) :: minrgp,pivmin,rtol1,rtol2,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: iblock(*),indexw(*),isplit(*),isuppz(*),iwork(*)
-           real(qp) :: d(*),gers(*),l(*),w(*),werr(*),wgap(*),work(*)
-           complex(qp) :: z(ldz,*)
+           integer(ilp),intent(in) :: iblock(*),indexw(*),isplit(*)
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(qp),intent(inout) :: d(*),l(*),w(*),werr(*),wgap(*)
+           real(qp),intent(in) :: gers(*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(out) :: z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxitr = 10
@@ -45085,10 +45542,10 @@ module stdlib_linalg_lapack_w
            ! .. local scalars ..
            logical(lk) :: eskip,needbs,stp2ii,tryrqc,usedbs,usedrq
            integer(ilp) :: done,i,ibegin,idone,iend,ii,iindc1,iindc2,iindr,iindwk,iinfo, &
-           im,in,indeig,indld,indlld,indwrk,isupmn,isupmx,iter,itmp1,j,jblk,k, &
-           miniwsize,minwsize,nclus,ndepth,negcnt,newcls,newfst,newftt,newlst,newsiz, &
-           offset,oldcls,oldfst,oldien,oldlst,oldncl,p,parity,q,wbegin,wend,windex, &
-                     windmn,windpl,zfrom,zto,zusedl,zusedu,zusedw
+            im,in,indeig,indld,indlld,indwrk,isupmn,isupmx,iter,itmp1,j,jblk,k, &
+            miniwsize,minwsize,nclus,ndepth,negcnt,newcls,newfst,newftt,newlst,newsiz, &
+            offset,oldcls,oldfst,oldien,oldlst,oldncl,p,parity,q,wbegin,wend,windex, &
+                      windmn,windpl,zfrom,zto,zusedl,zusedu,zusedw
            integer(ilp) :: indin1,indin2
            real(qp) :: bstres,bstw,eps,fudge,gap,gaptol,gl,gu,lambda,left,lgap,mingma, &
            nrminv,resid,rgap,right,rqcorr,rqtol,savgap,sgndef,sigma,spdiam,ssigma,tau, &
@@ -45719,11 +46176,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ijob,ldz,n
-           real(qp) :: rdscal,rdsum
+           integer(ilp),intent(in) :: ijob,ldz,n
+           real(qp),intent(inout) :: rdscal,rdsum
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*),jpiv(*)
-           complex(qp) :: rhs(*),z(ldz,*)
+           integer(ilp),intent(in) :: ipiv(*),jpiv(*)
+           complex(qp),intent(inout) :: rhs(*)
+           complex(qp),intent(in) :: z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxdim = 2
@@ -45856,9 +46314,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),d(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: d(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -45920,12 +46380,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldafb,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
-                     
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -46113,10 +46575,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
            ! .. array arguments ..
-           complex(qp) :: ab(ldab,*)
+           complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 32
@@ -46307,10 +46770,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: a(0:*),b(ldb,*)
+           complex(qp),intent(in) :: a(0:*)
+           complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -46361,11 +46826,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! ====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -46549,10 +47017,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -46638,10 +47107,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -46680,11 +47150,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: afp(*),ap(*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! ====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -46874,10 +47347,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: ap(*),b(ldb,*)
+           complex(qp),intent(inout) :: ap(*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -46920,12 +47394,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(qp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: berr(*),ferr(*),rwork(*),s(*)
-           complex(qp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(qp),intent(inout) :: s(*)
+           complex(qp),intent(inout) :: afp(*),ap(*),b(ldb,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -47051,10 +47529,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(qp) :: ap(*)
+           complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -47126,11 +47605,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compz
-           integer(ilp) :: info,ldz,n
+           character,intent(in) :: compz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
            ! .. array arguments ..
-           real(qp) :: d(*),e(*),work(*)
-           complex(qp) :: z(ldz,*)
+           real(qp),intent(inout) :: d(*),e(*)
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: z(ldz,*)
         ! ====================================================================
            
            ! .. local arrays ..
@@ -47210,11 +47691,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           real(qp) :: d(*)
-           complex(qp) :: b(ldb,*),e(*)
+           real(qp),intent(in) :: d(*)
+           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(in) :: e(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -47274,12 +47757,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: ap(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -47352,12 +47838,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: afp(*),ap(*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -47548,11 +48037,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*),b(ldb,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: ap(*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -47594,13 +48084,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(qp) :: rcond
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(inout) :: afp(*)
+           complex(qp),intent(in) :: ap(*),b(ldb,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -47722,23 +48215,25 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range
-           logical(lk) :: tryrac
-           integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n
-           real(qp) :: vl,vu
+           character,intent(in) :: jobz,range
+           logical(lk),intent(inout) :: tryrac
+           integer(ilp),intent(in) :: il,iu,ldz,nzc,liwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: vl,vu
            ! .. array arguments ..
-           integer(ilp) :: isuppz(*),iwork(*)
-           real(qp) :: d(*),e(*),w(*),work(*)
-           complex(qp) :: z(ldz,*)
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(qp),intent(inout) :: d(*),e(*)
+           real(qp),intent(out) :: w(*),work(*)
+           complex(qp),intent(out) :: z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: minrgp = 1.0e-3_qp
            
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,lquery,valeig,wantz,zquery
-           integer(ilp) :: i,ibegin,iend,ifirst,iil,iindbl,iindw,iindwk,iinfo,iinspl,iiu, &
-            ilast,in,indd,inde2,inderr,indgp,indgrs,indwrk,itmp,itmp2,j,jblk,jj,liwmin, &
-                       lwmin,nsplit,nzcmin,offset,wbegin,wend
+           integer(ilp) :: i,ibegin,iend,ifirst,iil,iindbl,iindw,iindwk,iinfo,iinspl, &
+           iiu,ilast,in,indd,inde2,inderr,indgp,indgrs,indwrk,itmp,itmp2,j,jblk,jj, &
+                     liwmin,lwmin,nsplit,nzcmin,offset,wbegin,wend
            real(qp) :: bignum,cs,eps,pivmin,r1,r2,rmax,rmin,rtol1,rtol2,safmin,scale, &
                      smlnum,sn,thresh,tmp,tnrm,wl,wu
            ! .. intrinsic functions ..
@@ -48099,12 +48594,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -48177,12 +48675,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -48254,12 +48755,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -48447,11 +48951,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -48527,11 +49033,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),e(*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: e(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -48603,11 +49111,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -48670,13 +49180,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,lwork,n,nrhs
-           real(qp) :: rcond
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,lwork,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(inout) :: af(ldaf,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -48764,12 +49277,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: info,kd,ldab,n
-           real(qp) :: rcond
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: ab(ldab,*),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -48867,10 +49382,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo,diag
-           integer(ilp) :: info,n
+           character,intent(in) :: transr,uplo,diag
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(qp) :: a(0:*)
+           complex(qp),intent(inout) :: a(0:*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -49109,13 +49625,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobq,jobu,jobv
-           integer(ilp) :: info,k,l,lda,ldb,ldq,ldu,ldv,m,n,ncycle,p
-           real(qp) :: tola,tolb
+           character,intent(in) :: jobq,jobu,jobv
+           integer(ilp),intent(out) :: info,ncycle
+           integer(ilp),intent(in) :: k,l,lda,ldb,ldq,ldu,ldv,m,n,p
+           real(qp),intent(in) :: tola,tolb
            ! .. array arguments ..
-           real(qp) :: alpha(*),beta(*)
-           complex(qp) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v(ldv,*),work(* &
-                     )
+           real(qp),intent(out) :: alpha(*),beta(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v( &
+                     ldv,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxit = 40
@@ -49318,12 +49836,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,m,n
-           real(qp) :: rdscal,rdsum,scale
+           character,intent(in) :: trans
+           integer(ilp),intent(in) :: ijob,lda,ldb,ldc,ldd,lde,ldf,m,n
+           integer(ilp),intent(out) :: info
+           real(qp),intent(inout) :: rdscal,rdsum
+           real(qp),intent(out) :: scale
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),c(ldc,*),d(ldd,*),e(lde,*),f(ldf, &
-                     *)
+           complex(qp),intent(in) :: a(lda,*),b(ldb,*),d(ldd,*),e(lde,*)
+           complex(qp),intent(inout) :: c(ldc,*),f(ldf,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: ldz = 2
@@ -49507,21 +50027,23 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n
-           real(qp) :: dif,scale
+           character,intent(in) :: trans
+           integer(ilp),intent(in) :: ijob,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n
+           integer(ilp),intent(out) :: info
+           real(qp),intent(out) :: dif,scale
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           complex(qp) :: a(lda,*),b(ldb,*),c(ldc,*),d(ldd,*),e(lde,*),f(ldf, &
-                     *),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           complex(qp),intent(in) :: a(lda,*),b(ldb,*),d(ldd,*),e(lde,*)
+           complex(qp),intent(inout) :: c(ldc,*),f(ldf,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
         ! replaced various illegal calls to stdlib_zcopy by calls to stdlib_zlaset.
         ! sven hammarling, 1/5/02.
            
            ! .. local scalars ..
            logical(lk) :: lquery,notran
-           integer(ilp) :: i,ie,ifunc,iround,is,isolve,j,je,js,k,linfo,lwmin,mb,nb,p, &
-                      pq,q
+           integer(ilp) :: i,ie,ifunc,iround,is,isolve,j,je,js,k,linfo,lwmin,mb,nb, &
+                     p,pq,q
            real(qp) :: dscale,dsum,scale2,scaloc
            ! .. intrinsic functions ..
            intrinsic :: real,cmplx,max,sqrt
@@ -49832,12 +50354,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: info,n
-           real(qp) :: rcond
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: ap(*),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: ap(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -49932,9 +50456,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,ldt,n,m,l,mb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldt,n,m,l,mb
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: t(ldt,*),work(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ib,lb,nb,iinfo
@@ -49992,10 +50518,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,mb,ldt
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,ldv,lda,ldb,m,n,l,mb,ldt
            ! .. array arguments ..
-           complex(qp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
+           complex(qp),intent(in) :: v(ldv,*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran
@@ -50107,10 +50636,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,nb,ldt
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,ldv,lda,ldb,m,n,l,nb,ldt
            ! .. array arguments ..
-           complex(qp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
+           complex(qp),intent(in) :: v(ldv,*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran
@@ -50224,9 +50756,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,ldt,n,m,l,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldt,n,m,l,nb
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: t(ldt,*),work(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ib,lb,mb,iinfo
@@ -50286,12 +50820,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: info,lda,n
-           real(qp) :: rcond
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -50392,11 +50928,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trana,tranb
-           integer(ilp) :: info,isgn,lda,ldb,ldc,m,n
-           real(qp) :: scale
+           character,intent(in) :: trana,tranb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: isgn,lda,ldb,ldc,m,n
+           real(qp),intent(out) :: scale
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           complex(qp),intent(in) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -50620,9 +51158,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx1,incx2,info,ldq1,ldq2,lwork,m1,m2,n
+           integer(ilp),intent(in) :: incx1,incx2,ldq1,ldq2,lwork,m1,m2,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: q1(ldq1,*),q2(ldq2,*),work(*),x1(*),x2(*)
+           complex(qp),intent(in) :: q1(ldq1,*),q2(ldq2,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x1(*),x2(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -50719,15 +51260,18 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobu1,jobu2,jobv1t,jobv2t,signs,trans
-           integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,ldx11,ldx12,ldx21,ldx22,lrwork, &
-                     lwork,m,p,q
+           character,intent(in) :: jobu1,jobu2,jobv1t,jobv2t,signs,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldu1,ldu2,ldv1t,ldv2t,ldx11,ldx12,ldx21,ldx22, &
+                     lrwork,lwork,m,p,q
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: theta(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*),work(*) &
-                     ,x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: theta(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(out) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t, &
+                     *),work(*)
+           complex(qp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22( &
+                     ldx22,*)
         ! ===================================================================
            
            ! .. local scalars ..
@@ -50995,9 +51539,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ilo,info,lda,lwork,n
+           integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -51083,10 +51630,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -51185,9 +51735,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,m,n,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,m,n,nb
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),d(*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: d(*),t(ldt,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -51320,10 +51872,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: ihi,ilo,info,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(in) :: ihi,ilo,lda,ldc,lwork,m,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,lquery
@@ -51417,10 +51972,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans,uplo
-           integer(ilp) :: info,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,lquery,upper
@@ -51525,10 +52083,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldq,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldq,n
            ! .. array arguments ..
-           complex(qp) :: ap(*),q(ldq,*),tau(*),work(*)
+           complex(qp),intent(in) :: ap(*),tau(*)
+           complex(qp),intent(out) :: q(ldq,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -51615,10 +52175,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans,uplo
-           integer(ilp) :: info,ldc,m,n
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldc,m,n
            ! .. array arguments ..
-           complex(qp) :: ap(*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: ap(*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -51764,17 +52327,19 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: vect
-           integer(ilp) :: info,kl,ku,ldab,ldc,ldpt,ldq,m,n,ncc
+           character,intent(in) :: vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldc,ldpt,ldq,m,n,ncc
            ! .. array arguments ..
-           real(qp) :: d(*),e(*),rwork(*)
-           complex(qp) :: ab(ldab,*),c(ldc,*),pt(ldpt,*),q(ldq,*),work(*)
+           real(qp),intent(out) :: d(*),e(*),rwork(*)
+           complex(qp),intent(inout) :: ab(ldab,*),c(ldc,*)
+           complex(qp),intent(out) :: pt(ldpt,*),q(ldq,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: wantb,wantc,wantpt,wantq
            integer(ilp) :: i,inca,j,j1,j2,kb,kb1,kk,klm,klu1,kun,l,minmn,ml,ml0,mu, &
-                     mu0,nr,nrt
+                      mu0,nr,nrt
            real(qp) :: abst,rc
            complex(qp) :: ra,rb,rs,t
            ! .. intrinsic functions ..
@@ -52037,13 +52602,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldafb,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
-                     
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -52241,10 +52808,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ab(ldab,*),b(ldb,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: ab(ldab,*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -52291,14 +52859,17 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,trans
-           integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs
-           real(qp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldafb,ldb,ldx,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),c(*),ferr(*),r(*),rwork(*)
-           complex(qp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
-                     
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(qp),intent(inout) :: c(*),r(*)
+           complex(qp),intent(inout) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
         ! moved setting of info = n+1 so info does not subsequently get
         ! overwritten.  sven, 17 mar 05.
@@ -52511,10 +53082,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           real(qp) :: d(*),e(*)
-           complex(qp) :: a(lda,*),taup(*),tauq(*),work(*)
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: taup(*),tauq(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -52615,9 +53188,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ilo,info,lda,lwork,n
+           integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
@@ -52742,9 +53317,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,m,n,mb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,m,n,mb
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(ldt,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: t(ldt,*),work(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ib,iinfo,k
@@ -52807,10 +53384,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -53006,11 +53585,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           integer(ilp) :: jpvt(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: inb = 1
@@ -53156,9 +53737,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,m,n,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,m,n,nb
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(ldt,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: t(ldt,*),work(*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk),parameter :: use_recursive_qr = .true.
@@ -53213,12 +53796,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -53407,10 +53993,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -53494,9 +54081,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,p
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,p
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),d(*),work(*),x(*),y(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),d(*)
+           complex(qp),intent(out) :: work(*),x(*),y(*)
         ! ===================================================================
            
            ! .. local scalars ..
@@ -53636,17 +54225,20 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq,compz
-           integer(ilp) :: ihi,ilo,info,lda,ldb,ldq,ldz,n,lwork
+           character,intent(in) :: compq,compz
+           integer(ilp),intent(in) :: ihi,ilo,lda,ldb,ldq,ldz,n,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: blk22,initq,initz,lquery,wantq,wantz
            character :: compq2,compz2
            integer(ilp) :: cola,i,ierr,j,j0,jcol,jj,jrow,k,kacc22,len,lwkopt,n2nb,nb, &
-                     nblst,nbmin,nh,nnb,nx,ppw,ppwo,pw,top,topq
+                      nblst,nbmin,nh,nnb,nx,ppw,ppwo,pw,top,topq
            real(qp) :: c
            complex(qp) :: c1,c2,ctemp,s,s1,s2,temp,temp1,temp2,temp3
            ! .. intrinsic functions ..
@@ -54150,9 +54742,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,p
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,p
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),c(*),d(*),work(*),x(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),c(*),d(*)
+           complex(qp),intent(out) :: work(*),x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -54273,12 +54867,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: info,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: norm
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: d(*),dl(*),du(*),du2(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: d(*),dl(*),du(*),du2(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -54352,13 +54949,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf( &
-                     *),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*), &
+                     du2(*),duf(*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -54556,14 +55156,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,trans
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(qp) :: rcond
+           character,intent(in) :: fact,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf( &
-                     *),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: b(ldb,*),d(*),dl(*),du(*)
+           complex(qp),intent(inout) :: df(*),dlf(*),du2(*),duf(*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -54643,11 +55245,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,vect
-           integer(ilp) :: info,ka,kb,ldab,ldbb,ldx,n
+           character,intent(in) :: uplo,vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldx,n
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: ab(ldab,*),bb(ldbb,*),work(*),x(ldx,*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
+           complex(qp),intent(in) :: bb(ldbb,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -55566,11 +56171,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,vect
-           integer(ilp) :: info,kd,ldab,ldq,n
+           character,intent(in) :: uplo,vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldq,n
            ! .. array arguments ..
-           real(qp) :: d(*),e(*)
-           complex(qp) :: ab(ldab,*),q(ldq,*),work(*)
+           real(qp),intent(out) :: d(*),e(*)
+           complex(qp),intent(inout) :: ab(ldab,*),q(ldq,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -55929,12 +56536,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -56007,12 +56617,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -56082,11 +56695,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: a(lda,*),work(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -56239,13 +56854,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,lda,ldz,liwork,lrwork,lwork,m,n
-           real(qp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,liwork,lrwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: isuppz(*),iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: a(lda,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -56530,13 +57147,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,lda,ldz,lwork,m,n
-           real(qp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: a(lda,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -56775,11 +57394,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,itype,lda,ldb,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,lwork,n
            ! .. array arguments ..
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -56875,13 +57496,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,itype,iu,lda,ldb,ldz,lwork,m,n
-           real(qp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,lda,ldb,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -56998,12 +57621,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -57191,11 +57817,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -57271,11 +57899,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),e(*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: e(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -57347,11 +57977,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -57414,13 +58046,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,lwork,n,nrhs
-           real(qp) :: rcond
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,lwork,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(inout) :: af(ldaf,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -57535,12 +58170,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq,compz,job
-           integer(ilp) :: ihi,ilo,info,ldh,ldq,ldt,ldz,lwork,n
+           character,intent(in) :: compq,compz,job
+           integer(ilp),intent(in) :: ihi,ilo,ldh,ldq,ldt,ldz,lwork,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: alpha(*),beta(*),h(ldh,*),q(ldq,*),t(ldt,*),work(*), &
-                     z(ldz,*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(out) :: alpha(*),beta(*),work(*)
+           complex(qp),intent(inout) :: h(ldh,*),q(ldq,*),t(ldt,*),z(ldz,*)
+                     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -58003,12 +58640,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
-           real(qp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(qp),intent(in) :: anorm
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: ap(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -58078,11 +58718,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,ldz,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
            ! .. array arguments ..
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ap(*),work(*),z(ldz,*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -58176,13 +58818,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,ldz,m,n
-           real(qp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ap(*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -58390,11 +59034,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,itype,ldz,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,n
            ! .. array arguments ..
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ap(*),bp(*),work(*),z(ldz,*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*),bp(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper,wantz
@@ -58476,13 +59122,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,itype,iu,ldz,m,n
-           real(qp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ap(*),bp(*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*),bp(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,upper,valeig,wantz
@@ -58583,12 +59231,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(in) :: afp(*),ap(*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -58779,11 +59430,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: ap(*),b(ldb,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: ap(*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -58825,13 +59477,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(qp) :: rcond
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),ferr(*),rwork(*)
-           complex(qp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(qp),intent(inout) :: afp(*)
+           complex(qp),intent(in) :: ap(*),b(ldb,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -58900,13 +59555,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: eigsrc,initv,side
-           integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n
+           character,intent(in) :: eigsrc,initv,side
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldh,ldvl,ldvr,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           integer(ilp) :: ifaill(*),ifailr(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: h(ldh,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
+           logical(lk),intent(in) :: select(*)
+           integer(ilp),intent(out) :: ifaill(*),ifailr(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(in) :: h(ldh,*)
+           complex(qp),intent(inout) :: vl(ldvl,*),vr(ldvr,*),w(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0e+0_qp
@@ -59067,18 +59725,21 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,ldq,ldqs,n,qsiz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldq,ldqs,n,qsiz
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: d(*),e(*),rwork(*)
-           complex(qp) :: q(ldq,*),qstore(ldqs,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(inout) :: d(*),e(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: q(ldq,*)
+           complex(qp),intent(out) :: qstore(ldqs,*)
         ! =====================================================================
         ! warning:      n could be as big as qsiz!
            
            ! .. local scalars ..
            integer(ilp) :: curlvl,curprb,curr,i,igivcl,igivnm,igivpt,indxq,iperm,iprmpt, &
-           iq,iqptr,iwrem,j,k,lgn,ll,matsiz,msd2,smlsiz,smm1,spm1,spm2,submat,subpbs, &
-                     tlvls
+           iq,iqptr,iwrem,j,k,lgn,ll,matsiz,msd2,smlsiz,smm1,spm1,spm2,submat, &
+                     subpbs,tlvls
            real(qp) :: temp
            ! .. intrinsic functions ..
            intrinsic :: abs,real,int,log,max
@@ -59245,10 +59906,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,k,mb,nb,ldt,lwork,ldc
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
+           complex(qp),intent(in) :: a(lda,*),t(ldt,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: c(ldc,*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran,lquery
@@ -59400,10 +60064,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,k,mb,nb,ldt,lwork,ldc
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
+           complex(qp),intent(in) :: a(lda,*),t(ldt,*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: c(ldc,*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran,lquery
@@ -59563,12 +60230,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihiz,iloz,kbot,ktop,ldh,ldt,ldv,ldwv,ldz,lwork,n,nd,nh,ns, &
-                     nv,nw
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihiz,iloz,kbot,ktop,ldh,ldt,ldv,ldwv,ldz,lwork,n, &
+                      nh,nv,nw
+           integer(ilp),intent(out) :: nd,ns
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(qp) :: h(ldh,*),sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*), &
-                      z(ldz,*)
+           complex(qp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(qp),intent(out) :: sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*)
+                     
         ! ================================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0_qp
@@ -59773,9 +60442,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,mb,nb,lwork,ldt
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,mb,nb,lwork,ldt
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),work(*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*),t(ldt,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -59856,9 +60527,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,mb,nb,ldt,lwork
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,mb,nb,ldt,lwork
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),work(*),t(ldt,*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*),t(ldt,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -59939,10 +60612,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: ab(ldab,*),b(ldb,*)
+           complex(qp),intent(inout) :: ab(ldab,*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -59989,13 +60663,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,uplo
-           integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs
-           real(qp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldafb,ldb,ldx,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: berr(*),ferr(*),rwork(*),s(*)
-           complex(qp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
-                     
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(qp),intent(inout) :: s(*)
+           complex(qp),intent(inout) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -60142,10 +60819,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: n,info
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(in) :: n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp) :: a(0:*)
+           complex(qp),intent(inout) :: a(0:*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -60312,10 +60990,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(qp) :: a(0:*)
+           complex(qp),intent(inout) :: a(0:*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -60476,10 +61155,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -60524,12 +61204,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
-           real(qp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: berr(*),ferr(*),rwork(*),s(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(qp),intent(inout) :: s(*)
+           complex(qp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -60661,11 +61345,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(qp) :: berr(*),d(*),df(*),ferr(*),rwork(*)
-           complex(qp) :: b(ldb,*),e(*),ef(*),work(*),x(ldx,*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(qp),intent(in) :: d(*),df(*)
+           complex(qp),intent(in) :: b(ldb,*),e(*),ef(*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
@@ -60871,10 +61559,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,ldb,n,nrhs
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           real(qp) :: d(*)
-           complex(qp) :: b(ldb,*),e(*)
+           real(qp),intent(inout) :: d(*)
+           complex(qp),intent(inout) :: b(ldb,*),e(*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -60914,12 +61603,17 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(qp) :: rcond
+           character,intent(in) :: fact
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           real(qp) :: berr(*),d(*),df(*),ferr(*),rwork(*)
-           complex(qp) :: b(ldb,*),e(*),ef(*),work(*),x(ldx,*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(qp),intent(in) :: d(*)
+           real(qp),intent(inout) :: df(*)
+           complex(qp),intent(in) :: b(ldb,*),e(*)
+           complex(qp),intent(inout) :: ef(*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -60991,18 +61685,21 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compz
-           integer(ilp) :: info,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: compz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: d(*),e(*),rwork(*)
-           complex(qp) :: work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(inout) :: d(*),e(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(out) :: work(*)
+           complex(qp),intent(inout) :: z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: finish,i,icompz,ii,j,k,lgn,liwmin,ll,lrwmin,lwmin,m,smlsiz, &
-                     start
+                      start
            real(qp) :: eps,orgnrm,p,tiny
            ! .. intrinsic functions ..
            intrinsic :: abs,real,int,log,max,mod,sqrt
@@ -61207,13 +61904,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range
-           integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n
-           real(qp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range
+           integer(ilp),intent(in) :: il,iu,ldz,liwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: isuppz(*),iwork(*)
-           real(qp) :: d(*),e(*),w(*),work(*)
-           complex(qp) :: z(ldz,*)
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(qp),intent(inout) :: d(*),e(*)
+           real(qp),intent(out) :: w(*),work(*)
+           complex(qp),intent(out) :: z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: tryrac
@@ -61249,15 +61948,17 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: wantq,wantz
-           integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n
-           real(qp) :: pl,pr
+           logical(lk),intent(in) :: wantq,wantz
+           integer(ilp),intent(in) :: ijob,lda,ldb,ldq,ldz,liwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(out) :: pl,pr
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           integer(ilp) :: iwork(*)
-           real(qp) :: dif(*)
-           complex(qp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),q(ldq,*),work(*), &
-                     z(ldz,*)
+           logical(lk),intent(in) :: select(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: dif(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
+           complex(qp),intent(out) :: alpha(*),beta(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: idifjb = 3
@@ -61512,13 +62213,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,job
-           integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n
+           character,intent(in) :: howmny,job
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           integer(ilp) :: iwork(*)
-           real(qp) :: dif(*),s(*)
-           complex(qp) :: a(lda,*),b(ldb,*),vl(ldvl,*),vr(ldvr,*),work(*)
+           logical(lk),intent(in) :: select(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: dif(*),s(*)
+           complex(qp),intent(in) :: a(lda,*),b(ldb,*),vl(ldvl,*),vr(ldvr,*)
+                     
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: idifjb = 3
@@ -61669,12 +62373,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq,job
-           integer(ilp) :: info,ldq,ldt,lwork,m,n
-           real(qp) :: s,sep
+           character,intent(in) :: compq,job
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldq,ldt,lwork,n
+           real(qp),intent(out) :: s,sep
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           complex(qp) :: q(ldq,*),t(ldt,*),w(*),work(*)
+           logical(lk),intent(in) :: select(*)
+           complex(qp),intent(inout) :: q(ldq,*),t(ldt,*)
+           complex(qp),intent(out) :: w(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -61812,15 +62518,18 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lwork,m,p,q,ldx11,ldx21
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lwork,m,p,q,ldx11,ldx21
            ! .. array arguments ..
-           real(qp) :: phi(*),theta(*)
-           complex(qp) :: taup1(*),taup2(*),tauq1(*),work(*),x11(ldx11,*),x21(ldx21,*)
+           real(qp),intent(out) :: phi(*),theta(*)
+           complex(qp),intent(out) :: taup1(*),taup2(*),tauq1(*),work(*)
+           complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
            
            ! .. local scalars ..
            real(qp) :: c,s
-           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin,lworkopt
+           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin, &
+                     lworkopt
            logical(lk) :: lquery
            ! .. intrinsic function ..
            intrinsic :: atan2,cos,max,sin,sqrt
@@ -61914,15 +62623,18 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lwork,m,p,q,ldx11,ldx21
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lwork,m,p,q,ldx11,ldx21
            ! .. array arguments ..
-           real(qp) :: phi(*),theta(*)
-           complex(qp) :: taup1(*),taup2(*),tauq1(*),work(*),x11(ldx11,*),x21(ldx21,*)
+           real(qp),intent(out) :: phi(*),theta(*)
+           complex(qp),intent(out) :: taup1(*),taup2(*),tauq1(*),work(*)
+           complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
            
            ! .. local scalars ..
            real(qp) :: c,s
-           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin,lworkopt
+           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin, &
+                     lworkopt
            logical(lk) :: lquery
            ! .. intrinsic function ..
            intrinsic :: atan2,cos,max,sin,sqrt
@@ -62026,15 +62738,18 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lwork,m,p,q,ldx11,ldx21
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lwork,m,p,q,ldx11,ldx21
            ! .. array arguments ..
-           real(qp) :: phi(*),theta(*)
-           complex(qp) :: taup1(*),taup2(*),tauq1(*),work(*),x11(ldx11,*),x21(ldx21,*)
+           real(qp),intent(out) :: phi(*),theta(*)
+           complex(qp),intent(out) :: taup1(*),taup2(*),tauq1(*),work(*)
+           complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
            
            ! .. local scalars ..
            real(qp) :: c,s
-           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin,lworkopt
+           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin, &
+                     lworkopt
            logical(lk) :: lquery
            ! .. intrinsic function ..
            intrinsic :: atan2,cos,max,sin,sqrt
@@ -62137,11 +62852,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lwork,m,p,q,ldx11,ldx21
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lwork,m,p,q,ldx11,ldx21
            ! .. array arguments ..
-           real(qp) :: phi(*),theta(*)
-           complex(qp) :: phantom(*),taup1(*),taup2(*),tauq1(*),work(*),x11(ldx11,*),x21( &
-                     ldx21,*)
+           real(qp),intent(out) :: phi(*),theta(*)
+           complex(qp),intent(out) :: phantom(*),taup1(*),taup2(*),tauq1(*),work(*)
+           complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
            
            ! .. local scalars ..
@@ -62285,21 +63001,24 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobu1,jobu2,jobv1t
-           integer(ilp) :: info,ldu1,ldu2,ldv1t,lwork,ldx11,ldx21,m,p,q
-           integer(ilp) :: lrwork,lrworkmin,lrworkopt
+           character,intent(in) :: jobu1,jobu2,jobv1t
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldu1,ldu2,ldv1t,lwork,ldx11,ldx21,m,p,q
+           integer(ilp),intent(in) :: lrwork
+           integer(ilp) :: lrworkmin,lrworkopt
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           real(qp) :: theta(*)
-           complex(qp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),work(*),x11(ldx11,*),x21(ldx21,*)
-                     
-           integer(ilp) :: iwork(*)
+           real(qp),intent(out) :: rwork(*)
+           real(qp),intent(out) :: theta(*)
+           complex(qp),intent(out) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),work(*)
+           complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
+           integer(ilp),intent(out) :: iwork(*)
         ! =====================================================================
            
            ! .. local scalars ..
            integer(ilp) :: childinfo,i,ib11d,ib11e,ib12d,ib12e,ib21d,ib21e,ib22d,ib22e, &
-           ibbcsd,iorbdb,iorglq,iorgqr,iphi,itaup1,itaup2,itauq1,j,lbbcsd,lorbdb,lorglq, &
-                     lorglqmin,lorglqopt,lorgqr,lorgqrmin,lorgqropt,lworkmin,lworkopt,r
+           ibbcsd,iorbdb,iorglq,iorgqr,iphi,itaup1,itaup2,itauq1,j,lbbcsd,lorbdb, &
+           lorglq,lorglqmin,lorglqopt,lorgqr,lorgqrmin,lorgqropt,lworkmin,lworkopt, &
+                     r
            logical(lk) :: lquery,wantu1,wantu2,wantv1t
            ! .. local arrays ..
            real(qp) :: dum(1)
@@ -62719,10 +63438,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: vect
-           integer(ilp) :: info,k,lda,lwork,m,n
+           character,intent(in) :: vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),tau(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: tau(*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -62854,9 +63576,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,lwork,m,n,mb,nb
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(ldt,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: t(ldt,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -62967,10 +63692,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans,vect
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans,vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(qp),intent(in) :: a(lda,*),tau(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: applyq,left,lquery,notran
@@ -63108,9 +63836,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,tsize,lwork
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,tsize,lwork
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: t(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,lminws,mint,minw
@@ -63251,18 +63981,20 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-           real(qp) :: rcond
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(qp),intent(in) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: rwork(*),s(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),s(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(ilp) :: iascl,ibscl,ie,il,itau,itaup,itauq,ldwork,liwork,lrwork,maxmn, &
-                      maxwrk,minmn,minwrk,mm,mnthr,nlvl,nrwork,nwork,smlsiz
+           integer(ilp) :: iascl,ibscl,ie,il,itau,itaup,itauq,ldwork,liwork,lrwork, &
+                     maxmn,maxwrk,minmn,minwrk,mm,mnthr,nlvl,nrwork,nwork,smlsiz
            real(qp) :: anrm,bignum,bnrm,eps,sfmin,smlnum
            ! .. intrinsic functions ..
            intrinsic :: int,log,max,min,real
@@ -63573,11 +64305,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-           real(qp) :: rcond
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(qp),intent(in) :: rcond
            ! .. array arguments ..
-           real(qp) :: rwork(*),s(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           real(qp),intent(out) :: rwork(*),s(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -64048,12 +64782,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-           real(qp) :: rcond
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(qp),intent(in) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: jpvt(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: imax = 1
@@ -64244,10 +64980,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,k,tsize,lwork,ldc
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(*),c(ldc,*),work(*)
+           complex(qp),intent(in) :: a(lda,*),t(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran,lquery
@@ -64338,10 +65077,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,k,tsize,lwork,ldc
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(*),c(ldc,*),work(*)
+           complex(qp),intent(in) :: a(lda,*),t(*)
+           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(out) :: work(*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran,lquery
@@ -64431,9 +65173,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,tsize,lwork
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,tsize,lwork
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: t(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,lminws,mint,minw
@@ -64555,19 +65299,21 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz
-           integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n
+           character,intent(in) :: jobz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldu,ldvt,lwork,m,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: rwork(*),s(*)
-           complex(qp) :: a(lda,*),u(ldu,*),vt(ldvt,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),s(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: u(ldu,*),vt(ldvt,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lquery,wntqa,wntqas,wntqn,wntqo,wntqs
            integer(ilp) :: blk,chunk,i,ie,ierr,il,ir,iru,irvt,iscl,itau,itaup,itauq, &
            iu,ivt,ldwkvt,ldwrkl,ldwrkr,ldwrku,maxwrk,minmn,minwrk,mnthr1,mnthr2,nrwork, &
-                     nwork,wrkbl
+                      nwork,wrkbl
            integer(ilp) :: lwork_wgebrd_mn,lwork_wgebrd_mm,lwork_wgebrd_nn,lwork_wgelqf_mn, &
            lwork_wgeqrf_mn,lwork_wungbr_p_mn,lwork_wungbr_p_nn,lwork_wungbr_q_mn, &
            lwork_wungbr_q_mm,lwork_wunglq_mn,lwork_wunglq_nn,lwork_wungqr_mm,lwork_wungqr_mn, &
@@ -66038,10 +66784,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -66088,18 +66835,21 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobu,jobvt
-           integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n
+           character,intent(in) :: jobu,jobvt
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldu,ldvt,lwork,m,n
            ! .. array arguments ..
-           real(qp) :: rwork(*),s(*)
-           complex(qp) :: a(lda,*),u(ldu,*),vt(ldvt,*),work(*)
+           real(qp),intent(out) :: rwork(*),s(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: u(ldu,*),vt(ldvt,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lquery,wntua,wntuas,wntun,wntuo,wntus,wntva,wntvas,wntvn,wntvo, &
-                     wntvs
+                      wntvs
            integer(ilp) :: blk,chunk,i,ie,ierr,ir,irwork,iscl,itau,itaup,itauq,iu, &
-                     iwork,ldwrkr,ldwrku,maxwrk,minmn,minwrk,mnthr,ncu,ncvt,nru,nrvt,wrkbl
+           iwork,ldwrkr,ldwrku,maxwrk,minmn,minwrk,mnthr,ncu,ncvt,nru,nrvt, &
+                     wrkbl
            integer(ilp) :: lwork_wgeqrf,lwork_wungqr_n,lwork_wungqr_m,lwork_wgebrd, &
                      lwork_wungbr_p,lwork_wungbr_q,lwork_wgelqf,lwork_wunglq_n,lwork_wunglq_m
            real(qp) :: anrm,bignum,eps,smlnum
@@ -68525,21 +69275,24 @@ module stdlib_linalg_lapack_w
      subroutine stdlib_wgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
            ! .. scalar arguments ..
-           character :: joba,jobp,jobr,jobu,jobv
-           integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lcwork,lrwork,info
+           character,intent(in) :: joba,jobp,jobr,jobu,jobv
+           integer(ilp),intent(in) :: m,n,lda,ldu,ldv,liwork,lrwork
+           integer(ilp),intent(out) :: numrank,info
+           integer(ilp),intent(inout) :: lcwork
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),u(ldu,*),v(ldv,*),cwork(*)
-           real(qp) :: s(*),rwork(*)
-           integer(ilp) :: iwork(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: u(ldu,*),v(ldv,*),cwork(*)
+           real(qp),intent(out) :: s(*),rwork(*)
+           integer(ilp),intent(out) :: iwork(*)
         ! =====================================================================
            
            ! .. local scalars ..
            integer(ilp) :: ierr,nr,n1,optratio,p,q
            integer(ilp) :: lwcon,lwqp3,lwrk_wgelqf,lwrk_wgesvd,lwrk_wgesvd2,lwrk_wgeqp3, &
-           lwrk_wgeqrf,lwrk_wunmlq,lwrk_wunmqr,lwrk_wunmqr2,lwlqf,lwqrf,lwsvd,lwsvd2,lwunq, &
-                     lwunq2,lwunlq,minwrk,minwrk2,optwrk,optwrk2,iminwrk,rminwrk
-           logical(lk) :: accla,acclm,acclh,ascaled,conda,dntwu,dntwv,lquery,lsvc0, &
-                     lsvec,rowprm,rsvec,rtrans,wntua,wntuf,wntur,wntus,wntva,wntvr
+           lwrk_wgeqrf,lwrk_wunmlq,lwrk_wunmqr,lwrk_wunmqr2,lwlqf,lwqrf,lwsvd,lwsvd2, &
+                     lwunq,lwunq2,lwunlq,minwrk,minwrk2,optwrk,optwrk2,iminwrk,rminwrk
+           logical(lk) :: accla,acclm,acclh,ascaled,conda,dntwu,dntwv,lquery,lsvc0,lsvec, &
+                      rowprm,rsvec,rtrans,wntua,wntuf,wntur,wntus,wntva,wntvr
            real(qp) :: big,epsln,rtmp,sconda,sfmin
            complex(qp) :: ctmp
            ! .. local arrays
@@ -69399,13 +70152,17 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,trans
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
-           real(qp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+           real(qp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: berr(*),c(*),ferr(*),r(*),rwork(*)
-           complex(qp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(qp),intent(inout) :: c(*),r(*)
+           complex(qp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -69611,16 +70368,18 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lquery,tran
-           integer(ilp) :: i,iascl,ibscl,j,maxmn,brow,scllen,tszo,tszm,lwo,lwm,lw1,lw2, &
-                     wsizeo,wsizem,info2
+           integer(ilp) :: i,iascl,ibscl,j,maxmn,brow,scllen,tszo,tszm,lwo,lwm,lw1, &
+                     lw2,wsizeo,wsizem,info2
            real(qp) :: anrm,bignum,bnrm,smlnum,dum(1)
            complex(qp) :: tq(5),workq(1)
            ! .. intrinsic functions ..
@@ -69839,9 +70598,11 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,lwork,m,n,nb1,nb2,mb1
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,lwork,m,n,nb1,nb2,mb1
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),t(ldt,*),work(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: t(ldt,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -69978,13 +70739,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvsl,jobvsr,sort
-           integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,lwork,n,sdim
+           character,intent(in) :: jobvsl,jobvsr,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,lwork,n
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr( &
-                     ldvsr,*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                     work(*)
            ! .. function arguments ..
            procedure(stdlib_selctg_w) :: selctg
         ! =====================================================================
@@ -70230,14 +70993,16 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvsl,jobvsr,sense,sort
-           integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,liwork,lwork,n,sdim
+           character,intent(in) :: jobvsl,jobvsr,sense,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,liwork,lwork,n
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           integer(ilp) :: iwork(*)
-           real(qp) :: rconde(2),rcondv(2),rwork(*)
-           complex(qp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr( &
-                     ldvsr,*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rconde(2),rcondv(2),rwork(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                     work(*)
            ! .. function arguments ..
            procedure(stdlib_selctg_w) :: selctg
         ! =====================================================================
@@ -70529,19 +71294,21 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvl,jobvr
-           integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,n
+           character,intent(in) :: jobvl,jobvr
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr, &
-                      *),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
+                     *)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: ilascl,ilbscl,ilv,ilvl,ilvr,lquery
            character :: chtemp
            integer(ilp) :: icols,ierr,ihi,ijobvl,ijobvr,ileft,ilo,in,iright,irows,irwrk, &
-                     itau,iwrk,jc,jr,lwkmin,lwkopt
+                      itau,iwrk,jc,jr,lwkmin,lwkopt
            real(qp) :: anrm,anrmto,bignum,bnrm,bnrmto,eps,smlnum,temp
            complex(qp) :: x
            ! .. local arrays ..
@@ -70803,23 +71570,26 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: balanc,jobvl,jobvr,sense
-           integer(ilp) :: ihi,ilo,info,lda,ldb,ldvl,ldvr,lwork,n
-           real(qp) :: abnrm,bbnrm
+           character,intent(in) :: balanc,jobvl,jobvr,sense
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
+           real(qp),intent(out) :: abnrm,bbnrm
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           integer(ilp) :: iwork(*)
-           real(qp) :: lscale(*),rconde(*),rcondv(*),rscale(*),rwork(*)
-           complex(qp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr, &
-                      *),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: lscale(*),rconde(*),rcondv(*),rscale(*),rwork(*)
+                     
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
+                     *)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: ilascl,ilbscl,ilv,ilvl,ilvr,lquery,noscl,wantsb,wantse,wantsn, &
                      wantsv
            character :: chtemp
-           integer(ilp) :: i,icols,ierr,ijobvl,ijobvr,in,irows,itau,iwrk,iwrk1,j,jc,jr, &
-                      m,maxwrk,minwrk
+           integer(ilp) :: i,icols,ierr,ijobvl,ijobvr,in,irows,itau,iwrk,iwrk1,j,jc, &
+                     jr,m,maxwrk,minwrk
            real(qp) :: anrm,anrmto,bignum,bnrm,bnrmto,eps,smlnum,temp
            complex(qp) :: x
            ! .. local arrays ..
@@ -71129,11 +71899,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,kd,ldab,ldz,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,n
            ! .. array arguments ..
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ab(ldab,*),work(*),z(ldz,*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -71239,18 +72011,20 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,kd,ldab,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ab(ldab,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lower,lquery,wantz
-           integer(ilp) :: iinfo,imax,inde,indwk2,indwrk,iscale,liwmin,llrwk,llwk2,lrwmin, &
-                      lwmin
+           integer(ilp) :: iinfo,imax,inde,indwk2,indwrk,iscale,liwmin,llrwk,llwk2, &
+                     lrwmin,lwmin
            real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
            ! .. intrinsic functions ..
            intrinsic :: sqrt
@@ -71381,13 +72155,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,kd,ldab,ldq,ldz,m,n
-           real(qp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,kd,ldab,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ab(ldab,*),q(ldq,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*)
+           complex(qp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -71609,11 +72385,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,n
            ! .. array arguments ..
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ab(ldab,*),bb(ldbb,*),work(*),z(ldz,*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper,wantz
@@ -71694,18 +72472,21 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ab(ldab,*),bb(ldbb,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lquery,upper,wantz
            character :: vect
-           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llrwk,llwk2,lrwmin,lwmin
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llrwk,llwk2,lrwmin, &
+                     lwmin
            ! .. executable statements ..
            ! test the input parameters.
            wantz = stdlib_lsame(jobz,'V')
@@ -71813,13 +72594,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,ka,kb,ldab,ldbb,ldq,ldz,m,n
-           real(qp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ka,kb,ldab,ldbb,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(qp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ab(ldab,*),bb(ldbb,*),q(ldq,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(qp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -72002,12 +72785,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,lda,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -72154,12 +72939,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,itype,lda,ldb,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -72282,18 +73069,20 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ap(*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lquery,wantz
-           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale,liwmin,llrwk,llwrk, &
-                      lrwmin,lwmin
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale,liwmin,llrwk, &
+                     llwrk,lrwmin,lwmin
            real(qp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
            ! .. intrinsic functions ..
            intrinsic :: sqrt
@@ -72424,12 +73213,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,itype,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(qp) :: rwork(*),w(*)
-           complex(qp) :: ap(*),bp(*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(qp),intent(out) :: rwork(*),w(*)
+           complex(qp),intent(inout) :: ap(*),bp(*)
+           complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper,wantz
@@ -72570,12 +73361,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,iter,lda,ldb,ldx,n,nrhs
+           integer(ilp),intent(out) :: info,iter
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(qp) :: rwork(*)
-           complex(dp) :: swork(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(n,*),x(ldx,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(dp),intent(out) :: swork(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: b(ldb,*)
+           complex(qp),intent(out) :: work(n,*),x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            logical(lk),parameter :: doitref = .true.
@@ -72650,7 +73444,7 @@ module stdlib_linalg_lapack_w
            call stdlib_zgetrs('NO TRANSPOSE',n,nrhs,swork(ptsa),n,ipiv,swork(ptsx),n, &
                      info)
            ! convert sx back to quad precision
-           call stdlib_zlag2w(n,nrhs,swork(ptsx),n,x,ldx,info)
+           call stdlib_zlag2z(n,nrhs,swork(ptsx),n,x,ldx,info)
            ! compute r = b - ax (r is work).
            call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
            call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',n,nrhs,n,cnegone,a,lda,x,ldx, &
@@ -72680,7 +73474,7 @@ module stdlib_linalg_lapack_w
                         n,info)
               ! convert sx back to quad precision and update the current
               ! iterate.
-              call stdlib_zlag2w(n,nrhs,swork(ptsx),n,work,n,info)
+              call stdlib_zlag2z(n,nrhs,swork(ptsx),n,work,n,info)
               do i = 1,nrhs
                  call stdlib_waxpy(n,cone,work(1,i),1,x(1,i),1)
               end do
@@ -72751,12 +73545,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,iter,lda,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,iter
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(dp) :: swork(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(n,*),x(ldx,*)
+           real(qp),intent(out) :: rwork(*)
+           complex(dp),intent(out) :: swork(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: b(ldb,*)
+           complex(qp),intent(out) :: work(n,*),x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            logical(lk),parameter :: doitref = .true.
@@ -72832,7 +73629,7 @@ module stdlib_linalg_lapack_w
            ! solve the system sa*sx = sb.
            call stdlib_zpotrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
            ! convert sx back to complex*16
-           call stdlib_zlag2w(n,nrhs,swork(ptsx),n,x,ldx,info)
+           call stdlib_zlag2z(n,nrhs,swork(ptsx),n,x,ldx,info)
            ! compute r = b - ax (r is work).
            call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
            call stdlib_whemm('LEFT',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
@@ -72861,7 +73658,7 @@ module stdlib_linalg_lapack_w
               call stdlib_zpotrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
               ! convert sx back to quad precision and update the current
               ! iterate.
-              call stdlib_zlag2w(n,nrhs,swork(ptsx),n,work,n,info)
+              call stdlib_zlag2z(n,nrhs,swork(ptsx),n,work,n,info)
               do i = 1,nrhs
                  call stdlib_waxpy(n,cone,work(1,i),1,x(1,i),1)
               end do
@@ -72912,12 +73709,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvs,sort
-           integer(ilp) :: info,lda,ldvs,lwork,n,sdim
+           character,intent(in) :: jobvs,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldvs,lwork,n
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),vs(ldvs,*),w(*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: vs(ldvs,*),w(*),work(*)
            ! .. function arguments ..
            procedure(stdlib_select_w) :: select
         ! =====================================================================
@@ -73087,21 +73886,23 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvs,sense,sort
-           integer(ilp) :: info,lda,ldvs,lwork,n,sdim
-           real(qp) :: rconde,rcondv
+           character,intent(in) :: jobvs,sense,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldvs,lwork,n
+           real(qp),intent(out) :: rconde,rcondv
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),vs(ldvs,*),w(*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: vs(ldvs,*),w(*),work(*)
            ! .. function arguments ..
            procedure(stdlib_select_w) :: select
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: lquery,scalea,wantsb,wantse,wantsn,wantst,wantsv,wantvs
-           integer(ilp) :: hswork,i,ibal,icond,ierr,ieval,ihi,ilo,itau,iwrk,lwrk,maxwrk, &
-                      minwrk
+           integer(ilp) :: hswork,i,ibal,icond,ierr,ieval,ihi,ilo,itau,iwrk,lwrk, &
+                     maxwrk,minwrk
            real(qp) :: anrm,bignum,cscale,eps,smlnum
            ! .. local arrays ..
            real(qp) :: dum(1)
@@ -73283,11 +74084,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvl,jobvr
-           integer(ilp) :: info,lda,ldvl,ldvr,lwork,n
+           character,intent(in) :: jobvl,jobvr
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldvl,ldvr,lwork,n
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: vl(ldvl,*),vr(ldvr,*),w(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -73545,12 +74348,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: balanc,jobvl,jobvr,sense
-           integer(ilp) :: ihi,ilo,info,lda,ldvl,ldvr,lwork,n
-           real(qp) :: abnrm
+           character,intent(in) :: balanc,jobvl,jobvr,sense
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,ldvl,ldvr,lwork,n
+           real(qp),intent(out) :: abnrm
            ! .. array arguments ..
-           real(qp) :: rconde(*),rcondv(*),rwork(*),scale(*)
-           complex(qp) :: a(lda,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
+           real(qp),intent(out) :: rconde(*),rcondv(*),rwork(*),scale(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: vl(ldvl,*),vr(ldvr,*),w(*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -73830,19 +74635,20 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldu,ldv,lwork,lrwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldu,ldv,lwork,lrwork,m,n
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),u(ldu,*),v(ldv,*),cwork(lwork)
-           real(qp) :: sva(n),rwork(lrwork)
-           integer(ilp) :: iwork(*)
-           character :: joba,jobp,jobr,jobt,jobu,jobv
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: u(ldu,*),v(ldv,*),cwork(lwork)
+           real(qp),intent(out) :: sva(n),rwork(lrwork)
+           integer(ilp),intent(out) :: iwork(*)
+           character,intent(in) :: joba,jobp,jobr,jobt,jobu,jobv
         ! ===========================================================================
            
            ! .. local scalars ..
            complex(qp) :: ctemp
-           real(qp) :: aapp,aaqq,aatmax,aatmin,big,big1,cond_ok,condr1,condr2, &
-           entra,entrat,epsln,maxprj,scalem,sconda,sfmin,small,temp1,uscal1,uscal2, &
-                     xsc
+           real(qp) :: aapp,aaqq,aatmax,aatmin,big,big1,cond_ok,condr1,condr2,entra, &
+                     entrat,epsln,maxprj,scalem,sconda,sfmin,small,temp1,uscal1,uscal2,xsc
            integer(ilp) :: ierr,n1,nr,numrank,p,q,warning
            logical(lk) :: almort,defr,errest,goscal,jracc,kill,lquery,lsvec,l2aber, &
                      l2kill,l2pert,l2rank,l2tran,noscal,rowpiv,rsvec,transp
@@ -75232,11 +76038,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldv,lwork,lrwork,m,mv,n
-           character :: joba,jobu,jobv
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldv,lwork,lrwork,m,mv,n
+           character,intent(in) :: joba,jobu,jobv
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),v(ldv,*),cwork(lwork)
-           real(qp) :: rwork(lrwork),sva(n)
+           complex(qp),intent(inout) :: a(lda,*),v(ldv,*),cwork(lwork)
+           real(qp),intent(inout) :: rwork(lrwork)
+           real(qp),intent(out) :: sva(n)
         ! =====================================================================
            ! .. local parameters ..
            integer(ilp),parameter :: nsweep = 30
@@ -76091,13 +76899,15 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvsl,jobvsr,sort
-           integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,lwork,n,sdim
+           character,intent(in) :: jobvsl,jobvsr,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,lwork,n
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr( &
-                     ldvsr,*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                     work(*)
            ! .. function arguments ..
            procedure(stdlib_selctg_w) :: selctg
         ! =====================================================================
@@ -76334,19 +77144,21 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvl,jobvr
-           integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,n
+           character,intent(in) :: jobvl,jobvr
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
            ! .. array arguments ..
-           real(qp) :: rwork(*)
-           complex(qp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr, &
-                      *),work(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
+                     *)
         ! =====================================================================
            
            ! .. local scalars ..
            logical(lk) :: ilascl,ilbscl,ilv,ilvl,ilvr,lquery
            character :: chtemp
            integer(ilp) :: icols,ierr,ihi,ijobvl,ijobvr,ileft,ilo,in,iright,irows,irwrk, &
-                     itau,iwrk,jc,jr,lwkopt
+                      itau,iwrk,jc,jr,lwkopt
            real(qp) :: anrm,anrmto,bignum,bnrm,bnrmto,eps,smlnum,temp
            complex(qp) :: x
            ! .. local arrays ..
@@ -76593,12 +77405,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldv,lwork,m,mv,n,nsweep
-           real(qp) :: eps,sfmin,tol
-           character :: jobv
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldv,lwork,m,mv,n,nsweep
+           real(qp),intent(in) :: eps,sfmin,tol
+           character,intent(in) :: jobv
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),d(n),v(ldv,*),work(lwork)
-           real(qp) :: sva(n)
+           complex(qp),intent(inout) :: a(lda,*),d(n),v(ldv,*)
+           complex(qp),intent(out) :: work(lwork)
+           real(qp),intent(inout) :: sva(n)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -77151,12 +77965,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: eps,sfmin,tol
-           integer(ilp) :: info,lda,ldv,lwork,m,mv,n,n1,nsweep
-           character :: jobv
+           real(qp),intent(in) :: eps,sfmin,tol
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldv,lwork,m,mv,n,n1,nsweep
+           character,intent(in) :: jobv
            ! .. array arguments ..
-           complex(qp) :: a(lda,*),d(n),v(ldv,*),work(lwork)
-           real(qp) :: sva(n)
+           complex(qp),intent(inout) :: a(lda,*),d(n),v(ldv,*)
+           complex(qp),intent(out) :: work(lwork)
+           real(qp),intent(inout) :: sva(n)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -77507,11 +78323,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -77572,11 +78390,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,lda,lwork,info
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -77802,10 +78622,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ilo,info,ldh,ldz,lwork,n
-           character :: compz,job
+           integer(ilp),intent(in) :: ihi,ilo,ldh,ldz,lwork,n
+           integer(ilp),intent(out) :: info
+           character,intent(in) :: compz,job
            ! .. array arguments ..
-           complex(qp) :: h(ldh,*),w(*),work(*),z(ldz,*)
+           complex(qp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(qp),intent(out) :: w(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: ntiny = 15
@@ -77944,11 +78766,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: m,nb,j1,lda,ldh
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: m,nb,j1,lda,ldh
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),h(ldh,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),h(ldh,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -78186,10 +79009,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,lwork,n
+           integer(ilp),intent(out) :: info
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(qp) :: h(ldh,*),w(*),work(*),z(ldz,*)
+           complex(qp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(qp),intent(out) :: w(*),work(*)
         ! ================================================================
            ! .. parameters ..
            integer(ilp),parameter :: ntiny = 15
@@ -78216,9 +79041,9 @@ module stdlib_linalg_lapack_w
            real(qp) :: s
            integer(ilp) :: i,inf,it,itmax,k,kacc22,kbot,kdu,ks,kt,ktop,ku,kv,kwh, &
            kwtop,kwv,ld,ls,lwkopt,ndec,ndfl,nh,nho,nibble,nmin,ns,nsmax,nsr,nve,nw, &
-                     nwmax,nwr,nwupbd
+                      nwmax,nwr,nwupbd
            logical(lk) :: sorted
-           character :: jbcmpz*2
+           character :: jbcmpz,2
            ! .. local arrays ..
            complex(qp) :: zdum(1,1)
            ! .. intrinsic functions ..
@@ -78530,12 +79355,14 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihiz,iloz,kbot,ktop,ldh,ldt,ldv,ldwv,ldz,lwork,n,nd,nh,ns, &
-                     nv,nw
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihiz,iloz,kbot,ktop,ldh,ldt,ldv,ldwv,ldz,lwork,n, &
+                      nh,nv,nw
+           integer(ilp),intent(out) :: nd,ns
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(qp) :: h(ldh,*),sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*), &
-                      z(ldz,*)
+           complex(qp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(qp),intent(out) :: sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*)
+                     
         ! ================================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0_qp
@@ -78755,10 +79582,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,lwork,n
+           integer(ilp),intent(out) :: info
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(qp) :: h(ldh,*),w(*),work(*),z(ldz,*)
+           complex(qp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(qp),intent(out) :: w(*),work(*)
         ! ================================================================
            ! .. parameters ..
            integer(ilp),parameter :: ntiny = 15
@@ -78785,9 +79614,9 @@ module stdlib_linalg_lapack_w
            real(qp) :: s
            integer(ilp) :: i,inf,it,itmax,k,kacc22,kbot,kdu,ks,kt,ktop,ku,kv,kwh, &
            kwtop,kwv,ld,ls,lwkopt,ndec,ndfl,nh,nho,nibble,nmin,ns,nsmax,nsr,nve,nw, &
-                     nwmax,nwr,nwupbd
+                      nwmax,nwr,nwupbd
            logical(lk) :: sorted
-           character :: jbcmpz*2
+           character :: jbcmpz,2
            ! .. local arrays ..
            complex(qp) :: zdum(1,1)
            ! .. intrinsic functions ..
@@ -79633,11 +80462,12 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: m,nb,j1,lda,ldh
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: m,nb,j1,lda,ldh
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),h(ldh,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),h(ldh,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -79868,11 +80698,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -79933,11 +80765,13 @@ module stdlib_linalg_lapack_w
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,lda,lwork,info
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(qp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
            ! .. local scalars ..

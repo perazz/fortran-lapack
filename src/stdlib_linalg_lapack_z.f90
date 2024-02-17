@@ -200,7 +200,6 @@ module stdlib_linalg_lapack_z
      public :: stdlib_zlaesy
      public :: stdlib_zlaev2
      public :: stdlib_zlag2c
-     public :: stdlib_zlag2w
      public :: stdlib_zlags2
      public :: stdlib_zlagtm
      public :: stdlib_zlahef
@@ -529,24 +528,27 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobu1,jobu2,jobv1t,jobv2t,trans
-           integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,lrwork,m,p,q
+           character,intent(in) :: jobu1,jobu2,jobv1t,jobv2t,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldu1,ldu2,ldv1t,ldv2t,lrwork,m,p,q
            ! .. array arguments ..
-           real(dp) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e(*),b22d(*), &
-                      b22e(*),phi(*),theta(*),rwork(*)
-           complex(dp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
+           real(dp),intent(out) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e( &
+                     *),b22d(*),b22e(*),rwork(*)
+           real(dp),intent(inout) :: phi(*),theta(*)
+           complex(dp),intent(inout) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t( &
+                     ldv2t,*)
         ! ===================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxitr = 6
            real(dp),parameter :: hundred = 100.0_dp
            real(dp),parameter :: meighth = -0.125_dp
            real(dp),parameter :: piover2 = 1.57079632679489661923132169163975144210_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: colmajor,lquery,restart11,restart12,restart21,restart22,wantu1, &
                      wantu2,wantv1t,wantv2t
-           integer(ilp) :: i,imin,imax,iter,iu1cs,iu1sn,iu2cs,iu2sn,iv1tcs,iv1tsn,iv2tcs, &
-                      iv2tsn,j,lrworkmin,lrworkopt,maxit,mini
+           integer(ilp) :: i,imin,imax,iter,iu1cs,iu1sn,iu2cs,iu2sn,iv1tcs,iv1tsn, &
+                     iv2tcs,iv2tsn,j,lrworkmin,lrworkopt,maxit,mini
            real(dp) :: b11bulge,b12bulge,b21bulge,b22bulge,dummy,eps,mu,nu,r,sigma11, &
                      sigma21,temp,thetamax,thetamin,thresh,tol,tolmul,unfl,x1,x2,y1,y2
            ! .. intrinsic functions ..
@@ -691,9 +693,9 @@ module stdlib_linalg_lapack_z
               else
                  ! compute shifts for b11 and b21 and use the lesser
                  call stdlib_dlas2(b11d(imax - 1),b11e(imax - 1),b11d(imax),sigma11,dummy)
-
+                           
                  call stdlib_dlas2(b21d(imax - 1),b21e(imax - 1),b21d(imax),sigma21,dummy)
-
+                           
                  if (sigma11 <= sigma21) then
                     mu = sigma11
                     nu = sqrt(one - mu**2)
@@ -720,13 +722,13 @@ module stdlib_linalg_lapack_z
               end if
               temp = rwork(iv1tcs + imin - 1)*b11d(imin) + rwork(iv1tsn + imin - 1)*b11e(imin)
               b11e(imin) = rwork(iv1tcs + imin - 1)*b11e(imin) - rwork(iv1tsn + imin - 1)*b11d(imin)
-
+                        
               b11d(imin) = temp
               b11bulge = rwork(iv1tsn + imin - 1)*b11d(imin + 1)
               b11d(imin + 1) = rwork(iv1tcs + imin - 1)*b11d(imin + 1)
               temp = rwork(iv1tcs + imin - 1)*b21d(imin) + rwork(iv1tsn + imin - 1)*b21e(imin)
               b21e(imin) = rwork(iv1tcs + imin - 1)*b21e(imin) - rwork(iv1tsn + imin - 1)*b21d(imin)
-
+                        
               b21d(imin) = temp
               b21bulge = rwork(iv1tsn + imin - 1)*b21d(imin + 1)
               b21d(imin + 1) = rwork(iv1tcs + imin - 1)*b21d(imin + 1)
@@ -758,7 +760,7 @@ module stdlib_linalg_lapack_z
               rwork(iu2sn + imin - 1) = -rwork(iu2sn + imin - 1)
               temp = rwork(iu1cs + imin - 1)*b11e(imin) + rwork(iu1sn + imin - 1)*b11d(imin + 1)
               b11d(imin + 1) = rwork(iu1cs + imin - 1)*b11d(imin + 1) - rwork(iu1sn + imin - 1)*b11e(imin)
-
+                        
               b11e(imin) = temp
               if (imax > imin + 1) then
                  b11bulge = rwork(iu1sn + imin - 1)*b11e(imin + 1)
@@ -771,7 +773,7 @@ module stdlib_linalg_lapack_z
               b12d(imin + 1) = rwork(iu1cs + imin - 1)*b12d(imin + 1)
               temp = rwork(iu2cs + imin - 1)*b21e(imin) + rwork(iu2sn + imin - 1)*b21d(imin + 1)
               b21d(imin + 1) = rwork(iu2cs + imin - 1)*b21d(imin + 1) - rwork(iu2sn + imin - 1)*b21e(imin)
-
+                        
               b21e(imin) = temp
               if (imax > imin + 1) then
                  b21bulge = rwork(iu2sn + imin - 1)*b21e(imin + 1)
@@ -820,7 +822,7 @@ module stdlib_linalg_lapack_z
                  rwork(iv1tsn + i - 1) = -rwork(iv1tsn + i - 1)
                  if (.not. restart12 .and. .not. restart22) then
                     call stdlib_dlartgp(y2,y1,rwork(iv2tsn + i - 1 - 1),rwork(iv2tcs + i - 1 - 1),r)
-
+                              
                  else if (.not. restart12 .and. restart22) then
                     call stdlib_dlartgp(b12bulge,b12d(i - 1),rwork(iv2tsn + i - 1 - 1),rwork(iv2tcs + i - &
                               1 - 1),r)
@@ -873,7 +875,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_dlartgp(x2,x1,rwork(iu1sn + i - 1),rwork(iu1cs + i - 1),r)
                  else if (.not. restart11 .and. restart12) then
                     call stdlib_dlartgp(b11bulge,b11d(i),rwork(iu1sn + i - 1),rwork(iu1cs + i - 1),r)
-
+                              
                  else if (restart11 .and. .not. restart12) then
                     call stdlib_dlartgp(b12bulge,b12e(i - 1),rwork(iu1sn + i - 1),rwork(iu1cs + i - 1), &
                               r)
@@ -882,13 +884,13 @@ module stdlib_linalg_lapack_z
                                )
                  else
                     call stdlib_dlartgs(b12d(i),b12e(i),nu,rwork(iu1cs + i - 1),rwork(iu1sn + i - 1))
-
+                              
                  end if
                  if (.not. restart21 .and. .not. restart22) then
                     call stdlib_dlartgp(y2,y1,rwork(iu2sn + i - 1),rwork(iu2cs + i - 1),r)
                  else if (.not. restart21 .and. restart22) then
                     call stdlib_dlartgp(b21bulge,b21d(i),rwork(iu2sn + i - 1),rwork(iu2cs + i - 1),r)
-
+                              
                  else if (restart21 .and. .not. restart22) then
                     call stdlib_dlartgp(b22bulge,b22e(i - 1),rwork(iu2sn + i - 1),rwork(iu2cs + i - 1), &
                               r)
@@ -897,7 +899,7 @@ module stdlib_linalg_lapack_z
                                )
                  else
                     call stdlib_dlartgs(b22d(i),b22e(i),mu,rwork(iu2cs + i - 1),rwork(iu2sn + i - 1))
-
+                              
                  end if
                  rwork(iu2cs + i - 1) = -rwork(iu2cs + i - 1)
                  rwork(iu2sn + i - 1) = -rwork(iu2sn + i - 1)
@@ -936,7 +938,7 @@ module stdlib_linalg_lapack_z
               restart22 = b22d(imax - 1)**2 + b22bulge**2 <= thresh**2
               if (.not. restart12 .and. .not. restart22) then
                  call stdlib_dlartgp(y2,y1,rwork(iv2tsn + imax - 1 - 1),rwork(iv2tcs + imax - 1 - 1),r)
-
+                           
               else if (.not. restart12 .and. restart22) then
                  call stdlib_dlartgp(b12bulge,b12d(imax - 1),rwork(iv2tsn + imax - 1 - 1),rwork(iv2tcs + &
                            imax - 1 - 1),r)
@@ -951,14 +953,14 @@ module stdlib_linalg_lapack_z
                            iv2tsn + imax - 1 - 1))
               end if
               temp = rwork(iv2tcs + imax - 1 - 1)*b12e(imax - 1) + rwork(iv2tsn + imax - 1 - 1)*b12d(imax)
-
+                        
               b12d(imax) = rwork(iv2tcs + imax - 1 - 1)*b12d(imax) - rwork(iv2tsn + imax - 1 - 1)*b12e(imax - 1)
-
+                        
               b12e(imax - 1) = temp
               temp = rwork(iv2tcs + imax - 1 - 1)*b22e(imax - 1) + rwork(iv2tsn + imax - 1 - 1)*b22d(imax)
-
+                        
               b22d(imax) = rwork(iv2tcs + imax - 1 - 1)*b22d(imax) - rwork(iv2tsn + imax - 1 - 1)*b22e(imax - 1)
-
+                        
               b22e(imax - 1) = temp
               ! update singular vectors
               if (wantu1) then
@@ -1093,9 +1095,9 @@ module stdlib_linalg_lapack_z
                     if (wantu1) call stdlib_zswap(p,u1(1,i),1,u1(1,mini),1)
                     if (wantu2) call stdlib_zswap(m - p,u2(1,i),1,u2(1,mini),1)
                     if (wantv1t) call stdlib_zswap(q,v1t(i,1),ldv1t,v1t(mini,1),ldv1t)
-
+                              
                     if (wantv2t) call stdlib_zswap(m - q,v2t(i,1),ldv2t,v2t(mini,1),ldv2t)
-
+                              
                  else
                     if (wantu1) call stdlib_zswap(p,u1(i,1),ldu1,u1(mini,1),ldu1)
                     if (wantu2) call stdlib_zswap(m - p,u2(i,1),ldu2,u2(mini,1),ldu2)
@@ -1138,24 +1140,27 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldc,ldu,ldvt,n,ncc,ncvt,nru
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldc,ldu,ldvt,n,ncc,ncvt,nru
            ! .. array arguments ..
-           real(dp) :: d(*),e(*),rwork(*)
-           complex(dp) :: c(ldc,*),u(ldu,*),vt(ldvt,*)
+           real(dp),intent(inout) :: d(*),e(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: c(ldc,*),u(ldu,*),vt(ldvt,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: hndrth = 0.01_dp
            real(dp),parameter :: hndrd = 100.0_dp
            real(dp),parameter :: meigth = -0.125_dp
            integer(ilp),parameter :: maxitr = 6
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,rotate
            integer(ilp) :: i,idir,isub,iter,j,ll,lll,m,maxit,nm1,nm12,nm13,oldll, &
                      oldm
-           real(dp) :: abse,abss,cosl,cosr,cs,eps,f,g,h,mu,oldcs,oldsn,r,shift,sigmn, &
-                      sigmx,sinl,sinr,sll,smax,smin,sminl,sminoa,sn,thresh,tol,tolmul,unfl
+           real(dp) :: abse,abss,cosl,cosr,cs,eps,f,g,h,mu,oldcs,oldsn,r,shift, &
+           sigmn,sigmx,sinl,sinr,sll,smax,smin,sminl,sminoa,sn,thresh,tol,tolmul, &
+                     unfl
            ! .. intrinsic functions ..
            intrinsic :: abs,real,max,min,sign,sqrt
            ! .. executable statements ..
@@ -1214,9 +1219,9 @@ module stdlib_linalg_lapack_z
               end do
               ! update singular vectors if desired
               if (nru > 0) call stdlib_zlasr('R','V','F',nru,n,rwork(1),rwork(n),u,ldu)
-
+                        
               if (ncc > 0) call stdlib_zlasr('L','V','F',n,ncc,rwork(1),rwork(n),c,ldc)
-
+                        
            end if
            ! compute singular values to relative accuracy tol
            ! (by setting tol to be negative, algorithm will compute
@@ -1300,9 +1305,9 @@ module stdlib_linalg_lapack_z
               if (ncvt > 0) call stdlib_zdrot(ncvt,vt(m - 1,1),ldvt,vt(m,1),ldvt,cosr, &
                         sinr)
               if (nru > 0) call stdlib_zdrot(nru,u(1,m - 1),1,u(1,m),1,cosl,sinl)
-
+                        
               if (ncc > 0) call stdlib_zdrot(ncc,c(m - 1,1),ldc,c(m,1),ldc,cosl,sinl)
-
+                        
               m = m - 2
               go to 60
            end if
@@ -1543,10 +1548,10 @@ module stdlib_linalg_lapack_z
                  d(isub) = d(n + 1 - i)
                  d(n + 1 - i) = smin
                  if (ncvt > 0) call stdlib_zswap(ncvt,vt(isub,1),ldvt,vt(n + 1 - i,1),ldvt)
-
+                           
                  if (nru > 0) call stdlib_zswap(nru,u(1,isub),1,u(1,n + 1 - i),1)
                  if (ncc > 0) call stdlib_zswap(ncc,c(isub,1),ldc,c(n + 1 - i,1),ldc)
-
+                           
               end if
            end do
            go to 220
@@ -1569,12 +1574,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
-           real(dp) :: sa
+           integer(ilp),intent(in) :: incx,n
+           real(dp),intent(in) :: sa
            ! .. array arguments ..
-           complex(dp) :: sx(*)
+           complex(dp),intent(inout) :: sx(*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: done
            real(dp) :: bignum,cden,cden1,cnum,cnum1,mul,smlnum
@@ -1625,17 +1630,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: vect
-           integer(ilp) :: info,kl,ku,ldab,ldc,ldpt,ldq,m,n,ncc
+           character,intent(in) :: vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldc,ldpt,ldq,m,n,ncc
            ! .. array arguments ..
-           real(dp) :: d(*),e(*),rwork(*)
-           complex(dp) :: ab(ldab,*),c(ldc,*),pt(ldpt,*),q(ldq,*),work(*)
+           real(dp),intent(out) :: d(*),e(*),rwork(*)
+           complex(dp),intent(inout) :: ab(ldab,*),c(ldc,*)
+           complex(dp),intent(out) :: pt(ldpt,*),q(ldq,*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: wantb,wantc,wantpt,wantq
            integer(ilp) :: i,inca,j,j1,j2,kb,kb1,kk,klm,klu1,kun,l,minmn,ml,ml0,mu, &
-                     mu0,nr,nrt
+                      mu0,nr,nrt
            real(dp) :: abst,rc
            complex(dp) :: ra,rb,rs,t
            ! .. intrinsic functions ..
@@ -1827,9 +1834,9 @@ module stdlib_linalg_lapack_z
                     ab(1,i + 1) = rc*ab(1,i + 1)
                  end if
                  if (wantq) call stdlib_zrot(m,q(1,i),1,q(1,i + 1),1,rc,conjg(rs))
-
+                           
                  if (wantc) call stdlib_zrot(ncc,c(i,1),ldc,c(i + 1,1),ldc,rc,rs)
-
+                           
               end do
            else
               ! a has been reduced to complex upper bidiagonal form or is
@@ -1896,20 +1903,23 @@ module stdlib_linalg_lapack_z
      ! RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
      subroutine stdlib_zgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,rwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: info,kl,ku,ldab,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: norm
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: ab(ldab,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lnoti,onenrm
            character :: normin
@@ -1994,7 +2004,7 @@ module stdlib_linalg_lapack_z
                     do j = n - 1,1,-1
                        lm = min(kl,n - j)
                        work(j) = work(j) - stdlib_zdotc(lm,ab(kd + 1,j),1,work(j + 1),1)
-
+                                 
                        jp = ipiv(j)
                        if (jp /= j) then
                           t = work(jp)
@@ -2034,13 +2044,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,m,n
-           real(dp) :: amax,colcnd,rowcnd
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
+           real(dp),intent(out) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(dp) :: c(*),r(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(out) :: c(*),r(*)
+           complex(dp),intent(in) :: ab(ldab,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,kd
            real(dp) :: bignum,rcmax,rcmin,smlnum
@@ -2173,13 +2184,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,m,n
-           real(dp) :: amax,colcnd,rowcnd
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
+           real(dp),intent(out) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(dp) :: c(*),r(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(out) :: c(*),r(*)
+           complex(dp),intent(in) :: ab(ldab,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,kd
            real(dp) :: bignum,rcmax,rcmin,smlnum,radix,logrdx
@@ -2310,17 +2322,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldafb,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
-
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: notran
            character :: transn,transt
@@ -2476,7 +2490,7 @@ module stdlib_linalg_lapack_z
                  if (kase == 1) then
                     ! multiply by diag(w)*inv(op(a)**h).
                     call stdlib_zgbtrs(transt,n,kl,ku,1,afb,ldafb,ipiv,work,n,info)
-
+                              
                     do i = 1,n
                        work(i) = rwork(i)*work(i)
                     end do
@@ -2486,7 +2500,7 @@ module stdlib_linalg_lapack_z
                        work(i) = rwork(i)*work(i)
                     end do
                     call stdlib_zgbtrs(transn,n,kl,ku,1,afb,ldafb,ipiv,work,n,info)
-
+                              
                  end if
                  go to 100
               end if
@@ -2514,10 +2528,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ab(ldab,*),b(ldb,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: ab(ldab,*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -2546,7 +2561,7 @@ module stdlib_linalg_lapack_z
            if (info == 0) then
               ! solve the system a*x = b, overwriting b with x.
               call stdlib_zgbtrs('NO TRANSPOSE',n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
-
+                        
            end if
            return
      end subroutine stdlib_zgbsv
@@ -2564,19 +2579,22 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,trans
-           integer(ilp) :: info,kl,ku,ldab,ldafb,ldb,ldx,n,nrhs
-           real(dp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldafb,ldb,ldx,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),c(*),ferr(*),r(*),rwork(*)
-           complex(dp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
-
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(dp),intent(inout) :: c(*),r(*)
+           complex(dp),intent(inout) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
         ! moved setting of info = n+1 so info does not subsequently get
         ! overwritten.  sven, 17 mar 05.
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
@@ -2666,11 +2684,11 @@ module stdlib_linalg_lapack_z
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call stdlib_zgbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
-
+                        
               if (infequ == 0) then
                  ! equilibrate the matrix.
                  call stdlib_zlaqgb(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
-
+                           
                  rowequ = stdlib_lsame(equed,'R') .or. stdlib_lsame(equed,'B')
                  colequ = stdlib_lsame(equed,'C') .or. stdlib_lsame(equed,'B')
               end if
@@ -2697,7 +2715,7 @@ module stdlib_linalg_lapack_z
                  j1 = max(j - ku,1)
                  j2 = min(j + kl,n)
                  call stdlib_zcopy(j2 - j1 + 1,ab(ku + 1 - j + j1,j),1,afb(kl + ku + 1 - j + j1,j),1)
-
+                           
               end do
               call stdlib_zgbtrf(n,n,kl,ku,afb,ldafb,ipiv,info)
               ! return if info is non-zero.
@@ -2738,7 +2756,7 @@ module stdlib_linalg_lapack_z
            end if
            ! compute the reciprocal of the condition number of a.
            call stdlib_zgbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,rwork,info)
-
+                     
            ! compute the solution matrix x.
            call stdlib_zlacpy('FULL',n,nrhs,b,ldb,x,ldx)
            call stdlib_zgbtrs(trans,n,kl,ku,nrhs,afb,ldafb,ipiv,x,ldx,info)
@@ -2784,12 +2802,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ab(ldab,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,jp,ju,km,kv
            ! .. intrinsic functions ..
@@ -2869,15 +2888,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,kl,ku,ldab,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ab(ldab,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldwork = nbmax + 1
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,i2,i3,ii,ip,j,j2,j3,jb,jj,jm,jp,ju,k2,km,kv,nb, &
                      nw
@@ -3009,7 +3029,7 @@ module stdlib_linalg_lapack_z
                     ! use stdlib_zlaswp to apply the row interchanges to a12, a22, and
                     ! a32.
                     call stdlib_zlaswp(j2,ab(kv + 1 - jb,j + jb),ldab - 1,1,jb,ipiv(j),1)
-
+                              
                     ! adjust the pivot indices.
                     do i = j,j + jb - 1
                        ipiv(i) = ipiv(i) + j - 1
@@ -3061,7 +3081,7 @@ module stdlib_linalg_lapack_z
                           ! update a23
                           call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',i2,j3,jb,-cone,ab( &
                            kv + 1 + jb,j),ldab - 1,work13,ldwork,cone,ab(1 + jb,j + kv),ldab - 1)
-
+                                     
                        end if
                        if (i3 > 0) then
                           ! update a33
@@ -3118,13 +3138,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,kl,ku,ldab,ldb,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ab(ldab,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lnoti,notran
            integer(ilp) :: i,j,kd,l,lm
@@ -3228,13 +3250,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: job,side
-           integer(ilp) :: ihi,ilo,info,ldv,m,n
+           character,intent(in) :: job,side
+           integer(ilp),intent(in) :: ihi,ilo,ldv,m,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           real(dp) :: scale(*)
-           complex(dp) :: v(ldv,*)
+           real(dp),intent(in) :: scale(*)
+           complex(dp),intent(inout) :: v(ldv,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: leftv,rightv
            integer(ilp) :: i,ii,k
@@ -3329,16 +3352,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: job
-           integer(ilp) :: ihi,ilo,info,lda,n
+           character,intent(in) :: job
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(dp) :: scale(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(out) :: scale(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sclfac = 2.0e+0_dp
            real(dp),parameter :: factor = 0.95e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: noconv
            integer(ilp) :: i,ica,iexc,ira,j,k,l,m
@@ -3491,12 +3515,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           real(dp) :: d(*),e(*)
-           complex(dp) :: a(lda,*),taup(*),tauq(*),work(*)
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: taup(*),tauq(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            complex(dp) :: alpha
@@ -3587,12 +3613,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           real(dp) :: d(*),e(*)
-           complex(dp) :: a(lda,*),taup(*),tauq(*),work(*)
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: taup(*),tauq(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,iinfo,j,ldwrkx,ldwrky,lwkopt,minmn,nb,nbmin,nx,ws
@@ -3660,7 +3688,7 @@ module stdlib_linalg_lapack_z
               ! an update of the form  a := a - v*y**h - x*u**h
               call stdlib_zgemm('NO TRANSPOSE','CONJUGATE TRANSPOSE',m - i - nb + 1,n - i - nb + 1,nb,- &
               cone,a(i + nb,i),lda,work(ldwrkx*nb + nb + 1),ldwrky,cone,a(i + nb,i + nb),lda)
-
+                        
               call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',m - i - nb + 1,n - i - nb + 1,nb,-cone, &
                         work(nb + 1),ldwrkx,a(i,i + nb),lda,cone,a(i + nb,i + nb),lda)
               ! copy diagonal and off-diagonal elements of b back into a
@@ -3695,14 +3723,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: info,lda,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: norm
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: onenrm
            character :: normin
@@ -3801,13 +3832,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
-           real(dp) :: amax,colcnd,rowcnd
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
+           real(dp),intent(out) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(dp) :: c(*),r(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(out) :: c(*),r(*)
+           complex(dp),intent(in) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: bignum,rcmax,rcmin,smlnum
@@ -3934,13 +3966,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
-           real(dp) :: amax,colcnd,rowcnd
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
+           real(dp),intent(out) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(dp) :: c(*),r(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(out) :: c(*),r(*)
+           complex(dp),intent(in) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: bignum,rcmax,rcmin,smlnum,radix,logrdx
@@ -4071,16 +4104,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvs,sort
-           integer(ilp) :: info,lda,ldvs,lwork,n,sdim
+           character,intent(in) :: jobvs,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldvs,lwork,n
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),vs(ldvs,*),w(*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: vs(ldvs,*),w(*),work(*)
            ! .. function arguments ..
            procedure(stdlib_select_z) :: select
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,scalea,wantst,wantvs
            integer(ilp) :: hswork,i,ibal,icond,ierr,ieval,ihi,ilo,itau,iwrk,maxwrk, &
@@ -4125,7 +4160,7 @@ module stdlib_linalg_lapack_z
                  maxwrk = n + n*stdlib_ilaenv(1,'ZGEHRD',' ',n,1,n,0)
                  minwrk = 2*n
                  call stdlib_zhseqr('S',jobvs,n,1,n,a,lda,w,vs,ldvs,work,-1,ieval)
-
+                           
                  hswork = real(work(1),KIND=dp)
                  if (.not. wantvs) then
                     maxwrk = max(maxwrk,hswork)
@@ -4246,21 +4281,23 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvs,sense,sort
-           integer(ilp) :: info,lda,ldvs,lwork,n,sdim
-           real(dp) :: rconde,rcondv
+           character,intent(in) :: jobvs,sense,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldvs,lwork,n
+           real(dp),intent(out) :: rconde,rcondv
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),vs(ldvs,*),w(*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: vs(ldvs,*),w(*),work(*)
            ! .. function arguments ..
            procedure(stdlib_select_z) :: select
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,scalea,wantsb,wantse,wantsn,wantst,wantsv,wantvs
-           integer(ilp) :: hswork,i,ibal,icond,ierr,ieval,ihi,ilo,itau,iwrk,lwrk,maxwrk, &
-                      minwrk
+           integer(ilp) :: hswork,i,ibal,icond,ierr,ieval,ihi,ilo,itau,iwrk,lwrk, &
+                     maxwrk,minwrk
            real(dp) :: anrm,bignum,cscale,eps,smlnum
            ! .. local arrays ..
            real(dp) :: dum(1)
@@ -4311,7 +4348,7 @@ module stdlib_linalg_lapack_z
                  maxwrk = n + n*stdlib_ilaenv(1,'ZGEHRD',' ',n,1,n,0)
                  minwrk = 2*n
                  call stdlib_zhseqr('S',jobvs,n,1,n,a,lda,w,vs,ldvs,work,-1,ieval)
-
+                           
                  hswork = real(work(1),KIND=dp)
                  if (.not. wantvs) then
                     maxwrk = max(maxwrk,hswork)
@@ -4442,13 +4479,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvl,jobvr
-           integer(ilp) :: info,lda,ldvl,ldvr,lwork,n
+           character,intent(in) :: jobvl,jobvr
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldvl,ldvr,lwork,n
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: vl(ldvl,*),vr(ldvr,*),w(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,scalea,wantvl,wantvr
            character :: side
@@ -4505,7 +4544,7 @@ module stdlib_linalg_lapack_z
                     lwork_trevc = int(work(1),KIND=ilp)
                     maxwrk = max(maxwrk,n + lwork_trevc)
                     call stdlib_zhseqr('S','V',n,1,n,a,lda,w,vl,ldvl,work,-1,info)
-
+                              
                  else if (wantvr) then
                     maxwrk = max(maxwrk,n + (n - 1)*stdlib_ilaenv(1,'ZUNGHR',' ',n,1,n,- &
                               1))
@@ -4514,10 +4553,10 @@ module stdlib_linalg_lapack_z
                     lwork_trevc = int(work(1),KIND=ilp)
                     maxwrk = max(maxwrk,n + lwork_trevc)
                     call stdlib_zhseqr('S','V',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-
+                              
                  else
                     call stdlib_zhseqr('E','N',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-
+                              
                  end if
                  hswork = int(work(1),KIND=ilp)
                  maxwrk = max(maxwrk,hswork,minwrk)
@@ -4704,14 +4743,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: balanc,jobvl,jobvr,sense
-           integer(ilp) :: ihi,ilo,info,lda,ldvl,ldvr,lwork,n
-           real(dp) :: abnrm
+           character,intent(in) :: balanc,jobvl,jobvr,sense
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,ldvl,ldvr,lwork,n
+           real(dp),intent(out) :: abnrm
            ! .. array arguments ..
-           real(dp) :: rconde(*),rcondv(*),rwork(*),scale(*)
-           complex(dp) :: a(lda,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
+           real(dp),intent(out) :: rconde(*),rcondv(*),rwork(*),scale(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: vl(ldvl,*),vr(ldvr,*),w(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,scalea,wantvl,wantvr,wntsnb,wntsne,wntsnn,wntsnv
            character :: job,side
@@ -4775,21 +4816,21 @@ module stdlib_linalg_lapack_z
                     lwork_trevc = int(work(1),KIND=ilp)
                     maxwrk = max(maxwrk,lwork_trevc)
                     call stdlib_zhseqr('S','V',n,1,n,a,lda,w,vl,ldvl,work,-1,info)
-
+                              
                  else if (wantvr) then
                     call stdlib_ztrevc3('R','B',select,n,a,lda,vl,ldvl,vr,ldvr,n,nout, &
                               work,-1,rwork,-1,ierr)
                     lwork_trevc = int(work(1),KIND=ilp)
                     maxwrk = max(maxwrk,lwork_trevc)
                     call stdlib_zhseqr('S','V',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-
+                              
                  else
                     if (wntsnn) then
                        call stdlib_zhseqr('E','N',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-
+                                 
                     else
                        call stdlib_zhseqr('S','N',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-
+                                 
                     end if
                  end if
                  hswork = int(work(1),KIND=ilp)
@@ -4980,11 +5021,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ilo,info,lda,n
+           integer(ilp),intent(in) :: ihi,ilo,lda,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            complex(dp) :: alpha
@@ -5030,15 +5073,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ilo,info,lda,lwork,n
+           integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iinfo,iwt,j,ldwork,lwkopt,nb,nbmin,nh,nx
@@ -5166,19 +5211,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldu,ldv,lwork,lrwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldu,ldv,lwork,lrwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),u(ldu,*),v(ldv,*),cwork(lwork)
-           real(dp) :: sva(n),rwork(lrwork)
-           integer(ilp) :: iwork(*)
-           character :: joba,jobp,jobr,jobt,jobu,jobv
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: u(ldu,*),v(ldv,*),cwork(lwork)
+           real(dp),intent(out) :: sva(n),rwork(lrwork)
+           integer(ilp),intent(out) :: iwork(*)
+           character,intent(in) :: joba,jobp,jobr,jobt,jobu,jobv
         ! ===========================================================================
-
+           
            ! .. local scalars ..
            complex(dp) :: ctemp
-           real(dp) :: aapp,aaqq,aatmax,aatmin,big,big1,cond_ok,condr1,condr2, &
-           entra,entrat,epsln,maxprj,scalem,sconda,sfmin,small,temp1,uscal1,uscal2, &
-                     xsc
+           real(dp) :: aapp,aaqq,aatmax,aatmin,big,big1,cond_ok,condr1,condr2,entra, &
+                     entrat,epsln,maxprj,scalem,sconda,sfmin,small,temp1,uscal1,uscal2,xsc
            integer(ilp) :: ierr,n1,nr,numrank,p,q,warning
            logical(lk) :: almort,defr,errest,goscal,jracc,kill,lquery,lsvec,l2aber, &
                      l2kill,l2pert,l2rank,l2tran,noscal,rowpiv,rsvec,transp
@@ -5262,7 +5308,7 @@ module stdlib_linalg_lapack_z
                lrwsvdj = n
                if (lquery) then
                    call stdlib_zgeqp3(m,n,a,lda,iwork,cdummy,cdummy,-1,rdummy,ierr)
-
+                             
                    lwrk_zgeqp3 = real(cdummy(1),KIND=dp)
                    call stdlib_zgeqrf(n,n,a,lda,cdummy,cdummy,-1,ierr)
                    lwrk_zgeqrf = real(cdummy(1),KIND=dp)
@@ -5286,7 +5332,7 @@ module stdlib_linalg_lapack_z
                        lwrk_zgesvj = real(cdummy(1),KIND=dp)
                        if (errest) then
                            optwrk = max(n + lwrk_zgeqp3,n**2 + lwcon,n + lwrk_zgeqrf,lwrk_zgesvj)
-
+                                     
                        else
                            optwrk = max(n + lwrk_zgeqp3,n + lwrk_zgeqrf,lwrk_zgesvj)
                        end if
@@ -5313,7 +5359,7 @@ module stdlib_linalg_lapack_z
                                 lwunmlq)
                   else
                       minwrk = max(n + lwqp3,lwsvdj,n + lwlqf,2*n + lwqrf,n + lwsvdj,n + lwunmlq)
-
+                                
                   end if
                   if (lquery) then
                       call stdlib_zgesvj('L','U','N',n,n,u,ldu,sva,n,a,lda,cdummy,-1, &
@@ -5364,7 +5410,7 @@ module stdlib_linalg_lapack_z
                                 lwrk_zunmqrm)
                       else
                       optwrk = n + max(lwrk_zgeqp3,n + lwrk_zgeqrf,lwrk_zgesvj,lwrk_zunmqrm)
-
+                                
                       end if
                   end if
                   if (l2tran .or. rowpiv) then
@@ -5417,7 +5463,7 @@ module stdlib_linalg_lapack_z
                       lwrk_zunmqr = real(cdummy(1),KIND=dp)
                       if (.not. jracc) then
                           call stdlib_zgeqp3(n,n,a,lda,iwork,cdummy,cdummy,-1,rdummy,ierr)
-
+                                    
                           lwrk_zgeqp3n = real(cdummy(1),KIND=dp)
                           call stdlib_zgesvj('L','U','N',n,n,u,ldu,sva,n,v,ldv,cdummy, &
                                     -1,rdummy,-1,ierr)
@@ -5803,7 +5849,7 @@ module stdlib_linalg_lapack_z
               iwork(p) = 0
            end do
            call stdlib_zgeqp3(m,n,a,lda,iwork,cwork,cwork(n + 1),lwork - n,rwork,ierr)
-
+                     
            ! the upper triangular matrix r1 from the first qrf is inspected for
            ! rank deficiency and possibilities for deflation, or possible
            ! ill-conditioning. depending on the user specified flag l2rank,
@@ -5876,10 +5922,10 @@ module stdlib_linalg_lapack_z
                     end do
                     if (lsvec) then
                         call stdlib_zpocon('U',n,v,ldv,one,temp1,cwork(n + 1),rwork,ierr)
-
+                                  
                     else
                         call stdlib_zpocon('U',n,v,ldv,one,temp1,cwork,rwork,ierr)
-
+                                  
                     end if
                  else if (lsvec) then
                     ! .. u is available as workspace
@@ -5889,7 +5935,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zdscal(p,one/temp1,u(1,p),1)
                     end do
                     call stdlib_zpocon('U',n,u,ldu,one,temp1,cwork(n + 1),rwork,ierr)
-
+                              
                  else
                     call stdlib_zlacpy('U',n,n,a,lda,cwork,n)
       ! []            call stdlib_zlacpy( 'u', n, n, a, lda, cwork(n+1), n )
@@ -5904,7 +5950,7 @@ module stdlib_linalg_lapack_z
       ! []               call stdlib_zpocon( 'u', n, cwork(n+1), n, one, temp1,
       ! []     $              cwork(n+n*n+1), rwork, ierr )
                     call stdlib_zpocon('U',n,cwork,n,one,temp1,cwork(n*n + 1),rwork,ierr)
-
+                              
                  end if
                  if (temp1 /= zero) then
                     sconda = one/sqrt(temp1)
@@ -6008,7 +6054,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlacpy('L',nr,nr,a,lda,v,ldv)
                  call stdlib_zlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
                  call stdlib_zgeqrf(nr,nr,v,ldv,cwork(n + 1),cwork(2*n + 1),lwork - 2*n,ierr)
-
+                           
                  do p = 1,nr
                     call stdlib_zcopy(nr - p + 1,v(p,p),ldv,v(p,p),1)
                     call stdlib_zlacgv(nr - p + 1,v(p,p),1)
@@ -6052,7 +6098,7 @@ module stdlib_linalg_lapack_z
               end do
               call stdlib_zlaset('U',nr - 1,nr - 1,czero,czero,u(1,2),ldu)
               call stdlib_zgeqrf(n,nr,u,ldu,cwork(n + 1),cwork(2*n + 1),lwork - 2*n,ierr)
-
+                        
               do p = 1,nr - 1
                  call stdlib_zcopy(nr - p,u(p,p + 1),ldu,u(p + 1,p),1)
                  call stdlib_zlacgv(n - p + 1,u(p,p),1)
@@ -6141,7 +6187,7 @@ module stdlib_linalg_lapack_z
                     ! of a lower triangular matrix.
                     ! r1^* = q2 * r2
                     call stdlib_zgeqrf(n,nr,v,ldv,cwork(n + 1),cwork(2*n + 1),lwork - 2*n,ierr)
-
+                              
                     if (l2pert) then
                        xsc = sqrt(small)/epsln
                        do p = 2,nr
@@ -6153,7 +6199,7 @@ module stdlib_linalg_lapack_z
                        end do
                     end if
                     if (nr /= n) call stdlib_zlacpy('A',n,nr,v,ldv,cwork(2*n + 1),n)
-
+                              
                     ! .. save ...
                  ! .. this transposed copy should be better than naive
                     do p = 1,nr - 1
@@ -6454,7 +6500,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
               end if
               call stdlib_zgeqrf(n,nr,v,ldv,cwork(n + 1),cwork(2*n + 1),lwork - 2*n,ierr)
-
+                        
               call stdlib_zlacpy('L',n,nr,v,ldv,cwork(2*n + 1),n)
               do p = 1,nr
                  call stdlib_zcopy(nr - p + 1,v(p,p),ldv,u(p,p),1)
@@ -6564,9 +6610,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,tsize,lwork
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,tsize,lwork
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: t(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,lminws,mint,minw
@@ -6687,11 +6735,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,k
            complex(dp) :: alpha
@@ -6741,9 +6791,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -6811,7 +6863,7 @@ module stdlib_linalg_lapack_z
                     ! apply h to a(i+ib:m,i:n) from the right
                     call stdlib_zlarfb('RIGHT','NO TRANSPOSE','FORWARD','ROWWISE',m - i - ib + 1,n - &
                     i + 1,ib,a(i,i),lda,work,ldwork,a(i + ib,i),lda,work(ib + 1),ldwork)
-
+                              
                  end if
               end do
            else
@@ -6819,7 +6871,7 @@ module stdlib_linalg_lapack_z
            end if
            ! use unblocked code to factor the last or only block.
            if (i <= k) call stdlib_zgelq2(m - i + 1,n - i + 1,a(i,i),lda,tau(i),work,iinfo)
-
+                     
            work(1) = iws
            return
      end subroutine stdlib_zgelqf
@@ -6832,9 +6884,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,m,n,mb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,m,n,mb
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(ldt,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: t(ldt,*),work(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ib,iinfo,k
@@ -6883,11 +6937,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,ldt
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,ldt
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: t(ldt,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,i1,j,j1,m1,m2,iinfo
            ! .. executable statements ..
@@ -6924,15 +6980,15 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_ztrmm('R','U','C','U',m2,m1,cone,a,lda,t(i1,1),ldt)
-
+                        
               call stdlib_zgemm('N','C',m2,m1,n - m1,cone,a(i1,i1),lda,a(1,i1),lda, &
                         cone,t(i1,1),ldt)
               call stdlib_ztrmm('R','U','N','N',m2,m1,cone,t,ldt,t(i1,1),ldt)
-
+                        
               call stdlib_zgemm('N','N',m2,n - m1,m1,-cone,t(i1,1),ldt,a(1,i1),lda, &
                         cone,a(i1,i1),lda)
               call stdlib_ztrmm('R','U','N','U',m2,m1,cone,a,lda,t(i1,1),ldt)
-
+                        
               do i = 1,m2
                  do j = 1,m1
                     a(i + m1,j) = a(i + m1,j) - t(i + m1,j)
@@ -6952,7 +7008,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('N','C',m1,m2,n - m,cone,a(1,j1),lda,a(i1,j1),lda, &
                         cone,t(1,i1),ldt)
               call stdlib_ztrmm('L','U','N','N',m1,m2,-cone,t,ldt,t(1,i1),ldt)
-
+                        
               call stdlib_ztrmm('R','U','N','N',m1,m2,cone,t(i1,i1),ldt,t(1,i1), &
                         ldt)
               ! y = (y1,y2); l = [ l1            0  ];  t = [t1 t3]
@@ -6985,12 +7041,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,tpsd
            integer(ilp) :: brow,i,iascl,ibscl,j,mn,nb,scllen,wsize
@@ -7208,18 +7266,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-           real(dp) :: rcond
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(dp),intent(in) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: rwork(*),s(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),s(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(ilp) :: iascl,ibscl,ie,il,itau,itaup,itauq,ldwork,liwork,lrwork,maxmn, &
-                      maxwrk,minmn,minwrk,mm,mnthr,nlvl,nrwork,nwork,smlsiz
+           integer(ilp) :: iascl,ibscl,ie,il,itau,itaup,itauq,ldwork,liwork,lrwork, &
+                     maxmn,maxwrk,minmn,minwrk,mm,mnthr,nlvl,nrwork,nwork,smlsiz
            real(dp) :: anrm,bignum,bnrm,eps,sfmin,smlnum
            ! .. intrinsic functions ..
            intrinsic :: int,log,max,min,real
@@ -7263,9 +7323,9 @@ module stdlib_linalg_lapack_z
                               ! columns.
                     mm = n
                     maxwrk = max(maxwrk,n*stdlib_ilaenv(1,'ZGEQRF',' ',m,n,-1,-1))
-
+                              
                     maxwrk = max(maxwrk,nrhs*stdlib_ilaenv(1,'ZUNMQR','LC',m,nrhs,n,-1))
-
+                              
                  end if
                  if (m >= n) then
                     ! path 1 - overdetermined or exactly determined.
@@ -7305,7 +7365,7 @@ module stdlib_linalg_lapack_z
                     else
                        ! path 2 - underdetermined.
                        maxwrk = 2*m + (n + m)*stdlib_ilaenv(1,'ZGEBRD',' ',m,n,-1,-1)
-
+                                 
                        maxwrk = max(maxwrk,2*m + nrhs*stdlib_ilaenv(1,'ZUNMBR','QLC',m,nrhs, &
                                   m,-1))
                        maxwrk = max(maxwrk,2*m + m*stdlib_ilaenv(1,'ZUNMBR','PLN',n,nrhs,m, &
@@ -7430,7 +7490,7 @@ module stdlib_linalg_lapack_z
               ! compute a=l*q.
               ! (cworkspace: need 2*m, prefer m+m*nb)
               call stdlib_zgelqf(m,n,a,lda,work(itau),work(nwork),lwork - nwork + 1,info)
-
+                        
               il = nwork
               ! copy l to work(il), zeroing out above its diagonal.
               call stdlib_zlacpy('L',m,m,a,lda,work(il),ldwork)
@@ -7530,13 +7590,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-           real(dp) :: rcond
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(dp),intent(in) :: rcond
            ! .. array arguments ..
-           real(dp) :: rwork(*),s(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           real(dp),intent(out) :: rwork(*),s(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: bl,chunk,i,iascl,ibscl,ie,il,irwork,itau,itaup,itauq,iwork, &
@@ -7590,7 +7652,7 @@ module stdlib_linalg_lapack_z
                     lwork_zunmqr = real(dum(1),KIND=dp)
                     mm = n
                     maxwrk = max(maxwrk,n + n*stdlib_ilaenv(1,'ZGEQRF',' ',m,n,-1,-1))
-
+                              
                     maxwrk = max(maxwrk,n + nrhs*stdlib_ilaenv(1,'ZUNMQR','LC',m,nrhs,n,- &
                               1))
                  end if
@@ -7598,7 +7660,7 @@ module stdlib_linalg_lapack_z
                     ! path 1 - overdetermined or exactly determined
                     ! compute space needed for stdlib_zgebrd
                     call stdlib_zgebrd(mm,n,a,lda,s,s,dum(1),dum(1),dum(1),-1,info)
-
+                              
                     lwork_zgebrd = real(dum(1),KIND=dp)
                     ! compute space needed for stdlib_zunmbr
                     call stdlib_zunmbr('Q','L','C',mm,nrhs,n,a,lda,dum(1),b,ldb,dum(1), &
@@ -7624,7 +7686,7 @@ module stdlib_linalg_lapack_z
                        lwork_zgelqf = real(dum(1),KIND=dp)
                        ! compute space needed for stdlib_zgebrd
                        call stdlib_zgebrd(m,m,a,lda,s,s,dum(1),dum(1),dum(1),-1,info)
-
+                                 
                        lwork_zgebrd = real(dum(1),KIND=dp)
                        ! compute space needed for stdlib_zunmbr
                        call stdlib_zunmbr('Q','L','C',m,nrhs,n,a,lda,dum(1),b,ldb,dum( &
@@ -7652,7 +7714,7 @@ module stdlib_linalg_lapack_z
                        ! path 2 - underdetermined
                        ! compute space needed for stdlib_zgebrd
                        call stdlib_zgebrd(m,n,a,lda,s,s,dum(1),dum(1),dum(1),-1,info)
-
+                                 
                        lwork_zgebrd = real(dum(1),KIND=dp)
                        ! compute space needed for stdlib_zunmbr
                        call stdlib_zunmbr('Q','L','C',m,nrhs,m,a,lda,dum(1),b,ldb,dum( &
@@ -7786,7 +7848,7 @@ module stdlib_linalg_lapack_z
               ! (rworkspace: none)
               if (lwork >= ldb*nrhs .and. nrhs > 1) then
                  call stdlib_zgemm('C','N',n,nrhs,n,cone,a,lda,b,ldb,czero,work,ldb)
-
+                           
                  call stdlib_zlacpy('G',n,nrhs,work,ldb,b,ldb)
               else if (nrhs > 1) then
                  chunk = lwork/n
@@ -7812,7 +7874,7 @@ module stdlib_linalg_lapack_z
               ! (cworkspace: need 2*m, prefer m+m*nb)
               ! (rworkspace: none)
               call stdlib_zgelqf(m,n,a,lda,work(itau),work(iwork),lwork - iwork + 1,info)
-
+                        
               il = iwork
               ! copy l to work(il), zeroing out above it
               call stdlib_zlacpy('L',m,m,a,lda,work(il),ldwork)
@@ -7933,7 +7995,7 @@ module stdlib_linalg_lapack_z
               ! (rworkspace: none)
               if (lwork >= ldb*nrhs .and. nrhs > 1) then
                  call stdlib_zgemm('C','N',n,nrhs,m,cone,a,lda,b,ldb,czero,work,ldb)
-
+                           
                  call stdlib_zlacpy('G',n,nrhs,work,ldb,b,ldb)
               else if (nrhs > 1) then
                  chunk = lwork/n
@@ -8005,17 +8067,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs,rank
-           real(dp) :: rcond
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
+           real(dp),intent(in) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: jpvt(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: imax = 1
            integer(ilp),parameter :: imin = 2
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,iascl,ibscl,ismax,ismin,j,lwkopt,mn,nb,nb1,nb2,nb3, &
@@ -8097,7 +8161,7 @@ module stdlib_linalg_lapack_z
            ! compute qr factorization with column pivoting of a:
               ! a * p = q * r
            call stdlib_zgeqp3(m,n,a,lda,jpvt,work(1),work(mn + 1),lwork - mn,rwork,info)
-
+                     
            wsize = mn + real(work(mn + 1),KIND=dp)
            ! complex workspace: mn+nb*(n+1). real workspace 2*n.
            ! details of householder rotations stored in work(1:mn).
@@ -8196,15 +8260,18 @@ module stdlib_linalg_lapack_z
      ! LQ factorization (ZGELQ)
 
      subroutine stdlib_zgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,k,tsize,lwork,ldc
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(*),c(ldc,*),work(*)
+           complex(dp),intent(in) :: a(lda,*),t(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran,lquery
@@ -8292,15 +8359,18 @@ module stdlib_linalg_lapack_z
      ! Q is of order M if SIDE = 'L' and of order N  if SIDE = 'R'.
 
      subroutine stdlib_zgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,ldv,ldc,m,n,mb,ldt
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,ldv,ldc,m,n,mb,ldt
            ! .. array arguments ..
-           complex(dp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
+           complex(dp),intent(in) :: v(ldv,*),t(ldt,*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran
@@ -8385,15 +8455,18 @@ module stdlib_linalg_lapack_z
      ! QR factorization (ZGEQR)
 
      subroutine stdlib_zgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,lda,m,n,k,tsize,lwork,ldc
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,k,tsize,lwork,ldc
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(*),c(ldc,*),work(*)
+           complex(dp),intent(in) :: a(lda,*),t(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran,lquery
@@ -8481,15 +8554,18 @@ module stdlib_linalg_lapack_z
      ! Q is of order M if SIDE = 'L' and of order N  if SIDE = 'R'.
 
      subroutine stdlib_zgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,ldv,ldc,m,n,nb,ldt
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,ldv,ldc,m,n,nb,ldt
            ! .. array arguments ..
-           complex(dp) :: v(ldv,*),c(ldc,*),t(ldt,*),work(*)
+           complex(dp),intent(in) :: v(ldv,*),t(ldt,*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran
@@ -8573,11 +8649,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,k
            complex(dp) :: alpha
@@ -8620,9 +8698,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -8692,7 +8772,7 @@ module stdlib_linalg_lapack_z
                  ! compute the ql factorization of the current block
                  ! a(1:m-k+i+ib-1,n-k+i:n-k+i+ib-1)
                  call stdlib_zgeql2(m - k + i + ib - 1,ib,a(1,n - k + i),lda,tau(i),work,iinfo)
-
+                           
                  if (n - k + i > 1) then
                     ! form the triangular factor of the block reflector
                     ! h = h(i+ib-1) . . . h(i+1) h(i)
@@ -8724,17 +8804,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           integer(ilp) :: jpvt(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: inb = 1
            integer(ilp),parameter :: inbmin = 2
            integer(ilp),parameter :: ixover = 3
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: fjb,iws,j,jb,lwkopt,minmn,minws,na,nb,nbmin,nfxd,nx,sm, &
@@ -8831,7 +8913,7 @@ module stdlib_linalg_lapack_z
                        ! determine the minimum value of nb.
                        nb = lwork/(sn + 1)
                        nbmin = max(2,stdlib_ilaenv(inbmin,'ZGEQRF',' ',sm,sn,-1,-1))
-
+                                 
                     end if
                  end if
               end if
@@ -8879,9 +8961,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,tsize,lwork
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,tsize,lwork
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: t(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,lminws,mint,minw
@@ -8992,11 +9076,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,k
            complex(dp) :: alpha
@@ -9046,11 +9132,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,k
            complex(dp) :: alpha
@@ -9099,9 +9187,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -9181,7 +9271,7 @@ module stdlib_linalg_lapack_z
            end if
            ! use unblocked code to factor the last or only block.
            if (i <= k) call stdlib_zgeqr2(m - i + 1,n - i + 1,a(i,i),lda,tau(i),work,iinfo)
-
+                     
            work(1) = iws
            return
      end subroutine stdlib_zgeqrf
@@ -9200,9 +9290,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -9278,7 +9370,7 @@ module stdlib_linalg_lapack_z
            end if
            ! use unblocked code to factor the last or only block.
            if (i <= k) call stdlib_zgeqr2p(m - i + 1,n - i + 1,a(i,i),lda,tau(i),work,iinfo)
-
+                     
            work(1) = iws
            return
      end subroutine stdlib_zgeqrfp
@@ -9291,14 +9383,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,m,n,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,m,n,nb
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(ldt,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: t(ldt,*),work(*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk),parameter :: use_recursive_qr = .true.
            integer(ilp) :: i,ib,iinfo,k
-
+           
            ! .. executable statements ..
            ! test the input arguments
            info = 0
@@ -9346,11 +9440,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: t(ldt,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,k
            complex(dp) :: aii,alpha
@@ -9414,11 +9510,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,ldt
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,ldt
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: t(ldt,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,i1,j,j1,n1,n2,iinfo
            ! .. executable statements ..
@@ -9454,15 +9552,15 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_ztrmm('L','L','C','U',n1,n2,cone,a,lda,t(1,j1),ldt)
-
+                        
               call stdlib_zgemm('C','N',n1,n2,m - n1,cone,a(j1,1),lda,a(j1,j1),lda, &
                         cone,t(1,j1),ldt)
               call stdlib_ztrmm('L','U','C','N',n1,n2,cone,t,ldt,t(1,j1),ldt)
-
+                        
               call stdlib_zgemm('N','N',m - n1,n2,n1,-cone,a(j1,1),lda,t(1,j1),ldt, &
                         cone,a(j1,j1),lda)
               call stdlib_ztrmm('L','L','N','U',n1,n2,cone,a,lda,t(1,j1),ldt)
-
+                        
               do j = 1,n2
                  do i = 1,n1
                     a(i,j + n1) = a(i,j + n1) - t(i,j + n1)
@@ -9481,7 +9579,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('C','N',n1,n2,m - n,cone,a(i1,1),lda,a(i1,j1),lda, &
                         cone,t(1,j1),ldt)
               call stdlib_ztrmm('L','U','N','N',n1,n2,-cone,t,ldt,t(1,j1),ldt)
-
+                        
               call stdlib_ztrmm('R','U','N','N',n1,n2,cone,t(j1,j1),ldt,t(1,j1), &
                         ldt)
               ! y = (y1,y2); r = [ r1  a(1:n1,j1:n) ];  t = [t1 t3]
@@ -9500,16 +9598,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: notran
            character :: transn,transt
@@ -9688,11 +9789,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,k
            complex(dp) :: alpha
@@ -9737,9 +9840,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -9809,7 +9914,7 @@ module stdlib_linalg_lapack_z
                  ! compute the rq factorization of the current block
                  ! a(m-k+i:m-k+i+ib-1,1:n-k+i+ib-1)
                  call stdlib_zgerq2(ib,n - k + i + ib - 1,a(m - k + i,1),lda,tau(i),work,iinfo)
-
+                           
                  if (m - k + i > 1) then
                     ! form the triangular factor of the block reflector
                     ! h = h(i+ib-1) . . . h(i+1) h(i)
@@ -9818,7 +9923,7 @@ module stdlib_linalg_lapack_z
                     ! apply h to a(1:m-k+i-1,1:n-k+i+ib-1) from the right
                     call stdlib_zlarfb('RIGHT','NO TRANSPOSE','BACKWARD','ROWWISE',m - k + i - 1,n - &
                     k + i + ib - 1,ib,a(m - k + i,1),lda,work,ldwork,a,lda,work(ib + 1),ldwork)
-
+                              
                  end if
               end do
               mu = m - k + i + nb - 1
@@ -9843,13 +9948,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,n
-           real(dp) :: scale
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(out) :: scale
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*),jpiv(*)
-           complex(dp) :: a(lda,*),rhs(*)
+           integer(ilp),intent(in) :: ipiv(*),jpiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: rhs(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: bignum,eps,smlnum
@@ -9915,19 +10021,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz
-           integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n
+           character,intent(in) :: jobz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldu,ldvt,lwork,m,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: rwork(*),s(*)
-           complex(dp) :: a(lda,*),u(ldu,*),vt(ldvt,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),s(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: u(ldu,*),vt(ldvt,*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,wntqa,wntqas,wntqn,wntqo,wntqs
            integer(ilp) :: blk,chunk,i,ie,ierr,il,ir,iru,irvt,iscl,itau,itaup,itauq, &
            iu,ivt,ldwkvt,ldwrkl,ldwrkr,ldwrku,maxwrk,minmn,minwrk,mnthr1,mnthr2,nrwork, &
-                     nwork,wrkbl
+                      nwork,wrkbl
            integer(ilp) :: lwork_zgebrd_mn,lwork_zgebrd_mm,lwork_zgebrd_nn,lwork_zgelqf_mn, &
            lwork_zgeqrf_mn,lwork_zungbr_p_mn,lwork_zungbr_p_nn,lwork_zungbr_q_mn, &
            lwork_zungbr_q_mm,lwork_zunglq_mn,lwork_zunglq_nn,lwork_zungqr_mm,lwork_zungqr_mn, &
@@ -10347,7 +10455,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zgemm('N','N',chunk,n,n,cone,a(i,1),lda,work(iu), &
                                  ldwrku,czero,work(ir),ldwrkr)
                        call stdlib_zlacpy('F',chunk,n,work(ir),ldwrkr,a(i,1),lda)
-
+                                 
                     end do
                  else if (wntqs) then
                     ! path 3 (m >> n, jobz='s')
@@ -10561,7 +10669,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zlacrm(chunk,n,a(i,1),lda,rwork(iru),n,work(iu), &
                                  ldwrku,rwork(nrwork))
                        call stdlib_zlacpy('F',chunk,n,work(iu),ldwrku,a(i,1),lda)
-
+                                 
                     end do
                  else if (wntqs) then
                     ! path 5s (m >> n, jobz='s')
@@ -10594,7 +10702,7 @@ module stdlib_linalg_lapack_z
                     ! cworkspace: need   0
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + 2*n*n [rwork]
                     call stdlib_zlarcm(n,n,rwork(irvt),n,vt,ldvt,a,lda,rwork(nrwork))
-
+                              
                     call stdlib_zlacpy('F',n,n,a,lda,vt,ldvt)
                     ! multiply q in u by realmatrix rwork(iru,KIND=dp), storing the
                     ! result in a, copying to u
@@ -10602,7 +10710,7 @@ module stdlib_linalg_lapack_z
                     ! rworkspace: need   n [e] + n*n [ru] + 2*m*n [rwork] < n + 5*n*n since m < 2*n here
                     nrwork = irvt
                     call stdlib_zlacrm(m,n,u,ldu,rwork(iru),n,a,lda,rwork(nrwork))
-
+                              
                     call stdlib_zlacpy('F',m,n,a,lda,u,ldu)
                  else
                     ! path 5a (m >> n, jobz='a')
@@ -10635,7 +10743,7 @@ module stdlib_linalg_lapack_z
                     ! cworkspace: need   0
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + 2*n*n [rwork]
                     call stdlib_zlarcm(n,n,rwork(irvt),n,vt,ldvt,a,lda,rwork(nrwork))
-
+                              
                     call stdlib_zlacpy('F',n,n,a,lda,vt,ldvt)
                     ! multiply q in u by realmatrix rwork(iru,KIND=dp), storing the
                     ! result in a, copying to u
@@ -10643,7 +10751,7 @@ module stdlib_linalg_lapack_z
                     ! rworkspace: need   n [e] + n*n [ru] + 2*m*n [rwork] < n + 5*n*n since m < 2*n here
                     nrwork = irvt
                     call stdlib_zlacrm(m,n,u,ldu,rwork(iru),n,a,lda,rwork(nrwork))
-
+                              
                     call stdlib_zlacpy('F',m,n,a,lda,u,ldu)
                  end if
               else
@@ -10731,7 +10839,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zlacrm(chunk,n,a(i,1),lda,rwork(iru),n,work(iu) &
                                     ,ldwrku,rwork(nrwork))
                           call stdlib_zlacpy('F',chunk,n,work(iu),ldwrku,a(i,1),lda)
-
+                                    
                        end do
                     end if
                  else if (wntqs) then
@@ -10860,7 +10968,7 @@ module stdlib_linalg_lapack_z
                     ! copy l to work(il), zeroing about above it
                     call stdlib_zlacpy('L',m,m,a,lda,work(il),ldwrkl)
                     call stdlib_zlaset('U',m - 1,m - 1,czero,czero,work(il + ldwrkl),ldwrkl)
-
+                              
                     ! generate q in a
                     ! cworkspace: need   m*m [vt] + m*m [l] + m [tau] + m    [work]
                     ! cworkspace: prefer m*m [vt] + m*m [l] + m [tau] + m*nb [work]
@@ -10913,7 +11021,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zgemm('N','N',m,blk,m,cone,work(ivt),m,a(1,i), &
                                  lda,czero,work(il),ldwrkl)
                        call stdlib_zlacpy('F',m,blk,work(il),ldwrkl,a(1,i),lda)
-
+                                 
                     end do
                  else if (wntqs) then
                     ! path 3t (n >> m, jobz='s')
@@ -10933,7 +11041,7 @@ module stdlib_linalg_lapack_z
                     ! copy l to work(il), zeroing out above it
                     call stdlib_zlacpy('L',m,m,a,lda,work(il),ldwrkl)
                     call stdlib_zlaset('U',m - 1,m - 1,czero,czero,work(il + ldwrkl),ldwrkl)
-
+                              
                     ! generate q in a
                     ! cworkspace: need   m*m [l] + m [tau] + m    [work]
                     ! cworkspace: prefer m*m [l] + m [tau] + m*nb [work]
@@ -11130,7 +11238,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zlarcm(m,blk,rwork(irvt),m,a(1,i),lda,work(ivt), &
                                  ldwkvt,rwork(nrwork))
                        call stdlib_zlacpy('F',m,blk,work(ivt),ldwkvt,a(1,i),lda)
-
+                                 
                     end do
                  else if (wntqs) then
                     ! path 5ts (n >> m, jobz='s')
@@ -11163,7 +11271,7 @@ module stdlib_linalg_lapack_z
                     ! cworkspace: need   0
                     ! rworkspace: need   m [e] + m*m [rvt] + m*m [ru] + 2*m*m [rwork]
                     call stdlib_zlacrm(m,m,u,ldu,rwork(iru),m,a,lda,rwork(nrwork))
-
+                              
                     call stdlib_zlacpy('F',m,m,a,lda,u,ldu)
                     ! multiply realmatrix rwork(irvt,KIND=dp) by p**h in vt,
                     ! storing the result in a, copying to vt
@@ -11171,7 +11279,7 @@ module stdlib_linalg_lapack_z
                     ! rworkspace: need   m [e] + m*m [rvt] + 2*m*n [rwork] < m + 5*m*m since n < 2*m here
                     nrwork = iru
                     call stdlib_zlarcm(m,n,rwork(irvt),m,vt,ldvt,a,lda,rwork(nrwork))
-
+                              
                     call stdlib_zlacpy('F',m,n,a,lda,vt,ldvt)
                  else
                     ! path 5ta (n >> m, jobz='a')
@@ -11204,7 +11312,7 @@ module stdlib_linalg_lapack_z
                     ! cworkspace: need   0
                     ! rworkspace: need   m [e] + m*m [rvt] + m*m [ru] + 2*m*m [rwork]
                     call stdlib_zlacrm(m,m,u,ldu,rwork(iru),m,a,lda,rwork(nrwork))
-
+                              
                     call stdlib_zlacpy('F',m,m,a,lda,u,ldu)
                     ! multiply realmatrix rwork(irvt,KIND=dp) by p**h in vt,
                     ! storing the result in a, copying to vt
@@ -11212,7 +11320,7 @@ module stdlib_linalg_lapack_z
                     ! rworkspace: need   m [e] + m*m [rvt] + 2*m*n [rwork] < m + 5*m*m since n < 2*m here
                     nrwork = iru
                     call stdlib_zlarcm(m,n,rwork(irvt),m,vt,ldvt,a,lda,rwork(nrwork))
-
+                              
                     call stdlib_zlacpy('F',m,n,a,lda,vt,ldvt)
                  end if
               else
@@ -11278,7 +11386,7 @@ module stdlib_linalg_lapack_z
                        ! cworkspace: prefer 2*m [tauq, taup] + m*n [vt] + m*nb [work]
                        ! rworkspace: need   m [e] + m*m [rvt]
                        call stdlib_zlacp2('F',m,m,rwork(irvt),m,work(ivt),ldwkvt)
-
+                                 
                        call stdlib_zunmbr('P','R','C',m,n,m,a,lda,work(itaup),work( &
                                  ivt),ldwkvt,work(nwork),lwork - nwork + 1,ierr)
                        call stdlib_zlacpy('F',m,n,work(ivt),ldwkvt,a,lda)
@@ -11302,7 +11410,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zlarcm(m,blk,rwork(irvt),m,a(1,i),lda,work(ivt) &
                                     ,ldwkvt,rwork(nrwork))
                           call stdlib_zlacpy('F',m,blk,work(ivt),ldwkvt,a(1,i),lda)
-
+                                    
                        end do
                     end if
                  else if (wntqs) then
@@ -11398,10 +11506,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -11448,18 +11557,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobu,jobvt
-           integer(ilp) :: info,lda,ldu,ldvt,lwork,m,n
+           character,intent(in) :: jobu,jobvt
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldu,ldvt,lwork,m,n
            ! .. array arguments ..
-           real(dp) :: rwork(*),s(*)
-           complex(dp) :: a(lda,*),u(ldu,*),vt(ldvt,*),work(*)
+           real(dp),intent(out) :: rwork(*),s(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: u(ldu,*),vt(ldvt,*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,wntua,wntuas,wntun,wntuo,wntus,wntva,wntvas,wntvn,wntvo, &
-                     wntvs
+                      wntvs
            integer(ilp) :: blk,chunk,i,ie,ierr,ir,irwork,iscl,itau,itaup,itauq,iu, &
-                     iwork,ldwrkr,ldwrku,maxwrk,minmn,minwrk,mnthr,ncu,ncvt,nru,nrvt,wrkbl
+           iwork,ldwrkr,ldwrku,maxwrk,minmn,minwrk,mnthr,ncu,ncvt,nru,nrvt, &
+                     wrkbl
            integer(ilp) :: lwork_zgeqrf,lwork_zungqr_n,lwork_zungqr_m,lwork_zgebrd, &
                      lwork_zungbr_p,lwork_zungbr_q,lwork_zgelqf,lwork_zunglq_n,lwork_zunglq_m
            real(dp) :: anrm,bignum,eps,smlnum
@@ -11523,7 +11635,7 @@ module stdlib_linalg_lapack_z
                  lwork_zungqr_m = int(cdum(1),KIND=ilp)
                  ! compute space needed for stdlib_zgebrd
                  call stdlib_zgebrd(n,n,a,lda,s,dum(1),cdum(1),cdum(1),cdum(1),-1,ierr)
-
+                           
                  lwork_zgebrd = int(cdum(1),KIND=ilp)
                  ! compute space needed for stdlib_zungbr
                  call stdlib_zungbr('P',n,n,n,a,lda,cdum(1),cdum(1),-1,ierr)
@@ -11618,13 +11730,13 @@ module stdlib_linalg_lapack_z
                     maxwrk = 2*n + lwork_zgebrd
                     if (wntus .or. wntuo) then
                        call stdlib_zungbr('Q',m,n,n,a,lda,cdum(1),cdum(1),-1,ierr)
-
+                                 
                        lwork_zungbr_q = int(cdum(1),KIND=ilp)
                        maxwrk = max(maxwrk,2*n + lwork_zungbr_q)
                     end if
                     if (wntua) then
                        call stdlib_zungbr('Q',m,m,n,a,lda,cdum(1),cdum(1),-1,ierr)
-
+                                 
                        lwork_zungbr_q = int(cdum(1),KIND=ilp)
                        maxwrk = max(maxwrk,2*n + lwork_zungbr_q)
                     end if
@@ -11646,7 +11758,7 @@ module stdlib_linalg_lapack_z
                  lwork_zunglq_m = int(cdum(1),KIND=ilp)
                  ! compute space needed for stdlib_zgebrd
                  call stdlib_zgebrd(m,m,a,lda,s,dum(1),cdum(1),cdum(1),cdum(1),-1,ierr)
-
+                           
                  lwork_zgebrd = int(cdum(1),KIND=ilp)
                   ! compute space needed for stdlib_zungbr p
                  call stdlib_zungbr('P',m,m,m,a,n,cdum(1),cdum(1),-1,ierr)
@@ -11863,7 +11975,7 @@ module stdlib_linalg_lapack_z
                        ! copy r to work(ir) and zero out below it
                        call stdlib_zlacpy('U',n,n,a,lda,work(ir),ldwrkr)
                        call stdlib_zlaset('L',n - 1,n - 1,czero,czero,work(ir + 1),ldwrkr)
-
+                                 
                        ! generate q in a
                        ! (cworkspace: need n*n+2*n, prefer n*n+n+n*nb)
                        ! (rworkspace: 0)
@@ -11900,7 +12012,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgemm('N','N',chunk,n,n,cone,a(i,1),lda,work(ir &
                                     ),ldwrkr,czero,work(iu),ldwrku)
                           call stdlib_zlacpy('F',chunk,n,work(iu),ldwrku,a(i,1),lda)
-
+                                    
                        end do
                     else
                        ! insufficient workspace for a fast algorithm
@@ -11956,7 +12068,7 @@ module stdlib_linalg_lapack_z
                        ! copy r to vt, zeroing out below it
                        call stdlib_zlacpy('U',n,n,a,lda,vt,ldvt)
                        if (n > 1) call stdlib_zlaset('L',n - 1,n - 1,czero,czero,vt(2,1),ldvt)
-
+                                 
                        ! generate q in a
                        ! (cworkspace: need n*n+2*n, prefer n*n+n+n*nb)
                        ! (rworkspace: 0)
@@ -12000,7 +12112,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgemm('N','N',chunk,n,n,cone,a(i,1),lda,work(ir &
                                     ),ldwrkr,czero,work(iu),ldwrku)
                           call stdlib_zlacpy('F',chunk,n,work(iu),ldwrku,a(i,1),lda)
-
+                                    
                        end do
                     else
                        ! insufficient workspace for a fast algorithm
@@ -12014,7 +12126,7 @@ module stdlib_linalg_lapack_z
                        ! copy r to vt, zeroing out below it
                        call stdlib_zlacpy('U',n,n,a,lda,vt,ldvt)
                        if (n > 1) call stdlib_zlaset('L',n - 1,n - 1,czero,czero,vt(2,1),ldvt)
-
+                                 
                        ! generate q in a
                        ! (cworkspace: need 2*n, prefer n+n*nb)
                        ! (rworkspace: 0)
@@ -12073,7 +12185,7 @@ module stdlib_linalg_lapack_z
                           ! copy r to work(ir), zeroing out below it
                           call stdlib_zlacpy('U',n,n,a,lda,work(ir),ldwrkr)
                           call stdlib_zlaset('L',n - 1,n - 1,czero,czero,work(ir + 1),ldwrkr)
-
+                                    
                           ! generate q in a
                           ! (cworkspace: need n*n+2*n, prefer n*n+n+n*nb)
                           ! (rworkspace: 0)
@@ -12128,7 +12240,7 @@ module stdlib_linalg_lapack_z
                           ! zero out below r in a
                           if (n > 1) then
                              call stdlib_zlaset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
-
+                                       
                           end if
                           ! bidiagonalize r in a
                           ! (cworkspace: need 3*n, prefer 2*n+2*n*nb)
@@ -12181,7 +12293,7 @@ module stdlib_linalg_lapack_z
                           ! copy r to work(iu), zeroing out below it
                           call stdlib_zlacpy('U',n,n,a,lda,work(iu),ldwrku)
                           call stdlib_zlaset('L',n - 1,n - 1,czero,czero,work(iu + 1),ldwrku)
-
+                                    
                           ! generate q in a
                           ! (cworkspace: need 2*n*n+2*n, prefer 2*n*n+n+n*nb)
                           ! (rworkspace: 0)
@@ -12199,7 +12311,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgebrd(n,n,work(iu),ldwrku,s,rwork(ie),work( &
                                     itauq),work(itaup),work(iwork),lwork - iwork + 1,ierr)
                           call stdlib_zlacpy('U',n,n,work(iu),ldwrku,work(ir),ldwrkr)
-
+                                    
                           ! generate left bidiagonalizing vectors in work(iu)
                           ! (cworkspace: need 2*n*n+3*n, prefer 2*n*n+2*n+n*nb)
                           ! (rworkspace: 0)
@@ -12251,7 +12363,7 @@ module stdlib_linalg_lapack_z
                           ! zero out below r in a
                           if (n > 1) then
                              call stdlib_zlaset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
-
+                                       
                           end if
                           ! bidiagonalize r in a
                           ! (cworkspace: need 3*n, prefer 2*n+2*n*nb)
@@ -12302,7 +12414,7 @@ module stdlib_linalg_lapack_z
                           ! copy r to work(iu), zeroing out below it
                           call stdlib_zlacpy('U',n,n,a,lda,work(iu),ldwrku)
                           call stdlib_zlaset('L',n - 1,n - 1,czero,czero,work(iu + 1),ldwrku)
-
+                                    
                           ! generate q in a
                           ! (cworkspace: need n*n+2*n, prefer n*n+n+n*nb)
                           ! (rworkspace: 0)
@@ -12418,7 +12530,7 @@ module stdlib_linalg_lapack_z
                           ! copy r to work(ir), zeroing out below it
                           call stdlib_zlacpy('U',n,n,a,lda,work(ir),ldwrkr)
                           call stdlib_zlaset('L',n - 1,n - 1,czero,czero,work(ir + 1),ldwrkr)
-
+                                    
                           ! generate q in u
                           ! (cworkspace: need n*n+n+m, prefer n*n+n+m*nb)
                           ! (rworkspace: 0)
@@ -12475,7 +12587,7 @@ module stdlib_linalg_lapack_z
                           ! zero out below r in a
                           if (n > 1) then
                              call stdlib_zlaset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
-
+                                       
                           end if
                           ! bidiagonalize r in a
                           ! (cworkspace: need 3*n, prefer 2*n+2*n*nb)
@@ -12535,7 +12647,7 @@ module stdlib_linalg_lapack_z
                           ! copy r to work(iu), zeroing out below it
                           call stdlib_zlacpy('U',n,n,a,lda,work(iu),ldwrku)
                           call stdlib_zlaset('L',n - 1,n - 1,czero,czero,work(iu + 1),ldwrku)
-
+                                    
                           ie = 1
                           itauq = itau
                           itaup = itauq + n
@@ -12548,7 +12660,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgebrd(n,n,work(iu),ldwrku,s,rwork(ie),work( &
                                     itauq),work(itaup),work(iwork),lwork - iwork + 1,ierr)
                           call stdlib_zlacpy('U',n,n,work(iu),ldwrku,work(ir),ldwrkr)
-
+                                    
                           ! generate left bidiagonalizing vectors in work(iu)
                           ! (cworkspace: need 2*n*n+3*n, prefer 2*n*n+2*n+n*nb)
                           ! (rworkspace: 0)
@@ -12600,7 +12712,7 @@ module stdlib_linalg_lapack_z
                           ! zero out below r in a
                           if (n > 1) then
                              call stdlib_zlaset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
-
+                                       
                           end if
                           ! bidiagonalize r in a
                           ! (cworkspace: need 3*n, prefer 2*n+2*n*nb)
@@ -12658,7 +12770,7 @@ module stdlib_linalg_lapack_z
                           ! copy r to work(iu), zeroing out below it
                           call stdlib_zlacpy('U',n,n,a,lda,work(iu),ldwrku)
                           call stdlib_zlaset('L',n - 1,n - 1,czero,czero,work(iu + 1),ldwrku)
-
+                                    
                           ie = 1
                           itauq = itau
                           itaup = itauq + n
@@ -12903,7 +13015,7 @@ module stdlib_linalg_lapack_z
                        ! copy l to work(ir) and zero out above it
                        call stdlib_zlacpy('L',m,m,a,lda,work(ir),ldwrkr)
                        call stdlib_zlaset('U',m - 1,m - 1,czero,czero,work(ir + ldwrkr),ldwrkr)
-
+                                 
                        ! generate q in a
                        ! (cworkspace: need m*m+2*m, prefer m*m+m+m*nb)
                        ! (rworkspace: 0)
@@ -12940,7 +13052,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgemm('N','N',m,blk,m,cone,work(ir),ldwrkr,a(1, &
                                     i),lda,czero,work(iu),ldwrku)
                           call stdlib_zlacpy('F',m,blk,work(iu),ldwrku,a(1,i),lda)
-
+                                    
                        end do
                     else
                        ! insufficient workspace for a fast algorithm
@@ -13042,7 +13154,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgemm('N','N',m,blk,m,cone,work(ir),ldwrkr,a(1, &
                                     i),lda,czero,work(iu),ldwrku)
                           call stdlib_zlacpy('F',m,blk,work(iu),ldwrku,a(1,i),lda)
-
+                                    
                        end do
                     else
                        ! insufficient workspace for a fast algorithm
@@ -13239,7 +13351,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgebrd(m,m,work(iu),ldwrku,s,rwork(ie),work( &
                                     itauq),work(itaup),work(iwork),lwork - iwork + 1,ierr)
                           call stdlib_zlacpy('L',m,m,work(iu),ldwrku,work(ir),ldwrkr)
-
+                                    
                           ! generate right bidiagonalizing vectors in work(iu)
                           ! (cworkspace: need   2*m*m+3*m-1,
                                        ! prefer 2*m*m+2*m+(m-1)*nb)
@@ -13582,7 +13694,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgebrd(m,m,work(iu),ldwrku,s,rwork(ie),work( &
                                     itauq),work(itaup),work(iwork),lwork - iwork + 1,ierr)
                           call stdlib_zlacpy('L',m,m,work(iu),ldwrku,work(ir),ldwrkr)
-
+                                    
                           ! generate right bidiagonalizing vectors in work(iu)
                           ! (cworkspace: need   2*m*m+3*m-1,
                                        ! prefer 2*m*m+2*m+(m-1)*nb)
@@ -13885,21 +13997,24 @@ module stdlib_linalg_lapack_z
      subroutine stdlib_zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
            ! .. scalar arguments ..
-           character :: joba,jobp,jobr,jobu,jobv
-           integer(ilp) :: m,n,lda,ldu,ldv,numrank,liwork,lcwork,lrwork,info
+           character,intent(in) :: joba,jobp,jobr,jobu,jobv
+           integer(ilp),intent(in) :: m,n,lda,ldu,ldv,liwork,lrwork
+           integer(ilp),intent(out) :: numrank,info
+           integer(ilp),intent(inout) :: lcwork
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),u(ldu,*),v(ldv,*),cwork(*)
-           real(dp) :: s(*),rwork(*)
-           integer(ilp) :: iwork(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: u(ldu,*),v(ldv,*),cwork(*)
+           real(dp),intent(out) :: s(*),rwork(*)
+           integer(ilp),intent(out) :: iwork(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: ierr,nr,n1,optratio,p,q
            integer(ilp) :: lwcon,lwqp3,lwrk_zgelqf,lwrk_zgesvd,lwrk_zgesvd2,lwrk_zgeqp3, &
-           lwrk_zgeqrf,lwrk_zunmlq,lwrk_zunmqr,lwrk_zunmqr2,lwlqf,lwqrf,lwsvd,lwsvd2,lwunq, &
-                     lwunq2,lwunlq,minwrk,minwrk2,optwrk,optwrk2,iminwrk,rminwrk
-           logical(lk) :: accla,acclm,acclh,ascaled,conda,dntwu,dntwv,lquery,lsvc0, &
-                     lsvec,rowprm,rsvec,rtrans,wntua,wntuf,wntur,wntus,wntva,wntvr
+           lwrk_zgeqrf,lwrk_zunmlq,lwrk_zunmqr,lwrk_zunmqr2,lwlqf,lwqrf,lwsvd,lwsvd2, &
+                     lwunq,lwunq2,lwunlq,minwrk,minwrk2,optwrk,optwrk2,iminwrk,rminwrk
+           logical(lk) :: accla,acclm,acclh,ascaled,conda,dntwu,dntwv,lquery,lsvc0,lsvec, &
+                      rowprm,rsvec,rtrans,wntua,wntuf,wntur,wntus,wntva,wntvr
            real(dp) :: big,epsln,rtmp,sconda,sfmin
            complex(dp) :: ctmp
            ! .. local arrays
@@ -13980,7 +14095,7 @@ module stdlib_linalg_lapack_z
               lwsvd = max(3*n,1)
               if (lquery) then
                   call stdlib_zgeqp3(m,n,a,lda,iwork,cdummy,cdummy,-1,rdummy,ierr)
-
+                            
                   lwrk_zgeqp3 = int(cdummy(1),KIND=ilp)
                   if (wntus .or. wntur) then
                       call stdlib_zunmqr('L','N',m,n,n,a,lda,cdummy,u,ldu,cdummy,-1, &
@@ -14217,7 +14332,7 @@ module stdlib_linalg_lapack_z
                      ! .. to prevent overflow in the qr factorization, scale the
                      ! matrix by 1/sqrt(m) if too large entry detected
                      call stdlib_zlascl('G',0,0,sqrt(real(m,KIND=dp)),one,m,n,a,lda,ierr)
-
+                               
                      ascaled = .true.
                  end if
                  call stdlib_zlaswp(n,a,lda,1,m - 1,iwork(n + 1),1)
@@ -14237,7 +14352,7 @@ module stdlib_linalg_lapack_z
                    ! .. to prevent overflow in the qr factorization, scale the
                    ! matrix by 1/sqrt(m) if too large entry detected
                    call stdlib_zlascl('G',0,0,sqrt(real(m,KIND=dp)),one,m,n,a,lda,ierr)
-
+                             
                    ascaled = .true.
                end if
            end if
@@ -14249,7 +14364,7 @@ module stdlib_linalg_lapack_z
               iwork(p) = 0
            end do
            call stdlib_zgeqp3(m,n,a,lda,iwork,cwork,cwork(n + 1),lcwork - n,rwork,ierr)
-
+                     
           ! if the user requested accuracy level allows truncation in the
           ! computed upper triangular factor, the matrix r is examined and,
           ! if possible, replaced with its leading upper trapezoidal part.
@@ -14310,10 +14425,10 @@ module stdlib_linalg_lapack_z
                     end do
                     if (.not. (lsvec .or. rsvec)) then
                         call stdlib_zpocon('U',nr,v,ldv,one,rtmp,cwork,rwork,ierr)
-
+                                  
                     else
                         call stdlib_zpocon('U',nr,v,ldv,one,rtmp,cwork(n + 1),rwork,ierr)
-
+                                  
                     end if
                     sconda = one/sqrt(rtmp)
                  ! for nr=n, sconda is an estimate of sqrt(||(r^* * r)^(-1)||_1),
@@ -14348,7 +14463,7 @@ module stdlib_linalg_lapack_z
               else
                  ! .. compute the singular values of r = [a](1:nr,1:n)
                  if (nr > 1) call stdlib_zlaset('L',nr - 1,nr - 1,czero,czero,a(2,1),lda)
-
+                           
                  call stdlib_zgesvd('N','N',nr,n,a,lda,s,u,ldu,v,ldv,cwork,lcwork, &
                            rwork,info)
               end if
@@ -14366,7 +14481,7 @@ module stdlib_linalg_lapack_z
                     end do
                  end do
                  if (nr > 1) call stdlib_zlaset('U',nr - 1,nr - 1,czero,czero,u(1,2),ldu)
-
+                           
                  ! .. the left singular vectors not computed, the nr right singular
                  ! vectors overwrite [u](1:nr,1:nr) as conjugate transposed. these
                  ! will be pre-multiplied by q to build the left singular vectors of a.
@@ -14385,7 +14500,7 @@ module stdlib_linalg_lapack_z
                   ! .. copy r into [u] and overwrite [u] with the left singular vectors
                   call stdlib_zlacpy('U',nr,n,a,lda,u,ldu)
                   if (nr > 1) call stdlib_zlaset('L',nr - 1,nr - 1,czero,czero,u(2,1),ldu)
-
+                            
                   ! .. the right singular vectors not computed, the nr left singular
                   ! vectors overwrite [u](1:nr,1:nr)
                      call stdlib_zgesvd('O','N',nr,n,u,ldu,s,u,ldu,v,ldv,cwork(n + 1), &
@@ -14422,7 +14537,7 @@ module stdlib_linalg_lapack_z
                     end do
                  end do
                  if (nr > 1) call stdlib_zlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
-
+                           
                  ! .. the left singular vectors of r**h overwrite v, the right singular
                  ! vectors not computed
                  if (wntvr .or. (nr == n)) then
@@ -14468,7 +14583,7 @@ module stdlib_linalg_lapack_z
                   ! .. copy r into v and overwrite v with the right singular vectors
                   call stdlib_zlacpy('U',nr,n,a,lda,v,ldv)
                   if (nr > 1) call stdlib_zlaset('L',nr - 1,nr - 1,czero,czero,v(2,1),ldv)
-
+                            
                   ! .. the right singular vectors overwrite v, the nr left singular
                   ! vectors stored in u(1:nr,1:nr)
                   if (wntvr .or. (nr == n)) then
@@ -14505,7 +14620,7 @@ module stdlib_linalg_lapack_z
                     end do
                  end do
                  if (nr > 1) call stdlib_zlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
-
+                           
                  ! .. the left singular vectors of r**h overwrite [v], the nr right
                  ! singular vectors of r**h stored in [u](1:nr,1:nr) as conjugate
                  ! transposed
@@ -14541,7 +14656,7 @@ module stdlib_linalg_lapack_z
                        if (nr < n1) then
                           call stdlib_zlaset('A',nr,n1 - nr,czero,czero,u(1,nr + 1),ldu)
                           call stdlib_zlaset('A',m - nr,n1 - nr,czero,cone,u(nr + 1,nr + 1),ldu)
-
+                                    
                        end if
                     end if
                  else
@@ -14561,7 +14676,7 @@ module stdlib_linalg_lapack_z
                            end do
                         end do
                         if (nr > 1) call stdlib_zlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
-
+                                  
                         call stdlib_zlaset('A',n,n - nr,czero,czero,v(1,nr + 1),ldv)
                         call stdlib_zgesvd('O','A',n,n,v,ldv,s,v,ldv,u,ldu,cwork(n + 1), &
                                   lcwork - n,rwork,info)
@@ -14600,7 +14715,7 @@ module stdlib_linalg_lapack_z
                            end do
                         end do
                         if (nr > 1) call stdlib_zlaset('U',nr - 1,nr - 1,czero,czero,u(1,nr + 2),ldu)
-
+                                  
                         call stdlib_zgeqrf(n,nr,u(1,nr + 1),ldu,cwork(n + 1),cwork(n + nr + 1), &
                                   lcwork - n - nr,ierr)
                         do p = 1,nr
@@ -14634,7 +14749,7 @@ module stdlib_linalg_lapack_z
                       ! .. copy r into [v] and overwrite v with the right singular vectors
                       call stdlib_zlacpy('U',nr,n,a,lda,v,ldv)
                      if (nr > 1) call stdlib_zlaset('L',nr - 1,nr - 1,czero,czero,v(2,1),ldv)
-
+                               
                      ! .. the right singular vectors of r overwrite [v], the nr left
                      ! singular vectors of r stored in [u](1:nr,1:nr)
                      call stdlib_zgesvd('S','O',nr,n,v,ldv,s,u,ldu,v,ldv,cwork(n + 1), &
@@ -14648,7 +14763,7 @@ module stdlib_linalg_lapack_z
                        if (nr < n1) then
                           call stdlib_zlaset('A',nr,n1 - nr,czero,czero,u(1,nr + 1),ldu)
                           call stdlib_zlaset('A',m - nr,n1 - nr,czero,cone,u(nr + 1,nr + 1),ldu)
-
+                                    
                        end if
                     end if
                   else
@@ -14664,7 +14779,7 @@ module stdlib_linalg_lapack_z
                     if (optratio*nr > n) then
                        call stdlib_zlacpy('U',nr,n,a,lda,v,ldv)
                        if (nr > 1) call stdlib_zlaset('L',nr - 1,nr - 1,czero,czero,v(2,1),ldv)
-
+                                 
                     ! .. the right singular vectors of r overwrite [v], the nr left
                        ! singular vectors of r stored in [u](1:nr,1:nr)
                        call stdlib_zlaset('A',n - nr,n,czero,czero,v(nr + 1,1),ldv)
@@ -14686,12 +14801,12 @@ module stdlib_linalg_lapack_z
                     else
                        call stdlib_zlacpy('U',nr,n,a,lda,u(nr + 1,1),ldu)
                        if (nr > 1) call stdlib_zlaset('L',nr - 1,nr - 1,czero,czero,u(nr + 2,1),ldu)
-
+                                 
                        call stdlib_zgelqf(nr,n,u(nr + 1,1),ldu,cwork(n + 1),cwork(n + nr + 1), &
                                  lcwork - n - nr,ierr)
                        call stdlib_zlacpy('L',nr,nr,u(nr + 1,1),ldu,v,ldv)
                        if (nr > 1) call stdlib_zlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
-
+                                 
                        call stdlib_zgesvd('S','O',nr,nr,v,ldv,s,u,ldu,v,ldv,cwork(n + nr + &
                                  1),lcwork - n - nr,rwork,info)
                        call stdlib_zlaset('A',n - nr,nr,czero,czero,v(nr + 1,1),ldv)
@@ -14707,7 +14822,7 @@ module stdlib_linalg_lapack_z
                           if (nr < n1) then
                           call stdlib_zlaset('A',nr,n1 - nr,czero,czero,u(1,nr + 1),ldu)
                           call stdlib_zlaset('A',m - nr,n1 - nr,czero,cone,u(nr + 1,nr + 1),ldu)
-
+                                    
                           end if
                        end if
                     end if
@@ -14759,15 +14874,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,trans
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
-           real(dp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),c(*),ferr(*),r(*),rwork(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(dp),intent(inout) :: c(*),r(*)
+           complex(dp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
@@ -14958,12 +15077,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*),jpiv(*)
-           complex(dp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*),jpiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,ip,ipv,j,jp,jpv
            real(dp) :: bignum,eps,smin,smlnum,xmax
@@ -15044,12 +15164,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: sfmin
            integer(ilp) :: i,j,jp
@@ -15116,12 +15237,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,iinfo,j,jb,nb
            ! .. intrinsic functions ..
@@ -15171,7 +15293,7 @@ module stdlib_linalg_lapack_z
                        ! update trailing submatrix.
                        call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',m - j - jb + 1,n - j - jb + 1,jb,- &
                        cone,a(j + jb,j),lda,a(j,j + jb),lda,cone,a(j + jb,j + jb),lda)
-
+                                 
                     end if
                  end if
               end do
@@ -15204,12 +15326,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: sfmin
            complex(dp) :: temp
@@ -15277,7 +15400,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zlaswp(n2,a(1,n1 + 1),lda,1,n1,ipiv,1)
               ! solve a12
               call stdlib_ztrsm('L','L','N','U',n1,n2,cone,a,lda,a(1,n1 + 1),lda)
-
+                        
               ! update a22
               call stdlib_zgemm('N','N',m - n1,n2,n1,-cone,a(n1 + 1,1),lda,a(1,n1 + 1), &
                         lda,cone,a(n1 + 1,n1 + 1),lda)
@@ -15304,12 +15427,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,iws,j,jb,jj,jp,ldwork,lwkopt,nb,nbmin,nn
@@ -15404,13 +15529,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: notran
            ! .. intrinsic functions ..
@@ -15454,7 +15581,7 @@ module stdlib_linalg_lapack_z
                         )
               ! solve l**t *x = b, or l**h *x = b overwriting b with x.
               call stdlib_ztrsm('LEFT','LOWER',trans,'UNIT',n,nrhs,cone,a,lda,b,ldb)
-
+                        
               ! apply row interchanges to the solution vectors.
               call stdlib_zlaswp(nrhs,b,ldb,1,n,ipiv,-1)
            end if
@@ -15485,16 +15612,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,lda,ldb,lwork,m,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,tran
-           integer(ilp) :: i,iascl,ibscl,j,maxmn,brow,scllen,tszo,tszm,lwo,lwm,lw1,lw2, &
-                     wsizeo,wsizem,info2
+           integer(ilp) :: i,iascl,ibscl,j,maxmn,brow,scllen,tszo,tszm,lwo,lwm,lw1, &
+                     lw2,wsizeo,wsizem,info2
            real(dp) :: anrm,bignum,bnrm,smlnum,dum(1)
            complex(dp) :: tq(5),workq(1)
            ! .. intrinsic functions ..
@@ -15713,11 +15842,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,lwork,m,n,nb1,nb2,mb1
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,lwork,m,n,nb1,nb2,mb1
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(ldt,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: t(ldt,*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,iinfo,j,lw1,lw2,lwt,ldwt,lworkopt,nb1local,nb2local, &
@@ -15786,7 +15917,7 @@ module stdlib_linalg_lapack_z
            nb2local = min(nb2,n)
            ! (1) perform tsqr-factorization of the m-by-n matrix a.
            call stdlib_zlatsqr(m,n,mb1,nb1local,a,lda,work,ldwt,work(lwt + 1),lw1,iinfo)
-
+                     
            ! (2) copy the factor r_tsqr stored in the upper-triangular part
                ! of a into the square matrix in the work array
                ! work(lwt+1:lwt+n*n) column-by-column.
@@ -15800,7 +15931,7 @@ module stdlib_linalg_lapack_z
            ! (4) perform the reconstruction of householder vectors from
            ! the matrix q (stored in a) in place.
            call stdlib_zunhr_col(m,n,nb2local,a,lda,t,ldt,work(lwt + n*n + 1),iinfo)
-
+                     
            ! (5) copy the factor r_tsqr stored in the square matrix in the
            ! work array work(lwt+1:lwt+n*n) into the upper-triangular
            ! part of a.
@@ -15835,11 +15966,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: job,side
-           integer(ilp) :: ihi,ilo,info,ldv,m,n
+           character,intent(in) :: job,side
+           integer(ilp),intent(in) :: ihi,ilo,ldv,m,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           real(dp) :: lscale(*),rscale(*)
-           complex(dp) :: v(ldv,*)
+           real(dp),intent(in) :: lscale(*),rscale(*)
+           complex(dp),intent(inout) :: v(ldv,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: leftv,rightv
@@ -15947,20 +16079,21 @@ module stdlib_linalg_lapack_z
      ! generalized eigenvalue problem A*x = lambda*B*x.
 
      subroutine stdlib_zggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: job
-           integer(ilp) :: ihi,ilo,info,lda,ldb,n
+           character,intent(in) :: job
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,ldb,n
            ! .. array arguments ..
-           real(dp) :: lscale(*),rscale(*),work(*)
-           complex(dp) :: a(lda,*),b(ldb,*)
+           real(dp),intent(out) :: lscale(*),rscale(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sclfac = 1.0e+1_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,icab,iflow,ip1,ir,irab,it,j,jc,jp1,k,kount,l,lcab,lm1, &
                      lrab,lsfmax,lsfmin,m,nr,nrp2
@@ -16264,17 +16397,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvsl,jobvsr,sort
-           integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,lwork,n,sdim
+           character,intent(in) :: jobvsl,jobvsr,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,lwork,n
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr( &
-                     ldvsr,*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                     work(*)
            ! .. function arguments ..
            procedure(stdlib_selctg_z) :: selctg
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: cursl,ilascl,ilbscl,ilvsl,ilvsr,lastsl,lquery,wantst
            integer(ilp) :: i,icols,ierr,ihi,ijobvl,ijobvr,ileft,ilo,iright,irows,irwrk, &
@@ -16340,7 +16475,7 @@ module stdlib_linalg_lapack_z
               lwkopt = max(lwkopt,n + n*stdlib_ilaenv(1,'ZUNMQR',' ',n,1,n,-1))
               if (ilvsl) then
                  lwkopt = max(lwkopt,n + n*stdlib_ilaenv(1,'ZUNGQR',' ',n,1,n,-1))
-
+                           
               end if
               work(1) = lwkopt
               if (lwork < lwkmin .and. .not. lquery) info = -18
@@ -16443,16 +16578,16 @@ module stdlib_linalg_lapack_z
            if (wantst) then
               ! undo scaling on eigenvalues before selecting
               if (ilascl) call stdlib_zlascl('G',0,0,anrm,anrmto,n,1,alpha,n,ierr)
-
+                        
               if (ilbscl) call stdlib_zlascl('G',0,0,bnrm,bnrmto,n,1,beta,n,ierr)
-
+                        
               ! select eigenvalues
               do i = 1,n
                  bwork(i) = selctg(alpha(i),beta(i))
               end do
               call stdlib_ztgsen(0,ilvsl,ilvsr,bwork,n,a,lda,b,ldb,alpha,beta,vsl, &
               ldvsl,vsr,ldvsr,sdim,pvsl,pvsr,dif,work(iwrk),lwork - iwrk + 1,idum,1,ierr)
-
+                        
               if (ierr == 1) info = n + 3
            end if
            ! apply back-permutation to vsl and vsr
@@ -16513,17 +16648,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvsl,jobvsr,sort
-           integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,lwork,n,sdim
+           character,intent(in) :: jobvsl,jobvsr,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,lwork,n
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr( &
-                     ldvsr,*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                     work(*)
            ! .. function arguments ..
            procedure(stdlib_selctg_z) :: selctg
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: cursl,ilascl,ilbscl,ilvsl,ilvsr,lastsl,lquery,wantst
            integer(ilp) :: i,icols,ierr,ihi,ijobvl,ijobvr,ileft,ilo,iright,irows,irwrk, &
@@ -16692,16 +16829,16 @@ module stdlib_linalg_lapack_z
            if (wantst) then
               ! undo scaling on eigenvalues before selecting
               if (ilascl) call stdlib_zlascl('G',0,0,anrm,anrmto,n,1,alpha,n,ierr)
-
+                        
               if (ilbscl) call stdlib_zlascl('G',0,0,bnrm,bnrmto,n,1,beta,n,ierr)
-
+                        
               ! select eigenvalues
               do i = 1,n
                  bwork(i) = selctg(alpha(i),beta(i))
               end do
               call stdlib_ztgsen(0,ilvsl,ilvsr,bwork,n,a,lda,b,ldb,alpha,beta,vsl, &
               ldvsl,vsr,ldvsr,sdim,pvsl,pvsr,dif,work(iwrk),lwork - iwrk + 1,idum,1,ierr)
-
+                        
               if (ierr == 1) info = n + 3
            end if
            ! apply back-permutation to vsl and vsr
@@ -16759,23 +16896,25 @@ module stdlib_linalg_lapack_z
 
      subroutine stdlib_zggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
       beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,rwork,iwork,liwork,bwork,info)
-
+                
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvsl,jobvsr,sense,sort
-           integer(ilp) :: info,lda,ldb,ldvsl,ldvsr,liwork,lwork,n,sdim
+           character,intent(in) :: jobvsl,jobvsr,sense,sort
+           integer(ilp),intent(out) :: info,sdim
+           integer(ilp),intent(in) :: lda,ldb,ldvsl,ldvsr,liwork,lwork,n
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           integer(ilp) :: iwork(*)
-           real(dp) :: rconde(2),rcondv(2),rwork(*)
-           complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vsl(ldvsl,*),vsr( &
-                     ldvsr,*),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rconde(2),rcondv(2),rwork(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
+                     work(*)
            ! .. function arguments ..
            procedure(stdlib_selctg_z) :: selctg
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: cursl,ilascl,ilbscl,ilvsl,ilvsr,lastsl,lquery,wantsb,wantse, &
                      wantsn,wantst,wantsv
@@ -16856,7 +16995,7 @@ module stdlib_linalg_lapack_z
                  minwrk = 2*n
                  maxwrk = n*(1 + stdlib_ilaenv(1,'ZGEQRF',' ',n,1,n,0))
                  maxwrk = max(maxwrk,n*(1 + stdlib_ilaenv(1,'ZUNMQR',' ',n,1,n,-1)))
-
+                           
                  if (ilvsl) then
                     maxwrk = max(maxwrk,n*(1 + stdlib_ilaenv(1,'ZUNGQR',' ',n,1,n,-1)) &
                               )
@@ -16979,9 +17118,9 @@ module stdlib_linalg_lapack_z
            if (wantst) then
               ! undo scaling on eigenvalues before selctging
               if (ilascl) call stdlib_zlascl('G',0,0,anrmto,anrm,n,1,alpha,n,ierr)
-
+                        
               if (ilbscl) call stdlib_zlascl('G',0,0,bnrmto,bnrm,n,1,beta,n,ierr)
-
+                        
               ! select eigenvalues
               do i = 1,n
                  bwork(i) = selctg(alpha(i),beta(i))
@@ -17063,19 +17202,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvl,jobvr
-           integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,n
+           character,intent(in) :: jobvl,jobvr
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr, &
-                      *),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
+                     *)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: ilascl,ilbscl,ilv,ilvl,ilvr,lquery
            character :: chtemp
            integer(ilp) :: icols,ierr,ihi,ijobvl,ijobvr,ileft,ilo,in,iright,irows,irwrk, &
-                     itau,iwrk,jc,jr,lwkmin,lwkopt
+                      itau,iwrk,jc,jr,lwkmin,lwkopt
            real(dp) :: anrm,anrmto,bignum,bnrm,bnrmto,eps,smlnum,temp
            complex(dp) :: x
            ! .. local arrays ..
@@ -17140,7 +17281,7 @@ module stdlib_linalg_lapack_z
               lwkopt = max(lwkopt,n + n*stdlib_ilaenv(1,'ZUNMQR',' ',n,1,n,0))
               if (ilvl) then
                  lwkopt = max(lwkopt,n + n*stdlib_ilaenv(1,'ZUNGQR',' ',n,1,n,-1))
-
+                           
               end if
               work(1) = lwkopt
               if (lwork < lwkmin .and. .not. lquery) info = -15
@@ -17331,19 +17472,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobvl,jobvr
-           integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,n
+           character,intent(in) :: jobvl,jobvr
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr, &
-                      *),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
+                     *)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: ilascl,ilbscl,ilv,ilvl,ilvr,lquery
            character :: chtemp
            integer(ilp) :: icols,ierr,ihi,ijobvl,ijobvr,ileft,ilo,in,iright,irows,irwrk, &
-                     itau,iwrk,jc,jr,lwkopt
+                      itau,iwrk,jc,jr,lwkopt
            real(dp) :: anrm,anrmto,bignum,bnrm,bnrmto,eps,smlnum,temp
            complex(dp) :: x
            ! .. local arrays ..
@@ -17607,23 +17750,26 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: balanc,jobvl,jobvr,sense
-           integer(ilp) :: ihi,ilo,info,lda,ldb,ldvl,ldvr,lwork,n
-           real(dp) :: abnrm,bbnrm
+           character,intent(in) :: balanc,jobvl,jobvr,sense
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,n
+           real(dp),intent(out) :: abnrm,bbnrm
            ! .. array arguments ..
-           logical(lk) :: bwork(*)
-           integer(ilp) :: iwork(*)
-           real(dp) :: lscale(*),rconde(*),rcondv(*),rscale(*),rwork(*)
-           complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),vl(ldvl,*),vr(ldvr, &
-                      *),work(*)
+           logical(lk),intent(out) :: bwork(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: lscale(*),rconde(*),rcondv(*),rscale(*),rwork(*)
+                     
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
+                     *)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: ilascl,ilbscl,ilv,ilvl,ilvr,lquery,noscl,wantsb,wantse,wantsn, &
                      wantsv
            character :: chtemp
-           integer(ilp) :: i,icols,ierr,ijobvl,ijobvr,in,irows,itau,iwrk,iwrk1,j,jc,jr, &
-                      m,maxwrk,minwrk
+           integer(ilp) :: i,icols,ierr,ijobvl,ijobvr,in,irows,itau,iwrk,iwrk1,j,jc, &
+                     jr,m,maxwrk,minwrk
            real(dp) :: anrm,anrmto,bignum,bnrm,bnrmto,eps,smlnum,temp
            complex(dp) :: x
            ! .. local arrays ..
@@ -17705,12 +17851,12 @@ module stdlib_linalg_lapack_z
                  end if
                  maxwrk = minwrk
                  maxwrk = max(maxwrk,n + n*stdlib_ilaenv(1,'ZGEQRF',' ',n,1,n,0))
-
+                           
                  maxwrk = max(maxwrk,n + n*stdlib_ilaenv(1,'ZUNMQR',' ',n,1,n,0))
-
+                           
                  if (ilvl) then
                     maxwrk = max(maxwrk,n + n*stdlib_ilaenv(1,'ZUNGQR',' ',n,1,n,0))
-
+                              
                  end if
               end if
               work(1) = maxwrk
@@ -17758,7 +17904,7 @@ module stdlib_linalg_lapack_z
            ! permute and/or balance the matrix pair (a,b)
            ! (real workspace: need 6*n if balanc = 's' or 'b', 1 otherwise)
            call stdlib_zggbal(balanc,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,rwork,ierr)
-
+                     
            ! compute abnrm and bbnrm
            abnrm = stdlib_zlange('1',n,n,a,lda,rwork(1))
            if (ilascl) then
@@ -17889,7 +18035,7 @@ module stdlib_linalg_lapack_z
            ! (workspace: none needed)
            if (ilvl) then
               call stdlib_zggbak(balanc,'L',n,ilo,ihi,lscale,rscale,n,vl,ldvl,ierr)
-
+                        
               loop_50: do jc = 1,n
                  temp = zero
                  do jr = 1,n
@@ -17904,7 +18050,7 @@ module stdlib_linalg_lapack_z
            end if
            if (ilvr) then
               call stdlib_zggbak(balanc,'R',n,ilo,ihi,lscale,rscale,n,vr,ldvr,ierr)
-
+                        
               loop_80: do jc = 1,n
                  temp = zero
                  do jr = 1,n
@@ -17949,11 +18095,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,p
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,p
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),d(*),work(*),x(*),y(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),d(*)
+           complex(dp),intent(out) :: work(*),x(*),y(*)
         ! ===================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,lopt,lwkmin,lwkopt,nb,nb1,nb2,nb3,nb4,np
@@ -18044,7 +18192,7 @@ module stdlib_linalg_lapack_z
            ! solve triangular system: r11*x = d1
            if (m > 0) then
               call stdlib_ztrtrs('UPPER','NO TRANSPOSE','NON UNIT',m,1,a,lda,d,m,info)
-
+                        
               if (info > 0) then
                  info = 2
                  return
@@ -18091,17 +18239,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq,compz
-           integer(ilp) :: ihi,ilo,info,lda,ldb,ldq,ldz,n,lwork
+           character,intent(in) :: compq,compz
+           integer(ilp),intent(in) :: ihi,ilo,lda,ldb,ldq,ldz,n,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: blk22,initq,initz,lquery,wantq,wantz
            character :: compq2,compz2
            integer(ilp) :: cola,i,ierr,j,j0,jcol,jj,jrow,k,kacc22,len,lwkopt,n2nb,nb, &
-                     nblst,nbmin,nh,nnb,nx,ppw,ppwo,pw,top,topq
+                      nblst,nbmin,nh,nnb,nx,ppw,ppwo,pw,top,topq
            real(dp) :: c
            complex(dp) :: c1,c2,ctemp,s,s1,s2,temp,temp1,temp2,temp3
            ! .. intrinsic functions ..
@@ -18195,7 +18346,7 @@ module stdlib_linalg_lapack_z
                  pw = nblst*nblst + 1
                  do i = 1,n2nb
                     call stdlib_zlaset('ALL',2*nnb,2*nnb,czero,cone,work(pw),2*nnb)
-
+                              
                     pw = pw + 4*nnb*nnb
                  end do
                  ! reduce columns jcol:jcol+nnb-1 of a to hessenberg form.
@@ -18265,7 +18416,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zlartg(temp,b(jj + 1,jj),c,s,b(jj + 1,jj + 1))
                           b(jj + 1,jj) = czero
                           call stdlib_zrot(jj - top,b(top + 1,jj + 1),1,b(top + 1,jj),1,c,s)
-
+                                    
                           a(jj + 1,j) = cmplx(c,KIND=dp)
                           b(jj + 1,j) = -conjg(s)
                        end if
@@ -18321,7 +18472,7 @@ module stdlib_linalg_lapack_z
                                  len*nblst + 1),nblst,work(pw + len),1)
                        call stdlib_zgemv('CONJUGATE',len,nblst - len,cone,work((len + 1)*nblst - &
                        len + 1),nblst,a(jrow + nblst - len,j + 1),1,cone,work(pw + len),1)
-
+                                 
                        ppw = pw
                        do i = jrow,jrow + nblst - 1
                           a(i,j + 1) = work(ppw)
@@ -18373,7 +18524,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zgemm('CONJUGATE','NO TRANSPOSE',nblst,cola,nblst,cone,work, &
                            nblst,a(j,jcol + nnb),lda,czero,work(pw),nblst)
                  call stdlib_zlacpy('ALL',nblst,cola,work(pw),nblst,a(j,jcol + nnb),lda)
-
+                           
                  ppwo = nblst*nblst + 1
                  j0 = j - nnb
                  do j = j0,jcol + 1,-nnb
@@ -18390,7 +18541,7 @@ module stdlib_linalg_lapack_z
                        ! ignore the structure of u.
                        call stdlib_zgemm('CONJUGATE','NO TRANSPOSE',2*nnb,cola,2*nnb,cone, &
                        work(ppwo),2*nnb,a(j,jcol + nnb),lda,czero,work(pw),2*nnb)
-
+                                 
                        call stdlib_zlacpy('ALL',2*nnb,cola,work(pw),2*nnb,a(j,jcol + nnb), &
                                   lda)
                     end if
@@ -18409,7 +18560,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',nh,nblst,nblst,cone,q( &
                               topq,j),ldq,work,nblst,czero,work(pw),nh)
                     call stdlib_zlacpy('ALL',nh,nblst,work(pw),nh,q(topq,j),ldq)
-
+                              
                     ppwo = nblst*nblst + 1
                     j0 = j - nnb
                     do j = j0,jcol + 1,-nnb
@@ -18425,9 +18576,9 @@ module stdlib_linalg_lapack_z
                           ! ignore the structure of u.
                           call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',nh,2*nnb,2*nnb, &
                           cone,q(topq,j),ldq,work(ppwo),2*nnb,czero,work(pw),nh)
-
+                                    
                           call stdlib_zlacpy('ALL',nh,2*nnb,work(pw),nh,q(topq,j),ldq)
-
+                                    
                        end if
                        ppwo = ppwo + 4*nnb*nnb
                     end do
@@ -18440,7 +18591,7 @@ module stdlib_linalg_lapack_z
                     pw = nblst*nblst + 1
                     do i = 1,n2nb
                        call stdlib_zlaset('ALL',2*nnb,2*nnb,czero,cone,work(pw),2*nnb)
-
+                                 
                        pw = pw + 4*nnb*nnb
                     end do
                     ! accumulate givens rotations into workspace array.
@@ -18494,7 +18645,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',top,nblst,nblst,cone,a( &
                               1,j),lda,work,nblst,czero,work(pw),top)
                     call stdlib_zlacpy('ALL',top,nblst,work(pw),top,a(1,j),lda)
-
+                              
                     ppwo = nblst*nblst + 1
                     j0 = j - nnb
                     do j = j0,jcol + 1,-nnb
@@ -18506,9 +18657,9 @@ module stdlib_linalg_lapack_z
                           ! ignore the structure of u.
                           call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',top,2*nnb,2*nnb, &
                           cone,a(1,j),lda,work(ppwo),2*nnb,czero,work(pw),top)
-
+                                    
                           call stdlib_zlacpy('ALL',top,2*nnb,work(pw),top,a(1,j),lda)
-
+                                    
                        end if
                        ppwo = ppwo + 4*nnb*nnb
                     end do
@@ -18516,7 +18667,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',top,nblst,nblst,cone,b( &
                               1,j),ldb,work,nblst,czero,work(pw),top)
                     call stdlib_zlacpy('ALL',top,nblst,work(pw),top,b(1,j),ldb)
-
+                              
                     ppwo = nblst*nblst + 1
                     j0 = j - nnb
                     do j = j0,jcol + 1,-nnb
@@ -18528,9 +18679,9 @@ module stdlib_linalg_lapack_z
                           ! ignore the structure of u.
                           call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',top,2*nnb,2*nnb, &
                           cone,b(1,j),ldb,work(ppwo),2*nnb,czero,work(pw),top)
-
+                                    
                           call stdlib_zlacpy('ALL',top,2*nnb,work(pw),top,b(1,j),ldb)
-
+                                    
                        end if
                        ppwo = ppwo + 4*nnb*nnb
                     end do
@@ -18548,7 +18699,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',nh,nblst,nblst,cone,z( &
                               topq,j),ldz,work,nblst,czero,work(pw),nh)
                     call stdlib_zlacpy('ALL',nh,nblst,work(pw),nh,z(topq,j),ldz)
-
+                              
                     ppwo = nblst*nblst + 1
                     j0 = j - nnb
                     do j = j0,jcol + 1,-nnb
@@ -18564,9 +18715,9 @@ module stdlib_linalg_lapack_z
                           ! ignore the structure of u.
                           call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',nh,2*nnb,2*nnb, &
                           cone,z(topq,j),ldz,work(ppwo),2*nnb,czero,work(pw),nh)
-
+                                    
                           call stdlib_zlacpy('ALL',nh,2*nnb,work(pw),nh,z(topq,j),ldz)
-
+                                    
                        end if
                        ppwo = ppwo + 4*nnb*nnb
                     end do
@@ -18612,17 +18763,19 @@ module stdlib_linalg_lapack_z
      ! problem to generalized Hessenberg form.
 
      subroutine stdlib_zgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq,compz
-           integer(ilp) :: ihi,ilo,info,lda,ldb,ldq,ldz,n
+           character,intent(in) :: compq,compz
+           integer(ilp),intent(in) :: ihi,ilo,lda,ldb,ldq,ldz,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: ilq,ilz
            integer(ilp) :: icompq,icompz,jcol,jrow
@@ -18701,11 +18854,11 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlartg(ctemp,a(jrow,jcol),c,s,a(jrow - 1,jcol))
                  a(jrow,jcol) = czero
                  call stdlib_zrot(n - jcol,a(jrow - 1,jcol + 1),lda,a(jrow,jcol + 1),lda,c,s)
-
+                           
                  call stdlib_zrot(n + 2 - jrow,b(jrow - 1,jrow - 1),ldb,b(jrow,jrow - 1),ldb,c, &
                            s)
                  if (ilq) call stdlib_zrot(n,q(1,jrow - 1),1,q(1,jrow),1,c,conjg(s))
-
+                           
                  ! step 2: rotate columns jrow, jrow-1 to kill b(jrow,jrow-1)
                  ctemp = b(jrow,jrow)
                  call stdlib_zlartg(ctemp,b(jrow,jrow - 1),c,s,b(jrow,jrow))
@@ -18736,11 +18889,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,p
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,p
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),c(*),d(*),work(*),x(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),c(*),d(*)
+           complex(dp),intent(out) :: work(*),x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: lopt,lwkmin,lwkopt,mn,nb,nb1,nb2,nb3,nb4,nr
@@ -18872,9 +19027,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,p
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,p
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: taua(*),taub(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -18947,9 +19104,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,lwork,m,n,p
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,m,n,p
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),taua(*),taub(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: taua(*),taub(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -19009,14 +19168,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldv,lwork,m,mv,n,nsweep
-           real(dp) :: eps,sfmin,tol
-           character :: jobv
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldv,lwork,m,mv,n,nsweep
+           real(dp),intent(in) :: eps,sfmin,tol
+           character,intent(in) :: jobv
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),d(n),v(ldv,*),work(lwork)
-           real(dp) :: sva(n)
+           complex(dp),intent(inout) :: a(lda,*),d(n),v(ldv,*)
+           complex(dp),intent(out) :: work(lwork)
+           real(dp),intent(inout) :: sva(n)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(dp) :: aapq,ompq
            real(dp) :: aapp,aapp0,aapq1,aaqq,apoaq,aqoap,big,bigtheta,cs,mxaapq,mxsinj, &
@@ -19209,19 +19370,19 @@ module stdlib_linalg_lapack_z
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
                        ! .. choose correct signum for theta and rotate
                                          thsign = -sign(one,aapq1)
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-
+                                                   
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_zrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -19373,7 +19534,7 @@ module stdlib_linalg_lapack_z
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
@@ -19381,12 +19542,12 @@ module stdlib_linalg_lapack_z
                                          thsign = -sign(one,aapq1)
                                          if (aaqq > aapp0) thsign = -thsign
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-
+                                                   
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_zrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -19405,11 +19566,11 @@ module stdlib_linalg_lapack_z
                                          call stdlib_zlascl('G',0,0,aaqq,one,m,1,a(1,q), &
                                                     lda,ierr)
                                          call stdlib_zaxpy(m,-aapq,work,1,a(1,q),1)
-
+                                                   
                                          call stdlib_zlascl('G',0,0,one,aaqq,m,1,a(1,q), &
                                                     lda,ierr)
                                          sva(q) = aaqq*sqrt(max(zero,one - aapq1*aapq1))
-
+                                                   
                                          mxsinj = max(mxsinj,sfmin)
                                     else
                                         call stdlib_zcopy(m,a(1,q),1,work,1)
@@ -19422,7 +19583,7 @@ module stdlib_linalg_lapack_z
                                          call stdlib_zlascl('G',0,0,one,aapp,m,1,a(1,p), &
                                                     lda,ierr)
                                          sva(p) = aapp*sqrt(max(zero,one - aapq1*aapq1))
-
+                                                   
                                          mxsinj = max(mxsinj,sfmin)
                                     end if
                                    end if
@@ -19567,14 +19728,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(dp) :: eps,sfmin,tol
-           integer(ilp) :: info,lda,ldv,lwork,m,mv,n,n1,nsweep
-           character :: jobv
+           real(dp),intent(in) :: eps,sfmin,tol
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldv,lwork,m,mv,n,n1,nsweep
+           character,intent(in) :: jobv
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),d(n),v(ldv,*),work(lwork)
-           real(dp) :: sva(n)
+           complex(dp),intent(inout) :: a(lda,*),d(n),v(ldv,*)
+           complex(dp),intent(out) :: work(lwork)
+           real(dp),intent(inout) :: sva(n)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(dp) :: aapq,ompq
            real(dp) :: aapp,aapp0,aapq1,aaqq,apoaq,aqoap,big,bigtheta,cs,mxaapq,mxsinj, &
@@ -19744,7 +19907,7 @@ module stdlib_linalg_lapack_z
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
@@ -19752,12 +19915,12 @@ module stdlib_linalg_lapack_z
                                          thsign = -sign(one,aapq1)
                                          if (aaqq > aapp0) thsign = -thsign
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-
+                                                   
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_zrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -19776,11 +19939,11 @@ module stdlib_linalg_lapack_z
                                          call stdlib_zlascl('G',0,0,aaqq,one,m,1,a(1,q), &
                                                     lda,ierr)
                                          call stdlib_zaxpy(m,-aapq,work,1,a(1,q),1)
-
+                                                   
                                          call stdlib_zlascl('G',0,0,one,aaqq,m,1,a(1,q), &
                                                     lda,ierr)
                                          sva(q) = aaqq*sqrt(max(zero,one - aapq1*aapq1))
-
+                                                   
                                          mxsinj = max(mxsinj,sfmin)
                                     else
                                         call stdlib_zcopy(m,a(1,q),1,work,1)
@@ -19793,7 +19956,7 @@ module stdlib_linalg_lapack_z
                                          call stdlib_zlascl('G',0,0,one,aapp,m,1,a(1,p), &
                                                     lda,ierr)
                                          sva(p) = aapp*sqrt(max(zero,one - aapq1*aapq1))
-
+                                                   
                                          mxsinj = max(mxsinj,sfmin)
                                     end if
                                    end if
@@ -19918,14 +20081,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: info,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: norm
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: d(*),dl(*),du(*),du2(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: d(*),dl(*),du(*),du2(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: onenrm
            integer(ilp) :: i,kase,kase1
@@ -19974,7 +20140,7 @@ module stdlib_linalg_lapack_z
               if (kase == kase1) then
                  ! multiply by inv(u)*inv(l).
                  call stdlib_zgttrs('NO TRANSPOSE',n,1,dl,d,du,du2,ipiv,work,n,info)
-
+                           
               else
                  ! multiply by inv(l**h)*inv(u**h).
                  call stdlib_zgttrs('CONJUGATE TRANSPOSE',n,1,dl,d,du,du2,ipiv,work,n, &
@@ -19997,17 +20163,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf( &
-                     *),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*), &
+                     du2(*),duf(*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: notran
            character :: transn,transt
@@ -20073,7 +20242,7 @@ module stdlib_linalg_lapack_z
               ! where op(a) = a, a**t, or a**h, depending on trans.
               call stdlib_zcopy(n,b(1,j),1,work,1)
               call stdlib_zlagtm(trans,n,1,-one,dl,d,du,x(1,j),ldx,one,work,n)
-
+                        
               ! compute abs(op(a))*abs(x) + abs(b) for use in the backward
               ! error bound.
               if (notran) then
@@ -20085,7 +20254,7 @@ module stdlib_linalg_lapack_z
                     do i = 2,n - 1
                        rwork(i) = cabs1(b(i,j)) + cabs1(dl(i - 1))*cabs1(x(i - 1,j)) + &
                        cabs1(d(i))*cabs1(x(i,j)) + cabs1(du(i))*cabs1(x(i + 1,j))
-
+                                 
                     end do
                     rwork(n) = cabs1(b(n,j)) + cabs1(dl(n - 1))*cabs1(x(n - 1,j)) + &
                               cabs1(d(n))*cabs1(x(n,j))
@@ -20099,7 +20268,7 @@ module stdlib_linalg_lapack_z
                     do i = 2,n - 1
                        rwork(i) = cabs1(b(i,j)) + cabs1(du(i - 1))*cabs1(x(i - 1,j)) + &
                        cabs1(d(i))*cabs1(x(i,j)) + cabs1(dl(i))*cabs1(x(i + 1,j))
-
+                                 
                     end do
                     rwork(n) = cabs1(b(n,j)) + cabs1(du(n - 1))*cabs1(x(n - 1,j)) + &
                               cabs1(d(n))*cabs1(x(n,j))
@@ -20164,7 +20333,7 @@ module stdlib_linalg_lapack_z
                  if (kase == 1) then
                     ! multiply by diag(w)*inv(op(a)**h).
                     call stdlib_zgttrs(transt,n,1,dlf,df,duf,du2,ipiv,work,n,info)
-
+                              
                     do i = 1,n
                        work(i) = rwork(i)*work(i)
                     end do
@@ -20174,7 +20343,7 @@ module stdlib_linalg_lapack_z
                        work(i) = rwork(i)*work(i)
                     end do
                     call stdlib_zgttrs(transn,n,1,dlf,df,duf,du2,ipiv,work,n,info)
-
+                              
                  end if
                  go to 70
               end if
@@ -20200,11 +20369,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,ldb,n,nrhs
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: b(ldb,*),d(*),dl(*),du(*)
+           complex(dp),intent(inout) :: b(ldb,*),d(*),dl(*),du(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: j,k
            complex(dp) :: mult,temp,zdum
@@ -20273,7 +20443,7 @@ module stdlib_linalg_lapack_z
               if (n > 1) b(n - 1,j) = (b(n - 1,j) - du(n - 1)*b(n,j))/d(n - 1)
               do k = n - 2,1,-1
                  b(k,j) = (b(k,j) - du(k)*b(k + 1,j) - dl(k)*b(k + 2,j))/d(k)
-
+                           
               end do
            end do
            return
@@ -20292,16 +20462,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,trans
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(dp) :: rcond
+           character,intent(in) :: fact,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf( &
-                     *),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: b(ldb,*),d(*),dl(*),du(*)
+           complex(dp),intent(inout) :: df(*),dlf(*),du2(*),duf(*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nofact,notran
            character :: norm
@@ -20378,12 +20550,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: d(*),dl(*),du(*),du2(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: d(*),dl(*),du(*)
+           complex(dp),intent(out) :: du2(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            complex(dp) :: fact,temp,zdum
@@ -20469,11 +20643,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: b(ldb,*),d(*),dl(*),du(*),du2(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(in) :: d(*),dl(*),du(*),du2(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: notran
@@ -20533,10 +20709,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: itrans,ldb,n,nrhs
+           integer(ilp),intent(in) :: itrans,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: b(ldb,*),d(*),dl(*),du(*),du2(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(in) :: d(*),dl(*),du(*),du2(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -20567,7 +20744,7 @@ module stdlib_linalg_lapack_z
                  if (n > 1) b(n - 1,j) = (b(n - 1,j) - du(n - 1)*b(n,j))/d(n - 1)
                  do i = n - 2,1,-1
                     b(i,j) = (b(i,j) - du(i)*b(i + 1,j) - du2(i)*b(i + 2,j))/d(i)
-
+                              
                  end do
                  if (j < nrhs) then
                     j = j + 1
@@ -20590,7 +20767,7 @@ module stdlib_linalg_lapack_z
                     if (n > 1) b(n - 1,j) = (b(n - 1,j) - du(n - 1)*b(n,j))/d(n - 1)
                     do i = n - 2,1,-1
                        b(i,j) = (b(i,j) - du(i)*b(i + 1,j) - du2(i)*b(i + 2,j))/d(i)
-
+                                 
                     end do
                  end do
               end if
@@ -20649,7 +20826,7 @@ module stdlib_linalg_lapack_z
                  ! solve u**h * x = b.
                  b(1,j) = b(1,j)/conjg(d(1))
                  if (n > 1) b(2,j) = (b(2,j) - conjg(du(1))*b(1,j))/conjg(d(2))
-
+                           
                  do i = 3,n
                     b(i,j) = (b(i,j) - conjg(du(i - 1))*b(i - 1,j) - conjg(du2(i - 2))*b( &
                               i - 2,j))/conjg(d(i))
@@ -20673,7 +20850,7 @@ module stdlib_linalg_lapack_z
                  ! solve u**h * x = b.
                     b(1,j) = b(1,j)/conjg(d(1))
                     if (n > 1) b(2,j) = (b(2,j) - conjg(du(1))*b(1,j))/conjg(d(2))
-
+                              
                     do i = 3,n
                        b(i,j) = (b(i,j) - conjg(du(i - 1))*b(i - 1,j) - conjg(du2(i - 2)) &
                                  *b(i - 2,j))/conjg(d(i))
@@ -20702,13 +20879,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           logical(lk) :: wantz
-           integer(ilp) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: wantz
+           integer(ilp),intent(in) :: ttype,st,ed,sweep,n,nb,ib,lda,ldvt
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),v(*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: v(*),tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,j1,j2,lm,ln,vpos,taupos,dpos,ofdpos,ajeter
@@ -20797,7 +20975,7 @@ module stdlib_linalg_lapack_z
                        a(ofdpos + i,st - 1) = czero
                    end do
                    call stdlib_zlarfg(lm,a(ofdpos,st - 1),v(vpos + 1),1,tau(taupos))
-
+                             
                    lm = ed - st + 1
                    call stdlib_zlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
                              ,lda - 1,work)
@@ -20828,7 +21006,7 @@ module stdlib_linalg_lapack_z
                            a(dpos + nb + i,st) = czero
                        end do
                        call stdlib_zlarfg(lm,a(dpos + nb,st),v(vpos + 1),1,tau(taupos))
-
+                                 
                        call stdlib_zlarfx('LEFT',lm,ln - 1,v(vpos),conjg(tau(taupos)),a( &
                                  dpos + nb - 1,st + 1),lda - 1,work)
                    end if
@@ -20845,13 +21023,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,kd,ldab,ldz,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,n
            ! .. array arguments ..
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ab(ldab,*),work(*),z(ldz,*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,wantz
            integer(ilp) :: iinfo,imax,inde,indrwk,iscale
@@ -20918,14 +21098,14 @@ module stdlib_linalg_lapack_z
            ! call stdlib_zhbtrd to reduce hermitian band matrix to tridiagonal form.
            inde = 1
            call stdlib_zhbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
-
+                     
            ! for eigenvalues only, call stdlib_dsterf.  for eigenvectors, call stdlib_zsteqr.
            if (.not. wantz) then
               call stdlib_dsterf(n,w,rwork(inde),info)
            else
               indrwk = inde + n
               call stdlib_zsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
-
+                        
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
            if (iscale == 1) then
@@ -20955,18 +21135,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,kd,ldab,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ab(ldab,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,lquery,wantz
-           integer(ilp) :: iinfo,imax,inde,indwk2,indwrk,iscale,liwmin,llrwk,llwk2,lrwmin, &
-                      lwmin
+           integer(ilp) :: iinfo,imax,inde,indwk2,indwrk,iscale,liwmin,llrwk,llwk2, &
+                     lrwmin,lwmin
            real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
            ! .. intrinsic functions ..
            intrinsic :: sqrt
@@ -21060,7 +21242,7 @@ module stdlib_linalg_lapack_z
            llwk2 = lwork - indwk2 + 1
            llrwk = lrwork - indwrk + 1
            call stdlib_zhbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
-
+                     
            ! for eigenvalues only, call stdlib_dsterf.  for eigenvectors, call stdlib_zstedc.
            if (.not. wantz) then
               call stdlib_dsterf(n,w,rwork(inde),info)
@@ -21097,15 +21279,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,kd,ldab,ldq,ldz,m,n
-           real(dp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,kd,ldab,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ab(ldab,*),q(ldq,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
+           complex(dp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,lower,test,valeig,wantz
            character :: order
@@ -21239,7 +21423,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlacpy('A',n,n,q,ldq,z,ldz)
                  call stdlib_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
                  call stdlib_zsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
-
+                           
                  if (info == 0) then
                     do i = 1,n
                        ifail(i) = 0
@@ -21328,13 +21512,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,vect
-           integer(ilp) :: info,ka,kb,ldab,ldbb,ldx,n
+           character,intent(in) :: uplo,vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldx,n
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: ab(ldab,*),bb(ldbb,*),work(*),x(ldx,*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
+           complex(dp),intent(in) :: bb(ldbb,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: update,upper,wantx
            integer(ilp) :: i,i0,i1,i2,inca,j,j1,j1t,j2,j2t,k,ka1,kb1,kbt,l,m,nr, &
@@ -21469,7 +21656,7 @@ module stdlib_linalg_lapack_z
                  do j = i,i1
                     do k = max(j - ka,i - kbt),i - 1
                        ab(k - j + ka1,j) = ab(k - j + ka1,j) - bb(k - i + kb1,i)*ab(i - j + ka1,j)
-
+                                 
                     end do
                  end do
                  if (wantx) then
@@ -21498,7 +21685,7 @@ module stdlib_linalg_lapack_z
                        work(i - k) = rwork(i - k + ka - m)*t - conjg(work(i - k + ka - m))*ab(1,i - k + ka &
                                  )
                        ab(1,i - k + ka) = work(i - k + ka - m)*t + rwork(i - k + ka - m)*ab(1,i - k + ka)
-
+                                 
                        ra1 = ra
                     end if
                  end if
@@ -21590,7 +21777,7 @@ module stdlib_linalg_lapack_z
                     ! generate rotations in 2nd set to annihilate elements
                     ! which have been created outside the band
                     call stdlib_zlargv(nr,ab(1,j2),inca,work(j2),ka1,rwork(j2),ka1)
-
+                              
                     ! apply rotations in 2nd set from the right
                     do l = 1,ka - 1
                        call stdlib_zlartv(nr,ab(ka1 - l,j2),inca,ab(ka - l,j2 + 1),inca, &
@@ -21651,7 +21838,7 @@ module stdlib_linalg_lapack_z
                     end do
                     do j = max(1,i - ka),i - kbt - 1
                        ab(k - j + 1,j) = ab(k - j + 1,j) - conjg(bb(i - k + 1,k))*ab(i - j + 1,j)
-
+                                 
                     end do
                  end do
                  do j = i,i1
@@ -21683,9 +21870,9 @@ module stdlib_linalg_lapack_z
                        ! band and store it in work(i-k)
                        t = -bb(k + 1,i - k)*ra1
                        work(i - k) = rwork(i - k + ka - m)*t - conjg(work(i - k + ka - m))*ab(ka1,i - k)
-
+                                 
                        ab(ka1,i - k) = work(i - k + ka - m)*t + rwork(i - k + ka - m)*ab(ka1,i - k)
-
+                                 
                        ra1 = ra
                     end if
                  end if
@@ -21884,7 +22071,7 @@ module stdlib_linalg_lapack_z
                  do j = i1,i
                     do k = i + 1,min(j + ka,i + kbt)
                        ab(j - k + ka1,k) = ab(j - k + ka1,k) - bb(i - k + kb1,k)*ab(j - i + ka1,i)
-
+                                 
                     end do
                  end do
                  if (wantx) then
@@ -21905,12 +22092,12 @@ module stdlib_linalg_lapack_z
                     if (i + k - ka1 > 0 .and. i + k < m) then
                        ! generate rotation to annihilate a(i+k-ka-1,i)
                        call stdlib_zlartg(ab(k + 1,i),ra1,rwork(i + k - ka),work(i + k - ka),ra)
-
+                                 
                        ! create nonzero element a(i+k-ka-1,i+k) outside the
                        ! band and store it in work(m-kb+i+k)
                        t = -bb(kb1 - k,i + k)*ra1
                        work(m - kb + i + k) = rwork(i + k - ka)*t - conjg(work(i + k - ka))*ab(1,i + k)
-
+                                 
                        ab(1,i + k) = work(i + k - ka)*t + rwork(i + k - ka)*ab(1,i + k)
                        ra1 = ra
                     end if
@@ -21957,7 +22144,7 @@ module stdlib_linalg_lapack_z
                     ! post-multiply x by product of rotations in 1st set
                     do j = j1,j2,ka1
                        call stdlib_zrot(nx,x(1,j),1,x(1,j - 1),1,rwork(j),work(j))
-
+                                 
                     end do
                  end if
               end do loop_610
@@ -22068,7 +22255,7 @@ module stdlib_linalg_lapack_z
                     end do
                     do j = i + kbt + 1,min(n,i + ka)
                        ab(j - k + 1,k) = ab(j - k + 1,k) - conjg(bb(k - i + 1,i))*ab(j - i + 1,i)
-
+                                 
                     end do
                  end do
                  do j = i1,i
@@ -22101,7 +22288,7 @@ module stdlib_linalg_lapack_z
                        work(m - kb + i + k) = rwork(i + k - ka)*t - conjg(work(i + k - ka))*ab(ka1,i + k - &
                                  ka)
                        ab(ka1,i + k - ka) = work(i + k - ka)*t + rwork(i + k - ka)*ab(ka1,i + k - ka)
-
+                                 
                        ra1 = ra
                     end if
                  end if
@@ -22253,11 +22440,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,n
            ! .. array arguments ..
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ab(ldab,*),bb(ldbb,*),work(*),z(ldz,*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper,wantz
@@ -22309,13 +22498,13 @@ module stdlib_linalg_lapack_z
               vect = 'N'
            end if
            call stdlib_zhbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
-
+                     
            ! for eigenvalues only, call stdlib_dsterf.  for eigenvectors, call stdlib_zsteqr.
            if (.not. wantz) then
               call stdlib_dsterf(n,w,rwork(inde),info)
            else
               call stdlib_zsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indwrk),info)
-
+                        
            end if
            return
      end subroutine stdlib_zhbgv
@@ -22338,18 +22527,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ka,kb,ldab,ldbb,ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ab(ldab,*),bb(ldbb,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,upper,wantz
            character :: vect
-           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llrwk,llwk2,lrwmin,lwmin
+           integer(ilp) :: iinfo,inde,indwk2,indwrk,liwmin,llrwk,llwk2,lrwmin, &
+                     lwmin
            ! .. executable statements ..
            ! test the input parameters.
            wantz = stdlib_lsame(jobz,'V')
@@ -22427,7 +22619,7 @@ module stdlib_linalg_lapack_z
               vect = 'N'
            end if
            call stdlib_zhbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
-
+                     
            ! for eigenvalues only, call stdlib_dsterf.  for eigenvectors, call stdlib_zstedc.
            if (.not. wantz) then
               call stdlib_dsterf(n,w,rwork(inde),info)
@@ -22457,15 +22649,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,ka,kb,ldab,ldbb,ldq,ldz,m,n
-           real(dp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ka,kb,ldab,ldbb,ldq,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ab(ldab,*),bb(ldbb,*),q(ldq,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
+           complex(dp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,test,upper,valeig,wantz
            character :: order,vect
@@ -22563,7 +22757,7 @@ module stdlib_linalg_lapack_z
               else
                  call stdlib_zlacpy('A',n,n,q,ldq,z,ldz)
                  call stdlib_zsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
-
+                           
                  if (info == 0) then
                     do i = 1,n
                        ifail(i) = 0
@@ -22639,13 +22833,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,vect
-           integer(ilp) :: info,kd,ldab,ldq,n
+           character,intent(in) :: uplo,vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldq,n
            ! .. array arguments ..
-           real(dp) :: d(*),e(*)
-           complex(dp) :: ab(ldab,*),q(ldq,*),work(*)
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: ab(ldab,*),q(ldq,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: initq,upper,wantq
            integer(ilp) :: i,i2,ibl,inca,incx,iqaend,iqb,iqend,j,j1,j1end,j1inc,j2, &
@@ -23002,14 +23198,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,kase
@@ -23080,14 +23279,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,kase
@@ -23160,16 +23362,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
-           real(dp) :: amax,scond
-           character :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(out) :: amax,scond
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),work(*)
-           real(dp) :: s(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(out) :: s(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: max_iter = 100
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,iter
            real(dp) :: avg,std,tol,c0,c1,c2,t,u,si,d,base,smin,smax,smlnum,bignum, &
@@ -23334,13 +23538,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: a(lda,*),work(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,lquery,wantz
            integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale,llwork,lwkopt,nb
@@ -23415,10 +23621,10 @@ module stdlib_linalg_lapack_z
               call stdlib_dsterf(n,w,rwork(inde),info)
            else
               call stdlib_zungtr(uplo,n,a,lda,work(indtau),work(indwrk),llwork,iinfo)
-
+                        
               indwrk = inde + n
               call stdlib_zsteqr(jobz,n,w,rwork(inde),a,lda,rwork(indwrk),info)
-
+                        
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
            if (iscale == 1) then
@@ -23450,14 +23656,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,lda,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,lquery,wantz
            integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwk2,indwrk,iscale,liopt, &
@@ -23641,15 +23849,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,lda,ldz,liwork,lrwork,lwork,m,n
-           real(dp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,liwork,lrwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: isuppz(*),iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: a(lda,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz,tryrac
            character :: order
@@ -23846,7 +24056,7 @@ module stdlib_linalg_lapack_z
                  end if
                  call stdlib_zstemr(jobz,'A',n,rwork(indrdd),rwork(indree),vl,vu,il, &
                  iu,m,w,z,ldz,n,isuppz,tryrac,rwork(indrwk),llrwork,iwork,liwork,info)
-
+                           
                  ! apply unitary matrix used in reduction to tridiagonal
                  ! form to eigenvectors returned by stdlib_zstemr.
                  if (wantz .and. info == 0) then
@@ -23932,15 +24142,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,lda,ldz,lwork,m,n
-           real(dp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,lda,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: a(lda,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz
            character :: order
@@ -24090,7 +24302,7 @@ module stdlib_linalg_lapack_z
                            iinfo)
                  call stdlib_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
                  call stdlib_zsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
-
+                           
                  if (info == 0) then
                     do i = 1,n
                        ifail(i) = 0
@@ -24178,12 +24390,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,itype,lda,ldb,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: k
@@ -24266,7 +24479,7 @@ module stdlib_linalg_lapack_z
                     ct = half*akk
                     call stdlib_zaxpy(k - 1,ct,b(1,k),1,a(1,k),1)
                     call stdlib_zher2(uplo,k - 1,cone,a(1,k),1,b(1,k),1,a,lda)
-
+                              
                     call stdlib_zaxpy(k - 1,ct,b(1,k),1,a(1,k),1)
                     call stdlib_zdscal(k - 1,bkk,a(1,k),1)
                     a(k,k) = akk*bkk**2
@@ -24284,7 +24497,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zlacgv(k - 1,b(k,1),ldb)
                     call stdlib_zaxpy(k - 1,ct,b(k,1),ldb,a(k,1),lda)
                     call stdlib_zher2(uplo,k - 1,cone,a(k,1),lda,b(k,1),ldb,a,lda)
-
+                              
                     call stdlib_zaxpy(k - 1,ct,b(k,1),ldb,a(k,1),lda)
                     call stdlib_zlacgv(k - 1,b(k,1),ldb)
                     call stdlib_zdscal(k - 1,bkk,a(k,1),lda)
@@ -24309,12 +24522,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,itype,lda,ldb,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: k,kb,nb
@@ -24355,7 +24569,7 @@ module stdlib_linalg_lapack_z
                        kb = min(n - k + 1,nb)
                        ! update the upper triangle of a(k:n,k:n)
                        call stdlib_zhegs2(itype,uplo,kb,a(k,k),lda,b(k,k),ldb,info)
-
+                                 
                        if (k + kb <= n) then
                           call stdlib_ztrsm('LEFT',uplo,'CONJUGATE TRANSPOSE','NON-UNIT',kb, &
                                     n - k - kb + 1,cone,b(k,k),ldb,a(k,k + kb),lda)
@@ -24375,7 +24589,7 @@ module stdlib_linalg_lapack_z
                        kb = min(n - k + 1,nb)
                        ! update the lower triangle of a(k:n,k:n)
                        call stdlib_zhegs2(itype,uplo,kb,a(k,k),lda,b(k,k),ldb,info)
-
+                                 
                        if (k + kb <= n) then
                           call stdlib_ztrsm('RIGHT',uplo,'CONJUGATE TRANSPOSE','NON-UNIT',n - k - &
                                     kb + 1,kb,cone,b(k,k),ldb,a(k + kb,k),lda)
@@ -24407,7 +24621,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_ztrmm('RIGHT',uplo,'CONJUGATE TRANSPOSE','NON-UNIT',k - 1, &
                                  kb,cone,b(k,k),ldb,a(1,k),lda)
                        call stdlib_zhegs2(itype,uplo,kb,a(k,k),lda,b(k,k),ldb,info)
-
+                                 
                     end do
                  else
                     ! compute l**h*a*l
@@ -24425,7 +24639,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_ztrmm('LEFT',uplo,'CONJUGATE TRANSPOSE','NON-UNIT',kb,k - 1, &
                                   cone,b(k,k),ldb,a(k,1),lda)
                        call stdlib_zhegs2(itype,uplo,kb,a(k,k),lda,b(k,k),ldb,info)
-
+                                 
                     end do
                  end if
               end if
@@ -24440,18 +24654,20 @@ module stdlib_linalg_lapack_z
      ! positive definite.
 
      subroutine stdlib_zhegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
-
+               
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,itype,lda,ldb,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,lwork,n
            ! .. array arguments ..
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,upper,wantz
            character :: trans
@@ -24550,14 +24766,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,itype,lda,ldb,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,lda,ldb,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,upper,wantz
            character :: trans
@@ -24643,7 +24861,7 @@ module stdlib_linalg_lapack_z
                     trans = 'C'
                  end if
                  call stdlib_ztrsm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
-
+                           
               else if (itype == 3) then
                  ! for b*a*x=(lambda)*x;
                  ! backtransform eigenvectors: x = l*y or u**h *y
@@ -24653,7 +24871,7 @@ module stdlib_linalg_lapack_z
                     trans = 'N'
                  end if
                  call stdlib_ztrmm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
-
+                           
               end if
            end if
            work(1) = lopt
@@ -24675,15 +24893,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,itype,iu,lda,ldb,ldz,lwork,m,n
-           real(dp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,lda,ldb,ldz,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,lquery,upper,valeig,wantz
            character :: trans
@@ -24770,7 +24990,7 @@ module stdlib_linalg_lapack_z
                     trans = 'C'
                  end if
                  call stdlib_ztrsm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
-
+                           
               else if (itype == 3) then
                  ! for b*a*x=(lambda)*x;
                  ! backtransform eigenvectors: x = l*y or u**h *y
@@ -24780,7 +25000,7 @@ module stdlib_linalg_lapack_z
                     trans = 'N'
                  end if
                  call stdlib_ztrmm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
-
+                           
               end if
            end if
            ! set work(1) to optimal complex workspace size.
@@ -24798,16 +25018,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: count,i,j,k,kase,nz
@@ -24991,11 +25214,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -25066,11 +25291,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -25113,7 +25340,7 @@ module stdlib_linalg_lapack_z
            if (info == 0) then
               ! solve the system a*x = b, overwriting b with x.
               call stdlib_zhetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-
+                        
            end if
            work(1) = lwkopt
            return
@@ -25135,16 +25362,18 @@ module stdlib_linalg_lapack_z
      ! the system of equations A * X = B by calling BLAS3 routine ZHETRS_3.
 
      subroutine stdlib_zhesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-
+               
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),e(*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: e(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -25216,11 +25445,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -25283,15 +25514,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,lwork,n,nrhs
-           real(dp) :: rcond
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,lwork,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(inout) :: af(ldaf,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,nofact
            integer(ilp) :: lwkopt,nb
@@ -25372,10 +25606,10 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: i1,i2,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: i1,i2,lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,n)
+           complex(dp),intent(inout) :: a(lda,n)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -25445,13 +25679,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(dp) :: d(*),e(*)
-           complex(dp) :: a(lda,*),tau(*)
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i
@@ -25489,7 +25725,7 @@ module stdlib_linalg_lapack_z
                     a(i,i + 1) = cone
                     ! compute  x := tau * a * v  storing x in tau(1:i)
                     call stdlib_zhemv(uplo,i,taui,a,lda,a(1,i + 1),1,czero,tau,1)
-
+                              
                     ! compute  w := x - 1/2 * tau * (x**h * v) * v
                     alpha = -chalf*taui*stdlib_zdotc(i,tau,1,a(1,i + 1),1)
                     call stdlib_zaxpy(i,alpha,a(1,i + 1),1,tau,1)
@@ -25551,15 +25787,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,imax,j,jmax,k,kk,kp,kstep
@@ -25691,7 +25928,7 @@ module stdlib_linalg_lapack_z
                        ! = a - ( w(k-1) w(k) )*inv(d(k))*( w(k-1) w(k) )**h
                     if (k > 2) then
                        d = stdlib_dlapy2(real(a(k - 1,k),KIND=dp),aimag(a(k - 1,k)))
-
+                                 
                        d22 = real(a(k - 1,k - 1),KIND=dp)/d
                        d11 = real(a(k,k),KIND=dp)/d
                        tt = one/(d11*d22 - one)
@@ -25784,7 +26021,7 @@ module stdlib_linalg_lapack_z
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_zswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     do j = kk + 1,kp - 1
                        t = conjg(a(j,kk))
                        a(j,kk) = conjg(a(kp,j))
@@ -25814,7 +26051,7 @@ module stdlib_linalg_lapack_z
                        ! a := a - l(k)*d(k)*l(k)**h = a - w(k)*(1/d(k))*w(k)**h
                        r1 = one/real(a(k,k),KIND=dp)
                        call stdlib_zher(uplo,n - k,-r1,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                 
                        ! store l(k) in column k
                        call stdlib_zdscal(n - k,r1,a(k + 1,k),1)
                     end if
@@ -25827,7 +26064,7 @@ module stdlib_linalg_lapack_z
                        ! where l(k) and l(k+1) are the k-th and (k+1)-th
                        ! columns of l
                        d = stdlib_dlapy2(real(a(k + 1,k),KIND=dp),aimag(a(k + 1,k)))
-
+                                 
                        d11 = real(a(k + 1,k + 1),KIND=dp)/d
                        d22 = real(a(k,k),KIND=dp)/d
                        tt = one/(d11*d22 - one)
@@ -25877,15 +26114,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),e(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: e(*)
         ! ======================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: done,upper
            integer(ilp) :: i,ii,imax,itemp,j,jmax,k,kk,kp,kstep,p
@@ -26109,7 +26348,7 @@ module stdlib_linalg_lapack_z
                     if (k > 2) then
                        ! d = |a12|
                        d = stdlib_dlapy2(real(a(k - 1,k),KIND=dp),aimag(a(k - 1,k)))
-
+                                 
                        d11 = real(a(k,k)/d,KIND=dp)
                        d22 = real(a(k - 1,k - 1)/d,KIND=dp)
                        d12 = a(k - 1,k)/d
@@ -26270,7 +26509,7 @@ module stdlib_linalg_lapack_z
                  if (kp /= kk) then
                     ! (1) swap columnar parts
                     if (kp < n) call stdlib_zswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     ! (2) swap and conjugate middle parts
                     do j = kk + 1,kp - 1
                        t = conjg(a(j,kk))
@@ -26314,7 +26553,7 @@ module stdlib_linalg_lapack_z
                              ! = a - w(k)*(1/d(k))*w(k)**t
                           d11 = one/real(a(k,k),KIND=dp)
                           call stdlib_zher(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                    
                           ! store l(k) in column k
                           call stdlib_zdscal(n - k,d11,a(k + 1,k),1)
                        else
@@ -26328,7 +26567,7 @@ module stdlib_linalg_lapack_z
                              ! = a - w(k)*(1/d(k))*w(k)**t
                              ! = a - (w(k)/d(k))*(d(k))*(w(k)/d(k))**t
                           call stdlib_zher(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                    
                        end if
                        ! store the subdiagonal element of d in array e
                        e(k) = czero
@@ -26345,7 +26584,7 @@ module stdlib_linalg_lapack_z
                     if (k < n - 1) then
                        ! d = |a21|
                        d = stdlib_dlapy2(real(a(k + 1,k),KIND=dp),aimag(a(k + 1,k)))
-
+                                 
                        d11 = real(a(k + 1,k + 1),KIND=dp)/d
                        d22 = real(a(k,k),KIND=dp)/d
                        d21 = a(k + 1,k)/d
@@ -26402,15 +26641,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! ======================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: done,upper
            integer(ilp) :: i,ii,imax,itemp,j,jmax,k,kk,kp,kstep,p
@@ -26621,7 +26861,7 @@ module stdlib_linalg_lapack_z
                     if (k > 2) then
                        ! d = |a12|
                        d = stdlib_dlapy2(real(a(k - 1,k),KIND=dp),aimag(a(k - 1,k)))
-
+                                 
                        d11 = real(a(k,k)/d,KIND=dp)
                        d22 = real(a(k - 1,k - 1)/d,KIND=dp)
                        d12 = a(k - 1,k)/d
@@ -26768,7 +27008,7 @@ module stdlib_linalg_lapack_z
                  if (kp /= kk) then
                     ! (1) swap columnar parts
                     if (kp < n) call stdlib_zswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     ! (2) swap and conjugate middle parts
                     do j = kk + 1,kp - 1
                        t = conjg(a(j,kk))
@@ -26809,7 +27049,7 @@ module stdlib_linalg_lapack_z
                              ! = a - w(k)*(1/d(k))*w(k)**t
                           d11 = one/real(a(k,k),KIND=dp)
                           call stdlib_zher(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                    
                           ! store l(k) in column k
                           call stdlib_zdscal(n - k,d11,a(k + 1,k),1)
                        else
@@ -26823,7 +27063,7 @@ module stdlib_linalg_lapack_z
                              ! = a - w(k)*(1/d(k))*w(k)**t
                              ! = a - (w(k)/d(k))*(d(k))*(w(k)/d(k))**t
                           call stdlib_zher(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                    
                        end if
                     end if
                  else
@@ -26838,7 +27078,7 @@ module stdlib_linalg_lapack_z
                     if (k < n - 1) then
                        ! d = |a21|
                        d = stdlib_dlapy2(real(a(k + 1,k),KIND=dp),aimag(a(k + 1,k)))
-
+                                 
                        d11 = real(a(k + 1,k + 1),KIND=dp)/d
                        d22 = real(a(k,k),KIND=dp)/d
                        d21 = a(k + 1,k)/d
@@ -26885,13 +27125,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           real(dp) :: d(*),e(*)
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,upper
            integer(ilp) :: i,iinfo,iws,j,kk,ldwork,lwkopt,nb,nbmin,nx
@@ -26995,7 +27237,7 @@ module stdlib_linalg_lapack_z
               end do
               ! use unblocked code to reduce the last or only block
               call stdlib_zhetd2(uplo,n - i + 1,a(i,i),lda,d(i),e(i),tau(i),iinfo)
-
+                        
            end if
            work(1) = lwkopt
            return
@@ -27008,26 +27250,29 @@ module stdlib_linalg_lapack_z
      subroutine stdlib_zhetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous,work, &
                lwork,info)
 #if defined(_OPENMP)
+           use omp_lib
 #endif
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: stage1,uplo,vect
-           integer(ilp) :: n,kd,ldab,lhous,lwork,info
+           character,intent(in) :: stage1,uplo,vect
+           integer(ilp),intent(in) :: n,kd,ldab,lhous,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           real(dp) :: d(*),e(*)
-           complex(dp) :: ab(ldab,*),hous(*),work(*)
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
+           complex(dp),intent(out) :: hous(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,wantq,upper,afters1
            integer(ilp) :: i,m,k,ib,sweepid,myid,shift,stt,st,ed,stind,edind, &
-           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype,tid, &
-           nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea,lda, &
-                     indv,indtau,sizev,sizetau,ldv,lhmin,lwmin
+           blklastind,colpt,thed,stepercol,grsiz,thgrsiz,thgrnb,thgrid,nbtiles,ttype, &
+           tid,nthreads,debug,abdpos,abofdpos,dpos,ofdpos,awpos,inda,indw,apos,sizea, &
+                     lda,indv,indtau,sizev,sizetau,ldv,lhmin,lwmin
            real(dp) :: abstmp
            complex(dp) :: tmp
            ! .. intrinsic functions ..
@@ -27288,23 +27533,25 @@ module stdlib_linalg_lapack_z
      ! Q**H * A * Q = AB.
 
      subroutine stdlib_zhetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldab,lwork,n,kd
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldab,lwork,n,kd
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),ab(ldab,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: ab(ldab,*),tau(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: rone = 1.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,upper
            integer(ilp) :: i,j,iinfo,lwmin,pn,pk,lk,ldt,ldw,lds2,lds1,ls2,ls1,lw,lt, &
-                     tpos,wpos,s2pos,s1pos
+                      tpos,wpos,s2pos,s1pos
            ! .. intrinsic functions ..
            intrinsic :: min,max
            ! .. executable statements ..
@@ -27470,11 +27717,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -27592,13 +27841,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,lda,lwork,info
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,upper
            integer(ilp) :: j,lwkopt
@@ -27687,7 +27938,7 @@ module stdlib_linalg_lapack_z
                     alpha = conjg(a(j,j + 1))
                     a(j,j + 1) = cone
                     call stdlib_zcopy(n - j,a(j - 1,j + 1),lda,work((j + 1 - j1 + 1) + jb*n),1)
-
+                              
                     call stdlib_zscal(n - j,alpha,work((j + 1 - j1 + 1) + jb*n),1)
                     ! k1 identifies if the previous column of the panel has been
                      ! explicitly stored, e.g., k1=0 and k2=1 for the first panel,
@@ -27708,7 +27959,7 @@ module stdlib_linalg_lapack_z
                        do mj = nj - 1,1,-1
                           call stdlib_zgemm('CONJUGATE TRANSPOSE','TRANSPOSE',1,mj,jb + 1,-cone, &
                            a(j1 - k2,j3),lda,work((j3 - j1 + 1) + k1*n),n,cone,a(j3,j3),lda)
-
+                                     
                           j3 = j3 + 1
                        end do
                        ! update off-diagonal block of j2-th block row with stdlib_zgemm
@@ -27822,11 +28073,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),e(*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: e(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -27884,7 +28137,7 @@ module stdlib_linalg_lapack_z
                  ! factorize columns k-kb+1:k of a and use blocked code to
                  ! update columns 1:k-kb
                  call stdlib_zlahef_rk(uplo,k,nb,kb,a,lda,e,ipiv,work,ldwork,iinfo)
-
+                           
               else
                  ! use unblocked code to factorize columns 1:k of a
                  call stdlib_zhetf2_rk(uplo,k,a,lda,e,ipiv,iinfo)
@@ -27931,7 +28184,7 @@ module stdlib_linalg_lapack_z
               else
                  ! use unblocked code to factorize columns k:n of a
                  call stdlib_zhetf2_rk(uplo,n - k + 1,a(k,k),lda,e(k),ipiv(k),iinfo)
-
+                           
                  kb = n - k + 1
               end if
               ! set info on the first occurrence of a zero pivot
@@ -27985,11 +28238,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -28047,7 +28302,7 @@ module stdlib_linalg_lapack_z
                  ! factorize columns k-kb+1:k of a and use blocked code to
                  ! update columns 1:k-kb
                  call stdlib_zlahef_rook(uplo,k,nb,kb,a,lda,ipiv,work,ldwork,iinfo)
-
+                           
               else
                  ! use unblocked code to factorize columns 1:k of a
                  call stdlib_zhetf2_rook(uplo,k,a,lda,ipiv,iinfo)
@@ -28106,13 +28361,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kp,kstep
@@ -28166,7 +28423,7 @@ module stdlib_linalg_lapack_z
                  if (k > 1) then
                     call stdlib_zcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_zhemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-
+                              
                     a(k,k) = a(k,k) - real(stdlib_zdotc(k - 1,work,1,a(1,k),1), &
                               KIND=dp)
                  end if
@@ -28186,14 +28443,14 @@ module stdlib_linalg_lapack_z
                  if (k > 1) then
                     call stdlib_zcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_zhemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-
+                              
                     a(k,k) = a(k,k) - real(stdlib_zdotc(k - 1,work,1,a(1,k),1), &
                               KIND=dp)
                     a(k,k + 1) = a(k,k + 1) - stdlib_zdotc(k - 1,a(1,k),1,a(1,k + 1),1)
-
+                              
                     call stdlib_zcopy(k - 1,a(1,k + 1),1,work,1)
                     call stdlib_zhemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k + 1),1)
-
+                              
                     a(k + 1,k + 1) = a(k + 1,k + 1) - real(stdlib_zdotc(k - 1,work,1,a(1,k + 1), &
                               1),KIND=dp)
                  end if
@@ -28307,13 +28564,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kp,kstep
@@ -28367,7 +28626,7 @@ module stdlib_linalg_lapack_z
                  if (k > 1) then
                     call stdlib_zcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_zhemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-
+                              
                     a(k,k) = a(k,k) - real(stdlib_zdotc(k - 1,work,1,a(1,k),1), &
                               KIND=dp)
                  end if
@@ -28387,14 +28646,14 @@ module stdlib_linalg_lapack_z
                  if (k > 1) then
                     call stdlib_zcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_zhemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-
+                              
                     a(k,k) = a(k,k) - real(stdlib_zdotc(k - 1,work,1,a(1,k),1), &
                               KIND=dp)
                     a(k,k + 1) = a(k,k + 1) - stdlib_zdotc(k - 1,a(1,k),1,a(1,k + 1),1)
-
+                              
                     call stdlib_zcopy(k - 1,a(1,k + 1),1,work,1)
                     call stdlib_zhemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k + 1),1)
-
+                              
                     a(k + 1,k + 1) = a(k + 1,k + 1) - real(stdlib_zdotc(k - 1,work,1,a(1,k + 1), &
                               1),KIND=dp)
                  end if
@@ -28572,13 +28831,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kp
@@ -28801,13 +29062,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,iinfo,j,k,kp
@@ -28918,7 +29182,7 @@ module stdlib_linalg_lapack_z
                  ! interchange rows k and -ipiv(k+1).
                  kp = -ipiv(k + 1)
                  if (kp == -ipiv(k)) call stdlib_zswap(nrhs,b(k + 1,1),ldb,b(kp,1),ldb)
-
+                           
                  k = k + 2
               end if
              end do
@@ -28986,13 +29250,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),e(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),e(*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,j,k,kp
@@ -29138,13 +29404,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,nrhs,lda,ldb,lwork,info
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,nrhs,lda,ldb,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            logical(lk) :: lquery,upper
            integer(ilp) :: k,kp,lwkopt
            ! .. intrinsic functions ..
@@ -29255,13 +29524,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kp
@@ -29497,13 +29768,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(dp) :: alpha,beta
-           integer(ilp) :: k,lda,n
-           character :: trans,transr,uplo
+           real(dp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: k,lda,n
+           character,intent(in) :: trans,transr,uplo
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: c(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,normaltransr,nisodd,notrans
            integer(ilp) :: info,nrowa,j,nk,n1,n2
@@ -29576,7 +29848,7 @@ module stdlib_linalg_lapack_z
                     if (notrans) then
                        ! n is odd, transr = 'n', uplo = 'l', and trans = 'n'
                        call stdlib_zherk('L','N',n1,k,alpha,a(1,1),lda,beta,c(1),n)
-
+                                 
                        call stdlib_zherk('U','N',n2,k,alpha,a(n1 + 1,1),lda,beta,c(n + 1) &
                                  ,n)
                        call stdlib_zgemm('N','C',n2,n1,k,calpha,a(n1 + 1,1),lda,a(1,1) &
@@ -29584,7 +29856,7 @@ module stdlib_linalg_lapack_z
                     else
                        ! n is odd, transr = 'n', uplo = 'l', and trans = 'c'
                        call stdlib_zherk('L','C',n1,k,alpha,a(1,1),lda,beta,c(1),n)
-
+                                 
                        call stdlib_zherk('U','C',n2,k,alpha,a(1,n1 + 1),lda,beta,c(n + 1) &
                                  ,n)
                        call stdlib_zgemm('C','N',n2,n1,k,calpha,a(1,n1 + 1),lda,a(1,1) &
@@ -29781,14 +30053,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq,compz,job
-           integer(ilp) :: ihi,ilo,info,ldh,ldq,ldt,ldz,lwork,n
+           character,intent(in) :: compq,compz,job
+           integer(ilp),intent(in) :: ihi,ilo,ldh,ldq,ldt,ldz,lwork,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: alpha(*),beta(*),h(ldh,*),q(ldq,*),t(ldt,*),work(*), &
-                     z(ldz,*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(out) :: alpha(*),beta(*),work(*)
+           complex(dp),intent(inout) :: h(ldh,*),q(ldq,*),t(ldt,*),z(ldz,*)
+                     
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: ilazr2,ilazro,ilq,ilschr,ilz,lquery
            integer(ilp) :: icompq,icompz,ifirst,ifrstm,iiter,ilast,ilastm,in,ischur, &
@@ -30018,7 +30292,7 @@ module stdlib_linalg_lapack_z
                        do jch = j,ilast - 1
                           ctemp = t(jch,jch + 1)
                           call stdlib_zlartg(ctemp,t(jch + 1,jch + 1),c,s,t(jch,jch + 1))
-
+                                    
                           t(jch + 1,jch + 1) = czero
                           if (jch < ilastm - 1) call stdlib_zrot(ilastm - jch - 1,t(jch,jch + 2),ldt, &
                                     t(jch + 1,jch + 2),ldt,c,s)
@@ -30028,14 +30302,14 @@ module stdlib_linalg_lapack_z
                                      s))
                           ctemp = h(jch + 1,jch)
                           call stdlib_zlartg(ctemp,h(jch + 1,jch - 1),c,s,h(jch + 1,jch))
-
+                                    
                           h(jch + 1,jch - 1) = czero
                           call stdlib_zrot(jch + 1 - ifrstm,h(ifrstm,jch),1,h(ifrstm,jch - 1), &
                                     1,c,s)
                           call stdlib_zrot(jch - ifrstm,t(ifrstm,jch),1,t(ifrstm,jch - 1),1, &
                                      c,s)
                           if (ilz) call stdlib_zrot(n,z(1,jch),1,z(1,jch - 1),1,c,s)
-
+                                    
                        end do
                        go to 50
                     end if
@@ -30133,7 +30407,7 @@ module stdlib_linalg_lapack_z
                  if ((iiter/20)*20 == iiter .and. bscale*abs1(t(ilast,ilast)) > safmin) &
                            then
                     eshift = eshift + (ascale*h(ilast,ilast))/(bscale*t(ilast,ilast))
-
+                              
                  else
                     eshift = eshift + (ascale*h(ilast,ilast - 1))/(bscale*t(ilast - 1,ilast - 1) &
                                )
@@ -30249,14 +30523,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: ap(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,ip,kase
@@ -30324,13 +30601,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,ldz,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
            ! .. array arguments ..
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ap(*),work(*),z(ldz,*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: wantz
            integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale
@@ -30394,10 +30673,10 @@ module stdlib_linalg_lapack_z
            else
               indwrk = indtau + n
               call stdlib_zupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
-
+                        
               indrwk = inde + n
               call stdlib_zsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
-
+                        
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
            if (iscale == 1) then
@@ -30427,18 +30706,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ap(*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,wantz
-           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale,liwmin,llrwk,llwrk, &
-                      lrwmin,lwmin
+           integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale,liwmin,llrwk, &
+                     llwrk,lrwmin,lwmin
            real(dp) :: anrm,bignum,eps,rmax,rmin,safmin,sigma,smlnum
            ! .. intrinsic functions ..
            intrinsic :: sqrt
@@ -30561,15 +30842,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,iu,ldz,m,n
-           real(dp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ap(*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,test,valeig,wantz
            character :: order
@@ -30669,7 +30952,7 @@ module stdlib_linalg_lapack_z
            indtau = 1
            indwrk = indtau + n
            call stdlib_zhptrd(uplo,n,ap,rwork(indd),rwork(inde),work(indtau),iinfo)
-
+                     
            ! if all eigenvalues are desired and abstol is less than or equal
            ! to zero, then call stdlib_dsterf or stdlib_zupgtr and stdlib_zsteqr.  if this fails
            ! for some eigenvalue, then try stdlib_dstebz.
@@ -30687,10 +30970,10 @@ module stdlib_linalg_lapack_z
                  call stdlib_dsterf(n,w,rwork(indee),info)
               else
                  call stdlib_zupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
-
+                           
                  call stdlib_dcopy(n - 1,rwork(inde),1,rwork(indee),1)
                  call stdlib_zsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
-
+                           
                  if (info == 0) then
                     do i = 1,n
                        ifail(i) = 0
@@ -30777,12 +31060,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,itype,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,n
            ! .. array arguments ..
-           complex(dp) :: ap(*),bp(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(in) :: bp(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,j1,j1j1,jj,k,k1,k1k1,kk
@@ -30819,7 +31104,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_ztpsv(uplo,'CONJUGATE TRANSPOSE','NON-UNIT',j,bp,ap(j1),1 &
                               )
                     call stdlib_zhpmv(uplo,j - 1,-cone,ap,bp(j1),1,cone,ap(j1),1)
-
+                              
                     call stdlib_zdscal(j - 1,one/bjj,ap(j1),1)
                     ap(jj) = (ap(jj) - stdlib_zdotc(j - 1,ap(j1),1,bp(j1),1))/ &
                               bjj
@@ -30860,7 +31145,7 @@ module stdlib_linalg_lapack_z
                     akk = real(ap(kk),KIND=dp)
                     bkk = real(bp(kk),KIND=dp)
                     call stdlib_ztpmv(uplo,'NO TRANSPOSE','NON-UNIT',k - 1,bp,ap(k1),1)
-
+                              
                     ct = half*akk
                     call stdlib_zaxpy(k - 1,ct,bp(k1),1,ap(k1),1)
                     call stdlib_zhpr2(uplo,k - 1,cone,ap(k1),1,bp(k1),1,ap)
@@ -30901,11 +31186,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,itype,ldz,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,n
            ! .. array arguments ..
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ap(*),bp(*),work(*),z(ldz,*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*),bp(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper,wantz
@@ -30992,12 +31279,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,uplo
-           integer(ilp) :: info,itype,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: jobz,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: itype,ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ap(*),bp(*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*),bp(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper,wantz
@@ -31118,13 +31407,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range,uplo
-           integer(ilp) :: il,info,itype,iu,ldz,m,n
-           real(dp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range,uplo
+           integer(ilp),intent(in) :: il,itype,iu,ldz,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: ifail(*),iwork(*)
-           real(dp) :: rwork(*),w(*)
-           complex(dp) :: ap(*),bp(*),work(*),z(ldz,*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(out) :: rwork(*),w(*)
+           complex(dp),intent(inout) :: ap(*),bp(*)
+           complex(dp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,upper,valeig,wantz
@@ -31225,16 +31516,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: afp(*),ap(*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: count,i,ik,j,k,kase,kk,nz
@@ -31421,11 +31715,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*),b(ldb,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: ap(*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -31467,15 +31762,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(dp) :: rcond
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(inout) :: afp(*)
+           complex(dp),intent(in) :: ap(*),b(ldb,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nofact
            real(dp) :: anorm
@@ -31538,13 +31836,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(dp) :: d(*),e(*)
-           complex(dp) :: ap(*),tau(*)
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(out) :: tau(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,i1,i1i1,ii
@@ -31619,7 +31919,7 @@ module stdlib_linalg_lapack_z
                     ! apply the transformation as a rank-2 update:
                        ! a := a - v * w**h - w * v**h
                     call stdlib_zhpr2(uplo,n - i,-cone,ap(ii + 1),1,tau(i),1,ap(i1i1))
-
+                              
                  end if
                  ap(ii + 1) = e(i)
                  d(i) = real(ap(ii),KIND=dp)
@@ -31643,15 +31943,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,imax,j,jmax,k,kc,kk,knc,kp,kpc,kstep,kx,npp
@@ -31799,7 +32100,7 @@ module stdlib_linalg_lapack_z
                           wkm1 = d*(d11*ap(j + (k - 2)*(k - 1)/2) - conjg(d12)*ap(j + (k - 1)*k &
                                     /2))
                           wk = d*(d22*ap(j + (k - 1)*k/2) - d12*ap(j + (k - 2)*(k - 1)/2))
-
+                                    
                           do i = j,1,-1
                              ap(i + (j - 1)*j/2) = ap(i + (j - 1)*j/2) - ap(i + (k - 1)*k/2) &
                                        *conjg(wk) - ap(i + (k - 2)*(k - 1)/2)*conjg(wkm1)
@@ -31892,7 +32193,7 @@ module stdlib_linalg_lapack_z
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_zswap(n - kp,ap(knc + kp - kk + 1),1,ap(kpc + 1),1)
-
+                              
                     kx = knc + kp - kk
                     do j = kk + 1,kp - 1
                        kx = kx + n - j + 1
@@ -31988,13 +32289,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kc,kcnext,kp,kpc,kstep,kx,npp
@@ -32077,7 +32380,7 @@ module stdlib_linalg_lapack_z
                               kcnext),1)
                     call stdlib_zcopy(k - 1,ap(kcnext),1,work,1)
                     call stdlib_zhpmv(uplo,k - 1,-cone,ap,work,1,czero,ap(kcnext),1)
-
+                              
                     ap(kcnext + k) = ap(kcnext + k) - real(stdlib_zdotc(k - 1,work,1,ap(kcnext &
                               ),1),KIND=dp)
                  end if
@@ -32204,13 +32507,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: ap(*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kc,kp
@@ -32255,7 +32560,7 @@ module stdlib_linalg_lapack_z
                  ! multiply by inv(u(k)), where u(k) is the transformation
                  ! stored in column k of a.
                  call stdlib_zgeru(k - 1,nrhs,-cone,ap(kc),1,b(k,1),ldb,b(1,1),ldb)
-
+                           
                  ! multiply by the inverse of the diagonal block.
                  s = real(cone,KIND=dp)/real(ap(kc + k - 1),KIND=dp)
                  call stdlib_zdscal(nrhs,s,b(k,1),ldb)
@@ -32268,7 +32573,7 @@ module stdlib_linalg_lapack_z
                  ! multiply by inv(u(k)), where u(k) is the transformation
                  ! stored in columns k-1 and k of a.
                  call stdlib_zgeru(k - 2,nrhs,-cone,ap(kc),1,b(k,1),ldb,b(1,1),ldb)
-
+                           
                  call stdlib_zgeru(k - 2,nrhs,-cone,ap(kc - (k - 1)),1,b(k - 1,1),ldb,b(1, &
                            1),ldb)
                  ! multiply by the inverse of the diagonal block.
@@ -32447,17 +32752,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: eigsrc,initv,side
-           integer(ilp) :: info,ldh,ldvl,ldvr,m,mm,n
+           character,intent(in) :: eigsrc,initv,side
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldh,ldvl,ldvr,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           integer(ilp) :: ifaill(*),ifailr(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: h(ldh,*),vl(ldvl,*),vr(ldvr,*),w(*),work(*)
+           logical(lk),intent(in) :: select(*)
+           integer(ilp),intent(out) :: ifaill(*),ifailr(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: h(ldh,*)
+           complex(dp),intent(inout) :: vl(ldvl,*),vr(ldvr,*),w(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: bothv,fromqr,leftv,noinit,rightv
            integer(ilp) :: i,iinfo,k,kl,kln,kr,ks,ldwork
@@ -32614,15 +32922,17 @@ module stdlib_linalg_lapack_z
      ! by the unitary matrix Q:  A = Q*H*Q**H = (QZ)*T*(QZ)**H.
 
      subroutine stdlib_zhseqr(job,compz,n,ilo,ihi,h,ldh,w,z,ldz,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ilo,info,ldh,ldz,lwork,n
-           character :: compz,job
+           integer(ilp),intent(in) :: ihi,ilo,ldh,ldz,lwork,n
+           integer(ilp),intent(out) :: info
+           character,intent(in) :: compz,job
            ! .. array arguments ..
-           complex(dp) :: h(ldh,*),w(*),work(*),z(ldz,*)
+           complex(dp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(dp),intent(out) :: w(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: ntiny = 15
@@ -32631,14 +32941,14 @@ module stdlib_linalg_lapack_z
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_zlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
-
+           
            ! ==== nl allocates some local workspace to help small matrices
            ! .    through a rare stdlib_zlahqr failure.  nl > ntiny = 15 is
            ! .    required and nl <= nmin = stdlib_ilaenv(ispec=12,...) is recom-
            ! .    mended.  (the default value of nmin is 75.)  using nl = 49
            ! .    allows up to six simultaneous shifts and a 16-by-16
            ! .    deflation window.  ====
-
+           
            ! .. local arrays ..
            complex(dp) :: hl(nl,nl),workl(nl)
            ! .. local scalars ..
@@ -32691,7 +33001,7 @@ module stdlib_linalg_lapack_z
               ! ==== copy eigenvalues isolated by stdlib_zgebal ====
               if (ilo > 1) call stdlib_zcopy(ilo - 1,h,ldh + 1,w,1)
               if (ihi < n) call stdlib_zcopy(n - ihi,h(ihi + 1,ihi + 1),ldh + 1,w(ihi + 1),1)
-
+                        
               ! ==== initialize z, if requested ====
               if (initz) call stdlib_zlaset('A',n,n,czero,cone,z,ldz)
               ! ==== quick return if possible ====
@@ -32701,7 +33011,7 @@ module stdlib_linalg_lapack_z
               end if
               ! ==== stdlib_zlahqr/stdlib_zlaqr0 crossover point ====
               nmin = stdlib_ilaenv(12,'ZHSEQR',job(:1)//compz(:1),n,ilo,ihi,lwork)
-
+                        
               nmin = max(ntiny,nmin)
               ! ==== stdlib_zlaqr0 for big matrices; stdlib_zlahqr for small ones ====
               if (n > nmin) then
@@ -32710,7 +33020,7 @@ module stdlib_linalg_lapack_z
               else
                  ! ==== small matrix ====
                  call stdlib_zlahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,ilo,ihi,z,ldz,info)
-
+                           
                  if (info > 0) then
                     ! ==== a rare stdlib_zlahqr failure!  stdlib_zlaqr0 sometimes succeeds
                     ! .    when stdlib_zlahqr fails. ====
@@ -32731,7 +33041,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zlaqr0(wantt,wantz,nl,ilo,kbot,hl,nl,w,ilo,ihi,z, &
                                  ldz,workl,nl,info)
                        if (wantt .or. info /= 0) call stdlib_zlacpy('A',n,n,hl,nl,h,ldh)
-
+                                 
                     end if
                  end if
               end if
@@ -32760,18 +33070,18 @@ module stdlib_linalg_lapack_z
      ! in computing that entry have at least one zero multiplicand.
 
      subroutine stdlib_zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(dp) :: alpha,beta
-           integer(ilp) :: incx,incy,ldab,m,n,kl,ku,trans
+           real(dp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,ldab,m,n,kl,ku,trans
            ! .. array arguments ..
-           complex(dp) :: ab(ldab,*),x(*)
-           real(dp) :: y(*)
+           complex(dp),intent(in) :: ab(ldab,*),x(*)
+           real(dp),intent(inout) :: y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: symb_zero
            real(dp) :: temp,safe1
@@ -32856,7 +33166,7 @@ module stdlib_linalg_lapack_z
                        do j = max(i - kl,1),min(i + ku,lenx)
                           temp = cabs1(ab(kd + i - j,j))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-
+                                    
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -32878,7 +33188,7 @@ module stdlib_linalg_lapack_z
                        do j = max(i - kl,1),min(i + ku,lenx)
                           temp = cabs1(ab(ke - i + j,i))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-
+                                    
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -32903,7 +33213,7 @@ module stdlib_linalg_lapack_z
                        do j = max(i - kl,1),min(i + ku,lenx)
                           temp = cabs1(ab(kd + i - j,j))
                           symb_zero = symb_zero .and. (x(jx) == czero .or. temp == czero)
-
+                                    
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -32927,7 +33237,7 @@ module stdlib_linalg_lapack_z
                        do j = max(i - kl,1),min(i + ku,lenx)
                           temp = cabs1(ab(ke - i + j,i))
                           symb_zero = symb_zero .and. (x(jx) == czero .or. temp == czero)
-
+                                    
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -32949,13 +33259,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           logical(lk) :: capply
-           integer(ilp) :: n,kl,ku,kd,ke,ldab,ldafb,info
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,kl,ku,ldab,ldafb
+           integer(ilp) :: kd,ke
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ab(ldab,*),afb(ldafb,*),work(*)
-           real(dp) :: c(*),rwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: ab(ldab,*),afb(ldafb,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c(*)
+           real(dp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: notrans
@@ -33096,9 +33410,9 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: n,kl,ku,ncols,ldab,ldafb
+           integer(ilp),intent(in) :: n,kl,ku,ncols,ldab,ldafb
            ! .. array arguments ..
-           complex(dp) :: ab(ldab,*),afb(ldafb,*)
+           complex(dp),intent(in) :: ab(ldab,*),afb(ldafb,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j,kd
@@ -33148,14 +33462,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(dp) :: alpha,beta
-           integer(ilp) :: incx,incy,lda,m,n
-           integer(ilp) :: trans
+           real(dp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,m,n
+           integer(ilp),intent(in) :: trans
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),x(*)
-           real(dp) :: y(*)
+           complex(dp),intent(in) :: a(lda,*),x(*)
+           real(dp),intent(inout) :: y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: symb_zero
            real(dp) :: temp,safe1
@@ -33234,7 +33548,7 @@ module stdlib_linalg_lapack_z
                        do j = 1,lenx
                           temp = cabs1(a(i,j))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-
+                                    
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -33256,7 +33570,7 @@ module stdlib_linalg_lapack_z
                        do j = 1,lenx
                           temp = cabs1(a(j,i))
                           symb_zero = symb_zero .and. (x(j) == czero .or. temp == czero)
-
+                                    
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -33281,7 +33595,7 @@ module stdlib_linalg_lapack_z
                        do j = 1,lenx
                           temp = cabs1(a(i,j))
                           symb_zero = symb_zero .and. (x(jx) == czero .or. temp == czero)
-
+                                    
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -33305,7 +33619,7 @@ module stdlib_linalg_lapack_z
                        do j = 1,lenx
                           temp = cabs1(a(j,i))
                           symb_zero = symb_zero .and. (x(jx) == czero .or. temp == czero)
-
+                                    
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -33327,13 +33641,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           logical(lk) :: capply
-           integer(ilp) :: n,lda,ldaf,info
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),work(*)
-           real(dp) :: c(*),rwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c(*)
+           real(dp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: notrans
@@ -33419,7 +33736,7 @@ module stdlib_linalg_lapack_z
                  end do
                  if (notrans) then
                     call stdlib_zgetrs('NO TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info)
-
+                              
                  else
                     call stdlib_zgetrs('CONJUGATE TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info &
                               )
@@ -33442,7 +33759,7 @@ module stdlib_linalg_lapack_z
                               )
                  else
                     call stdlib_zgetrs('NO TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info)
-
+                              
                  end if
                  ! multiply by r.
                  do i = 1,n
@@ -33468,9 +33785,9 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: n,ncols,lda,ldaf
+           integer(ilp),intent(in) :: n,ncols,lda,ldaf
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),af(ldaf,*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -33518,13 +33835,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(dp) :: alpha,beta
-           integer(ilp) :: incx,incy,lda,n,uplo
+           real(dp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,n,uplo
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),x(*)
-           real(dp) :: y(*)
+           complex(dp),intent(in) :: a(lda,*),x(*)
+           real(dp),intent(inout) :: y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: symb_zero
            real(dp) :: temp,safe1
@@ -33703,13 +34020,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           logical(lk) :: capply
-           integer(ilp) :: n,lda,ldaf,info
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),work(*)
-           real(dp) :: c(*),rwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c
+           real(dp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: kase,i,j
@@ -33853,12 +34173,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,info,lda,ldaf
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),af(ldaf,*)
-           real(dp) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: ncols,i,j,k,kp
@@ -34041,10 +34361,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: n,nz,nrhs
+           integer(ilp),intent(in) :: n,nz,nrhs
            ! .. array arguments ..
-           real(dp) :: ayb(n,nrhs),berr(nrhs)
-           complex(dp) :: res(n,nrhs)
+           real(dp),intent(in) :: ayb(n,nrhs)
+           real(dp),intent(out) :: berr(nrhs)
+           complex(dp),intent(in) :: res(n,nrhs)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: tmp,safe1
@@ -34084,12 +34405,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           logical(lk) :: capply
-           integer(ilp) :: n,lda,ldaf,info
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),af(ldaf,*),work(*)
-           real(dp) :: c(*),rwork(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c(*)
+           real(dp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: kase
@@ -34234,11 +34558,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: ncols,lda,ldaf
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),af(ldaf,*)
-           real(dp) :: work(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -34333,14 +34657,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(dp) :: alpha,beta
-           integer(ilp) :: incx,incy,lda,n
-           integer(ilp) :: uplo
+           real(dp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,n
+           integer(ilp),intent(in) :: uplo
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),x(*)
-           real(dp) :: y(*)
+           complex(dp),intent(in) :: a(lda,*),x(*)
+           real(dp),intent(inout) :: y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: symb_zero
            real(dp) :: temp,safe1
@@ -34519,13 +34843,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           logical(lk) :: capply
-           integer(ilp) :: n,lda,ldaf,info
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),work(*)
-           real(dp) :: c(*),rwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c(*)
+           real(dp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: kase
@@ -34670,12 +34997,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,info,lda,ldaf
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),af(ldaf,*)
-           real(dp) :: work(*)
-           integer(ilp) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(dp),intent(out) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: ncols,i,j,k,kp
@@ -34856,9 +35183,10 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: n
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(dp) :: x(*),y(*),w(*)
+           complex(dp),intent(inout) :: x(*),y(*)
+           complex(dp),intent(in) :: w(*)
         ! =====================================================================
            ! .. local scalars ..
            complex(dp) :: s
@@ -34886,12 +35214,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,ldx,ldy,m,n,nb
+           integer(ilp),intent(in) :: lda,ldx,ldy,m,n,nb
            ! .. array arguments ..
-           real(dp) :: d(*),e(*)
-           complex(dp) :: a(lda,*),taup(*),tauq(*),x(ldx,*),y(ldy,*)
+           real(dp),intent(out) :: d(*),e(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: taup(*),tauq(*),x(ldx,*),y(ldy,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            complex(dp) :: alpha
@@ -35029,9 +35358,9 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           complex(dp) :: x(*)
+           complex(dp),intent(inout) :: x(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ioff
@@ -35061,15 +35390,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: kase,n
-           real(dp) :: est
+           integer(ilp),intent(inout) :: kase
+           integer(ilp),intent(in) :: n
+           real(dp),intent(inout) :: est
            ! .. array arguments ..
-           integer(ilp) :: isave(3)
-           complex(dp) :: v(*),x(*)
+           integer(ilp),intent(inout) :: isave(3)
+           complex(dp),intent(out) :: v(*)
+           complex(dp),intent(inout) :: x(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,jlast
            real(dp) :: absxi,altsgn,estold,safmin,temp
@@ -35100,7 +35431,7 @@ module stdlib_linalg_lapack_z
               absxi = abs(x(i))
               if (absxi > safmin) then
                  x(i) = cmplx(real(x(i),KIND=dp)/absxi,aimag(x(i))/absxi,KIND=dp)
-
+                           
               else
                  x(i) = cone
               end if
@@ -35134,7 +35465,7 @@ module stdlib_linalg_lapack_z
               absxi = abs(x(i))
               if (absxi > safmin) then
                  x(i) = cmplx(real(x(i),KIND=dp)/absxi,aimag(x(i))/absxi,KIND=dp)
-
+                           
               else
                  x(i) = cone
               end if
@@ -35157,7 +35488,7 @@ module stdlib_linalg_lapack_z
            altsgn = one
            do i = 1,n
               x(i) = cmplx(altsgn*(one + real(i - 1,KIND=dp)/real(n - 1,KIND=dp)),KIND=dp)
-
+                        
               altsgn = -altsgn
            end do
            kase = 1
@@ -35184,14 +35515,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: kase,n
-           real(dp) :: est
+           integer(ilp),intent(inout) :: kase
+           integer(ilp),intent(in) :: n
+           real(dp),intent(inout) :: est
            ! .. array arguments ..
-           complex(dp) :: v(n),x(n)
+           complex(dp),intent(out) :: v(n)
+           complex(dp),intent(inout) :: x(n)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,iter,j,jlast,jump
            real(dp) :: absxi,altsgn,estold,safmin,temp
@@ -35224,7 +35557,7 @@ module stdlib_linalg_lapack_z
               absxi = abs(x(i))
               if (absxi > safmin) then
                  x(i) = cmplx(real(x(i),KIND=dp)/absxi,aimag(x(i))/absxi,KIND=dp)
-
+                           
               else
                  x(i) = cone
               end if
@@ -35258,7 +35591,7 @@ module stdlib_linalg_lapack_z
               absxi = abs(x(i))
               if (absxi > safmin) then
                  x(i) = cmplx(real(x(i),KIND=dp)/absxi,aimag(x(i))/absxi,KIND=dp)
-
+                           
               else
                  x(i) = cone
               end if
@@ -35280,7 +35613,7 @@ module stdlib_linalg_lapack_z
            altsgn = one
            do i = 1,n
               x(i) = cmplx(altsgn*(one + real(i - 1,KIND=dp)/real(n - 1,KIND=dp)),KIND=dp)
-
+                        
               altsgn = -altsgn
            end do
            kase = 1
@@ -35307,11 +35640,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: lda,ldb,m,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,ldb,m,n
            ! .. array arguments ..
-           real(dp) :: a(lda,*)
-           complex(dp) :: b(ldb,*)
+           real(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: b(ldb,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -35348,10 +35681,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: lda,ldb,m,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,ldb,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: b(ldb,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -35390,12 +35724,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,ldb,ldc,m,n
+           integer(ilp),intent(in) :: lda,ldb,ldc,m,n
            ! .. array arguments ..
-           real(dp) :: b(ldb,*),rwork(*)
-           complex(dp) :: a(lda,*),c(ldc,*)
+           real(dp),intent(in) :: b(ldb,*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: c(ldc,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,l
            ! .. intrinsic functions ..
@@ -35410,7 +35746,7 @@ module stdlib_linalg_lapack_z
            end do
            l = m*n + 1
            call stdlib_dgemm('N','N',m,n,n,one,rwork,m,b,ldb,zero,rwork(l),m)
-
+                     
            do j = 1,n
               do i = 1,m
                  c(i,j) = rwork(l + (j - 1)*m + i - 1)
@@ -35422,11 +35758,11 @@ module stdlib_linalg_lapack_z
               end do
            end do
            call stdlib_dgemm('N','N',m,n,n,one,rwork,m,b,ldb,zero,rwork(l),m)
-
+                     
            do j = 1,n
               do i = 1,m
                  c(i,j) = cmplx(real(c(i,j),KIND=dp),rwork(l + (j - 1)*m + i - 1),KIND=dp)
-
+                           
               end do
            end do
            return
@@ -35442,10 +35778,10 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
-           complex(dp) :: c,s
+           integer(ilp),intent(in) :: incx,incy,n
+           complex(dp),intent(in) :: c,s
            ! .. array arguments ..
-           complex(dp) :: cx(*),cy(*)
+           complex(dp),intent(inout) :: cx(*),cy(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ix,iy
@@ -35485,7 +35821,7 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(dp) :: x,y
+           complex(dp),intent(in) :: x,y
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: zi,zr
@@ -35493,7 +35829,7 @@ module stdlib_linalg_lapack_z
            intrinsic :: real,cmplx,aimag
            ! .. executable statements ..
            call stdlib_dladiv(real(x,KIND=dp),aimag(x),real(y,KIND=dp),aimag(y),zr,zi)
-
+                     
            stdlib_zladiv = cmplx(zr,zi,KIND=dp)
            return
      end function stdlib_zladiv
@@ -35508,18 +35844,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,ldq,ldqs,n,qsiz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldq,ldqs,n,qsiz
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: d(*),e(*),rwork(*)
-           complex(dp) :: q(ldq,*),qstore(ldqs,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(inout) :: d(*),e(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: q(ldq,*)
+           complex(dp),intent(out) :: qstore(ldqs,*)
         ! =====================================================================
         ! warning:      n could be as big as qsiz!
-
+           
            ! .. local scalars ..
            integer(ilp) :: curlvl,curprb,curr,i,igivcl,igivnm,igivpt,indxq,iperm,iprmpt, &
-           iq,iqptr,iwrem,j,k,lgn,ll,matsiz,msd2,smlsiz,smm1,spm1,spm2,submat,subpbs, &
-                     tlvls
+           iq,iqptr,iwrem,j,k,lgn,ll,matsiz,msd2,smlsiz,smm1,spm1,spm2,submat, &
+                     subpbs,tlvls
            real(dp) :: temp
            ! .. intrinsic functions ..
            intrinsic :: abs,real,int,log,max
@@ -35703,13 +36042,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: curlvl,curpbm,cutpnt,info,ldq,n,qsiz,tlvls
-           real(dp) :: rho
+           integer(ilp),intent(in) :: curlvl,curpbm,cutpnt,ldq,n,qsiz,tlvls
+           integer(ilp),intent(out) :: info
+           real(dp),intent(in) :: rho
            ! .. array arguments ..
-           integer(ilp) :: givcol(2,*),givptr(*),indxq(*),iwork(*),perm(*),prmptr( &
-                     *),qptr(*)
-           real(dp) :: d(*),givnum(2,*),qstore(*),rwork(*)
-           complex(dp) :: q(ldq,*),work(*)
+           integer(ilp),intent(in) :: givcol(2,*),givptr(*),perm(*),prmptr(*)
+           integer(ilp),intent(out) :: indxq(*),iwork(*)
+           integer(ilp),intent(inout) :: qptr(*)
+           real(dp),intent(inout) :: d(*),qstore(*)
+           real(dp),intent(in) :: givnum(2,*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: q(ldq,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: coltyp,curr,i,idlmda,indx,indxc,indxp,iq,iw,iz,k,n1,n2, &
@@ -35769,7 +36113,7 @@ module stdlib_linalg_lapack_z
            call stdlib_zlaed8(k,n,qsiz,q,ldq,d,rho,cutpnt,rwork(iz),rwork(idlmda), &
            work,qsiz,rwork(iw),iwork(indxp),iwork(indx),indxq,perm(prmptr(curr)), &
            givptr(curr + 1),givcol(1,givptr(curr)),givnum(1,givptr(curr)),info)
-
+                     
            prmptr(curr + 1) = prmptr(curr) + n
            givptr(curr + 1) = givptr(curr + 1) + givptr(curr)
            ! solve secular equation.
@@ -35808,16 +36152,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: cutpnt,givptr,info,k,ldq,ldq2,n,qsiz
-           real(dp) :: rho
+           integer(ilp),intent(in) :: cutpnt,ldq,ldq2,n,qsiz
+           integer(ilp),intent(out) :: givptr,info,k
+           real(dp),intent(inout) :: rho
            ! .. array arguments ..
-           integer(ilp) :: givcol(2,*),indx(*),indxp(*),indxq(*),perm(*)
-           real(dp) :: d(*),dlamda(*),givnum(2,*),w(*),z(*)
-           complex(dp) :: q(ldq,*),q2(ldq2,*)
+           integer(ilp),intent(out) :: givcol(2,*),indx(*),indxp(*),perm(*)
+           integer(ilp),intent(in) :: indxq(*)
+           real(dp),intent(inout) :: d(*)
+           real(dp),intent(out) :: dlamda(*),givnum(2,*),w(*)
+           real(dp),intent(in) :: z(*)
+           complex(dp),intent(inout) :: q(ldq,*)
+           complex(dp),intent(out) :: q2(ldq2,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: mone = -1.0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,imax,j,jlam,jmax,jp,k2,n1,n1p1,n2
            real(dp) :: c,eps,s,t,tau,tol
@@ -35999,22 +36348,25 @@ module stdlib_linalg_lapack_z
      ! matrix H.
 
      subroutine stdlib_zlaein(rightv,noinit,n,h,ldh,w,v,b,ldb,rwork,eps3,smlnum,info)
-
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: noinit,rightv
-           integer(ilp) :: info,ldb,ldh,n
-           real(dp) :: eps3,smlnum
-           complex(dp) :: w
+           logical(lk),intent(in) :: noinit,rightv
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldh,n
+           real(dp),intent(in) :: eps3,smlnum
+           complex(dp),intent(in) :: w
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: b(ldb,*),h(ldh,*),v(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(out) :: b(ldb,*)
+           complex(dp),intent(in) :: h(ldh,*)
+           complex(dp),intent(inout) :: v(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: tenth = 1.0e-1_dp
-
+           
            ! .. local scalars ..
            character :: normin,trans
            integer(ilp) :: i,ierr,its,j
@@ -36149,11 +36501,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(dp) :: a,b,c,cs1,evscal,rt1,rt2,sn1
+           complex(dp),intent(in) :: a,b,c
+           complex(dp),intent(out) :: cs1,evscal,rt1,rt2,sn1
        ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: thresh = 0.1_dp
-
+           
            ! .. local scalars ..
            real(dp) :: babs,evnorm,tabs,z
            complex(dp) :: s,t,tmp
@@ -36233,10 +36586,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(dp) :: cs1,rt1,rt2
-           complex(dp) :: a,b,c,sn1
+           real(dp),intent(out) :: cs1,rt1,rt2
+           complex(dp),intent(in) :: a,b,c
+           complex(dp),intent(out) :: sn1
        ! =====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: t
            complex(dp) :: w
@@ -36249,7 +36603,7 @@ module stdlib_linalg_lapack_z
               w = conjg(b)/abs(b)
            end if
            call stdlib_dlaev2(real(a,KIND=dp),abs(b),real(c,KIND=dp),rt1,rt2,cs1,t)
-
+                     
            sn1 = w*t
            return
      end subroutine stdlib_zlaev2
@@ -36265,10 +36619,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldsa,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldsa,m,n
            ! .. array arguments ..
-           complex(sp) :: sa(ldsa,*)
-           complex(dp) :: a(lda,*)
+           complex(sp),intent(out) :: sa(ldsa,*)
+           complex(dp),intent(in) :: a(lda,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -36291,35 +36646,6 @@ module stdlib_linalg_lapack_z
 30         continue
            return
      end subroutine stdlib_zlag2c
-
-
-     ! CLAG2Z converts a COMPLEX(dp) matrix, SA, to a COMPLEX(qp) matrix, A.
-     ! Note that while it is possible to overflow while converting
-     ! from double to single, it is not possible to overflow when
-     ! converting from single to double.
-     ! This is an auxiliary routine so there is no argument checking.
-
-     subroutine stdlib_zlag2w(m,n,sa,ldsa,a,lda,info)
-        ! -- lapack auxiliary routine --
-        ! -- lapack is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldsa,m,n
-           ! .. array arguments ..
-           complex(dp) :: sa(ldsa,*)
-           complex(qp) :: a(lda,*)
-        ! =====================================================================
-           ! .. local scalars ..
-           integer(ilp) :: i,j
-           ! .. executable statements ..
-           info = 0
-           do j = 1,n
-              do i = 1,m
-                 a(i,j) = sa(i,j)
-              end do
-           end do
-           return
-     end subroutine stdlib_zlag2w
 
      ! ZLAGS2 computes 2-by-2 unitary matrices U, V and Q, such
      ! that if ( UPPER ) then
@@ -36347,19 +36673,21 @@ module stdlib_linalg_lapack_z
      ! zero.
 
      subroutine stdlib_zlags2(upper,a1,a2,a3,b1,b2,b3,csu,snu,csv,snv,csq,snq)
-
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: upper
-           real(dp) :: a1,a3,b1,b3,csq,csu,csv
-           complex(dp) :: a2,b2,snq,snu,snv
+           logical(lk),intent(in) :: upper
+           real(dp),intent(in) :: a1,a3,b1,b3
+           real(dp),intent(out) :: csq,csu,csv
+           complex(dp),intent(in) :: a2,b2
+           complex(dp),intent(out) :: snq,snu,snv
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: a,aua11,aua12,aua21,aua22,avb12,avb11,avb21,avb22,csl,csr,d,fb, &
-                     fc,s1,s2,snl,snr,ua11r,ua22r,vb11r,vb22r
+                      fc,s1,s2,snl,snr,ua11r,ua22r,vb11r,vb22r
            complex(dp) :: b,c,d1,r,t,ua11,ua12,ua21,ua22,vb11,vb12,vb21,vb22
            ! .. intrinsic functions ..
            intrinsic :: abs,real,cmplx,conjg,aimag
@@ -36396,17 +36724,17 @@ module stdlib_linalg_lapack_z
                  ! zero (1,2) elements of u**h *a and v**h *b
                  if ((abs(ua11r) + abs1(ua12)) == zero) then
                     call stdlib_zlartg(-cmplx(vb11r,KIND=dp),conjg(vb12),csq,snq,r)
-
+                              
                  else if ((abs(vb11r) + abs1(vb12)) == zero) then
                     call stdlib_zlartg(-cmplx(ua11r,KIND=dp),conjg(ua12),csq,snq,r)
-
+                              
                  else if (aua12/(abs(ua11r) + abs1(ua12)) <= avb12/(abs(vb11r) + abs1(vb12 &
                            ))) then
                     call stdlib_zlartg(-cmplx(ua11r,KIND=dp),conjg(ua12),csq,snq,r)
-
+                              
                  else
                     call stdlib_zlartg(-cmplx(vb11r,KIND=dp),conjg(vb12),csq,snq,r)
-
+                              
                  end if
                  csu = csl
                  snu = -d1*snl
@@ -36517,13 +36845,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: ldb,ldx,n,nrhs
-           real(dp) :: alpha,beta
+           character,intent(in) :: trans
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(dp),intent(in) :: alpha,beta
            ! .. array arguments ..
-           complex(dp) :: b(ldb,*),d(*),dl(*),du(*),x(ldx,*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(in) :: d(*),dl(*),du(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            ! .. intrinsic functions ..
@@ -36659,15 +36988,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: imax,j,jb,jj,jmax,jp,k,kk,kkw,kp,kstep,kw
            real(dp) :: absakk,alpha,colmax,r1,rowmax,t
@@ -36732,7 +37063,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zcopy(imax - 1,a(1,imax),1,w(1,kw - 1),1)
                     w(imax,kw - 1) = real(a(imax,imax),KIND=dp)
                     call stdlib_zcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-
+                              
                     call stdlib_zlacgv(k - imax,w(imax + 1,kw - 1),1)
                     if (k < n) then
                        call stdlib_zgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda,w(imax, &
@@ -37025,7 +37356,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zcopy(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     call stdlib_zlacgv(kp - kk - 1,a(kp,kk + 1),lda)
                     if (kp < n) call stdlib_zcopy(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     ! interchange rows kk and kp in first k-1 columns of a
                     ! (columns k (or k and k+1 for 2-by-2 pivot) of a will be
                     ! later overwritten). interchange rows kk and kp
@@ -37167,7 +37498,7 @@ module stdlib_linalg_lapack_z
                  ! of the rows to swap back doesn't include diagonal element)
                  j = j - 1
                  if (jp /= jj .and. j >= 1) call stdlib_zswap(j,a(jp,1),lda,a(jj,1),lda)
-
+                           
               if (j > 1) go to 120
               ! set kb to the number of columns factorized
               kb = k - 1
@@ -37191,13 +37522,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: m,nb,j1,lda,ldh
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: m,nb,j1,lda,ldh
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),h(ldh,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),h(ldh,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: j,k,k1,i1,i2,mj
            complex(dp) :: piv,alpha
@@ -37268,7 +37600,7 @@ module stdlib_linalg_lapack_z
                     i1 = i1 + j - 1
                     i2 = i2 + j - 1
                     call stdlib_zswap(i2 - i1 - 1,a(j1 + i1 - 1,i1 + 1),lda,a(j1 + i1,i2),1)
-
+                              
                     call stdlib_zlacgv(i2 - i1,a(j1 + i1 - 1,i1 + 1),lda)
                     call stdlib_zlacgv(i2 - i1 - 1,a(j1 + i1,i2),1)
                     ! swap a(i1, i2+1:n) with a(i2, i2+1:n)
@@ -37304,7 +37636,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zscal(m - j - 1,alpha,a(k,j + 2),lda)
                     else
                        call stdlib_zlaset('FULL',1,m - j - 1,czero,czero,a(k,j + 2),lda)
-
+                                 
                     end if
                  end if
               end if
@@ -37371,7 +37703,7 @@ module stdlib_linalg_lapack_z
                     i1 = i1 + j - 1
                     i2 = i2 + j - 1
                     call stdlib_zswap(i2 - i1 - 1,a(i1 + 1,j1 + i1 - 1),1,a(i2,j1 + i1),lda)
-
+                              
                     call stdlib_zlacgv(i2 - i1,a(i1 + 1,j1 + i1 - 1),1)
                     call stdlib_zlacgv(i2 - i1 - 1,a(i2,j1 + i1),lda)
                     ! swap a(i2+1:n, i1) with a(i2+1:n, i2)
@@ -37407,7 +37739,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zscal(m - j - 1,alpha,a(j + 2,k),1)
                     else
                        call stdlib_zlaset('FULL',m - j - 1,1,czero,czero,a(j + 2,k),lda)
-
+                                 
                     end if
                  end if
               end if
@@ -37436,15 +37768,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),w(ldw,*),e(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: w(ldw,*),e(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: done
            integer(ilp) :: imax,itemp,ii,j,jb,jj,jmax,k,kk,kkw,kp,kstep,kw,p
@@ -37522,10 +37856,10 @@ module stdlib_linalg_lapack_z
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        if (imax > 1) call stdlib_zcopy(imax - 1,a(1,imax),1,w(1,kw - 1),1)
-
+                                 
                        w(imax,kw - 1) = real(a(imax,imax),KIND=dp)
                        call stdlib_zcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-
+                                 
                        call stdlib_zlacgv(k - imax,w(imax + 1,kw - 1),1)
                        if (k < n) then
                           call stdlib_zgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda,w( &
@@ -37907,7 +38241,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zcopy(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     call stdlib_zlacgv(kp - kk - 1,a(kp,kk + 1),lda)
                     if (kp < n) call stdlib_zcopy(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     ! interchange rows kk and kp in first k-1 columns of a
                     ! (column k (or k and k+1 for 2-by-2 pivot) of a will be
                     ! later overwritten). interchange rows kk and kp
@@ -38072,15 +38406,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: done
            integer(ilp) :: imax,itemp,ii,j,jb,jj,jmax,jp1,jp2,k,kk,kkw,kp,kstep,kw, &
@@ -38154,10 +38490,10 @@ module stdlib_linalg_lapack_z
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        if (imax > 1) call stdlib_zcopy(imax - 1,a(1,imax),1,w(1,kw - 1),1)
-
+                                 
                        w(imax,kw - 1) = real(a(imax,imax),KIND=dp)
                        call stdlib_zcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-
+                                 
                        call stdlib_zlacgv(k - imax,w(imax + 1,kw - 1),1)
                        if (k < n) then
                           call stdlib_zgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda,w( &
@@ -38555,7 +38891,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zcopy(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     call stdlib_zlacgv(kp - kk - 1,a(kp,kk + 1),lda)
                     if (kp < n) call stdlib_zcopy(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     ! interchange rows kk and kp in first k-1 columns of a
                     ! (column k (or k and k+1 for 2-by-2 pivot) of a will be
                     ! later overwritten). interchange rows kk and kp
@@ -38710,7 +39046,7 @@ module stdlib_linalg_lapack_z
                  ! of the rows to swap back doesn't include diagonal element)
                  j = j - 1
                  if (jp2 /= jj .and. j >= 1) call stdlib_zswap(j,a(jp2,1),lda,a(jj,1),lda)
-
+                           
                  jj = jj - 1
                  if (kstep == 2 .and. jp1 /= jj .and. j >= 1) call stdlib_zswap(j,a(jp1,1),lda,a( &
                             jj,1),lda)
@@ -38727,22 +39063,24 @@ module stdlib_linalg_lapack_z
      ! IHI.
 
      subroutine stdlib_zlahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,info)
-
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,n
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,n
+           integer(ilp),intent(out) :: info
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(dp) :: h(ldh,*),w(*),z(ldz,*)
+           complex(dp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(dp),intent(out) :: w(*)
         ! =========================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0_dp
            real(dp),parameter :: rone = 1.0_dp
            real(dp),parameter :: dat1 = 3.0_dp/4.0_dp
            integer(ilp),parameter :: kexsh = 10
-
+           
            ! .. local scalars ..
            complex(dp) :: cdum,h11,h11s,h22,sc,sum,t,t1,temp,u,v2,x,y
            real(dp) :: aa,ab,ba,bb,h10,h21,rtemp,s,safmax,safmin,smlnum,sx,t2,tst, &
@@ -39014,11 +39352,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: k,lda,ldt,ldy,n,nb
+           integer(ilp),intent(in) :: k,lda,ldt,ldy,n,nb
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(ldt,nb),tau(nb),y(ldy,nb)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: t(ldt,nb),tau(nb),y(ldy,nb)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            complex(dp) :: ei
@@ -39062,7 +39401,7 @@ module stdlib_linalg_lapack_z
               ! generate the elementary reflector h(i) to annihilate
               ! a(k+i+1:n,i)
               call stdlib_zlarfg(n - k - i + 1,a(k + i,i),a(min(k + i + 1,n),i),1,tau(i))
-
+                        
               ei = a(k + i,i)
               a(k + i,i) = cone
               ! compute  y(k+1:n,i)
@@ -39076,7 +39415,7 @@ module stdlib_linalg_lapack_z
               ! compute t(1:i,i)
               call stdlib_zscal(i - 1,-tau(i),t(1,i),1)
               call stdlib_ztrmv('UPPER','NO TRANSPOSE','NON-UNIT',i - 1,t,ldt,t(1,i),1)
-
+                        
               t(i,i) = tau(i)
            end do loop_10
            a(k + nb,nb) = ei
@@ -39117,13 +39456,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: j,job
-           real(dp) :: sest,sestpr
-           complex(dp) :: c,gamma,s
+           integer(ilp),intent(in) :: j,job
+           real(dp),intent(in) :: sest
+           real(dp),intent(out) :: sestpr
+           complex(dp),intent(out) :: c,s
+           complex(dp),intent(in) :: gamma
            ! .. array arguments ..
-           complex(dp) :: w(j),x(j)
+           complex(dp),intent(in) :: w(j),x(j)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: absalp,absest,absgam,b,eps,norma,s1,s2,scl,t,test,tmp,zeta1, &
                      zeta2
@@ -39206,7 +39547,7 @@ module stdlib_linalg_lapack_z
                  sine = -(alpha/absest)/t
                  cosine = -(gamma/absest)/(one + t)
                  tmp = real(sqrt(sine*conjg(sine) + cosine*conjg(cosine)),KIND=dp)
-
+                           
                  s = sine/tmp
                  c = cosine/tmp
                  sestpr = sqrt(t + one)*absest
@@ -39295,7 +39636,7 @@ module stdlib_linalg_lapack_z
                     sestpr = sqrt(one + t + four*eps*eps*norma)*absest
                  end if
                  tmp = real(sqrt(sine*conjg(sine) + cosine*conjg(cosine)),KIND=dp)
-
+                           
                  s = sine/tmp
                  c = cosine/tmp
                  return
@@ -39331,16 +39672,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: givptr,icompq,info,k,ldb,ldbx,ldgcol,ldgnum,nl,nr,nrhs, &
-                     sqre
-           real(dp) :: c,s
+           integer(ilp),intent(in) :: givptr,icompq,k,ldb,ldbx,ldgcol,ldgnum,nl,nr,nrhs, &
+                      sqre
+           integer(ilp),intent(out) :: info
+           real(dp),intent(in) :: c,s
            ! .. array arguments ..
-           integer(ilp) :: givcol(ldgcol,*),perm(*)
-           real(dp) :: difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles(ldgnum,*),rwork( &
-                      *),z(*)
-           complex(dp) :: b(ldb,*),bx(ldbx,*)
+           integer(ilp),intent(in) :: givcol(ldgcol,*),perm(*)
+           real(dp),intent(in) :: difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles( &
+                     ldgnum,*),z(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(out) :: bx(ldbx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,jcol,jrow,m,n,nlp1
            real(dp) :: diflj,difrj,dj,dsigj,dsigjp,temp
@@ -39456,7 +39800,7 @@ module stdlib_linalg_lapack_z
                        b(j,jcol) = cmplx(rwork(jcol + k),rwork(jcol + k + nrhs),KIND=dp)
                     end do
                     call stdlib_zlascl('G',0,0,temp,one,1,nrhs,b(j,1),ldb,info)
-
+                              
                  end do loop_100
               end if
               ! move the deflated rows of bx to b also.
@@ -39475,7 +39819,7 @@ module stdlib_linalg_lapack_z
                        rwork(j) = zero
                     else
                        rwork(j) = -z(j)/difl(j)/(dsigj + poles(j,1))/difr(j,2)
-
+                                 
                     end if
                     do i = 1,j - 1
                        if (z(j) == zero) then
@@ -39517,7 +39861,7 @@ module stdlib_linalg_lapack_z
                               zero,rwork(1 + k + nrhs),1)
                     do jcol = 1,nrhs
                        bx(j,jcol) = cmplx(rwork(jcol + k),rwork(jcol + k + nrhs),KIND=dp)
-
+                                 
                     end do
                  end do loop_180
               end if
@@ -39562,15 +39906,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: icompq,info,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz
+           integer(ilp),intent(in) :: icompq,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: givcol(ldgcol,*),givptr(*),iwork(*),k(*),perm(ldgcol,*)
-
-           real(dp) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*),poles(ldu,*), &
-                     rwork(*),s(*),u(ldu,*),vt(ldu,*),z(ldu,*)
-           complex(dp) :: b(ldb,*),bx(ldbx,*)
+           integer(ilp),intent(in) :: givcol(ldgcol,*),givptr(*),k(*),perm(ldgcol,*)
+                     
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(in) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*), &
+                     poles(ldu,*),s(*),u(ldu,*),vt(ldu,*),z(ldu,*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(out) :: bx(ldbx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,i1,ic,im1,inode,j,jcol,jimag,jreal,jrow,lf,ll,lvl,lvl2, &
                      nd,ndb1,ndiml,ndimr,nl,nlf,nlp1,nlvl,nr,nrf,nrp1,sqre
@@ -39867,19 +40215,23 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs,rank,smlsiz
-           real(dp) :: rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: ldb,n,nrhs,smlsiz
+           real(dp),intent(in) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: d(*),e(*),rwork(*)
-           complex(dp) :: b(ldb,*),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(inout) :: d(*),e(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: bx,bxst,c,difl,difr,givcol,givnum,givptr,i,icmpq1,icmpq2, &
-           irwb,irwib,irwrb,irwu,irwvt,irwwrk,iwk,j,jcol,jimag,jreal,jrow,k,nlvl,nm1, &
-                     nrwork,nsize,nsub,perm,poles,s,sizei,smlszp,sqre,st,st1,u,vt,z
+           irwb,irwib,irwrb,irwu,irwvt,irwwrk,iwk,j,jcol,jimag,jreal,jrow,k,nlvl, &
+           nm1,nrwork,nsize,nsub,perm,poles,s,sizei,smlszp,sqre,st,st1,u,vt, &
+                     z
            real(dp) :: cs,eps,orgnrm,rcnd,r,sn,tol
            ! .. intrinsic functions ..
            intrinsic :: abs,real,cmplx,aimag,int,log,sign
@@ -40003,7 +40355,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zlaset('A',1,nrhs,czero,czero,b(i,1),ldb)
                  else
                     call stdlib_zlascl('G',0,0,d(i),one,1,nrhs,b(i,1),ldb,info)
-
+                              
                     rank = rank + 1
                  end if
               end do
@@ -40115,7 +40467,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_dlaset('A',nsize,nsize,zero,one,rwork(u + st1),n)
                     call stdlib_dlasdq('U',0,nsize,nsize,nsize,0,d(st),e(st),rwork( &
                     vt + st1),n,rwork(u + st1),n,rwork(nrwork),1,rwork(nrwork),info)
-
+                              
                     if (info /= 0) then
                        return
                     end if
@@ -40150,7 +40502,7 @@ module stdlib_linalg_lapack_z
                        end do
                     end do
                     call stdlib_zlacpy('A',nsize,nrhs,b(st,1),ldb,work(bx + st1),n)
-
+                              
                  else
                     ! a large problem. solve it using divide and conquer.
                     call stdlib_dlasda(icmpq1,smlsiz,nsize,sqre,d(st),e(st),rwork(u + &
@@ -40184,7 +40536,7 @@ module stdlib_linalg_lapack_z
               else
                  rank = rank + 1
                  call stdlib_zlascl('G',0,0,d(i),one,1,nrhs,work(bx + i - 1),n,info)
-
+                           
               end if
               d(i) = abs(d(i))
            end do
@@ -40266,10 +40618,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,k,mb,nb,ldt,lwork,ldc
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
+           complex(dp),intent(in) :: a(lda,*),t(ldt,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: c(ldc,*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran,lquery
@@ -40323,7 +40678,7 @@ module stdlib_linalg_lapack_z
            end if
            if ((nb <= k) .or. (nb >= max(m,n,k))) then
              call stdlib_zgemlqt(side,trans,m,n,k,mb,a,lda,t,ldt,c,ldc,work,info)
-
+                       
              return
            end if
            if (left .and. tran) then
@@ -40421,10 +40776,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,lda,m,n,k,mb,nb,ldt,lwork,ldc
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,k,mb,nb,ldt,lwork,ldc
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),work(*),c(ldc,*),t(ldt,*)
+           complex(dp),intent(in) :: a(lda,*),t(ldt,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: c(ldc,*)
        ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran,lquery
@@ -40482,7 +40840,7 @@ module stdlib_linalg_lapack_z
            end if
            if ((mb <= k) .or. (mb >= max(m,n,k))) then
              call stdlib_zgemqrt(side,trans,m,n,k,nb,a,lda,t,ldt,c,ldc,work,info)
-
+                       
              return
             end if
            if (left .and. notran) then
@@ -40575,13 +40933,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: kl,ku,ldab,n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ab(ldab,*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,k,l
            real(dp) :: scale,sum,value,temp
@@ -40650,13 +41008,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: lda,m,n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: scale,sum,value,temp
@@ -40722,12 +41080,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(dp) :: d(*),dl(*),du(*)
+           complex(dp),intent(in) :: d(*),dl(*),du(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            real(dp) :: anorm,scale,sum,temp
@@ -40741,11 +41099,11 @@ module stdlib_linalg_lapack_z
               anorm = abs(d(n))
               do i = 1,n - 1
                  if (anorm < abs(dl(i)) .or. stdlib_disnan(abs(dl(i)))) anorm = abs(dl(i))
-
+                           
                  if (anorm < abs(d(i)) .or. stdlib_disnan(abs(d(i)))) anorm = abs(d(i))
-
+                           
                  if (anorm < abs(du(i)) .or. stdlib_disnan(abs(du(i)))) anorm = abs(du(i))
-
+                           
               end do
            else if (stdlib_lsame(norm,'O') .or. norm == '1') then
               ! find norm1(a).
@@ -40798,13 +41156,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: k,ldab,n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ab(ldab,*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,l
            real(dp) :: absa,scale,sum,value
@@ -40878,7 +41236,7 @@ module stdlib_linalg_lapack_z
                  if (stdlib_lsame(uplo,'U')) then
                     do j = 2,n
                        call stdlib_zlassq(min(j - 1,k),ab(max(k + 2 - j,1),j),1,scale,sum)
-
+                                 
                     end do
                     l = k + 1
                  else
@@ -40917,13 +41275,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: lda,n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: absa,scale,sum,value
@@ -41027,13 +41385,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,transr,uplo
-           integer(ilp) :: n
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(dp) :: work(0:*)
-           complex(dp) :: a(0:*)
+           real(dp),intent(out) :: work(0:*)
+           complex(dp),intent(in) :: a(0:*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,ifm,ilu,noe,n1,k,l,lda
            real(dp) :: scale,s,value,aa,temp
@@ -42247,13 +42605,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: ap(*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ap(*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,k
            real(dp) :: absa,scale,sum,value
@@ -42375,13 +42733,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: lda,n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: scale,sum,value
@@ -42447,13 +42805,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm
-           integer(ilp) :: n
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(dp) :: d(*)
-           complex(dp) :: e(*)
+           real(dp),intent(in) :: d(*)
+           complex(dp),intent(in) :: e(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            real(dp) :: anorm,scale,sum
@@ -42510,13 +42868,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: k,ldab,n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ab(ldab,*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,l
            real(dp) :: absa,scale,sum,value
@@ -42586,7 +42944,7 @@ module stdlib_linalg_lapack_z
                  if (stdlib_lsame(uplo,'U')) then
                     do j = 2,n
                        call stdlib_zlassq(min(j - 1,k),ab(max(k + 2 - j,1),j),1,scale,sum)
-
+                                 
                     end do
                     l = k + 1
                  else
@@ -42615,13 +42973,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: ap(*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ap(*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,k
            real(dp) :: absa,scale,sum,value
@@ -42748,13 +43106,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: norm,uplo
-           integer(ilp) :: lda,n
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: absa,scale,sum,value
@@ -42844,13 +43202,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: k,ldab,n
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ab(ldab,*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
@@ -43002,7 +43360,7 @@ module stdlib_linalg_lapack_z
                     sum = one
                     do j = 1,n
                        call stdlib_zlassq(min(j,k + 1),ab(max(k + 2 - j,1),j),1,scale,sum)
-
+                                 
                     end do
                  end if
               else
@@ -43037,13 +43395,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: n
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: ap(*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ap(*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
@@ -43243,13 +43601,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: lda,m,n
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           real(dp) :: work(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: udiag
            integer(ilp) :: i,j
@@ -43432,12 +43790,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
-           real(dp) :: ssmin
+           integer(ilp),intent(in) :: incx,incy,n
+           real(dp),intent(out) :: ssmin
            ! .. array arguments ..
-           complex(dp) :: x(*),y(*)
+           complex(dp),intent(inout) :: x(*),y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: ssmax
            complex(dp) :: a11,a12,a22,c,tau
@@ -43475,11 +43833,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: forwrd
-           integer(ilp) :: ldx,m,n
+           logical(lk),intent(in) :: forwrd
+           integer(ilp),intent(in) :: ldx,m,n
            ! .. array arguments ..
-           integer(ilp) :: k(*)
-           complex(dp) :: x(ldx,*)
+           integer(ilp),intent(inout) :: k(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,in,j,jj
@@ -43543,11 +43901,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: forwrd
-           integer(ilp) :: ldx,m,n
+           logical(lk),intent(in) :: forwrd
+           integer(ilp),intent(in) :: ldx,m,n
            ! .. array arguments ..
-           integer(ilp) :: k(*)
-           complex(dp) :: x(ldx,*)
+           integer(ilp),intent(inout) :: k(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ii,in,j
@@ -43608,16 +43966,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed
-           integer(ilp) :: kl,ku,ldab,m,n
-           real(dp) :: amax,colcnd,rowcnd
+           character,intent(out) :: equed
+           integer(ilp),intent(in) :: kl,ku,ldab,m,n
+           real(dp),intent(in) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(dp) :: c(*),r(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(in) :: c(*),r(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: thresh = 0.1e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: cj,large,small
@@ -43676,16 +44034,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed
-           integer(ilp) :: lda,m,n
-           real(dp) :: amax,colcnd,rowcnd
+           character,intent(out) :: equed
+           integer(ilp),intent(in) :: lda,m,n
+           real(dp),intent(in) :: amax,colcnd,rowcnd
            ! .. array arguments ..
-           real(dp) :: c(*),r(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(in) :: c(*),r(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: thresh = 0.1e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: cj,large,small
@@ -43742,16 +44100,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: kd,ldab,n
-           real(dp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(dp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(dp) :: s(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(out) :: s(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: thresh = 0.1e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: cj,large,small
@@ -43803,16 +44162,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: lda,n
-           real(dp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(dp) :: s(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(in) :: s(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: thresh = 0.1e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: cj,large,small
@@ -43864,16 +44224,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: n
-           real(dp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n
+           real(dp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(dp) :: s(*)
-           complex(dp) :: ap(*)
+           real(dp),intent(in) :: s(*)
+           complex(dp),intent(inout) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: thresh = 0.1e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,jc
            real(dp) :: cj,large,small
@@ -43930,13 +44291,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,m,n,offset
+           integer(ilp),intent(in) :: lda,m,n,offset
            ! .. array arguments ..
-           integer(ilp) :: jpvt(*)
-           real(dp) :: vn1(*),vn2(*)
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(dp),intent(inout) :: vn1(*),vn2(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,itemp,j,mn,offpi,pvt
            real(dp) :: temp,temp2,tol3z
@@ -43962,7 +44324,7 @@ module stdlib_linalg_lapack_z
               ! generate elementary reflector h(i).
               if (offpi < m) then
                  call stdlib_zlarfg(m - offpi + 1,a(offpi,i),a(offpi + 1,i),1,tau(i))
-
+                           
               else
                  call stdlib_zlarfg(1,a(m,i),a(m,i),1,tau(i))
               end if
@@ -44009,18 +44371,20 @@ module stdlib_linalg_lapack_z
      ! Block A(1:OFFSET,1:N) is accordingly pivoted, but not factorized.
 
      subroutine stdlib_zlaqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f,ldf)
-
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: kb,lda,ldf,m,n,nb,offset
+           integer(ilp),intent(out) :: kb
+           integer(ilp),intent(in) :: lda,ldf,m,n,nb,offset
            ! .. array arguments ..
-           integer(ilp) :: jpvt(*)
-           real(dp) :: vn1(*),vn2(*)
-           complex(dp) :: a(lda,*),auxv(*),f(ldf,*),tau(*)
+           integer(ilp),intent(inout) :: jpvt(*)
+           real(dp),intent(inout) :: vn1(*),vn2(*)
+           complex(dp),intent(inout) :: a(lda,*),auxv(*),f(ldf,*)
+           complex(dp),intent(out) :: tau(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: itemp,j,k,lastrk,lsticc,pvt,rk
            real(dp) :: temp,temp2,tol3z
@@ -44154,10 +44518,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,lwork,n
+           integer(ilp),intent(out) :: info
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(dp) :: h(ldh,*),w(*),work(*),z(ldz,*)
+           complex(dp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(dp),intent(out) :: w(*),work(*)
         ! ================================================================
            ! .. parameters ..
            integer(ilp),parameter :: ntiny = 15
@@ -44167,26 +44533,26 @@ module stdlib_linalg_lapack_z
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_zlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
-
+           
            ! ==== exceptional deflation windows:  try to cure rare
            ! .    slow convergence by varying the size of the
            ! .    deflation window after kexnw iterations. ====
-
+           
            ! ==== exceptional shifts: try to cure rare slow convergence
            ! .    with ad-hoc exceptional shifts every kexsh iterations.
            ! .    ====
-
+           
            ! ==== the constant wilk1 is used to form the exceptional
            ! .    shifts. ====
-
+           
            ! .. local scalars ..
            complex(dp) :: aa,bb,cc,cdum,dd,det,rtdisc,swap,tr2
            real(dp) :: s
            integer(ilp) :: i,inf,it,itmax,k,kacc22,kbot,kdu,ks,kt,ktop,ku,kv,kwh, &
            kwtop,kwv,ld,ls,lwkopt,ndec,ndfl,nh,nho,nibble,nmin,ns,nsmax,nsr,nve,nw, &
-                     nwmax,nwr,nwupbd
+                      nwmax,nwr,nwupbd
            logical(lk) :: sorted
-           character :: jbcmpz*2
+           character :: jbcmpz,2
            ! .. local arrays ..
            complex(dp) :: zdum(1,1)
            ! .. intrinsic functions ..
@@ -44379,7 +44745,7 @@ module stdlib_linalg_lapack_z
                           ks = kbot - ns + 1
                           kt = n - ns + 1
                           call stdlib_zlacpy('A',ns,ns,h(ks,ks),ldh,h(kt,1),ldh)
-
+                                    
                           if (ns > nmin) then
                              call stdlib_zlaqr4(.false.,.false.,ns,1,ns,h(kt,1),ldh,w( &
                                        ks),1,1,zdum,1,work,lwork,inf)
@@ -44494,14 +44860,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(dp) :: s1,s2
-           integer(ilp) :: ldh,n
+           complex(dp),intent(in) :: s1,s2
+           integer(ilp),intent(in) :: ldh,n
            ! .. array arguments ..
-           complex(dp) :: h(ldh,*),v(*)
+           complex(dp),intent(in) :: h(ldh,*)
+           complex(dp),intent(out) :: v(*)
         ! ================================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0_dp
-
+           
            ! .. local scalars ..
            complex(dp) :: cdum,h21s,h31s
            real(dp) :: s
@@ -44561,17 +44928,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihiz,iloz,kbot,ktop,ldh,ldt,ldv,ldwv,ldz,lwork,n,nd,nh,ns, &
-                     nv,nw
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihiz,iloz,kbot,ktop,ldh,ldt,ldv,ldwv,ldz,lwork,n, &
+                      nh,nv,nw
+           integer(ilp),intent(out) :: nd,ns
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(dp) :: h(ldh,*),sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*), &
-                      z(ldz,*)
+           complex(dp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(dp),intent(out) :: sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*)
+                     
         ! ================================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0_dp
            real(dp),parameter :: rone = 1.0_dp
-
+           
            ! .. local scalars ..
            complex(dp) :: beta,cdum,s,tau
            real(dp) :: foo,safmax,safmin,smlnum,ulp
@@ -44594,7 +44963,7 @@ module stdlib_linalg_lapack_z
               lwk1 = int(work(1),KIND=ilp)
               ! ==== workspace query call to stdlib_zunmhr ====
               call stdlib_zunmhr('R','N',jw,jw,1,jw - 1,t,ldt,work,v,ldv,work,-1,info)
-
+                        
               lwk2 = int(work(1),KIND=ilp)
               ! ==== optimal workspace ====
               lwkopt = jw + max(lwk1,lwk2)
@@ -44679,7 +45048,7 @@ module stdlib_linalg_lapack_z
                  end do
                  ilst = i
                  if (ifst /= ilst) call stdlib_ztrexc('V',jw,t,ldt,v,ldv,ifst,ilst,info)
-
+                           
               end do
            end if
            ! ==== restore shift/eigenvalue array from t ====
@@ -44698,11 +45067,11 @@ module stdlib_linalg_lapack_z
                  work(1) = cone
                  call stdlib_zlaset('L',jw - 2,jw - 2,czero,czero,t(3,1),ldt)
                  call stdlib_zlarf('L',ns,jw,work,1,conjg(tau),t,ldt,work(jw + 1))
-
+                           
                  call stdlib_zlarf('R',ns,ns,work,1,tau,t,ldt,work(jw + 1))
                  call stdlib_zlarf('R',jw,ns,work,1,tau,v,ldv,work(jw + 1))
                  call stdlib_zgehrd(jw,1,ns,t,ldt,work,work(jw + 1),lwork - jw,info)
-
+                           
               end if
               ! ==== copy updated reduced window into place ====
               if (kwtop > 1) h(kwtop,kwtop - 1) = s*conjg(v(1,1))
@@ -44771,17 +45140,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihiz,iloz,kbot,ktop,ldh,ldt,ldv,ldwv,ldz,lwork,n,nd,nh,ns, &
-                     nv,nw
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihiz,iloz,kbot,ktop,ldh,ldt,ldv,ldwv,ldz,lwork,n, &
+                      nh,nv,nw
+           integer(ilp),intent(out) :: nd,ns
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(dp) :: h(ldh,*),sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*), &
-                      z(ldz,*)
+           complex(dp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(dp),intent(out) :: sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*)
+                     
         ! ================================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0_dp
            real(dp),parameter :: rone = 1.0_dp
-
+           
            ! .. local scalars ..
            complex(dp) :: beta,cdum,s,tau
            real(dp) :: foo,safmax,safmin,smlnum,ulp
@@ -44804,7 +45175,7 @@ module stdlib_linalg_lapack_z
               lwk1 = int(work(1),KIND=ilp)
               ! ==== workspace query call to stdlib_zunmhr ====
               call stdlib_zunmhr('R','N',jw,jw,1,jw - 1,t,ldt,work,v,ldv,work,-1,info)
-
+                        
               lwk2 = int(work(1),KIND=ilp)
               ! ==== workspace query call to stdlib_zlaqr4 ====
               call stdlib_zlaqr4(.true.,.true.,jw,1,jw,t,ldt,sh,1,jw,v,ldv,work,-1, &
@@ -44899,7 +45270,7 @@ module stdlib_linalg_lapack_z
                  end do
                  ilst = i
                  if (ifst /= ilst) call stdlib_ztrexc('V',jw,t,ldt,v,ldv,ifst,ilst,info)
-
+                           
               end do
            end if
            ! ==== restore shift/eigenvalue array from t ====
@@ -44918,11 +45289,11 @@ module stdlib_linalg_lapack_z
                  work(1) = cone
                  call stdlib_zlaset('L',jw - 2,jw - 2,czero,czero,t(3,1),ldt)
                  call stdlib_zlarf('L',ns,jw,work,1,conjg(tau),t,ldt,work(jw + 1))
-
+                           
                  call stdlib_zlarf('R',ns,ns,work,1,tau,t,ldt,work(jw + 1))
                  call stdlib_zlarf('R',jw,ns,work,1,tau,v,ldv,work(jw + 1))
                  call stdlib_zgehrd(jw,1,ns,t,ldt,work,work(jw + 1),lwork - jw,info)
-
+                           
               end if
               ! ==== copy updated reduced window into place ====
               if (kwtop > 1) h(kwtop,kwtop - 1) = s*conjg(v(1,1))
@@ -44996,10 +45367,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ihiz,ilo,iloz,info,ldh,ldz,lwork,n
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,lwork,n
+           integer(ilp),intent(out) :: info
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(dp) :: h(ldh,*),w(*),work(*),z(ldz,*)
+           complex(dp),intent(inout) :: h(ldh,*),z(ldz,*)
+           complex(dp),intent(out) :: w(*),work(*)
         ! ================================================================
            ! .. parameters ..
            integer(ilp),parameter :: ntiny = 15
@@ -45009,26 +45382,26 @@ module stdlib_linalg_lapack_z
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_zlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
-
+           
            ! ==== exceptional deflation windows:  try to cure rare
            ! .    slow convergence by varying the size of the
            ! .    deflation window after kexnw iterations. ====
-
+           
            ! ==== exceptional shifts: try to cure rare slow convergence
            ! .    with ad-hoc exceptional shifts every kexsh iterations.
            ! .    ====
-
+           
            ! ==== the constant wilk1 is used to form the exceptional
            ! .    shifts. ====
-
+           
            ! .. local scalars ..
            complex(dp) :: aa,bb,cc,cdum,dd,det,rtdisc,swap,tr2
            real(dp) :: s
            integer(ilp) :: i,inf,it,itmax,k,kacc22,kbot,kdu,ks,kt,ktop,ku,kv,kwh, &
            kwtop,kwv,ld,ls,lwkopt,ndec,ndfl,nh,nho,nibble,nmin,ns,nsmax,nsr,nve,nw, &
-                     nwmax,nwr,nwupbd
+                      nwmax,nwr,nwupbd
            logical(lk) :: sorted
-           character :: jbcmpz*2
+           character :: jbcmpz,2
            ! .. local arrays ..
            complex(dp) :: zdum(1,1)
            ! .. intrinsic functions ..
@@ -45221,7 +45594,7 @@ module stdlib_linalg_lapack_z
                           ks = kbot - ns + 1
                           kt = n - ns + 1
                           call stdlib_zlacpy('A',ns,ns,h(ks,ks),ldh,h(kt,1),ldh)
-
+                                    
                           call stdlib_zlahqr(.false.,.false.,ns,1,ns,h(kt,1),ldh,w(ks) &
                                     ,1,1,zdum,1,inf)
                           ks = ks + inf
@@ -45328,22 +45701,23 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv,ldz,n,nh, &
-                     nshfts,nv
-           logical(lk) :: wantt,wantz
+           integer(ilp),intent(in) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv, &
+                     ldz,n,nh,nshfts,nv
+           logical(lk),intent(in) :: wantt,wantz
            ! .. array arguments ..
-           complex(dp) :: h(ldh,*),s(*),u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv, &
-                     *),z(ldz,*)
+           complex(dp),intent(inout) :: h(ldh,*),s(*),z(ldz,*)
+           complex(dp),intent(out) :: u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv,*)
+                     
         ! ================================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0_dp
            real(dp),parameter :: rone = 1.0_dp
-
+           
            ! .. local scalars ..
            complex(dp) :: alpha,beta,cdum,refsum
            real(dp) :: h11,h12,h21,h22,safmax,safmin,scl,smlnum,tst1,tst2,ulp
            integer(ilp) :: i2,i4,incol,j,jbot,jcol,jlen,jrow,jtop,k,k1,kdu,kms,krcol, &
-                     m,m22,mbot,mtop,nbmps,ndcol,ns,nu
+                      m,m22,mbot,mtop,nbmps,ndcol,ns,nu
            logical(lk) :: accum,bmp22
            ! .. intrinsic functions ..
            intrinsic :: abs,real,conjg,aimag,max,min,mod
@@ -45474,9 +45848,9 @@ module stdlib_linalg_lapack_z
                              h12 = max(cabs1(h(k + 1,k)),cabs1(h(k,k + 1)))
                              h21 = min(cabs1(h(k + 1,k)),cabs1(h(k,k + 1)))
                              h11 = max(cabs1(h(k + 1,k + 1)),cabs1(h(k,k) - h(k + 1,k + 1)))
-
+                                       
                              h22 = min(cabs1(h(k + 1,k + 1)),cabs1(h(k,k) - h(k + 1,k + 1)))
-
+                                       
                              scl = h11 + h12
                              tst2 = h22*(h11/scl)
                              if (tst2 == rzero .or. h21*(h12/scl) <= max(smlnum,ulp*tst2)) h( &
@@ -45539,11 +45913,11 @@ module stdlib_linalg_lapack_z
                           ! .    reflector is too large, then abandon it.
                           ! .    otherwise, use the new cone. ====
                           call stdlib_zlaqr1(3,h(k + 1,k + 1),ldh,s(2*m - 1),s(2*m),vt)
-
+                                    
                           alpha = vt(1)
                           call stdlib_zlarfg(3,alpha,vt(2),1,vt(1))
                           refsum = conjg(vt(1))*(h(k + 1,k) + conjg(vt(2))*h(k + 2,k))
-
+                                    
                           if (cabs1(h(k + 2,k) - refsum*vt(2)) + cabs1(refsum*vt(3)) > ulp*( &
                           cabs1(h(k,k)) + cabs1(h(k + 1,k + 1)) + cabs1(h(k + 2,k + 2)))) &
                                     then
@@ -45609,9 +45983,9 @@ module stdlib_linalg_lapack_z
                           h12 = max(cabs1(h(k + 1,k)),cabs1(h(k,k + 1)))
                           h21 = min(cabs1(h(k + 1,k)),cabs1(h(k,k + 1)))
                           h11 = max(cabs1(h(k + 1,k + 1)),cabs1(h(k,k) - h(k + 1,k + 1)))
-
+                                    
                           h22 = min(cabs1(h(k + 1,k + 1)),cabs1(h(k,k) - h(k + 1,k + 1)))
-
+                                    
                           scl = h11 + h12
                           tst2 = h22*(h11/scl)
                           if (tst2 == rzero .or. h21*(h12/scl) <= max(smlnum,ulp*tst2)) h(k + 1, &
@@ -45692,7 +46066,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zgemm('C','N',nu,jlen,nu,cone,u(k1,k1),ldu,h(incol + k1, &
                                jcol),ldh,czero,wh,ldwh)
                     call stdlib_zlacpy('ALL',nu,jlen,wh,ldwh,h(incol + k1,jcol),ldh)
-
+                              
                  end do
                  ! ==== vertical multiply ====
                  do jrow = jtop,max(ktop,incol) - 1,nv
@@ -45700,7 +46074,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zgemm('N','N',jlen,nu,nu,cone,h(jrow,incol + k1),ldh,u( &
                               k1,k1),ldu,czero,wv,ldwv)
                     call stdlib_zlacpy('ALL',jlen,nu,wv,ldwv,h(jrow,incol + k1),ldh)
-
+                              
                  end do
                  ! ==== z multiply (also vertical) ====
                  if (wantz) then
@@ -45709,7 +46083,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zgemm('N','N',jlen,nu,nu,cone,z(jrow,incol + k1),ldz, &
                                  u(k1,k1),ldu,czero,wv,ldwv)
                        call stdlib_zlacpy('ALL',jlen,nu,wv,ldwv,z(jrow,incol + k1),ldz)
-
+                                 
                     end do
                  end if
               end if
@@ -45724,16 +46098,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: kd,ldab,n
-           real(dp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(dp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(dp) :: s(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(in) :: s(*)
+           complex(dp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: thresh = 0.1e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: cj,large,small
@@ -45783,16 +46158,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: n
-           real(dp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n
+           real(dp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(dp) :: s(*)
-           complex(dp) :: ap(*)
+           real(dp),intent(in) :: s(*)
+           complex(dp),intent(inout) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: thresh = 0.1e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,jc
            real(dp) :: cj,large,small
@@ -45844,16 +46220,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,uplo
-           integer(ilp) :: lda,n
-           real(dp) :: amax,scond
+           character,intent(out) :: equed
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(in) :: amax,scond
            ! .. array arguments ..
-           real(dp) :: s(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(in) :: s(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: thresh = 0.1e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j
            real(dp) :: cj,large,small
@@ -45943,7 +46320,7 @@ module stdlib_linalg_lapack_z
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*), &
                      alpha(*),beta(*),work(*)
            real(dp),intent(out) :: rwork(*)
-
+           
            ! local scalars
            real(dp) :: smlnum,ulp,safmin,safmax,c1,tempr
            complex(dp) :: eshift,s1,temp
@@ -46147,7 +46524,7 @@ module stdlib_linalg_lapack_z
                        end if
                        if (k2 < istop) then
                           call stdlib_zlartg(a(k2,k2 - 1),a(k2 + 1,k2 - 1),c1,s1,temp)
-
+                                    
                           a(k2,k2 - 1) = temp
                           a(k2 + 1,k2 - 1) = czero
                           call stdlib_zrot(istopm - k2 + 1,a(k2,k2),lda,a(k2 + 1,k2),lda,c1, &
@@ -46156,7 +46533,7 @@ module stdlib_linalg_lapack_z
                                     s1)
                           if (ilq) then
                              call stdlib_zrot(n,q(1,k2),1,q(1,k2 + 1),1,c1,conjg(s1))
-
+                                       
                           end if
                        end if
                     end do
@@ -46254,7 +46631,7 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(in) :: k,lda,ldb,ldq,ldz,istartm,istopm,nq,nz,qstart, &
                      zstart,ihi
            complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-
+           
            ! local variables
            real(dp) :: c
            complex(dp) :: s,temp
@@ -46264,12 +46641,12 @@ module stdlib_linalg_lapack_z
               b(ihi,ihi) = temp
               b(ihi,ihi - 1) = czero
               call stdlib_zrot(ihi - istartm,b(istartm,ihi),1,b(istartm,ihi - 1),1,c,s)
-
+                        
               call stdlib_zrot(ihi - istartm + 1,a(istartm,ihi),1,a(istartm,ihi - 1),1,c,s)
-
+                        
               if (ilz) then
                  call stdlib_zrot(nz,z(1,ihi - zstart + 1),1,z(1,ihi - 1 - zstart + 1),1,c,s)
-
+                           
               end if
            else
               ! normal operation, move bulge down
@@ -46278,12 +46655,12 @@ module stdlib_linalg_lapack_z
               b(k + 1,k + 1) = temp
               b(k + 1,k) = czero
               call stdlib_zrot(k + 2 - istartm + 1,a(istartm,k + 1),1,a(istartm,k),1,c,s)
-
+                        
               call stdlib_zrot(k - istartm + 1,b(istartm,k + 1),1,b(istartm,k),1,c,s)
-
+                        
               if (ilz) then
                  call stdlib_zrot(nz,z(1,k + 1 - zstart + 1),1,z(1,k - zstart + 1),1,c,s)
-
+                           
               end if
               ! apply transformation from the left
               call stdlib_zlartg(a(k + 1,k),a(k + 2,k),c,s,temp)
@@ -46311,7 +46688,7 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: ns,nd,info
            complex(dp) :: qc(ldqc,*),zc(ldzc,*),work(*)
            real(dp) :: rwork(*)
-
+           
            ! local scalars
            integer(ilp) :: jw,kwtop,kwbot,istopm,istartm,k,k2,ztgexc_info,ifst,ilst, &
                      lworkreq,qz_small_info
@@ -46367,7 +46744,7 @@ module stdlib_linalg_lapack_z
            ! store window in case of convergence failure
            call stdlib_zlacpy('ALL',jw,jw,a(kwtop,kwtop),lda,work,jw)
            call stdlib_zlacpy('ALL',jw,jw,b(kwtop,kwtop),ldb,work(jw**2 + 1),jw)
-
+                     
            ! transform window to real schur form
            call stdlib_zlaset('FULL',jw,jw,czero,cone,qc,ldqc)
            call stdlib_zlaset('FULL',jw,jw,czero,cone,zc,ldzc)
@@ -46380,7 +46757,7 @@ module stdlib_linalg_lapack_z
               ns = jw - qz_small_info
               call stdlib_zlacpy('ALL',jw,jw,work,jw,a(kwtop,kwtop),lda)
               call stdlib_zlacpy('ALL',jw,jw,work(jw**2 + 1),jw,b(kwtop,kwtop),ldb)
-
+                        
               return
            end if
            ! deflation detection loop
@@ -46430,7 +46807,7 @@ module stdlib_linalg_lapack_z
                  k2 = max(kwtop,k - 1)
                  call stdlib_zrot(ihi - k2 + 1,a(k,k2),lda,a(k + 1,k2),lda,c1,s1)
                  call stdlib_zrot(ihi - (k - 1) + 1,b(k,k - 1),ldb,b(k + 1,k - 1),ldb,c1,s1)
-
+                           
                  call stdlib_zrot(jw,qc(1,k - kwtop + 1),1,qc(1,k + 1 - kwtop + 1),1,c1,conjg( &
                            s1))
               end do
@@ -46496,7 +46873,7 @@ module stdlib_linalg_lapack_z
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),qc( &
                      ldqc,*),zc(ldzc,*),work(*),alpha(*),beta(*)
            integer(ilp),intent(out) :: info
-
+           
            ! local scalars
            integer(ilp) :: i,j,ns,istartm,istopm,sheight,swidth,k,np,istartb,istopb, &
                      ishift,nblock,npos
@@ -46572,11 +46949,11 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('C','N',sheight,swidth,sheight,cone,qc,ldqc,a(ilo,ilo + &
                         ns),lda,czero,work,sheight)
               call stdlib_zlacpy('ALL',sheight,swidth,work,sheight,a(ilo,ilo + ns),lda)
-
+                        
               call stdlib_zgemm('C','N',sheight,swidth,sheight,cone,qc,ldqc,b(ilo,ilo + &
                         ns),ldb,czero,work,sheight)
               call stdlib_zlacpy('ALL',sheight,swidth,work,sheight,b(ilo,ilo + ns),ldb)
-
+                        
            end if
            if (ilq) then
               call stdlib_zgemm('N','N',n,sheight,sheight,cone,q(1,ilo),ldq,qc,ldqc, &
@@ -46591,11 +46968,11 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('N','N',sheight,swidth,swidth,cone,a(istartm,ilo),lda, &
                         zc,ldzc,czero,work,sheight)
               call stdlib_zlacpy('ALL',sheight,swidth,work,sheight,a(istartm,ilo),lda)
-
+                        
               call stdlib_zgemm('N','N',sheight,swidth,swidth,cone,b(istartm,ilo),ldb, &
                         zc,ldzc,czero,work,sheight)
               call stdlib_zlacpy('ALL',sheight,swidth,work,sheight,b(istartm,ilo),ldb)
-
+                        
            end if
            if (ilz) then
               call stdlib_zgemm('N','N',n,swidth,swidth,cone,z(1,ilo),ldz,zc,ldzc, &
@@ -46655,11 +47032,11 @@ module stdlib_linalg_lapack_z
                  call stdlib_zgemm('N','N',sheight,swidth,swidth,cone,a(istartm,k),lda, &
                            zc,ldzc,czero,work,sheight)
                  call stdlib_zlacpy('ALL',sheight,swidth,work,sheight,a(istartm,k),lda)
-
+                           
                  call stdlib_zgemm('N','N',sheight,swidth,swidth,cone,b(istartm,k),ldb, &
                            zc,ldzc,czero,work,sheight)
                  call stdlib_zlacpy('ALL',sheight,swidth,work,sheight,b(istartm,k),ldb)
-
+                           
               end if
               if (ilz) then
                  call stdlib_zgemm('N','N',n,nblock,nblock,cone,z(1,k),ldz,zc,ldzc, &
@@ -46746,15 +47123,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: wantnc
-           integer(ilp) :: b1,bn,n,negcnt,r
-           real(dp) :: gaptol,lambda,mingma,nrminv,pivmin,resid,rqcorr,ztz
+           logical(lk),intent(in) :: wantnc
+           integer(ilp),intent(in) :: b1,bn,n
+           integer(ilp),intent(out) :: negcnt
+           integer(ilp),intent(inout) :: r
+           real(dp),intent(in) :: gaptol,lambda,pivmin
+           real(dp),intent(out) :: mingma,nrminv,resid,rqcorr,ztz
            ! .. array arguments ..
-           integer(ilp) :: isuppz(*)
-           real(dp) :: d(*),l(*),ld(*),lld(*),work(*)
-           complex(dp) :: z(*)
+           integer(ilp),intent(out) :: isuppz(*)
+           real(dp),intent(in) :: d(*),l(*),ld(*),lld(*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: z(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: sawnan1,sawnan2
            integer(ilp) :: i,indlpl,indp,inds,indumn,neg1,neg2,r1,r2
@@ -46955,10 +47336,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incc,incx,n
+           integer(ilp),intent(in) :: incc,incx,n
            ! .. array arguments ..
-           real(dp) :: c(*)
-           complex(dp) :: s(*),x(*),y(*),z(*)
+           real(dp),intent(in) :: c(*)
+           complex(dp),intent(in) :: s(*)
+           complex(dp),intent(inout) :: x(*),y(*),z(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ic,ix
@@ -47005,12 +47387,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: lda,ldb,ldc,m,n
+           integer(ilp),intent(in) :: lda,ldb,ldc,m,n
            ! .. array arguments ..
-           real(dp) :: a(lda,*),rwork(*)
-           complex(dp) :: b(ldb,*),c(ldc,*)
+           real(dp),intent(in) :: a(lda,*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: b(ldb,*)
+           complex(dp),intent(out) :: c(ldc,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,l
            ! .. intrinsic functions ..
@@ -47025,7 +47409,7 @@ module stdlib_linalg_lapack_z
            end do
            l = m*n + 1
            call stdlib_dgemm('N','N',m,n,m,one,a,lda,rwork,m,zero,rwork(l),m)
-
+                     
            do j = 1,n
               do i = 1,m
                  c(i,j) = rwork(l + (j - 1)*m + i - 1)
@@ -47037,11 +47421,11 @@ module stdlib_linalg_lapack_z
               end do
            end do
            call stdlib_dgemm('N','N',m,n,m,one,a,lda,rwork,m,zero,rwork(l),m)
-
+                     
            do j = 1,n
               do i = 1,m
                  c(i,j) = cmplx(real(c(i,j),KIND=dp),rwork(l + (j - 1)*m + i - 1),KIND=dp)
-
+                           
               end do
            end do
            return
@@ -47061,13 +47445,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side
-           integer(ilp) :: incv,ldc,m,n
-           complex(dp) :: tau
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: incv,ldc,m,n
+           complex(dp),intent(in) :: tau
            ! .. array arguments ..
-           complex(dp) :: c(ldc,*),v(*),work(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(in) :: v(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: applyleft
            integer(ilp) :: i,lastv,lastc
@@ -47134,12 +47520,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,side,storev,trans
-           integer(ilp) :: k,ldc,ldt,ldv,ldwork,m,n
+           character,intent(in) :: direct,side,storev,trans
+           integer(ilp),intent(in) :: k,ldc,ldt,ldv,ldwork,m,n
            ! .. array arguments ..
-           complex(dp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(in) :: t(ldt,*),v(ldv,*)
+           complex(dp),intent(out) :: work(ldwork,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            character :: transt
            integer(ilp) :: i,j
@@ -47464,12 +47852,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: ident
-           integer(ilp) :: k,lda,ldb,ldt,ldwork,m,n
+           character,intent(in) :: ident
+           integer(ilp),intent(in) :: k,lda,ldb,ldt,ldwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*),work(ldwork,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(in) :: t(ldt,*)
+           complex(dp),intent(out) :: work(ldwork,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lnotident
            integer(ilp) :: i,j
@@ -47493,7 +47883,7 @@ module stdlib_linalg_lapack_z
                  ! v1 is not an identy matrix, but unit lower-triangular
                  ! v1 stored in a1 (diagonal ones are not stored).
                  call stdlib_ztrmm('L','L','C','U',k,n - k,cone,a,lda,work,ldwork)
-
+                           
               end if
               ! col2_(3) compute w2: = w2 + (v2**h) * b2 = w2 + (b1**h) * b2
               ! v2 stored in b1.
@@ -47515,7 +47905,7 @@ module stdlib_linalg_lapack_z
                  ! v1 is not an identity matrix, but unit lower-triangular,
                  ! v1 stored in a1 (diagonal ones are not stored).
                  call stdlib_ztrmm('L','L','N','U',k,n - k,cone,a,lda,work,ldwork)
-
+                           
               end if
               ! col2_(7) compute a2: = a2 - w2 =
                                    ! = a(1:k, k+1:n-k) - work(1:k, 1:n-k),
@@ -47606,12 +47996,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
-           complex(dp) :: alpha,tau
+           integer(ilp),intent(in) :: incx,n
+           complex(dp),intent(inout) :: alpha
+           complex(dp),intent(out) :: tau
            ! .. array arguments ..
-           complex(dp) :: x(*)
+           complex(dp),intent(inout) :: x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: j,knt
            real(dp) :: alphi,alphr,beta,rsafmn,safmin,xnorm
@@ -47678,12 +48069,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
-           complex(dp) :: alpha,tau
+           integer(ilp),intent(in) :: incx,n
+           complex(dp),intent(inout) :: alpha
+           complex(dp),intent(out) :: tau
            ! .. array arguments ..
-           complex(dp) :: x(*)
+           complex(dp),intent(inout) :: x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: j,knt
            real(dp) :: alphi,alphr,beta,bignum,smlnum,xnorm
@@ -47811,12 +48203,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,storev
-           integer(ilp) :: k,ldt,ldv,n
+           character,intent(in) :: direct,storev
+           integer(ilp),intent(in) :: k,ldt,ldv,n
            ! .. array arguments ..
-           complex(dp) :: t(ldt,*),tau(*),v(ldv,*)
+           complex(dp),intent(out) :: t(ldt,*)
+           complex(dp),intent(in) :: tau(*),v(ldv,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,prevlastv,lastv
            ! .. executable statements ..
@@ -47934,13 +48327,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side
-           integer(ilp) :: ldc,m,n
-           complex(dp) :: tau
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: ldc,m,n
+           complex(dp),intent(in) :: tau
            ! .. array arguments ..
-           complex(dp) :: c(ldc,*),v(*),work(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(in) :: v(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: j
            complex(dp) :: sum,t1,t10,t2,t3,t4,t5,t6,t7,t8,t9,v1,v10,v2,v3,v4,v5, &
@@ -48021,7 +48416,7 @@ module stdlib_linalg_lapack_z
               t5 = tau*conjg(v5)
               do j = 1,n
                  sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j)
-
+                           
                  c(1,j) = c(1,j) - sum*t1
                  c(2,j) = c(2,j) - sum*t2
                  c(3,j) = c(3,j) - sum*t3
@@ -48256,7 +48651,7 @@ module stdlib_linalg_lapack_z
               t5 = tau*conjg(v5)
               do j = 1,m
                  sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5)
-
+                           
                  c(j,1) = c(j,1) - sum*t1
                  c(j,2) = c(j,2) - sum*t2
                  c(j,3) = c(j,3) - sum*t3
@@ -48436,13 +48831,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incv,ldc,n
-           complex(dp) :: tau
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incv,ldc,n
+           complex(dp),intent(in) :: tau
            ! .. array arguments ..
-           complex(dp) :: c(ldc,*),v(*),work(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(in) :: v(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(dp) :: alpha
            ! .. executable statements ..
@@ -48472,12 +48869,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incc,incx,incy,n
+           integer(ilp),intent(in) :: incc,incx,incy,n
            ! .. array arguments ..
-           real(dp) :: c(*)
-           complex(dp) :: x(*),y(*)
+           real(dp),intent(out) :: c(*)
+           complex(dp),intent(inout) :: x(*),y(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            ! logical            first
            integer(ilp) :: count,i,ic,ix,iy,j
@@ -48617,15 +49014,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: idist,n
+           integer(ilp),intent(in) :: idist,n
            ! .. array arguments ..
-           integer(ilp) :: iseed(4)
-           complex(dp) :: x(*)
+           integer(ilp),intent(inout) :: iseed(4)
+           complex(dp),intent(out) :: x(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: lv = 128
            real(dp),parameter :: twopi = 6.28318530717958647692528676655900576839e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,il,iv
            ! .. local arrays ..
@@ -48659,7 +49056,7 @@ module stdlib_linalg_lapack_z
                  ! distributed on the unit disk
                  do i = 1,il
                     x(iv + i - 1) = sqrt(u(2*i - 1))*exp(cmplx(zero,twopi*u(2*i),KIND=dp))
-
+                              
                  end do
               else if (idist == 5) then
                  ! convert generated numbers to complex numbers uniformly
@@ -48682,23 +49079,27 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: dol,dou,info,ldz,m,n
-           real(dp) :: minrgp,pivmin,rtol1,rtol2,vl,vu
+           integer(ilp),intent(in) :: dol,dou,ldz,m,n
+           integer(ilp),intent(out) :: info
+           real(dp),intent(in) :: minrgp,pivmin,rtol1,rtol2,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: iblock(*),indexw(*),isplit(*),isuppz(*),iwork(*)
-           real(dp) :: d(*),gers(*),l(*),w(*),werr(*),wgap(*),work(*)
-           complex(dp) :: z(ldz,*)
+           integer(ilp),intent(in) :: iblock(*),indexw(*),isplit(*)
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(dp),intent(inout) :: d(*),l(*),w(*),werr(*),wgap(*)
+           real(dp),intent(in) :: gers(*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(out) :: z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxitr = 10
-
+           
            ! .. local scalars ..
            logical(lk) :: eskip,needbs,stp2ii,tryrqc,usedbs,usedrq
            integer(ilp) :: done,i,ibegin,idone,iend,ii,iindc1,iindc2,iindr,iindwk,iinfo, &
-           im,in,indeig,indld,indlld,indwrk,isupmn,isupmx,iter,itmp1,j,jblk,k, &
-           miniwsize,minwsize,nclus,ndepth,negcnt,newcls,newfst,newftt,newlst,newsiz, &
-           offset,oldcls,oldfst,oldien,oldlst,oldncl,p,parity,q,wbegin,wend,windex, &
-                     windmn,windpl,zfrom,zto,zusedl,zusedu,zusedw
+            im,in,indeig,indld,indlld,indwrk,isupmn,isupmx,iter,itmp1,j,jblk,k, &
+            miniwsize,minwsize,nclus,ndepth,negcnt,newcls,newfst,newftt,newlst,newsiz, &
+            offset,oldcls,oldfst,oldien,oldlst,oldncl,p,parity,q,wbegin,wend,windex, &
+                      windmn,windpl,zfrom,zto,zusedl,zusedu,zusedw
            integer(ilp) :: indin1,indin2
            real(dp) :: bstres,bstw,eps,fudge,gap,gaptol,gl,gu,lambda,left,lgap,mingma, &
            nrminv,resid,rgap,right,rqcorr,rqtol,savgap,sgndef,sigma,spdiam,ssigma,tau, &
@@ -48898,7 +49299,7 @@ module stdlib_linalg_lapack_z
                        sigma = real(z(iend,j + 1),KIND=dp)
                        ! set the corresponding entries in z to zero
                        call stdlib_zlaset('FULL',in,2,czero,czero,z(ibegin,j),ldz)
-
+                                 
                     end if
                     ! compute dl and dll of current rrr
                     do j = ibegin,iend - 1
@@ -48934,7 +49335,7 @@ module stdlib_linalg_lapack_z
                        if (oldfst > 1) then
                           wgap(wbegin + oldfst - 2) = max(wgap(wbegin + oldfst - 2),w(wbegin + oldfst - 1) - &
                           werr(wbegin + oldfst - 1) - w(wbegin + oldfst - 2) - werr(wbegin + oldfst - 2))
-
+                                    
                        end if
                        if (wbegin + oldlst - 1 < wend) then
                           wgap(wbegin + oldlst - 1) = max(wgap(wbegin + oldlst - 1),w(wbegin + oldlst) - &
@@ -49030,15 +49431,15 @@ module stdlib_linalg_lapack_z
                           call stdlib_dlarrf(in,d(ibegin),l(ibegin),work(indld + ibegin - 1), &
                           newfst,newlst,work(wbegin),wgap(wbegin),werr(wbegin),spdiam,lgap, &
                           rgap,pivmin,tau,work(indin1),work(indin2),work(indwrk),iinfo)
-
+                                    
                           ! in the complex case, stdlib_dlarrf cannot write
                           ! the new rrr directly into z and needs an intermediate
                           ! workspace
                           do k = 1,in - 1
                              z(ibegin + k - 1,newftt) = cmplx(work(indin1 + k - 1),zero,KIND=dp)
-
+                                       
                              z(ibegin + k - 1,newftt + 1) = cmplx(work(indin2 + k - 1),zero,KIND=dp)
-
+                                       
                           end do
                           z(iend,newftt) = cmplx(work(indin1 + in - 1),zero,KIND=dp)
                           if (iinfo == 0) then
@@ -49340,13 +49741,16 @@ module stdlib_linalg_lapack_z
      ! Below, wp=>dp stands for double precision from LA_CONSTANTS module.
 
      subroutine stdlib_zlartg(f,g,c,s,r)
+     use la_constants,only:wp => dp,zero => dzero,one => done,two => dtwo,czero => zzero, &
+               rtmin => drtmin,rtmax => drtmax,safmin => dsafmin,safmax => dsafmax
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! february 2021
         ! .. scalar arguments ..
-        real(dp) :: c
-        complex(dp) :: f,g,r,s
+        real(dp),intent(out) :: c
+        complex(dp),intent(in) :: f,g
+        complex(dp),intent(out) :: r,s
         ! .. local scalars ..
         real(dp) :: d,f1,f2,g1,g2,h2,p,u,uu,v,vv,w
         complex(dp) :: fs,gs,t
@@ -49443,10 +49847,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incc,incx,incy,n
+           integer(ilp),intent(in) :: incc,incx,incy,n
            ! .. array arguments ..
-           real(dp) :: c(*)
-           complex(dp) :: s(*),x(*),y(*)
+           real(dp),intent(in) :: c(*)
+           complex(dp),intent(in) :: s(*)
+           complex(dp),intent(inout) :: x(*),y(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ic,ix,iy
@@ -49484,13 +49889,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side
-           integer(ilp) :: incv,l,ldc,m,n
-           complex(dp) :: tau
+           character,intent(in) :: side
+           integer(ilp),intent(in) :: incv,l,ldc,m,n
+           complex(dp),intent(in) :: tau
            ! .. array arguments ..
-           complex(dp) :: c(ldc,*),v(*),work(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(in) :: v(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. executable statements ..
            if (stdlib_lsame(side,'L')) then
               ! form  h * c
@@ -49536,12 +49943,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,side,storev,trans
-           integer(ilp) :: k,l,ldc,ldt,ldv,ldwork,m,n
+           character,intent(in) :: direct,side,storev,trans
+           integer(ilp),intent(in) :: k,l,ldc,ldt,ldv,ldwork,m,n
            ! .. array arguments ..
-           complex(dp) :: c(ldc,*),t(ldt,*),v(ldv,*),work(ldwork,*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(in) :: t(ldt,*),v(ldv,*)
+           complex(dp),intent(out) :: work(ldwork,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            character :: transt
            integer(ilp) :: i,info,j
@@ -49645,12 +50054,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,storev
-           integer(ilp) :: k,ldt,ldv,n
+           character,intent(in) :: direct,storev
+           integer(ilp),intent(in) :: k,ldt,ldv,n
            ! .. array arguments ..
-           complex(dp) :: t(ldt,*),tau(*),v(ldv,*)
+           complex(dp),intent(out) :: t(ldt,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(inout) :: v(ldv,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,info,j
            ! .. executable statements ..
@@ -49700,13 +50111,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: type
-           integer(ilp) :: info,kl,ku,lda,m,n
-           real(dp) :: cfrom,cto
+           character,intent(in) :: type
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kl,ku,lda,m,n
+           real(dp),intent(in) :: cfrom,cto
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: done
            integer(ilp) :: i,itype,j,k1,k2,k3,k4
@@ -49866,11 +50278,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: lda,m,n
-           complex(dp) :: alpha,beta
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,m,n
+           complex(dp),intent(in) :: alpha,beta
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(out) :: a(lda,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -49971,13 +50383,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,pivot,side
-           integer(ilp) :: lda,m,n
+           character,intent(in) :: direct,pivot,side
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           real(dp) :: c(*),s(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(in) :: c(*),s(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,info,j
            real(dp) :: ctemp,stemp
@@ -50195,6 +50607,9 @@ module stdlib_linalg_lapack_z
      ! HUGE     -- biggest representable number.
 
      subroutine stdlib_zlassq(n,x,incx,scl,sumsq)
+     use la_constants,only:wp => dp,zero => dzero,one => done,sbig => dsbig,ssml => dssml, &
+               tbig => dtbig,tsml => dtsml
+        use la_xisnan
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -50315,9 +50730,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,mb,nb,lwork,ldt
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,mb,nb,lwork,ldt
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),work(*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*),t(ldt,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -50389,10 +50806,10 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,k1,k2,lda,n
+           integer(ilp),intent(in) :: incx,k1,k2,lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,i1,i2,inc,ip,ix,ix0,j,k,n32
@@ -50467,15 +50884,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: imax,j,jb,jj,jmax,jp,k,kk,kkw,kp,kstep,kw
            real(dp) :: absakk,alpha,colmax,rowmax
@@ -50528,7 +50947,7 @@ module stdlib_linalg_lapack_z
                     ! copy column imax to column kw-1 of w and update it
                     call stdlib_zcopy(imax,a(1,imax),1,w(1,kw - 1),1)
                     call stdlib_zcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-
+                              
                     if (k < n) call stdlib_zgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda,w( &
                                imax,kw + 1),ldw,cone,w(1,kw - 1),1)
                     ! jmax is the column-index of the largest off-diagonal
@@ -50761,7 +51180,7 @@ module stdlib_linalg_lapack_z
                     a(kp,kp) = a(kk,kk)
                     call stdlib_zcopy(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     if (kp < n) call stdlib_zcopy(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     ! interchange rows kk and kp in first k-1 columns of a
                     ! (columns k (or k and k+1 for 2-by-2 pivot) of a will be
                     ! later overwritten). interchange rows kk and kp
@@ -50876,7 +51295,7 @@ module stdlib_linalg_lapack_z
                  ! of the rows to swap back doesn't include diagonal element)
                  j = j - 1
                  if (jp /= jj .and. j >= 1) call stdlib_zswap(j,a(jp,1),lda,a(jj,1),lda)
-
+                           
               if (j > 1) go to 120
               ! set kb to the number of columns factorized
               kb = k - 1
@@ -50900,13 +51319,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: m,nb,j1,lda,ldh
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: m,nb,j1,lda,ldh
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),h(ldh,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),h(ldh,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: j,k,k1,i1,i2,mj
            complex(dp) :: piv,alpha
@@ -50975,7 +51395,7 @@ module stdlib_linalg_lapack_z
                     i1 = i1 + j - 1
                     i2 = i2 + j - 1
                     call stdlib_zswap(i2 - i1 - 1,a(j1 + i1 - 1,i1 + 1),lda,a(j1 + i1,i2),1)
-
+                              
                     ! swap a(i1, i2+1:m) with a(i2, i2+1:m)
                     if (i2 < m) call stdlib_zswap(m - i2,a(j1 + i1 - 1,i2 + 1),lda,a(j1 + i2 - 1,i2 + 1), &
                                lda)
@@ -51009,7 +51429,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zscal(m - j - 1,alpha,a(k,j + 2),lda)
                     else
                        call stdlib_zlaset('FULL',1,m - j - 1,czero,czero,a(k,j + 2),lda)
-
+                                 
                     end if
                  end if
               end if
@@ -51074,7 +51494,7 @@ module stdlib_linalg_lapack_z
                     i1 = i1 + j - 1
                     i2 = i2 + j - 1
                     call stdlib_zswap(i2 - i1 - 1,a(i1 + 1,j1 + i1 - 1),1,a(i2,j1 + i1),lda)
-
+                              
                     ! swap a(i2+1:m, i1) with a(i2+1:m, i2)
                     if (i2 < m) call stdlib_zswap(m - i2,a(i2 + 1,j1 + i1 - 1),1,a(i2 + 1,j1 + i2 - 1), &
                               1)
@@ -51108,7 +51528,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zscal(m - j - 1,alpha,a(j + 2,k),1)
                     else
                        call stdlib_zlaset('FULL',m - j - 1,1,czero,czero,a(j + 2,k),lda)
-
+                                 
                     end if
                  end if
               end if
@@ -51137,15 +51557,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),e(*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: e(*),w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: done
            integer(ilp) :: imax,itemp,j,jb,jj,jmax,k,kk,kw,kkw,kp,kstep,p,ii
@@ -51218,7 +51640,7 @@ module stdlib_linalg_lapack_z
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_zcopy(imax,a(1,imax),1,w(1,kw - 1),1)
                        call stdlib_zcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-
+                                 
                        if (k < n) call stdlib_zgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda, &
                                   w(imax,kw + 1),ldw,cone,w(1,kw - 1),1)
                        ! jmax is the column-index of the largest off-diagonal
@@ -51579,15 +52001,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kb,lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,kb
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),w(ldw,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: w(ldw,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: done
            integer(ilp) :: imax,itemp,j,jb,jj,jmax,jp1,jp2,k,kk,kw,kkw,kp,kstep,p, &
@@ -51656,7 +52080,7 @@ module stdlib_linalg_lapack_z
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_zcopy(imax,a(1,imax),1,w(1,kw - 1),1)
                        call stdlib_zcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-
+                                 
                        if (k < n) call stdlib_zgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda, &
                                   w(imax,kw + 1),ldw,cone,w(1,kw - 1),1)
                        ! jmax is the column-index of the largest off-diagonal
@@ -52012,7 +52436,7 @@ module stdlib_linalg_lapack_z
                  end if
                  j = j - 1
                  if (jp2 /= jj .and. j >= 1) call stdlib_zswap(j,a(jp2,1),lda,a(jj,1),lda)
-
+                           
                  jj = j + 1
                  if (jp1 /= jj .and. kstep == 2) call stdlib_zswap(j,a(jp1,1),lda,a(jj,1), &
                            lda)
@@ -52035,11 +52459,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldsa,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldsa,n
            ! .. array arguments ..
-           complex(sp) :: sa(ldsa,*)
-           complex(dp) :: a(lda,*)
+           complex(sp),intent(out) :: sa(ldsa,*)
+           complex(dp),intent(in) :: a(lda,*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -52091,19 +52516,21 @@ module stdlib_linalg_lapack_z
      ! non-trivial solution to A*x = 0 is returned.
 
      subroutine stdlib_zlatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm,info)
-
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,normin,trans,uplo
-           integer(ilp) :: info,kd,ldab,n
-           real(dp) :: scale
+           character,intent(in) :: diag,normin,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(dp),intent(out) :: scale
            ! .. array arguments ..
-           real(dp) :: cnorm(*)
-           complex(dp) :: ab(ldab,*),x(*)
+           real(dp),intent(inout) :: cnorm(*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           complex(dp),intent(inout) :: x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: notran,nounit,upper
            integer(ilp) :: i,imax,j,jfirst,jinc,jlast,jlen,maind
@@ -52116,7 +52543,7 @@ module stdlib_linalg_lapack_z
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum,KIND=dp)) + abs(aimag(zdum))
            cabs2(zdum) = abs(real(zdum,KIND=dp)/2._dp) + abs(aimag(zdum)/2._dp)
-
+                     
            ! .. executable statements ..
            info = 0
            upper = stdlib_lsame(uplo,'U')
@@ -52441,11 +52868,11 @@ module stdlib_linalg_lapack_z
                        if (upper) then
                           jlen = min(kd,j - 1)
                           csumj = stdlib_zdotu(jlen,ab(kd + 1 - jlen,j),1,x(j - jlen),1)
-
+                                    
                        else
                           jlen = min(kd,n - j)
                           if (jlen > 1) csumj = stdlib_zdotu(jlen,ab(2,j),1,x(j + 1),1)
-
+                                    
                        end if
                     else
                        ! otherwise, use in-line code for the dot product.
@@ -52549,11 +52976,11 @@ module stdlib_linalg_lapack_z
                        if (upper) then
                           jlen = min(kd,j - 1)
                           csumj = stdlib_zdotc(jlen,ab(kd + 1 - jlen,j),1,x(j - jlen),1)
-
+                                    
                        else
                           jlen = min(kd,n - j)
                           if (jlen > 1) csumj = stdlib_zdotc(jlen,ab(2,j),1,x(j + 1),1)
-
+                                    
                        end if
                     else
                        ! otherwise, use in-line code for the dot product.
@@ -52561,7 +52988,7 @@ module stdlib_linalg_lapack_z
                           jlen = min(kd,j - 1)
                           do i = 1,jlen
                              csumj = csumj + (conjg(ab(kd + i - jlen,j))*uscal)*x(j - jlen - 1 + i)
-
+                                       
                           end do
                        else
                           jlen = min(kd,n - j)
@@ -52647,15 +53074,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ijob,ldz,n
-           real(dp) :: rdscal,rdsum
+           integer(ilp),intent(in) :: ijob,ldz,n
+           real(dp),intent(inout) :: rdscal,rdsum
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*),jpiv(*)
-           complex(dp) :: rhs(*),z(ldz,*)
+           integer(ilp),intent(in) :: ipiv(*),jpiv(*)
+           complex(dp),intent(inout) :: rhs(*)
+           complex(dp),intent(in) :: z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxdim = 2
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,info,j,k
            real(dp) :: rtemp,scale,sminu,splus
@@ -52678,7 +53106,7 @@ module stdlib_linalg_lapack_z
                  ! lockahead for l- part rhs(1:n-1) = +-1
                  ! splus and smin computed more efficiently than in bsolve[1].
                  splus = splus + real(stdlib_zdotc(n - j,z(j + 1,j),1,z(j + 1,j),1),KIND=dp)
-
+                           
                  sminu = real(stdlib_zdotc(n - j,z(j + 1,j),1,rhs(j + 1),1),KIND=dp)
                  splus = splus*real(rhs(j),KIND=dp)
                  if (splus > sminu) then
@@ -52762,14 +53190,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,normin,trans,uplo
-           integer(ilp) :: info,n
-           real(dp) :: scale
+           character,intent(in) :: diag,normin,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(dp),intent(out) :: scale
            ! .. array arguments ..
-           real(dp) :: cnorm(*)
-           complex(dp) :: ap(*),x(*)
+           real(dp),intent(inout) :: cnorm(*)
+           complex(dp),intent(in) :: ap(*)
+           complex(dp),intent(inout) :: x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: notran,nounit,upper
            integer(ilp) :: i,imax,ip,j,jfirst,jinc,jlast,jlen
@@ -52782,7 +53212,7 @@ module stdlib_linalg_lapack_z
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum,KIND=dp)) + abs(aimag(zdum))
            cabs2(zdum) = abs(real(zdum,KIND=dp)/2._dp) + abs(aimag(zdum)/2._dp)
-
+                     
            ! .. executable statements ..
            info = 0
            upper = stdlib_lsame(uplo,'U')
@@ -53064,7 +53494,7 @@ module stdlib_linalg_lapack_z
                           ! compute the update
                              ! x(j+1:n) := x(j+1:n) - x(j) * a(j+1:n,j)
                           call stdlib_zaxpy(n - j,-x(j)*tscal,ap(ip + 1),1,x(j + 1),1)
-
+                                    
                           i = j + stdlib_izamax(n - j,x(j + 1),1)
                           xmax = cabs1(x(i))
                        end if
@@ -53308,13 +53738,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: lda,ldw,n,nb
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: lda,ldw,n,nb
            ! .. array arguments ..
-           real(dp) :: e(*)
-           complex(dp) :: a(lda,*),tau(*),w(ldw,*)
+           real(dp),intent(out) :: e(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),w(ldw,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,iw
            complex(dp) :: alpha
@@ -53362,7 +53793,7 @@ module stdlib_linalg_lapack_z
                     end if
                     call stdlib_zscal(i - 1,tau(i - 1),w(1,iw),1)
                     alpha = -chalf*tau(i - 1)*stdlib_zdotc(i - 1,w(1,iw),1,a(1,i),1)
-
+                              
                     call stdlib_zaxpy(i - 1,alpha,a(1,i),1,w(1,iw),1)
                  end if
               end do loop_10
@@ -53400,7 +53831,7 @@ module stdlib_linalg_lapack_z
                               ,1,cone,w(i + 1,i),1)
                     call stdlib_zscal(n - i,tau(i),w(i + 1,i),1)
                     alpha = -chalf*tau(i)*stdlib_zdotc(n - i,w(i + 1,i),1,a(i + 1,i),1)
-
+                              
                     call stdlib_zaxpy(n - i,alpha,a(i + 1,i),1,w(i + 1,i),1)
                  end if
               end do loop_20
@@ -53420,19 +53851,21 @@ module stdlib_linalg_lapack_z
      ! then s is set to 0 and a non-trivial solution to A*x = 0 is returned.
 
      subroutine stdlib_zlatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info)
-
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,normin,trans,uplo
-           integer(ilp) :: info,lda,n
-           real(dp) :: scale
+           character,intent(in) :: diag,normin,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(out) :: scale
            ! .. array arguments ..
-           real(dp) :: cnorm(*)
-           complex(dp) :: a(lda,*),x(*)
+           real(dp),intent(inout) :: cnorm(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: x(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: notran,nounit,upper
            integer(ilp) :: i,imax,j,jfirst,jinc,jlast
@@ -53445,7 +53878,7 @@ module stdlib_linalg_lapack_z
            ! .. statement function definitions ..
            cabs1(zdum) = abs(real(zdum,KIND=dp)) + abs(aimag(zdum))
            cabs2(zdum) = abs(real(zdum,KIND=dp)/2._dp) + abs(aimag(zdum)/2._dp)
-
+                     
            ! .. executable statements ..
            info = 0
            upper = stdlib_lsame(uplo,'U')
@@ -53715,7 +54148,7 @@ module stdlib_linalg_lapack_z
                           ! compute the update
                              ! x(j+1:n) := x(j+1:n) - x(j) * a(j+1:n,j)
                           call stdlib_zaxpy(n - j,-x(j)*tscal,a(j + 1,j),1,x(j + 1),1)
-
+                                    
                           i = j + stdlib_izamax(n - j,x(j + 1),1)
                           xmax = cabs1(x(i))
                        end if
@@ -53945,11 +54378,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: l,lda,m,n
+           integer(ilp),intent(in) :: l,lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            complex(dp) :: alpha
@@ -53997,9 +54431,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n,mb,nb,ldt,lwork
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n,mb,nb,ldt,lwork
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),work(*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*),t(ldt,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -54102,11 +54538,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),d(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: d(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: iinfo,j,jb,nb
            ! .. intrinsic functions ..
@@ -54138,7 +54576,7 @@ module stdlib_linalg_lapack_z
                  jb = min(min(m,n) - j + 1,nb)
                  ! factor diagonal and subdiagonal blocks.
                  call stdlib_zlaunhr_col_getrfnp2(m - j + 1,jb,a(j,j),lda,d(j),iinfo)
-
+                           
                  if (j + jb <= n) then
                     ! compute block row of u.
                     call stdlib_ztrsm('LEFT','LOWER','NO TRANSPOSE','UNIT',jb,n - j - jb + 1,cone, &
@@ -54147,7 +54585,7 @@ module stdlib_linalg_lapack_z
                        ! update trailing submatrix.
                        call stdlib_zgemm('NO TRANSPOSE','NO TRANSPOSE',m - j - jb + 1,n - j - jb + 1,jb,- &
                        cone,a(j + jb,j),lda,a(j,j + jb),lda,cone,a(j + jb,j + jb),lda)
-
+                                 
                     end if
                  end if
               end do
@@ -54209,11 +54647,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),d(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: d(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: sfmin
            integer(ilp) :: i,iinfo,n1,n2
@@ -54273,17 +54713,17 @@ module stdlib_linalg_lapack_z
               call stdlib_zlaunhr_col_getrfnp2(n1,n1,a,lda,d,iinfo)
               ! solve for b21
               call stdlib_ztrsm('R','U','N','N',m - n1,n1,cone,a,lda,a(n1 + 1,1),lda)
-
+                        
               ! solve for b12
               call stdlib_ztrsm('L','L','N','U',n1,n2,cone,a,lda,a(1,n1 + 1),lda)
-
+                        
               ! update b22, i.e. compute the schur complement
               ! b22 := b22 - b21*b12
               call stdlib_zgemm('N','N',m - n1,n2,n1,-cone,a(n1 + 1,1),lda,a(1,n1 + 1), &
                         lda,cone,a(n1 + 1,n1 + 1),lda)
               ! factor b22, recursive call
               call stdlib_zlaunhr_col_getrfnp2(m - n1,n2,a(n1 + 1,n1 + 1),lda,d(n1 + 1),iinfo)
-
+                        
            end if
            return
      end subroutine stdlib_zlaunhr_col_getrfnp2
@@ -54302,12 +54742,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i
@@ -54379,12 +54820,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,ib,nb
@@ -54459,14 +54901,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: ab(ldab,*),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            character :: normin
@@ -54561,14 +55006,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
-           real(dp) :: amax,scond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(dp),intent(out) :: amax,scond
            ! .. array arguments ..
-           real(dp) :: s(*)
-           complex(dp) :: ab(ldab,*)
+           real(dp),intent(out) :: s(*)
+           complex(dp),intent(in) :: ab(ldab,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,j
@@ -54644,16 +55090,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldafb,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
-
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: count,i,j,k,kase,l,nz
@@ -54715,7 +55163,7 @@ module stdlib_linalg_lapack_z
               ! compute residual r = b - a * x
               call stdlib_zcopy(n,b(1,j),1,work,1)
               call stdlib_zhbmv(uplo,n,kd,-cone,ab,ldab,x(1,j),1,cone,work,1)
-
+                        
               ! compute componentwise relative backward error from formula
               ! max(i) ( abs(r(i)) / ( abs(a)*abs(x) + abs(b) )(i) )
               ! where abs(z) is the componentwise absolute value of the matrix
@@ -54840,12 +55288,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
            ! .. array arguments ..
-           complex(dp) :: ab(ldab,*)
+           complex(dp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,kld,km,m
@@ -54890,7 +55339,7 @@ module stdlib_linalg_lapack_z
                  ! the leading submatrix within the band.
                  call stdlib_zdscal(km,one/ajj,ab(kd + 1 - km,j),1)
                  call stdlib_zher('UPPER',km,-one,ab(kd + 1 - km,j),1,ab(kd + 1,j - km),kld)
-
+                           
               end do
               ! factorize the updated submatrix a(1:m,1:m) as u**h*u.
               do j = 1,m
@@ -54909,7 +55358,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zdscal(km,one/ajj,ab(kd,j + 1),kld)
                     call stdlib_zlacgv(km,ab(kd,j + 1),kld)
                     call stdlib_zher('UPPER',km,-one,ab(kd,j + 1),kld,ab(kd + 1,j + 1),kld)
-
+                              
                     call stdlib_zlacgv(km,ab(kd,j + 1),kld)
                  end if
               end do
@@ -54930,7 +55379,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zdscal(km,one/ajj,ab(km + 1,j - km),kld)
                  call stdlib_zlacgv(km,ab(km + 1,j - km),kld)
                  call stdlib_zher('LOWER',km,-one,ab(km + 1,j - km),kld,ab(1,j - km),kld)
-
+                           
                  call stdlib_zlacgv(km,ab(km + 1,j - km),kld)
               end do
               ! factorize the updated submatrix a(1:m,1:m) as u**h*u.
@@ -54975,10 +55424,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: ab(ldab,*),b(ldb,*)
+           complex(dp),intent(inout) :: ab(ldab,*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -55025,15 +55475,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,uplo
-           integer(ilp) :: info,kd,ldab,ldafb,ldb,ldx,n,nrhs
-           real(dp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldafb,ldb,ldx,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: berr(*),ferr(*),rwork(*),s(*)
-           complex(dp) :: ab(ldab,*),afb(ldafb,*),b(ldb,*),work(*),x(ldx,*)
-
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(dp),intent(inout) :: s(*)
+           complex(dp),intent(inout) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: equil,nofact,rcequ,upper
            integer(ilp) :: i,infequ,j,j1,j2
@@ -55122,7 +55575,7 @@ module stdlib_linalg_lapack_z
                  do j = 1,n
                     j1 = max(j - kd,1)
                     call stdlib_zcopy(j - j1 + 1,ab(kd + 1 - j + j1,j),1,afb(kd + 1 - j + j1,j),1)
-
+                              
                  end do
               else
                  do j = 1,n
@@ -55179,12 +55632,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
            ! .. array arguments ..
-           complex(dp) :: ab(ldab,*)
+           complex(dp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,kld,kn
@@ -55229,7 +55683,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zdscal(kn,one/ajj,ab(kd,j + 1),kld)
                     call stdlib_zlacgv(kn,ab(kd,j + 1),kld)
                     call stdlib_zher('UPPER',kn,-one,ab(kd,j + 1),kld,ab(kd + 1,j + 1),kld)
-
+                              
                     call stdlib_zlacgv(kn,ab(kd,j + 1),kld)
                  end if
               end do
@@ -55271,15 +55725,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
            ! .. array arguments ..
-           complex(dp) :: ab(ldab,*)
+           complex(dp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 32
            integer(ilp),parameter :: ldwork = nbmax + 1
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,i2,i3,ib,ii,j,jj,nb
            ! .. local arrays ..
@@ -55465,10 +55920,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,kd,ldab,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: ab(ldab,*),b(ldb,*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -55535,12 +55992,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: n,info
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(in) :: n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: a(0:*)
+           complex(dp),intent(inout) :: a(0:*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,nisodd,normaltransr
            integer(ilp) :: n1,n2,k
@@ -55592,7 +56050,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zpotrf('L',n1,a(0),n,info)
                     if (info > 0) return
                     call stdlib_ztrsm('R','L','C','N',n2,n1,cone,a(0),n,a(n1),n)
-
+                              
                     call stdlib_zherk('U','N',n2,n1,-one,a(n1),n,one,a(n),n)
                     call stdlib_zpotrf('U',n2,a(n),n,info)
                     if (info > 0) info = info + n1
@@ -55603,7 +56061,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zpotrf('L',n1,a(n2),n,info)
                     if (info > 0) return
                     call stdlib_ztrsm('L','L','N','N',n1,n2,cone,a(n2),n,a(0),n)
-
+                              
                     call stdlib_zherk('U','C',n2,n1,-one,a(0),n,one,a(n1),n)
                     call stdlib_zpotrf('U',n2,a(n1),n,info)
                     if (info > 0) info = info + n1
@@ -55619,7 +56077,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_ztrsm('L','U','C','N',n1,n2,cone,a(0),n1,a(n1*n1), &
                               n1)
                     call stdlib_zherk('L','C',n2,n1,-one,a(n1*n1),n1,one,a(1),n1)
-
+                              
                     call stdlib_zpotrf('L',n2,a(1),n1,info)
                     if (info > 0) info = info + n1
                  else
@@ -55631,7 +56089,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_ztrsm('R','U','N','N',n2,n1,cone,a(n2*n2),n2,a(0), &
                               n2)
                     call stdlib_zherk('L','N',n2,n1,-one,a(0),n2,one,a(n1*n2),n2)
-
+                              
                     call stdlib_zpotrf('L',n2,a(n1*n2),n2,info)
                     if (info > 0) info = info + n1
                  end if
@@ -55647,9 +56105,9 @@ module stdlib_linalg_lapack_z
                     call stdlib_zpotrf('L',k,a(1),n + 1,info)
                     if (info > 0) return
                     call stdlib_ztrsm('R','L','C','N',k,k,cone,a(1),n + 1,a(k + 1),n + 1)
-
+                              
                     call stdlib_zherk('U','N',k,k,-one,a(k + 1),n + 1,one,a(0),n + 1)
-
+                              
                     call stdlib_zpotrf('U',k,a(0),n + 1,info)
                     if (info > 0) info = info + k
                  else
@@ -55659,9 +56117,9 @@ module stdlib_linalg_lapack_z
                     call stdlib_zpotrf('L',k,a(k + 1),n + 1,info)
                     if (info > 0) return
                     call stdlib_ztrsm('L','L','N','N',k,k,cone,a(k + 1),n + 1,a(0),n + 1)
-
+                              
                     call stdlib_zherk('U','C',k,k,-one,a(0),n + 1,one,a(k),n + 1)
-
+                              
                     call stdlib_zpotrf('U',k,a(k),n + 1,info)
                     if (info > 0) info = info + k
                  end if
@@ -55676,7 +56134,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_ztrsm('L','U','C','N',k,k,cone,a(k),n1,a(k*(k + 1)), &
                               k)
                     call stdlib_zherk('L','C',k,k,-one,a(k*(k + 1)),k,one,a(0),k)
-
+                              
                     call stdlib_zpotrf('L',k,a(0),k,info)
                     if (info > 0) info = info + k
                  else
@@ -55705,12 +56163,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(dp) :: a(0:*)
+           complex(dp),intent(inout) :: a(0:*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,nisodd,normaltransr
            integer(ilp) :: n1,n2,k
@@ -55766,7 +56225,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zlauum('L',n1,a(0),n,info)
                     call stdlib_zherk('L','C',n1,n2,one,a(n1),n,one,a(0),n)
                     call stdlib_ztrmm('L','U','N','N',n2,n1,cone,a(n),n,a(n1),n)
-
+                              
                     call stdlib_zlauum('U',n2,a(n),n,info)
                  else
                     ! srpa for upper, normal and n is odd ( a(0:n-1,0:n2-1)
@@ -55775,7 +56234,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zlauum('L',n1,a(n2),n,info)
                     call stdlib_zherk('L','N',n1,n2,one,a(0),n,one,a(n2),n)
                     call stdlib_ztrmm('R','U','C','N',n1,n2,cone,a(n1),n,a(0),n)
-
+                              
                     call stdlib_zlauum('U',n2,a(n1),n,info)
                  end if
               else
@@ -55785,7 +56244,7 @@ module stdlib_linalg_lapack_z
                     ! t1 -> a(0), t2 -> a(1), s -> a(0+n1*n1)
                     call stdlib_zlauum('U',n1,a(0),n1,info)
                     call stdlib_zherk('U','N',n1,n2,one,a(n1*n1),n1,one,a(0),n1)
-
+                              
                     call stdlib_ztrmm('R','L','N','N',n1,n2,cone,a(1),n1,a(n1*n1), &
                               n1)
                     call stdlib_zlauum('L',n2,a(1),n1,info)
@@ -55794,7 +56253,7 @@ module stdlib_linalg_lapack_z
                     ! t1 -> a(0+n2*n2), t2 -> a(0+n1*n2), s -> a(0)
                     call stdlib_zlauum('U',n1,a(n2*n2),n2,info)
                     call stdlib_zherk('U','C',n1,n2,one,a(0),n2,one,a(n2*n2),n2)
-
+                              
                     call stdlib_ztrmm('L','L','C','N',n2,n1,cone,a(n1*n2),n2,a(0), &
                               n2)
                     call stdlib_zlauum('L',n2,a(n1*n2),n2,info)
@@ -55810,9 +56269,9 @@ module stdlib_linalg_lapack_z
                     ! t1 -> a(1), t2 -> a(0), s -> a(k+1)
                     call stdlib_zlauum('L',k,a(1),n + 1,info)
                     call stdlib_zherk('L','C',k,k,one,a(k + 1),n + 1,one,a(1),n + 1)
-
+                              
                     call stdlib_ztrmm('L','U','N','N',k,k,cone,a(0),n + 1,a(k + 1),n + 1)
-
+                              
                     call stdlib_zlauum('U',k,a(0),n + 1,info)
                  else
                     ! srpa for upper, normal, and n is even ( a(0:n,0:k-1) )
@@ -55820,9 +56279,9 @@ module stdlib_linalg_lapack_z
                     ! t1 -> a(k+1), t2 -> a(k), s -> a(0)
                     call stdlib_zlauum('L',k,a(k + 1),n + 1,info)
                     call stdlib_zherk('L','N',k,k,one,a(0),n + 1,one,a(k + 1),n + 1)
-
+                              
                     call stdlib_ztrmm('R','U','C','N',k,k,cone,a(k),n + 1,a(0),n + 1)
-
+                              
                     call stdlib_zlauum('U',k,a(k),n + 1,info)
                  end if
               else
@@ -55833,7 +56292,7 @@ module stdlib_linalg_lapack_z
                     ! t1 -> a(0+k), t2 -> a(0+0), s -> a(0+k*(k+1)); lda=k
                     call stdlib_zlauum('U',k,a(k),k,info)
                     call stdlib_zherk('U','N',k,k,one,a(k*(k + 1)),k,one,a(k),k)
-
+                              
                     call stdlib_ztrmm('R','L','N','N',k,k,cone,a(0),k,a(k*(k + 1)), &
                               k)
                     call stdlib_zlauum('L',k,a(0),k,info)
@@ -55843,9 +56302,9 @@ module stdlib_linalg_lapack_z
                     ! t1 -> a(0+k*(k+1)), t2 -> a(0+k*k), s -> a(0+0)); lda=k
                     call stdlib_zlauum('U',k,a(k*(k + 1)),k,info)
                     call stdlib_zherk('U','C',k,k,one,a(0),k,one,a(k*(k + 1)),k)
-
+                              
                     call stdlib_ztrmm('L','L','C','N',k,k,cone,a(k*k),k,a(0),k)
-
+                              
                     call stdlib_zlauum('L',k,a(k*k),k,info)
                  end if
               end if
@@ -55862,12 +56321,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: a(0:*),b(ldb,*)
+           complex(dp),intent(in) :: a(0:*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,normaltransr
            ! .. intrinsic functions ..
@@ -55916,14 +56377,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            character :: normin
@@ -56016,13 +56480,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
-           real(dp) :: amax,scond
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(out) :: amax,scond
            ! .. array arguments ..
-           real(dp) :: s(*)
-           complex(dp) :: a(lda,*)
+           real(dp),intent(out) :: s(*)
+           complex(dp),intent(in) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            real(dp) :: smin
@@ -56094,13 +56559,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
-           real(dp) :: amax,scond
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(out) :: amax,scond
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
-           real(dp) :: s(*)
+           complex(dp),intent(in) :: a(lda,*)
+           real(dp),intent(out) :: s(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            real(dp) :: smin,base,tmp
@@ -56167,15 +56633,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! ====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: count,i,j,k,kase,nz
@@ -56358,10 +56827,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -56406,14 +56876,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
-           real(dp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: berr(*),ferr(*),rwork(*),s(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(dp),intent(inout) :: s(*)
+           complex(dp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: equil,nofact,rcequ
            integer(ilp) :: i,infequ,j
@@ -56545,12 +57019,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j
@@ -56637,12 +57112,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,jb,nb
@@ -56736,12 +57212,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: n1,n2,iinfo
@@ -56825,10 +57302,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -56865,12 +57343,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            ! .. intrinsic functions ..
@@ -56928,14 +57408,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: ap(*),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: ap(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            character :: normin
@@ -57026,14 +57509,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
-           real(dp) :: amax,scond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(dp),intent(out) :: amax,scond
            ! .. array arguments ..
-           real(dp) :: s(*)
-           complex(dp) :: ap(*)
+           real(dp),intent(out) :: s(*)
+           complex(dp),intent(in) :: ap(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,jj
@@ -57115,15 +57599,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: afp(*),ap(*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! ====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: count,i,ik,j,k,kase,kk,nz
@@ -57309,10 +57796,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: ap(*),b(ldb,*)
+           complex(dp),intent(inout) :: ap(*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -57355,14 +57843,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: equed,fact,uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(dp) :: rcond
+           character,intent(inout) :: equed
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: berr(*),ferr(*),rwork(*),s(*)
-           complex(dp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(dp),intent(inout) :: s(*)
+           complex(dp),intent(inout) :: afp(*),ap(*),b(ldb,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: equil,nofact,rcequ
            integer(ilp) :: i,infequ,j
@@ -57489,12 +57981,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(dp) :: ap(*)
+           complex(dp),intent(inout) :: ap(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,jc,jj
@@ -57571,12 +58064,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(dp) :: ap(*)
+           complex(dp),intent(inout) :: ap(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,jc,jj,jjn
@@ -57634,10 +58128,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: ap(*),b(ldb,*)
+           complex(dp),intent(in) :: ap(*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -57671,14 +58167,14 @@ module stdlib_linalg_lapack_z
                            1)
                  ! solve u*x = b, overwriting b with x.
                  call stdlib_ztpsv('UPPER','NO TRANSPOSE','NON-UNIT',n,ap,b(1,i),1)
-
+                           
               end do
            else
               ! solve a*x = b where a = l * l**h.
               do i = 1,nrhs
                  ! solve l*y = b, overwriting b with x.
                  call stdlib_ztpsv('LOWER','NO TRANSPOSE','NON-UNIT',n,ap,b(1,i),1)
-
+                           
                  ! solve l**h *x = y, overwriting b with x.
                  call stdlib_ztpsv('LOWER','CONJUGATE TRANSPOSE','NON-UNIT',n,ap,b(1,i), &
                            1)
@@ -57702,15 +58198,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(dp) :: tol
-           integer(ilp) :: info,lda,n,rank
-           character :: uplo
+           real(dp),intent(in) :: tol
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
-           real(dp) :: work(2*n)
-           integer(ilp) :: piv(n)
+           complex(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: work(2*n)
+           integer(ilp),intent(out) :: piv(n)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(dp) :: ztemp
            real(dp) :: ajj,dstop,dtemp
@@ -57769,7 +58266,7 @@ module stdlib_linalg_lapack_z
                  do i = j,n
                     if (j > 1) then
                        work(i) = work(i) + real(conjg(a(j - 1,i))*a(j - 1,i),KIND=dp)
-
+                                 
                     end if
                     work(n + i) = real(a(i,i),KIND=dp) - work(i)
                  end do
@@ -57787,7 +58284,7 @@ module stdlib_linalg_lapack_z
                     a(pvt,pvt) = a(j,j)
                     call stdlib_zswap(j - 1,a(1,j),1,a(1,pvt),1)
                     if (pvt < n) call stdlib_zswap(n - pvt,a(j,pvt + 1),lda,a(pvt,pvt + 1),lda)
-
+                              
                     do i = j + 1,pvt - 1
                        ztemp = conjg(a(j,i))
                        a(j,i) = conjg(a(i,pvt))
@@ -57822,7 +58319,7 @@ module stdlib_linalg_lapack_z
                  do i = j,n
                     if (j > 1) then
                        work(i) = work(i) + real(conjg(a(i,j - 1))*a(i,j - 1),KIND=dp)
-
+                                 
                     end if
                     work(n + i) = real(a(i,i),KIND=dp) - work(i)
                  end do
@@ -57840,7 +58337,7 @@ module stdlib_linalg_lapack_z
                     a(pvt,pvt) = a(j,j)
                     call stdlib_zswap(j - 1,a(j,1),lda,a(pvt,1),lda)
                     if (pvt < n) call stdlib_zswap(n - pvt,a(pvt + 1,j),1,a(pvt + 1,pvt),1)
-
+                              
                     do i = j + 1,pvt - 1
                        ztemp = conjg(a(i,j))
                        a(i,j) = conjg(a(pvt,i))
@@ -57894,15 +58391,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(dp) :: tol
-           integer(ilp) :: info,lda,n,rank
-           character :: uplo
+           real(dp),intent(in) :: tol
+           integer(ilp),intent(out) :: info,rank
+           integer(ilp),intent(in) :: lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
-           real(dp) :: work(2*n)
-           integer(ilp) :: piv(n)
+           complex(dp),intent(inout) :: a(lda,*)
+           real(dp),intent(out) :: work(2*n)
+           integer(ilp),intent(out) :: piv(n)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            complex(dp) :: ztemp
            real(dp) :: ajj,dstop,dtemp
@@ -58116,13 +58614,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,n
-           real(dp) :: anorm,rcond
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: d(*),rwork(*)
-           complex(dp) :: e(*)
+           real(dp),intent(in) :: d(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: e(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,ix
            real(dp) :: ainvnm
@@ -58195,13 +58696,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compz
-           integer(ilp) :: info,ldz,n
+           character,intent(in) :: compz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
            ! .. array arguments ..
-           real(dp) :: d(*),e(*),work(*)
-           complex(dp) :: z(ldz,*)
+           real(dp),intent(inout) :: d(*),e(*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: z(ldz,*)
         ! ====================================================================
-
+           
            ! .. local arrays ..
            complex(dp) :: c(1,1),vt(1,1)
            ! .. local scalars ..
@@ -58255,7 +58758,7 @@ module stdlib_linalg_lapack_z
               nru = 0
            end if
            call stdlib_zbdsqr('LOWER',n,0,nru,0,d,e,vt,1,z,ldz,c,1,work,info)
-
+                     
            ! square the singular values.
            if (info == 0) then
               do i = 1,n
@@ -58278,15 +58781,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(dp) :: berr(*),d(*),df(*),ferr(*),rwork(*)
-           complex(dp) :: b(ldb,*),e(*),ef(*),work(*),x(ldx,*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(dp),intent(in) :: d(*),df(*)
+           complex(dp),intent(in) :: b(ldb,*),e(*),ef(*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: count,i,ix,j,nz
@@ -58351,7 +58858,7 @@ module stdlib_linalg_lapack_z
                     ex = e(1)*x(2,j)
                     work(1) = bi - dx - ex
                     rwork(1) = cabs1(bi) + cabs1(dx) + cabs1(e(1))*cabs1(x(2,j))
-
+                              
                     do i = 2,n - 1
                        bi = b(i,j)
                        cx = conjg(e(i - 1))*x(i - 1,j)
@@ -58380,7 +58887,7 @@ module stdlib_linalg_lapack_z
                     ex = conjg(e(1))*x(2,j)
                     work(1) = bi - dx - ex
                     rwork(1) = cabs1(bi) + cabs1(dx) + cabs1(e(1))*cabs1(x(2,j))
-
+                              
                     do i = 2,n - 1
                        bi = b(i,j)
                        cx = e(i - 1)*x(i - 1,j)
@@ -58488,10 +58995,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,ldb,n,nrhs
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           real(dp) :: d(*)
-           complex(dp) :: b(ldb,*),e(*)
+           real(dp),intent(inout) :: d(*)
+           complex(dp),intent(inout) :: b(ldb,*),e(*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -58531,14 +59039,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(dp) :: rcond
+           character,intent(in) :: fact
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: berr(*),d(*),df(*),ferr(*),rwork(*)
-           complex(dp) :: b(ldb,*),e(*),ef(*),work(*),x(ldx,*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           real(dp),intent(in) :: d(*)
+           real(dp),intent(inout) :: df(*)
+           complex(dp),intent(in) :: b(ldb,*),e(*)
+           complex(dp),intent(inout) :: ef(*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nofact
            real(dp) :: anorm
@@ -58599,12 +59112,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           real(dp) :: d(*)
-           complex(dp) :: e(*)
+           real(dp),intent(inout) :: d(*)
+           complex(dp),intent(inout) :: e(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,i4
            real(dp) :: eii,eir,f,g
@@ -58700,11 +59214,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           real(dp) :: d(*)
-           complex(dp) :: b(ldb,*),e(*)
+           real(dp),intent(in) :: d(*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(in) :: e(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -58765,10 +59281,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: iuplo,ldb,n,nrhs
+           integer(ilp),intent(in) :: iuplo,ldb,n,nrhs
            ! .. array arguments ..
-           real(dp) :: d(*)
-           complex(dp) :: b(ldb,*),e(*)
+           real(dp),intent(in) :: d(*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(in) :: e(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,j
@@ -58860,11 +59377,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
-           real(dp) :: c
-           complex(dp) :: s
+           integer(ilp),intent(in) :: incx,incy,n
+           real(dp),intent(in) :: c
+           complex(dp),intent(in) :: s
            ! .. array arguments ..
-           complex(dp) :: cx(*),cy(*)
+           complex(dp),intent(inout) :: cx(*),cy(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ix,iy
@@ -58908,14 +59425,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: ap(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,ip,kase
@@ -58985,13 +59505,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incx,incy,n
-           complex(dp) :: alpha,beta
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incx,incy,n
+           complex(dp),intent(in) :: alpha,beta
            ! .. array arguments ..
-           complex(dp) :: ap(*),x(*),y(*)
+           complex(dp),intent(in) :: ap(*),x(*)
+           complex(dp),intent(inout) :: y(*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            complex(dp) :: temp1,temp2
@@ -59141,13 +59662,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incx,n
-           complex(dp) :: alpha
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incx,n
+           complex(dp),intent(in) :: alpha
            ! .. array arguments ..
-           complex(dp) :: ap(*),x(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(in) :: x(*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            complex(dp) :: temp
@@ -59261,16 +59783,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: afp(*),ap(*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: count,i,ik,j,k,kase,kk,nz
@@ -59457,11 +59982,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*),b(ldb,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: ap(*),b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -59503,15 +60029,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
-           real(dp) :: rcond
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: afp(*),ap(*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(inout) :: afp(*)
+           complex(dp),intent(in) :: ap(*),b(ldb,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nofact
            real(dp) :: anorm
@@ -59578,15 +60107,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,imax,j,jmax,k,kc,kk,knc,kp,kpc,kstep,kx,npp
@@ -59722,9 +60252,9 @@ module stdlib_linalg_lapack_z
                        d12 = t/d12
                        do j = k - 2,1,-1
                           wkm1 = d12*(d11*ap(j + (k - 2)*(k - 1)/2) - ap(j + (k - 1)*k/2))
-
+                                    
                           wk = d12*(d22*ap(j + (k - 1)*k/2) - ap(j + (k - 2)*(k - 1)/2))
-
+                                    
                           do i = j,1,-1
                              ap(i + (j - 1)*j/2) = ap(i + (j - 1)*j/2) - ap(i + (k - 1)*k/2) &
                                        *wk - ap(i + (k - 2)*(k - 1)/2)*wkm1
@@ -59814,7 +60344,7 @@ module stdlib_linalg_lapack_z
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_zswap(n - kp,ap(knc + kp - kk + 1),1,ap(kpc + 1),1)
-
+                              
                     kx = knc + kp - kk
                     do j = kk + 1,kp - 1
                        kx = kx + n - j + 1
@@ -59862,7 +60392,7 @@ module stdlib_linalg_lapack_z
                        d21 = t/d21
                        do j = k + 2,n
                           wk = d21*(d11*ap(j + (k - 1)*(2*n - k)/2) - ap(j + k*(2*n - k - 1)/2))
-
+                                    
                           wkp1 = d21*(d22*ap(j + k*(2*n - k - 1)/2) - ap(j + (k - 1)*(2*n - k)/2) &
                                      )
                           do i = j,n
@@ -59900,13 +60430,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: ap(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kc,kcnext,kp,kpc,kstep,kx,npp
@@ -59986,9 +60518,9 @@ module stdlib_linalg_lapack_z
                               kcnext),1)
                     call stdlib_zcopy(k - 1,ap(kcnext),1,work,1)
                     call stdlib_zspmv(uplo,k - 1,-cone,ap,work,1,czero,ap(kcnext),1)
-
+                              
                     ap(kcnext + k) = ap(kcnext + k) - stdlib_zdotu(k - 1,work,1,ap(kcnext),1)
-
+                              
                  end if
                  kstep = 2
                  kcnext = kcnext + k + 1
@@ -60065,7 +60597,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zspmv(uplo,n - k,-cone,ap(kc + (n - k + 1)),work,1,czero,ap( &
                               kcnext + 2),1)
                     ap(kcnext) = ap(kcnext) - stdlib_zdotu(n - k,work,1,ap(kcnext + 2),1)
-
+                              
                  end if
                  kstep = 2
                  kcnext = kcnext - (n - k + 3)
@@ -60109,13 +60641,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: ap(*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: ap(*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kc,kp
@@ -60159,7 +60693,7 @@ module stdlib_linalg_lapack_z
                  ! multiply by inv(u(k)), where u(k) is the transformation
                  ! stored in column k of a.
                  call stdlib_zgeru(k - 1,nrhs,-cone,ap(kc),1,b(k,1),ldb,b(1,1),ldb)
-
+                           
                  ! multiply by the inverse of the diagonal block.
                  call stdlib_zscal(nrhs,cone/ap(kc + k - 1),b(k,1),ldb)
                  k = k - 1
@@ -60171,7 +60705,7 @@ module stdlib_linalg_lapack_z
                  ! multiply by inv(u(k)), where u(k) is the transformation
                  ! stored in columns k-1 and k of a.
                  call stdlib_zgeru(k - 2,nrhs,-cone,ap(kc),1,b(k,1),ldb,b(1,1),ldb)
-
+                           
                  call stdlib_zgeru(k - 2,nrhs,-cone,ap(kc - (k - 1)),1,b(k - 1,1),ldb,b(1, &
                            1),ldb)
                  ! multiply by the inverse of the diagonal block.
@@ -60336,18 +60870,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compz
-           integer(ilp) :: info,ldz,liwork,lrwork,lwork,n
+           character,intent(in) :: compz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,liwork,lrwork,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: d(*),e(*),rwork(*)
-           complex(dp) :: work(*),z(ldz,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(inout) :: d(*),e(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: z(ldz,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: finish,i,icompz,ii,j,k,lgn,liwmin,ll,lrwmin,lwmin,m,smlsiz, &
-                     start
+                      start
            real(dp) :: eps,orgnrm,p,tiny
            ! .. intrinsic functions ..
            intrinsic :: abs,real,int,log,max,mod,sqrt
@@ -60479,7 +61016,7 @@ module stdlib_linalg_lapack_z
                     orgnrm = stdlib_dlanst('M',m,d(start),e(start))
                     call stdlib_dlascl('G',0,0,orgnrm,one,m,1,d(start),m,info)
                     call stdlib_dlascl('G',0,0,orgnrm,one,m - 1,1,e(start),m - 1,info)
-
+                              
                     call stdlib_zlaed0(n,m,d(start),e(start),z(1,start),ldz,work,n, &
                               rwork,iwork,info)
                     if (info > 0) then
@@ -60552,13 +61089,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range
-           integer(ilp) :: il,info,iu,ldz,liwork,lwork,m,n
-           real(dp) :: abstol,vl,vu
+           character,intent(in) :: jobz,range
+           integer(ilp),intent(in) :: il,iu,ldz,liwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: abstol,vl,vu
            ! .. array arguments ..
-           integer(ilp) :: isuppz(*),iwork(*)
-           real(dp) :: d(*),e(*),w(*),work(*)
-           complex(dp) :: z(ldz,*)
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(dp),intent(inout) :: d(*),e(*)
+           real(dp),intent(out) :: w(*),work(*)
+           complex(dp),intent(out) :: z(ldz,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: tryrac
@@ -60580,26 +61119,29 @@ module stdlib_linalg_lapack_z
      ! which was reduced to tridiagonal form.
 
      subroutine stdlib_zstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,ldz,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,m,n
            ! .. array arguments ..
-           integer(ilp) :: iblock(*),ifail(*),isplit(*),iwork(*)
-           real(dp) :: d(*),e(*),w(*),work(*)
-           complex(dp) :: z(ldz,*)
+           integer(ilp),intent(in) :: iblock(*),isplit(*)
+           integer(ilp),intent(out) :: ifail(*),iwork(*)
+           real(dp),intent(in) :: d(*),e(*),w(*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(out) :: z(ldz,*)
        ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: odm3 = 1.0e-3_dp
            real(dp),parameter :: odm1 = 1.0e-1_dp
            integer(ilp),parameter :: maxits = 5
            integer(ilp),parameter :: extra = 2
-
+           
            ! .. local scalars ..
-           integer(ilp) :: b1,blksiz,bn,gpind,i,iinfo,indrv1,indrv2,indrv3,indrv4,indrv5, &
-                      its,j,j1,jblk,jmax,jr,nblk,nrmchk
+           integer(ilp) :: b1,blksiz,bn,gpind,i,iinfo,indrv1,indrv2,indrv3,indrv4, &
+                     indrv5,its,j,j1,jblk,jmax,jr,nblk,nrmchk
            real(dp) :: dtpcrt,eps,eps1,nrm,onenrm,ortol,pertol,scl,sep,tol,xj,xjm, &
                      ztr
            ! .. local arrays ..
@@ -60840,23 +61382,25 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobz,range
-           logical(lk) :: tryrac
-           integer(ilp) :: il,info,iu,ldz,nzc,liwork,lwork,m,n
-           real(dp) :: vl,vu
+           character,intent(in) :: jobz,range
+           logical(lk),intent(inout) :: tryrac
+           integer(ilp),intent(in) :: il,iu,ldz,nzc,liwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(in) :: vl,vu
            ! .. array arguments ..
-           integer(ilp) :: isuppz(*),iwork(*)
-           real(dp) :: d(*),e(*),w(*),work(*)
-           complex(dp) :: z(ldz,*)
+           integer(ilp),intent(out) :: isuppz(*),iwork(*)
+           real(dp),intent(inout) :: d(*),e(*)
+           real(dp),intent(out) :: w(*),work(*)
+           complex(dp),intent(out) :: z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: minrgp = 1.0e-3_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: alleig,indeig,lquery,valeig,wantz,zquery
-           integer(ilp) :: i,ibegin,iend,ifirst,iil,iindbl,iindw,iindwk,iinfo,iinspl,iiu, &
-            ilast,in,indd,inde2,inderr,indgp,indgrs,indwrk,itmp,itmp2,j,jblk,jj,liwmin, &
-                       lwmin,nsplit,nzcmin,offset,wbegin,wend
+           integer(ilp) :: i,ibegin,iend,ifirst,iil,iindbl,iindw,iindwk,iinfo,iinspl, &
+           iiu,ilast,in,indd,inde2,inderr,indgp,indgrs,indwrk,itmp,itmp2,j,jblk,jj, &
+                     liwmin,lwmin,nsplit,nzcmin,offset,wbegin,wend
            real(dp) :: bignum,cs,eps,pivmin,r1,r2,rmax,rmin,rtol1,rtol2,safmin,scale, &
                      smlnum,sn,thresh,tmp,tnrm,wl,wu
            ! .. intrinsic functions ..
@@ -60930,7 +61474,7 @@ module stdlib_linalg_lapack_z
                  nzcmin = n
               else if (wantz .and. valeig) then
                  call stdlib_dlarrc('T',n,vl,vu,d,e,safmin,nzcmin,itmp,itmp2,info)
-
+                           
               else if (wantz .and. indeig) then
                  nzcmin = iiu - iil + 1
               else
@@ -61100,7 +61644,7 @@ module stdlib_linalg_lapack_z
               call stdlib_dlarre(range,n,wl,wu,iil,iiu,d,e,work(inde2),rtol1,rtol2, &
               thresh,nsplit,iwork(iinspl),m,w,work(inderr),work(indgp),iwork(iindbl), &
               iwork(iindw),work(indgrs),pivmin,work(indwrk),iwork(iindwk),iinfo)
-
+                        
               if (iinfo /= 0) then
                  info = 10 + abs(iinfo)
                  return
@@ -61217,18 +61761,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compz
-           integer(ilp) :: info,ldz,n
+           character,intent(in) :: compz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldz,n
            ! .. array arguments ..
-           real(dp) :: d(*),e(*),work(*)
-           complex(dp) :: z(ldz,*)
+           real(dp),intent(inout) :: d(*),e(*)
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxit = 30
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,icompz,ii,iscale,j,jtot,k,l,l1,lend,lendm1,lendp1,lendsv, &
-                     lm1,lsv,m,mm,mm1,nm1,nmaxit
+                      lm1,lsv,m,mm,mm1,nm1,nmaxit
            real(dp) :: anorm,b,c,eps,eps2,f,g,p,r,rt1,rt2,s,safmax,safmin,ssfmax, &
                      ssfmin,tst
            ! .. intrinsic functions ..
@@ -61477,14 +62023,14 @@ module stdlib_linalg_lapack_z
 140  continue
            if (iscale == 1) then
               call stdlib_dlascl('G',0,0,ssfmax,anorm,lendsv - lsv + 1,1,d(lsv),n,info)
-
+                        
               call stdlib_dlascl('G',0,0,ssfmax,anorm,lendsv - lsv,1,e(lsv),n,info)
-
+                        
            else if (iscale == 2) then
               call stdlib_dlascl('G',0,0,ssfmin,anorm,lendsv - lsv + 1,1,d(lsv),n,info)
-
+                        
               call stdlib_dlascl('G',0,0,ssfmin,anorm,lendsv - lsv,1,e(lsv),n,info)
-
+                        
            end if
            ! check for no convergence to an eigenvalue after a total
            ! of n*maxit iterations.
@@ -61533,14 +62079,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,kase
@@ -61611,14 +62160,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
-           real(dp) :: anorm,rcond
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(in) :: anorm
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,kase
@@ -61687,13 +62239,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,way
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo,way
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),e(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: e(*)
         ! =====================================================================
-
+           
            ! .. external subroutines ..
            logical(lk) :: upper,convert
            integer(ilp) :: i,ip,j
@@ -61904,13 +62458,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,way
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo,way
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),e(*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),e(*)
         ! =====================================================================
-
+           
            ! .. external subroutines ..
            logical(lk) :: upper,convert
            integer(ilp) :: i,ip
@@ -61974,7 +62529,7 @@ module stdlib_linalg_lapack_z
                        if (i < n) then
                           if (ip /= (i - 1)) then
                              call stdlib_zswap(n - i,a(i - 1,i + 1),lda,a(ip,i + 1),lda)
-
+                                       
                           end if
                        end if
                        ! convert ipiv
@@ -62010,7 +62565,7 @@ module stdlib_linalg_lapack_z
                        if (i < n) then
                           if (ip /= (i - 1)) then
                              call stdlib_zswap(n - i,a(ip,i + 1),lda,a(i - 1,i + 1),lda)
-
+                                       
                           end if
                        end if
                        ! convert ipiv
@@ -62158,13 +62713,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo,way
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo,way
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),e(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),e(*)
         ! =====================================================================
-
+           
            ! .. external subroutines ..
            logical(lk) :: upper,convert
            integer(ilp) :: i,ip,ip2
@@ -62233,7 +62789,7 @@ module stdlib_linalg_lapack_z
                           end if
                           if (ip2 /= (i - 1)) then
                              call stdlib_zswap(n - i,a(i - 1,i + 1),lda,a(ip2,i + 1),lda)
-
+                                       
                           end if
                        end if
                        i = i - 1
@@ -62266,7 +62822,7 @@ module stdlib_linalg_lapack_z
                        if (i < n) then
                           if (ip2 /= (i - 1)) then
                              call stdlib_zswap(n - i,a(ip2,i + 1),lda,a(i - 1,i + 1),lda)
-
+                                       
                           end if
                           if (ip /= i) then
                              call stdlib_zswap(n - i,a(ip,i + 1),lda,a(i,i + 1),lda)
@@ -62404,16 +62960,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,n
-           real(dp) :: amax,scond
-           character :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(out) :: amax,scond
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),work(*)
-           real(dp) :: s(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(out) :: s(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: max_iter = 100
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,iter
            real(dp) :: avg,std,tol,c0,c1,c2,t,u,si,d,base,smin,smax,smlnum,bignum, &
@@ -62580,13 +63138,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incx,incy,lda,n
-           complex(dp) :: alpha,beta
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incx,incy,lda,n
+           complex(dp),intent(in) :: alpha,beta
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),x(*),y(*)
+           complex(dp),intent(in) :: a(lda,*),x(*)
+           complex(dp),intent(inout) :: y(*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
            complex(dp) :: temp1,temp2
@@ -62732,13 +63291,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: incx,lda,n
-           complex(dp) :: alpha
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: incx,lda,n
+           complex(dp),intent(in) :: alpha
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),x(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: x(*)
        ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,info,ix,j,jx,kx
            complex(dp) :: temp
@@ -62835,16 +63395,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: itmax = 5
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: count,i,j,k,kase,nz
@@ -63028,11 +63591,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -63103,11 +63668,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -63150,7 +63717,7 @@ module stdlib_linalg_lapack_z
            if (info == 0) then
               ! solve the system a*x = b, overwriting b with x.
               call stdlib_zsytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-
+                        
            end if
            work(1) = lwkopt
            return
@@ -63172,16 +63739,18 @@ module stdlib_linalg_lapack_z
      ! the system of equations A * X = B by calling BLAS3 routine ZSYTRS_3.
 
      subroutine stdlib_zsysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-
+               
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),e(*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: e(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -63253,11 +63822,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,lwork,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery
@@ -63320,15 +63891,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: fact,uplo
-           integer(ilp) :: info,lda,ldaf,ldb,ldx,lwork,n,nrhs
-           real(dp) :: rcond
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,lwork,n,nrhs
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: a(lda,*),af(ldaf,*),b(ldb,*),work(*),x(ldx,*)
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(inout) :: af(ldaf,*)
+           complex(dp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,nofact
            integer(ilp) :: lwkopt,nb
@@ -63409,10 +63983,10 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: i1,i2,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: i1,i2,lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,n)
+           complex(dp),intent(inout) :: a(lda,n)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: upper
@@ -63482,15 +64056,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,imax,j,jmax,k,kk,kp,kstep
@@ -63692,7 +64267,7 @@ module stdlib_linalg_lapack_z
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_zswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     call stdlib_zswap(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     t = a(kk,kk)
                     a(kk,kk) = a(kp,kp)
@@ -63713,7 +64288,7 @@ module stdlib_linalg_lapack_z
                        ! a := a - l(k)*d(k)*l(k)**t = a - w(k)*(1/d(k))*w(k)**t
                        r1 = cone/a(k,k)
                        call stdlib_zsyr(uplo,n - k,-r1,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                 
                        ! store l(k) in column k
                        call stdlib_zscal(n - k,r1,a(k + 1,k),1)
                     end if
@@ -63772,15 +64347,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),e(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: e(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: upper,done
            integer(ilp) :: i,imax,j,jmax,itemp,k,kk,kp,kstep,p,ii
@@ -63903,7 +64480,7 @@ module stdlib_linalg_lapack_z
                     ! submatrix a(1:k,1:k) if we have a 2-by-2 pivot
                     if (p > 1) call stdlib_zswap(p - 1,a(1,k),1,a(1,p),1)
                     if (p < (k - 1)) call stdlib_zswap(k - p - 1,a(p + 1,k),1,a(p,p + 1),lda)
-
+                              
                     t = a(k,k)
                     a(k,k) = a(p,p)
                     a(p,p) = t
@@ -64097,7 +64674,7 @@ module stdlib_linalg_lapack_z
                     ! submatrix a(k:n,k:n) if we have a 2-by-2 pivot
                     if (p < n) call stdlib_zswap(n - p,a(p + 1,k),1,a(p + 1,p),1)
                     if (p > (k + 1)) call stdlib_zswap(p - k - 1,a(k + 1,k),1,a(p,k + 1),lda)
-
+                              
                     t = a(k,k)
                     a(k,k) = a(p,p)
                     a(p,p) = t
@@ -64111,7 +64688,7 @@ module stdlib_linalg_lapack_z
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_zswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     if ((kk < n) .and. (kp > (kk + 1))) call stdlib_zswap(kp - kk - 1,a(kk + 1,kk), &
                               1,a(kp,kk + 1),lda)
                     t = a(kk,kk)
@@ -64140,7 +64717,7 @@ module stdlib_linalg_lapack_z
                              ! = a - w(k)*(1/d(k))*w(k)**t
                           d11 = cone/a(k,k)
                           call stdlib_zsyr(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                    
                           ! store l(k) in column k
                           call stdlib_zscal(n - k,d11,a(k + 1,k),1)
                        else
@@ -64154,7 +64731,7 @@ module stdlib_linalg_lapack_z
                              ! = a - w(k)*(1/d(k))*w(k)**t
                              ! = a - (w(k)/d(k))*(d(k))*(w(k)/d(k))**t
                           call stdlib_zsyr(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                    
                        end if
                        ! store the subdiagonal element of d in array e
                        e(k) = czero
@@ -64223,15 +64800,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: sevten = 17.0e+0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: upper,done
            integer(ilp) :: i,imax,j,jmax,itemp,k,kk,kp,kstep,p,ii
@@ -64349,7 +64927,7 @@ module stdlib_linalg_lapack_z
                     ! submatrix a(1:k,1:k) if we have a 2-by-2 pivot
                     if (p > 1) call stdlib_zswap(p - 1,a(1,k),1,a(1,p),1)
                     if (p < (k - 1)) call stdlib_zswap(k - p - 1,a(p + 1,k),1,a(p,p + 1),lda)
-
+                              
                     t = a(k,k)
                     a(k,k) = a(p,p)
                     a(p,p) = t
@@ -64524,7 +65102,7 @@ module stdlib_linalg_lapack_z
                     ! submatrix a(k:n,k:n) if we have a 2-by-2 pivot
                     if (p < n) call stdlib_zswap(n - p,a(p + 1,k),1,a(p + 1,p),1)
                     if (p > (k + 1)) call stdlib_zswap(p - k - 1,a(k + 1,k),1,a(p,k + 1),lda)
-
+                              
                     t = a(k,k)
                     a(k,k) = a(p,p)
                     a(p,p) = t
@@ -64535,7 +65113,7 @@ module stdlib_linalg_lapack_z
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_zswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-
+                              
                     if ((kk < n) .and. (kp > (kk + 1))) call stdlib_zswap(kp - kk - 1,a(kk + 1,kk), &
                               1,a(kp,kk + 1),lda)
                     t = a(kk,kk)
@@ -64561,7 +65139,7 @@ module stdlib_linalg_lapack_z
                              ! = a - w(k)*(1/d(k))*w(k)**t
                           d11 = cone/a(k,k)
                           call stdlib_zsyr(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                    
                           ! store l(k) in column k
                           call stdlib_zscal(n - k,d11,a(k + 1,k),1)
                        else
@@ -64575,7 +65153,7 @@ module stdlib_linalg_lapack_z
                              ! = a - w(k)*(1/d(k))*w(k)**t
                              ! = a - (w(k)/d(k))*(d(k))*(w(k)/d(k))**t
                           call stdlib_zsyr(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-
+                                    
                        end if
                     end if
                  else
@@ -64637,11 +65215,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -64759,13 +65339,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,lda,lwork,info
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,upper
            integer(ilp) :: j,lwkopt
@@ -64853,7 +65435,7 @@ module stdlib_linalg_lapack_z
                     alpha = a(j,j + 1)
                     a(j,j + 1) = cone
                     call stdlib_zcopy(n - j,a(j - 1,j + 1),lda,work((j + 1 - j1 + 1) + jb*n),1)
-
+                              
                     call stdlib_zscal(n - j,alpha,work((j + 1 - j1 + 1) + jb*n),1)
                     ! k1 identifies if the previous column of the panel has been
                      ! explicitly stored, e.g., k1=1 and k2= 0 for the first panel,
@@ -64955,7 +65537,7 @@ module stdlib_linalg_lapack_z
                        ! update off-diagonal block in j2-th block column with stdlib_zgemm
                        call stdlib_zgemm('NO TRANSPOSE','TRANSPOSE',n - j3 + 1,nj,jb + 1,-cone, &
                        work(j3 - j1 + 1 + k1*n),n,a(j2,j1 - k2),lda,cone,a(j3,j2),lda)
-
+                                 
                     end do
                     ! recover t( j+1, j )
                     a(j + 1,j) = alpha
@@ -64985,11 +65567,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),e(*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: e(*),work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -65047,7 +65631,7 @@ module stdlib_linalg_lapack_z
                  ! factorize columns k-kb+1:k of a and use blocked code to
                  ! update columns 1:k-kb
                  call stdlib_zlasyf_rk(uplo,k,nb,kb,a,lda,e,ipiv,work,ldwork,iinfo)
-
+                           
               else
                  ! use unblocked code to factorize columns 1:k of a
                  call stdlib_zsytf2_rk(uplo,k,a,lda,e,ipiv,iinfo)
@@ -65094,7 +65678,7 @@ module stdlib_linalg_lapack_z
               else
                  ! use unblocked code to factorize columns k:n of a
                  call stdlib_zsytf2_rk(uplo,n - k + 1,a(k,k),lda,e(k),ipiv(k),iinfo)
-
+                           
                  kb = n - k + 1
               end if
               ! set info on the first occurrence of a zero pivot
@@ -65148,11 +65732,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: lquery,upper
@@ -65210,7 +65796,7 @@ module stdlib_linalg_lapack_z
                  ! factorize columns k-kb+1:k of a and use blocked code to
                  ! update columns 1:k-kb
                  call stdlib_zlasyf_rook(uplo,k,nb,kb,a,lda,ipiv,work,ldwork,iinfo)
-
+                           
               else
                  ! use unblocked code to factorize columns 1:k of a
                  call stdlib_zsytf2_rook(uplo,k,a,lda,ipiv,iinfo)
@@ -65269,13 +65855,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: k,kp,kstep
@@ -65328,7 +65916,7 @@ module stdlib_linalg_lapack_z
                  if (k > 1) then
                     call stdlib_zcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_zsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-
+                              
                     a(k,k) = a(k,k) - stdlib_zdotu(k - 1,work,1,a(1,k),1)
                  end if
                  kstep = 1
@@ -65347,15 +65935,15 @@ module stdlib_linalg_lapack_z
                  if (k > 1) then
                     call stdlib_zcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_zsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-
+                              
                     a(k,k) = a(k,k) - stdlib_zdotu(k - 1,work,1,a(1,k),1)
                     a(k,k + 1) = a(k,k + 1) - stdlib_zdotu(k - 1,a(1,k),1,a(1,k + 1),1)
-
+                              
                     call stdlib_zcopy(k - 1,a(1,k + 1),1,work,1)
                     call stdlib_zsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k + 1),1)
-
+                              
                     a(k + 1,k + 1) = a(k + 1,k + 1) - stdlib_zdotu(k - 1,work,1,a(1,k + 1),1)
-
+                              
                  end if
                  kstep = 2
               end if
@@ -65420,7 +66008,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zsymv(uplo,n - k,-cone,a(k + 1,k + 1),lda,work,1,czero,a(k + &
                               1,k - 1),1)
                     a(k - 1,k - 1) = a(k - 1,k - 1) - stdlib_zdotu(n - k,work,1,a(k + 1,k - 1),1)
-
+                              
                  end if
                  kstep = 2
               end if
@@ -65455,13 +66043,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: k,kp,kstep
@@ -65514,7 +66104,7 @@ module stdlib_linalg_lapack_z
                  if (k > 1) then
                     call stdlib_zcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_zsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-
+                              
                     a(k,k) = a(k,k) - stdlib_zdotu(k - 1,work,1,a(1,k),1)
                  end if
                  kstep = 1
@@ -65533,15 +66123,15 @@ module stdlib_linalg_lapack_z
                  if (k > 1) then
                     call stdlib_zcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_zsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-
+                              
                     a(k,k) = a(k,k) - stdlib_zdotu(k - 1,work,1,a(1,k),1)
                     a(k,k + 1) = a(k,k + 1) - stdlib_zdotu(k - 1,a(1,k),1,a(1,k + 1),1)
-
+                              
                     call stdlib_zcopy(k - 1,a(1,k + 1),1,work,1)
                     call stdlib_zsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k + 1),1)
-
+                              
                     a(k + 1,k + 1) = a(k + 1,k + 1) - stdlib_zdotu(k - 1,work,1,a(1,k + 1),1)
-
+                              
                  end if
                  kstep = 2
               end if
@@ -65626,7 +66216,7 @@ module stdlib_linalg_lapack_z
                     call stdlib_zsymv(uplo,n - k,-cone,a(k + 1,k + 1),lda,work,1,czero,a(k + 1, &
                                k - 1),1)
                     a(k - 1,k - 1) = a(k - 1,k - 1) - stdlib_zdotu(n - k,work,1,a(k + 1,k - 1),1)
-
+                              
                  end if
                  kstep = 2
               end if
@@ -65681,13 +66271,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kp
@@ -65889,13 +66481,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,iinfo,j,k,kp
@@ -66004,7 +66598,7 @@ module stdlib_linalg_lapack_z
                  ! interchange rows k and -ipiv(k+1).
                  kp = -ipiv(k + 1)
                  if (kp == -ipiv(k)) call stdlib_zswap(nrhs,b(k + 1,1),ldb,b(kp,1),ldb)
-
+                           
                  k = k + 2
               end if
              end do
@@ -66071,13 +66665,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),e(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),e(*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,j,k,kp
@@ -66220,13 +66816,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: n,nrhs,lda,ldb,lwork,info
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,nrhs,lda,ldb,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            logical(lk) :: lquery,upper
            integer(ilp) :: k,kp,lwkopt
            ! .. intrinsic functions ..
@@ -66335,13 +66934,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           complex(dp) :: a(lda,*),b(ldb,*)
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: j,k,kp
@@ -66554,19 +67155,21 @@ module stdlib_linalg_lapack_z
      ! RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
      subroutine stdlib_ztbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: info,kd,ldab,n
-           real(dp) :: rcond
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,n
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: ab(ldab,*),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nounit,onenrm,upper
            character :: normin
@@ -66666,13 +67269,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,kd,ldab,ldb,ldx,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: ab(ldab,*),b(ldb,*),work(*),x(ldx,*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: ab(ldab,*),b(ldb,*),x(ldx,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: notran,nounit,upper
            character :: transn,transt
@@ -66903,12 +67508,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,kd,ldab,ldb,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: kd,ldab,ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: ab(ldab,*),b(ldb,*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nounit,upper
            integer(ilp) :: j
@@ -66977,13 +67584,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,diag,side,trans,uplo
-           integer(ilp) :: ldb,m,n
-           complex(dp) :: alpha
+           character,intent(in) :: transr,diag,side,trans,uplo
+           integer(ilp),intent(in) :: ldb,m,n
+           complex(dp),intent(in) :: alpha
            ! .. array arguments ..
-           complex(dp) :: a(0:*),b(0:ldb - 1,0:*)
+           complex(dp),intent(in) :: a(0:*)
+           complex(dp),intent(inout) :: b(0:ldb - 1,0:*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,lside,misodd,nisodd,normaltransr,notrans
            integer(ilp) :: m1,m2,n1,n2,k,info,i,j
@@ -67058,7 +67666,7 @@ module stdlib_linalg_lapack_z
                           ! trans = 'n'
                           if (m == 1) then
                              call stdlib_ztrsm('L','L','N',diag,m1,n,alpha,a,m,b,ldb)
-
+                                       
                           else
                              call stdlib_ztrsm('L','L','N',diag,m1,n,alpha,a(0),m,b, &
                                        ldb)
@@ -67101,7 +67709,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgemm('N','N',m1,n,m2,-cone,a(0),m,b(m1,0), &
                                     ldb,alpha,b,ldb)
                           call stdlib_ztrsm('L','L','C',diag,m1,n,cone,a(m2),m,b,ldb)
-
+                                    
                        end if
                     end if
                  else
@@ -67183,7 +67791,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgemm('C','N',k,n,k,-cone,a(k + 1),m + 1,b(k,0), &
                                     ldb,alpha,b,ldb)
                           call stdlib_ztrsm('L','L','C',diag,k,n,cone,a(1),m + 1,b,ldb)
-
+                                    
                        end if
                     else
                        ! side  ='l', n is even, transr = 'n', and uplo = 'u'
@@ -67215,7 +67823,7 @@ module stdlib_linalg_lapack_z
                           ! side  ='l', n is even, transr = 'c', uplo = 'l',
                           ! and trans = 'n'
                           call stdlib_ztrsm('L','U','C',diag,k,n,alpha,a(k),k,b,ldb)
-
+                                    
                           call stdlib_zgemm('C','N',k,n,k,-cone,a(k*(k + 1)),k,b,ldb, &
                                     alpha,b(k,0),ldb)
                           call stdlib_ztrsm('L','L','N',diag,k,n,cone,a(0),k,b(k,0), &
@@ -67228,7 +67836,7 @@ module stdlib_linalg_lapack_z
                           call stdlib_zgemm('N','N',k,n,k,-cone,a(k*(k + 1)),k,b(k,0) &
                                     ,ldb,alpha,b,ldb)
                           call stdlib_ztrsm('L','U','N',diag,k,n,cone,a(k),k,b,ldb)
-
+                                    
                        end if
                     else
                        ! side  ='l', n is even, transr = 'c', and uplo = 'u'
@@ -67472,12 +68080,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo,diag
-           integer(ilp) :: info,n
+           character,intent(in) :: transr,uplo,diag
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(dp) :: a(0:*)
+           complex(dp),intent(inout) :: a(0:*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lower,nisodd,normaltransr
            integer(ilp) :: n1,n2,k
@@ -67532,12 +68141,12 @@ module stdlib_linalg_lapack_z
                     call stdlib_ztrtri('L',diag,n1,a(0),n,info)
                     if (info > 0) return
                     call stdlib_ztrmm('R','L','N',diag,n2,n1,-cone,a(0),n,a(n1),n)
-
+                              
                     call stdlib_ztrtri('U',diag,n2,a(n),n,info)
                     if (info > 0) info = info + n1
                     if (info > 0) return
                     call stdlib_ztrmm('L','U','C',diag,n2,n1,cone,a(n),n,a(n1),n)
-
+                              
                  else
                    ! srpa for upper, normal and n is odd ( a(0:n-1,0:n2-1)
                    ! t1 -> a(n1+1,0), t2 -> a(n1,0), s -> a(0,0)
@@ -67545,12 +68154,12 @@ module stdlib_linalg_lapack_z
                     call stdlib_ztrtri('L',diag,n1,a(n2),n,info)
                     if (info > 0) return
                     call stdlib_ztrmm('L','L','C',diag,n1,n2,-cone,a(n2),n,a(0),n)
-
+                              
                     call stdlib_ztrtri('U',diag,n2,a(n1),n,info)
                     if (info > 0) info = info + n1
                     if (info > 0) return
                     call stdlib_ztrmm('R','U','N',diag,n1,n2,cone,a(n1),n,a(0),n)
-
+                              
                  end if
               else
                  ! n is odd and transr = 'c'
@@ -67609,7 +68218,7 @@ module stdlib_linalg_lapack_z
                     if (info > 0) info = info + k
                     if (info > 0) return
                     call stdlib_ztrmm('R','U','N',diag,k,k,cone,a(k),n + 1,a(0),n + 1)
-
+                              
                  end if
               else
                  ! n is even and transr = 'c'
@@ -67638,7 +68247,7 @@ module stdlib_linalg_lapack_z
                     if (info > 0) info = info + k
                     if (info > 0) return
                     call stdlib_ztrmm('L','L','N',diag,k,k,cone,a(k*k),k,a(0),k)
-
+                              
                  end if
               end if
            end if
@@ -67653,10 +68262,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(dp) :: ap(0:*),arf(0:*)
+           complex(dp),intent(out) :: ap(0:*)
+           complex(dp),intent(in) :: arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -67910,10 +68521,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n,lda
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n,lda
            ! .. array arguments ..
-           complex(dp) :: a(0:lda - 1,0:*),arf(0:*)
+           complex(dp),intent(out) :: a(0:lda - 1,0:*)
+           complex(dp),intent(in) :: arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -68175,14 +68788,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,side
-           integer(ilp) :: info,ldp,lds,ldvl,ldvr,m,mm,n
+           character,intent(in) :: howmny,side
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldp,lds,ldvl,ldvr,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: p(ldp,*),s(lds,*),vl(ldvl,*),vr(ldvr,*),work(*)
+           logical(lk),intent(in) :: select(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: p(ldp,*),s(lds,*)
+           complex(dp),intent(inout) :: vl(ldvl,*),vr(ldvr,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: compl,compr,ilall,ilback,ilbbad,ilcomp,lsa,lsb
            integer(ilp) :: i,ibeg,ieig,iend,ihwmny,im,iside,isrc,j,je,jr
@@ -68337,7 +68953,7 @@ module stdlib_linalg_lapack_z
                     scale = one
                     if (lsa) scale = (small/abs(sbeta))*min(anorm,big)
                     if (lsb) scale = max(scale, (small/abs1(salpha))*min(bnorm,big))
-
+                              
                     if (lsa .or. lsb) then
                        scale = min(scale,one/(safmin*max(one,abs(acoeff),abs1(bcoeff)) &
                                  ))
@@ -68466,7 +69082,7 @@ module stdlib_linalg_lapack_z
                     scale = one
                     if (lsa) scale = (small/abs(sbeta))*min(anorm,big)
                     if (lsb) scale = max(scale, (small/abs1(salpha))*min(bnorm,big))
-
+                              
                     if (lsa .or. lsb) then
                        scale = min(scale,one/(safmin*max(one,abs(acoeff),abs1(bcoeff)) &
                                  ))
@@ -68574,16 +69190,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: wantq,wantz
-           integer(ilp) :: info,j1,lda,ldb,ldq,ldz,n
+           logical(lk),intent(in) :: wantq,wantz
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: j1,lda,ldb,ldq,ldz,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: twenty = 2.0e+1_dp
            integer(ilp),parameter :: ldst = 2
            logical(lk),parameter :: wands = .true.
-
+           
            ! .. local scalars ..
            logical(lk) :: strong,weak
            integer(ilp) :: i,m
@@ -68685,9 +69303,9 @@ module stdlib_linalg_lapack_z
            b(j1 + 1,j1) = czero
            ! accumulate transformations into q and z if requested.
            if (wantz) call stdlib_zrot(n,z(1,j1),1,z(1,j1 + 1),1,cz,conjg(sz))
-
+                     
            if (wantq) call stdlib_zrot(n,q(1,j1),1,q(1,j1 + 1),1,cq,conjg(sq))
-
+                     
            ! exit with info = 0 if swap was successfully performed.
            return
            ! exit with info = 1 if swap was rejected.
@@ -68708,15 +69326,18 @@ module stdlib_linalg_lapack_z
      ! Q(in) * B(in) * Z(in)**H = Q(out) * B(out) * Z(out)**H
 
      subroutine stdlib_ztgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: wantq,wantz
-           integer(ilp) :: ifst,ilst,info,lda,ldb,ldq,ldz,n
+           logical(lk),intent(in) :: wantq,wantz
+           integer(ilp),intent(in) :: ifst,lda,ldb,ldq,ldz,n
+           integer(ilp),intent(inout) :: ilst
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: here
@@ -68752,7 +69373,7 @@ module stdlib_linalg_lapack_z
 10            continue
               ! swap with next one below
               call stdlib_ztgex2(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,here,info)
-
+                        
               if (info /= 0) then
                  ilst = here
                  return
@@ -68765,7 +69386,7 @@ module stdlib_linalg_lapack_z
 20            continue
               ! swap with next one above
               call stdlib_ztgex2(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,here,info)
-
+                        
               if (info /= 0) then
                  ilst = here
                  return
@@ -68803,19 +69424,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           logical(lk) :: wantq,wantz
-           integer(ilp) :: ijob,info,lda,ldb,ldq,ldz,liwork,lwork,m,n
-           real(dp) :: pl,pr
+           logical(lk),intent(in) :: wantq,wantz
+           integer(ilp),intent(in) :: ijob,lda,ldb,ldq,ldz,liwork,lwork,n
+           integer(ilp),intent(out) :: info,m
+           real(dp),intent(out) :: pl,pr
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           integer(ilp) :: iwork(*)
-           real(dp) :: dif(*)
-           complex(dp) :: a(lda,*),alpha(*),b(ldb,*),beta(*),q(ldq,*),work(*), &
-                     z(ldz,*)
+           logical(lk),intent(in) :: select(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: dif(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+                     
+           complex(dp),intent(out) :: alpha(*),beta(*),work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: idifjb = 3
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,swap,wantd,wantd1,wantd2,wantp
            integer(ilp) :: i,ierr,ijb,k,kase,ks,liwmin,lwmin,mn2,n1,n2
@@ -69124,18 +69747,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobq,jobu,jobv
-           integer(ilp) :: info,k,l,lda,ldb,ldq,ldu,ldv,m,n,ncycle,p
-           real(dp) :: tola,tolb
+           character,intent(in) :: jobq,jobu,jobv
+           integer(ilp),intent(out) :: info,ncycle
+           integer(ilp),intent(in) :: k,l,lda,ldb,ldq,ldu,ldv,m,n,p
+           real(dp),intent(in) :: tola,tolb
            ! .. array arguments ..
-           real(dp) :: alpha(*),beta(*)
-           complex(dp) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v(ldv,*),work(* &
-                     )
+           real(dp),intent(out) :: alpha(*),beta(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v( &
+                     ldv,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxit = 40
            real(dp),parameter :: hugenum = huge(zero)
-
+           
            ! .. local scalars ..
            logical(lk) :: initq,initu,initv,upper,wantq,wantu,wantv
            integer(ilp) :: i,j,kcycle
@@ -69214,7 +69839,7 @@ module stdlib_linalg_lapack_z
                     ! update (n-l+i)-th and (n-l+j)-th columns of matrices
                     ! a and b: a*q and b*q
                     call stdlib_zrot(min(k + l,m),a(1,n - l + j),1,a(1,n - l + i),1,csq,snq)
-
+                              
                     call stdlib_zrot(l,b(1,n - l + j),1,b(1,n - l + i),1,csq,snq)
                     if (upper) then
                        if (k + i <= m) a(k + i,n - l + j) = czero
@@ -69233,7 +69858,7 @@ module stdlib_linalg_lapack_z
                               csu,snu)
                     if (wantv) call stdlib_zrot(p,v(1,j),1,v(1,i),1,csv,snv)
                     if (wantq) call stdlib_zrot(n,q(1,n - l + j),1,q(1,n - l + i),1,csq,snq)
-
+                              
                  end do loop_10
               end do loop_20
               if (.not. upper) then
@@ -69312,17 +69937,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,job
-           integer(ilp) :: info,lda,ldb,ldvl,ldvr,lwork,m,mm,n
+           character,intent(in) :: howmny,job
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: lda,ldb,ldvl,ldvr,lwork,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           integer(ilp) :: iwork(*)
-           real(dp) :: dif(*),s(*)
-           complex(dp) :: a(lda,*),b(ldb,*),vl(ldvl,*),vr(ldvr,*),work(*)
+           logical(lk),intent(in) :: select(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: dif(*),s(*)
+           complex(dp),intent(in) :: a(lda,*),b(ldb,*),vl(ldvl,*),vr(ldvr,*)
+                     
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: idifjb = 3
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,somcon,wantbh,wantdf,wants
            integer(ilp) :: i,ierr,ifst,ilst,k,ks,lwmin,n1,n2
@@ -69487,16 +70115,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,m,n
-           real(dp) :: rdscal,rdsum,scale
+           character,intent(in) :: trans
+           integer(ilp),intent(in) :: ijob,lda,ldb,ldc,ldd,lde,ldf,m,n
+           integer(ilp),intent(out) :: info
+           real(dp),intent(inout) :: rdscal,rdsum
+           real(dp),intent(out) :: scale
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),c(ldc,*),d(ldd,*),e(lde,*),f(ldf, &
-                     *)
+           complex(dp),intent(in) :: a(lda,*),b(ldb,*),d(ldd,*),e(lde,*)
+           complex(dp),intent(inout) :: c(ldc,*),f(ldf,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: ldz = 2
-
+           
            ! .. local scalars ..
            logical(lk) :: notran
            integer(ilp) :: i,ierr,j,k
@@ -69567,15 +70197,15 @@ module stdlib_linalg_lapack_z
                        if (scaloc /= one) then
                           do k = 1,n
                              call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),c(1,k),1)
-
+                                       
                              call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),f(1,k),1)
-
+                                       
                           end do
                           scale = scale*scaloc
                        end if
                     else
                        call stdlib_zlatdf(ijob,ldz,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
-
+                                 
                     end if
                     ! unpack solution vector(s)
                     c(i,j) = rhs(1)
@@ -69588,9 +70218,9 @@ module stdlib_linalg_lapack_z
                     end if
                     if (j < n) then
                        call stdlib_zaxpy(n - j,rhs(2),b(j,j + 1),ldb,c(i,j + 1),ldc)
-
+                                 
                        call stdlib_zaxpy(n - j,rhs(2),e(j,j + 1),lde,f(i,j + 1),ldf)
-
+                                 
                     end if
                  end do loop_20
               end do loop_30
@@ -69618,9 +70248,9 @@ module stdlib_linalg_lapack_z
                     if (scaloc /= one) then
                        do k = 1,n
                           call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),c(1,k),1)
-
+                                    
                           call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),f(1,k),1)
-
+                                    
                        end do
                        scale = scale*scaloc
                     end if
@@ -69676,21 +70306,23 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trans
-           integer(ilp) :: ijob,info,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n
-           real(dp) :: dif,scale
+           character,intent(in) :: trans
+           integer(ilp),intent(in) :: ijob,lda,ldb,ldc,ldd,lde,ldf,lwork,m,n
+           integer(ilp),intent(out) :: info
+           real(dp),intent(out) :: dif,scale
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           complex(dp) :: a(lda,*),b(ldb,*),c(ldc,*),d(ldd,*),e(lde,*),f(ldf, &
-                     *),work(*)
+           integer(ilp),intent(out) :: iwork(*)
+           complex(dp),intent(in) :: a(lda,*),b(ldb,*),d(ldd,*),e(lde,*)
+           complex(dp),intent(inout) :: c(ldc,*),f(ldf,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
         ! replaced various illegal calls to stdlib_ccopy by calls to stdlib_claset.
         ! sven hammarling, 1/5/02.
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,notran
-           integer(ilp) :: i,ie,ifunc,iround,is,isolve,j,je,js,k,linfo,lwmin,mb,nb,p, &
-                      pq,q
+           integer(ilp) :: i,ie,ifunc,iround,is,isolve,j,je,js,k,linfo,lwmin,mb,nb, &
+                     p,pq,q
            real(dp) :: dscale,dsum,scale2,scaloc
            ! .. intrinsic functions ..
            intrinsic :: real,cmplx,max,sqrt
@@ -69855,15 +70487,15 @@ module stdlib_linalg_lapack_z
                        if (scaloc /= one) then
                           do k = 1,js - 1
                              call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),c(1,k),1)
-
+                                       
                              call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),f(1,k),1)
-
+                                       
                           end do
                           do k = js,je
                              call stdlib_zscal(is - 1,cmplx(scaloc,zero,KIND=dp),c(1,k),1)
-
+                                       
                              call stdlib_zscal(is - 1,cmplx(scaloc,zero,KIND=dp),f(1,k),1)
-
+                                       
                           end do
                           do k = js,je
                              call stdlib_zscal(m - ie,cmplx(scaloc,zero,KIND=dp),c(ie + 1,k), &
@@ -69873,9 +70505,9 @@ module stdlib_linalg_lapack_z
                           end do
                           do k = je + 1,n
                              call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),c(1,k),1)
-
+                                       
                              call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),f(1,k),1)
-
+                                       
                           end do
                           scale = scale*scaloc
                        end if
@@ -69941,27 +70573,27 @@ module stdlib_linalg_lapack_z
                     if (scaloc /= one) then
                        do k = 1,js - 1
                           call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),c(1,k),1)
-
+                                    
                           call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),f(1,k),1)
-
+                                    
                        end do
                        do k = js,je
                           call stdlib_zscal(is - 1,cmplx(scaloc,zero,KIND=dp),c(1,k),1)
-
+                                    
                           call stdlib_zscal(is - 1,cmplx(scaloc,zero,KIND=dp),f(1,k),1)
-
+                                    
                        end do
                        do k = js,je
                           call stdlib_zscal(m - ie,cmplx(scaloc,zero,KIND=dp),c(ie + 1,k),1)
-
+                                    
                           call stdlib_zscal(m - ie,cmplx(scaloc,zero,KIND=dp),f(ie + 1,k),1)
-
+                                    
                        end do
                        do k = je + 1,n
                           call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),c(1,k),1)
-
+                                    
                           call stdlib_zscal(m,cmplx(scaloc,zero,KIND=dp),f(1,k),1)
-
+                                    
                        end do
                        scale = scale*scaloc
                     end if
@@ -69969,10 +70601,10 @@ module stdlib_linalg_lapack_z
                     if (j > p + 2) then
                        call stdlib_zgemm('N','C',mb,js - 1,nb,cmplx(one,zero,KIND=dp),c(is, &
                         js),ldc,b(1,js),ldb,cmplx(one,zero,KIND=dp),f(is,1),ldf)
-
+                                  
                        call stdlib_zgemm('N','C',mb,js - 1,nb,cmplx(one,zero,KIND=dp),f(is, &
                         js),ldf,e(1,js),lde,cmplx(one,zero,KIND=dp),f(is,1),ldf)
-
+                                  
                     end if
                     if (i < p) then
                        call stdlib_zgemm('C','N',m - ie,nb,mb,cmplx(-one,zero,KIND=dp),a( &
@@ -70001,14 +70633,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: info,n
-           real(dp) :: rcond
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: ap(*),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: ap(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nounit,onenrm,upper
            character :: normin
@@ -70101,9 +70735,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,ldt,n,m,l,mb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldt,n,m,l,mb
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: t(ldt,*),work(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ib,lb,nb,iinfo
@@ -70141,7 +70777,7 @@ module stdlib_linalg_lapack_z
                  lb = nb - n + l - i + 1
               end if
               call stdlib_ztplqt2(ib,nb,lb,a(i,i),lda,b(i,1),ldb,t(1,i),ldt,iinfo)
-
+                        
            ! update by applying h**t to b(i+ib:m,:) from the right
               if (i + ib <= m) then
                  call stdlib_ztprfb('R','N','F','R',m - i - ib + 1,nb,ib,lb,b(i,1),ldb,t( &
@@ -70160,11 +70796,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,ldt,n,m,l
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldt,n,m,l
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: t(ldt,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,p,mp,np
            complex(dp) :: alpha
@@ -70275,10 +70913,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,mb,ldt
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,ldv,lda,ldb,m,n,l,mb,ldt
            ! .. array arguments ..
-           complex(dp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
+           complex(dp),intent(in) :: v(ldv,*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran
@@ -70390,10 +71031,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,ldv,lda,ldb,m,n,l,nb,ldt
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,ldv,lda,ldb,m,n,l,nb,ldt
            ! .. array arguments ..
-           complex(dp) :: v(ldv,*),a(lda,*),b(ldb,*),t(ldt,*),work(*)
+           complex(dp),intent(in) :: v(ldv,*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,right,tran,notran
@@ -70507,9 +71151,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,ldt,n,m,l,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldt,n,m,l,nb
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: t(ldt,*),work(*)
        ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ib,lb,mb,iinfo
@@ -70547,7 +71193,7 @@ module stdlib_linalg_lapack_z
                  lb = mb - m + l - i + 1
               end if
               call stdlib_ztpqrt2(mb,ib,lb,a(i,i),lda,b(1,i),ldb,t(1,i),ldt,iinfo)
-
+                        
            ! update by applying h**h to b(:,i+ib:n) from the left
               if (i + ib <= n) then
                  call stdlib_ztprfb('L','C','F','C',mb,n - i - ib + 1,ib,lb,b(1,i),ldb,t( &
@@ -70566,11 +71212,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldb,ldt,n,m,l
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldt,n,m,l
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(out) :: t(ldt,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,p,mp,np
            complex(dp) :: alpha
@@ -70615,7 +71263,7 @@ module stdlib_linalg_lapack_z
                     a(i,i + j) = a(i,i + j) + alpha*conjg(t(j,n))
                  end do
                  call stdlib_zgerc(p,n - i,alpha,b(1,i),1,t(1,n),1,b(1,i + 1),ldb)
-
+                           
               end if
            end do
            do i = 2,n
@@ -70637,7 +71285,7 @@ module stdlib_linalg_lapack_z
                         np,i),1)
               ! b1
               call stdlib_zgemv('C',m - l,i - 1,alpha,b,ldb,b(1,i),1,cone,t(1,i),1)
-
+                        
               ! t(1:i-1,i) := t(1:i-1,1:i-1) * t(1:i-1,i)
               call stdlib_ztrmv('U','N','N',i - 1,t,ldt,t(1,i),1)
               ! t(i,i) = tau(i)
@@ -70656,13 +71304,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: direct,side,storev,trans
-           integer(ilp) :: k,l,lda,ldb,ldt,ldv,ldwork,m,n
+           character,intent(in) :: direct,side,storev,trans
+           integer(ilp),intent(in) :: k,l,lda,ldb,ldt,ldv,ldwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),t(ldt,*),v(ldv,*),work(ldwork,*)
-
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(in) :: t(ldt,*),v(ldv,*)
+           complex(dp),intent(out) :: work(ldwork,*)
         ! ==========================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,mp,np,kp
            logical(lk) :: left,forward,column,right,backward,row
@@ -70720,9 +71369,9 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_ztrmm('L','U','C','N',l,n,cone,v(mp,1),ldv,work,ldwork)
-
+                        
               call stdlib_zgemm('C','N',l,n,m - l,cone,v,ldv,b,ldb,cone,work,ldwork)
-
+                        
               call stdlib_zgemm('C','N',k - l,n,m,cone,v(1,kp),ldv,b,ldb,czero,work( &
                         kp,1),ldwork)
               do j = 1,n
@@ -70737,11 +71386,11 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_zgemm('N','N',m - l,n,k,-cone,v,ldv,work,ldwork,cone,b,ldb)
-
+                        
               call stdlib_zgemm('N','N',l,n,k - l,-cone,v(mp,kp),ldv,work(kp,1), &
                         ldwork,cone,b(mp,1),ldb)
               call stdlib_ztrmm('L','U','N','N',l,n,cone,v(mp,1),ldv,work,ldwork)
-
+                        
               do j = 1,n
                  do i = 1,l
                     b(m - l + i,j) = b(m - l + i,j) - work(i,j)
@@ -70765,9 +71414,9 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_ztrmm('R','U','N','N',m,l,cone,v(np,1),ldv,work,ldwork)
-
+                        
               call stdlib_zgemm('N','N',m,l,n - l,cone,b,ldb,v,ldv,cone,work,ldwork)
-
+                        
               call stdlib_zgemm('N','N',m,k - l,n,cone,b,ldb,v(1,kp),ldv,czero,work( &
                         1,kp),ldwork)
               do j = 1,k
@@ -70782,11 +71431,11 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_zgemm('N','C',m,n - l,k,-cone,work,ldwork,v,ldv,cone,b,ldb)
-
+                        
               call stdlib_zgemm('N','C',m,l,k - l,-cone,work(1,kp),ldwork,v(np,kp), &
                         ldv,cone,b(1,np),ldb)
               call stdlib_ztrmm('R','U','C','N',m,l,cone,v(np,1),ldv,work,ldwork)
-
+                        
               do j = 1,l
                  do i = 1,m
                     b(i,n - l + j) = b(i,n - l + j) - work(i,j)
@@ -70815,7 +71464,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('C','N',l,n,m - l,cone,v(mp,kp),ldv,b(mp,1),ldb, &
                         cone,work(kp,1),ldwork)
               call stdlib_zgemm('C','N',k - l,n,m,cone,v,ldv,b,ldb,czero,work,ldwork)
-
+                        
               do j = 1,n
                  do i = 1,k
                     work(i,j) = work(i,j) + a(i,j)
@@ -70830,7 +71479,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('N','N',m - l,n,k,-cone,v(mp,1),ldv,work,ldwork,cone, &
                         b(mp,1),ldb)
               call stdlib_zgemm('N','N',l,n,k - l,-cone,v,ldv,work,ldwork,cone,b,ldb)
-
+                        
               call stdlib_ztrmm('L','L','N','N',l,n,cone,v(1,kp),ldv,work(kp,1), &
                         ldwork)
               do j = 1,n
@@ -70860,7 +71509,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('N','N',m,l,n - l,cone,b(1,np),ldb,v(np,kp),ldv, &
                         cone,work(1,kp),ldwork)
               call stdlib_zgemm('N','N',m,k - l,n,cone,b,ldb,v,ldv,czero,work,ldwork)
-
+                        
               do j = 1,k
                  do i = 1,m
                     work(i,j) = work(i,j) + a(i,j)
@@ -70875,7 +71524,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('N','C',m,n - l,k,-cone,work,ldwork,v(np,1),ldv,cone, &
                         b(1,np),ldb)
               call stdlib_zgemm('N','C',m,l,k - l,-cone,work,ldwork,v,ldv,cone,b,ldb)
-
+                        
               call stdlib_ztrmm('R','L','C','N',m,l,cone,v(1,kp),ldv,work(1,kp), &
                         ldwork)
               do j = 1,l
@@ -70901,9 +71550,9 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_ztrmm('L','L','N','N',l,n,cone,v(1,mp),ldv,work,ldb)
-
+                        
               call stdlib_zgemm('N','N',l,n,m - l,cone,v,ldv,b,ldb,cone,work,ldwork)
-
+                        
               call stdlib_zgemm('N','N',k - l,n,m,cone,v(kp,1),ldv,b,ldb,czero,work( &
                         kp,1),ldwork)
               do j = 1,n
@@ -70918,11 +71567,11 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_zgemm('C','N',m - l,n,k,-cone,v,ldv,work,ldwork,cone,b,ldb)
-
+                        
               call stdlib_zgemm('C','N',l,n,k - l,-cone,v(kp,mp),ldv,work(kp,1), &
                         ldwork,cone,b(mp,1),ldb)
               call stdlib_ztrmm('L','L','C','N',l,n,cone,v(1,mp),ldv,work,ldwork)
-
+                        
               do j = 1,n
                  do i = 1,l
                     b(m - l + i,j) = b(m - l + i,j) - work(i,j)
@@ -70945,9 +71594,9 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_ztrmm('R','L','C','N',m,l,cone,v(1,np),ldv,work,ldwork)
-
+                        
               call stdlib_zgemm('N','C',m,l,n - l,cone,b,ldb,v,ldv,cone,work,ldwork)
-
+                        
               call stdlib_zgemm('N','C',m,k - l,n,cone,b,ldb,v(kp,1),ldv,czero,work( &
                         1,kp),ldwork)
               do j = 1,k
@@ -70962,11 +71611,11 @@ module stdlib_linalg_lapack_z
                  end do
               end do
               call stdlib_zgemm('N','N',m,n - l,k,-cone,work,ldwork,v,ldv,cone,b,ldb)
-
+                        
               call stdlib_zgemm('N','N',m,l,k - l,-cone,work(1,kp),ldwork,v(kp,np), &
                         ldv,cone,b(1,np),ldb)
               call stdlib_ztrmm('R','L','N','N',m,l,cone,v(1,np),ldv,work,ldwork)
-
+                        
               do j = 1,l
                  do i = 1,m
                     b(i,n - l + j) = b(i,n - l + j) - work(i,j)
@@ -70994,7 +71643,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('N','N',l,n,m - l,cone,v(kp,mp),ldv,b(mp,1),ldb, &
                         cone,work(kp,1),ldwork)
               call stdlib_zgemm('N','N',k - l,n,m,cone,v,ldv,b,ldb,czero,work,ldwork)
-
+                        
               do j = 1,n
                  do i = 1,k
                     work(i,j) = work(i,j) + a(i,j)
@@ -71009,7 +71658,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('C','N',m - l,n,k,-cone,v(1,mp),ldv,work,ldwork,cone, &
                         b(mp,1),ldb)
               call stdlib_zgemm('C','N',l,n,k - l,-cone,v,ldv,work,ldwork,cone,b,ldb)
-
+                        
               call stdlib_ztrmm('L','U','C','N',l,n,cone,v(kp,1),ldv,work(kp,1), &
                         ldwork)
               do j = 1,n
@@ -71038,7 +71687,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('N','C',m,l,n - l,cone,b(1,np),ldb,v(kp,np),ldv, &
                         cone,work(1,kp),ldwork)
               call stdlib_zgemm('N','C',m,k - l,n,cone,b,ldb,v,ldv,czero,work,ldwork)
-
+                        
               do j = 1,k
                  do i = 1,m
                     work(i,j) = work(i,j) + a(i,j)
@@ -71053,7 +71702,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zgemm('N','N',m,n - l,k,-cone,work,ldwork,v(1,np),ldv,cone, &
                         b(1,np),ldb)
               call stdlib_zgemm('N','N',m,l,k - l,-cone,work,ldwork,v,ldv,cone,b,ldb)
-
+                        
               call stdlib_ztrmm('R','U','N','N',m,l,cone,v(kp,1),ldv,work(1,kp), &
                         ldwork)
               do j = 1,l
@@ -71078,13 +71727,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,ldb,ldx,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: ap(*),b(ldb,*),work(*),x(ldx,*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: ap(*),b(ldb,*),x(ldx,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: notran,nounit,upper
            character :: transn,transt
@@ -71321,12 +71972,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: diag,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(dp) :: ap(*)
+           complex(dp),intent(inout) :: ap(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nounit,upper
            integer(ilp) :: j,jc,jclast,jj
@@ -71413,12 +72065,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,ldb,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: ap(*),b(ldb,*)
+           complex(dp),intent(in) :: ap(*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nounit,upper
            integer(ilp) :: j,jc
@@ -71481,10 +72135,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n
            ! .. array arguments ..
-           complex(dp) :: ap(0:*),arf(0:*)
+           complex(dp),intent(in) :: ap(0:*)
+           complex(dp),intent(out) :: arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -71737,10 +72393,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n,lda
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n,lda
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),ap(*)
+           complex(dp),intent(out) :: a(lda,*)
+           complex(dp),intent(in) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -71793,14 +72451,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,norm,uplo
-           integer(ilp) :: info,lda,n
-           real(dp) :: rcond
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
+           real(dp),intent(out) :: rcond
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(dp) :: a(lda,*),work(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nounit,onenrm,upper
            character :: normin
@@ -71907,17 +72567,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,side
-           integer(ilp) :: info,ldt,ldvl,ldvr,m,mm,n
+           character,intent(in) :: howmny,side
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldt,ldvl,ldvr,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
+           logical(lk),intent(in) :: select(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            complex(dp),parameter :: cmzero = (0.0e+0_dp,0.0e+0_dp)
            complex(dp),parameter :: cmone = (1.0e+0_dp,0.0e+0_dp)
-
+           
            ! .. local scalars ..
            logical(lk) :: allv,bothv,leftv,over,rightv,somev
            integer(ilp) :: i,ii,is,j,k,ki
@@ -72105,17 +72767,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,side
-           integer(ilp) :: info,ldt,ldvl,ldvr,lwork,lrwork,m,mm,n
+           character,intent(in) :: howmny,side
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldt,ldvl,ldvr,lwork,lrwork,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(*)
+           logical(lk),intent(in) :: select(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(inout) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmin = 8
            integer(ilp),parameter :: nbmax = 128
-
+           
            ! .. local scalars ..
            logical(lk) :: allv,bothv,leftv,lquery,over,rightv,somev
            integer(ilp) :: i,ii,is,j,k,ki,iv,maxwrk,nb
@@ -72387,10 +73051,11 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq
-           integer(ilp) :: ifst,ilst,info,ldq,ldt,n
+           character,intent(in) :: compq
+           integer(ilp),intent(in) :: ifst,ilst,ldq,ldt,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: q(ldq,*),t(ldt,*)
+           complex(dp),intent(inout) :: q(ldq,*),t(ldt,*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: wantq
@@ -72441,7 +73106,7 @@ module stdlib_linalg_lapack_z
               call stdlib_zlartg(t(k,k + 1),t22 - t11,cs,sn,temp)
               ! apply transformation to the matrix t.
               if (k + 2 <= n) call stdlib_zrot(n - k - 1,t(k,k + 2),ldt,t(k + 1,k + 2),ldt,cs,sn)
-
+                        
               call stdlib_zrot(k - 1,t(1,k),1,t(1,k + 1),1,cs,conjg(sn))
               t(k,k) = t22
               t(k + 1,k + 1) = t11
@@ -72466,13 +73131,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,lda,ldb,ldx,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(dp) :: berr(*),ferr(*),rwork(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(*),x(ldx,*)
+           real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(dp),intent(in) :: a(lda,*),b(ldb,*),x(ldx,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: notran,nounit,upper
            character :: transn,transt
@@ -72705,14 +73372,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: compq,job
-           integer(ilp) :: info,ldq,ldt,lwork,m,n
-           real(dp) :: s,sep
+           character,intent(in) :: compq,job
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldq,ldt,lwork,n
+           real(dp),intent(out) :: s,sep
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           complex(dp) :: q(ldq,*),t(ldt,*),w(*),work(*)
+           logical(lk),intent(in) :: select(*)
+           complex(dp),intent(inout) :: q(ldq,*),t(ldt,*)
+           complex(dp),intent(out) :: w(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,wantbh,wantq,wants,wantsp
            integer(ilp) :: ierr,k,kase,ks,lwmin,n1,n2,nn
@@ -72836,14 +73505,16 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: howmny,job
-           integer(ilp) :: info,ldt,ldvl,ldvr,ldwork,m,mm,n
+           character,intent(in) :: howmny,job
+           integer(ilp),intent(out) :: info,m
+           integer(ilp),intent(in) :: ldt,ldvl,ldvr,ldwork,mm,n
            ! .. array arguments ..
-           logical(lk) :: select(*)
-           real(dp) :: rwork(*),s(*),sep(*)
-           complex(dp) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*),work(ldwork,*)
+           logical(lk),intent(in) :: select(*)
+           real(dp),intent(out) :: rwork(*),s(*),sep(*)
+           complex(dp),intent(in) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*)
+           complex(dp),intent(out) :: work(ldwork,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: somcon,wantbh,wants,wantsp
            character :: normin
@@ -72982,18 +73653,20 @@ module stdlib_linalg_lapack_z
      ! overflow in X.
 
      subroutine stdlib_ztrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: trana,tranb
-           integer(ilp) :: info,isgn,lda,ldb,ldc,m,n
-           real(dp) :: scale
+           character,intent(in) :: trana,tranb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: isgn,lda,ldb,ldc,m,n
+           real(dp),intent(out) :: scale
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           complex(dp),intent(in) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: notrna,notrnb
            integer(ilp) :: j,k,l
@@ -73206,12 +73879,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: diag,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nounit,upper
            integer(ilp) :: j
@@ -73247,7 +73921,7 @@ module stdlib_linalg_lapack_z
                  end if
                  ! compute elements 1:j-1 of j-th column.
                  call stdlib_ztrmv('UPPER','NO TRANSPOSE',diag,j - 1,a,lda,a(1,j),1)
-
+                           
                  call stdlib_zscal(j - 1,ajj,a(1,j),1)
               end do
            else
@@ -73279,12 +73953,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,uplo
-           integer(ilp) :: info,lda,n
+           character,intent(in) :: diag,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nounit,upper
            integer(ilp) :: j,jb,nb,nn
@@ -73366,12 +74041,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: diag,trans,uplo
-           integer(ilp) :: info,lda,ldb,n,nrhs
+           character,intent(in) :: diag,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),b(ldb,*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: nounit
            ! .. intrinsic functions ..
@@ -73422,10 +74099,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: transr,uplo
-           integer(ilp) :: info,n,lda
+           character,intent(in) :: transr,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n,lda
            ! .. array arguments ..
-           complex(dp) :: a(0:lda - 1,0:*),arf(0:*)
+           complex(dp),intent(in) :: a(0:lda - 1,0:*)
+           complex(dp),intent(out) :: arf(0:*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -73669,10 +74348,12 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,n,lda
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: n,lda
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),ap(*)
+           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(out) :: ap(*)
         ! =====================================================================
            ! .. parameters ..
            ! .. local scalars ..
@@ -73725,11 +74406,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iws,ki,kk,ldwork,lwkmin,lwkopt,m1,mu,nb,nbmin, &
@@ -73814,7 +74497,7 @@ module stdlib_linalg_lapack_z
                     ! apply h to a(1:i-1,i:n) from the right
                     call stdlib_zlarzb('RIGHT','NO TRANSPOSE','BACKWARD','ROWWISE',i - 1,n - i + 1, &
                      ib,n - m,a(i,m1),lda,work,ldwork,a(1,i),lda,work(ib + 1),ldwork)
-
+                               
                  end if
               end do
               mu = i + nb - 1
@@ -73850,16 +74533,19 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: signs,trans
-           integer(ilp) :: info,ldx11,ldx12,ldx21,ldx22,lwork,m,p,q
+           character,intent(in) :: signs,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldx11,ldx12,ldx21,ldx22,lwork,m,p,q
            ! .. array arguments ..
-           real(dp) :: phi(*),theta(*)
-           complex(dp) :: taup1(*),taup2(*),tauq1(*),tauq2(*),work(*),x11(ldx11,* &
-                     ),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
+           real(dp),intent(out) :: phi(*),theta(*)
+           complex(dp),intent(out) :: taup1(*),taup2(*),tauq1(*),tauq2(*),work(*)
+                     
+           complex(dp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22( &
+                     ldx22,*)
         ! ====================================================================
            ! .. parameters ..
            real(dp),parameter :: realone = 1.0_dp
-
+           
            ! .. local scalars ..
            logical(lk) :: colmajor,lquery
            integer(ilp) :: i,lworkmin,lworkopt
@@ -73994,7 +74680,7 @@ module stdlib_linalg_lapack_z
                        call stdlib_zlarfgp(m - q - i + 1,x12(i,i),x12(i,i),ldx12,tauq2(i))
                     else
                        call stdlib_zlarfgp(m - q - i + 1,x12(i,i),x12(i,i + 1),ldx12,tauq2(i))
-
+                                 
                     end if
                  end if
                  x12(i,i) = cone
@@ -74018,7 +74704,7 @@ module stdlib_linalg_lapack_z
               ! reduce columns q + 1, ..., p of x12, x22
               do i = q + 1,p
                  call stdlib_zscal(m - q - i + 1,cmplx(-z1*z4,0.0_dp,KIND=dp),x12(i,i),ldx12)
-
+                           
                  call stdlib_zlacgv(m - q - i + 1,x12(i,i),ldx12)
                  if (i >= m - q) then
                     call stdlib_zlarfgp(m - q - i + 1,x12(i,i),x12(i,i),ldx12,tauq2(i))
@@ -74037,10 +74723,10 @@ module stdlib_linalg_lapack_z
               ! reduce columns p + 1, ..., m - q of x12, x22
               do i = 1,m - p - q
                  call stdlib_zscal(m - p - q - i + 1,cmplx(z2*z4,0.0_dp,KIND=dp),x22(q + i,p + i),ldx22)
-
+                           
                  call stdlib_zlacgv(m - p - q - i + 1,x22(q + i,p + i),ldx22)
                  call stdlib_zlarfgp(m - p - q - i + 1,x22(q + i,p + i),x22(q + i,p + i + 1),ldx22,tauq2(p + i))
-
+                           
                  x22(q + i,p + i) = cone
                  call stdlib_zlarf('R',m - p - q - i,m - p - q - i + 1,x22(q + i,p + i),ldx22,tauq2(p + i),x22( &
                            q + i + 1,p + i),ldx22,work)
@@ -74059,7 +74745,7 @@ module stdlib_linalg_lapack_z
                  end if
                  if (i == 1) then
                     call stdlib_zscal(m - p - i + 1,cmplx(z2,0.0_dp,KIND=dp),x21(i,i),ldx21)
-
+                              
                  else
                     call stdlib_zscal(m - p - i + 1,cmplx(z2*cos(phi(i - 1)),0.0_dp,KIND=dp),x21(i,i), &
                                ldx21)
@@ -74134,9 +74820,9 @@ module stdlib_linalg_lapack_z
               ! reduce columns p + 1, ..., m - q of x12, x22
               do i = 1,m - p - q
                  call stdlib_zscal(m - p - q - i + 1,cmplx(z2*z4,0.0_dp,KIND=dp),x22(p + i,q + i),1)
-
+                           
                  call stdlib_zlarfgp(m - p - q - i + 1,x22(p + i,q + i),x22(p + i + 1,q + i),1,tauq2(p + i))
-
+                           
                  x22(p + i,q + i) = cone
                  if (m - p - q /= i) then
                     call stdlib_zlarf('L',m - p - q - i + 1,m - p - q - i,x22(p + i,q + i),1,conjg(tauq2(p + i)), &
@@ -74169,15 +74855,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lwork,m,p,q,ldx11,ldx21
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lwork,m,p,q,ldx11,ldx21
            ! .. array arguments ..
-           real(dp) :: phi(*),theta(*)
-           complex(dp) :: taup1(*),taup2(*),tauq1(*),work(*),x11(ldx11,*),x21(ldx21,*)
+           real(dp),intent(out) :: phi(*),theta(*)
+           complex(dp),intent(out) :: taup1(*),taup2(*),tauq1(*),work(*)
+           complex(dp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: c,s
-           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin,lworkopt
+           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin, &
+                     lworkopt
            logical(lk) :: lquery
            ! .. intrinsic function ..
            intrinsic :: atan2,cos,max,sin,sqrt
@@ -74271,15 +74960,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lwork,m,p,q,ldx11,ldx21
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lwork,m,p,q,ldx11,ldx21
            ! .. array arguments ..
-           real(dp) :: phi(*),theta(*)
-           complex(dp) :: taup1(*),taup2(*),tauq1(*),work(*),x11(ldx11,*),x21(ldx21,*)
+           real(dp),intent(out) :: phi(*),theta(*)
+           complex(dp),intent(out) :: taup1(*),taup2(*),tauq1(*),work(*)
+           complex(dp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: c,s
-           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin,lworkopt
+           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin, &
+                     lworkopt
            logical(lk) :: lquery
            ! .. intrinsic function ..
            intrinsic :: atan2,cos,max,sin,sqrt
@@ -74383,15 +75075,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lwork,m,p,q,ldx11,ldx21
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lwork,m,p,q,ldx11,ldx21
            ! .. array arguments ..
-           real(dp) :: phi(*),theta(*)
-           complex(dp) :: taup1(*),taup2(*),tauq1(*),work(*),x11(ldx11,*),x21(ldx21,*)
+           real(dp),intent(out) :: phi(*),theta(*)
+           complex(dp),intent(out) :: taup1(*),taup2(*),tauq1(*),work(*)
+           complex(dp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: c,s
-           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin,lworkopt
+           integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin, &
+                     lworkopt
            logical(lk) :: lquery
            ! .. intrinsic function ..
            intrinsic :: atan2,cos,max,sin,sqrt
@@ -74494,13 +75189,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lwork,m,p,q,ldx11,ldx21
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lwork,m,p,q,ldx11,ldx21
            ! .. array arguments ..
-           real(dp) :: phi(*),theta(*)
-           complex(dp) :: phantom(*),taup1(*),taup2(*),tauq1(*),work(*),x11(ldx11,*),x21( &
-                     ldx21,*)
+           real(dp),intent(out) :: phi(*),theta(*)
+           complex(dp),intent(out) :: phantom(*),taup1(*),taup2(*),tauq1(*),work(*)
+           complex(dp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
-
+           
            ! .. local scalars ..
            real(dp) :: c,s
            integer(ilp) :: childinfo,i,ilarf,iorbdb5,j,llarf,lorbdb5,lworkmin, &
@@ -74555,7 +75251,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlarfgp(p,phantom(1),phantom(2),1,taup1(1))
                  call stdlib_zlarfgp(m - p,phantom(p + 1),phantom(p + 2),1,taup2(1))
                  theta(i) = atan2(real(phantom(1),KIND=dp),real(phantom(p + 1),KIND=dp))
-
+                           
                  c = cos(theta(i))
                  s = sin(theta(i))
                  phantom(1) = cone
@@ -74611,7 +75307,7 @@ module stdlib_linalg_lapack_z
            do i = p + 1,q
               call stdlib_zlacgv(q - i + 1,x21(m - q + i - p,i),ldx21)
               call stdlib_zlarfgp(q - i + 1,x21(m - q + i - p,i),x21(m - q + i - p,i + 1),ldx21,tauq1(i))
-
+                        
               x21(m - q + i - p,i) = cone
               call stdlib_zlarf('R',q - i,q - i + 1,x21(m - q + i - p,i),ldx21,tauq1(i),x21(m - q + i - p + 1,i) &
                         ,ldx21,work(ilarf))
@@ -74638,11 +75334,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx1,incx2,info,ldq1,ldq2,lwork,m1,m2,n
+           integer(ilp),intent(in) :: incx1,incx2,ldq1,ldq2,lwork,m1,m2,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: q1(ldq1,*),q2(ldq2,*),work(*),x1(*),x2(*)
+           complex(dp),intent(in) :: q1(ldq1,*),q2(ldq2,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x1(*),x2(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: childinfo,i,j
            ! .. intrinsic function ..
@@ -74732,15 +75431,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx1,incx2,info,ldq1,ldq2,lwork,m1,m2,n
+           integer(ilp),intent(in) :: incx1,incx2,ldq1,ldq2,lwork,m1,m2,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: q1(ldq1,*),q2(ldq2,*),work(*),x1(*),x2(*)
+           complex(dp),intent(in) :: q1(ldq1,*),q2(ldq2,*)
+           complex(dp),intent(out) :: work(*)
+           complex(dp),intent(inout) :: x1(*),x2(*)
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: alphasq = 0.01_dp
            real(dp),parameter :: realone = 1.0_dp
            real(dp),parameter :: realzero = 0.0_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i
            real(dp) :: normsq1,normsq2,scl1,scl2,ssq1,ssq2
@@ -74861,17 +75563,20 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobu1,jobu2,jobv1t,jobv2t,signs,trans
-           integer(ilp) :: info,ldu1,ldu2,ldv1t,ldv2t,ldx11,ldx12,ldx21,ldx22,lrwork, &
-                     lwork,m,p,q
+           character,intent(in) :: jobu1,jobu2,jobv1t,jobv2t,signs,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldu1,ldu2,ldv1t,ldv2t,ldx11,ldx12,ldx21,ldx22, &
+                     lrwork,lwork,m,p,q
            ! .. array arguments ..
-           integer(ilp) :: iwork(*)
-           real(dp) :: theta(*)
-           real(dp) :: rwork(*)
-           complex(dp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*),work(*) &
-                     ,x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(dp),intent(out) :: theta(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(dp),intent(out) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t, &
+                     *),work(*)
+           complex(dp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22( &
+                     ldx22,*)
         ! ===================================================================
-
+           
            ! .. local scalars ..
            character :: transt,signst
            integer(ilp) :: childinfo,i,ib11d,ib11e,ib12d,ib12e,ib21d,ib21e,ib22d,ib22e, &
@@ -75082,7 +75787,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlacpy('L',m - q,p,x12,ldx12,v2t,ldv2t)
                  if (m > p + q) then
                     call stdlib_zlacpy('L',m - p - q,m - p - q,x22(p1,q1),ldx22,v2t(p + 1,p + 1),ldv2t)
-
+                              
                  end if
                  call stdlib_zungqr(m - q,m - q,m - q,v2t,ldv2t,work(itauq2),work(iorgqr), &
                            lorgqrwork,info)
@@ -75149,21 +75854,24 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: jobu1,jobu2,jobv1t
-           integer(ilp) :: info,ldu1,ldu2,ldv1t,lwork,ldx11,ldx21,m,p,q
-           integer(ilp) :: lrwork,lrworkmin,lrworkopt
+           character,intent(in) :: jobu1,jobu2,jobv1t
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldu1,ldu2,ldv1t,lwork,ldx11,ldx21,m,p,q
+           integer(ilp),intent(in) :: lrwork
+           integer(ilp) :: lrworkmin,lrworkopt
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           real(dp) :: theta(*)
-           complex(dp) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),work(*),x11(ldx11,*),x21(ldx21,*)
-
-           integer(ilp) :: iwork(*)
+           real(dp),intent(out) :: rwork(*)
+           real(dp),intent(out) :: theta(*)
+           complex(dp),intent(out) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),work(*)
+           complex(dp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
+           integer(ilp),intent(out) :: iwork(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: childinfo,i,ib11d,ib11e,ib12d,ib12e,ib21d,ib21e,ib22d,ib22e, &
-           ibbcsd,iorbdb,iorglq,iorgqr,iphi,itaup1,itaup2,itauq1,j,lbbcsd,lorbdb,lorglq, &
-                     lorglqmin,lorglqopt,lorgqr,lorgqrmin,lorgqropt,lworkmin,lworkopt,r
+           ibbcsd,iorbdb,iorglq,iorgqr,iphi,itaup1,itaup2,itauq1,j,lbbcsd,lorbdb, &
+           lorglq,lorglqmin,lorglqopt,lorgqr,lorgqrmin,lorgqropt,lworkmin,lworkopt, &
+                     r
            logical(lk) :: lquery,wantu1,wantu2,wantv1t
            ! .. local arrays ..
            real(dp) :: dum(1)
@@ -75258,13 +75966,13 @@ module stdlib_linalg_lapack_z
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_zungqr(m - p,m - p,q,u2,ldu2,cdum,work(1),-1,childinfo)
-
+                              
                     lorgqrmin = max(lorgqrmin,m - p)
                     lorgqropt = max(lorgqropt,int(work(1),KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_zunglq(q - 1,q - 1,q - 1,v1t,ldv1t,cdum,work(1),-1,childinfo)
-
+                              
                     lorglqmin = max(lorglqmin,q - 1)
                     lorglqopt = max(lorglqopt,int(work(1),KIND=ilp))
                  end if
@@ -75284,7 +75992,7 @@ module stdlib_linalg_lapack_z
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_zungqr(m - p,m - p,q,u2,ldu2,cdum,work(1),-1,childinfo)
-
+                              
                     lorgqrmin = max(lorgqrmin,m - p)
                     lorgqropt = max(lorgqropt,int(work(1),KIND=ilp))
                  end if
@@ -75332,7 +76040,7 @@ module stdlib_linalg_lapack_z
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_zungqr(m - p,m - p,m - q,u2,ldu2,cdum,work(1),-1,childinfo)
-
+                              
                     lorgqrmin = max(lorgqrmin,m - p)
                     lorgqropt = max(lorgqropt,int(work(1),KIND=ilp))
                  end if
@@ -75532,7 +76240,7 @@ module stdlib_linalg_lapack_z
                  call stdlib_zlacpy('U',p - (m - q),q - (m - q),x11(m - q + 1,m - q + 1),ldx11,v1t(m - q + 1,m - q + &
                            1),ldv1t)
                  call stdlib_zlacpy('U',-p + q,q - p,x21(m - q + 1,p + 1),ldx21,v1t(p + 1,p + 1),ldv1t)
-
+                           
                  call stdlib_zunglq(q,q,q,v1t,ldv1t,work(itauq1),work(iorglq),lorglq, &
                            childinfo)
               end if
@@ -75572,11 +76280,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,ii,j,l
            ! .. intrinsic functions ..
@@ -75611,7 +76322,7 @@ module stdlib_linalg_lapack_z
               ! apply h(i) to a(1:m-k+i,1:n-k+i) from the left
               a(m - n + ii,ii) = cone
               call stdlib_zlarf('LEFT',m - n + ii,ii - 1,a(1,ii),1,tau(i),a,lda,work)
-
+                        
               call stdlib_zscal(m - n + ii - 1,-tau(i),a(1,ii),1)
               a(m - n + ii,ii) = cone - tau(i)
               ! set a(m-k+i+1:m,n-k+i) to czero
@@ -75633,11 +76344,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,l
            ! .. intrinsic functions ..
@@ -75706,12 +76420,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: vect
-           integer(ilp) :: info,k,lda,lwork,m,n
+           character,intent(in) :: vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,wantq
            integer(ilp) :: i,iinfo,j,lwkopt,mn
@@ -75795,7 +76512,7 @@ module stdlib_linalg_lapack_z
                  if (m > 1) then
                     ! form q(2:m,2:m)
                     call stdlib_zungqr(m - 1,m - 1,m - 1,a(2,2),lda,tau,work,lwork,iinfo)
-
+                              
                  end if
               end if
            else
@@ -75822,7 +76539,7 @@ module stdlib_linalg_lapack_z
                  if (n > 1) then
                     ! form p**h(2:n,2:n)
                     call stdlib_zunglq(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
-
+                              
                  end if
               end if
            end if
@@ -75840,11 +76557,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: ihi,ilo,info,lda,lwork,n
+           integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,iinfo,j,lwkopt,nb,nh
@@ -75928,11 +76648,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,j,l
            ! .. intrinsic functions ..
@@ -75996,11 +76719,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iinfo,iws,j,ki,kk,l,ldwork,lwkopt,nb,nbmin,nx
@@ -76109,11 +76835,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iinfo,iws,j,kk,l,ldwork,lwkopt,nb,nbmin,nx
@@ -76199,7 +76928,7 @@ module stdlib_linalg_lapack_z
                     ! apply h to a(1:m-k+i+ib-1,1:n-k+i-1) from the left
                     call stdlib_zlarfb('LEFT','NO TRANSPOSE','BACKWARD','COLUMNWISE',m - k + i + ib - &
                     1,n - k + i - 1,ib,a(1,n - k + i),lda,work,ldwork,a,lda,work(ib + 1),ldwork)
-
+                              
                  end if
                  ! apply h to rows 1:m-k+i+ib-1 of current block
                  call stdlib_zung2l(m - k + i + ib - 1,ib,ib,a(1,n - k + i),lda,tau(i),work,iinfo &
@@ -76227,11 +76956,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iinfo,iws,j,ki,kk,l,ldwork,lwkopt,nb,nbmin,nx
@@ -76340,11 +77072,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,ii,j,l
            ! .. intrinsic functions ..
@@ -76405,11 +77140,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,k,lda,lwork,m,n
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: i,ib,ii,iinfo,iws,j,kk,l,ldwork,lwkopt,nb,nbmin,nx
@@ -76496,11 +77234,11 @@ module stdlib_linalg_lapack_z
                     ! apply h**h to a(1:m-k+i-1,1:n-k+i+ib-1) from the right
                     call stdlib_zlarfb('RIGHT','CONJUGATE TRANSPOSE','BACKWARD','ROWWISE',ii - &
                     1,n - k + i + ib - 1,ib,a(ii,1),lda,work,ldwork,a,lda,work(ib + 1),ldwork)
-
+                              
                  end if
                  ! apply h**h to columns 1:n-k+i+ib-1 of current block
                  call stdlib_zungr2(ib,n - k + i + ib - 1,ib,a(ii,1),lda,tau(i),work,iinfo)
-
+                           
                  ! set columns n-k+i+ib:n of current block to czero
                  do l = n - k + i + ib,n
                     do j = ii,ii + ib - 1
@@ -76524,12 +77262,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,lda,lwork,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,lwork,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),tau(*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: tau(*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery,upper
            integer(ilp) :: i,iinfo,j,lwkopt,nb
@@ -76604,7 +77345,7 @@ module stdlib_linalg_lapack_z
               if (n > 1) then
                  ! generate q(2:n,2:n)
                  call stdlib_zungqr(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
-
+                           
               end if
            end if
            work(1) = lwkopt
@@ -76622,11 +77363,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,lwork,m,n,mb,nb
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(ldt,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: t(ldt,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
            integer(ilp) :: iinfo,ldc,lworkopt,lc,lw,nblocal,j
@@ -76727,15 +77471,18 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,lwork,m,n,mb,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,lwork,m,n,mb,nb
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),t(ldt,*),work(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: t(ldt,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: lquery
-           integer(ilp) :: nblocal,mb2,m_plus_one,itmp,ib_bottom,lworkopt,num_all_row_blocks, &
-                      jb_t,ib,imb,kb,kb_last,knb,mb1
+           integer(ilp) :: nblocal,mb2,m_plus_one,itmp,ib_bottom,lworkopt, &
+                     num_all_row_blocks,jb_t,ib,imb,kb,kb_last,knb,mb1
            ! .. local arrays ..
            complex(dp) :: dummy(1,1)
            ! .. intrinsic functions ..
@@ -76861,11 +77608,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldt,m,n,nb
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldt,m,n,nb
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),d(*),t(ldt,*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(out) :: d(*),t(ldt,*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,iinfo,j,jb,jbtemp1,jbtemp2,jnb,nplusone
            ! .. intrinsic functions ..
@@ -76905,7 +77654,7 @@ module stdlib_linalg_lapack_z
            ! (1-2) solve for v2.
            if (m > n) then
               call stdlib_ztrsm('R','U','N','N',m - n,n,cone,a,lda,a(n + 1,1),lda)
-
+                        
            end if
            ! (2) reconstruct the block reflector t stored in t(1:nb, 1:n)
            ! as a sequence of upper-triangular blocks with nb-size column
@@ -76982,17 +77731,20 @@ module stdlib_linalg_lapack_z
      end subroutine stdlib_zunhr_col
 
      subroutine stdlib_zunm22(side,trans,m,n,n1,n2,q,ldq,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: m,n,n1,n2,ldq,ldc,lwork,info
+           character,intent(in) :: side,trans
+           integer(ilp),intent(in) :: m,n,n1,n2,ldq,ldc,lwork
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: q(ldq,*),c(ldc,*),work(*)
+           complex(dp),intent(in) :: q(ldq,*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: left,lquery,notran
            integer(ilp) :: i,ldwork,len,lwkopt,nb,nq,nw
@@ -77051,12 +77803,12 @@ module stdlib_linalg_lapack_z
            ! degenerate cases (n1 = 0 or n2 = 0) are handled using stdlib_ztrmm.
            if (n1 == 0) then
               call stdlib_ztrmm(side,'UPPER',trans,'NON-UNIT',m,n,cone,q,ldq,c,ldc)
-
+                        
               work(1) = cone
               return
            else if (n2 == 0) then
               call stdlib_ztrmm(side,'LOWER',trans,'NON-UNIT',m,n,cone,q,ldq,c,ldc)
-
+                        
               work(1) = cone
               return
            end if
@@ -77076,7 +77828,7 @@ module stdlib_linalg_lapack_z
                               c(1,i),ldc,cone,work,ldwork)
                     ! multiply top part of c by q21.
                     call stdlib_zlacpy('ALL',n2,len,c(1,i),ldc,work(n1 + 1),ldwork)
-
+                              
                     call stdlib_ztrmm('LEFT','UPPER','NO TRANSPOSE','NON-UNIT',n2,len,cone, &
                               q(n1 + 1,1),ldq,work(n1 + 1),ldwork)
                     ! multiply bottom part of c by q22.
@@ -77098,7 +77850,7 @@ module stdlib_linalg_lapack_z
                               1,i),ldc,cone,work,ldwork)
                     ! multiply top part of c by q12**h.
                     call stdlib_zlacpy('ALL',n1,len,c(1,i),ldc,work(n2 + 1),ldwork)
-
+                              
                     call stdlib_ztrmm('LEFT','LOWER','CONJUGATE','NON-UNIT',n1,len,cone,q( &
                               1,n2 + 1),ldq,work(n2 + 1),ldwork)
                     ! multiply bottom part of c by q22**h.
@@ -77175,12 +77927,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: left,notran
            integer(ilp) :: i,i1,i2,i3,mi,ni,nq
@@ -77271,12 +78026,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: left,notran
            integer(ilp) :: i,i1,i2,i3,ic,jc,mi,ni,nq
@@ -77379,15 +78137,18 @@ module stdlib_linalg_lapack_z
      ! if k >= nq, P = G(1) G(2) . . . G(nq-1).
 
      subroutine stdlib_zunmbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans,vect
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans,vect
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: applyq,left,lquery,notran
@@ -77528,10 +78289,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: ihi,ilo,info,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(in) :: ihi,ilo,lda,ldc,lwork,m,n
+           integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,lquery
@@ -77625,12 +78389,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: left,notran
            integer(ilp) :: i,i1,i2,i3,ic,jc,mi,ni,nq
@@ -77705,7 +78472,7 @@ module stdlib_linalg_lapack_z
               aii = a(i,i)
               a(i,i) = cone
               call stdlib_zlarf(side,mi,ni,a(i,i),lda,taui,c(ic,jc),ldc,work)
-
+                        
               a(i,i) = aii
               if (i < nq) call stdlib_zlacgv(nq - i,a(i,i + 1),lda)
            end do
@@ -77723,21 +78490,24 @@ module stdlib_linalg_lapack_z
      ! if SIDE = 'R'.
 
      subroutine stdlib_zunmlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-
+           
            ! .. local scalars ..
            logical(lk) :: left,lquery,notran
            character :: transt
@@ -77863,21 +78633,24 @@ module stdlib_linalg_lapack_z
      ! if SIDE = 'R'.
 
      subroutine stdlib_zunmql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-
+           
            ! .. local scalars ..
            logical(lk) :: left,lquery,notran
            integer(ilp) :: i,i1,i2,i3,ib,iinfo,iwt,ldwork,lwkopt,mi,nb,nbmin,ni,nq, &
@@ -77921,7 +78694,7 @@ module stdlib_linalg_lapack_z
                  lwkopt = 1
               else
                  nb = min(nbmax,stdlib_ilaenv(1,'ZUNMQL',side//trans,m,n,k,-1))
-
+                           
                  lwkopt = nw*nb + tsize
               end if
               work(1) = lwkopt
@@ -77997,21 +78770,24 @@ module stdlib_linalg_lapack_z
      ! if SIDE = 'R'.
 
      subroutine stdlib_zunmqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-
+           
            ! .. local scalars ..
            logical(lk) :: left,lquery,notran
            integer(ilp) :: i,i1,i2,i3,ib,ic,iinfo,iwt,jc,ldwork,lwkopt,mi,nb,nbmin, &
@@ -78136,12 +78912,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: left,notran
            integer(ilp) :: i,i1,i2,i3,mi,ni,nq
@@ -78234,10 +79013,13 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,l,lda,ldc,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,l,lda,ldc,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,notran
@@ -78314,7 +79096,7 @@ module stdlib_linalg_lapack_z
                  taui = conjg(tau(i))
               end if
               call stdlib_zlarz(side,mi,ni,l,a(i,ja),lda,taui,c(ic,jc),ldc,work)
-
+                        
            end do
            return
      end subroutine stdlib_zunmr3
@@ -78330,21 +79112,24 @@ module stdlib_linalg_lapack_z
      ! if SIDE = 'R'.
 
      subroutine stdlib_zunmrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-
+           
            ! .. local scalars ..
            logical(lk) :: left,lquery,notran
            character :: transt
@@ -78389,7 +79174,7 @@ module stdlib_linalg_lapack_z
                  lwkopt = 1
               else
                  nb = min(nbmax,stdlib_ilaenv(1,'ZUNMRQ',side//trans,m,n,k,-1))
-
+                           
                  lwkopt = nw*nb + tsize
               end if
               work(1) = lwkopt
@@ -78470,21 +79255,24 @@ module stdlib_linalg_lapack_z
      ! if SIDE = 'R'.
 
      subroutine stdlib_zunmrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans
-           integer(ilp) :: info,k,l,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: k,l,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-
+           
            ! .. local scalars ..
            logical(lk) :: left,lquery,notran
            character :: transt
@@ -78531,7 +79319,7 @@ module stdlib_linalg_lapack_z
                  lwkopt = 1
               else
                  nb = min(nbmax,stdlib_ilaenv(1,'ZUNMRQ',side//trans,m,n,k,-1))
-
+                           
                  lwkopt = nw*nb + tsize
               end if
               work(1) = lwkopt
@@ -78560,7 +79348,7 @@ module stdlib_linalg_lapack_z
            if (nb < nbmin .or. nb >= k) then
               ! use unblocked code
               call stdlib_zunmr3(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,iinfo)
-
+                        
            else
               ! use blocked code
               iwt = 1 + nw*nb
@@ -78622,15 +79410,18 @@ module stdlib_linalg_lapack_z
      ! if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
 
      subroutine stdlib_zunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork,info)
-
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans,uplo
-           integer(ilp) :: info,lda,ldc,lwork,m,n
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: a(lda,*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
            logical(lk) :: left,lquery,upper
@@ -78735,12 +79526,14 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,ldq,n
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldq,n
            ! .. array arguments ..
-           complex(dp) :: ap(*),q(ldq,*),tau(*),work(*)
+           complex(dp),intent(in) :: ap(*),tau(*)
+           complex(dp),intent(out) :: q(ldq,*),work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: upper
            integer(ilp) :: i,iinfo,ij,j
@@ -78825,12 +79618,15 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: side,trans,uplo
-           integer(ilp) :: info,ldc,m,n
+           character,intent(in) :: side,trans,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldc,m,n
            ! .. array arguments ..
-           complex(dp) :: ap(*),c(ldc,*),tau(*),work(*)
+           complex(dp),intent(in) :: ap(*),tau(*)
+           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(out) :: work(*)
         ! =====================================================================
-
+           
            ! .. local scalars ..
            logical(lk) :: forwrd,left,notran,upper
            integer(ilp) :: i,i1,i2,i3,ic,ii,jc,mi,ni,nq
@@ -78951,7 +79747,7 @@ module stdlib_linalg_lapack_z
                     taui = conjg(tau(i))
                  end if
                  call stdlib_zlarf(side,mi,ni,ap(ii),1,taui,c(ic,jc),ldc,work)
-
+                           
                  ap(ii) = aii
                  if (forwrd) then
                     ii = ii + nq - i + 1
@@ -78997,18 +79793,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,iter,lda,ldb,ldx,n,nrhs
+           integer(ilp),intent(out) :: info,iter
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           integer(ilp) :: ipiv(*)
-           real(dp) :: rwork(*)
-           complex(sp) :: swork(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(n,*),x(ldx,*)
+           integer(ilp),intent(out) :: ipiv(*)
+           real(dp),intent(out) :: rwork(*)
+           complex(sp),intent(out) :: swork(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: b(ldb,*)
+           complex(dp),intent(out) :: work(n,*),x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            logical(lk),parameter :: doitref = .true.
            integer(ilp),parameter :: itermax = 30
            real(dp),parameter :: bwdmax = 1.0e+00_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,iiter,ptsa,ptsx
            real(dp) :: anrm,cte,eps,rnrm,xnrm
@@ -79178,18 +79977,21 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: uplo
-           integer(ilp) :: info,iter,lda,ldb,ldx,n,nrhs
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,iter
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
            ! .. array arguments ..
-           real(dp) :: rwork(*)
-           complex(sp) :: swork(*)
-           complex(dp) :: a(lda,*),b(ldb,*),work(n,*),x(ldx,*)
+           real(dp),intent(out) :: rwork(*)
+           complex(sp),intent(out) :: swork(*)
+           complex(dp),intent(inout) :: a(lda,*)
+           complex(dp),intent(in) :: b(ldb,*)
+           complex(dp),intent(out) :: work(n,*),x(ldx,*)
         ! =====================================================================
            ! .. parameters ..
            logical(lk),parameter :: doitref = .true.
            integer(ilp),parameter :: itermax = 30
            real(dp),parameter :: bwdmax = 1.0e+00_dp
-
+           
            ! .. local scalars ..
            integer(ilp) :: i,iiter,ptsa,ptsx
            real(dp) :: anrm,cte,eps,rnrm,xnrm
@@ -79263,7 +80065,7 @@ module stdlib_linalg_lapack_z
            ! compute r = b - ax (r is work).
            call stdlib_zlacpy('ALL',n,nrhs,b,ldb,work,n)
            call stdlib_zhemm('LEFT',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
-
+                     
            ! check whether the nrhs normwise backward errors satisfy the
            ! stopping criterion. if yes, set iter=0 and return.
            do i = 1,nrhs
@@ -79295,7 +80097,7 @@ module stdlib_linalg_lapack_z
               ! compute r = b - ax (r is work).
               call stdlib_zlacpy('ALL',n,nrhs,b,ldb,work,n)
               call stdlib_zhemm('L',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
-
+                        
               ! check whether the nrhs normwise backward errors satisfy the
               ! stopping criterion. if yes, set iter=iiter>0 and return.
               do i = 1,nrhs
@@ -79340,15 +80142,17 @@ module stdlib_linalg_lapack_z
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: info,lda,ldv,lwork,lrwork,m,mv,n
-           character :: joba,jobu,jobv
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldv,lwork,lrwork,m,mv,n
+           character,intent(in) :: joba,jobu,jobv
            ! .. array arguments ..
-           complex(dp) :: a(lda,*),v(ldv,*),cwork(lwork)
-           real(dp) :: rwork(lrwork),sva(n)
+           complex(dp),intent(inout) :: a(lda,*),v(ldv,*),cwork(lwork)
+           real(dp),intent(inout) :: rwork(lrwork)
+           real(dp),intent(out) :: sva(n)
         ! =====================================================================
            ! .. local parameters ..
            integer(ilp),parameter :: nsweep = 30
-
+           
            ! .. local scalars ..
            complex(dp) :: aapq,ompq
            real(dp) :: aapp,aapp0,aapq1,aaqq,apoaq,aqoap,big,bigtheta,cs,ctol,epsln, &
@@ -79560,7 +80364,7 @@ module stdlib_linalg_lapack_z
        ! #:) quick return for one-column matrix
            if (n == 1) then
               if (lsvec) call stdlib_zlascl('G',0,0,sva(1),skl,m,1,a(1,1),lda,ierr)
-
+                        
               rwork(1) = one/skl
               if (sva(1) >= sfmin) then
                  rwork(2) = one
@@ -79676,12 +80480,12 @@ module stdlib_linalg_lapack_z
                            tol,2,cwork(n + 1),lwork - n,ierr)
                  call stdlib_zgsvj0(jobv,n2,n4,a(1,n4 + 1),lda,cwork(n4 + 1),sva(n4 + 1), &
                  mvl,v(n4*q + 1,n4 + 1),ldv,epsln,sfmin,tol,1,cwork(n + 1),lwork - n,ierr)
-
+                           
                  call stdlib_zgsvj1(jobv,n2,n2,n4,a,lda,cwork,sva,mvl,v,ldv,epsln, &
                            sfmin,tol,1,cwork(n + 1),lwork - n,ierr)
                  call stdlib_zgsvj0(jobv,n2 + n4,n4,a(1,n2 + 1),lda,cwork(n2 + 1),sva(n2 + 1) &
                  ,mvl,v(n2*q + 1,n2 + 1),ldv,epsln,sfmin,tol,1,cwork(n + 1),lwork - n,ierr)
-
+                           
               end if
            end if
            ! .. row-cyclic pivot strategy with de rijk's pivoting ..
@@ -79795,19 +80599,19 @@ module stdlib_linalg_lapack_z
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
                        ! .. choose correct signum for theta and rotate
                                          thsign = -sign(one,aapq1)
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-
+                                                   
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_zrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -79825,7 +80629,7 @@ module stdlib_linalg_lapack_z
                                       call stdlib_zlascl('G',0,0,aaqq,one,m,1,a(1,q), &
                                                 lda,ierr)
                                       call stdlib_zaxpy(m,-aapq,cwork(n + 1),1,a(1,q),1)
-
+                                                
                                       call stdlib_zlascl('G',0,0,one,aaqq,m,1,a(1,q), &
                                                 lda,ierr)
                                       sva(q) = aaqq*sqrt(max(zero,one - aapq1*aapq1))
@@ -79960,7 +80764,7 @@ module stdlib_linalg_lapack_z
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
@@ -79968,12 +80772,12 @@ module stdlib_linalg_lapack_z
                                          thsign = -sign(one,aapq1)
                                          if (aaqq > aapp0) thsign = -thsign
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-
+                                                   
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-
+                                                   
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_zrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -79987,17 +80791,17 @@ module stdlib_linalg_lapack_z
                     ! .. have to use modified gram-schmidt like transformation
                                     if (aapp > aaqq) then
                                          call stdlib_zcopy(m,a(1,p),1,cwork(n + 1),1)
-
+                                                   
                                          call stdlib_zlascl('G',0,0,aapp,one,m,1,cwork(n + 1) &
                                                    ,lda,ierr)
                                          call stdlib_zlascl('G',0,0,aaqq,one,m,1,a(1,q), &
                                                     lda,ierr)
                                          call stdlib_zaxpy(m,-aapq,cwork(n + 1),1,a(1,q),1)
-
+                                                   
                                          call stdlib_zlascl('G',0,0,one,aaqq,m,1,a(1,q), &
                                                     lda,ierr)
                                          sva(q) = aaqq*sqrt(max(zero,one - aapq1*aapq1))
-
+                                                   
                                          mxsinj = max(mxsinj,sfmin)
                                     else
                                         call stdlib_zcopy(m,a(1,q),1,cwork(n + 1),1)
@@ -80010,7 +80814,7 @@ module stdlib_linalg_lapack_z
                                          call stdlib_zlascl('G',0,0,one,aapp,m,1,a(1,p), &
                                                     lda,ierr)
                                          sva(p) = aapp*sqrt(max(zero,one - aapq1*aapq1))
-
+                                                   
                                          mxsinj = max(mxsinj,sfmin)
                                     end if
                                    end if
