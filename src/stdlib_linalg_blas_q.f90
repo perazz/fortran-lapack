@@ -92,9 +92,9 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           real(qp) :: dx(*)
+           real(qp),intent(in) :: dx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: dtemp
@@ -141,10 +141,11 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: da
-           integer(ilp) :: incx,incy,n
+           real(qp),intent(in) :: da
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(qp) :: dx(*),dy(*)
+           real(qp),intent(in) :: dx(*)
+           real(qp),intent(inout) :: dy(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ix,iy,m,mp1
@@ -193,9 +194,10 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(qp) :: dx(*),dy(*)
+           real(qp),intent(in) :: dx(*)
+           real(qp),intent(out) :: dy(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,ix,iy,m,mp1
@@ -246,9 +248,9 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(qp) :: dx(*),dy(*)
+           real(qp),intent(in) :: dx(*),dy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: dtemp
@@ -303,11 +305,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: incx,incy,kl,ku,lda,m,n
-           character :: trans
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,kl,ku,lda,m,n
+           character,intent(in) :: trans
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*),y(*)
+           real(qp),intent(in) :: a(lda,*),x(*)
+           real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -459,11 +462,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: k,lda,ldb,ldc,m,n
-           character :: transa,transb
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: k,lda,ldb,ldc,m,n
+           character,intent(in) :: transa,transb
            ! .. array arguments ..
-           real(qp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           real(qp),intent(in) :: a(lda,*),b(ldb,*)
+           real(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -619,11 +623,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: incx,incy,lda,m,n
-           character :: trans
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,m,n
+           character,intent(in) :: trans
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*),y(*)
+           real(qp),intent(in) :: a(lda,*),x(*)
+           real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -762,10 +767,11 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha
-           integer(ilp) :: incx,incy,lda,m,n
+           real(qp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,incy,lda,m,n
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*),y(*)
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -936,10 +942,10 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: c,s
-           integer(ilp) :: incx,incy,n
+           real(qp),intent(in) :: c,s
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(qp) :: dx(*),dy(*)
+           real(qp),intent(inout) :: dx(*),dy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: dtemp
@@ -1054,9 +1060,10 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(qp) :: dparam(5),dx(*),dy(*)
+           real(qp),intent(in) :: dparam(5)
+           real(qp),intent(inout) :: dx(*),dy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: dflag,dh11,dh12,dh21,dh22,two,w,z,zero
@@ -1161,13 +1168,14 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: dd1,dd2,dx1,dy1
+           real(qp),intent(inout) :: dd1,dd2,dx1
+           real(qp),intent(in) :: dy1
            ! .. array arguments ..
-           real(qp) :: dparam(5)
+           real(qp),intent(out) :: dparam(5)
         ! =====================================================================
            ! .. local scalars ..
-           real(qp) :: dflag,dh11,dh12,dh21,dh22,dp1,dp2,dq1,dq2,dtemp,du,gam,gamsq,one,rgamsq, &
-                     two,zero
+           real(qp) :: dflag,dh11,dh12,dh21,dh22,dp1,dp2,dq1,dq2,dtemp,du,gam,gamsq, &
+                     one,rgamsq,two,zero
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. data statements ..
@@ -1313,11 +1321,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: incx,incy,k,lda,n
-           character :: uplo
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,k,lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*),y(*)
+           real(qp),intent(in) :: a(lda,*),x(*)
+           real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -1472,10 +1481,10 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: da
-           integer(ilp) :: incx,n
+           real(qp),intent(in) :: da
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           real(qp) :: dx(*)
+           real(qp),intent(inout) :: dx(*)
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: i,m,mp1,nincx
@@ -1522,9 +1531,9 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(dp) :: sx(*),sy(*)
+           real(dp),intent(in) :: sx(*),sy(*)
         ! authors:
         ! ========
         ! lawson, c. l., (jpl), hanson, r. j., (snla),
@@ -1567,11 +1576,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: incx,incy,n
-           character :: uplo
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(qp) :: ap(*),x(*),y(*)
+           real(qp),intent(in) :: ap(*),x(*)
+           real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -1722,11 +1732,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha
-           integer(ilp) :: incx,n
-           character :: uplo
+           real(qp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(qp) :: ap(*),x(*)
+           real(qp),intent(inout) :: ap(*)
+           real(qp),intent(in) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -1828,11 +1839,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha
-           integer(ilp) :: incx,incy,n
-           character :: uplo
+           real(qp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,incy,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(qp) :: ap(*),x(*),y(*)
+           real(qp),intent(inout) :: ap(*)
+           real(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -1952,9 +1964,9 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,incy,n
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(qp) :: dx(*),dy(*)
+           real(qp),intent(inout) :: dx(*),dy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: dtemp
@@ -2016,11 +2028,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: lda,ldb,ldc,m,n
-           character :: side,uplo
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: lda,ldb,ldc,m,n
+           character,intent(in) :: side,uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           real(qp),intent(in) :: a(lda,*),b(ldb,*)
+           real(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -2160,11 +2173,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: incx,incy,lda,n
-           character :: uplo
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*),y(*)
+           real(qp),intent(in) :: a(lda,*),x(*)
+           real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -2311,11 +2325,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha
-           integer(ilp) :: incx,lda,n
-           character :: uplo
+           real(qp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*)
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(in) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -2413,11 +2428,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha
-           integer(ilp) :: incx,incy,lda,n
-           character :: uplo
+           real(qp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,incy,lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*),y(*)
+           real(qp),intent(inout) :: a(lda,*)
+           real(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -2538,11 +2554,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: k,lda,ldb,ldc,n
-           character :: trans,uplo
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: k,lda,ldb,ldc,n
+           character,intent(in) :: trans,uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),b(ldb,*),c(ldc,*)
+           real(qp),intent(in) :: a(lda,*),b(ldb,*)
+           real(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -2712,11 +2729,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha,beta
-           integer(ilp) :: k,lda,ldc,n
-           character :: trans,uplo
+           real(qp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: k,lda,ldc,n
+           character,intent(in) :: trans,uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),c(ldc,*)
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -2875,10 +2893,11 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,k,lda,n
-           character :: diag,trans,uplo
+           integer(ilp),intent(in) :: incx,k,lda,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*)
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -3060,10 +3079,11 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,k,lda,n
-           character :: diag,trans,uplo
+           integer(ilp),intent(in) :: incx,k,lda,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*)
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -3242,10 +3262,11 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
-           character :: diag,trans,uplo
+           integer(ilp),intent(in) :: incx,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(qp) :: ap(*),x(*)
+           real(qp),intent(in) :: ap(*)
+           real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -3425,10 +3446,11 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
-           character :: diag,trans,uplo
+           integer(ilp),intent(in) :: incx,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(qp) :: ap(*),x(*)
+           real(qp),intent(in) :: ap(*)
+           real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -3607,11 +3629,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha
-           integer(ilp) :: lda,ldb,m,n
-           character :: diag,side,transa,uplo
+           real(qp),intent(in) :: alpha
+           integer(ilp),intent(in) :: lda,ldb,m,n
+           character,intent(in) :: diag,side,transa,uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),b(ldb,*)
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -3811,10 +3834,11 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,lda,n
-           character :: diag,trans,uplo
+           integer(ilp),intent(in) :: incx,lda,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*)
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -3978,11 +4002,12 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(qp) :: alpha
-           integer(ilp) :: lda,ldb,m,n
-           character :: diag,side,transa,uplo
+           real(qp),intent(in) :: alpha
+           integer(ilp),intent(in) :: lda,ldb,m,n
+           character,intent(in) :: diag,side,transa,uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),b(ldb,*)
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
@@ -4208,10 +4233,11 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,lda,n
-           character :: diag,trans,uplo
+           integer(ilp),intent(in) :: incx,lda,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(qp) :: a(lda,*),x(*)
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -4371,9 +4397,9 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           complex(qp) :: zx(*)
+           complex(qp),intent(inout) :: zx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: stemp

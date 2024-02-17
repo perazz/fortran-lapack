@@ -16,8 +16,9 @@ module stdlib_linalg_blas
                subroutine caxpy(n,ca,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: ca,cx(*),cy(*)
-                    integer(ilp) :: incx,incy,n
+                    complex(sp),intent(in),intent(in) :: ca,cx(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(sp),intent(inout),intent(inout) :: cy(*)
                end subroutine caxpy
 #else
                module procedure stdlib_caxpy
@@ -26,8 +27,9 @@ module stdlib_linalg_blas
                subroutine daxpy(n,da,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: da,dx(*),dy(*)
-                    integer(ilp) :: incx,incy,n
+                    real(dp),intent(in),intent(in) :: da,dx(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(dp),intent(inout),intent(inout) :: dy(*)
                end subroutine daxpy
 #else
                module procedure stdlib_daxpy
@@ -37,8 +39,9 @@ module stdlib_linalg_blas
                subroutine saxpy(n,sa,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: sa,sx(*),sy(*)
-                    integer(ilp) :: incx,incy,n
+                    real(sp),intent(in),intent(in) :: sa,sx(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(sp),intent(inout),intent(inout) :: sy(*)
                end subroutine saxpy
 #else
                module procedure stdlib_saxpy
@@ -48,8 +51,9 @@ module stdlib_linalg_blas
                subroutine zaxpy(n,za,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: za,zx(*),zy(*)
-                    integer(ilp) :: incx,incy,n
+                    complex(dp),intent(in),intent(in) :: za,zx(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(dp),intent(inout),intent(inout) :: zy(*)
                end subroutine zaxpy
 #else
                module procedure stdlib_zaxpy
@@ -62,8 +66,9 @@ module stdlib_linalg_blas
                subroutine ccopy(n,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    complex(sp) :: cx(*),cy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(sp),intent(in),intent(in) :: cx(*)
+                    complex(sp),intent(out),intent(out) :: cy(*)
                end subroutine ccopy
 #else
                module procedure stdlib_ccopy
@@ -72,8 +77,9 @@ module stdlib_linalg_blas
                subroutine dcopy(n,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(dp) :: dx(*),dy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(dp),intent(in),intent(in) :: dx(*)
+                    real(dp),intent(out),intent(out) :: dy(*)
                end subroutine dcopy
 #else
                module procedure stdlib_dcopy
@@ -83,8 +89,9 @@ module stdlib_linalg_blas
                subroutine scopy(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(sp) :: sx(*),sy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(sp),intent(in),intent(in) :: sx(*)
+                    real(sp),intent(out),intent(out) :: sy(*)
                end subroutine scopy
 #else
                module procedure stdlib_scopy
@@ -94,8 +101,9 @@ module stdlib_linalg_blas
                subroutine zcopy(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    complex(dp) :: zx(*),zy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(dp),intent(in),intent(in) :: zx(*)
+                    complex(dp),intent(out),intent(out) :: zy(*)
                end subroutine zcopy
 #else
                module procedure stdlib_zcopy
@@ -109,8 +117,8 @@ module stdlib_linalg_blas
                real(dp) function ddot(n,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(dp) :: dx(*),dy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(dp),intent(in),intent(in) :: dx(*),dy(*)
                end function ddot
 #else
                module procedure stdlib_ddot
@@ -120,8 +128,8 @@ module stdlib_linalg_blas
                real(sp) function sdot(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(sp) :: sx(*),sy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(sp),intent(in),intent(in) :: sx(*),sy(*)
                end function sdot
 #else
                module procedure stdlib_sdot
@@ -135,8 +143,8 @@ module stdlib_linalg_blas
                complex(sp) function cdotc(n,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    complex(sp) :: cx(*),cy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(sp),intent(in),intent(in) :: cx(*),cy(*)
                end function cdotc
 #else
                module procedure stdlib_cdotc
@@ -146,8 +154,8 @@ module stdlib_linalg_blas
                complex(dp) function zdotc(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    complex(dp) :: zx(*),zy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(dp),intent(in),intent(in) :: zx(*),zy(*)
                end function zdotc
 #else
                module procedure stdlib_zdotc
@@ -161,8 +169,8 @@ module stdlib_linalg_blas
                complex(sp) function cdotu(n,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    complex(sp) :: cx(*),cy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(sp),intent(in),intent(in) :: cx(*),cy(*)
                end function cdotu
 #else
                module procedure stdlib_cdotu
@@ -172,8 +180,8 @@ module stdlib_linalg_blas
                complex(dp) function zdotu(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    complex(dp) :: zx(*),zy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(dp),intent(in),intent(in) :: zx(*),zy(*)
                end function zdotu
 #else
                module procedure stdlib_zdotu
@@ -190,9 +198,10 @@ module stdlib_linalg_blas
                subroutine cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,kl,ku,lda,m,n
-                    character :: trans
+                    complex(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,kl,ku,lda,m,n
+                    character,intent(in),intent(in) :: trans
+                    complex(sp),intent(inout),intent(inout) :: y(*)
                end subroutine cgbmv
 #else
                module procedure stdlib_cgbmv
@@ -201,9 +210,10 @@ module stdlib_linalg_blas
                subroutine dgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,kl,ku,lda,m,n
-                    character :: trans
+                    real(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,kl,ku,lda,m,n
+                    character,intent(in),intent(in) :: trans
+                    real(dp),intent(inout),intent(inout) :: y(*)
                end subroutine dgbmv
 #else
                module procedure stdlib_dgbmv
@@ -213,9 +223,10 @@ module stdlib_linalg_blas
                subroutine sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,kl,ku,lda,m,n
-                    character :: trans
+                    real(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,kl,ku,lda,m,n
+                    character,intent(in),intent(in) :: trans
+                    real(sp),intent(inout),intent(inout) :: y(*)
                end subroutine sgbmv
 #else
                module procedure stdlib_sgbmv
@@ -225,9 +236,10 @@ module stdlib_linalg_blas
                subroutine zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,kl,ku,lda,m,n
-                    character :: trans
+                    complex(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,kl,ku,lda,m,n
+                    character,intent(in),intent(in) :: trans
+                    complex(dp),intent(inout),intent(inout) :: y(*)
                end subroutine zgbmv
 #else
                module procedure stdlib_zgbmv
@@ -245,9 +257,10 @@ module stdlib_linalg_blas
                subroutine cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldb,ldc,m,n
-                    character :: transa,transb
+                    complex(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: transa,transb
+                    complex(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine cgemm
 #else
                module procedure stdlib_cgemm
@@ -256,9 +269,10 @@ module stdlib_linalg_blas
                subroutine dgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldb,ldc,m,n
-                    character :: transa,transb
+                    real(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: transa,transb
+                    real(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine dgemm
 #else
                module procedure stdlib_dgemm
@@ -268,9 +282,10 @@ module stdlib_linalg_blas
                subroutine sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldb,ldc,m,n
-                    character :: transa,transb
+                    real(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: transa,transb
+                    real(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine sgemm
 #else
                module procedure stdlib_sgemm
@@ -280,9 +295,10 @@ module stdlib_linalg_blas
                subroutine zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldb,ldc,m,n
-                    character :: transa,transb
+                    complex(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: transa,transb
+                    complex(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine zgemm
 #else
                module procedure stdlib_zgemm
@@ -299,9 +315,10 @@ module stdlib_linalg_blas
                subroutine cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
-                    character :: trans
+                    complex(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    character,intent(in),intent(in) :: trans
+                    complex(sp),intent(inout),intent(inout) :: y(*)
                end subroutine cgemv
 #else
                module procedure stdlib_cgemv
@@ -310,9 +327,10 @@ module stdlib_linalg_blas
                subroutine dgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
-                    character :: trans
+                    real(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    character,intent(in),intent(in) :: trans
+                    real(dp),intent(inout),intent(inout) :: y(*)
                end subroutine dgemv
 #else
                module procedure stdlib_dgemv
@@ -322,9 +340,10 @@ module stdlib_linalg_blas
                subroutine sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
-                    character :: trans
+                    real(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    character,intent(in),intent(in) :: trans
+                    real(sp),intent(inout),intent(inout) :: y(*)
                end subroutine sgemv
 #else
                module procedure stdlib_sgemv
@@ -334,9 +353,10 @@ module stdlib_linalg_blas
                subroutine zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
-                    character :: trans
+                    complex(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    character,intent(in),intent(in) :: trans
+                    complex(dp),intent(inout),intent(inout) :: y(*)
                end subroutine zgemv
 #else
                module procedure stdlib_zgemv
@@ -352,8 +372,9 @@ module stdlib_linalg_blas
                subroutine dger(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
+                    real(dp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    real(dp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine dger
 #else
                module procedure stdlib_dger
@@ -363,8 +384,9 @@ module stdlib_linalg_blas
                subroutine sger(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
+                    real(sp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    real(sp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine sger
 #else
                module procedure stdlib_sger
@@ -380,8 +402,9 @@ module stdlib_linalg_blas
                subroutine cgerc(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
+                    complex(sp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    complex(sp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine cgerc
 #else
                module procedure stdlib_cgerc
@@ -391,8 +414,9 @@ module stdlib_linalg_blas
                subroutine zgerc(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
+                    complex(dp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    complex(dp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine zgerc
 #else
                module procedure stdlib_zgerc
@@ -408,8 +432,9 @@ module stdlib_linalg_blas
                subroutine cgeru(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
+                    complex(sp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    complex(sp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine cgeru
 #else
                module procedure stdlib_cgeru
@@ -419,8 +444,9 @@ module stdlib_linalg_blas
                subroutine zgeru(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,m,n
+                    complex(dp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,m,n
+                    complex(dp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine zgeru
 #else
                module procedure stdlib_zgeru
@@ -436,9 +462,10 @@ module stdlib_linalg_blas
                subroutine chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,k,lda,n
-                    character :: uplo
+                    complex(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,k,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(sp),intent(inout),intent(inout) :: y(*)
                end subroutine chbmv
 #else
                module procedure stdlib_chbmv
@@ -448,9 +475,10 @@ module stdlib_linalg_blas
                subroutine zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,k,lda,n
-                    character :: uplo
+                    complex(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,k,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(dp),intent(inout),intent(inout) :: y(*)
                end subroutine zhbmv
 #else
                module procedure stdlib_zhbmv
@@ -468,9 +496,10 @@ module stdlib_linalg_blas
                subroutine chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: lda,ldb,ldc,m,n
-                    character :: side,uplo
+                    complex(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: side,uplo
+                    complex(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine chemm
 #else
                module procedure stdlib_chemm
@@ -480,9 +509,10 @@ module stdlib_linalg_blas
                subroutine zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: lda,ldb,ldc,m,n
-                    character :: side,uplo
+                    complex(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: side,uplo
+                    complex(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine zhemm
 #else
                module procedure stdlib_zhemm
@@ -498,9 +528,10 @@ module stdlib_linalg_blas
                subroutine chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,n
-                    character :: uplo
+                    complex(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(sp),intent(inout),intent(inout) :: y(*)
                end subroutine chemv
 #else
                module procedure stdlib_chemv
@@ -510,9 +541,10 @@ module stdlib_linalg_blas
                subroutine zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,n
-                    character :: uplo
+                    complex(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(dp),intent(inout),intent(inout) :: y(*)
                end subroutine zhemv
 #else
                module procedure stdlib_zhemv
@@ -528,10 +560,11 @@ module stdlib_linalg_blas
                subroutine cher(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha
-                    integer(ilp) :: incx,lda,n
-                    character :: uplo
-                    complex(sp) :: a(lda,*),x(*)
+                    real(sp),intent(in),intent(in) :: alpha
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(sp),intent(inout),intent(inout) :: a(lda,*)
+                    complex(sp),intent(in),intent(in) :: x(*)
                end subroutine cher
 #else
                module procedure stdlib_cher
@@ -541,10 +574,11 @@ module stdlib_linalg_blas
                subroutine zher(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha
-                    integer(ilp) :: incx,lda,n
-                    character :: uplo
-                    complex(dp) :: a(lda,*),x(*)
+                    real(dp),intent(in),intent(in) :: alpha
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(dp),intent(inout),intent(inout) :: a(lda,*)
+                    complex(dp),intent(in),intent(in) :: x(*)
                end subroutine zher
 #else
                module procedure stdlib_zher
@@ -560,9 +594,10 @@ module stdlib_linalg_blas
                subroutine cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,n
-                    character :: uplo
+                    complex(sp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(sp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine cher2
 #else
                module procedure stdlib_cher2
@@ -572,9 +607,10 @@ module stdlib_linalg_blas
                subroutine zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,n
-                    character :: uplo
+                    complex(dp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(dp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine zher2
 #else
                module procedure stdlib_zher2
@@ -593,10 +629,11 @@ module stdlib_linalg_blas
                subroutine cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,a(lda,*),b(ldb,*),c(ldc,*)
-                    real(sp) :: beta
-                    integer(ilp) :: k,lda,ldb,ldc,n
-                    character :: trans,uplo
+                    complex(sp),intent(in),intent(in) :: alpha,a(lda,*),b(ldb,*)
+                    real(sp),intent(in),intent(in) :: beta
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    complex(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine cher2k
 #else
                module procedure stdlib_cher2k
@@ -606,10 +643,11 @@ module stdlib_linalg_blas
                subroutine zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,a(lda,*),b(ldb,*),c(ldc,*)
-                    real(dp) :: beta
-                    integer(ilp) :: k,lda,ldb,ldc,n
-                    character :: trans,uplo
+                    complex(dp),intent(in),intent(in) :: alpha,a(lda,*),b(ldb,*)
+                    real(dp),intent(in),intent(in) :: beta
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    complex(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine zher2k
 #else
                module procedure stdlib_zher2k
@@ -628,10 +666,11 @@ module stdlib_linalg_blas
                subroutine cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta
-                    integer(ilp) :: k,lda,ldc,n
-                    character :: trans,uplo
-                    complex(sp) :: a(lda,*),c(ldc,*)
+                    real(sp),intent(in),intent(in) :: alpha,beta
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    complex(sp),intent(in),intent(in) :: a(lda,*)
+                    complex(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine cherk
 #else
                module procedure stdlib_cherk
@@ -641,10 +680,11 @@ module stdlib_linalg_blas
                subroutine zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta
-                    integer(ilp) :: k,lda,ldc,n
-                    character :: trans,uplo
-                    complex(dp) :: a(lda,*),c(ldc,*)
+                    real(dp),intent(in),intent(in) :: alpha,beta
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    complex(dp),intent(in),intent(in) :: a(lda,*)
+                    complex(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine zherk
 #else
                module procedure stdlib_zherk
@@ -660,9 +700,10 @@ module stdlib_linalg_blas
                subroutine chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,ap(*),x(*),y(*)
-                    integer(ilp) :: incx,incy,n
-                    character :: uplo
+                    complex(sp),intent(in),intent(in) :: alpha,beta,ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(sp),intent(inout),intent(inout) :: y(*)
                end subroutine chpmv
 #else
                module procedure stdlib_chpmv
@@ -672,9 +713,10 @@ module stdlib_linalg_blas
                subroutine zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,ap(*),x(*),y(*)
-                    integer(ilp) :: incx,incy,n
-                    character :: uplo
+                    complex(dp),intent(in),intent(in) :: alpha,beta,ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(dp),intent(inout),intent(inout) :: y(*)
                end subroutine zhpmv
 #else
                module procedure stdlib_zhpmv
@@ -690,10 +732,11 @@ module stdlib_linalg_blas
                subroutine chpr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha
-                    integer(ilp) :: incx,n
-                    character :: uplo
-                    complex(sp) :: ap(*),x(*)
+                    real(sp),intent(in),intent(in) :: alpha
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(sp),intent(inout),intent(inout) :: ap(*)
+                    complex(sp),intent(in),intent(in) :: x(*)
                end subroutine chpr
 #else
                module procedure stdlib_chpr
@@ -703,10 +746,11 @@ module stdlib_linalg_blas
                subroutine zhpr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha
-                    integer(ilp) :: incx,n
-                    character :: uplo
-                    complex(dp) :: ap(*),x(*)
+                    real(dp),intent(in),intent(in) :: alpha
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(dp),intent(inout),intent(inout) :: ap(*)
+                    complex(dp),intent(in),intent(in) :: x(*)
                end subroutine zhpr
 #else
                module procedure stdlib_zhpr
@@ -722,9 +766,10 @@ module stdlib_linalg_blas
                subroutine chpr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,ap(*),x(*),y(*)
-                    integer(ilp) :: incx,incy,n
-                    character :: uplo
+                    complex(sp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(sp),intent(inout),intent(inout) :: ap(*)
                end subroutine chpr2
 #else
                module procedure stdlib_chpr2
@@ -734,9 +779,10 @@ module stdlib_linalg_blas
                subroutine zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,ap(*),x(*),y(*)
-                    integer(ilp) :: incx,incy,n
-                    character :: uplo
+                    complex(dp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    character,intent(in),intent(in) :: uplo
+                    complex(dp),intent(inout),intent(inout) :: ap(*)
                end subroutine zhpr2
 #else
                module procedure stdlib_zhpr2
@@ -752,8 +798,9 @@ module stdlib_linalg_blas
                function dnrm2(n,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: dnrm2,x(*)
-                    integer(ilp) :: incx,n
+                    real(dp) :: dnrm2
+                    integer(ilp),intent(in) :: incx,n
+                    real(dp),intent(in) :: x(*)
                end function dnrm2
 #else
                module procedure stdlib_dnrm2
@@ -763,8 +810,9 @@ module stdlib_linalg_blas
                function snrm2(n,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: snrm2,x(*)
-                    integer(ilp) :: incx,n
+                    real(sp) :: snrm2
+                    integer(ilp),intent(in) :: incx,n
+                    real(sp),intent(in) :: x(*)
                end function snrm2
 #else
                module procedure stdlib_snrm2
@@ -777,8 +825,9 @@ module stdlib_linalg_blas
                subroutine drot(n,dx,incx,dy,incy,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: c,s,dx(*),dy(*)
-                    integer(ilp) :: incx,incy,n
+                    real(dp),intent(in),intent(in) :: c,s
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(dp),intent(inout),intent(inout) :: dx(*),dy(*)
                end subroutine drot
 #else
                module procedure stdlib_drot
@@ -788,8 +837,9 @@ module stdlib_linalg_blas
                subroutine srot(n,sx,incx,sy,incy,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: c,s,sx(*),sy(*)
-                    integer(ilp) :: incx,incy,n
+                    real(sp),intent(in),intent(in) :: c,s
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(sp),intent(inout),intent(inout) :: sx(*),sy(*)
                end subroutine srot
 #else
                module procedure stdlib_srot
@@ -815,8 +865,10 @@ module stdlib_linalg_blas
                subroutine crotg(a,b,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: c
-                    complex(sp) :: a,b,s
+                    real(sp),intent(out) :: c
+                    complex(sp),intent(inout) :: a
+                    complex(sp),intent(in) :: b
+                    complex(sp),intent(out) :: s
                end subroutine crotg
 #else
                module procedure stdlib_crotg
@@ -825,7 +877,8 @@ module stdlib_linalg_blas
                subroutine drotg(a,b,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: a,b,c,s
+                    real(dp),intent(inout) :: a,b
+                    real(dp),intent(out) :: c,s
                end subroutine drotg
 #else
                module procedure stdlib_drotg
@@ -835,7 +888,8 @@ module stdlib_linalg_blas
                subroutine srotg(a,b,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: a,b,c,s
+                    real(sp),intent(inout) :: a,b
+                    real(sp),intent(out) :: c,s
                end subroutine srotg
 #else
                module procedure stdlib_srotg
@@ -845,8 +899,10 @@ module stdlib_linalg_blas
                subroutine zrotg(a,b,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: c
-                    complex(dp) :: a,b,s
+                    real(dp),intent(out) :: c
+                    complex(dp),intent(inout) :: a
+                    complex(dp),intent(in) :: b
+                    complex(dp),intent(out) :: s
                end subroutine zrotg
 #else
                module procedure stdlib_zrotg
@@ -869,8 +925,9 @@ module stdlib_linalg_blas
                subroutine drotm(n,dx,incx,dy,incy,dparam)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(dp) :: dparam(5),dx(*),dy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(dp),intent(in),intent(in) :: dparam(5)
+                    real(dp),intent(inout),intent(inout) :: dx(*),dy(*)
                end subroutine drotm
 #else
                module procedure stdlib_drotm
@@ -880,8 +937,9 @@ module stdlib_linalg_blas
                subroutine srotm(n,sx,incx,sy,incy,sparam)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(sp) :: sparam(5),sx(*),sy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(sp),intent(in),intent(in) :: sparam(5)
+                    real(sp),intent(inout),intent(inout) :: sx(*),sy(*)
                end subroutine srotm
 #else
                module procedure stdlib_srotm
@@ -906,7 +964,9 @@ module stdlib_linalg_blas
                subroutine drotmg(dd1,dd2,dx1,dy1,dparam)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: dd1,dd2,dx1,dy1,dparam(5)
+                    real(dp),intent(inout),intent(inout) :: dd1,dd2,dx1
+                    real(dp),intent(in),intent(in) :: dy1
+                    real(dp),intent(out),intent(out) :: dparam(5)
                end subroutine drotmg
 #else
                module procedure stdlib_drotmg
@@ -916,7 +976,9 @@ module stdlib_linalg_blas
                subroutine srotmg(sd1,sd2,sx1,sy1,sparam)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: sd1,sd2,sx1,sy1,sparam(5)
+                    real(sp),intent(inout),intent(inout) :: sd1,sd2,sx1
+                    real(sp),intent(in),intent(in) :: sy1
+                    real(sp),intent(out),intent(out) :: sparam(5)
                end subroutine srotmg
 #else
                module procedure stdlib_srotmg
@@ -932,9 +994,10 @@ module stdlib_linalg_blas
                subroutine dsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,k,lda,n
-                    character :: uplo
+                    real(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,k,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    real(dp),intent(inout),intent(inout) :: y(*)
                end subroutine dsbmv
 #else
                module procedure stdlib_dsbmv
@@ -944,9 +1007,10 @@ module stdlib_linalg_blas
                subroutine ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,k,lda,n
-                    character :: uplo
+                    real(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,k,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    real(sp),intent(inout),intent(inout) :: y(*)
                end subroutine ssbmv
 #else
                module procedure stdlib_ssbmv
@@ -959,8 +1023,9 @@ module stdlib_linalg_blas
                subroutine cscal(n,ca,cx,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: ca,cx(*)
-                    integer(ilp) :: incx,n
+                    complex(sp),intent(in),intent(in) :: ca
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    complex(sp),intent(inout),intent(inout) :: cx(*)
                end subroutine cscal
 #else
                module procedure stdlib_cscal
@@ -969,8 +1034,9 @@ module stdlib_linalg_blas
                subroutine dscal(n,da,dx,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: da,dx(*)
-                    integer(ilp) :: incx,n
+                    real(dp),intent(in),intent(in) :: da
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    real(dp),intent(inout),intent(inout) :: dx(*)
                end subroutine dscal
 #else
                module procedure stdlib_dscal
@@ -980,8 +1046,9 @@ module stdlib_linalg_blas
                subroutine sscal(n,sa,sx,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: sa,sx(*)
-                    integer(ilp) :: incx,n
+                    real(sp),intent(in),intent(in) :: sa
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    real(sp),intent(inout),intent(inout) :: sx(*)
                end subroutine sscal
 #else
                module procedure stdlib_sscal
@@ -991,8 +1058,9 @@ module stdlib_linalg_blas
                subroutine zscal(n,za,zx,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: za,zx(*)
-                    integer(ilp) :: incx,n
+                    complex(dp),intent(in),intent(in) :: za
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    complex(dp),intent(inout),intent(inout) :: zx(*)
                end subroutine zscal
 #else
                module procedure stdlib_zscal
@@ -1010,8 +1078,8 @@ module stdlib_linalg_blas
                real(dp) function dsdot(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(sp) :: sx(*),sy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(sp),intent(in),intent(in) :: sx(*),sy(*)
                end function dsdot
 #else
                module procedure stdlib_dsdot
@@ -1028,9 +1096,10 @@ module stdlib_linalg_blas
                subroutine dspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,ap(*),x(*),y(*)
-                    integer(ilp) :: incx,incy,n
-                    character :: uplo
+                    real(dp),intent(in),intent(in) :: alpha,beta,ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    character,intent(in),intent(in) :: uplo
+                    real(dp),intent(inout),intent(inout) :: y(*)
                end subroutine dspmv
 #else
                module procedure stdlib_dspmv
@@ -1040,9 +1109,10 @@ module stdlib_linalg_blas
                subroutine sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,ap(*),x(*),y(*)
-                    integer(ilp) :: incx,incy,n
-                    character :: uplo
+                    real(sp),intent(in),intent(in) :: alpha,beta,ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    character,intent(in),intent(in) :: uplo
+                    real(sp),intent(inout),intent(inout) :: y(*)
                end subroutine sspmv
 #else
                module procedure stdlib_sspmv
@@ -1058,9 +1128,10 @@ module stdlib_linalg_blas
                subroutine dspr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,ap(*),x(*)
-                    integer(ilp) :: incx,n
-                    character :: uplo
+                    real(dp),intent(in),intent(in) :: alpha,x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: uplo
+                    real(dp),intent(inout),intent(inout) :: ap(*)
                end subroutine dspr
 #else
                module procedure stdlib_dspr
@@ -1070,9 +1141,10 @@ module stdlib_linalg_blas
                subroutine sspr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,ap(*),x(*)
-                    integer(ilp) :: incx,n
-                    character :: uplo
+                    real(sp),intent(in),intent(in) :: alpha,x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: uplo
+                    real(sp),intent(inout),intent(inout) :: ap(*)
                end subroutine sspr
 #else
                module procedure stdlib_sspr
@@ -1088,9 +1160,10 @@ module stdlib_linalg_blas
                subroutine dspr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,ap(*),x(*),y(*)
-                    integer(ilp) :: incx,incy,n
-                    character :: uplo
+                    real(dp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    character,intent(in),intent(in) :: uplo
+                    real(dp),intent(inout),intent(inout) :: ap(*)
                end subroutine dspr2
 #else
                module procedure stdlib_dspr2
@@ -1100,9 +1173,10 @@ module stdlib_linalg_blas
                subroutine sspr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,ap(*),x(*),y(*)
-                    integer(ilp) :: incx,incy,n
-                    character :: uplo
+                    real(sp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    character,intent(in),intent(in) :: uplo
+                    real(sp),intent(inout),intent(inout) :: ap(*)
                end subroutine sspr2
 #else
                module procedure stdlib_sspr2
@@ -1117,9 +1191,9 @@ module stdlib_linalg_blas
                subroutine csrot(n,cx,incx,cy,incy,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(sp) :: c,s
-                    complex(sp) :: cx(*),cy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(sp),intent(in),intent(in) :: c,s
+                    complex(sp),intent(inout),intent(inout) :: cx(*),cy(*)
                end subroutine csrot
 #else
                module procedure stdlib_csrot
@@ -1132,9 +1206,9 @@ module stdlib_linalg_blas
                subroutine csscal(n,sa,cx,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: sa
-                    integer(ilp) :: incx,n
-                    complex(sp) :: cx(*)
+                    real(sp),intent(in),intent(in) :: sa
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    complex(sp),intent(inout),intent(inout) :: cx(*)
                end subroutine csscal
 #else
                module procedure stdlib_csscal
@@ -1147,8 +1221,8 @@ module stdlib_linalg_blas
                subroutine cswap(n,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    complex(sp) :: cx(*),cy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(sp),intent(inout),intent(inout) :: cx(*),cy(*)
                end subroutine cswap
 #else
                module procedure stdlib_cswap
@@ -1157,8 +1231,8 @@ module stdlib_linalg_blas
                subroutine dswap(n,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(dp) :: dx(*),dy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(dp),intent(inout),intent(inout) :: dx(*),dy(*)
                end subroutine dswap
 #else
                module procedure stdlib_dswap
@@ -1168,8 +1242,8 @@ module stdlib_linalg_blas
                subroutine sswap(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    real(sp) :: sx(*),sy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    real(sp),intent(inout),intent(inout) :: sx(*),sy(*)
                end subroutine sswap
 #else
                module procedure stdlib_sswap
@@ -1179,8 +1253,8 @@ module stdlib_linalg_blas
                subroutine zswap(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,incy,n
-                    complex(dp) :: zx(*),zy(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,n
+                    complex(dp),intent(inout),intent(inout) :: zx(*),zy(*)
                end subroutine zswap
 #else
                module procedure stdlib_zswap
@@ -1198,9 +1272,10 @@ module stdlib_linalg_blas
                subroutine csymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: lda,ldb,ldc,m,n
-                    character :: side,uplo
+                    complex(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: side,uplo
+                    complex(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine csymm
 #else
                module procedure stdlib_csymm
@@ -1209,9 +1284,10 @@ module stdlib_linalg_blas
                subroutine dsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: lda,ldb,ldc,m,n
-                    character :: side,uplo
+                    real(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: side,uplo
+                    real(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine dsymm
 #else
                module procedure stdlib_dsymm
@@ -1221,9 +1297,10 @@ module stdlib_linalg_blas
                subroutine ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: lda,ldb,ldc,m,n
-                    character :: side,uplo
+                    real(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: side,uplo
+                    real(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine ssymm
 #else
                module procedure stdlib_ssymm
@@ -1233,9 +1310,10 @@ module stdlib_linalg_blas
                subroutine zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: lda,ldb,ldc,m,n
-                    character :: side,uplo
+                    complex(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,ldc,m,n
+                    character,intent(in),intent(in) :: side,uplo
+                    complex(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine zsymm
 #else
                module procedure stdlib_zsymm
@@ -1251,9 +1329,10 @@ module stdlib_linalg_blas
                subroutine dsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,n
-                    character :: uplo
+                    real(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    real(dp),intent(inout),intent(inout) :: y(*)
                end subroutine dsymv
 #else
                module procedure stdlib_dsymv
@@ -1263,9 +1342,10 @@ module stdlib_linalg_blas
                subroutine ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,n
-                    character :: uplo
+                    real(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    real(sp),intent(inout),intent(inout) :: y(*)
                end subroutine ssymv
 #else
                module procedure stdlib_ssymv
@@ -1281,9 +1361,10 @@ module stdlib_linalg_blas
                subroutine dsyr(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,a(lda,*),x(*)
-                    integer(ilp) :: incx,lda,n
-                    character :: uplo
+                    real(dp),intent(in),intent(in) :: alpha,x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    real(dp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine dsyr
 #else
                module procedure stdlib_dsyr
@@ -1293,9 +1374,10 @@ module stdlib_linalg_blas
                subroutine ssyr(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,a(lda,*),x(*)
-                    integer(ilp) :: incx,lda,n
-                    character :: uplo
+                    real(sp),intent(in),intent(in) :: alpha,x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    real(sp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine ssyr
 #else
                module procedure stdlib_ssyr
@@ -1311,9 +1393,10 @@ module stdlib_linalg_blas
                subroutine dsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,n
-                    character :: uplo
+                    real(dp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    real(dp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine dsyr2
 #else
                module procedure stdlib_dsyr2
@@ -1323,9 +1406,10 @@ module stdlib_linalg_blas
                subroutine ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,a(lda,*),x(*),y(*)
-                    integer(ilp) :: incx,incy,lda,n
-                    character :: uplo
+                    real(sp),intent(in),intent(in) :: alpha,x(*),y(*)
+                    integer(ilp),intent(in),intent(in) :: incx,incy,lda,n
+                    character,intent(in),intent(in) :: uplo
+                    real(sp),intent(inout),intent(inout) :: a(lda,*)
                end subroutine ssyr2
 #else
                module procedure stdlib_ssyr2
@@ -1344,9 +1428,10 @@ module stdlib_linalg_blas
                subroutine csyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldb,ldc,n
-                    character :: trans,uplo
+                    complex(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    complex(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine csyr2k
 #else
                module procedure stdlib_csyr2k
@@ -1355,9 +1440,10 @@ module stdlib_linalg_blas
                subroutine dsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldb,ldc,n
-                    character :: trans,uplo
+                    real(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    real(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine dsyr2k
 #else
                module procedure stdlib_dsyr2k
@@ -1367,9 +1453,10 @@ module stdlib_linalg_blas
                subroutine ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldb,ldc,n
-                    character :: trans,uplo
+                    real(sp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    real(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine ssyr2k
 #else
                module procedure stdlib_ssyr2k
@@ -1379,9 +1466,10 @@ module stdlib_linalg_blas
                subroutine zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,a(lda,*),b(ldb,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldb,ldc,n
-                    character :: trans,uplo
+                    complex(dp),intent(in),intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldb,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    complex(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine zsyr2k
 #else
                module procedure stdlib_zsyr2k
@@ -1400,9 +1488,10 @@ module stdlib_linalg_blas
                subroutine csyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,beta,a(lda,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldc,n
-                    character :: trans,uplo
+                    complex(sp),intent(in),intent(in) :: alpha,beta,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    complex(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine csyrk
 #else
                module procedure stdlib_csyrk
@@ -1411,9 +1500,10 @@ module stdlib_linalg_blas
                subroutine dsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,beta,a(lda,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldc,n
-                    character :: trans,uplo
+                    real(dp),intent(in),intent(in) :: alpha,beta,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    real(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine dsyrk
 #else
                module procedure stdlib_dsyrk
@@ -1423,9 +1513,10 @@ module stdlib_linalg_blas
                subroutine ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,beta,a(lda,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldc,n
-                    character :: trans,uplo
+                    real(sp),intent(in),intent(in) :: alpha,beta,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    real(sp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine ssyrk
 #else
                module procedure stdlib_ssyrk
@@ -1435,9 +1526,10 @@ module stdlib_linalg_blas
                subroutine zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,beta,a(lda,*),c(ldc,*)
-                    integer(ilp) :: k,lda,ldc,n
-                    character :: trans,uplo
+                    complex(dp),intent(in),intent(in) :: alpha,beta,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: k,lda,ldc,n
+                    character,intent(in),intent(in) :: trans,uplo
+                    complex(dp),intent(inout),intent(inout) :: c(ldc,*)
                end subroutine zsyrk
 #else
                module procedure stdlib_zsyrk
@@ -1453,9 +1545,10 @@ module stdlib_linalg_blas
                subroutine ctbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k,lda,n
-                    character :: diag,trans,uplo
-                    complex(sp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,k,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(sp),intent(in),intent(in) :: a(lda,*)
+                    complex(sp),intent(inout),intent(inout) :: x(*)
                end subroutine ctbmv
 #else
                module procedure stdlib_ctbmv
@@ -1464,9 +1557,10 @@ module stdlib_linalg_blas
                subroutine dtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k,lda,n
-                    character :: diag,trans,uplo
-                    real(dp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,k,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(dp),intent(in),intent(in) :: a(lda,*)
+                    real(dp),intent(inout),intent(inout) :: x(*)
                end subroutine dtbmv
 #else
                module procedure stdlib_dtbmv
@@ -1476,9 +1570,10 @@ module stdlib_linalg_blas
                subroutine stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k,lda,n
-                    character :: diag,trans,uplo
-                    real(sp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,k,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(sp),intent(in),intent(in) :: a(lda,*)
+                    real(sp),intent(inout),intent(inout) :: x(*)
                end subroutine stbmv
 #else
                module procedure stdlib_stbmv
@@ -1488,9 +1583,10 @@ module stdlib_linalg_blas
                subroutine ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k,lda,n
-                    character :: diag,trans,uplo
-                    complex(dp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,k,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(dp),intent(in),intent(in) :: a(lda,*)
+                    complex(dp),intent(inout),intent(inout) :: x(*)
                end subroutine ztbmv
 #else
                module procedure stdlib_ztbmv
@@ -1509,9 +1605,10 @@ module stdlib_linalg_blas
                subroutine ctbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k,lda,n
-                    character :: diag,trans,uplo
-                    complex(sp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,k,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(sp),intent(in),intent(in) :: a(lda,*)
+                    complex(sp),intent(inout),intent(inout) :: x(*)
                end subroutine ctbsv
 #else
                module procedure stdlib_ctbsv
@@ -1520,9 +1617,10 @@ module stdlib_linalg_blas
                subroutine dtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k,lda,n
-                    character :: diag,trans,uplo
-                    real(dp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,k,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(dp),intent(in),intent(in) :: a(lda,*)
+                    real(dp),intent(inout),intent(inout) :: x(*)
                end subroutine dtbsv
 #else
                module procedure stdlib_dtbsv
@@ -1532,9 +1630,10 @@ module stdlib_linalg_blas
                subroutine stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k,lda,n
-                    character :: diag,trans,uplo
-                    real(sp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,k,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(sp),intent(in),intent(in) :: a(lda,*)
+                    real(sp),intent(inout),intent(inout) :: x(*)
                end subroutine stbsv
 #else
                module procedure stdlib_stbsv
@@ -1544,9 +1643,10 @@ module stdlib_linalg_blas
                subroutine ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,k,lda,n
-                    character :: diag,trans,uplo
-                    complex(dp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,k,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(dp),intent(in),intent(in) :: a(lda,*)
+                    complex(dp),intent(inout),intent(inout) :: x(*)
                end subroutine ztbsv
 #else
                module procedure stdlib_ztbsv
@@ -1562,9 +1662,10 @@ module stdlib_linalg_blas
                subroutine ctpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,n
-                    character :: diag,trans,uplo
-                    complex(sp) :: ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(sp),intent(in),intent(in) :: ap(*)
+                    complex(sp),intent(inout),intent(inout) :: x(*)
                end subroutine ctpmv
 #else
                module procedure stdlib_ctpmv
@@ -1573,9 +1674,10 @@ module stdlib_linalg_blas
                subroutine dtpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,n
-                    character :: diag,trans,uplo
-                    real(dp) :: ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(dp),intent(in),intent(in) :: ap(*)
+                    real(dp),intent(inout),intent(inout) :: x(*)
                end subroutine dtpmv
 #else
                module procedure stdlib_dtpmv
@@ -1585,9 +1687,10 @@ module stdlib_linalg_blas
                subroutine stpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,n
-                    character :: diag,trans,uplo
-                    real(sp) :: ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(sp),intent(in),intent(in) :: ap(*)
+                    real(sp),intent(inout),intent(inout) :: x(*)
                end subroutine stpmv
 #else
                module procedure stdlib_stpmv
@@ -1597,9 +1700,10 @@ module stdlib_linalg_blas
                subroutine ztpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,n
-                    character :: diag,trans,uplo
-                    complex(dp) :: ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(dp),intent(in),intent(in) :: ap(*)
+                    complex(dp),intent(inout),intent(inout) :: x(*)
                end subroutine ztpmv
 #else
                module procedure stdlib_ztpmv
@@ -1617,9 +1721,10 @@ module stdlib_linalg_blas
                subroutine ctpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,n
-                    character :: diag,trans,uplo
-                    complex(sp) :: ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(sp),intent(in),intent(in) :: ap(*)
+                    complex(sp),intent(inout),intent(inout) :: x(*)
                end subroutine ctpsv
 #else
                module procedure stdlib_ctpsv
@@ -1628,9 +1733,10 @@ module stdlib_linalg_blas
                subroutine dtpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,n
-                    character :: diag,trans,uplo
-                    real(dp) :: ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(dp),intent(in),intent(in) :: ap(*)
+                    real(dp),intent(inout),intent(inout) :: x(*)
                end subroutine dtpsv
 #else
                module procedure stdlib_dtpsv
@@ -1640,9 +1746,10 @@ module stdlib_linalg_blas
                subroutine stpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,n
-                    character :: diag,trans,uplo
-                    real(sp) :: ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(sp),intent(in),intent(in) :: ap(*)
+                    real(sp),intent(inout),intent(inout) :: x(*)
                end subroutine stpsv
 #else
                module procedure stdlib_stpsv
@@ -1652,9 +1759,10 @@ module stdlib_linalg_blas
                subroutine ztpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,n
-                    character :: diag,trans,uplo
-                    complex(dp) :: ap(*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(dp),intent(in),intent(in) :: ap(*)
+                    complex(dp),intent(inout),intent(inout) :: x(*)
                end subroutine ztpsv
 #else
                module procedure stdlib_ztpsv
@@ -1671,9 +1779,10 @@ module stdlib_linalg_blas
                subroutine ctrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,a(lda,*),b(ldb,*)
-                    integer(ilp) :: lda,ldb,m,n
-                    character :: diag,side,transa,uplo
+                    complex(sp),intent(in),intent(in) :: alpha,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,m,n
+                    character,intent(in),intent(in) :: diag,side,transa,uplo
+                    complex(sp),intent(inout),intent(inout) :: b(ldb,*)
                end subroutine ctrmm
 #else
                module procedure stdlib_ctrmm
@@ -1682,9 +1791,10 @@ module stdlib_linalg_blas
                subroutine dtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,a(lda,*),b(ldb,*)
-                    integer(ilp) :: lda,ldb,m,n
-                    character :: diag,side,transa,uplo
+                    real(dp),intent(in),intent(in) :: alpha,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,m,n
+                    character,intent(in),intent(in) :: diag,side,transa,uplo
+                    real(dp),intent(inout),intent(inout) :: b(ldb,*)
                end subroutine dtrmm
 #else
                module procedure stdlib_dtrmm
@@ -1694,9 +1804,10 @@ module stdlib_linalg_blas
                subroutine strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,a(lda,*),b(ldb,*)
-                    integer(ilp) :: lda,ldb,m,n
-                    character :: diag,side,transa,uplo
+                    real(sp),intent(in),intent(in) :: alpha,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,m,n
+                    character,intent(in),intent(in) :: diag,side,transa,uplo
+                    real(sp),intent(inout),intent(inout) :: b(ldb,*)
                end subroutine strmm
 #else
                module procedure stdlib_strmm
@@ -1706,9 +1817,10 @@ module stdlib_linalg_blas
                subroutine ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,a(lda,*),b(ldb,*)
-                    integer(ilp) :: lda,ldb,m,n
-                    character :: diag,side,transa,uplo
+                    complex(dp),intent(in),intent(in) :: alpha,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,m,n
+                    character,intent(in),intent(in) :: diag,side,transa,uplo
+                    complex(dp),intent(inout),intent(inout) :: b(ldb,*)
                end subroutine ztrmm
 #else
                module procedure stdlib_ztrmm
@@ -1724,9 +1836,10 @@ module stdlib_linalg_blas
                subroutine ctrmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,lda,n
-                    character :: diag,trans,uplo
-                    complex(sp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(sp),intent(in),intent(in) :: a(lda,*)
+                    complex(sp),intent(inout),intent(inout) :: x(*)
                end subroutine ctrmv
 #else
                module procedure stdlib_ctrmv
@@ -1735,9 +1848,10 @@ module stdlib_linalg_blas
                subroutine dtrmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,lda,n
-                    character :: diag,trans,uplo
-                    real(dp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(dp),intent(in),intent(in) :: a(lda,*)
+                    real(dp),intent(inout),intent(inout) :: x(*)
                end subroutine dtrmv
 #else
                module procedure stdlib_dtrmv
@@ -1747,9 +1861,10 @@ module stdlib_linalg_blas
                subroutine strmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,lda,n
-                    character :: diag,trans,uplo
-                    real(sp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(sp),intent(in),intent(in) :: a(lda,*)
+                    real(sp),intent(inout),intent(inout) :: x(*)
                end subroutine strmv
 #else
                module procedure stdlib_strmv
@@ -1759,9 +1874,10 @@ module stdlib_linalg_blas
                subroutine ztrmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,lda,n
-                    character :: diag,trans,uplo
-                    complex(dp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(dp),intent(in),intent(in) :: a(lda,*)
+                    complex(dp),intent(inout),intent(inout) :: x(*)
                end subroutine ztrmv
 #else
                module procedure stdlib_ztrmv
@@ -1779,9 +1895,10 @@ module stdlib_linalg_blas
                subroutine ctrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(sp) :: alpha,a(lda,*),b(ldb,*)
-                    integer(ilp) :: lda,ldb,m,n
-                    character :: diag,side,transa,uplo
+                    complex(sp),intent(in),intent(in) :: alpha,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,m,n
+                    character,intent(in),intent(in) :: diag,side,transa,uplo
+                    complex(sp),intent(inout),intent(inout) :: b(ldb,*)
                end subroutine ctrsm
 #else
                module procedure stdlib_ctrsm
@@ -1790,9 +1907,10 @@ module stdlib_linalg_blas
                subroutine dtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: alpha,a(lda,*),b(ldb,*)
-                    integer(ilp) :: lda,ldb,m,n
-                    character :: diag,side,transa,uplo
+                    real(dp),intent(in),intent(in) :: alpha,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,m,n
+                    character,intent(in),intent(in) :: diag,side,transa,uplo
+                    real(dp),intent(inout),intent(inout) :: b(ldb,*)
                end subroutine dtrsm
 #else
                module procedure stdlib_dtrsm
@@ -1802,9 +1920,10 @@ module stdlib_linalg_blas
                subroutine strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: alpha,a(lda,*),b(ldb,*)
-                    integer(ilp) :: lda,ldb,m,n
-                    character :: diag,side,transa,uplo
+                    real(sp),intent(in),intent(in) :: alpha,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,m,n
+                    character,intent(in),intent(in) :: diag,side,transa,uplo
+                    real(sp),intent(inout),intent(inout) :: b(ldb,*)
                end subroutine strsm
 #else
                module procedure stdlib_strsm
@@ -1814,9 +1933,10 @@ module stdlib_linalg_blas
                subroutine ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    complex(dp) :: alpha,a(lda,*),b(ldb,*)
-                    integer(ilp) :: lda,ldb,m,n
-                    character :: diag,side,transa,uplo
+                    complex(dp),intent(in),intent(in) :: alpha,a(lda,*)
+                    integer(ilp),intent(in),intent(in) :: lda,ldb,m,n
+                    character,intent(in),intent(in) :: diag,side,transa,uplo
+                    complex(dp),intent(inout),intent(inout) :: b(ldb,*)
                end subroutine ztrsm
 #else
                module procedure stdlib_ztrsm
@@ -1834,9 +1954,10 @@ module stdlib_linalg_blas
                subroutine ctrsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,lda,n
-                    character :: diag,trans,uplo
-                    complex(sp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(sp),intent(in),intent(in) :: a(lda,*)
+                    complex(sp),intent(inout),intent(inout) :: x(*)
                end subroutine ctrsv
 #else
                module procedure stdlib_ctrsv
@@ -1845,9 +1966,10 @@ module stdlib_linalg_blas
                subroutine dtrsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,lda,n
-                    character :: diag,trans,uplo
-                    real(dp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(dp),intent(in),intent(in) :: a(lda,*)
+                    real(dp),intent(inout),intent(inout) :: x(*)
                end subroutine dtrsv
 #else
                module procedure stdlib_dtrsv
@@ -1857,9 +1979,10 @@ module stdlib_linalg_blas
                subroutine strsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,lda,n
-                    character :: diag,trans,uplo
-                    real(sp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    real(sp),intent(in),intent(in) :: a(lda,*)
+                    real(sp),intent(inout),intent(inout) :: x(*)
                end subroutine strsv
 #else
                module procedure stdlib_strsv
@@ -1869,9 +1992,10 @@ module stdlib_linalg_blas
                subroutine ztrsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    integer(ilp) :: incx,lda,n
-                    character :: diag,trans,uplo
-                    complex(dp) :: a(lda,*),x(*)
+                    integer(ilp),intent(in),intent(in) :: incx,lda,n
+                    character,intent(in),intent(in) :: diag,trans,uplo
+                    complex(dp),intent(in),intent(in) :: a(lda,*)
+                    complex(dp),intent(inout),intent(inout) :: x(*)
                end subroutine ztrsv
 #else
                module procedure stdlib_ztrsv
