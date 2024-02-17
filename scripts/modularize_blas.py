@@ -802,6 +802,8 @@ def adjust_variable_declaration(Source,line,datatype):
                     r'intrinsic', \
                     r'external']
 
+    lines = []
+
     ll = line.lower()
 
     for i in range(len(declarations)):
@@ -810,12 +812,14 @@ def adjust_variable_declaration(Source,line,datatype):
 
             variable = line[m.end()-1:].lstrip()
             var_type = line[:m.end()-2].rstrip()
-            line = var_type + " :: " + variable
+
+            vls = variable.lower().strip()
 
             # Patch function argument
-            if variable.lower().strip()=='selctg':
+            if vls=='selctg':
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_selctg_"+datatype[0]+") :: selctg"
+                lines.append(line)
                 if not datatype[0] in ['d','c','s','z','w','q']:
                     print("invalid datatype")
                     print(line)
@@ -823,9 +827,10 @@ def adjust_variable_declaration(Source,line,datatype):
                     print(datatype)
                     exit(1)
 
-            if variable.lower().strip()=='select':
+            elif vls=='select':
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_select_"+datatype[0]+") :: select"
+                lines.append(line)
                 if not datatype[0] in ['d','c','s','z','w','q']:
                     print("invalid datatype")
                     print(line)
@@ -833,9 +838,52 @@ def adjust_variable_declaration(Source,line,datatype):
                     print(datatype)
                     exit(1)
 
-            return line
+            else:
 
-    return line
+                # Extract individual variable names
+                v,v_noarray = extract_variable_declarations(vls)
+
+                if len(v)<=0:
+                    print(vls)
+                    print("error: no variables found")
+                    exit(1)
+                else:
+
+                    # Group variables by intent (kind is same for them all)
+                    same_intent = []
+                    same_intent_variables = []
+                    same_intent_noarray = []
+
+                    for kk in range(len(v)):
+
+                        # Get this intent
+                        intent = Source.argument_intent(v_noarray[kk])
+
+                        if len(same_intent)<=0 or not (intent in same_intent):
+                            same_intent.append(intent)
+                            same_intent_variables.append(v[kk])
+                            same_intent_noarray.append(v_noarray[kk])
+                        else:
+                            jj = same_intent.index(intent)
+                            same_intent_variables[jj] = same_intent_variables[jj] + ", " + v[kk]
+                            same_intent_noarray[jj] = same_intent_variables[jj] + ", " + v_noarray[kk]
+
+
+                for jj in range(len(same_intent)):
+                   intent = same_intent[jj]
+                   variable = same_intent_variables[jj]
+
+                   if intent=="unknown":
+                       line = var_type + " :: " + variable
+                   else:
+                       line = var_type + ", intent(" + intent +") :: " + variable
+
+                   lines.append(line)
+
+            return lines
+
+    lines.append(line)
+    return lines
 
 # Find parameter declarations
 def find_parameter_declaration(line,datatype):
@@ -1094,6 +1142,36 @@ class Fortran_Source:
         return old.startswith('q') or old.startswith('iq') or old.startswith('ilaq') or \
                old.startswith('w') or old.startswith('iw') or old.startswith('ilaw')
 
+    # Check if variable is an argument
+    def is_argument(self,argument):
+        lsa = argument.lower().strip()
+        return lsa in self.arguments
+
+    # Find argument intent
+    def argument_intent(self,argument):
+        lsa = argument.lower().strip()
+
+        # Extract name with no (*) or other arguments
+        vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',lsa)
+        name = vname.group(1).strip()
+
+        intent = "unknown"
+
+        # Add to list if this is an argument
+        if self.is_argument(name):
+
+            # Search for an intent to this variable in the function header comments
+            if name in self.intent_var:
+               kk = self.intent_var.index(name)
+               intent = self.intent_lab[kk]
+               print(intent)
+               if intent=="in,out" or intent=="in out" or intent=="in, out":
+                   intent = "inout"
+            else:
+               intent = "unknown"
+
+        return intent
+
 
     # Convert a double precision function to quad precision
     def to_quad_precision(self):
@@ -1186,27 +1264,12 @@ class Fortran_Source:
                 # Remove all spaces from the variables
                 variables = m.group(2).replace(" ","")
 
-
-                # Extract variable declarations
-                v = re.findall(r'([a-zA-Z0-9\_]+(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
-
-                if DEBUG: print("DECLARATION:: LINE VARIABLES "+variables)
+                v,v_noarray = extract_variable_declarations(variables)
 
                 # Add to variables
                 for k in range(len(v)):
 
-                    v[k] = v[k].strip()
-                    if DEBUG: print("DECLARATION:: VARIABLE "+v[k])
-
-                    # Clean trailing commas
-                    if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
-
-                    # Extract name with no (*) or other arguments
-                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',v[k])
-                    name = vname.group(1).strip()
-                    print(name)
-                    print(v[k])
-
+                    name = v_noarray[k]
 
                     # Add to list if this is an argument
                     if name in args:
@@ -1214,15 +1277,7 @@ class Fortran_Source:
                         var_types.append(datatype)
 
                         # Search for an intent to this variable in the function header comments
-                        print(name+" in intent? "+str(bool(v[k] in self.intent_var)))
-                        if name in self.intent_var:
-                             kk = self.intent_var.index(name)
-                             intent = self.intent_lab[kk]
-                             print(intent)
-                             if intent=="in,out" or intent=="in out" or intent=="in, out":
-                                 intent = "inout"
-                        else:
-                            intent = "unknown"
+                        intent = self.argument_intent(name)
 
                         # Declarations are combined by datatype
                         exists = False
@@ -1251,6 +1306,40 @@ class Fortran_Line:
         self.use           = False
         self.will_continue = False
         self.directive     = False
+
+# From a list of variables, extract their individual names and array declarations (does not support
+# DIMENSION attribute)
+def extract_variable_declarations(line):
+
+    DEBUG = True
+
+    var_names   = []
+    var_noarray = []
+
+    variables = line.strip().lower()
+
+    # Extract variable declarations
+    v = re.findall(r'([a-zA-Z0-9\_]+(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
+
+    if DEBUG: print("DECLARATION:: LINE VARIABLES "+variables)
+
+    # Add to variables
+    for k in range(len(v)):
+
+        v[k] = v[k].strip()
+        if DEBUG: print("DECLARATION:: VARIABLE "+v[k])
+
+        # Clean trailing commas
+        if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
+
+        # Extract name with no (*) or other arguments
+        vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',v[k])
+        name = vname.group(1).strip()
+
+        var_names.append(v[k])
+        var_noarray.append(name)
+
+    return var_names,var_noarray
 
 # Read and preprocess a Fortran line for parsing: remove comments, adjust left, and if this is a continuation
 # line, read all continuation lines into it
@@ -2202,25 +2291,36 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                line = "";
                            else:
 
-                               line = adjust_variable_declaration(Source,line,initial)
+                               # Variable declarations may result in more than one line,
+                               # if the intents of each variable in the same line are different
+                               lines = adjust_variable_declaration(Source,line,initial)
 
-                               # Parse parameter lines
-                               if DEBUG: print("find parameter decl: "+line)
-                               pname, pval = find_parameter_declaration(line,initial)
+                               for k in range(len(lines)):
 
-                               # If parameters were found, strip them off the declaration for now
-                               if len(pname)>0:
-                                  for k in range(len(pname)):
-                                      Source.pname.append(pname[k])
-                                      Source.pvalue.append(pval[k])
-                                      Source.ptype.append(" ")
+                                   line = lines[k]
 
-                                  # Do not include "parameter" line in the body
-                                  line = ""
+                                   # Parse parameter lines
+                                   if DEBUG: print("find parameter decl: "+line)
+                                   pname, pval = find_parameter_declaration(line,initial)
 
-                           if len(line)>0: Source.decl.append(line)
+                                   # If parameters were found, strip them off the declaration for now
+                                   if len(pname)>0:
+                                      for k in range(len(pname)):
+                                          Source.pname.append(pname[k])
+                                          Source.pvalue.append(pval[k])
+                                          Source.ptype.append(" ")
 
-                           print(line)
+                                      # Do not include "parameter" line in the body
+                                      line = ""
+
+                                   if len(line)>0: Source.decl.append(line)
+                                   print(line)
+
+                                   Source.body.append(INDENT + line)
+
+                               continue
+
+
 
                        else:
                            # Start body section
