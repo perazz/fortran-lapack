@@ -413,6 +413,7 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
     # Module header function names [old, new]
     if not (procedure_name is None):
         whole = re.sub(r'\! '+procedure_name[0].upper(),r'! '+procedure_name[1].upper(),whole)
+        whole = re.sub(r'\b'+procedure_name[0]+r'\b',r'\b'+procedure_name[1]+r'\b',whole)
 
     whole = re.sub(r'64\-bit',r'128-bit',whole)
     whole = re.sub(r'double precision',r'quad precision',whole)
@@ -893,6 +894,9 @@ def find_parameter_declaration(line,datatype):
 
     return parameter_name, parameter_value
 
+# Replace group match with uppercase
+def upper_repl(match):
+     return match.group(0).upper()
 
 # Write function body (list of lines)
 def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
@@ -941,6 +945,10 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
           else:
               # Just add indent
               line = INDENT + line.lstrip(' ')
+
+       # LAPACK fix: if there are strings between quotes, ensure all contents are capitalized
+       # (to be properly read in by ilaenv and other routines)
+       line = re.sub(r"([\"'])((?=(\\?))\3.)*?\1", upper_repl, line)
 
        if is_directive:
            fid.write(line+"\n")
