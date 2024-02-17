@@ -1153,6 +1153,10 @@ class Fortran_Source:
 
         # Extract name with no (*) or other arguments
         vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',lsa)
+        if vname is None:
+            print(lsa)
+            print("NO NAME FOUND!!!!")
+            exit(1)
         name = vname.group(1).strip()
 
         intent = "unknown"
@@ -1316,10 +1320,11 @@ def extract_variable_declarations(line):
     var_names   = []
     var_noarray = []
 
-    variables = line.strip().lower()
+    variables = line.strip().lower().replace(" ","")
+    print(variables)
 
     # Extract variable declarations
-    v = re.findall(r'([a-zA-Z0-9\_]+(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
+    v = re.findall(r'([a-zA-Z0-9\_\*]+(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
 
     if DEBUG: print("DECLARATION:: LINE VARIABLES "+variables)
 
@@ -1333,7 +1338,7 @@ def extract_variable_declarations(line):
         if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
 
         # Extract name with no (*) or other arguments
-        vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',v[k])
+        vname = re.search(r'([a-zA-Z0-9\_\*]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',v[k])
         name = vname.group(1).strip()
 
         var_names.append(v[k])
@@ -1818,6 +1823,8 @@ def rename_source_body(Source,Sources,external_funs,prefix):
 
     import re
 
+    DEBUG = Source.old_name.lower()=='clartg'
+
     name  = Source.old_name
     lines = Source.body
     decl  = Source.decl
@@ -1861,6 +1868,8 @@ def rename_source_body(Source,Sources,external_funs,prefix):
         if "la_constants" in whole_decl: la_const = True
 
     replacement = prefix+r'\g<0>'
+
+    if DEBUG: print("la_const = " + str(la_const))
 
 
     whole = '\n'.join(lines).lower()
@@ -2314,9 +2323,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                       line = ""
 
                                    if len(line)>0: Source.decl.append(line)
-                                   print(line)
 
-                                   Source.body.append(INDENT + line)
+                                   if not Line.use: Source.body.append(INDENT + line)
 
                                continue
 
