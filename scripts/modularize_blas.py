@@ -788,8 +788,8 @@ def heading_spaces(line):
     nspaces = len(line)-len(posts)
     return nspaces
 
-# Adjust variable declaration
-def adjust_variable_declaration(line,datatype):
+# Adjust variable declaration: add data types and intents
+def adjust_variable_declaration(Source,line,datatype):
 
     import re
 
@@ -996,6 +996,61 @@ def write_with_continuation(line,fid,INDENT,MAX_LENGTH):
            fid.write(INDENT*2 + line + "\n")
 
 
+# Extract list of arguments out of a subroutine/function header
+def extract_arguments(header_line,is_function):
+
+    DEBUG = False
+
+    # Strip, lower
+    head = header_line.lower().strip()
+    if DEBUG: print("DECLARATION:: HEAD "+head)
+
+    # extract arguments
+    if is_function:
+       m = re.search(r'(\S*\s+)*(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
+
+       if m is None:
+           print(m)
+           print(head)
+           print("ERROR")
+           exit(1)
+
+       has_type   = not m.group(1) is None
+       has_result = not m.group(5) is None
+
+       args = m.group(4)
+
+       # If the type is not declared here, it must be found in the list of arguments, ensure it is added
+       if not has_type:
+           if has_result:
+              # Parse name
+              result = re.search(r'(?:\s*result\s*)\((.+)\)',m.group(5))
+              args = args + "," + result.group(1)
+           else:
+              args = args + "," + m.group(3)
+
+       args = args.split(",")
+
+    else:
+       m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\s*\(([^\(\)]+)\)',head)
+
+       if m is None:
+           print("HEAD="+head)
+           print("ERROR: CANNOT FIND SUBROUTINE NAME")
+           exit(1)
+
+       args = m.group(3).split(",")
+
+    if len(args)>1:
+        for a in range(len(args)):
+            args[a] = args[a].strip()
+    else:
+        if isinstance(args, type([])): args = args[0]
+        args = args.strip()
+
+    return args
+
+
 
 # This class represents the contents of a 1-function/1-subroutine Fortran source file parsed from BLAS/LAPACK
 class Fortran_Source:
@@ -1018,6 +1073,7 @@ class Fortran_Source:
         self.header = []
         self.intent_var = []
         self.intent_lab = []
+        self.arguments = []
 
     # Return subroutine/function string
     def procedure_type(self):
@@ -1089,8 +1145,6 @@ class Fortran_Source:
 
         return q
 
-
-
     # Return declaration line of a function
     def declaration(self,strip_prefix):
 
@@ -1109,58 +1163,14 @@ class Fortran_Source:
             print("ERROR: Procedure declaration not found in function "+self.old_name)
             exit(1)
 
-        # Strip, lower
-        head = head.lower().strip()
-        if DEBUG: print("DECLARATION:: HEAD "+head)
-
-        # extract arguments
-        if self.is_function:
-           m = re.search(r'(\S*\s+)*(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
-
-           if m is None:
-               print(m)
-               print(head)
-               print("ERROR")
-               exit(1)
-
-           has_type   = not m.group(1) is None
-           has_result = not m.group(5) is None
-
-           args = m.group(4)
-
-           # If the type is not declared here, it must be found in the list of arguments, ensure it is added
-           if not has_type:
-               if has_result:
-                  # Parse name
-                  result = re.search(r'(?:\s*result\s*)\((.+)\)',m.group(5))
-                  args = args + "," + result.group(1)
-               else:
-                  args = args + "," + m.group(3)
-
-           args = args.split(",")
-
-        else:
-           m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\s*\(([^\(\)]+)\)',head)
-
-           if m is None:
-               print("HEAD="+head)
-               print("ERROR: CANNOT FIND SUBROUTINE NAME")
-               exit(1)
-
-           args = m.group(3).split(",")
-
-        print(args)
-        if len(args)>1:
-            for a in range(len(args)):
-                args[a] = args[a].strip()
-        else:
-            if isinstance(args, type([])): args = args[0]
-            args = args.strip()
+        # Extract arguments list
+        args = extract_arguments(head,self.is_function)
 
         # extract all variables
-        var_types = []
-        var_names = []
-        var_decl  = []
+        var_types  = []
+        var_names  = []
+        var_decl   = []
+        var_intent = []
         for i in range(len(self.decl)):
             line = self.decl[i].lower().strip()
             m = re.search(r'\s*(.+)\s+\:{2}\s+(.+)',line)
@@ -1203,13 +1213,29 @@ class Fortran_Source:
                         var_names.append(v[k])
                         var_types.append(datatype)
 
+                        # Search for an intent to this variable in the function header comments
+                        print(name+" in intent? "+str(bool(v[k] in self.intent_var)))
+                        if name in self.intent_var:
+                             kk = self.intent_var.index(name)
+                             intent = self.intent_lab[kk]
+                             print(intent)
+                             if intent=="in,out" or intent=="in out" or intent=="in, out":
+                                 intent = "inout"
+                        else:
+                            intent = "unknown"
+
                         # Declarations are combined by datatype
                         exists = False
                         for d in range(len(var_decl)):
-                            if var_decl[d].startswith(datatype):
+                            if var_decl[d].startswith(datatype) and var_intent[d]==intent:
                                 exists = True
                                 var_decl[d] = var_decl[d] + "," + v[k]
-                        if not exists: var_decl.append(datatype+" :: "+v[k])
+                        if not exists:
+                            if intent=="unknown":
+                               var_decl.append(datatype+" :: "+v[k])
+                            else:
+                               var_decl.append(datatype+", intent("+intent+") :: "+v[k])
+                            var_intent.append(intent)
                     else:
                         print("variable <"+v[k]+"> not in args")
 
@@ -1218,7 +1244,7 @@ class Fortran_Source:
         return head,var_decl
 
 class Fortran_Line:
-    def __init(self):
+    def __init__(self):
         self.string        = ""
         self.continuation  = False
         self.comment       = False
@@ -1760,7 +1786,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
             print("***match***" + old_names[j])
             is_found[j] = True
 
-    # Replace la constants
+    # Replace la_* constants
     if la_const:
         for j in range(len(la_names)):
             if is_declared[j]: continue
@@ -1962,7 +1988,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = True # file_name.startswith("cgejsv")
+    DEBUG  = False # file_name.startswith("cgejsv")
 
     Procedures = []
 
@@ -2051,8 +2077,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                intent = not m_intent is None
                if intent:
-                   Source.intent_var.append(m_intent.group(2))
-                   Source.intent_lab.append(m_intent.group(1))
+                   Source.intent_var.append(m_intent.group(2).lower())
+                   Source.intent_lab.append(m_intent.group(1).lower())
+                   if DEBUG: print("Section.INTENT " + ls)
 
                # Inside an externals section: remove altogether
                if whereAt==Section.EXTERNALS and not ext_header:
@@ -2125,6 +2152,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                Source.new_name = prefix + Source.old_name
                                initial = function_module_initial(Source.old_name)
 
+                           # Extract function arguments
+                           Source.arguments = extract_arguments(lsl,Source.is_function)
+
                            if DEBUG: print("Subroutine name found: " + str(name))
 
                            whereAt = Section.DECLARATION
@@ -2141,6 +2171,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
                                initial = function_module_initial(Source.old_name)
+
+                           # Extract function arguments
+                           Source.arguments = extract_arguments(lsl,Source.is_function)
 
                            if DEBUG: print("Function name found: " + str(name))
 
@@ -2169,7 +2202,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                line = "";
                            else:
 
-                               line = adjust_variable_declaration(line,initial)
+                               line = adjust_variable_declaration(Source,line,initial)
 
                                # Parse parameter lines
                                if DEBUG: print("find parameter decl: "+line)
@@ -2186,6 +2219,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                   line = ""
 
                            if len(line)>0: Source.decl.append(line)
+
+                           print(line)
 
                        else:
                            # Start body section
@@ -2430,12 +2465,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
