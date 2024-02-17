@@ -1016,6 +1016,8 @@ class Fortran_Source:
         self.ptype = []
         self.pvalue = []
         self.header = []
+        self.intent_var = []
+        self.intent_lab = []
 
     # Return subroutine/function string
     def procedure_type(self):
@@ -1960,7 +1962,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False # file_name.startswith("cgejsv")
+    DEBUG  = True # file_name.startswith("cgejsv")
 
     Procedures = []
 
@@ -2044,6 +2046,14 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                ext_header = is_externals_header(line)
 
+               # Check if a variable intent is being specified in the comment header section
+               m_intent = re.match(r"(?:[\S\*\!>]+\s*)\\param\[(.+)\]\s*(.+)$",ls.lower())
+
+               intent = not m_intent is None
+               if intent:
+                   Source.intent_var.append(m_intent.group(2))
+                   Source.intent_lab.append(m_intent.group(1))
+
                # Inside an externals section: remove altogether
                if whereAt==Section.EXTERNALS and not ext_header:
                   if DEBUG: print("go back to declaration")
@@ -2092,13 +2102,14 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                if DEBUG: print(str(whereAt) + " reads: " + line)
 
                line = Line.string
+               lsl = line.strip().lower()
 
                # Check what section we're in
                match whereAt:
                    case Section.HEADER:
                        # Check if a declaration is starting
-                       sub_found = bool('subroutine' in line.strip().lower())
-                       fun_found = bool('function' in line.strip().lower())
+                       sub_found = bool('subroutine' in lsl)
+                       fun_found = bool('function' in lsl)
                        name = False
 
                        if sub_found:
@@ -2106,9 +2117,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            Source.is_subroutine = True
 
                            # Find subroutine name
-                           name = bool(re.match(r'^.*subroutine\s*\S+\s*\(.*$',line.strip().lower()))
+                           name = bool(re.match(r'^.*subroutine\s*\S+\s*\(.*$',lsl))
                            if name:
-                               strip_left = re.sub(r'^.*subroutine\s*','',line.strip().lower())
+                               strip_left = re.sub(r'^.*subroutine\s*','',lsl)
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
@@ -2123,9 +2134,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            Source.is_subroutine = False
 
                            # Find function name
-                           name = bool(re.match(r'^.*function\s*\S+\s*\(.*$',line.strip().lower()))
+                           name = bool(re.match(r'^.*function\s*\S+\s*\(.*$',lsl))
                            if name:
-                               strip_left = re.sub(r'^.*function\s*','',line.strip().lower())
+                               strip_left = re.sub(r'^.*function\s*','',lsl)
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
