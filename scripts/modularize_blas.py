@@ -948,7 +948,8 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
 
        # LAPACK fix: if there are strings between quotes, ensure all contents are capitalized
        # (to be properly read in by ilaenv and other routines)
-       line = re.sub(r"([\"'])((?=(\\?))\3.)*?\1", upper_repl, line)
+       if not is_comment_line:
+           line = re.sub(r"([\"'])((?=(\\?))\3.)*?\1", upper_repl, line)
 
        if is_directive:
            fid.write(line+"\n")
