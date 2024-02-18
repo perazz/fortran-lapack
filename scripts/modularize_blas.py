@@ -1287,7 +1287,7 @@ class Fortran_Source:
     # Return declaration line of a function
     def declaration(self,strip_prefix):
 
-        DEBUG = True # self.old_name == 'cgejsv'
+        DEBUG = False # self.old_name == 'cgejsv'
 
         # Find header
         head = ""
@@ -1354,7 +1354,6 @@ class Fortran_Source:
                             if intent=="unknown":
                                var_decl.append(datatype+" :: "+v[k])
                             else:
-                               exit(1)
                                if has_intent:
                                   var_decl.append(datatype+" :: "+v[k])
                                else:
