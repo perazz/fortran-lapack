@@ -1287,7 +1287,7 @@ class Fortran_Source:
     # Return declaration line of a function
     def declaration(self,strip_prefix):
 
-        DEBUG = False # self.old_name == 'cgejsv'
+        DEBUG = True # self.old_name == 'cgejsv'
 
         # Find header
         head = ""
@@ -1325,6 +1325,8 @@ class Fortran_Source:
                 # Remove all spaces from the variables
                 variables = m.group(2).replace(" ","")
 
+                has_intent = "intent(" in datatype
+
                 v,v_noarray = extract_variable_declarations(variables)
 
                 # Add to variables
@@ -1339,6 +1341,8 @@ class Fortran_Source:
 
                         # Search for an intent to this variable in the function header comments
                         intent = self.argument_intent(name)
+                        print(intent)
+                        print(name)
 
                         # Declarations are combined by datatype
                         exists = False
@@ -1350,7 +1354,11 @@ class Fortran_Source:
                             if intent=="unknown":
                                var_decl.append(datatype+" :: "+v[k])
                             else:
-                               var_decl.append(datatype+", intent("+intent+") :: "+v[k])
+                               exit(1)
+                               if has_intent:
+                                  var_decl.append(datatype+" :: "+v[k])
+                               else:
+                                  var_decl.append(datatype+", intent("+intent+") :: "+v[k])
                             var_intent.append(intent)
                     else:
                         print("variable <"+v[k]+"> not in args")
@@ -2630,12 +2638,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
