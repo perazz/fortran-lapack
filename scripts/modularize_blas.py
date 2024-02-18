@@ -1157,21 +1157,73 @@ class Fortran_Source:
             print(lsa)
             print("NO NAME FOUND!!!!")
             exit(1)
-        name = vname.group(1).strip()
+        arg_name = vname.group(1).strip()
 
         intent = "unknown"
 
-        # PATCHES: fix intents uncorrectly stated in the original LAPACK implementation
-        if (self.name.endswith('larrv') and (argument=='rtol1' or argument=='rtol2'):
+        # PATCHES: fix intents uncorrectly stated in the original LAPACK documentation
+        if (self.old_name.endswith('larrv') and (arg_name=='rtol1' or arg_name=='rtol2')):
             intent = "inout"
+        elif ( (self.old_name.endswith('ormql') or self.old_name.endswith('ormtl') \
+            or self.old_name.endswith('ormqr') or self.old_name.endswith('orm2r') \
+            or self.old_name.endswith('ormr2') or self.old_name.endswith('ormhr') \
+            or self.old_name.endswith('ormbr') or self.old_name.endswith('orml2') \
+            or self.old_name.endswith('ormlq') or self.old_name.endswith('ormrz') \
+            or self.old_name.endswith('ormrq') or self.old_name.endswith('unm2r') \
+            or self.old_name.endswith('unmqr') or self.old_name.endswith('unmhr') \
+            or self.old_name.endswith('latr') or self.old_name.endswith('gecon') \
+            or self.old_name.endswith('unml2') or self.old_name.endswith('unmlq') \
+            or self.old_name.endswith('pocon') or self.old_name.endswith('ormtr')  \
+            or self.old_name.endswith('orm2l') or self.old_name.endswith('unm2l') \
+            or self.old_name.endswith('unmql') or self.old_name.endswith('unmtr') \
+            or self.old_name.endswith('unmbr') or self.old_name.endswith('unmrz') \
+            or self.old_name.endswith('hetrs2') or self.old_name.endswith('unmr2') \
+            or self.old_name.endswith('unmrq')) \
+              and arg_name=='a'):
+            intent = "inout"
+        elif (self.old_name.endswith('latdf') and arg_name=='z'):
+            intent = "inout"
+        elif (self.old_name.endswith('larzb') and (arg_name=='t' or arg_name=='v')):
+            intent = "inout"
+        elif (self.old_name.endswith('upmtr') and arg_name=='ap'):
+            intent = "inout"
+        elif (self.old_name.endswith('laed2') and arg_name=='z'):
+            intent = "inout"
+        elif (self.old_name.endswith('laed8') and (arg_name=='z' or arg_name=='indxq')):
+            intent = "inout"
+        elif (self.old_name.endswith('laed9') and (arg_name=='dlamda' or arg_name=='w')):
+            intent = "inout"
+        elif (self.old_name.endswith('laed1') and arg_name=='rho'):
+            intent = "inout"
+        elif (self.old_name.endswith('laed7') and (arg_name=='rho' or arg_name=='prmptr' or arg_name=='givptr' \
+               or arg_name=='perm' or arg_name=='givcol' or arg_name=='givnum')):
+            intent = "inout"
+        elif (self.old_name.endswith('opmtr') and arg_name=='ap'):
+            intent = "inout"
+        elif (self.old_name.endswith('laed0') and arg_name=='e'):
+            intent = "inout"
+        elif (self.old_name.endswith('lasq3') and arg_name=='qmax'):
+            intent = "inout"
+        elif (self.old_name.endswith('lasq5') and (arg_name=='tau' or arg_name=='z')):
+            intent = "inout"
+        elif (self.old_name.endswith('lasq6') and (arg_name=='z')):
+            intent = "inout"
+        elif (self.old_name.endswith('lasda') and (arg_name=='e')):
+            intent = "inout"
+        elif (self.old_name.endswith('lasd7') and (arg_name=='idxq')):
+            intent = "inout"
+        elif (self.old_name.endswith('casum') and arg_name=='cx'):
+            intent = "in"
+        elif (self.old_name.endswith('zasum') and arg_name=='zx'):
+            intent = "in"
 
 
         # Add to list if this is an argument
-        elif self.is_argument(name):
+        elif self.is_argument(arg_name):
 
             # Search for an intent to this variable in the function header comments
-            if name in self.intent_var:
-               kk = self.intent_var.index(name)
+            if arg_name in self.intent_var:
+               kk = self.intent_var.index(arg_name)
                intent = self.intent_lab[kk]
                print(intent)
                if intent=="in,out" or intent=="in out" or intent=="in, out":
