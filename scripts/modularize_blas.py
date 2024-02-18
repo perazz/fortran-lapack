@@ -1161,8 +1161,13 @@ class Fortran_Source:
 
         intent = "unknown"
 
+        # PATCHES: fix intents uncorrectly stated in the original LAPACK implementation
+        if (self.name.endswith('larrv') and (argument=='rtol1' or argument=='rtol2'):
+            intent = "inout"
+
+
         # Add to list if this is an argument
-        if self.is_argument(name):
+        elif self.is_argument(name):
 
             # Search for an intent to this variable in the function header comments
             if name in self.intent_var:
