@@ -9,6 +9,7 @@ The following refactorings are applied:
 - Both libraries available for 32, 64 and 128-bit floats
 - Free format, lower-case style
 - `implicit none(type, external)` everywhere
+- `intent` added to all procedure arguments
 - Removed `DO 10 .... 10 CONTINUE`, replaced with `do..end do` loops or labelled `loop_10: do ... cycle loop_10 ... end do loop_10` in case control statements are present
 - BLAS modularized into a single-file module
 - LAPACK modularized into a single-file module
