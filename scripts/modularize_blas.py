@@ -355,7 +355,6 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
     for ff in range(len(fortran_functions)):
 
         f = copy.copy(fortran_functions[ff])
-        if (f.old_name=='daxpy'): print("0after daxpy:"+fortran_functions[ff+1].old_name)
         if function_in_module('aux',f.old_name):
             if f.old_name in blas_dble:
                 i = blas_dble.index(f.old_name)
@@ -1254,6 +1253,12 @@ class Fortran_Source:
                 initial = dble_prefixes[j]
                 newi    = quad_prefixes[j]
         if initial is None:
+            for j in range(len(sing_prefixes)):
+                if oname.startswith(sing_prefixes[j]):
+                    initial = sing_prefixes[j]
+                    newi    = dble_prefixes[j]
+
+        if initial is None:
             print("function "+self.old_name+" cannot be converted to quadruple precision: it must be double")
             exit(1)
 
@@ -1261,7 +1266,7 @@ class Fortran_Source:
 
         # Extract prefix
         i = self.new_name.index(self.old_name)
-        prefix = self.new_name[:i]
+        prefix     = self.new_name[:i]
         q.new_name = prefix + q.old_name
 
         # Body, header
@@ -1281,6 +1286,10 @@ class Fortran_Source:
                     self.deps[i] = quad_prefixes[j]+this[len(dble_prefixes[j]):]
                 elif this.startswith(sing_prefixes[j]):
                     self.deps[i] = dble_prefixes[j]+this[len(dble_prefixes[j]):]
+
+            # Patch for precision conversion functions
+            if self.deps[i]=='zlag2z': self.deps[i]='zlag2w'
+            if self.deps[i]=='dlag2d': self.deps[i]='dlag2q'
 
         return q
 
@@ -1325,7 +1334,7 @@ class Fortran_Source:
                 # Remove all spaces from the variables
                 variables = m.group(2).replace(" ","")
 
-                has_intent = "intent(" in datatype
+                has_intent = "intent(" in datatype or "procedure" in datatype
 
                 v,v_noarray = extract_variable_declarations(variables)
 
@@ -2519,6 +2528,18 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     if whereAt!=Section.END and whereAt!=Section.HEADER:
         print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper() + " file " + file_name)
 
+    # PATCH: add double->quad precision conversion procedures
+    single_to_double  = ['slag2d','clag2z']
+    single_to_doublen = ['dlag2q','zlag2w']
+
+    for i in range(len(Procedures)):
+       if Procedures[i].old_name in single_to_double:
+           kk = single_to_double.index(Procedures[i].old_name)
+           double_procedure = Procedures[i].to_quad_precision()
+           double_procedure.old_name = single_to_doublen[kk]
+           double_procedure.new_name = prefix+double_procedure.old_name
+           Procedures.append(double_procedure)
+
     if DEBUG:
         for i in range(len(Source.body)):
            print(Source.body[i])
@@ -2637,12 +2658,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
