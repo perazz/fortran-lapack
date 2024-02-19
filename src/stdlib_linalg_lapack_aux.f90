@@ -533,7 +533,7 @@ module stdlib_linalg_lapack_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            integer(ilp),intent(in) :: ihi,ilo,ispec,lwork,n
-           character,intent(in) :: name,opts
+           character,intent(in) :: name*(*),opts*(*)
         ! ================================================================
            ! .. parameters ..
            integer(ilp),parameter :: inmin = 12
@@ -553,7 +553,7 @@ module stdlib_linalg_lapack_aux
            ! .. local scalars ..
            integer(ilp) :: nh,ns
            integer(ilp) :: i,ic,iz
-           character :: subnam,6
+           character :: subnam*6
            ! .. intrinsic functions ..
            intrinsic :: log,max,mod,nint,real
            ! .. executable statements ..
@@ -1108,7 +1108,7 @@ module stdlib_linalg_lapack_aux
            ! .. local scalars ..
            integer(ilp) :: i,ic,iz,nb,nbmin,nx
            logical(lk) :: cname,sname,twostage
-           character :: c1,1,c2,2,c4,2,c3,3,subnam,16
+           character :: c1*1,c2*2,c4*2,c3*3,subnam*16
            ! .. intrinsic functions ..
            intrinsic :: char,ichar,int,min,real
            ! .. executable statements ..
@@ -1642,7 +1642,6 @@ module stdlib_linalg_lapack_aux
 
      integer(ilp) function stdlib_iparam2stage(ispec,name,opts,ni,nbi,ibi,nxi)
 #if defined(_OPENMP)
-           use omp_lib
 #endif
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1655,7 +1654,7 @@ module stdlib_linalg_lapack_aux
            integer(ilp) :: i,ic,iz,kd,ib,lhous,lwork,nthreads,factoptnb,qroptnb, &
                      lqoptnb
            logical(lk) :: rprec,cprec
-           character :: prec,1,algo,3,stag,5,subnam,12,vect,1
+           character :: prec*1,algo*3,stag*5,subnam*12,vect*1
            ! .. intrinsic functions ..
            intrinsic :: char,ichar,max
            ! .. executable statements ..

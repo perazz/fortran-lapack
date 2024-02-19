@@ -108,7 +108,7 @@ module stdlib_linalg_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_invert_s
 
@@ -204,7 +204,7 @@ module stdlib_linalg_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_invert_d
 
@@ -300,7 +300,7 @@ module stdlib_linalg_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_invert_q
 
@@ -396,7 +396,7 @@ module stdlib_linalg_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_invert_c
 
@@ -492,7 +492,7 @@ module stdlib_linalg_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_invert_z
 
@@ -588,7 +588,7 @@ module stdlib_linalg_inverse
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end subroutine stdlib_linalg_invert_w
 

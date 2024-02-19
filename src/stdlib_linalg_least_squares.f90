@@ -325,7 +325,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_slstsq_one
@@ -431,7 +431,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_dlstsq_one
@@ -537,7 +537,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_qlstsq_one
@@ -643,7 +643,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_clstsq_one
@@ -749,7 +749,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_zlstsq_one
@@ -855,7 +855,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_wlstsq_one
@@ -961,7 +961,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_slstsq_multiple
@@ -1067,7 +1067,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_dlstsq_multiple
@@ -1173,7 +1173,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_qlstsq_multiple
@@ -1279,7 +1279,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_clstsq_multiple
@@ -1385,7 +1385,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_zlstsq_multiple
@@ -1491,7 +1491,7 @@ module stdlib_linalg_least_squares
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
          if (present(rank)) rank = arank
 
      end function stdlib_linalg_wlstsq_multiple

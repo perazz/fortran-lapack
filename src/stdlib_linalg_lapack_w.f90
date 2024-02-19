@@ -6918,10 +6918,9 @@ module stdlib_linalg_lapack_w
            real(qp),intent(inout) :: rho
            ! .. array arguments ..
            integer(ilp),intent(out) :: givcol(2,*),indx(*),indxp(*),perm(*)
-           integer(ilp),intent(in) :: indxq(*)
-           real(qp),intent(inout) :: d(*)
+           integer(ilp),intent(inout) :: indxq(*)
+           real(qp),intent(inout) :: d(*),z(*)
            real(qp),intent(out) :: dlamda(*),givnum(2,*),w(*)
-           real(qp),intent(in) :: z(*)
            complex(qp),intent(inout) :: q(ldq,*)
            complex(qp),intent(out) :: q2(ldq2,*)
         ! =====================================================================
@@ -12002,8 +12001,6 @@ module stdlib_linalg_lapack_w
      ! Below, wp=>dp stands for quad precision from LA_CONSTANTS module.
 
      subroutine stdlib_wlartg(f,g,c,s,r)
-     use la_constants,only:wp => dp,zero => dzero,one => done,two => dtwo,czero => zzero, &
-               rtmin => drtmin,rtmax => drtmax,safmin => dsafmin,safmax => dsafmax
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12207,8 +12204,7 @@ module stdlib_linalg_lapack_w
            character,intent(in) :: direct,side,storev,trans
            integer(ilp),intent(in) :: k,l,ldc,ldt,ldv,ldwork,m,n
            ! .. array arguments ..
-           complex(qp),intent(inout) :: c(ldc,*)
-           complex(qp),intent(in) :: t(ldt,*),v(ldv,*)
+           complex(qp),intent(inout) :: c(ldc,*),t(ldt,*),v(ldv,*)
            complex(qp),intent(out) :: work(ldwork,*)
         ! =====================================================================
            
@@ -12868,9 +12864,6 @@ module stdlib_linalg_lapack_w
      ! HUGE     -- biggest representable number.
 
      subroutine stdlib_wlassq(n,x,incx,scl,sumsq)
-     use la_constants,only:wp => dp,zero => dzero,one => done,sbig => dsbig,ssml => dssml, &
-               tbig => dtbig,tsml => dtsml
-        use la_xisnan
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17043,7 +17036,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: rcond
            ! .. array arguments ..
            real(qp),intent(out) :: rwork(*)
-           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -26033,7 +26026,6 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(in) :: j1,lda,ldb,ldq,ldz,n
            ! .. array arguments ..
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
         ! =====================================================================
            ! .. parameters ..
            real(qp),parameter :: twenty = 2.0e+1_qp
@@ -26175,7 +26167,6 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: here
@@ -29220,9 +29211,8 @@ module stdlib_linalg_lapack_w
            ! .. array arguments ..
            real(qp),intent(out) :: phi(*),theta(*)
            complex(qp),intent(out) :: taup1(*),taup2(*),tauq1(*),tauq2(*),work(*)
+           complex(qp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
                      
-           complex(qp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22( &
-                     ldx22,*)
         ! ====================================================================
            ! .. parameters ..
            real(qp),parameter :: realone = 1.0_qp
@@ -30728,8 +30718,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -30827,8 +30817,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -30930,8 +30920,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -31036,8 +31026,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -31179,8 +31169,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -31316,8 +31306,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -31453,8 +31443,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -31658,8 +31648,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -31801,8 +31791,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,l,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -31969,11 +31959,11 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: ldu1,ldu2,ldv1t,ldv2t,lrwork,m,p,q
            ! .. array arguments ..
-           real(qp),intent(out) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e( &
-                     *),b22d(*),b22e(*),rwork(*)
+           real(qp),intent(out) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e(*),b22d(*), &
+                      b22e(*),rwork(*)
            real(qp),intent(inout) :: phi(*),theta(*)
-           complex(qp),intent(inout) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t( &
-                     ldv2t,*)
+           complex(qp),intent(inout) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
+                     
         ! ===================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxitr = 6
@@ -33615,7 +33605,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: rcond
            ! .. array arguments ..
            real(qp),intent(out) :: rwork(*)
-           complex(qp),intent(in) :: a(lda,*)
+           complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -35354,7 +35344,6 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -36506,7 +36495,6 @@ module stdlib_linalg_lapack_w
      subroutine stdlib_whetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous,work, &
                lwork,info)
 #if defined(_OPENMP)
-           use omp_lib
 #endif
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -37624,8 +37612,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
            integer(ilp),intent(in) :: ipiv(*)
-           complex(qp),intent(in) :: a(lda,*)
-           complex(qp),intent(inout) :: b(ldb,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -38802,7 +38789,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(in) :: ipiv(*)
            complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
            complex(qp),intent(out) :: work(*)
-           real(qp),intent(in) :: c
+           real(qp),intent(in) :: c(*)
            real(qp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
@@ -39797,13 +39784,12 @@ module stdlib_linalg_lapack_w
            ! .. scalar arguments ..
            integer(ilp),intent(in) :: curlvl,curpbm,cutpnt,ldq,n,qsiz,tlvls
            integer(ilp),intent(out) :: info
-           real(qp),intent(in) :: rho
+           real(qp),intent(inout) :: rho
            ! .. array arguments ..
-           integer(ilp),intent(in) :: givcol(2,*),givptr(*),perm(*),prmptr(*)
+           integer(ilp),intent(inout) :: givcol(2,*),givptr(*),perm(*),prmptr(*),qptr(*)
+                     
            integer(ilp),intent(out) :: indxq(*),iwork(*)
-           integer(ilp),intent(inout) :: qptr(*)
-           real(qp),intent(inout) :: d(*),qstore(*)
-           real(qp),intent(in) :: givnum(2,*)
+           real(qp),intent(inout) :: d(*),givnum(2,*),qstore(*)
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(inout) :: q(ldq,*)
            complex(qp),intent(out) :: work(*)
@@ -40628,8 +40614,8 @@ module stdlib_linalg_lapack_w
            real(qp),intent(in) :: c,s
            ! .. array arguments ..
            integer(ilp),intent(in) :: givcol(ldgcol,*),perm(*)
-           real(qp),intent(in) :: difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles( &
-                     ldgnum,*),z(*)
+           real(qp),intent(in) :: difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles(ldgnum,*),z( &
+                     *)
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(inout) :: b(ldb,*)
            complex(qp),intent(out) :: bx(ldbx,*)
@@ -40860,10 +40846,9 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
            integer(ilp),intent(in) :: givcol(ldgcol,*),givptr(*),k(*),perm(ldgcol,*)
-                     
            integer(ilp),intent(out) :: iwork(*)
-           real(qp),intent(in) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*), &
-                     poles(ldu,*),s(*),u(ldu,*),vt(ldu,*),z(ldu,*)
+           real(qp),intent(in) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*),poles(ldu,*),s( &
+                     *),u(ldu,*),vt(ldu,*),z(ldu,*)
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(inout) :: b(ldb,*)
            complex(qp),intent(out) :: bx(ldbx,*)
@@ -44687,7 +44672,6 @@ module stdlib_linalg_lapack_w
            ! .. array arguments ..
            complex(qp),intent(inout) :: h(ldh,*),s(*),z(ldz,*)
            complex(qp),intent(out) :: u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv,*)
-                     
         ! ================================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0_qp
@@ -45527,7 +45511,8 @@ module stdlib_linalg_lapack_w
            ! .. scalar arguments ..
            integer(ilp),intent(in) :: dol,dou,ldz,m,n
            integer(ilp),intent(out) :: info
-           real(qp),intent(in) :: minrgp,pivmin,rtol1,rtol2,vl,vu
+           real(qp),intent(in) :: minrgp,pivmin,vl,vu
+           real(qp),intent(inout) :: rtol1,rtol2
            ! .. array arguments ..
            integer(ilp),intent(in) :: iblock(*),indexw(*),isplit(*)
            integer(ilp),intent(out) :: isuppz(*),iwork(*)
@@ -46180,8 +46165,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(inout) :: rdscal,rdsum
            ! .. array arguments ..
            integer(ilp),intent(in) :: ipiv(*),jpiv(*)
-           complex(qp),intent(inout) :: rhs(*)
-           complex(qp),intent(in) :: z(ldz,*)
+           complex(qp),intent(inout) :: rhs(*),z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxdim = 2
@@ -49631,8 +49615,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(in) :: tola,tolb
            ! .. array arguments ..
            real(qp),intent(out) :: alpha(*),beta(*)
-           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v( &
-                     ldv,*)
+           complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v(ldv,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -51268,10 +51251,10 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: iwork(*)
            real(qp),intent(out) :: theta(*)
            real(qp),intent(out) :: rwork(*)
-           complex(qp),intent(out) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t, &
-                     *),work(*)
-           complex(qp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22( &
-                     ldx22,*)
+           complex(qp),intent(out) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*),work(*)
+                     
+           complex(qp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
+                     
         ! ===================================================================
            
            ! .. local scalars ..
@@ -51876,8 +51859,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(in) :: ihi,ilo,lda,ldc,lwork,m,n
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
@@ -51976,8 +51959,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
@@ -52179,8 +52162,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: ldc,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: ap(*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: ap(*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -52315,6 +52298,190 @@ module stdlib_linalg_lapack_w
            end if
            return
      end subroutine stdlib_wupmtr
+
+     ! WCPOSV computes the solution to a complex system of linear equations
+     ! A * X = B,
+     ! where A is an N-by-N Hermitian positive definite matrix and X and B
+     ! are N-by-NRHS matrices.
+     ! WCPOSV first attempts to factorize the matrix in COMPLEX and use this
+     ! factorization within an iterative refinement procedure to produce a
+     ! solution with COMPLEX*16 normwise backward error quality (see below).
+     ! If the approach fails the method switches to a COMPLEX*16
+     ! factorization and solve.
+     ! The iterative refinement is not going to be a winning strategy if
+     ! the ratio COMPLEX performance over COMPLEX*16 performance is too
+     ! small. A reasonable strategy should take the number of right-hand
+     ! sides and the size of the matrix into account. This might be done
+     ! with a call to ILAENV in the future. Up to now, we always try
+     ! iterative refinement.
+     ! The iterative refinement process is stopped if
+     ! ITER > ITERMAX
+     ! or for all the RHS we have:
+     ! RNRM < SQRT(N)*XNRM*ANRM*EPS*BWDMAX
+     ! where
+     ! o ITER is the number of the current iteration in the iterative
+     ! refinement process
+     ! o RNRM is the infinity-norm of the residual
+     ! o XNRM is the infinity-norm of the solution
+     ! o ANRM is the infinity-operator-norm of the matrix A
+     ! o EPS is the machine epsilon returned by DLAMCH('Epsilon')
+     ! The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
+     ! respectively.
+
+     subroutine stdlib_wcposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,rwork,iter, &
+               info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info,iter
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
+           ! .. array arguments ..
+           real(qp),intent(out) :: rwork(*)
+           complex(dp),intent(out) :: swork(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: b(ldb,*)
+           complex(qp),intent(out) :: work(n,*),x(ldx,*)
+        ! =====================================================================
+           ! .. parameters ..
+           logical(lk),parameter :: doitref = .true.
+           integer(ilp),parameter :: itermax = 30
+           real(qp),parameter :: bwdmax = 1.0e+00_qp
+           
+           ! .. local scalars ..
+           integer(ilp) :: i,iiter,ptsa,ptsx
+           real(qp) :: anrm,cte,eps,rnrm,xnrm
+           complex(qp) :: zdum
+           ! .. intrinsic functions ..
+           intrinsic :: abs,real,max,sqrt
+           ! .. statement functions ..
+           real(qp) :: cabs1
+           ! .. statement function definitions ..
+           cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
+           ! .. executable statements ..
+           info = 0
+           iter = 0
+           ! test the input parameters.
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -7
+           else if (ldx < max(1,n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call stdlib_xerbla('ZCPOSV',-info)
+              return
+           end if
+           ! quick return if (n==0).
+           if (n == 0) return
+           ! skip double precision iterative refinement if a priori slower
+           ! than quad precision factorization.
+           if (.not. doitref) then
+              iter = -1
+              go to 40
+           end if
+           ! compute some constants.
+           anrm = stdlib_wlanhe('I',uplo,n,a,lda,rwork)
+           eps = stdlib_qlamch('EPSILON')
+           cte = anrm*eps*sqrt(real(n,KIND=qp))*bwdmax
+           ! set the indices ptsa, ptsx for referencing sa and sx in swork.
+           ptsa = 1
+           ptsx = ptsa + n*n
+           ! convert b from quad precision to double precision and store the
+           ! result in sx.
+           call stdlib_wlag2c(n,nrhs,b,ldb,swork(ptsx),n,info)
+           if (info /= 0) then
+              iter = -2
+              go to 40
+           end if
+           ! convert a from quad precision to double precision and store the
+           ! result in sa.
+           call stdlib_wlat2c(uplo,n,a,lda,swork(ptsa),n,info)
+           if (info /= 0) then
+              iter = -2
+              go to 40
+           end if
+           ! compute the cholesky factorization of sa.
+           call stdlib_zpotrf(uplo,n,swork(ptsa),n,info)
+           if (info /= 0) then
+              iter = -3
+              go to 40
+           end if
+           ! solve the system sa*sx = sb.
+           call stdlib_zpotrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
+           ! convert sx back to complex*16
+           call stdlib_zlag2w(n,nrhs,swork(ptsx),n,x,ldx,info)
+           ! compute r = b - ax (r is work).
+           call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
+           call stdlib_whemm('LEFT',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
+                     
+           ! check whether the nrhs normwise backward errors satisfy the
+           ! stopping criterion. if yes, set iter=0 and return.
+           do i = 1,nrhs
+              xnrm = cabs1(x(stdlib_iwamax(n,x(1,i),1),i))
+              rnrm = cabs1(work(stdlib_iwamax(n,work(1,i),1),i))
+              if (rnrm > xnrm*cte) go to 10
+           end do
+           ! if we are here, the nrhs normwise backward errors satisfy the
+           ! stopping criterion. we are good to exit.
+           iter = 0
+           return
+10         continue
+           loop_30: do iiter = 1,itermax
+              ! convert r (in work) from quad precision to double precision
+              ! and store the result in sx.
+              call stdlib_wlag2c(n,nrhs,work,n,swork(ptsx),n,info)
+              if (info /= 0) then
+                 iter = -2
+                 go to 40
+              end if
+              ! solve the system sa*sx = sr.
+              call stdlib_zpotrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
+              ! convert sx back to quad precision and update the current
+              ! iterate.
+              call stdlib_zlag2w(n,nrhs,swork(ptsx),n,work,n,info)
+              do i = 1,nrhs
+                 call stdlib_waxpy(n,cone,work(1,i),1,x(1,i),1)
+              end do
+              ! compute r = b - ax (r is work).
+              call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
+              call stdlib_whemm('L',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
+                        
+              ! check whether the nrhs normwise backward errors satisfy the
+              ! stopping criterion. if yes, set iter=iiter>0 and return.
+              do i = 1,nrhs
+                 xnrm = cabs1(x(stdlib_iwamax(n,x(1,i),1),i))
+                 rnrm = cabs1(work(stdlib_iwamax(n,work(1,i),1),i))
+                 if (rnrm > xnrm*cte) go to 20
+              end do
+              ! if we are here, the nrhs normwise backward errors satisfy the
+              ! stopping criterion, we are good to exit.
+              iter = iiter
+              return
+20            continue
+           end do loop_30
+           ! if we are at this place of the code, this is because we have
+           ! performed iter=itermax iterations and never satisfied the
+           ! stopping criterion, set up the iter flag accordingly and follow
+           ! up on quad precision routine.
+           iter = -itermax - 1
+40         continue
+           ! single-precision iterative refinement failed to converge to a
+           ! satisfactory solution, so we resort to quad precision.
+           call stdlib_wpotrf(uplo,n,a,lda,info)
+           if (info /= 0) return
+           call stdlib_wlacpy('ALL',n,nrhs,b,ldb,x,ldx)
+           call stdlib_wpotrs(uplo,n,nrhs,a,lda,x,ldx,info)
+           return
+     end subroutine stdlib_wcposv
 
      ! WGBBRD reduces a complex general m-by-n band matrix A to real upper
      ! bidiagonal form B by a unitary transformation: Q**H * A * P = B.
@@ -54230,7 +54397,6 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -54955,8 +55121,8 @@ module stdlib_linalg_lapack_w
            ! .. array arguments ..
            integer(ilp),intent(in) :: ipiv(*)
            real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
-           complex(qp),intent(in) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*), &
-                     du2(*),duf(*)
+           complex(qp),intent(in) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf(*)
+                     
            complex(qp),intent(out) :: work(*)
            complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
@@ -58177,7 +58343,6 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(out) :: alpha(*),beta(*),work(*)
            complex(qp),intent(inout) :: h(ldh,*),q(ldq,*),t(ldt,*),z(ldz,*)
-                     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -60237,7 +60402,6 @@ module stdlib_linalg_lapack_w
            ! .. array arguments ..
            complex(qp),intent(inout) :: h(ldh,*),z(ldz,*)
            complex(qp),intent(out) :: sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*)
-                     
         ! ================================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0_qp
@@ -61957,7 +62121,6 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: iwork(*)
            real(qp),intent(out) :: dif(*)
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
            complex(qp),intent(out) :: alpha(*),beta(*),work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -62221,7 +62384,6 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: iwork(*)
            real(qp),intent(out) :: dif(*),s(*)
            complex(qp),intent(in) :: a(lda,*),b(ldb,*),vl(ldvl,*),vr(ldvr,*)
-                     
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -63696,8 +63858,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(qp),intent(in) :: a(lda,*),tau(*)
-           complex(qp),intent(inout) :: c(ldc,*)
+           complex(qp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
@@ -63823,6 +63985,189 @@ module stdlib_linalg_lapack_w
            work(1) = lwkopt
            return
      end subroutine stdlib_wunmbr
+
+     ! WCGESV computes the solution to a complex system of linear equations
+     ! A * X = B,
+     ! where A is an N-by-N matrix and X and B are N-by-NRHS matrices.
+     ! WCGESV first attempts to factorize the matrix in COMPLEX and use this
+     ! factorization within an iterative refinement procedure to produce a
+     ! solution with COMPLEX*16 normwise backward error quality (see below).
+     ! If the approach fails the method switches to a COMPLEX*16
+     ! factorization and solve.
+     ! The iterative refinement is not going to be a winning strategy if
+     ! the ratio COMPLEX performance over COMPLEX*16 performance is too
+     ! small. A reasonable strategy should take the number of right-hand
+     ! sides and the size of the matrix into account. This might be done
+     ! with a call to ILAENV in the future. Up to now, we always try
+     ! iterative refinement.
+     ! The iterative refinement process is stopped if
+     ! ITER > ITERMAX
+     ! or for all the RHS we have:
+     ! RNRM < SQRT(N)*XNRM*ANRM*EPS*BWDMAX
+     ! where
+     ! o ITER is the number of the current iteration in the iterative
+     ! refinement process
+     ! o RNRM is the infinity-norm of the residual
+     ! o XNRM is the infinity-norm of the solution
+     ! o ANRM is the infinity-operator-norm of the matrix A
+     ! o EPS is the machine epsilon returned by DLAMCH('Epsilon')
+     ! The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
+     ! respectively.
+
+     subroutine stdlib_wcgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
+               info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           integer(ilp),intent(out) :: info,iter
+           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
+           ! .. array arguments ..
+           integer(ilp),intent(out) :: ipiv(*)
+           real(qp),intent(out) :: rwork(*)
+           complex(dp),intent(out) :: swork(*)
+           complex(qp),intent(inout) :: a(lda,*)
+           complex(qp),intent(in) :: b(ldb,*)
+           complex(qp),intent(out) :: work(n,*),x(ldx,*)
+        ! =====================================================================
+           ! .. parameters ..
+           logical(lk),parameter :: doitref = .true.
+           integer(ilp),parameter :: itermax = 30
+           real(qp),parameter :: bwdmax = 1.0e+00_qp
+           
+           ! .. local scalars ..
+           integer(ilp) :: i,iiter,ptsa,ptsx
+           real(qp) :: anrm,cte,eps,rnrm,xnrm
+           complex(qp) :: zdum
+           ! .. intrinsic functions ..
+           intrinsic :: abs,real,max,sqrt
+           ! .. statement functions ..
+           real(qp) :: cabs1
+           ! .. statement function definitions ..
+           cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
+           ! .. executable statements ..
+           info = 0
+           iter = 0
+           ! test the input parameters.
+           if (n < 0) then
+              info = -1
+           else if (nrhs < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           else if (ldb < max(1,n)) then
+              info = -7
+           else if (ldx < max(1,n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call stdlib_xerbla('ZCGESV',-info)
+              return
+           end if
+           ! quick return if (n==0).
+           if (n == 0) return
+           ! skip double precision iterative refinement if a priori slower
+           ! than quad precision factorization.
+           if (.not. doitref) then
+              iter = -1
+              go to 40
+           end if
+           ! compute some constants.
+           anrm = stdlib_wlange('I',n,n,a,lda,rwork)
+           eps = stdlib_qlamch('EPSILON')
+           cte = anrm*eps*sqrt(real(n,KIND=qp))*bwdmax
+           ! set the indices ptsa, ptsx for referencing sa and sx in swork.
+           ptsa = 1
+           ptsx = ptsa + n*n
+           ! convert b from quad precision to double precision and store the
+           ! result in sx.
+           call stdlib_wlag2c(n,nrhs,b,ldb,swork(ptsx),n,info)
+           if (info /= 0) then
+              iter = -2
+              go to 40
+           end if
+           ! convert a from quad precision to double precision and store the
+           ! result in sa.
+           call stdlib_wlag2c(n,n,a,lda,swork(ptsa),n,info)
+           if (info /= 0) then
+              iter = -2
+              go to 40
+           end if
+           ! compute the lu factorization of sa.
+           call stdlib_zgetrf(n,n,swork(ptsa),n,ipiv,info)
+           if (info /= 0) then
+              iter = -3
+              go to 40
+           end if
+           ! solve the system sa*sx = sb.
+           call stdlib_zgetrs('NO TRANSPOSE',n,nrhs,swork(ptsa),n,ipiv,swork(ptsx),n, &
+                     info)
+           ! convert sx back to quad precision
+           call stdlib_zlag2w(n,nrhs,swork(ptsx),n,x,ldx,info)
+           ! compute r = b - ax (r is work).
+           call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
+           call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',n,nrhs,n,cnegone,a,lda,x,ldx, &
+                     cone,work,n)
+           ! check whether the nrhs normwise backward errors satisfy the
+           ! stopping criterion. if yes, set iter=0 and return.
+           do i = 1,nrhs
+              xnrm = cabs1(x(stdlib_iwamax(n,x(1,i),1),i))
+              rnrm = cabs1(work(stdlib_iwamax(n,work(1,i),1),i))
+              if (rnrm > xnrm*cte) go to 10
+           end do
+           ! if we are here, the nrhs normwise backward errors satisfy the
+           ! stopping criterion. we are good to exit.
+           iter = 0
+           return
+10         continue
+           loop_30: do iiter = 1,itermax
+              ! convert r (in work) from quad precision to double precision
+              ! and store the result in sx.
+              call stdlib_wlag2c(n,nrhs,work,n,swork(ptsx),n,info)
+              if (info /= 0) then
+                 iter = -2
+                 go to 40
+              end if
+              ! solve the system sa*sx = sr.
+              call stdlib_zgetrs('NO TRANSPOSE',n,nrhs,swork(ptsa),n,ipiv,swork(ptsx), &
+                        n,info)
+              ! convert sx back to quad precision and update the current
+              ! iterate.
+              call stdlib_zlag2w(n,nrhs,swork(ptsx),n,work,n,info)
+              do i = 1,nrhs
+                 call stdlib_waxpy(n,cone,work(1,i),1,x(1,i),1)
+              end do
+              ! compute r = b - ax (r is work).
+              call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
+              call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',n,nrhs,n,cnegone,a,lda,x, &
+                        ldx,cone,work,n)
+              ! check whether the nrhs normwise backward errors satisfy the
+              ! stopping criterion. if yes, set iter=iiter>0 and return.
+              do i = 1,nrhs
+                 xnrm = cabs1(x(stdlib_iwamax(n,x(1,i),1),i))
+                 rnrm = cabs1(work(stdlib_iwamax(n,work(1,i),1),i))
+                 if (rnrm > xnrm*cte) go to 20
+              end do
+              ! if we are here, the nrhs normwise backward errors satisfy the
+              ! stopping criterion, we are good to exit.
+              iter = iiter
+              return
+20            continue
+           end do loop_30
+           ! if we are at this place of the code, this is because we have
+           ! performed iter=itermax iterations and never satisfied the stopping
+           ! criterion, set up the iter flag accordingly and follow up on double
+           ! precision routine.
+           iter = -itermax - 1
+40         continue
+           ! single-precision iterative refinement failed to converge to a
+           ! satisfactory solution, so we resort to quad precision.
+           call stdlib_wgetrf(n,n,a,lda,ipiv,info)
+           if (info /= 0) return
+           call stdlib_wlacpy('ALL',n,nrhs,b,ldb,x,ldx)
+           call stdlib_wgetrs('NO TRANSPOSE',n,nrhs,a,lda,ipiv,x,ldx,info)
+           return
+     end subroutine stdlib_wcgesv
 
      ! WGELQ computes an LQ factorization of a complex M-by-N matrix A:
      ! A = ( L 0 ) *  Q
@@ -70746,8 +71091,8 @@ module stdlib_linalg_lapack_w
            logical(lk),intent(out) :: bwork(*)
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
-                     work(*)
+           complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
+                     
            ! .. function arguments ..
            procedure(stdlib_selctg_w) :: selctg
         ! =====================================================================
@@ -71001,8 +71346,8 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: iwork(*)
            real(qp),intent(out) :: rconde(2),rcondv(2),rwork(*)
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
-                     work(*)
+           complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
+                     
            ! .. function arguments ..
            procedure(stdlib_selctg_w) :: selctg
         ! =====================================================================
@@ -71300,8 +71645,7 @@ module stdlib_linalg_lapack_w
            ! .. array arguments ..
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
-                     *)
+           complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -71578,10 +71922,8 @@ module stdlib_linalg_lapack_w
            logical(lk),intent(out) :: bwork(*)
            integer(ilp),intent(out) :: iwork(*)
            real(qp),intent(out) :: lscale(*),rconde(*),rcondv(*),rscale(*),rwork(*)
-                     
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
-                     *)
+           complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -73326,373 +73668,6 @@ module stdlib_linalg_lapack_w
            iwork(1) = liwmin
            return
      end subroutine stdlib_whpgvd
-
-     ! WCGESV computes the solution to a complex system of linear equations
-     ! A * X = B,
-     ! where A is an N-by-N matrix and X and B are N-by-NRHS matrices.
-     ! WCGESV first attempts to factorize the matrix in COMPLEX and use this
-     ! factorization within an iterative refinement procedure to produce a
-     ! solution with COMPLEX*16 normwise backward error quality (see below).
-     ! If the approach fails the method switches to a COMPLEX*16
-     ! factorization and solve.
-     ! The iterative refinement is not going to be a winning strategy if
-     ! the ratio COMPLEX performance over COMPLEX*16 performance is too
-     ! small. A reasonable strategy should take the number of right-hand
-     ! sides and the size of the matrix into account. This might be done
-     ! with a call to ILAENV in the future. Up to now, we always try
-     ! iterative refinement.
-     ! The iterative refinement process is stopped if
-     ! ITER > ITERMAX
-     ! or for all the RHS we have:
-     ! RNRM < SQRT(N)*XNRM*ANRM*EPS*BWDMAX
-     ! where
-     ! o ITER is the number of the current iteration in the iterative
-     ! refinement process
-     ! o RNRM is the infinity-norm of the residual
-     ! o XNRM is the infinity-norm of the solution
-     ! o ANRM is the infinity-operator-norm of the matrix A
-     ! o EPS is the machine epsilon returned by DLAMCH('Epsilon')
-     ! The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
-     ! respectively.
-
-     subroutine stdlib_wcgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
-               info)
-        ! -- lapack driver routine --
-        ! -- lapack is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
-           integer(ilp),intent(out) :: info,iter
-           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
-           ! .. array arguments ..
-           integer(ilp),intent(out) :: ipiv(*)
-           real(qp),intent(out) :: rwork(*)
-           complex(dp),intent(out) :: swork(*)
-           complex(qp),intent(inout) :: a(lda,*)
-           complex(qp),intent(in) :: b(ldb,*)
-           complex(qp),intent(out) :: work(n,*),x(ldx,*)
-        ! =====================================================================
-           ! .. parameters ..
-           logical(lk),parameter :: doitref = .true.
-           integer(ilp),parameter :: itermax = 30
-           real(qp),parameter :: bwdmax = 1.0e+00_qp
-           
-           ! .. local scalars ..
-           integer(ilp) :: i,iiter,ptsa,ptsx
-           real(qp) :: anrm,cte,eps,rnrm,xnrm
-           complex(qp) :: zdum
-           ! .. intrinsic functions ..
-           intrinsic :: abs,real,max,sqrt
-           ! .. statement functions ..
-           real(qp) :: cabs1
-           ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
-           ! .. executable statements ..
-           info = 0
-           iter = 0
-           ! test the input parameters.
-           if (n < 0) then
-              info = -1
-           else if (nrhs < 0) then
-              info = -2
-           else if (lda < max(1,n)) then
-              info = -4
-           else if (ldb < max(1,n)) then
-              info = -7
-           else if (ldx < max(1,n)) then
-              info = -9
-           end if
-           if (info /= 0) then
-              call stdlib_xerbla('ZCGESV',-info)
-              return
-           end if
-           ! quick return if (n==0).
-           if (n == 0) return
-           ! skip double precision iterative refinement if a priori slower
-           ! than quad precision factorization.
-           if (.not. doitref) then
-              iter = -1
-              go to 40
-           end if
-           ! compute some constants.
-           anrm = stdlib_wlange('I',n,n,a,lda,rwork)
-           eps = stdlib_qlamch('EPSILON')
-           cte = anrm*eps*sqrt(real(n,KIND=qp))*bwdmax
-           ! set the indices ptsa, ptsx for referencing sa and sx in swork.
-           ptsa = 1
-           ptsx = ptsa + n*n
-           ! convert b from quad precision to double precision and store the
-           ! result in sx.
-           call stdlib_wlag2c(n,nrhs,b,ldb,swork(ptsx),n,info)
-           if (info /= 0) then
-              iter = -2
-              go to 40
-           end if
-           ! convert a from quad precision to double precision and store the
-           ! result in sa.
-           call stdlib_wlag2c(n,n,a,lda,swork(ptsa),n,info)
-           if (info /= 0) then
-              iter = -2
-              go to 40
-           end if
-           ! compute the lu factorization of sa.
-           call stdlib_zgetrf(n,n,swork(ptsa),n,ipiv,info)
-           if (info /= 0) then
-              iter = -3
-              go to 40
-           end if
-           ! solve the system sa*sx = sb.
-           call stdlib_zgetrs('NO TRANSPOSE',n,nrhs,swork(ptsa),n,ipiv,swork(ptsx),n, &
-                     info)
-           ! convert sx back to quad precision
-           call stdlib_zlag2z(n,nrhs,swork(ptsx),n,x,ldx,info)
-           ! compute r = b - ax (r is work).
-           call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
-           call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',n,nrhs,n,cnegone,a,lda,x,ldx, &
-                     cone,work,n)
-           ! check whether the nrhs normwise backward errors satisfy the
-           ! stopping criterion. if yes, set iter=0 and return.
-           do i = 1,nrhs
-              xnrm = cabs1(x(stdlib_iwamax(n,x(1,i),1),i))
-              rnrm = cabs1(work(stdlib_iwamax(n,work(1,i),1),i))
-              if (rnrm > xnrm*cte) go to 10
-           end do
-           ! if we are here, the nrhs normwise backward errors satisfy the
-           ! stopping criterion. we are good to exit.
-           iter = 0
-           return
-10         continue
-           loop_30: do iiter = 1,itermax
-              ! convert r (in work) from quad precision to double precision
-              ! and store the result in sx.
-              call stdlib_wlag2c(n,nrhs,work,n,swork(ptsx),n,info)
-              if (info /= 0) then
-                 iter = -2
-                 go to 40
-              end if
-              ! solve the system sa*sx = sr.
-              call stdlib_zgetrs('NO TRANSPOSE',n,nrhs,swork(ptsa),n,ipiv,swork(ptsx), &
-                        n,info)
-              ! convert sx back to quad precision and update the current
-              ! iterate.
-              call stdlib_zlag2z(n,nrhs,swork(ptsx),n,work,n,info)
-              do i = 1,nrhs
-                 call stdlib_waxpy(n,cone,work(1,i),1,x(1,i),1)
-              end do
-              ! compute r = b - ax (r is work).
-              call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
-              call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',n,nrhs,n,cnegone,a,lda,x, &
-                        ldx,cone,work,n)
-              ! check whether the nrhs normwise backward errors satisfy the
-              ! stopping criterion. if yes, set iter=iiter>0 and return.
-              do i = 1,nrhs
-                 xnrm = cabs1(x(stdlib_iwamax(n,x(1,i),1),i))
-                 rnrm = cabs1(work(stdlib_iwamax(n,work(1,i),1),i))
-                 if (rnrm > xnrm*cte) go to 20
-              end do
-              ! if we are here, the nrhs normwise backward errors satisfy the
-              ! stopping criterion, we are good to exit.
-              iter = iiter
-              return
-20            continue
-           end do loop_30
-           ! if we are at this place of the code, this is because we have
-           ! performed iter=itermax iterations and never satisfied the stopping
-           ! criterion, set up the iter flag accordingly and follow up on double
-           ! precision routine.
-           iter = -itermax - 1
-40         continue
-           ! single-precision iterative refinement failed to converge to a
-           ! satisfactory solution, so we resort to quad precision.
-           call stdlib_wgetrf(n,n,a,lda,ipiv,info)
-           if (info /= 0) return
-           call stdlib_wlacpy('ALL',n,nrhs,b,ldb,x,ldx)
-           call stdlib_wgetrs('NO TRANSPOSE',n,nrhs,a,lda,ipiv,x,ldx,info)
-           return
-     end subroutine stdlib_wcgesv
-
-     ! WCPOSV computes the solution to a complex system of linear equations
-     ! A * X = B,
-     ! where A is an N-by-N Hermitian positive definite matrix and X and B
-     ! are N-by-NRHS matrices.
-     ! WCPOSV first attempts to factorize the matrix in COMPLEX and use this
-     ! factorization within an iterative refinement procedure to produce a
-     ! solution with COMPLEX*16 normwise backward error quality (see below).
-     ! If the approach fails the method switches to a COMPLEX*16
-     ! factorization and solve.
-     ! The iterative refinement is not going to be a winning strategy if
-     ! the ratio COMPLEX performance over COMPLEX*16 performance is too
-     ! small. A reasonable strategy should take the number of right-hand
-     ! sides and the size of the matrix into account. This might be done
-     ! with a call to ILAENV in the future. Up to now, we always try
-     ! iterative refinement.
-     ! The iterative refinement process is stopped if
-     ! ITER > ITERMAX
-     ! or for all the RHS we have:
-     ! RNRM < SQRT(N)*XNRM*ANRM*EPS*BWDMAX
-     ! where
-     ! o ITER is the number of the current iteration in the iterative
-     ! refinement process
-     ! o RNRM is the infinity-norm of the residual
-     ! o XNRM is the infinity-norm of the solution
-     ! o ANRM is the infinity-operator-norm of the matrix A
-     ! o EPS is the machine epsilon returned by DLAMCH('Epsilon')
-     ! The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
-     ! respectively.
-
-     subroutine stdlib_wcposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,rwork,iter, &
-               info)
-        ! -- lapack driver routine --
-        ! -- lapack is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
-           character,intent(in) :: uplo
-           integer(ilp),intent(out) :: info,iter
-           integer(ilp),intent(in) :: lda,ldb,ldx,n,nrhs
-           ! .. array arguments ..
-           real(qp),intent(out) :: rwork(*)
-           complex(dp),intent(out) :: swork(*)
-           complex(qp),intent(inout) :: a(lda,*)
-           complex(qp),intent(in) :: b(ldb,*)
-           complex(qp),intent(out) :: work(n,*),x(ldx,*)
-        ! =====================================================================
-           ! .. parameters ..
-           logical(lk),parameter :: doitref = .true.
-           integer(ilp),parameter :: itermax = 30
-           real(qp),parameter :: bwdmax = 1.0e+00_qp
-           
-           ! .. local scalars ..
-           integer(ilp) :: i,iiter,ptsa,ptsx
-           real(qp) :: anrm,cte,eps,rnrm,xnrm
-           complex(qp) :: zdum
-           ! .. intrinsic functions ..
-           intrinsic :: abs,real,max,sqrt
-           ! .. statement functions ..
-           real(qp) :: cabs1
-           ! .. statement function definitions ..
-           cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
-           ! .. executable statements ..
-           info = 0
-           iter = 0
-           ! test the input parameters.
-           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
-              info = -1
-           else if (n < 0) then
-              info = -2
-           else if (nrhs < 0) then
-              info = -3
-           else if (lda < max(1,n)) then
-              info = -5
-           else if (ldb < max(1,n)) then
-              info = -7
-           else if (ldx < max(1,n)) then
-              info = -9
-           end if
-           if (info /= 0) then
-              call stdlib_xerbla('ZCPOSV',-info)
-              return
-           end if
-           ! quick return if (n==0).
-           if (n == 0) return
-           ! skip double precision iterative refinement if a priori slower
-           ! than quad precision factorization.
-           if (.not. doitref) then
-              iter = -1
-              go to 40
-           end if
-           ! compute some constants.
-           anrm = stdlib_wlanhe('I',uplo,n,a,lda,rwork)
-           eps = stdlib_qlamch('EPSILON')
-           cte = anrm*eps*sqrt(real(n,KIND=qp))*bwdmax
-           ! set the indices ptsa, ptsx for referencing sa and sx in swork.
-           ptsa = 1
-           ptsx = ptsa + n*n
-           ! convert b from quad precision to double precision and store the
-           ! result in sx.
-           call stdlib_wlag2c(n,nrhs,b,ldb,swork(ptsx),n,info)
-           if (info /= 0) then
-              iter = -2
-              go to 40
-           end if
-           ! convert a from quad precision to double precision and store the
-           ! result in sa.
-           call stdlib_wlat2c(uplo,n,a,lda,swork(ptsa),n,info)
-           if (info /= 0) then
-              iter = -2
-              go to 40
-           end if
-           ! compute the cholesky factorization of sa.
-           call stdlib_zpotrf(uplo,n,swork(ptsa),n,info)
-           if (info /= 0) then
-              iter = -3
-              go to 40
-           end if
-           ! solve the system sa*sx = sb.
-           call stdlib_zpotrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
-           ! convert sx back to complex*16
-           call stdlib_zlag2z(n,nrhs,swork(ptsx),n,x,ldx,info)
-           ! compute r = b - ax (r is work).
-           call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
-           call stdlib_whemm('LEFT',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
-                     
-           ! check whether the nrhs normwise backward errors satisfy the
-           ! stopping criterion. if yes, set iter=0 and return.
-           do i = 1,nrhs
-              xnrm = cabs1(x(stdlib_iwamax(n,x(1,i),1),i))
-              rnrm = cabs1(work(stdlib_iwamax(n,work(1,i),1),i))
-              if (rnrm > xnrm*cte) go to 10
-           end do
-           ! if we are here, the nrhs normwise backward errors satisfy the
-           ! stopping criterion. we are good to exit.
-           iter = 0
-           return
-10         continue
-           loop_30: do iiter = 1,itermax
-              ! convert r (in work) from quad precision to double precision
-              ! and store the result in sx.
-              call stdlib_wlag2c(n,nrhs,work,n,swork(ptsx),n,info)
-              if (info /= 0) then
-                 iter = -2
-                 go to 40
-              end if
-              ! solve the system sa*sx = sr.
-              call stdlib_zpotrs(uplo,n,nrhs,swork(ptsa),n,swork(ptsx),n,info)
-              ! convert sx back to quad precision and update the current
-              ! iterate.
-              call stdlib_zlag2z(n,nrhs,swork(ptsx),n,work,n,info)
-              do i = 1,nrhs
-                 call stdlib_waxpy(n,cone,work(1,i),1,x(1,i),1)
-              end do
-              ! compute r = b - ax (r is work).
-              call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
-              call stdlib_whemm('L',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
-                        
-              ! check whether the nrhs normwise backward errors satisfy the
-              ! stopping criterion. if yes, set iter=iiter>0 and return.
-              do i = 1,nrhs
-                 xnrm = cabs1(x(stdlib_iwamax(n,x(1,i),1),i))
-                 rnrm = cabs1(work(stdlib_iwamax(n,work(1,i),1),i))
-                 if (rnrm > xnrm*cte) go to 20
-              end do
-              ! if we are here, the nrhs normwise backward errors satisfy the
-              ! stopping criterion, we are good to exit.
-              iter = iiter
-              return
-20            continue
-           end do loop_30
-           ! if we are at this place of the code, this is because we have
-           ! performed iter=itermax iterations and never satisfied the
-           ! stopping criterion, set up the iter flag accordingly and follow
-           ! up on quad precision routine.
-           iter = -itermax - 1
-40         continue
-           ! single-precision iterative refinement failed to converge to a
-           ! satisfactory solution, so we resort to quad precision.
-           call stdlib_wpotrf(uplo,n,a,lda,info)
-           if (info /= 0) return
-           call stdlib_wlacpy('ALL',n,nrhs,b,ldb,x,ldx)
-           call stdlib_wpotrs(uplo,n,nrhs,a,lda,x,ldx,info)
-           return
-     end subroutine stdlib_wcposv
 
      ! WGEES computes for an N-by-N complex nonsymmetric matrix A, the
      ! eigenvalues, the Schur form T, and, optionally, the matrix of Schur
@@ -76906,8 +76881,8 @@ module stdlib_linalg_lapack_w
            logical(lk),intent(out) :: bwork(*)
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
-                     work(*)
+           complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
+                     
            ! .. function arguments ..
            procedure(stdlib_selctg_w) :: selctg
         ! =====================================================================
@@ -77150,8 +77125,7 @@ module stdlib_linalg_lapack_w
            ! .. array arguments ..
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
-                     *)
+           complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -79043,7 +79017,7 @@ module stdlib_linalg_lapack_w
            kwtop,kwv,ld,ls,lwkopt,ndec,ndfl,nh,nho,nibble,nmin,ns,nsmax,nsr,nve,nw, &
                       nwmax,nwr,nwupbd
            logical(lk) :: sorted
-           character :: jbcmpz,2
+           character :: jbcmpz*2
            ! .. local arrays ..
            complex(qp) :: zdum(1,1)
            ! .. intrinsic functions ..
@@ -79362,7 +79336,6 @@ module stdlib_linalg_lapack_w
            ! .. array arguments ..
            complex(qp),intent(inout) :: h(ldh,*),z(ldz,*)
            complex(qp),intent(out) :: sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*)
-                     
         ! ================================================================
            ! .. parameters ..
            real(qp),parameter :: rzero = 0.0_qp
@@ -79616,7 +79589,7 @@ module stdlib_linalg_lapack_w
            kwtop,kwv,ld,ls,lwkopt,ndec,ndfl,nh,nho,nibble,nmin,ns,nsmax,nsr,nve,nw, &
                       nwmax,nwr,nwupbd
            logical(lk) :: sorted
-           character :: jbcmpz,2
+           character :: jbcmpz*2
            ! .. local arrays ..
            complex(qp) :: zdum(1,1)
            ! .. intrinsic functions ..

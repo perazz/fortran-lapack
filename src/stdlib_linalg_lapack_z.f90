@@ -9,6 +9,7 @@ module stdlib_linalg_lapack_z
      private
 
      public :: sp,dp,qp,lk,ilp
+     public :: stdlib_zlag2w
      public :: stdlib_zbbcsd
      public :: stdlib_zbdsqr
      public :: stdlib_zcgesv
@@ -499,6 +500,35 @@ module stdlib_linalg_lapack_z
 
      contains
 
+     ! ZLAG2Z converts a COMPLEX matrix, SA, to a COMPLEX*16 matrix, A.
+     ! Note that while it is possible to overflow while converting
+     ! from double to single, it is not possible to overflow when
+     ! converting from single to double.
+     ! This is an auxiliary routine so there is no argument checking.
+
+     subroutine stdlib_zlag2w(m,n,sa,ldsa,a,lda,info)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! .. scalar arguments ..
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldsa,m,n
+           ! .. array arguments ..
+           complex(dp),intent(in) :: sa(ldsa,*)
+           complex(qp),intent(out) :: a(lda,*)
+        ! =====================================================================
+           ! .. local scalars ..
+           integer(ilp) :: i,j
+           ! .. executable statements ..
+           info = 0
+           do j = 1,n
+              do i = 1,m
+                 a(i,j) = sa(i,j)
+              end do
+           end do
+           return
+     end subroutine stdlib_zlag2w
+
      ! ZBBCSD computes the CS decomposition of a unitary matrix in
      ! bidiagonal-block form,
      ! [ B11 | B12 0  0 ]
@@ -532,11 +562,11 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: ldu1,ldu2,ldv1t,ldv2t,lrwork,m,p,q
            ! .. array arguments ..
-           real(dp),intent(out) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e( &
-                     *),b22d(*),b22e(*),rwork(*)
+           real(dp),intent(out) :: b11d(*),b11e(*),b12d(*),b12e(*),b21d(*),b21e(*),b22d(*), &
+                      b22e(*),rwork(*)
            real(dp),intent(inout) :: phi(*),theta(*)
-           complex(dp),intent(inout) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t( &
-                     ldv2t,*)
+           complex(dp),intent(inout) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
+                     
         ! ===================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxitr = 6
@@ -3730,7 +3760,7 @@ module stdlib_linalg_lapack_z
            real(dp),intent(out) :: rcond
            ! .. array arguments ..
            real(dp),intent(out) :: rwork(*)
-           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -16404,8 +16434,8 @@ module stdlib_linalg_lapack_z
            logical(lk),intent(out) :: bwork(*)
            real(dp),intent(out) :: rwork(*)
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
-                     work(*)
+           complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
+                     
            ! .. function arguments ..
            procedure(stdlib_selctg_z) :: selctg
         ! =====================================================================
@@ -16655,8 +16685,8 @@ module stdlib_linalg_lapack_z
            logical(lk),intent(out) :: bwork(*)
            real(dp),intent(out) :: rwork(*)
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
-                     work(*)
+           complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
+                     
            ! .. function arguments ..
            procedure(stdlib_selctg_z) :: selctg
         ! =====================================================================
@@ -16909,8 +16939,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: iwork(*)
            real(dp),intent(out) :: rconde(2),rcondv(2),rwork(*)
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*), &
-                     work(*)
+           complex(dp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
+                     
            ! .. function arguments ..
            procedure(stdlib_selctg_z) :: selctg
         ! =====================================================================
@@ -17208,8 +17238,7 @@ module stdlib_linalg_lapack_z
            ! .. array arguments ..
            real(dp),intent(out) :: rwork(*)
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
-                     *)
+           complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17478,8 +17507,7 @@ module stdlib_linalg_lapack_z
            ! .. array arguments ..
            real(dp),intent(out) :: rwork(*)
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
-                     *)
+           complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -17758,10 +17786,8 @@ module stdlib_linalg_lapack_z
            logical(lk),intent(out) :: bwork(*)
            integer(ilp),intent(out) :: iwork(*)
            real(dp),intent(out) :: lscale(*),rconde(*),rcondv(*),rscale(*),rwork(*)
-                     
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
-           complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work( &
-                     *)
+           complex(dp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work(*)
         ! =====================================================================
            
            ! .. local scalars ..
@@ -18244,7 +18270,6 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -18773,7 +18798,6 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -20169,8 +20193,8 @@ module stdlib_linalg_lapack_z
            ! .. array arguments ..
            integer(ilp),intent(in) :: ipiv(*)
            real(dp),intent(out) :: berr(*),ferr(*),rwork(*)
-           complex(dp),intent(in) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*), &
-                     du2(*),duf(*)
+           complex(dp),intent(in) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf(*)
+                     
            complex(dp),intent(out) :: work(*)
            complex(dp),intent(inout) :: x(ldx,*)
         ! =====================================================================
@@ -27250,7 +27274,6 @@ module stdlib_linalg_lapack_z
      subroutine stdlib_zhetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous,work, &
                lwork,info)
 #if defined(_OPENMP)
-           use omp_lib
 #endif
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -29067,8 +29090,7 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(in) :: lda,ldb,n,nrhs
            ! .. array arguments ..
            integer(ilp),intent(in) :: ipiv(*)
-           complex(dp),intent(in) :: a(lda,*)
-           complex(dp),intent(inout) :: b(ldb,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -30060,7 +30082,6 @@ module stdlib_linalg_lapack_z
            real(dp),intent(out) :: rwork(*)
            complex(dp),intent(out) :: alpha(*),beta(*),work(*)
            complex(dp),intent(inout) :: h(ldh,*),q(ldq,*),t(ldt,*),z(ldz,*)
-                     
         ! =====================================================================
            
            ! .. local scalars ..
@@ -34028,7 +34049,7 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(in) :: ipiv(*)
            complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
            complex(dp),intent(out) :: work(*)
-           real(dp),intent(in) :: c
+           real(dp),intent(in) :: c(*)
            real(dp),intent(out) :: rwork(*)
         ! =====================================================================
            ! .. local scalars ..
@@ -36044,13 +36065,12 @@ module stdlib_linalg_lapack_z
            ! .. scalar arguments ..
            integer(ilp),intent(in) :: curlvl,curpbm,cutpnt,ldq,n,qsiz,tlvls
            integer(ilp),intent(out) :: info
-           real(dp),intent(in) :: rho
+           real(dp),intent(inout) :: rho
            ! .. array arguments ..
-           integer(ilp),intent(in) :: givcol(2,*),givptr(*),perm(*),prmptr(*)
+           integer(ilp),intent(inout) :: givcol(2,*),givptr(*),perm(*),prmptr(*),qptr(*)
+                     
            integer(ilp),intent(out) :: indxq(*),iwork(*)
-           integer(ilp),intent(inout) :: qptr(*)
-           real(dp),intent(inout) :: d(*),qstore(*)
-           real(dp),intent(in) :: givnum(2,*)
+           real(dp),intent(inout) :: d(*),givnum(2,*),qstore(*)
            real(dp),intent(out) :: rwork(*)
            complex(dp),intent(inout) :: q(ldq,*)
            complex(dp),intent(out) :: work(*)
@@ -36157,10 +36177,9 @@ module stdlib_linalg_lapack_z
            real(dp),intent(inout) :: rho
            ! .. array arguments ..
            integer(ilp),intent(out) :: givcol(2,*),indx(*),indxp(*),perm(*)
-           integer(ilp),intent(in) :: indxq(*)
-           real(dp),intent(inout) :: d(*)
+           integer(ilp),intent(inout) :: indxq(*)
+           real(dp),intent(inout) :: d(*),z(*)
            real(dp),intent(out) :: dlamda(*),givnum(2,*),w(*)
-           real(dp),intent(in) :: z(*)
            complex(dp),intent(inout) :: q(ldq,*)
            complex(dp),intent(out) :: q2(ldq2,*)
         ! =====================================================================
@@ -39678,8 +39697,8 @@ module stdlib_linalg_lapack_z
            real(dp),intent(in) :: c,s
            ! .. array arguments ..
            integer(ilp),intent(in) :: givcol(ldgcol,*),perm(*)
-           real(dp),intent(in) :: difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles( &
-                     ldgnum,*),z(*)
+           real(dp),intent(in) :: difl(*),difr(ldgnum,*),givnum(ldgnum,*),poles(ldgnum,*),z( &
+                     *)
            real(dp),intent(out) :: rwork(*)
            complex(dp),intent(inout) :: b(ldb,*)
            complex(dp),intent(out) :: bx(ldbx,*)
@@ -39910,10 +39929,9 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
            integer(ilp),intent(in) :: givcol(ldgcol,*),givptr(*),k(*),perm(ldgcol,*)
-                     
            integer(ilp),intent(out) :: iwork(*)
-           real(dp),intent(in) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*), &
-                     poles(ldu,*),s(*),u(ldu,*),vt(ldu,*),z(ldu,*)
+           real(dp),intent(in) :: c(*),difl(ldu,*),difr(ldu,*),givnum(ldu,*),poles(ldu,*),s( &
+                     *),u(ldu,*),vt(ldu,*),z(ldu,*)
            real(dp),intent(out) :: rwork(*)
            complex(dp),intent(inout) :: b(ldb,*)
            complex(dp),intent(out) :: bx(ldbx,*)
@@ -44552,7 +44570,7 @@ module stdlib_linalg_lapack_z
            kwtop,kwv,ld,ls,lwkopt,ndec,ndfl,nh,nho,nibble,nmin,ns,nsmax,nsr,nve,nw, &
                       nwmax,nwr,nwupbd
            logical(lk) :: sorted
-           character :: jbcmpz,2
+           character :: jbcmpz*2
            ! .. local arrays ..
            complex(dp) :: zdum(1,1)
            ! .. intrinsic functions ..
@@ -44935,7 +44953,6 @@ module stdlib_linalg_lapack_z
            ! .. array arguments ..
            complex(dp),intent(inout) :: h(ldh,*),z(ldz,*)
            complex(dp),intent(out) :: sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*)
-                     
         ! ================================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0_dp
@@ -45147,7 +45164,6 @@ module stdlib_linalg_lapack_z
            ! .. array arguments ..
            complex(dp),intent(inout) :: h(ldh,*),z(ldz,*)
            complex(dp),intent(out) :: sh(*),t(ldt,*),v(ldv,*),work(*),wv(ldwv,*)
-                     
         ! ================================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0_dp
@@ -45401,7 +45417,7 @@ module stdlib_linalg_lapack_z
            kwtop,kwv,ld,ls,lwkopt,ndec,ndfl,nh,nho,nibble,nmin,ns,nsmax,nsr,nve,nw, &
                       nwmax,nwr,nwupbd
            logical(lk) :: sorted
-           character :: jbcmpz,2
+           character :: jbcmpz*2
            ! .. local arrays ..
            complex(dp) :: zdum(1,1)
            ! .. intrinsic functions ..
@@ -45707,7 +45723,6 @@ module stdlib_linalg_lapack_z
            ! .. array arguments ..
            complex(dp),intent(inout) :: h(ldh,*),s(*),z(ldz,*)
            complex(dp),intent(out) :: u(ldu,*),v(ldv,*),wh(ldwh,*),wv(ldwv,*)
-                     
         ! ================================================================
            ! .. parameters ..
            real(dp),parameter :: rzero = 0.0_dp
@@ -49081,7 +49096,8 @@ module stdlib_linalg_lapack_z
            ! .. scalar arguments ..
            integer(ilp),intent(in) :: dol,dou,ldz,m,n
            integer(ilp),intent(out) :: info
-           real(dp),intent(in) :: minrgp,pivmin,rtol1,rtol2,vl,vu
+           real(dp),intent(in) :: minrgp,pivmin,vl,vu
+           real(dp),intent(inout) :: rtol1,rtol2
            ! .. array arguments ..
            integer(ilp),intent(in) :: iblock(*),indexw(*),isplit(*)
            integer(ilp),intent(out) :: isuppz(*),iwork(*)
@@ -49741,8 +49757,6 @@ module stdlib_linalg_lapack_z
      ! Below, wp=>dp stands for double precision from LA_CONSTANTS module.
 
      subroutine stdlib_zlartg(f,g,c,s,r)
-     use la_constants,only:wp => dp,zero => dzero,one => done,two => dtwo,czero => zzero, &
-               rtmin => drtmin,rtmax => drtmax,safmin => dsafmin,safmax => dsafmax
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -49946,8 +49960,7 @@ module stdlib_linalg_lapack_z
            character,intent(in) :: direct,side,storev,trans
            integer(ilp),intent(in) :: k,l,ldc,ldt,ldv,ldwork,m,n
            ! .. array arguments ..
-           complex(dp),intent(inout) :: c(ldc,*)
-           complex(dp),intent(in) :: t(ldt,*),v(ldv,*)
+           complex(dp),intent(inout) :: c(ldc,*),t(ldt,*),v(ldv,*)
            complex(dp),intent(out) :: work(ldwork,*)
         ! =====================================================================
            
@@ -50607,9 +50620,6 @@ module stdlib_linalg_lapack_z
      ! HUGE     -- biggest representable number.
 
      subroutine stdlib_zlassq(n,x,incx,scl,sumsq)
-     use la_constants,only:wp => dp,zero => dzero,one => done,sbig => dsbig,ssml => dssml, &
-               tbig => dtbig,tsml => dtsml
-        use la_xisnan
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -53078,8 +53088,7 @@ module stdlib_linalg_lapack_z
            real(dp),intent(inout) :: rdscal,rdsum
            ! .. array arguments ..
            integer(ilp),intent(in) :: ipiv(*),jpiv(*)
-           complex(dp),intent(inout) :: rhs(*)
-           complex(dp),intent(in) :: z(ldz,*)
+           complex(dp),intent(inout) :: rhs(*),z(ldz,*)
         ! =====================================================================
            ! .. parameters ..
            integer(ilp),parameter :: maxdim = 2
@@ -56384,7 +56393,7 @@ module stdlib_linalg_lapack_z
            real(dp),intent(out) :: rcond
            ! .. array arguments ..
            real(dp),intent(out) :: rwork(*)
-           complex(dp),intent(in) :: a(lda,*)
+           complex(dp),intent(inout) :: a(lda,*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -69195,7 +69204,6 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(in) :: j1,lda,ldb,ldq,ldz,n
            ! .. array arguments ..
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
         ! =====================================================================
            ! .. parameters ..
            real(dp),parameter :: twenty = 2.0e+1_dp
@@ -69337,7 +69345,6 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
         ! =====================================================================
            ! .. local scalars ..
            integer(ilp) :: here
@@ -69433,7 +69440,6 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: iwork(*)
            real(dp),intent(out) :: dif(*)
            complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-                     
            complex(dp),intent(out) :: alpha(*),beta(*),work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -69753,8 +69759,7 @@ module stdlib_linalg_lapack_z
            real(dp),intent(in) :: tola,tolb
            ! .. array arguments ..
            real(dp),intent(out) :: alpha(*),beta(*)
-           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v( &
-                     ldv,*)
+           complex(dp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),u(ldu,*),v(ldv,*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -69945,7 +69950,6 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: iwork(*)
            real(dp),intent(out) :: dif(*),s(*)
            complex(dp),intent(in) :: a(lda,*),b(ldb,*),vl(ldvl,*),vr(ldvr,*)
-                     
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -74539,9 +74543,8 @@ module stdlib_linalg_lapack_z
            ! .. array arguments ..
            real(dp),intent(out) :: phi(*),theta(*)
            complex(dp),intent(out) :: taup1(*),taup2(*),tauq1(*),tauq2(*),work(*)
+           complex(dp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
                      
-           complex(dp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22( &
-                     ldx22,*)
         ! ====================================================================
            ! .. parameters ..
            real(dp),parameter :: realone = 1.0_dp
@@ -75571,10 +75574,10 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: iwork(*)
            real(dp),intent(out) :: theta(*)
            real(dp),intent(out) :: rwork(*)
-           complex(dp),intent(out) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t, &
-                     *),work(*)
-           complex(dp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22( &
-                     ldx22,*)
+           complex(dp),intent(out) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*),work(*)
+                     
+           complex(dp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
+                     
         ! ===================================================================
            
            ! .. local scalars ..
@@ -77931,8 +77934,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -78030,8 +78033,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -78146,8 +78149,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
@@ -78293,8 +78296,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(in) :: ihi,ilo,lda,ldc,lwork,m,n
            integer(ilp),intent(out) :: info
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
@@ -78393,8 +78396,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -78499,8 +78502,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -78642,8 +78645,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -78779,8 +78782,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -78916,8 +78919,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            
@@ -79121,8 +79124,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -79264,8 +79267,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: k,l,lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. parameters ..
@@ -79419,8 +79422,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: lda,ldc,lwork,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: a(lda,*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            ! .. local scalars ..
@@ -79622,8 +79625,8 @@ module stdlib_linalg_lapack_z
            integer(ilp),intent(out) :: info
            integer(ilp),intent(in) :: ldc,m,n
            ! .. array arguments ..
-           complex(dp),intent(in) :: ap(*),tau(*)
-           complex(dp),intent(inout) :: c(ldc,*)
+           complex(dp),intent(inout) :: ap(*),c(ldc,*)
+           complex(dp),intent(in) :: tau(*)
            complex(dp),intent(out) :: work(*)
         ! =====================================================================
            

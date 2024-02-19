@@ -4397,7 +4397,7 @@ module stdlib_linalg_blas_d
            ! .. scalar arguments ..
            integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           complex(dp),intent(inout) :: zx(*)
+           complex(dp),intent(in) :: zx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: stemp
