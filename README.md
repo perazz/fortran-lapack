@@ -9,6 +9,7 @@ Procedure   | Type | Description | Optional arguments
 `inv(A)` | function | Inverse of a scalar or square matrix | `inv(A,err=err)`
 `invert(A)` | subroutine | In-place inverse of a scalar or square matrix | `call invert(A,err=err)`
 `.inv.A` | operator | Inverse of a scalar or square matrix | -
+`eye(m)` | function | Identity matrix of size `m` | `eye(m,n,mold,err)`: Optional column size `n`, datatype `dtype` (default: real64), error handler
 
 All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
 
