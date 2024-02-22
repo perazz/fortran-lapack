@@ -1,0 +1,95 @@
+#:set REAL_KINDS    = ["sp", "dp", "qp"]
+#:set REAL_INITIALS = ["s","d","q"]
+#:set REAL_TYPES    = ["real({})".format(k) for k in REAL_KINDS]
+#:set REAL_KINDS_TYPES = list(zip(REAL_KINDS, REAL_TYPES, REAL_INITIALS))
+#:set CMPL_INITIALS = ["c","z","w"]
+#:set CMPL_TYPES    = ["complex({})".format(k) for k in REAL_KINDS]
+#:set CMPL_KINDS_TYPES = list(zip(REAL_KINDS, CMPL_TYPES, CMPL_INITIALS))
+#:set ALL_KINDS_TYPES = list(zip(REAL_KINDS+REAL_KINDS,REAL_TYPES+CMPL_TYPES,REAL_INITIALS+CMPL_INITIALS))
+
+#:set RANK_SUFFIX = ["_one","_multiple"]
+#:set RANK_SYMBOL = [":",":,:"]
+#:set ALL_RANKS = list(zip(RANK_SYMBOL,RANK_SUFFIX))
+! Return a 2-D matrix with ones on the diagonal and zeros everywhere else
+module stdlib_linalg_eye
+     use stdlib_linalg_constants
+     use stdlib_linalg_blas
+     use stdlib_linalg_lapack
+     use stdlib_linalg_state
+     use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
+     implicit none(type,external)
+     private
+
+     !> Function interface
+     public :: eye
+
+     ! Numpy: eye(N, M=None, k=0, dtype=<class 'float'>, order='C', *, device=None, like=None)
+     ! Numpy: identity(n, dtype=None, *, like=None) --> square matrices only
+     ! Scipy: eye(m, n=None, k=0, dtype=<class 'float'>, format=None) --> sparse only
+     ! IMSL:  EYE(N)
+
+     ! Function interface
+     interface eye
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure stdlib_linalg_eye_${ri}$
+        #:endfor
+     end interface eye
+
+     contains
+
+     #:for rk,rt,ri in ALL_KINDS_TYPES
+
+     ! Return diagonal eye matrix of size N
+     function stdlib_linalg_eye_${ri}$(m,n,dtype,err) result(eye)
+         !> Number of rows
+         integer(ilp), intent(in) :: m
+         !> Number of columns (optional)
+         integer(ilp), optional, intent(in) :: n
+         !> Datatype. Used to define the return type. Defaults to real(real64)
+         #:if rt=='real(dp)'
+         ${rt}$, optional, intent(in) :: dtype
+         #:else
+         ${rt}$, intent(in) :: dtype
+         #:endif
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state), optional, intent(out) :: err
+         !> Return matrix
+         ${rt}$, allocatable :: eye(:,:)
+
+         !> Local variables
+         integer(ilp) :: cols
+         type(linalg_state) :: err0
+         character(*), parameter :: this = 'eye'
+
+         !> Determine number of columns
+         if (present(n)) then
+            cols = n
+         else
+            cols = m
+         endif
+
+         !> Check size
+         if (.not.min(m,n)>=0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate(eye(m,n))
+
+         !> Empty matrix
+         if (min(m,n)<=0) return
+
+         !> Fill data
+         do concurrent (i=1:n,j=1:n)
+            eye(i,j) = merge(1.0_${rk}$,0.0_${rk}$,i==j)
+         end do
+
+         ! Process output and return
+         1 call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_eye_${ri}$
+
+     #:endfor
+
+end module stdlib_linalg_eye
