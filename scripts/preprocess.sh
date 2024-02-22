@@ -1,10 +1,25 @@
-#!/bin/sh
+#!/bin/bash
 #
 #
-# preprocess sources with fypp
-fypp "../src/stdlib_linalg_solve.fypp" > ../src/stdlib_linalg_solve.f90
-fypp "../src/stdlib_linalg_inverse.fypp" > ../src/stdlib_linalg_inverse.f90
-fypp "../src/stdlib_linalg_least_squares.fypp" > ../src/stdlib_linalg_least_squares.f90
-fypp "../test/test_linalg_solve.fypp" > ../test/test_linalg_solve.f90
-fypp "../test/test_linalg_inverse.fypp" > ../test/test_linalg_inverse.f90
-fypp "../test/test_linalg_least_squares.fypp" > ../test/test_linalg_least_squares.f90
+# preprocess linear algebra sources with fypp
+#
+declare -a linalg_sources=("solve" "inverse" "least_squares" "determinant")
+
+declare -a operations=("src" "test")
+declare -a oper_prefix=("stdlib" "test")
+
+# Preprocess all sources
+for str in "${linalg_sources[@]}"; do
+   for i in "${!operations[@]}"; do 
+      operation=${operations[i]}
+      pref=${oper_prefix[i]}
+      source="../$operation/${pref}_linalg_$str.fypp"
+      dest="../$operation/${pref}_linalg_$str.f90"
+      fypp "$source" > "$dest"
+
+      # prettify
+#      fprettify -i 4 -l 132 -w 2 --disable-indent --strip-comments --c-relations --enable-replacements --enable-decl --whitespace-comma 0 $dest
+
+   done
+done
+
