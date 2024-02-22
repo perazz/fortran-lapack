@@ -1,0 +1,132 @@
+#:set REAL_KINDS    = ["sp", "dp", "qp"]
+#:set REAL_INITIALS = ["s","d","q"]
+#:set REAL_TYPES    = ["real({})".format(k) for k in REAL_KINDS]
+#:set REAL_KINDS_TYPES = list(zip(REAL_KINDS, REAL_TYPES, REAL_INITIALS))
+#:set CMPL_INITIALS = ["c","z","w"]
+#:set CMPL_TYPES    = ["complex({})".format(k) for k in REAL_KINDS]
+#:set CMPL_KINDS_TYPES = list(zip(REAL_KINDS, CMPL_TYPES, CMPL_INITIALS))
+! Test matrix determinant
+module test_linalg_determinant
+    use stdlib_linalg_interface
+
+    implicit none (type,external)
+
+    contains
+
+    !> Matrix inversion tests
+    subroutine test_matrix_determinant(error)
+        logical, intent(out) :: error
+
+        real :: t0,t1
+
+        call cpu_time(t0)
+
+        #:for rk,rt,ri in REAL_KINDS_TYPES
+        call test_${ri}$_eye_determinant(error)
+        if (error) return
+        call test_${ri}$_eye_multiple(error)
+        if (error) return
+        #: endfor
+        #:for ck,ct,ci in CMPL_KINDS_TYPES
+!        call test_${ci}$_eye_inverse(error)
+!        if (error) return
+        #: endfor
+
+        call cpu_time(t1)
+
+        print 1, 1000*(t1-t0), merge('SUCCESS','ERROR  ',.not.error)
+
+        1 format('Determinant tests completed in ',f9.4,' milliseconds, result=',a)
+
+    end subroutine test_matrix_determinant
+
+    !> Determinant of identity matrix
+    #:for rk,rt,ri in REAL_KINDS_TYPES
+    subroutine test_${ri}$_eye_determinant(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        integer(ilp) :: i,j
+        integer(ilp), parameter :: n = 128_ilp
+
+        ${rt}$ :: a(n,n),deta
+
+        do concurrent (i=1:n,j=1:n)
+          a(i,j) = merge(1.0_${rk}$,0.0_${rk}$,i==j)
+        end do
+
+        !> Determinant function
+        deta = det(a,err=state)
+        error = state%error() .or. .not.abs(deta-1.0_${rk}$)<tiny(0.0_${rk}$)
+        if (error) return
+
+    end subroutine test_${ri}$_eye_determinant
+
+    subroutine test_${ri}$_eye_multiple(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        integer(ilp), parameter :: n = 10_ilp
+        ${rt}$, parameter :: coef = 0.0001_${rk}$
+        integer(ilp) :: i,j
+        ${rt}$ :: a(n,n),deta
+
+        !> Multiply eye by a very small number
+        do concurrent (i=1:n,j=1:n)
+          a(i,j) = merge(coef,0.0_${rk}$,i==j)
+        end do
+
+        !> Determinant: small, but a is not singular, because it is a multiple of the identity.
+        deta = det(a,err=state)
+        error = state%error() .or. .not.abs(deta-coef**n)<tiny(0.0_${rk}$)
+        if (error) return
+
+    end subroutine test_${ri}$_eye_multiple
+
+    #:endfor
+
+    !> Determinant of identity matrix
+    #:for ck,ct,ci in CMPL_KINDS_TYPES
+    subroutine test_${ci}$_eye_determinant(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        integer(ilp) :: i,j,failed
+        integer(ilp), parameter :: n = 250_ilp
+
+        ${ct}$ :: a(n,n),copya(n,n),inva(n,n)
+
+        ! Get eye matrix
+        do concurrent (i=1:n,j=1:n)
+          a(i,j) = merge((1.0_${ck}$,1.0_${ck}$),(0.0_${ck}$,0.0_${ck}$),i==j)
+        end do
+        copya = a
+
+        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
+        inva = det(a,err=state)
+
+        error = state%error() .or. .not.failed==0
+        if (error) return
+
+        !> Inverse subroutine
+        call invert(copya,err=state)
+!
+!        failed = 0
+!        do i=1,n
+!            do j=1,n
+!                if (.not.is_diagonal_inverse(a(i,j),copya(i,j),i,j)) failed = failed+1
+!            end do
+!        end do
+
+        error = state%error() .or. .not.failed==0
+
+    end subroutine test_${ci}$_eye_determinant
+
+    #:endfor
+
+end module test_linalg_determinant
+
+
