@@ -355,7 +355,6 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
     for ff in range(len(fortran_functions)):
 
         f = copy.copy(fortran_functions[ff])
-        if (f.old_name=='daxpy'): print("0after daxpy:"+fortran_functions[ff+1].old_name)
         if function_in_module('aux',f.old_name):
             if f.old_name in blas_dble:
                 i = blas_dble.index(f.old_name)
@@ -788,8 +787,8 @@ def heading_spaces(line):
     nspaces = len(line)-len(posts)
     return nspaces
 
-# Adjust variable declaration
-def adjust_variable_declaration(line,datatype):
+# Adjust variable declaration: add data types and intents
+def adjust_variable_declaration(Source,line,datatype):
 
     import re
 
@@ -802,6 +801,8 @@ def adjust_variable_declaration(line,datatype):
                     r'intrinsic', \
                     r'external']
 
+    lines = []
+
     ll = line.lower()
 
     for i in range(len(declarations)):
@@ -810,12 +811,14 @@ def adjust_variable_declaration(line,datatype):
 
             variable = line[m.end()-1:].lstrip()
             var_type = line[:m.end()-2].rstrip()
-            line = var_type + " :: " + variable
+
+            vls = variable.lower().strip()
 
             # Patch function argument
-            if variable.lower().strip()=='selctg':
+            if vls=='selctg':
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_selctg_"+datatype[0]+") :: selctg"
+                lines.append(line)
                 if not datatype[0] in ['d','c','s','z','w','q']:
                     print("invalid datatype")
                     print(line)
@@ -823,9 +826,10 @@ def adjust_variable_declaration(line,datatype):
                     print(datatype)
                     exit(1)
 
-            if variable.lower().strip()=='select':
+            elif vls=='select':
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_select_"+datatype[0]+") :: select"
+                lines.append(line)
                 if not datatype[0] in ['d','c','s','z','w','q']:
                     print("invalid datatype")
                     print(line)
@@ -833,9 +837,52 @@ def adjust_variable_declaration(line,datatype):
                     print(datatype)
                     exit(1)
 
-            return line
+            else:
 
-    return line
+                # Extract individual variable names
+                v,v_noarray = extract_variable_declarations(vls)
+
+                if len(v)<=0:
+                    print(vls)
+                    print("error: no variables found")
+                    exit(1)
+                else:
+
+                    # Group variables by intent (kind is same for them all)
+                    same_intent = []
+                    same_intent_variables = []
+                    same_intent_noarray = []
+
+                    for kk in range(len(v)):
+
+                        # Get this intent
+                        intent = Source.argument_intent(v_noarray[kk])
+
+                        if len(same_intent)<=0 or not (intent in same_intent):
+                            same_intent.append(intent)
+                            same_intent_variables.append(v[kk])
+                            same_intent_noarray.append(v_noarray[kk])
+                        else:
+                            jj = same_intent.index(intent)
+                            same_intent_variables[jj] = same_intent_variables[jj] + ", " + v[kk]
+                            same_intent_noarray[jj] = same_intent_variables[jj] + ", " + v_noarray[kk]
+
+
+                for jj in range(len(same_intent)):
+                   intent = same_intent[jj]
+                   variable = same_intent_variables[jj]
+
+                   if intent=="unknown":
+                       line = var_type + " :: " + variable
+                   else:
+                       line = var_type + ", intent(" + intent +") :: " + variable
+
+                   lines.append(line)
+
+            return lines
+
+    lines.append(line)
+    return lines
 
 # Find parameter declarations
 def find_parameter_declaration(line,datatype):
@@ -996,6 +1043,61 @@ def write_with_continuation(line,fid,INDENT,MAX_LENGTH):
            fid.write(INDENT*2 + line + "\n")
 
 
+# Extract list of arguments out of a subroutine/function header
+def extract_arguments(header_line,is_function):
+
+    DEBUG = False
+
+    # Strip, lower
+    head = header_line.lower().strip()
+    if DEBUG: print("DECLARATION:: HEAD "+head)
+
+    # extract arguments
+    if is_function:
+       m = re.search(r'(\S*\s+)*(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
+
+       if m is None:
+           print(m)
+           print(head)
+           print("ERROR")
+           exit(1)
+
+       has_type   = not m.group(1) is None
+       has_result = not m.group(5) is None
+
+       args = m.group(4)
+
+       # If the type is not declared here, it must be found in the list of arguments, ensure it is added
+       if not has_type:
+           if has_result:
+              # Parse name
+              result = re.search(r'(?:\s*result\s*)\((.+)\)',m.group(5))
+              args = args + "," + result.group(1)
+           else:
+              args = args + "," + m.group(3)
+
+       args = args.split(",")
+
+    else:
+       m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\s*\(([^\(\)]+)\)',head)
+
+       if m is None:
+           print("HEAD="+head)
+           print("ERROR: CANNOT FIND SUBROUTINE NAME")
+           exit(1)
+
+       args = m.group(3).split(",")
+
+    if len(args)>1:
+        for a in range(len(args)):
+            args[a] = args[a].strip()
+    else:
+        if isinstance(args, type([])): args = args[0]
+        args = args.strip()
+
+    return args
+
+
 
 # This class represents the contents of a 1-function/1-subroutine Fortran source file parsed from BLAS/LAPACK
 class Fortran_Source:
@@ -1016,6 +1118,9 @@ class Fortran_Source:
         self.ptype = []
         self.pvalue = []
         self.header = []
+        self.intent_var = []
+        self.intent_lab = []
+        self.arguments = []
 
     # Return subroutine/function string
     def procedure_type(self):
@@ -1035,6 +1140,97 @@ class Fortran_Source:
         old = self.old_name.lower()
         return old.startswith('q') or old.startswith('iq') or old.startswith('ilaq') or \
                old.startswith('w') or old.startswith('iw') or old.startswith('ilaw')
+
+    # Check if variable is an argument
+    def is_argument(self,argument):
+        lsa = argument.lower().strip()
+        return lsa in self.arguments
+
+    # Find argument intent
+    def argument_intent(self,argument):
+        lsa = argument.lower().strip()
+
+        # Extract name with no (*) or other arguments
+        vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',lsa)
+        if vname is None:
+            print(lsa)
+            print("NO NAME FOUND!!!!")
+            exit(1)
+        arg_name = vname.group(1).strip()
+
+        intent = "unknown"
+
+        # PATCHES: fix intents uncorrectly stated in the original LAPACK documentation
+        if (self.old_name.endswith('larrv') and (arg_name=='rtol1' or arg_name=='rtol2')):
+            intent = "inout"
+        elif ( (self.old_name.endswith('ormql') or self.old_name.endswith('ormtl') \
+            or self.old_name.endswith('ormqr') or self.old_name.endswith('orm2r') \
+            or self.old_name.endswith('ormr2') or self.old_name.endswith('ormhr') \
+            or self.old_name.endswith('ormbr') or self.old_name.endswith('orml2') \
+            or self.old_name.endswith('ormlq') or self.old_name.endswith('ormrz') \
+            or self.old_name.endswith('ormrq') or self.old_name.endswith('unm2r') \
+            or self.old_name.endswith('unmqr') or self.old_name.endswith('unmhr') \
+            or self.old_name.endswith('latr') or self.old_name.endswith('gecon') \
+            or self.old_name.endswith('unml2') or self.old_name.endswith('unmlq') \
+            or self.old_name.endswith('pocon') or self.old_name.endswith('ormtr')  \
+            or self.old_name.endswith('orm2l') or self.old_name.endswith('unm2l') \
+            or self.old_name.endswith('unmql') or self.old_name.endswith('unmtr') \
+            or self.old_name.endswith('unmbr') or self.old_name.endswith('unmrz') \
+            or self.old_name.endswith('hetrs2') or self.old_name.endswith('unmr2') \
+            or self.old_name.endswith('unmrq')) \
+              and arg_name=='a'):
+            intent = "inout"
+        elif (self.old_name.endswith('latdf') and arg_name=='z'):
+            intent = "inout"
+        elif (self.old_name.endswith('larzb') and (arg_name=='t' or arg_name=='v')):
+            intent = "inout"
+        elif (self.old_name.endswith('upmtr') and arg_name=='ap'):
+            intent = "inout"
+        elif (self.old_name.endswith('laed2') and arg_name=='z'):
+            intent = "inout"
+        elif (self.old_name.endswith('laed8') and (arg_name=='z' or arg_name=='indxq')):
+            intent = "inout"
+        elif (self.old_name.endswith('laed9') and (arg_name=='dlamda' or arg_name=='w')):
+            intent = "inout"
+        elif (self.old_name.endswith('laed1') and arg_name=='rho'):
+            intent = "inout"
+        elif (self.old_name.endswith('laed7') and (arg_name=='rho' or arg_name=='prmptr' or arg_name=='givptr' \
+               or arg_name=='perm' or arg_name=='givcol' or arg_name=='givnum')):
+            intent = "inout"
+        elif (self.old_name.endswith('opmtr') and arg_name=='ap'):
+            intent = "inout"
+        elif (self.old_name.endswith('laed0') and arg_name=='e'):
+            intent = "inout"
+        elif (self.old_name.endswith('lasq3') and arg_name=='qmax'):
+            intent = "inout"
+        elif (self.old_name.endswith('lasq5') and (arg_name=='tau' or arg_name=='z')):
+            intent = "inout"
+        elif (self.old_name.endswith('lasq6') and (arg_name=='z')):
+            intent = "inout"
+        elif (self.old_name.endswith('lasda') and (arg_name=='e')):
+            intent = "inout"
+        elif (self.old_name.endswith('lasd7') and (arg_name=='idxq')):
+            intent = "inout"
+        elif (self.old_name.endswith('casum') and arg_name=='cx'):
+            intent = "in"
+        elif (self.old_name.endswith('zasum') and arg_name=='zx'):
+            intent = "in"
+
+
+        # Add to list if this is an argument
+        elif self.is_argument(arg_name):
+
+            # Search for an intent to this variable in the function header comments
+            if arg_name in self.intent_var:
+               kk = self.intent_var.index(arg_name)
+               intent = self.intent_lab[kk]
+               print(intent)
+               if intent=="in,out" or intent=="in out" or intent=="in, out":
+                   intent = "inout"
+            else:
+               intent = "unknown"
+
+        return intent
 
 
     # Convert a double precision function to quad precision
@@ -1057,6 +1253,12 @@ class Fortran_Source:
                 initial = dble_prefixes[j]
                 newi    = quad_prefixes[j]
         if initial is None:
+            for j in range(len(sing_prefixes)):
+                if oname.startswith(sing_prefixes[j]):
+                    initial = sing_prefixes[j]
+                    newi    = dble_prefixes[j]
+
+        if initial is None:
             print("function "+self.old_name+" cannot be converted to quadruple precision: it must be double")
             exit(1)
 
@@ -1064,7 +1266,7 @@ class Fortran_Source:
 
         # Extract prefix
         i = self.new_name.index(self.old_name)
-        prefix = self.new_name[:i]
+        prefix     = self.new_name[:i]
         q.new_name = prefix + q.old_name
 
         # Body, header
@@ -1085,9 +1287,11 @@ class Fortran_Source:
                 elif this.startswith(sing_prefixes[j]):
                     self.deps[i] = dble_prefixes[j]+this[len(dble_prefixes[j]):]
 
+            # Patch for precision conversion functions
+            if self.deps[i]=='zlag2z': self.deps[i]='zlag2w'
+            if self.deps[i]=='dlag2d': self.deps[i]='dlag2q'
+
         return q
-
-
 
     # Return declaration line of a function
     def declaration(self,strip_prefix):
@@ -1107,58 +1311,14 @@ class Fortran_Source:
             print("ERROR: Procedure declaration not found in function "+self.old_name)
             exit(1)
 
-        # Strip, lower
-        head = head.lower().strip()
-        if DEBUG: print("DECLARATION:: HEAD "+head)
-
-        # extract arguments
-        if self.is_function:
-           m = re.search(r'(\S*\s+)*(function){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\(([^\(\)]+)\)(\s+result\s*\(.+\)){0,1}', head)
-
-           if m is None:
-               print(m)
-               print(head)
-               print("ERROR")
-               exit(1)
-
-           has_type   = not m.group(1) is None
-           has_result = not m.group(5) is None
-
-           args = m.group(4)
-
-           # If the type is not declared here, it must be found in the list of arguments, ensure it is added
-           if not has_type:
-               if has_result:
-                  # Parse name
-                  result = re.search(r'(?:\s*result\s*)\((.+)\)',m.group(5))
-                  args = args + "," + result.group(1)
-               else:
-                  args = args + "," + m.group(3)
-
-           args = args.split(",")
-
-        else:
-           m = re.search(r'(subroutine){0,1}\s+([A-Za-z]+[A-Za-z0-9\_]*[\,]{0,1})\s*\(([^\(\)]+)\)',head)
-
-           if m is None:
-               print("HEAD="+head)
-               print("ERROR: CANNOT FIND SUBROUTINE NAME")
-               exit(1)
-
-           args = m.group(3).split(",")
-
-        print(args)
-        if len(args)>1:
-            for a in range(len(args)):
-                args[a] = args[a].strip()
-        else:
-            if isinstance(args, type([])): args = args[0]
-            args = args.strip()
+        # Extract arguments list
+        args = extract_arguments(head,self.is_function)
 
         # extract all variables
-        var_types = []
-        var_names = []
-        var_decl  = []
+        var_types  = []
+        var_names  = []
+        var_decl   = []
+        var_intent = []
         for i in range(len(self.decl)):
             line = self.decl[i].lower().strip()
             m = re.search(r'\s*(.+)\s+\:{2}\s+(.+)',line)
@@ -1174,40 +1334,40 @@ class Fortran_Source:
                 # Remove all spaces from the variables
                 variables = m.group(2).replace(" ","")
 
+                has_intent = "intent(" in datatype or "procedure" in datatype
 
-                # Extract variable declarations
-                v = re.findall(r'([a-zA-Z0-9\_]+(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
-
-                if DEBUG: print("DECLARATION:: LINE VARIABLES "+variables)
+                v,v_noarray = extract_variable_declarations(variables)
 
                 # Add to variables
                 for k in range(len(v)):
 
-                    v[k] = v[k].strip()
-                    if DEBUG: print("DECLARATION:: VARIABLE "+v[k])
-
-                    # Clean trailing commas
-                    if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
-
-                    # Extract name with no (*) or other arguments
-                    vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',v[k])
-                    name = vname.group(1).strip()
-                    print(name)
-                    print(v[k])
-
+                    name = v_noarray[k]
 
                     # Add to list if this is an argument
                     if name in args:
                         var_names.append(v[k])
                         var_types.append(datatype)
 
+                        # Search for an intent to this variable in the function header comments
+                        intent = self.argument_intent(name)
+                        print(intent)
+                        print(name)
+
                         # Declarations are combined by datatype
                         exists = False
                         for d in range(len(var_decl)):
-                            if var_decl[d].startswith(datatype):
+                            if var_decl[d].startswith(datatype) and var_intent[d]==intent:
                                 exists = True
                                 var_decl[d] = var_decl[d] + "," + v[k]
-                        if not exists: var_decl.append(datatype+" :: "+v[k])
+                        if not exists:
+                            if intent=="unknown":
+                               var_decl.append(datatype+" :: "+v[k])
+                            else:
+                               if has_intent:
+                                  var_decl.append(datatype+" :: "+v[k])
+                               else:
+                                  var_decl.append(datatype+", intent("+intent+") :: "+v[k])
+                            var_intent.append(intent)
                     else:
                         print("variable <"+v[k]+"> not in args")
 
@@ -1216,13 +1376,48 @@ class Fortran_Source:
         return head,var_decl
 
 class Fortran_Line:
-    def __init(self):
+    def __init__(self):
         self.string        = ""
         self.continuation  = False
         self.comment       = False
         self.use           = False
         self.will_continue = False
         self.directive     = False
+
+# From a list of variables, extract their individual names and array declarations (does not support
+# DIMENSION attribute)
+def extract_variable_declarations(line):
+
+    DEBUG = True
+
+    var_names   = []
+    var_noarray = []
+
+    variables = line.strip().lower().replace(" ","")
+    print(variables)
+
+    # Extract variable declarations
+    v = re.findall(r'([a-zA-Z0-9\_\*]+(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}[\,]{0,1})',variables)
+
+    if DEBUG: print("DECLARATION:: LINE VARIABLES "+variables)
+
+    # Add to variables
+    for k in range(len(v)):
+
+        v[k] = v[k].strip()
+        if DEBUG: print("DECLARATION:: VARIABLE "+v[k])
+
+        # Clean trailing commas
+        if v[k].endswith(','): v[k] = v[k][:len(v[k])-1]
+
+        # Extract name with no (*) or other arguments
+        vname = re.search(r'([a-zA-Z0-9\_\*]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',v[k])
+        name = vname.group(1).strip()
+
+        var_names.append(v[k])
+        var_noarray.append(name)
+
+    return var_names,var_noarray
 
 # Read and preprocess a Fortran line for parsing: remove comments, adjust left, and if this is a continuation
 # line, read all continuation lines into it
@@ -1701,6 +1896,8 @@ def rename_source_body(Source,Sources,external_funs,prefix):
 
     import re
 
+    DEBUG = Source.old_name.lower()=='clartg'
+
     name  = Source.old_name
     lines = Source.body
     decl  = Source.decl
@@ -1745,6 +1942,8 @@ def rename_source_body(Source,Sources,external_funs,prefix):
 
     replacement = prefix+r'\g<0>'
 
+    if DEBUG: print("la_const = " + str(la_const))
+
 
     whole = '\n'.join(lines).lower()
     for j in range(len(old_names)):
@@ -1758,7 +1957,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
             print("***match***" + old_names[j])
             is_found[j] = True
 
-    # Replace la constants
+    # Replace la_* constants
     if la_const:
         for j in range(len(la_names)):
             if is_declared[j]: continue
@@ -2044,6 +2243,15 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                ext_header = is_externals_header(line)
 
+               # Check if a variable intent is being specified in the comment header section
+               m_intent = re.match(r"(?:[\S\*\!>]+\s*)\\param\[(.+)\]\s*(.+)$",ls.lower())
+
+               intent = not m_intent is None
+               if intent:
+                   Source.intent_var.append(m_intent.group(2).lower())
+                   Source.intent_lab.append(m_intent.group(1).lower())
+                   if DEBUG: print("Section.INTENT " + ls)
+
                # Inside an externals section: remove altogether
                if whereAt==Section.EXTERNALS and not ext_header:
                   if DEBUG: print("go back to declaration")
@@ -2092,13 +2300,14 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                if DEBUG: print(str(whereAt) + " reads: " + line)
 
                line = Line.string
+               lsl = line.strip().lower()
 
                # Check what section we're in
                match whereAt:
                    case Section.HEADER:
                        # Check if a declaration is starting
-                       sub_found = bool('subroutine' in line.strip().lower())
-                       fun_found = bool('function' in line.strip().lower())
+                       sub_found = bool('subroutine' in lsl)
+                       fun_found = bool('function' in lsl)
                        name = False
 
                        if sub_found:
@@ -2106,13 +2315,16 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            Source.is_subroutine = True
 
                            # Find subroutine name
-                           name = bool(re.match(r'^.*subroutine\s*\S+\s*\(.*$',line.strip().lower()))
+                           name = bool(re.match(r'^.*subroutine\s*\S+\s*\(.*$',lsl))
                            if name:
-                               strip_left = re.sub(r'^.*subroutine\s*','',line.strip().lower())
+                               strip_left = re.sub(r'^.*subroutine\s*','',lsl)
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
                                initial = function_module_initial(Source.old_name)
+
+                           # Extract function arguments
+                           Source.arguments = extract_arguments(lsl,Source.is_function)
 
                            if DEBUG: print("Subroutine name found: " + str(name))
 
@@ -2123,13 +2335,16 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                            Source.is_subroutine = False
 
                            # Find function name
-                           name = bool(re.match(r'^.*function\s*\S+\s*\(.*$',line.strip().lower()))
+                           name = bool(re.match(r'^.*function\s*\S+\s*\(.*$',lsl))
                            if name:
-                               strip_left = re.sub(r'^.*function\s*','',line.strip().lower())
+                               strip_left = re.sub(r'^.*function\s*','',lsl)
                                strip_right = re.sub(r'\(.+','',strip_left.lstrip())
                                Source.old_name = strip_right.strip()
                                Source.new_name = prefix + Source.old_name
                                initial = function_module_initial(Source.old_name)
+
+                           # Extract function arguments
+                           Source.arguments = extract_arguments(lsl,Source.is_function)
 
                            if DEBUG: print("Function name found: " + str(name))
 
@@ -2158,23 +2373,35 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                line = "";
                            else:
 
-                               line = adjust_variable_declaration(line,initial)
+                               # Variable declarations may result in more than one line,
+                               # if the intents of each variable in the same line are different
+                               lines = adjust_variable_declaration(Source,line,initial)
 
-                               # Parse parameter lines
-                               if DEBUG: print("find parameter decl: "+line)
-                               pname, pval = find_parameter_declaration(line,initial)
+                               for k in range(len(lines)):
 
-                               # If parameters were found, strip them off the declaration for now
-                               if len(pname)>0:
-                                  for k in range(len(pname)):
-                                      Source.pname.append(pname[k])
-                                      Source.pvalue.append(pval[k])
-                                      Source.ptype.append(" ")
+                                   line = lines[k]
 
-                                  # Do not include "parameter" line in the body
-                                  line = ""
+                                   # Parse parameter lines
+                                   if DEBUG: print("find parameter decl: "+line)
+                                   pname, pval = find_parameter_declaration(line,initial)
 
-                           if len(line)>0: Source.decl.append(line)
+                                   # If parameters were found, strip them off the declaration for now
+                                   if len(pname)>0:
+                                      for k in range(len(pname)):
+                                          Source.pname.append(pname[k])
+                                          Source.pvalue.append(pval[k])
+                                          Source.ptype.append(" ")
+
+                                      # Do not include "parameter" line in the body
+                                      line = ""
+
+                                   if len(line)>0: Source.decl.append(line)
+
+                                   if not Line.use: Source.body.append(INDENT + line)
+
+                               continue
+
+
 
                        else:
                            # Start body section
@@ -2300,6 +2527,18 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
     if whereAt!=Section.END and whereAt!=Section.HEADER:
         print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper() + " file " + file_name)
+
+    # PATCH: add double->quad precision conversion procedures
+    single_to_double  = ['slag2d','clag2z']
+    single_to_doublen = ['dlag2q','zlag2w']
+
+    for i in range(len(Procedures)):
+       if Procedures[i].old_name in single_to_double:
+           kk = single_to_double.index(Procedures[i].old_name)
+           double_procedure = Procedures[i].to_quad_precision()
+           double_procedure.old_name = single_to_doublen[kk]
+           double_procedure.new_name = prefix+double_procedure.old_name
+           Procedures.append(double_procedure)
 
     if DEBUG:
         for i in range(len(Source.body)):
