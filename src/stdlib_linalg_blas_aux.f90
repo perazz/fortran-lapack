@@ -26,9 +26,9 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           real(sp) :: sx(*)
+           real(sp),intent(in) :: sx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: smax
@@ -72,7 +72,7 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           character :: ca,cb
+           character,intent(in) :: ca,cb
        ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: ichar
@@ -118,7 +118,7 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(sp) :: z
+           complex(sp),intent(in) :: z
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: abs,aimag,real
@@ -138,7 +138,7 @@ module stdlib_linalg_blas_aux
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
            character(len=*) srname
-           integer(ilp) :: info
+           integer(ilp),intent(in) :: info
        ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: len_trim
@@ -171,7 +171,7 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: srname_len,info
+           integer(ilp),intent(in) :: srname_len,info
            ! .. array arguments ..
            character(1) srname_array(srname_len)
        ! =====================================================================
@@ -197,7 +197,7 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(qp) :: z
+           complex(qp),intent(in) :: z
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: abs,real,aimag
@@ -212,9 +212,9 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           real(qp) :: dx(*)
+           real(qp),intent(in) :: dx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: dmax
@@ -257,9 +257,9 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           complex(qp) :: zx(*)
+           complex(qp),intent(in) :: zx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(qp) :: dmax
@@ -300,7 +300,7 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           complex(dp) :: z
+           complex(dp),intent(in) :: z
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: abs,real,aimag
@@ -315,9 +315,9 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           complex(sp) :: cx(*)
+           complex(sp),intent(in) :: cx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: smax
@@ -358,9 +358,9 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           real(dp) :: dx(*)
+           real(dp),intent(in) :: dx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: dmax
@@ -403,9 +403,9 @@ module stdlib_linalg_blas_aux
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp) :: incx,n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           complex(dp) :: zx(*)
+           complex(dp),intent(in) :: zx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(dp) :: dmax
