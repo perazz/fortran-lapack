@@ -35,7 +35,7 @@ module stdlib_linalg_determinant
      contains
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
-     ! Compute the solution to a real system of linear equations A * X = B
+     ! Compute determinant of a square matrix A 
      function stdlib_linalg_${ri}$determinant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          ${rt}$, intent(inout), target :: a(:,:)

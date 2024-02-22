@@ -28,7 +28,7 @@ module stdlib_linalg_determinant
 
      contains
 
-     ! Compute the solution to a real system of linear equations A * X = B
+     ! Compute determinant of a square matrix A
      function stdlib_linalg_sdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(sp),intent(inout),target :: a(:,:)
@@ -120,7 +120,7 @@ module stdlib_linalg_determinant
 
      end function stdlib_linalg_sdeterminant
 
-     ! Compute the solution to a real system of linear equations A * X = B
+     ! Compute determinant of a square matrix A
      function stdlib_linalg_ddeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(dp),intent(inout),target :: a(:,:)
@@ -212,7 +212,7 @@ module stdlib_linalg_determinant
 
      end function stdlib_linalg_ddeterminant
 
-     ! Compute the solution to a real system of linear equations A * X = B
+     ! Compute determinant of a square matrix A
      function stdlib_linalg_qdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(qp),intent(inout),target :: a(:,:)
@@ -304,7 +304,7 @@ module stdlib_linalg_determinant
 
      end function stdlib_linalg_qdeterminant
 
-     ! Compute the solution to a real system of linear equations A * X = B
+     ! Compute determinant of a square matrix A
      function stdlib_linalg_cdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(sp),intent(inout),target :: a(:,:)
@@ -396,7 +396,7 @@ module stdlib_linalg_determinant
 
      end function stdlib_linalg_cdeterminant
 
-     ! Compute the solution to a real system of linear equations A * X = B
+     ! Compute determinant of a square matrix A
      function stdlib_linalg_zdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(dp),intent(inout),target :: a(:,:)
@@ -488,7 +488,7 @@ module stdlib_linalg_determinant
 
      end function stdlib_linalg_zdeterminant
 
-     ! Compute the solution to a real system of linear equations A * X = B
+     ! Compute determinant of a square matrix A
      function stdlib_linalg_wdeterminant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(qp),intent(inout),target :: a(:,:)
