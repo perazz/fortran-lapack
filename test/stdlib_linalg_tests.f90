@@ -3,10 +3,10 @@ program stdlib_linalg_tests
     use test_linalg_solve
     use test_linalg_inverse
     use test_linalg_least_squares
+    use test_linalg_determinant
     implicit none(type, external)
 
     logical :: error
-
 
     call test_formats(error)
     if (error) error stop 'test_formats'
@@ -19,6 +19,9 @@ program stdlib_linalg_tests
 
     call test_least_squares(error)
     if (error) error stop 'test_least_squares'
+
+    call test_matrix_determinant(error)
+    if (error) error stop 'test_determinant'
 
     !> All tests passed
     stop 0

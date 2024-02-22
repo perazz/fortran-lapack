@@ -110,7 +110,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_ssolve_one
 
@@ -193,7 +193,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_dsolve_one
 
@@ -276,7 +276,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_qsolve_one
 
@@ -359,7 +359,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_csolve_one
 
@@ -442,7 +442,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_zsolve_one
 
@@ -525,7 +525,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_wsolve_one
 
@@ -608,7 +608,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_ssolve_multiple
 
@@ -691,7 +691,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_dsolve_multiple
 
@@ -774,7 +774,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_qsolve_multiple
 
@@ -857,7 +857,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_csolve_multiple
 
@@ -940,7 +940,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_zsolve_multiple
 
@@ -1023,7 +1023,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_wsolve_multiple
 
