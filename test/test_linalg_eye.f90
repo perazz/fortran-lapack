@@ -42,7 +42,6 @@ module test_linalg_eye
         type(linalg_state) :: state
 
         integer(ilp) :: i
-        integer(ilp),parameter :: n = 128_ilp
 
         real(sp),allocatable :: a(:,:)
         real(sp) :: dummy
@@ -62,6 +61,15 @@ module test_linalg_eye
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
+        !> Test identity values
+        a = eye(5,10,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
+        a = eye(10,5,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
     end subroutine test_s_eye_allocation
 
     subroutine test_d_eye_allocation(error)
@@ -70,7 +78,6 @@ module test_linalg_eye
         type(linalg_state) :: state
 
         integer(ilp) :: i
-        integer(ilp),parameter :: n = 128_ilp
 
         real(dp),allocatable :: a(:,:)
         real(dp) :: dummy
@@ -90,6 +97,15 @@ module test_linalg_eye
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
+        !> Test identity values
+        a = eye(5,10,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
+        a = eye(10,5,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
     end subroutine test_d_eye_allocation
 
     subroutine test_q_eye_allocation(error)
@@ -98,7 +114,6 @@ module test_linalg_eye
         type(linalg_state) :: state
 
         integer(ilp) :: i
-        integer(ilp),parameter :: n = 128_ilp
 
         real(qp),allocatable :: a(:,:)
         real(qp) :: dummy
@@ -118,6 +133,15 @@ module test_linalg_eye
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
+        !> Test identity values
+        a = eye(5,10,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
+        a = eye(10,5,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
     end subroutine test_q_eye_allocation
 
     subroutine test_c_eye_allocation(error)
@@ -126,7 +150,6 @@ module test_linalg_eye
         type(linalg_state) :: state
 
         integer(ilp) :: i
-        integer(ilp),parameter :: n = 128_ilp
 
         complex(sp),allocatable :: a(:,:)
         complex(sp) :: dummy
@@ -146,6 +169,15 @@ module test_linalg_eye
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
+        !> Test identity values
+        a = eye(5,10,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
+        a = eye(10,5,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
     end subroutine test_c_eye_allocation
 
     subroutine test_z_eye_allocation(error)
@@ -154,7 +186,6 @@ module test_linalg_eye
         type(linalg_state) :: state
 
         integer(ilp) :: i
-        integer(ilp),parameter :: n = 128_ilp
 
         complex(dp),allocatable :: a(:,:)
         complex(dp) :: dummy
@@ -174,6 +205,15 @@ module test_linalg_eye
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
+        !> Test identity values
+        a = eye(5,10,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
+        a = eye(10,5,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
     end subroutine test_z_eye_allocation
 
     subroutine test_w_eye_allocation(error)
@@ -182,7 +222,6 @@ module test_linalg_eye
         type(linalg_state) :: state
 
         integer(ilp) :: i
-        integer(ilp),parameter :: n = 128_ilp
 
         complex(qp),allocatable :: a(:,:)
         complex(qp) :: dummy
@@ -200,6 +239,15 @@ module test_linalg_eye
         !> Should be ok
         a = eye(0,5,dtype=dummy,err=state)
         error = state%error() .or. any(shape(a) /= [0,5])
+        if (error) return
+
+        !> Test identity values
+        a = eye(5,10,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
+        if (error) return
+
+        a = eye(10,5,dtype=dummy,err=state)
+        error = state%error() .or. nint(sum(a),kind=ilp) /= 5
         if (error) return
 
     end subroutine test_w_eye_allocation
