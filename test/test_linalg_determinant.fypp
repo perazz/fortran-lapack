@@ -56,10 +56,7 @@ module test_linalg_determinant
 
         ${rt}$ :: a(n,n),deta
 
-        a = 0.0_${rk}$
-        do concurrent (i=1:n)
-          a(i,i) = 1.0_${rk}$
-        end do
+        a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
@@ -80,7 +77,7 @@ module test_linalg_determinant
         ${rt}$ :: a(n,n),deta
 
         !> Multiply eye by a very small number
-        a = 0.0_${rk}$
+        a = eye(n)
         do concurrent (i=1:n)
           a(i,i) = coef
         end do
@@ -114,9 +111,9 @@ module test_linalg_determinant
         matrix_size: do n=1,nmax
 
            ! Put 1+i on each diagonal element
-           allocate(a(n,n))
-           do concurrent (i=1:n,j=1:n)
-             a(i,j) = merge((1.0_${ck}$,1.0_${ck}$),(0.0_${ck}$,0.0_${ck}$),i==j)
+           a = eye(n)
+           do concurrent (i=1:n)
+             a(i,i) = (1.0_${ck}$,1.0_${ck}$)
            end do
 
            ! Expected result

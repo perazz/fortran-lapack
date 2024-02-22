@@ -1,0 +1,142 @@
+#:set REAL_KINDS    = ["sp", "dp", "qp"]
+#:set REAL_INITIALS = ["s","d","q"]
+#:set REAL_TYPES    = ["real({})".format(k) for k in REAL_KINDS]
+#:set REAL_KINDS_TYPES = list(zip(REAL_KINDS, REAL_TYPES, REAL_INITIALS))
+#:set CMPL_INITIALS = ["c","z","w"]
+#:set CMPL_TYPES    = ["complex({})".format(k) for k in REAL_KINDS]
+#:set CMPL_KINDS_TYPES = list(zip(REAL_KINDS, CMPL_TYPES, CMPL_INITIALS))
+#:set ALL_KINDS_TYPES = list(zip(REAL_KINDS+REAL_KINDS,REAL_TYPES+CMPL_TYPES,REAL_INITIALS+CMPL_INITIALS))
+
+module test_linalg_eye
+    use stdlib_linalg_interface
+
+    implicit none (type,external)
+
+    contains
+
+    !> Identity matrix tests
+    subroutine test_eye(error)
+        logical, intent(out) :: error
+
+        real :: t0,t1
+
+        call cpu_time(t0)
+
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        call test_${ri}$_eye_allocation(error)
+        call test_${ri}$_diag_scalar(error)
+        call test_${ri}$_diag_array(error)
+        if (error) return
+        #: endfor
+
+        call cpu_time(t1)
+
+        print 1, 1000*(t1-t0), merge('SUCCESS','ERROR  ',.not.error)
+
+        1 format('Identity matrix tests completed in ',f9.4,' milliseconds, result=',a)
+
+    end subroutine test_eye
+
+    #:for rk,rt,ri in ALL_KINDS_TYPES
+    !> Identity matrix: test allocation
+    subroutine test_${ri}$_eye_allocation(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        integer(ilp) :: i
+
+        ${rt}$, allocatable :: a(:,:)
+        ${rt}$ :: dummy
+
+        !> Should be error
+        a = eye(-1,mold=dummy,err=state)
+        error = .not.state%error()
+        if (error) return
+
+        !> Should be error
+        a = eye(5,-1,mold=dummy,err=state)
+        error = .not.state%error()
+        if (error) return
+
+        !> Should be ok
+        a = eye(0,5,mold=dummy,err=state)
+        error = state%error() .or. any(shape(a)/=[0,5])
+        if (error) return
+
+        !> Test identity values
+        a = eye(5,10,mold=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=${rk}$),kind=ilp)/=5
+        if (error) return
+
+        a = eye(10,5,mold=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=${rk}$),kind=ilp)/=5
+        if (error) return
+
+    end subroutine test_${ri}$_eye_allocation
+
+    !> Diagonal matrix from scalar
+    subroutine test_${ri}$_diag_scalar(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        integer(ilp) :: i
+
+        ${rt}$, allocatable :: a(:,:)
+        ${rt}$ :: dummy
+
+        dummy = 2.0_${rk}$
+
+        !> Should be error
+        a = diag(-1,source=dummy,err=state)
+        error = .not.state%error()
+        if (error) return
+
+        !> Should be ok
+        a = diag(0,source=dummy,err=state)
+        error = state%error() .or. any(shape(a)/=0)
+        if (error) return
+
+        !> Test identity values
+        a = diag(5,source=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=${rk}$),kind=ilp)/=10
+
+        a = diag(12,source=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=${rk}$),kind=ilp)/=24
+        if (error) return
+
+    end subroutine test_${ri}$_diag_scalar
+
+    !> Diagonal matrix from array
+    subroutine test_${ri}$_diag_array(error)
+        logical, intent(out) :: error
+
+        type(linalg_state) :: state
+
+        integer(ilp) :: i
+
+        integer(ilp), parameter :: array_sizes(*) = [1,2,5,10,20,50,100]
+        ${rt}$, allocatable :: a(:,:),darr(:)
+
+        do i=1,size(array_sizes)
+
+            allocate(darr(array_sizes(i)))
+            darr = 2.0_${rk}$
+
+            !> Test with several sizes
+            a = diag(source=darr,err=state)
+            error = state%error() .or. any(shape(a)/=size(darr)) .or. sum(a)/=sum(darr)
+            if (error) return
+
+            deallocate(darr)
+
+        end do
+
+    end subroutine test_${ri}$_diag_array
+
+    #:endfor
+
+end module test_linalg_eye
+
+
