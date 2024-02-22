@@ -3,12 +3,12 @@
 # Current API
 Procedure   | Type | Description | Optional arguments
 ---        | ---         | --- | ---
-`solve(A,b)` | function | Solve linear system (one - `b(:)` or many - `b(:,:)` RHS) | `solve(A,b,overwrite_a=.false.,err=err)`
-`lstsq(A,b)` | function | Solve non-square system in a least squares sense (one - `b(:)` or many - `b(:,:)` RHS) | `lstsq(A,b,cond,overwrite_a=.false.,rank,err=err)` ; `real(*), intent(in) :: cond` optional SVD cutoff; `integer, intent(out) :: rank` matrix rank
-`det(A)` | function | Determinant of a scalar or square matrix | `det(A,overwrite_a=.false.,err=err)`
-`inv(A)` | function | Inverse of a scalar or square matrix | `inv(A,err=err)`
-`invert(A)` | subroutine | In-place inverse of a scalar or square matrix | `call invert(A,err=err)`
-`.inv.A` | operator | Inverse of a scalar or square matrix | -
+`solve(A,b)` | function | Solve linear system (one - `b(:)` or many - `b(:,:)` RHS) | `solve(A,b,overwrite_a,err)`: option to let A be destroyed, return state handler `err`
+`lstsq(A,b)` | function | Solve non-square system in a least squares sense (one - `b(:)` or many - `b(:,:)` RHS) | `lstsq(A,b,cond,overwrite_a,rank,err)`: `cond` is optional SVD cutoff; `rank` to return matrix rank, `err` to return state handler
+`det(A)` | function | Determinant of a scalar or square matrix | `det(A,overwrite_a,err=err)`: option to let A be destroyed, return state handler `err`
+`inv(A)` | function | Inverse of a scalar or square matrix | `inv(A,err=err)`: A is not destroyed; return state handler `err`
+`invert(A)` | subroutine | In-place inverse of a scalar or square matrix | `call invert(A,err=err)`: A is replaced with $A^{-1}$, return state handler `err`
+`.inv.A` | operator | Inverse of a scalar or square matrix | A is replaced with $A^{-1}$
 `eye(m)` | function | Identity matrix of size `m` | `eye(m,n,mold,err)`: Optional column size `n`, datatype `dtype` (default: real64), error handler
 `diag(n,source)` | function | Diagonal matrix from scalar input value | `diag(n,source,err)`: Optional error handler
 `diag(source)` | function | Diagonal matrix from array input values | `diag(source,err)`: Optional error handler
