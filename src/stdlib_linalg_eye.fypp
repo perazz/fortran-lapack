@@ -48,16 +48,16 @@ module stdlib_linalg_eye
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
      ! Return diagonal eye matrix of size N
-     function stdlib_linalg_eye_${ri}$(m,n,dtype,err) result(eye)
+     function stdlib_linalg_eye_${ri}$(m,n,mold,err) result(eye)
          !> Number of rows
          integer(ilp), intent(in) :: m
          !> Number of columns (optional)
          integer(ilp), optional, intent(in) :: n
          !> Datatype. Used to define the return type. Defaults to real(real64)
          #:if rt=='real(dp)'
-         ${rt}$, optional, intent(in) :: dtype
+         ${rt}$, optional, intent(in) :: mold
          #:else
-         ${rt}$, intent(in) :: dtype
+         ${rt}$, intent(in) :: mold
          #:endif
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
@@ -103,11 +103,11 @@ module stdlib_linalg_eye
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
      ! Return square diagonal matrix with diagonal values equal to the input scalar
-     function stdlib_linalg_diag_${ri}$_from_scalar(n,dvalue,err) result(diag)
+     function stdlib_linalg_diag_${ri}$_from_scalar(n,source,err) result(diag)
          !> Matrix size
          integer(ilp), intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
-         ${rt}$, intent(in) :: dvalue
+         ${rt}$, intent(in) :: source
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Return matrix
@@ -134,7 +134,7 @@ module stdlib_linalg_eye
          !> Fill data
          do concurrent (i=1:n,j=1:n)
             if (i==j) then
-               diag(i,j) = dvalue
+               diag(i,j) = source
             else
                diag(i,j) = 0.0_${rk}$
             endif
@@ -146,9 +146,9 @@ module stdlib_linalg_eye
      end function stdlib_linalg_diag_${ri}$_from_scalar
 
      ! Construct square diagonal matrix from an array of diagonal values
-     function stdlib_linalg_diag_${ri}$_from_array(dvalues,err) result(diag)
+     function stdlib_linalg_diag_${ri}$_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
-         ${rt}$, intent(in) :: dvalues(:)
+         ${rt}$, intent(in) :: source(:)
          !> [optional] state return flag. On error if not requested, the code will stop
          type(linalg_state), optional, intent(out) :: err
          !> Return matrix
@@ -159,7 +159,7 @@ module stdlib_linalg_eye
          type(linalg_state) :: err0
          character(*), parameter :: this = 'diag::array'
 
-         n = size(dvalues, kind=ilp)
+         n = size(source, kind=ilp)
 
          !> Check size
          if (.not.n>=0) then
@@ -177,7 +177,7 @@ module stdlib_linalg_eye
          !> Fill data
          do concurrent (i=1:n,j=1:n)
             if (i==j) then
-               diag(i,j) = dvalues(i)
+               diag(i,j) = source(i)
             else
                diag(i,j) = 0.0_${rk}$
             endif

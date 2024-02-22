@@ -50,26 +50,26 @@ module test_linalg_eye
         ${rt}$ :: dummy
 
         !> Should be error
-        a = eye(-1,dtype=dummy,err=state)
+        a = eye(-1,mold=dummy,err=state)
         error = .not.state%error()
         if (error) return
 
         !> Should be error
-        a = eye(5,-1,dtype=dummy,err=state)
+        a = eye(5,-1,mold=dummy,err=state)
         error = .not.state%error()
         if (error) return
 
         !> Should be ok
-        a = eye(0,5,dtype=dummy,err=state)
+        a = eye(0,5,mold=dummy,err=state)
         error = state%error() .or. any(shape(a)/=[0,5])
         if (error) return
 
         !> Test identity values
-        a = eye(5,10,dtype=dummy,err=state)
+        a = eye(5,10,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=${rk}$),kind=ilp)/=5
         if (error) return
 
-        a = eye(10,5,dtype=dummy,err=state)
+        a = eye(10,5,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=${rk}$),kind=ilp)/=5
         if (error) return
 
@@ -89,20 +89,20 @@ module test_linalg_eye
         dummy = 2.0_${rk}$
 
         !> Should be error
-        a = diag(-1,dvalue=dummy,err=state)
+        a = diag(-1,source=dummy,err=state)
         error = .not.state%error()
         if (error) return
 
         !> Should be ok
-        a = diag(0,dvalue=dummy,err=state)
+        a = diag(0,source=dummy,err=state)
         error = state%error() .or. any(shape(a)/=0)
         if (error) return
 
         !> Test identity values
-        a = diag(5,dvalue=dummy,err=state)
+        a = diag(5,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=${rk}$),kind=ilp)/=10
 
-        a = diag(12,dvalue=dummy,err=state)
+        a = diag(12,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=${rk}$),kind=ilp)/=24
         if (error) return
 
@@ -125,7 +125,7 @@ module test_linalg_eye
             darr = 2.0_${rk}$
 
             !> Test with several sizes
-            a = diag(dvalues=darr,err=state)
+            a = diag(source=darr,err=state)
             error = state%error() .or. any(shape(a)/=size(darr)) .or. sum(a)/=sum(darr)
             if (error) return
 

@@ -59,32 +59,32 @@ module test_linalg_eye
         real(sp) :: dummy
 
         !> Should be error
-        a = eye(-1,dtype=dummy,err=state)
+        a = eye(-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be error
-        a = eye(5,-1,dtype=dummy,err=state)
+        a = eye(5,-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = eye(0,5,dtype=dummy,err=state)
+        a = eye(0,5,mold=dummy,err=state)
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
         !> Test identity values
-        a = eye(5,10,dtype=dummy,err=state)
+        a = eye(5,10,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=sp),kind=ilp) /= 5
         if (error) return
 
-        a = eye(10,5,dtype=dummy,err=state)
+        a = eye(10,5,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=sp),kind=ilp) /= 5
         if (error) return
 
     end subroutine test_s_eye_allocation
 
-    !> Identity matrix from scalar
+    !> Diagonal matrix from scalar
     subroutine test_s_diag_scalar(error)
         logical,intent(out) :: error
 
@@ -98,26 +98,26 @@ module test_linalg_eye
         dummy = 2.0_sp
 
         !> Should be error
-        a = diag(-1,dvalue=dummy,err=state)
+        a = diag(-1,source=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = diag(0,dvalue=dummy,err=state)
+        a = diag(0,source=dummy,err=state)
         error = state%error() .or. any(shape(a) /= 0)
         if (error) return
 
         !> Test identity values
-        a = diag(5,dvalue=dummy,err=state)
+        a = diag(5,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=sp),kind=ilp) /= 10
 
-        a = diag(12,dvalue=dummy,err=state)
+        a = diag(12,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=sp),kind=ilp) /= 24
         if (error) return
 
     end subroutine test_s_diag_scalar
 
-    !> Identity matrix from array
+    !> Diagonal matrix from array
     subroutine test_s_diag_array(error)
         logical,intent(out) :: error
 
@@ -134,7 +134,7 @@ module test_linalg_eye
             darr = 2.0_sp
 
             !> Test with several sizes
-            a = diag(dvalues=darr,err=state)
+            a = diag(source=darr,err=state)
             error = state%error() .or. any(shape(a) /= size(darr)) .or. sum(a) /= sum(darr)
             if (error) return
 
@@ -156,32 +156,32 @@ module test_linalg_eye
         real(dp) :: dummy
 
         !> Should be error
-        a = eye(-1,dtype=dummy,err=state)
+        a = eye(-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be error
-        a = eye(5,-1,dtype=dummy,err=state)
+        a = eye(5,-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = eye(0,5,dtype=dummy,err=state)
+        a = eye(0,5,mold=dummy,err=state)
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
         !> Test identity values
-        a = eye(5,10,dtype=dummy,err=state)
+        a = eye(5,10,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=dp),kind=ilp) /= 5
         if (error) return
 
-        a = eye(10,5,dtype=dummy,err=state)
+        a = eye(10,5,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=dp),kind=ilp) /= 5
         if (error) return
 
     end subroutine test_d_eye_allocation
 
-    !> Identity matrix from scalar
+    !> Diagonal matrix from scalar
     subroutine test_d_diag_scalar(error)
         logical,intent(out) :: error
 
@@ -195,26 +195,26 @@ module test_linalg_eye
         dummy = 2.0_dp
 
         !> Should be error
-        a = diag(-1,dvalue=dummy,err=state)
+        a = diag(-1,source=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = diag(0,dvalue=dummy,err=state)
+        a = diag(0,source=dummy,err=state)
         error = state%error() .or. any(shape(a) /= 0)
         if (error) return
 
         !> Test identity values
-        a = diag(5,dvalue=dummy,err=state)
+        a = diag(5,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=dp),kind=ilp) /= 10
 
-        a = diag(12,dvalue=dummy,err=state)
+        a = diag(12,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=dp),kind=ilp) /= 24
         if (error) return
 
     end subroutine test_d_diag_scalar
 
-    !> Identity matrix from array
+    !> Diagonal matrix from array
     subroutine test_d_diag_array(error)
         logical,intent(out) :: error
 
@@ -231,7 +231,7 @@ module test_linalg_eye
             darr = 2.0_dp
 
             !> Test with several sizes
-            a = diag(dvalues=darr,err=state)
+            a = diag(source=darr,err=state)
             error = state%error() .or. any(shape(a) /= size(darr)) .or. sum(a) /= sum(darr)
             if (error) return
 
@@ -253,32 +253,32 @@ module test_linalg_eye
         real(qp) :: dummy
 
         !> Should be error
-        a = eye(-1,dtype=dummy,err=state)
+        a = eye(-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be error
-        a = eye(5,-1,dtype=dummy,err=state)
+        a = eye(5,-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = eye(0,5,dtype=dummy,err=state)
+        a = eye(0,5,mold=dummy,err=state)
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
         !> Test identity values
-        a = eye(5,10,dtype=dummy,err=state)
+        a = eye(5,10,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=qp),kind=ilp) /= 5
         if (error) return
 
-        a = eye(10,5,dtype=dummy,err=state)
+        a = eye(10,5,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=qp),kind=ilp) /= 5
         if (error) return
 
     end subroutine test_q_eye_allocation
 
-    !> Identity matrix from scalar
+    !> Diagonal matrix from scalar
     subroutine test_q_diag_scalar(error)
         logical,intent(out) :: error
 
@@ -292,26 +292,26 @@ module test_linalg_eye
         dummy = 2.0_qp
 
         !> Should be error
-        a = diag(-1,dvalue=dummy,err=state)
+        a = diag(-1,source=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = diag(0,dvalue=dummy,err=state)
+        a = diag(0,source=dummy,err=state)
         error = state%error() .or. any(shape(a) /= 0)
         if (error) return
 
         !> Test identity values
-        a = diag(5,dvalue=dummy,err=state)
+        a = diag(5,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=qp),kind=ilp) /= 10
 
-        a = diag(12,dvalue=dummy,err=state)
+        a = diag(12,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=qp),kind=ilp) /= 24
         if (error) return
 
     end subroutine test_q_diag_scalar
 
-    !> Identity matrix from array
+    !> Diagonal matrix from array
     subroutine test_q_diag_array(error)
         logical,intent(out) :: error
 
@@ -328,7 +328,7 @@ module test_linalg_eye
             darr = 2.0_qp
 
             !> Test with several sizes
-            a = diag(dvalues=darr,err=state)
+            a = diag(source=darr,err=state)
             error = state%error() .or. any(shape(a) /= size(darr)) .or. sum(a) /= sum(darr)
             if (error) return
 
@@ -350,32 +350,32 @@ module test_linalg_eye
         complex(sp) :: dummy
 
         !> Should be error
-        a = eye(-1,dtype=dummy,err=state)
+        a = eye(-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be error
-        a = eye(5,-1,dtype=dummy,err=state)
+        a = eye(5,-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = eye(0,5,dtype=dummy,err=state)
+        a = eye(0,5,mold=dummy,err=state)
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
         !> Test identity values
-        a = eye(5,10,dtype=dummy,err=state)
+        a = eye(5,10,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=sp),kind=ilp) /= 5
         if (error) return
 
-        a = eye(10,5,dtype=dummy,err=state)
+        a = eye(10,5,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=sp),kind=ilp) /= 5
         if (error) return
 
     end subroutine test_c_eye_allocation
 
-    !> Identity matrix from scalar
+    !> Diagonal matrix from scalar
     subroutine test_c_diag_scalar(error)
         logical,intent(out) :: error
 
@@ -389,26 +389,26 @@ module test_linalg_eye
         dummy = 2.0_sp
 
         !> Should be error
-        a = diag(-1,dvalue=dummy,err=state)
+        a = diag(-1,source=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = diag(0,dvalue=dummy,err=state)
+        a = diag(0,source=dummy,err=state)
         error = state%error() .or. any(shape(a) /= 0)
         if (error) return
 
         !> Test identity values
-        a = diag(5,dvalue=dummy,err=state)
+        a = diag(5,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=sp),kind=ilp) /= 10
 
-        a = diag(12,dvalue=dummy,err=state)
+        a = diag(12,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=sp),kind=ilp) /= 24
         if (error) return
 
     end subroutine test_c_diag_scalar
 
-    !> Identity matrix from array
+    !> Diagonal matrix from array
     subroutine test_c_diag_array(error)
         logical,intent(out) :: error
 
@@ -425,7 +425,7 @@ module test_linalg_eye
             darr = 2.0_sp
 
             !> Test with several sizes
-            a = diag(dvalues=darr,err=state)
+            a = diag(source=darr,err=state)
             error = state%error() .or. any(shape(a) /= size(darr)) .or. sum(a) /= sum(darr)
             if (error) return
 
@@ -447,32 +447,32 @@ module test_linalg_eye
         complex(dp) :: dummy
 
         !> Should be error
-        a = eye(-1,dtype=dummy,err=state)
+        a = eye(-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be error
-        a = eye(5,-1,dtype=dummy,err=state)
+        a = eye(5,-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = eye(0,5,dtype=dummy,err=state)
+        a = eye(0,5,mold=dummy,err=state)
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
         !> Test identity values
-        a = eye(5,10,dtype=dummy,err=state)
+        a = eye(5,10,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=dp),kind=ilp) /= 5
         if (error) return
 
-        a = eye(10,5,dtype=dummy,err=state)
+        a = eye(10,5,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=dp),kind=ilp) /= 5
         if (error) return
 
     end subroutine test_z_eye_allocation
 
-    !> Identity matrix from scalar
+    !> Diagonal matrix from scalar
     subroutine test_z_diag_scalar(error)
         logical,intent(out) :: error
 
@@ -486,26 +486,26 @@ module test_linalg_eye
         dummy = 2.0_dp
 
         !> Should be error
-        a = diag(-1,dvalue=dummy,err=state)
+        a = diag(-1,source=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = diag(0,dvalue=dummy,err=state)
+        a = diag(0,source=dummy,err=state)
         error = state%error() .or. any(shape(a) /= 0)
         if (error) return
 
         !> Test identity values
-        a = diag(5,dvalue=dummy,err=state)
+        a = diag(5,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=dp),kind=ilp) /= 10
 
-        a = diag(12,dvalue=dummy,err=state)
+        a = diag(12,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=dp),kind=ilp) /= 24
         if (error) return
 
     end subroutine test_z_diag_scalar
 
-    !> Identity matrix from array
+    !> Diagonal matrix from array
     subroutine test_z_diag_array(error)
         logical,intent(out) :: error
 
@@ -522,7 +522,7 @@ module test_linalg_eye
             darr = 2.0_dp
 
             !> Test with several sizes
-            a = diag(dvalues=darr,err=state)
+            a = diag(source=darr,err=state)
             error = state%error() .or. any(shape(a) /= size(darr)) .or. sum(a) /= sum(darr)
             if (error) return
 
@@ -544,32 +544,32 @@ module test_linalg_eye
         complex(qp) :: dummy
 
         !> Should be error
-        a = eye(-1,dtype=dummy,err=state)
+        a = eye(-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be error
-        a = eye(5,-1,dtype=dummy,err=state)
+        a = eye(5,-1,mold=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = eye(0,5,dtype=dummy,err=state)
+        a = eye(0,5,mold=dummy,err=state)
         error = state%error() .or. any(shape(a) /= [0,5])
         if (error) return
 
         !> Test identity values
-        a = eye(5,10,dtype=dummy,err=state)
+        a = eye(5,10,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=qp),kind=ilp) /= 5
         if (error) return
 
-        a = eye(10,5,dtype=dummy,err=state)
+        a = eye(10,5,mold=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=qp),kind=ilp) /= 5
         if (error) return
 
     end subroutine test_w_eye_allocation
 
-    !> Identity matrix from scalar
+    !> Diagonal matrix from scalar
     subroutine test_w_diag_scalar(error)
         logical,intent(out) :: error
 
@@ -583,26 +583,26 @@ module test_linalg_eye
         dummy = 2.0_qp
 
         !> Should be error
-        a = diag(-1,dvalue=dummy,err=state)
+        a = diag(-1,source=dummy,err=state)
         error = .not. state%error()
         if (error) return
 
         !> Should be ok
-        a = diag(0,dvalue=dummy,err=state)
+        a = diag(0,source=dummy,err=state)
         error = state%error() .or. any(shape(a) /= 0)
         if (error) return
 
         !> Test identity values
-        a = diag(5,dvalue=dummy,err=state)
+        a = diag(5,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=qp),kind=ilp) /= 10
 
-        a = diag(12,dvalue=dummy,err=state)
+        a = diag(12,source=dummy,err=state)
         error = state%error() .or. nint(real(sum(a),kind=qp),kind=ilp) /= 24
         if (error) return
 
     end subroutine test_w_diag_scalar
 
-    !> Identity matrix from array
+    !> Diagonal matrix from array
     subroutine test_w_diag_array(error)
         logical,intent(out) :: error
 
@@ -619,7 +619,7 @@ module test_linalg_eye
             darr = 2.0_qp
 
             !> Test with several sizes
-            a = diag(dvalues=darr,err=state)
+            a = diag(source=darr,err=state)
             error = state%error() .or. any(shape(a) /= size(darr)) .or. sum(a) /= sum(darr)
             if (error) return
 
