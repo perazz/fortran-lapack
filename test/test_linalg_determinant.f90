@@ -1,4 +1,3 @@
-
 ! Test matrix determinant
 module test_linalg_determinant
     use stdlib_linalg_interface

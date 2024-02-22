@@ -1,4 +1,3 @@
-
 ! Return a 2-D matrix with ones on the diagonal and zeros everywhere else
 module stdlib_linalg_eye
      use stdlib_linalg_constants

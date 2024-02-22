@@ -1,4 +1,3 @@
-
 module test_linalg_eye
     use stdlib_linalg_interface
 

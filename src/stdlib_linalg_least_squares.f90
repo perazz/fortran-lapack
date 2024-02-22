@@ -1,4 +1,3 @@
-
 module stdlib_linalg_least_squares
      use stdlib_linalg_constants
      use stdlib_linalg_blas

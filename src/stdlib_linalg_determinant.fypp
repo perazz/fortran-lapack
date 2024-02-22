@@ -1,12 +1,4 @@
-#:set REAL_KINDS    = ["sp", "dp", "qp"]
-#:set REAL_INITIALS = ["s","d","q"]
-#:set REAL_TYPES    = ["real({})".format(k) for k in REAL_KINDS]
-#:set REAL_KINDS_TYPES = list(zip(REAL_KINDS, REAL_TYPES, REAL_INITIALS))
-#:set CMPL_INITIALS = ["c","z","w"]
-#:set CMPL_TYPES    = ["complex({})".format(k) for k in REAL_KINDS]
-#:set CMPL_KINDS_TYPES = list(zip(REAL_KINDS, CMPL_TYPES, CMPL_INITIALS))
-#:set ALL_KINDS_TYPES = list(zip(REAL_KINDS+REAL_KINDS,REAL_TYPES+CMPL_TYPES,REAL_INITIALS+CMPL_INITIALS))
-
+#:include "common.fypp"
 module stdlib_linalg_determinant
      use stdlib_linalg_constants
      use stdlib_linalg_blas
@@ -35,7 +27,7 @@ module stdlib_linalg_determinant
      contains
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
-     ! Compute determinant of a square matrix A 
+     ! Compute determinant of a square matrix A
      function stdlib_linalg_${ri}$determinant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          ${rt}$, intent(inout), target :: a(:,:)

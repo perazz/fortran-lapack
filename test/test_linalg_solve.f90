@@ -1,4 +1,3 @@
-
 module test_linalg_solve
     use stdlib_linalg_constants
     use stdlib_linalg_state

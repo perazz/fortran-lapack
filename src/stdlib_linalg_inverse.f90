@@ -1,4 +1,3 @@
-
 ! Compute matrix inverse
 module stdlib_linalg_inverse
      use stdlib_linalg_constants

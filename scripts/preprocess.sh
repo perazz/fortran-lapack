@@ -15,7 +15,7 @@ for str in "${linalg_sources[@]}"; do
       pref=${oper_prefix[i]}
       source="../$operation/${pref}_linalg_$str.fypp"
       dest="../$operation/${pref}_linalg_$str.f90"
-      fypp "$source" > "$dest"
+      fypp -I ../include "$source" > "$dest"
 
       # prettify
       fprettify -i 4 -l 132 -w 2 --disable-indent --strip-comments --c-relations --enable-replacements --enable-decl --whitespace-comma 0 $dest
