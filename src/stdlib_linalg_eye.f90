@@ -74,6 +74,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
+            allocate (eye(0,0))
             goto 1
          end if
 
@@ -121,6 +122,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
+            allocate (eye(0,0))
             goto 1
          end if
 
@@ -168,6 +170,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
+            allocate (eye(0,0))
             goto 1
          end if
 
@@ -215,6 +218,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
+            allocate (eye(0,0))
             goto 1
          end if
 
@@ -262,6 +266,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
+            allocate (eye(0,0))
             goto 1
          end if
 
@@ -309,6 +314,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
+            allocate (eye(0,0))
             goto 1
          end if
 
@@ -347,6 +353,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -389,6 +396,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -431,6 +439,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -473,6 +482,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -515,6 +525,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -557,6 +568,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -599,6 +611,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -641,6 +654,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -683,6 +697,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -725,6 +740,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -767,6 +783,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
@@ -809,6 +826,7 @@ module stdlib_linalg_eye
          !> Check size
          if (.not. n >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            allocate (diag(0,0))
             goto 1
          end if
 
