@@ -1,5 +1,6 @@
 program stdlib_linalg_tests
     use test_linalg_aux
+    use test_linalg_eye
     use test_linalg_solve
     use test_linalg_inverse
     use test_linalg_least_squares
@@ -22,6 +23,9 @@ program stdlib_linalg_tests
 
     call test_matrix_determinant(error)
     if (error) error stop 'test_determinant'
+
+    call test_eye(error)
+    if (error) error stop 'test_eye'
 
     !> All tests passed
     stop 0
