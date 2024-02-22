@@ -32,9 +32,9 @@ module test_linalg_inverse
 
         call cpu_time(t1)
 
-        print 1, 1000*(t1-t0)
+        print 1, 1000*(t1-t0), merge('SUCCESS','ERROR  ',.not.error)
 
-        1 format('Inverse matrix tests completed in ',f9.4,' milliseconds.')
+        1 format('Inverse matrix tests completed in ',f9.4,' milliseconds, result=',a)
 
     end subroutine test_inverse_matrix
 

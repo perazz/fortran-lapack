@@ -61,7 +61,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0))
+            allocate (x(0))
             goto 1
          end if
 
@@ -110,7 +110,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_ssolve_one
 
@@ -144,7 +144,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0))
+            allocate (x(0))
             goto 1
          end if
 
@@ -193,7 +193,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_dsolve_one
 
@@ -227,7 +227,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0))
+            allocate (x(0))
             goto 1
          end if
 
@@ -276,7 +276,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_qsolve_one
 
@@ -310,7 +310,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0))
+            allocate (x(0))
             goto 1
          end if
 
@@ -359,7 +359,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_csolve_one
 
@@ -393,7 +393,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0))
+            allocate (x(0))
             goto 1
          end if
 
@@ -442,7 +442,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_zsolve_one
 
@@ -476,7 +476,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0))
+            allocate (x(0))
             goto 1
          end if
 
@@ -525,7 +525,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_wsolve_one
 
@@ -559,7 +559,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0,0))
+            allocate (x(0,0))
             goto 1
          end if
 
@@ -608,7 +608,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_ssolve_multiple
 
@@ -642,7 +642,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0,0))
+            allocate (x(0,0))
             goto 1
          end if
 
@@ -691,7 +691,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_dsolve_multiple
 
@@ -725,7 +725,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0,0))
+            allocate (x(0,0))
             goto 1
          end if
 
@@ -774,7 +774,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_qsolve_multiple
 
@@ -808,7 +808,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0,0))
+            allocate (x(0,0))
             goto 1
          end if
 
@@ -857,7 +857,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_csolve_multiple
 
@@ -891,7 +891,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0,0))
+            allocate (x(0,0))
             goto 1
          end if
 
@@ -940,7 +940,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_zsolve_multiple
 
@@ -974,7 +974,7 @@ module stdlib_linalg_solve
          if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
                                                                        'b=[',ldb,',',nrhs,']')
-            allocate(x(0,0))
+            allocate (x(0,0))
             goto 1
          end if
 
@@ -1023,7 +1023,7 @@ module stdlib_linalg_solve
          if (.not. copy_a) deallocate (amat)
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_wsolve_multiple
 

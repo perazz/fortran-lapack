@@ -18,7 +18,7 @@ for str in "${linalg_sources[@]}"; do
       fypp "$source" > "$dest"
 
       # prettify
-#      fprettify -i 4 -l 132 -w 2 --disable-indent --strip-comments --c-relations --enable-replacements --enable-decl --whitespace-comma 0 $dest
+      fprettify -i 4 -l 132 -w 2 --disable-indent --strip-comments --c-relations --enable-replacements --enable-decl --whitespace-comma 0 $dest
 
    done
 done
