@@ -5,6 +5,8 @@
 #:set CMPL_INITIALS = ["c","z","w"]
 #:set CMPL_TYPES    = ["complex({})".format(k) for k in REAL_KINDS]
 #:set CMPL_KINDS_TYPES = list(zip(REAL_KINDS, CMPL_TYPES, CMPL_INITIALS))
+#:set ALL_KINDS_TYPES = list(zip(REAL_KINDS+REAL_KINDS,REAL_TYPES+CMPL_TYPES,REAL_INITIALS+CMPL_INITIALS))
+
 ! Test matrix determinant
 module test_linalg_determinant
     use stdlib_linalg_interface
@@ -21,15 +23,17 @@ module test_linalg_determinant
 
         call cpu_time(t0)
 
-        #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:for rk,rt,ri in ALL_KINDS_TYPES
         call test_${ri}$_eye_determinant(error)
         if (error) return
+
         call test_${ri}$_eye_multiple(error)
         if (error) return
         #: endfor
+
         #:for ck,ct,ci in CMPL_KINDS_TYPES
-!        call test_${ci}$_eye_inverse(error)
-!        if (error) return
+        call test_${ci}$_complex_determinant(error)
+        if (error) return
         #: endfor
 
         call cpu_time(t1)
@@ -41,19 +45,20 @@ module test_linalg_determinant
     end subroutine test_matrix_determinant
 
     !> Determinant of identity matrix
-    #:for rk,rt,ri in REAL_KINDS_TYPES
+    #:for rk,rt,ri in ALL_KINDS_TYPES
     subroutine test_${ri}$_eye_determinant(error)
         logical, intent(out) :: error
 
         type(linalg_state) :: state
 
-        integer(ilp) :: i,j
+        integer(ilp) :: i
         integer(ilp), parameter :: n = 128_ilp
 
         ${rt}$ :: a(n,n),deta
 
-        do concurrent (i=1:n,j=1:n)
-          a(i,j) = merge(1.0_${rk}$,0.0_${rk}$,i==j)
+        a = 0.0_${rk}$
+        do concurrent (i=1:n)
+          a(i,i) = 1.0_${rk}$
         end do
 
         !> Determinant function
@@ -63,19 +68,21 @@ module test_linalg_determinant
 
     end subroutine test_${ri}$_eye_determinant
 
+    !> Determinant of identity matrix multiplier
     subroutine test_${ri}$_eye_multiple(error)
         logical, intent(out) :: error
 
         type(linalg_state) :: state
 
         integer(ilp), parameter :: n = 10_ilp
-        ${rt}$, parameter :: coef = 0.0001_${rk}$
+        real(${rk}$), parameter :: coef = 0.0001_${rk}$
         integer(ilp) :: i,j
         ${rt}$ :: a(n,n),deta
 
         !> Multiply eye by a very small number
-        do concurrent (i=1:n,j=1:n)
-          a(i,j) = merge(coef,0.0_${rk}$,i==j)
+        a = 0.0_${rk}$
+        do concurrent (i=1:n)
+          a(i,i) = coef
         end do
 
         !> Determinant: small, but a is not singular, because it is a multiple of the identity.
@@ -87,43 +94,42 @@ module test_linalg_determinant
 
     #:endfor
 
-    !> Determinant of identity matrix
+    !> Determinant of complex identity matrix
     #:for ck,ct,ci in CMPL_KINDS_TYPES
-    subroutine test_${ci}$_eye_determinant(error)
+    subroutine test_${ci}$_complex_determinant(error)
         logical, intent(out) :: error
 
         type(linalg_state) :: state
 
-        integer(ilp) :: i,j,failed
-        integer(ilp), parameter :: n = 250_ilp
+        integer(ilp) :: i,j,n
+        integer(ilp), parameter :: nmax = 10_ilp
 
-        ${ct}$ :: a(n,n),copya(n,n),inva(n,n)
+        ${ct}$, parameter :: res(nmax) = [${ct}$::(1,1),(0,2),(-2,2),(-4,0),(-4,-4), &
+                                                  (0,-8),(8,-8),(16,0),(16,16),(0,32)]
 
-        ! Get eye matrix
-        do concurrent (i=1:n,j=1:n)
-          a(i,j) = merge((1.0_${ck}$,1.0_${ck}$),(0.0_${ck}$,0.0_${ck}$),i==j)
-        end do
-        copya = a
+        ${ct}$, allocatable :: a(:,:)
+        ${ct}$ :: deta(nmax)
 
-        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
-        inva = det(a,err=state)
+        !> Test determinant for all sizes, 1:nmax
+        matrix_size: do n=1,nmax
 
-        error = state%error() .or. .not.failed==0
-        if (error) return
+           ! Put 1+i on each diagonal element
+           allocate(a(n,n))
+           do concurrent (i=1:n,j=1:n)
+             a(i,j) = merge((1.0_${ck}$,1.0_${ck}$),(0.0_${ck}$,0.0_${ck}$),i==j)
+           end do
 
-        !> Inverse subroutine
-        call invert(copya,err=state)
-!
-!        failed = 0
-!        do i=1,n
-!            do j=1,n
-!                if (.not.is_diagonal_inverse(a(i,j),copya(i,j),i,j)) failed = failed+1
-!            end do
-!        end do
+           ! Expected result
+           deta(n) = det(a,err=state)
 
-        error = state%error() .or. .not.failed==0
+           deallocate(a)
+           if (state%error()) exit matrix_size
 
-    end subroutine test_${ci}$_eye_determinant
+        end do matrix_size
+
+        error = state%error() .or. any(.not.abs(res-deta)<=tiny(0.0_${ck}$))
+
+    end subroutine test_${ci}$_complex_determinant
 
     #:endfor
 
