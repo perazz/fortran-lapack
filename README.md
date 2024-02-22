@@ -1,5 +1,17 @@
 # *** WORK IN PROGRESS ***
 
+# Current API
+Procedure   | Type | Description | Optional arguments
+---        | ---         | --- | ---
+`solve(A,b)` | function | Solve linear system (one - `b(:)` or many - `b(:,:)` RHS) | `solve(A,b,overwrite_a=.false.,err=err)`
+`lstsq(A,b)` | function | Solve non-square system in a least squares sense (one - `b(:)` or many - `b(:,:)` RHS) | `lstsq(A,b,cond,overwrite_a=.false.,rank,err=err)` ; `real(*), intent(in) :: cond` optional SVD cutoff; `integer, intent(out) :: rank` matrix rank
+`det(A)` | function | Determinant of a scalar or square matrix | `det(A,overwrite_a=.false.,err=err)`
+`inv(A)` | function | Inverse of a scalar or square matrix | `inv(A,err=err)`
+`invert(A)` | subroutine | In-place inverse of a scalar or square matrix | `call invert(A,err=err)`
+`.inv.A` | operator | Inverse of a scalar or square matrix | -
+
+All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
+
 # fortran-lapack
 This package contains a Modern Fortran implementation of the [Reference-LAPACK](http://github.com/reference-LAPACK) library.
 The reference Fortran-77 library is automatically downloaded from its master repository, and processed to create Modern Fortran modules with full explicit typing features. 
