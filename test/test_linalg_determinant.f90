@@ -72,10 +72,7 @@ module test_linalg_determinant
 
         real(sp) :: a(n,n),deta
 
-        a = 0.0_sp
-        do concurrent(i=1:n)
-          a(i,i) = 1.0_sp
-        end do
+        a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
@@ -96,7 +93,7 @@ module test_linalg_determinant
         real(sp) :: a(n,n),deta
 
         !> Multiply eye by a very small number
-        a = 0.0_sp
+        a = eye(n)
         do concurrent(i=1:n)
           a(i,i) = coef
         end do
@@ -118,10 +115,7 @@ module test_linalg_determinant
 
         real(dp) :: a(n,n),deta
 
-        a = 0.0_dp
-        do concurrent(i=1:n)
-          a(i,i) = 1.0_dp
-        end do
+        a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
@@ -142,7 +136,7 @@ module test_linalg_determinant
         real(dp) :: a(n,n),deta
 
         !> Multiply eye by a very small number
-        a = 0.0_dp
+        a = eye(n)
         do concurrent(i=1:n)
           a(i,i) = coef
         end do
@@ -164,10 +158,7 @@ module test_linalg_determinant
 
         real(qp) :: a(n,n),deta
 
-        a = 0.0_qp
-        do concurrent(i=1:n)
-          a(i,i) = 1.0_qp
-        end do
+        a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
@@ -188,7 +179,7 @@ module test_linalg_determinant
         real(qp) :: a(n,n),deta
 
         !> Multiply eye by a very small number
-        a = 0.0_qp
+        a = eye(n)
         do concurrent(i=1:n)
           a(i,i) = coef
         end do
@@ -210,10 +201,7 @@ module test_linalg_determinant
 
         complex(sp) :: a(n,n),deta
 
-        a = 0.0_sp
-        do concurrent(i=1:n)
-          a(i,i) = 1.0_sp
-        end do
+        a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
@@ -234,7 +222,7 @@ module test_linalg_determinant
         complex(sp) :: a(n,n),deta
 
         !> Multiply eye by a very small number
-        a = 0.0_sp
+        a = eye(n)
         do concurrent(i=1:n)
           a(i,i) = coef
         end do
@@ -256,10 +244,7 @@ module test_linalg_determinant
 
         complex(dp) :: a(n,n),deta
 
-        a = 0.0_dp
-        do concurrent(i=1:n)
-          a(i,i) = 1.0_dp
-        end do
+        a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
@@ -280,7 +265,7 @@ module test_linalg_determinant
         complex(dp) :: a(n,n),deta
 
         !> Multiply eye by a very small number
-        a = 0.0_dp
+        a = eye(n)
         do concurrent(i=1:n)
           a(i,i) = coef
         end do
@@ -302,10 +287,7 @@ module test_linalg_determinant
 
         complex(qp) :: a(n,n),deta
 
-        a = 0.0_qp
-        do concurrent(i=1:n)
-          a(i,i) = 1.0_qp
-        end do
+        a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
@@ -326,7 +308,7 @@ module test_linalg_determinant
         complex(qp) :: a(n,n),deta
 
         !> Multiply eye by a very small number
-        a = 0.0_qp
+        a = eye(n)
         do concurrent(i=1:n)
           a(i,i) = coef
         end do
@@ -357,9 +339,9 @@ module test_linalg_determinant
         matrix_size: do n = 1,nmax
 
            ! Put 1+i on each diagonal element
-           allocate (a(n,n))
-           do concurrent(i=1:n,j=1:n)
-             a(i,j) = merge((1.0_sp,1.0_sp), (0.0_sp,0.0_sp),i == j)
+           a = eye(n)
+           do concurrent(i=1:n)
+             a(i,i) = (1.0_sp,1.0_sp)
            end do
 
            ! Expected result
@@ -392,9 +374,9 @@ module test_linalg_determinant
         matrix_size: do n = 1,nmax
 
            ! Put 1+i on each diagonal element
-           allocate (a(n,n))
-           do concurrent(i=1:n,j=1:n)
-             a(i,j) = merge((1.0_dp,1.0_dp), (0.0_dp,0.0_dp),i == j)
+           a = eye(n)
+           do concurrent(i=1:n)
+             a(i,i) = (1.0_dp,1.0_dp)
            end do
 
            ! Expected result
@@ -427,9 +409,9 @@ module test_linalg_determinant
         matrix_size: do n = 1,nmax
 
            ! Put 1+i on each diagonal element
-           allocate (a(n,n))
-           do concurrent(i=1:n,j=1:n)
-             a(i,j) = merge((1.0_qp,1.0_qp), (0.0_qp,0.0_qp),i == j)
+           a = eye(n)
+           do concurrent(i=1:n)
+             a(i,i) = (1.0_qp,1.0_qp)
            end do
 
            ! Expected result
