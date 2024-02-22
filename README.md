@@ -3,8 +3,8 @@
 # Current API
 Procedure   | Type | Description | Optional arguments
 ---        | ---         | --- | ---
-`solve(A,b)` | function | Solve linear system (one - `b(:)` or many - `b(:,:)` RHS) | `solve(A,b,overwrite_a,err)`: option to let A be destroyed, return state handler `err`
-`lstsq(A,b)` | function | Solve non-square system in a least squares sense (one - `b(:)` or many - `b(:,:)` RHS) | `lstsq(A,b,cond,overwrite_a,rank,err)`: `cond` is optional SVD cutoff; `rank` to return matrix rank, `err` to return state handler
+`solve(A,b)` | function | Solve linear systems - one (`b(:)`) or many (`b(:,:)`) | `solve(A,b,overwrite_a,err)`: option to let A be destroyed, return state handler `err`
+`lstsq(A,b)` | function | Solve non-square systems in a least squares sense - one (`b(:)`) or many (`b(:,:)`) | `lstsq(A,b,cond,overwrite_a,rank,err)`: `cond` is optional SVD cutoff; `rank` to return matrix rank, `err` to return state handler
 `det(A)` | function | Determinant of a scalar or square matrix | `det(A,overwrite_a,err=err)`: option to let A be destroyed, return state handler `err`
 `inv(A)` | function | Inverse of a scalar or square matrix | `inv(A,err=err)`: A is not destroyed; return state handler `err`
 `invert(A)` | subroutine | In-place inverse of a scalar or square matrix | `call invert(A,err=err)`: A is replaced with $A^{-1}$, return state handler `err`
