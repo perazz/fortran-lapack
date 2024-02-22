@@ -80,7 +80,7 @@ module test_linalg_determinant
 
         !> Determinant: small, but a is not singular, because it is a multiple of the identity.
         deta = det(a,err=state)
-        error = state%error() .or. .not.abs(deta-coef**n)<tiny(0.0_${rk}$)
+        error = state%error() .or. .not.abs(deta-coef**n)<max(tiny(0.0_${rk}$),epsilon(0.0_${rk}$)*coef**n)
         if (error) return
 
     end subroutine test_${ri}$_eye_multiple

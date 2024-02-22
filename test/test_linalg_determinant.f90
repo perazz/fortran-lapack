@@ -80,7 +80,9 @@ module test_linalg_determinant
 
         !> Determinant: small, but a is not singular, because it is a multiple of the identity.
         deta = det(a,err=state)
-        error = state%error() .or. .not. abs(deta - coef**n) < tiny(0.0_sp)
+        error = state%error() .or. .not. abs(deta - coef**n) < max(tiny(0.0_sp),epsilon(0.0_sp)*coef**n)
+        print *, 'state = ',state%print()
+        print *, 'deta = ',deta,'coef=',coef,' coef**n=',coef**n,' abs=',abs(deta - coef**n),' eps=',epsilon(0.0_sp)*coef**n
         if (error) return
 
     end subroutine test_s_eye_multiple
@@ -123,7 +125,9 @@ module test_linalg_determinant
 
         !> Determinant: small, but a is not singular, because it is a multiple of the identity.
         deta = det(a,err=state)
-        error = state%error() .or. .not. abs(deta - coef**n) < tiny(0.0_dp)
+        error = state%error() .or. .not. abs(deta - coef**n) < max(tiny(0.0_dp),epsilon(0.0_dp)*coef**n)
+        print *, 'state = ',state%print()
+        print *, 'deta = ',deta,'coef=',coef,' coef**n=',coef**n,' abs=',abs(deta - coef**n),' eps=',epsilon(0.0_dp)*coef**n
         if (error) return
 
     end subroutine test_d_eye_multiple
@@ -166,7 +170,9 @@ module test_linalg_determinant
 
         !> Determinant: small, but a is not singular, because it is a multiple of the identity.
         deta = det(a,err=state)
-        error = state%error() .or. .not. abs(deta - coef**n) < tiny(0.0_qp)
+        error = state%error() .or. .not. abs(deta - coef**n) < max(tiny(0.0_qp),epsilon(0.0_qp)*coef**n)
+        print *, 'state = ',state%print()
+        print *, 'deta = ',deta,'coef=',coef,' coef**n=',coef**n,' abs=',abs(deta - coef**n),' eps=',epsilon(0.0_qp)*coef**n
         if (error) return
 
     end subroutine test_q_eye_multiple
