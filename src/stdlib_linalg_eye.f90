@@ -11,13 +11,14 @@ module stdlib_linalg_eye
 
      !> Function interface
      public :: eye
+     public :: diag
 
      ! Numpy: eye(N, M=None, k=0, dtype=<class 'float'>, order='C', *, device=None, like=None)
      ! Numpy: identity(n, dtype=None, *, like=None) --> square matrices only
      ! Scipy: eye(m, n=None, k=0, dtype=<class 'float'>, format=None) --> sparse only
      ! IMSL:  EYE(N)
 
-     ! Function interface
+     ! Identity interface
      interface eye
         module procedure stdlib_linalg_eye_s
         module procedure stdlib_linalg_eye_d
@@ -26,6 +27,22 @@ module stdlib_linalg_eye
         module procedure stdlib_linalg_eye_z
         module procedure stdlib_linalg_eye_w
      end interface eye
+
+     ! Diagonal matrix interface
+     interface diag
+        module procedure stdlib_linalg_diag_s_from_scalar
+        module procedure stdlib_linalg_diag_s_from_array
+        module procedure stdlib_linalg_diag_d_from_scalar
+        module procedure stdlib_linalg_diag_d_from_array
+        module procedure stdlib_linalg_diag_q_from_scalar
+        module procedure stdlib_linalg_diag_q_from_array
+        module procedure stdlib_linalg_diag_c_from_scalar
+        module procedure stdlib_linalg_diag_c_from_array
+        module procedure stdlib_linalg_diag_z_from_scalar
+        module procedure stdlib_linalg_diag_z_from_array
+        module procedure stdlib_linalg_diag_w_from_scalar
+        module procedure stdlib_linalg_diag_w_from_array
+     end interface diag
 
      contains
 
@@ -310,5 +327,509 @@ module stdlib_linalg_eye
 1        call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_eye_w
+
+     ! Return square diagonal matrix with diagonal values equal to the input scalar
+     function stdlib_linalg_diag_s_from_scalar(n,dvalue,err) result(diag)
+         !> Matrix size
+         integer(ilp),intent(in) :: n
+         !> Scalar diagonal value. Used to define the return type.
+         real(sp),intent(in) :: dvalue
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         real(sp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::scalar'
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalue
+            else
+               diag(i,j) = 0.0_sp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_s_from_scalar
+
+     ! Construct square diagonal matrix from an array of diagonal values
+     function stdlib_linalg_diag_s_from_array(dvalues,err) result(diag)
+         !> Array of diagonal values. Used to define the return type and the matrix size.
+         real(sp),intent(in) :: dvalues(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         real(sp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j,n
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::array'
+
+         n = size(dvalues,kind=ilp)
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalues(i)
+            else
+               diag(i,j) = 0.0_sp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_s_from_array
+
+     ! Return square diagonal matrix with diagonal values equal to the input scalar
+     function stdlib_linalg_diag_d_from_scalar(n,dvalue,err) result(diag)
+         !> Matrix size
+         integer(ilp),intent(in) :: n
+         !> Scalar diagonal value. Used to define the return type.
+         real(dp),intent(in) :: dvalue
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         real(dp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::scalar'
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalue
+            else
+               diag(i,j) = 0.0_dp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_d_from_scalar
+
+     ! Construct square diagonal matrix from an array of diagonal values
+     function stdlib_linalg_diag_d_from_array(dvalues,err) result(diag)
+         !> Array of diagonal values. Used to define the return type and the matrix size.
+         real(dp),intent(in) :: dvalues(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         real(dp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j,n
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::array'
+
+         n = size(dvalues,kind=ilp)
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalues(i)
+            else
+               diag(i,j) = 0.0_dp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_d_from_array
+
+     ! Return square diagonal matrix with diagonal values equal to the input scalar
+     function stdlib_linalg_diag_q_from_scalar(n,dvalue,err) result(diag)
+         !> Matrix size
+         integer(ilp),intent(in) :: n
+         !> Scalar diagonal value. Used to define the return type.
+         real(qp),intent(in) :: dvalue
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         real(qp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::scalar'
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalue
+            else
+               diag(i,j) = 0.0_qp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_q_from_scalar
+
+     ! Construct square diagonal matrix from an array of diagonal values
+     function stdlib_linalg_diag_q_from_array(dvalues,err) result(diag)
+         !> Array of diagonal values. Used to define the return type and the matrix size.
+         real(qp),intent(in) :: dvalues(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         real(qp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j,n
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::array'
+
+         n = size(dvalues,kind=ilp)
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalues(i)
+            else
+               diag(i,j) = 0.0_qp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_q_from_array
+
+     ! Return square diagonal matrix with diagonal values equal to the input scalar
+     function stdlib_linalg_diag_c_from_scalar(n,dvalue,err) result(diag)
+         !> Matrix size
+         integer(ilp),intent(in) :: n
+         !> Scalar diagonal value. Used to define the return type.
+         complex(sp),intent(in) :: dvalue
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         complex(sp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::scalar'
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalue
+            else
+               diag(i,j) = 0.0_sp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_c_from_scalar
+
+     ! Construct square diagonal matrix from an array of diagonal values
+     function stdlib_linalg_diag_c_from_array(dvalues,err) result(diag)
+         !> Array of diagonal values. Used to define the return type and the matrix size.
+         complex(sp),intent(in) :: dvalues(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         complex(sp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j,n
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::array'
+
+         n = size(dvalues,kind=ilp)
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalues(i)
+            else
+               diag(i,j) = 0.0_sp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_c_from_array
+
+     ! Return square diagonal matrix with diagonal values equal to the input scalar
+     function stdlib_linalg_diag_z_from_scalar(n,dvalue,err) result(diag)
+         !> Matrix size
+         integer(ilp),intent(in) :: n
+         !> Scalar diagonal value. Used to define the return type.
+         complex(dp),intent(in) :: dvalue
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         complex(dp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::scalar'
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalue
+            else
+               diag(i,j) = 0.0_dp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_z_from_scalar
+
+     ! Construct square diagonal matrix from an array of diagonal values
+     function stdlib_linalg_diag_z_from_array(dvalues,err) result(diag)
+         !> Array of diagonal values. Used to define the return type and the matrix size.
+         complex(dp),intent(in) :: dvalues(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         complex(dp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j,n
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::array'
+
+         n = size(dvalues,kind=ilp)
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalues(i)
+            else
+               diag(i,j) = 0.0_dp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_z_from_array
+
+     ! Return square diagonal matrix with diagonal values equal to the input scalar
+     function stdlib_linalg_diag_w_from_scalar(n,dvalue,err) result(diag)
+         !> Matrix size
+         integer(ilp),intent(in) :: n
+         !> Scalar diagonal value. Used to define the return type.
+         complex(qp),intent(in) :: dvalue
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         complex(qp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::scalar'
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid diagonal size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalue
+            else
+               diag(i,j) = 0.0_qp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_w_from_scalar
+
+     ! Construct square diagonal matrix from an array of diagonal values
+     function stdlib_linalg_diag_w_from_array(dvalues,err) result(diag)
+         !> Array of diagonal values. Used to define the return type and the matrix size.
+         complex(qp),intent(in) :: dvalues(:)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(linalg_state),optional,intent(out) :: err
+         !> Return matrix
+         complex(qp),allocatable :: diag(:,:)
+
+         !> Local variables
+         integer(ilp) :: i,j,n
+         type(linalg_state) :: err0
+         character(*),parameter :: this = 'diag::array'
+
+         n = size(dvalues,kind=ilp)
+
+         !> Check size
+         if (.not. n >= 0) then
+            err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid input array size: diag[',n,',',n,']')
+            goto 1
+         end if
+
+         ! Allocate array
+         allocate (diag(n,n))
+
+         !> Empty matrix
+         if (n <= 0) return
+
+         !> Fill data
+         do concurrent(i=1:n,j=1:n)
+            if (i == j) then
+               diag(i,j) = dvalues(i)
+            else
+               diag(i,j) = 0.0_qp
+            end if
+         end do
+
+         ! Process output and return
+1        call linalg_error_handling(err0,err)
+
+     end function stdlib_linalg_diag_w_from_array
 
 end module stdlib_linalg_eye
