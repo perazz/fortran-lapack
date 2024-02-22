@@ -43,7 +43,7 @@ module stdlib_linalg_eye
          real(sp),allocatable :: eye(:,:)
 
          !> Local variables
-         integer(ilp) :: cols
+         integer(ilp) :: i,j,cols
          type(linalg_state) :: err0
          character(*),parameter :: this = 'eye'
 
@@ -55,19 +55,19 @@ module stdlib_linalg_eye
          end if
 
          !> Check size
-         if (.not. min(m,n) >= 0) then
+         if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             goto 1
          end if
 
          ! Allocate array
-         allocate (eye(m,n))
+         allocate (eye(m,cols))
 
          !> Empty matrix
-         if (min(m,n) <= 0) return
+         if (min(m,cols) <= 0) return
 
          !> Fill data
-         do concurrent(i=1:n,j=1:n)
+         do concurrent(i=1:m,j=1:cols)
             eye(i,j) = merge(1.0_sp,0.0_sp,i == j)
          end do
 
@@ -90,7 +90,7 @@ module stdlib_linalg_eye
          real(dp),allocatable :: eye(:,:)
 
          !> Local variables
-         integer(ilp) :: cols
+         integer(ilp) :: i,j,cols
          type(linalg_state) :: err0
          character(*),parameter :: this = 'eye'
 
@@ -102,19 +102,19 @@ module stdlib_linalg_eye
          end if
 
          !> Check size
-         if (.not. min(m,n) >= 0) then
+         if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             goto 1
          end if
 
          ! Allocate array
-         allocate (eye(m,n))
+         allocate (eye(m,cols))
 
          !> Empty matrix
-         if (min(m,n) <= 0) return
+         if (min(m,cols) <= 0) return
 
          !> Fill data
-         do concurrent(i=1:n,j=1:n)
+         do concurrent(i=1:m,j=1:cols)
             eye(i,j) = merge(1.0_dp,0.0_dp,i == j)
          end do
 
@@ -137,7 +137,7 @@ module stdlib_linalg_eye
          real(qp),allocatable :: eye(:,:)
 
          !> Local variables
-         integer(ilp) :: cols
+         integer(ilp) :: i,j,cols
          type(linalg_state) :: err0
          character(*),parameter :: this = 'eye'
 
@@ -149,19 +149,19 @@ module stdlib_linalg_eye
          end if
 
          !> Check size
-         if (.not. min(m,n) >= 0) then
+         if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             goto 1
          end if
 
          ! Allocate array
-         allocate (eye(m,n))
+         allocate (eye(m,cols))
 
          !> Empty matrix
-         if (min(m,n) <= 0) return
+         if (min(m,cols) <= 0) return
 
          !> Fill data
-         do concurrent(i=1:n,j=1:n)
+         do concurrent(i=1:m,j=1:cols)
             eye(i,j) = merge(1.0_qp,0.0_qp,i == j)
          end do
 
@@ -184,7 +184,7 @@ module stdlib_linalg_eye
          complex(sp),allocatable :: eye(:,:)
 
          !> Local variables
-         integer(ilp) :: cols
+         integer(ilp) :: i,j,cols
          type(linalg_state) :: err0
          character(*),parameter :: this = 'eye'
 
@@ -196,19 +196,19 @@ module stdlib_linalg_eye
          end if
 
          !> Check size
-         if (.not. min(m,n) >= 0) then
+         if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             goto 1
          end if
 
          ! Allocate array
-         allocate (eye(m,n))
+         allocate (eye(m,cols))
 
          !> Empty matrix
-         if (min(m,n) <= 0) return
+         if (min(m,cols) <= 0) return
 
          !> Fill data
-         do concurrent(i=1:n,j=1:n)
+         do concurrent(i=1:m,j=1:cols)
             eye(i,j) = merge(1.0_sp,0.0_sp,i == j)
          end do
 
@@ -231,7 +231,7 @@ module stdlib_linalg_eye
          complex(dp),allocatable :: eye(:,:)
 
          !> Local variables
-         integer(ilp) :: cols
+         integer(ilp) :: i,j,cols
          type(linalg_state) :: err0
          character(*),parameter :: this = 'eye'
 
@@ -243,19 +243,19 @@ module stdlib_linalg_eye
          end if
 
          !> Check size
-         if (.not. min(m,n) >= 0) then
+         if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             goto 1
          end if
 
          ! Allocate array
-         allocate (eye(m,n))
+         allocate (eye(m,cols))
 
          !> Empty matrix
-         if (min(m,n) <= 0) return
+         if (min(m,cols) <= 0) return
 
          !> Fill data
-         do concurrent(i=1:n,j=1:n)
+         do concurrent(i=1:m,j=1:cols)
             eye(i,j) = merge(1.0_dp,0.0_dp,i == j)
          end do
 
@@ -278,7 +278,7 @@ module stdlib_linalg_eye
          complex(qp),allocatable :: eye(:,:)
 
          !> Local variables
-         integer(ilp) :: cols
+         integer(ilp) :: i,j,cols
          type(linalg_state) :: err0
          character(*),parameter :: this = 'eye'
 
@@ -290,19 +290,19 @@ module stdlib_linalg_eye
          end if
 
          !> Check size
-         if (.not. min(m,n) >= 0) then
+         if (.not. min(m,cols) >= 0) then
             err0 = linalg_state(this,LINALG_VALUE_ERROR,'invalid eye size: eye[',m,',',n,']')
             goto 1
          end if
 
          ! Allocate array
-         allocate (eye(m,n))
+         allocate (eye(m,cols))
 
          !> Empty matrix
-         if (min(m,n) <= 0) return
+         if (min(m,cols) <= 0) return
 
          !> Fill data
-         do concurrent(i=1:n,j=1:n)
+         do concurrent(i=1:m,j=1:cols)
             eye(i,j) = merge(1.0_qp,0.0_qp,i == j)
          end do
 
