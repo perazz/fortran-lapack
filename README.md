@@ -10,6 +10,8 @@ Procedure   | Type | Description | Optional arguments
 `invert(A)` | subroutine | In-place inverse of a scalar or square matrix | `call invert(A,err=err)`
 `.inv.A` | operator | Inverse of a scalar or square matrix | -
 `eye(m)` | function | Identity matrix of size `m` | `eye(m,n,mold,err)`: Optional column size `n`, datatype `dtype` (default: real64), error handler
+`diag(n,source) | function | Diagonal matrix from scalar input value | `diag(n,source,err)`: Optional error handler
+`diag(source) | function | Diagonal matrix from array input values | `diag(source,err)`: Optional error handler
 
 All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats).
 
