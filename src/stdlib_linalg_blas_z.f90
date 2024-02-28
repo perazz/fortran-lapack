@@ -85,7 +85,7 @@ module stdlib_linalg_blas_z
 
      ! ZAXPY constant times a vector plus a vector.
 
-     subroutine stdlib_zaxpy(n,za,zx,incx,zy,incy)
+     pure subroutine stdlib_zaxpy(n,za,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -123,7 +123,7 @@ module stdlib_linalg_blas_z
 
      ! ZCOPY copies a vector, x, to a vector, y.
 
-     subroutine stdlib_zcopy(n,zx,incx,zy,incy)
+     pure subroutine stdlib_zcopy(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -160,7 +160,7 @@ module stdlib_linalg_blas_z
      ! ZDOTC forms the dot product of two complex vectors
      ! ZDOTC = X^H * Y
 
-     complex(dp) function stdlib_zdotc(n,zx,incx,zy,incy)
+     pure complex(dp) function stdlib_zdotc(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -202,7 +202,7 @@ module stdlib_linalg_blas_z
      ! ZDOTU forms the dot product of two complex vectors
      ! ZDOTU = X^T * Y
 
-     complex(dp) function stdlib_zdotu(n,zx,incx,zy,incy)
+     pure complex(dp) function stdlib_zdotu(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -243,7 +243,7 @@ module stdlib_linalg_blas_z
      ! and the vectors cx and cy are complex.
      ! jack dongarra, linpack, 3/11/78.
 
-     subroutine stdlib_zdrot(n,zx,incx,zy,incy,c,s)
+     pure subroutine stdlib_zdrot(n,zx,incx,zy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -285,7 +285,7 @@ module stdlib_linalg_blas_z
 
      ! ZDSCAL scales a vector by a constant.
 
-     subroutine stdlib_zdscal(n,da,zx,incx)
+     pure subroutine stdlib_zdscal(n,da,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -321,7 +321,7 @@ module stdlib_linalg_blas_z
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
-     subroutine stdlib_zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -493,7 +493,7 @@ module stdlib_linalg_blas_z
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
-     subroutine stdlib_zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -740,7 +740,7 @@ module stdlib_linalg_blas_z
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
 
-     subroutine stdlib_zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -899,7 +899,7 @@ module stdlib_linalg_blas_z
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_zgerc(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_zgerc(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -978,7 +978,7 @@ module stdlib_linalg_blas_z
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_zgeru(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_zgeru(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1057,7 +1057,7 @@ module stdlib_linalg_blas_z
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian band matrix, with k super-diagonals.
 
-     subroutine stdlib_zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1221,7 +1221,7 @@ module stdlib_linalg_blas_z
      ! where alpha and beta are scalars, A is an hermitian matrix and  B and
      ! C are m by n matrices.
 
-     subroutine stdlib_zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1368,7 +1368,7 @@ module stdlib_linalg_blas_z
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix.
 
-     subroutine stdlib_zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1520,7 +1520,7 @@ module stdlib_linalg_blas_z
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix.
 
-     subroutine stdlib_zher(uplo,n,alpha,x,incx,a,lda)
+     pure subroutine stdlib_zher(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1635,7 +1635,7 @@ module stdlib_linalg_blas_z
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n hermitian matrix.
 
-     subroutine stdlib_zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1777,7 +1777,7 @@ module stdlib_linalg_blas_z
      ! hermitian matrix and  A and B  are  n by k matrices in the first case
      ! and  k by n  matrices in the second case.
 
-     subroutine stdlib_zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1985,7 +1985,7 @@ module stdlib_linalg_blas_z
      ! matrix and  A  is an  n by k  matrix in the  first case and a  k by n
      ! matrix in the second case.
 
-     subroutine stdlib_zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine stdlib_zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2178,7 +2178,7 @@ module stdlib_linalg_blas_z
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     pure subroutine stdlib_zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2336,7 +2336,7 @@ module stdlib_linalg_blas_z
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_zhpr(uplo,n,alpha,x,incx,ap)
+     pure subroutine stdlib_zhpr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2458,7 +2458,7 @@ module stdlib_linalg_blas_z
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
+     pure subroutine stdlib_zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2613,7 +2613,7 @@ module stdlib_linalg_blas_z
      ! sign of c and s will be different from those computed by DROTG
      ! if the signs of a and b are not the same.
 
-     subroutine stdlib_zrotg(a,b,c,s)
+     pure subroutine stdlib_zrotg(a,b,c,s)
         integer,parameter :: wp = kind(1._dp)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -2725,7 +2725,7 @@ module stdlib_linalg_blas_z
 
      ! ZSCAL scales a vector by a constant.
 
-     subroutine stdlib_zscal(n,za,zx,incx)
+     pure subroutine stdlib_zscal(n,za,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2755,7 +2755,7 @@ module stdlib_linalg_blas_z
 
      ! ZSWAP interchanges two vectors.
 
-     subroutine stdlib_zswap(n,zx,incx,zy,incy)
+     pure subroutine stdlib_zswap(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2800,7 +2800,7 @@ module stdlib_linalg_blas_z
      ! where  alpha and beta are scalars, A is a symmetric matrix and  B and
      ! C are m by n matrices.
 
-     subroutine stdlib_zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2948,7 +2948,7 @@ module stdlib_linalg_blas_z
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
 
-     subroutine stdlib_zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3123,7 +3123,7 @@ module stdlib_linalg_blas_z
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
 
-     subroutine stdlib_zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine stdlib_zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3287,7 +3287,7 @@ module stdlib_linalg_blas_z
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
-     subroutine stdlib_ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3504,7 +3504,7 @@ module stdlib_linalg_blas_z
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3718,7 +3718,7 @@ module stdlib_linalg_blas_z
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
 
-     subroutine stdlib_ztpmv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_ztpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3937,7 +3937,7 @@ module stdlib_linalg_blas_z
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_ztpsv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_ztpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4155,7 +4155,7 @@ module stdlib_linalg_blas_z
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
 
-     subroutine stdlib_ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4395,7 +4395,7 @@ module stdlib_linalg_blas_z
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
 
-     subroutine stdlib_ztrmv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_ztrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4594,7 +4594,7 @@ module stdlib_linalg_blas_z
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
      ! The matrix X is overwritten on B.
 
-     subroutine stdlib_ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4858,7 +4858,7 @@ module stdlib_linalg_blas_z
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_ztrsv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_ztrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--

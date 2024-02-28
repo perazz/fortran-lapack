@@ -289,8 +289,8 @@ def write_interface(fid,name,functions,INDENT,prefix,module_name):
     # implementations may not offer the double precision or quad precision implementation
     for f in functions:
 
-        # Get declaration
-        declaration, arguments = f.declaration(prefix)
+        # Get declaration, with no classifiers
+        declaration, arguments = f.declaration(prefix,True)
 
         # Quad precision functions only support the internal implementation
         has_external = not f.is_quad_precision()
@@ -374,6 +374,18 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
 
                 new_functions.append(f)
                 fid.write(INDENT + "public :: " + f.new_name + "\n")
+
+            if f.old_name=='xerbla':
+                print("xerbla found")
+
+                # Xerbla and xerbla_array are the only non-pure functions that include
+                # stop and writing to disk.
+                for line in range(len(f.body)):
+                    lsl = f.body[line].lstrip()
+                    if lsl.startswith('stop') or\
+                       lsl.startswith('write'):
+                       f.body[line] = ""
+
         print("at end of "+fortran_functions[ff].old_name+", dcabs1 = "+fortran_functions[index].old_name)
 
 
@@ -798,6 +810,8 @@ def adjust_variable_declaration(Source,line,datatype):
                     r'complex\(\S+\)', \
                     r'logical\(\S+\)', \
                     r'character', \
+                    r'character\(len=\*\)', \
+                    r'character\(1\)', \
                     r'intrinsic', \
                     r'external']
 
@@ -894,9 +908,26 @@ def find_parameter_declaration(line,datatype):
     parameter_name  = []
     parameter_value = []
 
+    # Search for parameter
     m = re.match(r'\s*parameter\s*\(.+\)',ll)
 
-    if not m: return parameter_name, parameter_value
+    is_param = bool(m)
+    is_data  = False
+
+    if not m:
+        # Search for data
+        m = re.match(r'(?:data\s*){1}(?:([a-zA-Z0-9\_]+)(?:\s*/\s*)([^/\n\r]+)(?:\s*/\s*)(?:\,{0,1}\s*)\s*)+',ll)
+
+        if not m is None:
+            print(m)
+            print(ll)
+            exit(1)
+
+    else:
+        is_data = False
+
+    if not (is_param or is_data):
+        return parameter_name, parameter_value
 
     # Remove all spaces from the line
     nospace = re.sub('\s','',ll)
@@ -1119,7 +1150,7 @@ class Fortran_Source:
         self.pvalue = []
         self.header = []
         self.intent_var = []
-        self.intent_lab = []
+        self.intent_label = []
         self.arguments = []
 
     # Return subroutine/function string
@@ -1223,8 +1254,7 @@ class Fortran_Source:
             # Search for an intent to this variable in the function header comments
             if arg_name in self.intent_var:
                kk = self.intent_var.index(arg_name)
-               intent = self.intent_lab[kk]
-               print(intent)
+               intent = self.intent_label[kk]
                if intent=="in,out" or intent=="in out" or intent=="in, out":
                    intent = "inout"
             else:
@@ -1293,8 +1323,54 @@ class Fortran_Source:
 
         return q
 
+    # Add classifiers (pure, recursive, etc.)
+    def add_classifiers(self):
+
+        if self.is_pure():
+
+            for i in range(len(self.body)):
+                lsl = self.body[i].lower()
+                if self.is_function and 'function' in lsl:
+                    nspaces = len(lsl)-len(lsl.lstrip())
+                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+                    return
+                elif 'subroutine' in lsl:
+                    nspaces = len(lsl)-len(lsl.lstrip())
+                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+                    return
+
+
+
+    # Check if a procedure is pure
+    def is_pure(self):
+
+        io = 'stop' in self.body or 'write' in self.body;
+        if io:
+            return False
+
+        if self.is_function:
+            # Check that all arguments have intent(in)
+            for a in range(len(self.arguments)):
+                arg = self.arguments[a]
+                if self.argument_intent(arg)!="in": return False
+            # All arguments intent(in)
+            return True
+        else:
+            return True
+
+    # Check if a procedure is elemental (all scalar arguments)
+    def is_elemental(self):
+
+        if self.is_pure():
+            for a in range(len(self.arguments)):
+                arg = self.arguments[a]
+                print(arg)
+            exit(1)
+        else:
+           return False
+
     # Return declaration line of a function
-    def declaration(self,strip_prefix):
+    def declaration(self,strip_prefix,keep_classifiers):
 
         DEBUG = False # self.old_name == 'cgejsv'
 
@@ -1306,6 +1382,10 @@ class Fortran_Source:
                 head = stripped
                 if not (strip_prefix is None): head = re.sub(strip_prefix,"",head)
                 break
+
+        if not keep_classifiers:
+            head = head.replace("pure ","")
+            head = head.replace("elemental ","")
 
         if len(head)<=0:
             print("ERROR: Procedure declaration not found in function "+self.old_name)
@@ -1634,6 +1714,7 @@ def is_declaration_line(line):
               or check_line.startswith("logical(") \
               or check_line.startswith("logical,") \
               or check_line.startswith("logical::") \
+              or check_line.startswith("data") \
               or check_line.startswith("use ") \
               or check_line.startswith("use,") \
               or check_line.startswith("use::") \
@@ -2249,7 +2330,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                intent = not m_intent is None
                if intent:
                    Source.intent_var.append(m_intent.group(2).lower())
-                   Source.intent_lab.append(m_intent.group(1).lower())
+                   Source.intent_label.append(m_intent.group(1).lower())
                    if DEBUG: print("Section.INTENT " + ls)
 
                # Inside an externals section: remove altogether
@@ -2513,6 +2594,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             # On function end
             if whereAt==Section.END:
 
+                  # Now that the function is over, make it pure if possible
+                  Source.add_classifiers()
+
                   # Save source
                   Procedures.append(Source)
 
@@ -2546,7 +2630,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
         Procedures[-1].old_name
 
-        ddd, aaa = Procedures[-1].declaration('stdlib_')
+        ddd, aaa = Procedures[-1].declaration('stdlib_',False)
 
         print(ddd)
         for i in range(len(aaa)):
@@ -2658,12 +2742,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
