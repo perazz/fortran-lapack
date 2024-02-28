@@ -19,4 +19,12 @@
 #:set RANK_EMPTY       = ["0","0,0"]
 #:set ALL_RANKS        = list(zip(RANK_SYMBOL,RANK_SUFFIX,RANK_EMPTY))
 
+#! Switches for 2 function interfaces: non-pure (with error output); pure (no error output)
+#:set FUNCTION_PREFIX     = ["pure ",""]
+#:set FUNCTION_SUFFIX     = ["","_errhandle"]
+#:set FUNCTION_ERR_ARG    = ["",",err"]
+#:set FUNCTION_HAS_ERR    = [False,True]
+#:set FUNCTION_INTERFACES = list(zip(FUNCTION_PREFIX,FUNCTION_SUFFIX,FUNCTION_ERR_ARG,FUNCTION_HAS_ERR))
+
+
 #:endmute
