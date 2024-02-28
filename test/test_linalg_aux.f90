@@ -51,49 +51,22 @@ module test_linalg_aux
 
         logical, intent(out) :: error
 
-        type(linalg_state) :: state
-
         integer :: i
-        integer, allocatable :: ijk(:,:),s(:)
-        real, allocatable :: aa(:,:,:),x
-        real :: a(5,10),b(6,10)
-        type(array_descriptor) :: cfi1,cfi2
-
-        allocate(aa(5,10,20))
-
-        !s = strides(a(1:5:3,1:10:6,1:20:9))
-
-        cfi1 = array_descriptor(a(1:5:3,1:10:6))
-        call CFI_print(cfi1)
-        cfi2 = array_descriptor(b(1:6:3,1:10:5))
-        call CFI_print(cfi2)
-stop
+        integer, allocatable :: ijk(:)
 
         error = .false.
 
-        error = .not. size(strides(x))==0
+        allocate(ijk(-21:349),source=0)
+
+        error = .not. stride(ijk)==1
         if (error) return
 
-        error = .not. all(strides(a)==[1,1,1])
-        if (error) return
-
-        error = .not. all(strides(a)==strides(aa))
-        if (error) return
-
-!        do i=1,4
-!            s = strides(a(::i,::2*i,::3*i))
-!            error = .not. all(s==[1,2,3]*i)
-!            print *, 'i=',i,' s=',s
-!            if (error) return
-!        end do
-
-
-
-
-
-
-
-
+        do i=1,430
+            error = .not. stride(ijk(::i))==i
+            if (error) return
+            error = .not. stride(ijk(::-i))==-i
+            if (error) return
+        end do
 
     end subroutine test_array_strides
 

@@ -6,9 +6,6 @@ module stdlib_linalg_arrays
      implicit none(type,external)
      public
 
-     !> Return array stri
-     public :: strides
-
      integer, parameter :: CFI_RANK = c_int8_t
      integer, parameter :: CFI_FLAG = c_int
      integer, parameter :: CFI_TYPE = c_int16_t
@@ -78,6 +75,10 @@ module stdlib_linalg_arrays
         module procedure get_array_descriptor
      end interface array_descriptor
 
+     interface stride
+        module procedure stride_array
+     end interface stride
+
      !> C Interface
      interface
          type(array_descriptor) function CFI_to_Fortran(descr) bind(C,name="CFI_to_Fortran")
@@ -86,87 +87,32 @@ module stdlib_linalg_arrays
          end function CFI_to_fortran
      end interface
 
-     private :: CFI_strides
+     private :: stride_array
 
      contains
 
      !> Return array stride information
-     function strides(array)
-         type(*), dimension(..), intent(inout), target :: array
-         integer(CFI_SIZE), allocatable :: strides(:)
+     integer(CFI_SIZE) function stride_array(array) result(stride)
+         type(*), dimension(:), intent(inout), target :: array
          type(array_descriptor) :: CFI
+         real :: rstride
          CFI = array_descriptor(array)
-         strides = CFI_strides(CFI)
-     end function strides
+
+         !> Number of elements between two elements of dimension i.
+         !> This gives the exact number of allocated elements in all previous dimensions
+         rstride  = real(CFI%dim(1)%stride_bytes) / real(CFI%elem_bytes)
+         stride   = nint(rstride,kind=CFI_SIZE)
+
+         !> Non integer stride: there is some padding
+         if (.not.rstride-stride<0.00001 .or. CFI%rank/=1) stride=-1_CFI_SIZE
+
+     end function stride_array
 
      !> Return CFI descriptor corresponding to a Fortran variable
      type(array_descriptor) function get_array_descriptor(variable)
         type(*), dimension(..), intent(inout), target :: variable
         get_array_descriptor = CFI_to_Fortran(variable)
      end function get_array_descriptor
-
-     !> Return strides of data along all dimensions
-     function CFI_strides(this) result(element_strides)
-        type(array_descriptor), intent(in) :: this
-        integer(CFI_SIZE), allocatable :: element_strides(:)
-
-        integer(CFI_SIZE) :: i,istride_elems,previous_chunks,previous_cols,max_elems,j,col_elems
-        integer(CFI_SIZE), allocatable :: full_sizes(:)
-        real :: rstride_elems
-
-        allocate(element_strides(this%rank),source=-1_CFI_SIZE)
-        allocate(full_sizes(this%rank),source=0_CFI_SIZE)
-
-
-        array_dims: do i=1,this%rank
-
-            !> Number of elements between two elements of dimension i.
-            !> This gives the exact number of allocated elements in all previous dimensions
-            rstride_elems  = real(this%dim(i)%stride_bytes) / real(this%elem_bytes)
-            istride_elems  = nint(rstride_elems,kind=CFI_SIZE)
-
-            !> Non integer stride
-            if (rstride_elems-istride_elems>0.00001) then
-                element_strides=-1_CFI_SIZE
-                return
-            end if
-
-            if (i==1) then
-                element_strides(1) = istride_elems
-                cycle array_dims
-            end if
-
-
-            !> Max elements in the previous column
-            do j=1,element_strides(1)
-                col_elems = (this%dim(1)%extent-1)*element_strides(1)+j
-                print *, 'possible tot elements = ',col_elems,' bytes=',col_elems*this%elem_bytes,&
-                ' stride=',this%dim(i)%stride_bytes,' multiple = ',real(this%dim(i)%stride_bytes)/(col_elems*this%elem_bytes)
-            end do
-
-
-            !> How many strided elements fit this max?
-
-            previous_chunks = 0
-            previous_cols   = 0
-            do while (istride_elems>this%dim(1)%stride_bytes)
-                previous_chunks = previous_chunks+1
-                istride_elems = istride_elems-this%elem_bytes
-                if (previous_chunks>product(this%dim(:i-1)%extent*element_strides(:i-1))) then
-                    previous_chunks = 0
-                    previous_cols = previous_cols+1
-                end if
-            end do
-
-            print *, 'dim=',i,' stride=',this%dim(i)%stride_bytes,' cols=',previous_cols,' remainder=',previous_chunks
-
-            element_strides(i) = previous_cols+1
-            stop
-
-        end do array_dims
-
-     end function CFI_strides
-
 
      !> print information
      subroutine CFI_print(this,unit)
