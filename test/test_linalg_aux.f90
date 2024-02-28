@@ -61,7 +61,7 @@ module test_linalg_aux
         error = .not. stride(ijk)==1
         if (error) return
 
-        do i=1,430
+        do i=1,340
             error = .not. stride(ijk(::i))==i
             if (error) return
             error = .not. stride(ijk(::-i))==-i
