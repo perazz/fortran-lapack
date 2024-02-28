@@ -1,8 +1,8 @@
-// Get stride/contiguous attribute from an array using ISO_Fortran_binding.h
+// Get array storage properties using ISO Fortran binding
 #include <ISO_Fortran_binding.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "stdlib_linalg_stride_c.h"
+#include "stdlib_linalg_arrays_c.h"
 
 // Initialize empty CFI dim info
 array_dimension new_CFI_dim_info()

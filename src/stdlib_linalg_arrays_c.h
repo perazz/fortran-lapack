@@ -4,7 +4,7 @@
 #include <ISO_Fortran_binding.h>
 #include <stdlib.h>
 
-// Definitions matching the interface in stdlib_linalg_stride
+// Type definitions matching the interface in stdlib_linalg_arrays
 typedef void*    CFI_ADDRESS;
 typedef int8_t   CFI_RANK;
 typedef int      CFI_FLAG;
@@ -14,7 +14,7 @@ typedef int8_t   CFI_ATTR;
 
 #define MAX_FORTRAN_RANK 15
 
-// Compiler independent type flags
+// Compiler independent datatype flags
 enum CFI_TYPES {
    INTEGER = 1,
    LOGICAL,
@@ -53,14 +53,14 @@ enum CFI_TYPES {
    DOUBLE_COMPLEX
 };
 
-// C Descriptor: dimension information
+// Fortran-interoperable Dimension information descriptor
 typedef struct array_dimension {
     CFI_SIZE lower_bound;
     CFI_SIZE extent;
     CFI_SIZE stride_bytes;
 } array_dimension;
 
-// Global C Array Descriptor
+// Global Fortran-interoperable Array Descriptor
 typedef struct array_descriptor {
     CFI_ADDRESS base_address;
     CFI_SIZE elem_bytes;
@@ -70,6 +70,5 @@ typedef struct array_descriptor {
     CFI_ATTR attribute;
     array_dimension dim[MAX_FORTRAN_RANK];
 } array_descriptor;
-
 
 #endif // STDLIB_LINALG_STRIDE_C_H_INCLUDED
