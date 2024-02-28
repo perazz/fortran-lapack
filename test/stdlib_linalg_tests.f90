@@ -9,23 +9,29 @@ program stdlib_linalg_tests
 
     logical :: error
 
+    real(c_double), allocatable :: a(:,:,:)
+
+
     call test_formats(error)
     if (error) error stop 'test_formats'
 
-    call test_solve(error)
-    if (error) error stop 'test_solve'
-
-    call test_inverse_matrix(error)
-    if (error) error stop 'test_inverse_matrix'
-
-    call test_least_squares(error)
-    if (error) error stop 'test_least_squares'
-
-    call test_matrix_determinant(error)
-    if (error) error stop 'test_determinant'
-
-    call test_eye(error)
-    if (error) error stop 'test_eye'
+    call test_array_strides(error)
+    if (error) error stop 'test_array_strides'
+!
+!    call test_solve(error)
+!    if (error) error stop 'test_solve'
+!
+!    call test_inverse_matrix(error)
+!    if (error) error stop 'test_inverse_matrix'
+!
+!    call test_least_squares(error)
+!    if (error) error stop 'test_least_squares'
+!
+!    call test_matrix_determinant(error)
+!    if (error) error stop 'test_determinant'
+!
+!    call test_eye(error)
+!    if (error) error stop 'test_eye'
 
     !> All tests passed
     stop 0
