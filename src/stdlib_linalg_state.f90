@@ -99,22 +99,24 @@ module stdlib_linalg_state
      end function LINALG_MESSAGE
 
      !> Flow control: on output flag present, return it; otherwise, halt on error
-     subroutine linalg_error_handling(ierr,ierr_out)
+     pure subroutine linalg_error_handling(ierr,ierr_out)
          type(linalg_state),intent(in) :: ierr
          type(linalg_state),optional,intent(out) :: ierr_out
+
+         character(len=:), allocatable :: err_msg
 
          if (present(ierr_out)) then
              ! Return error flag
              ierr_out = ierr
          elseif (ierr%error()) then
-             write (stderr,'(A)') ierr%print()
-             stop ierr%state
+             err_msg = ierr%print()
+             error stop err_msg
          end if
 
      end subroutine linalg_error_handling
 
      !> Formatted message
-     function state_message(this) result(msg)
+     pure function state_message(this) result(msg)
          class(linalg_state),intent(in) :: this
          character(len=:),allocatable :: msg
 
@@ -127,7 +129,7 @@ module stdlib_linalg_state
      end function state_message
 
      !> Produce a nice error string
-     function state_print(this) result(msg)
+     pure function state_print(this) result(msg)
          class(linalg_state),intent(in) :: this
          character(len=:),allocatable :: msg
 
@@ -226,7 +228,7 @@ module stdlib_linalg_state
      end function flag_ge_state
 
     !> Error creation message, with location location
-    type(linalg_state) function new_state(where_at,flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
+    pure type(linalg_state) function new_state(where_at,flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
                                                v1,v2,v3,v4,v5)
 
        !> Location
@@ -250,7 +252,7 @@ module stdlib_linalg_state
     end function new_state
 
     !> Error creation message, from N input variables (numeric or strings)
-    type(linalg_state) function new_state_nowhere(flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
+    pure type(linalg_state) function new_state_nowhere(flag,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10, &
                                                v1,v2,v3,v4,v5) result(new_state)
 
        !> Input error flag
@@ -289,7 +291,7 @@ module stdlib_linalg_state
     end function new_state_nowhere
 
     ! Append a generic value to the error flag
-    subroutine append(msg,a,prefix)
+    pure subroutine append(msg,a,prefix)
        class(*),optional,intent(in) :: a
        character(len=*),intent(inout) :: msg
        character,optional,intent(in) :: prefix
@@ -377,7 +379,7 @@ module stdlib_linalg_state
     end subroutine append
 
     ! Append a generic vector to the error flag
-    subroutine appendv(msg,a)
+    pure subroutine appendv(msg,a)
        class(*),optional,intent(in) :: a(:)
        character(len=*),intent(inout) :: msg
 
