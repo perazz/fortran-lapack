@@ -75,10 +75,6 @@ module stdlib_linalg_arrays
         module procedure get_array_descriptor
      end interface array_descriptor
 
-     interface stride
-        module procedure stride_array
-     end interface stride
-
      !> C Interface
      interface
          type(array_descriptor) function CFI_to_Fortran(descr) bind(C,name="CFI_to_Fortran")
@@ -87,12 +83,11 @@ module stdlib_linalg_arrays
          end function CFI_to_fortran
      end interface
 
-     private :: stride_array
 
      contains
 
      !> Return array stride information
-     integer(CFI_SIZE) function stride_array(array) result(stride)
+     integer(CFI_SIZE) function stride(array)
          type(*), dimension(:), intent(inout), target :: array
          type(array_descriptor) :: CFI
          real :: rstride
@@ -106,7 +101,24 @@ module stdlib_linalg_arrays
          !> Non integer stride: there is some padding
          if (.not.rstride-stride<0.00001 .or. CFI%rank/=1) stride=-1_CFI_SIZE
 
-     end function stride_array
+     end function stride
+
+     !> Return leading dimension of a (possibly-sliced) 2d matrix
+     integer(CFI_SIZE) function leading_dim(matrix)
+         type(*), dimension(:,:), intent(inout), target :: matrix
+         type(array_descriptor) :: CFI
+         real :: rstride
+         CFI = array_descriptor(matrix)
+
+         !> Number of elements between two elements of dimension i.
+         !> This gives the exact number of allocated elements in all previous dimensions
+         rstride       = real(CFI%dim(2)%stride_bytes) / real(CFI%elem_bytes)
+         leading_dim   = nint(rstride,kind=CFI_SIZE)
+
+         !> Non integer stride: there is some padding
+         if (.not.rstride-leading_dim<0.00001 .or. CFI%rank/=2 .or. leading_dim<0) leading_dim=0_CFI_SIZE
+
+     end function leading_dim
 
      !> Return CFI descriptor corresponding to a Fortran variable
      type(array_descriptor) function get_array_descriptor(variable)

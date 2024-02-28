@@ -53,6 +53,7 @@ module test_linalg_aux
 
         integer :: i
         integer, allocatable :: ijk(:)
+        integer :: m(10,10)
 
         error = .false.
 
@@ -68,7 +69,35 @@ module test_linalg_aux
             if (error) return
         end do
 
+
+        call rrr(m)
+        call rrr(m(::4,::3))
+
     end subroutine test_array_strides
+
+    subroutine rrr(mat)
+        integer, intent(inout), target :: mat(:,:)
+        integer, pointer :: p(:,:)
+
+        type(array_descriptor) :: cfi_m,cfi_p
+
+        integer :: n,m
+
+        n = size(mat,1)
+        m = size(mat,2)
+
+        print *, 'shape(mat)=',shape(mat),' leading dim=',leading_dim(mat)
+
+
+        p => mat
+
+        cfi_m = array_descriptor(mat)
+        cfi_p = array_descriptor(p)
+
+        call CFI_print(cfi_m)
+        call CFI_print(cfi_p)
+
+    end subroutine rrr
 
 
 
