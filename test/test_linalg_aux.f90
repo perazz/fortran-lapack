@@ -5,8 +5,6 @@ module test_linalg_aux
 
     contains
 
-
-
     !> Test output formats of real/complex numbers
     subroutine test_formats(error)
 
@@ -57,6 +55,7 @@ module test_linalg_aux
 
         error = .false.
 
+        !> Array stride
         allocate(ijk(-21:349),source=0)
 
         error = .not. stride(ijk)==1
@@ -69,35 +68,20 @@ module test_linalg_aux
             if (error) return
         end do
 
+        !> Matrix leading dimension
+        error = .not.leading_dim(m)==10
+        if (error) return
 
-        call rrr(m)
-        call rrr(m(::4,::3))
+        !> Matrix leading dimension
+        error = .not.leading_dim(m(:2,:))==10
+        if (error) return
+
+        !> Matrix leading dimension
+        error = .not.leading_dim(m(::4,:))==10
+        if (error) return
 
     end subroutine test_array_strides
 
-    subroutine rrr(mat)
-        integer, intent(inout), target :: mat(:,:)
-        integer, pointer :: p(:,:)
-
-        type(array_descriptor) :: cfi_m,cfi_p
-
-        integer :: n,m
-
-        n = size(mat,1)
-        m = size(mat,2)
-
-        print *, 'shape(mat)=',shape(mat),' leading dim=',leading_dim(mat)
-
-
-        p => mat
-
-        cfi_m = array_descriptor(mat)
-        cfi_p = array_descriptor(p)
-
-        call CFI_print(cfi_m)
-        call CFI_print(cfi_p)
-
-    end subroutine rrr
 
 
 
