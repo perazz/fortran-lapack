@@ -576,7 +576,8 @@ class Section(Enum):
     DECLARATION = 3
     EXTERNALS = 4
     BODY = 5
-    END = 6
+    DATA = 6
+    END = 7
 
 
 # Print LAPACK constants
@@ -818,6 +819,32 @@ def adjust_variable_declaration(Source,line,datatype):
     lines = []
 
     ll = line.lower()
+    lsl = ll.lstrip()
+
+    # Check for DATA statement first
+    if lsl.startswith('data'):
+
+        data_match = r'^\s*data(?P<nlist>\s*(?:\w+\s*,)*(?:\w+\s*)/)(?P<clist>\s*(?:[^,/]+\s*,)*(?:[^,/]+\s*)/)'
+
+        m = re.match(data_match,ll)
+
+        clist =list(filter(None,re.split(',|/', m.group('clist'))))
+        nlist =list(filter(None,re.split(',|/', m.group('nlist'))))
+
+        if len(clist)!=len(nlist):
+            print(clist)
+            print(nlist)
+            print(lsl)
+            print("DATA STATEMENT HAS WRONG SIZE")
+            exit(1)
+
+        # Replace data statement with line declaration
+        nspaces = len(ll)-len(lsl)
+        for k in range(len(clist)):
+            line = " "*nspaces + nlist[k].strip() + " = " + clist[k].strip()
+            lines.append(line)
+            print(line)
+            print(clist)
 
     for i in range(len(declarations)):
         m  = re.match(r'^\s*' + declarations[i] + r'\s+\w',ll)
@@ -1463,6 +1490,7 @@ class Fortran_Line:
         self.use           = False
         self.will_continue = False
         self.directive     = False
+        self.data          = False
 
 # From a list of variables, extract their individual names and array declarations (does not support
 # DIMENSION attribute)
@@ -1524,6 +1552,7 @@ def line_read_and_preprocess(line,is_free_form,file_name,old_name):
        is_comment_line = bool(re.match(r'^\s*!', processed))
        is_continuation = bool(re.match(r'^\s*&', processed))
        is_use          = bool(re.match(r'^\s*use', processed))
+       is_data         = bool(re.match(r'^\s*data', processed))
 
        # If this is a continuation line, remove all that's before the continuation character
        if is_continuation and not is_dir:
@@ -1535,6 +1564,7 @@ def line_read_and_preprocess(line,is_free_form,file_name,old_name):
 
 
        is_use          = bool(re.match(r'^      \s*use', processed))
+       is_data         = bool(re.match(r'^      \s*data', processed))
 
        # Remove continuation character
        if is_continuation and not is_dir:
@@ -1549,6 +1579,7 @@ def line_read_and_preprocess(line,is_free_form,file_name,old_name):
     Line.use = is_use
     Line.will_continue = will_continue
     Line.directive = is_dir
+    Line.data = is_data
 
     return Line
 
@@ -1678,6 +1709,14 @@ def is_externals_header(line):
           or bool(re.match(r'[\S\*\!]\s*.. external subroutines ..',check_line))
 
     return ext
+
+# Check if a data statement is present
+def is_data_statement(line):
+
+    check_line = line.strip().lower()
+
+    return check_line.startswith('data ')
+
 
 # Check if a line is a declaration line
 def is_declaration_line(line):
@@ -2240,7 +2279,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False # file_name.startswith("cgejsv")
+    DEBUG  = False # file_name.startswith("srotm")
 
     Procedures = []
 
@@ -2308,8 +2347,16 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             # Remove the newline character at the end of the line
             Line = line_read_and_preprocess(line,Source.is_free_form,file_name,Source.old_name)
 
+
+            if Line.data:
+                print(line)
+                print("data statement starting")
+
+                exit(1)
+
+
             # Append the line to the list
-            if Line.directive:
+            elif Line.directive:
 
                # Directives: apend as-is
                Source.body.append(line)
