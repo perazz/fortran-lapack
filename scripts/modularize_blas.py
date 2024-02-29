@@ -833,6 +833,8 @@ def adjust_variable_declaration(Source,line,datatype):
 
     import re
 
+    DEBUG = False #Source.old_name == 'srotg'
+
     declarations = [r'integer\(\S+\)', \
                     r'character\*\(\S+\)', \
                     r'real\(\S+\)', \
@@ -851,11 +853,24 @@ def adjust_variable_declaration(Source,line,datatype):
     for i in range(len(declarations)):
         m  = re.match(r'^\s*' + declarations[i] + r'\s+\w',ll)
         if m:
-
             variable = line[m.end()-1:].lstrip()
             var_type = line[:m.end()-2].rstrip()
+        else:
+            # Try formulation with datatype :: variable, names
+            m = re.match(r'\s*'+declarations[i]+r'\s*\:\:\s+\w',ll)
+
+            if m:
+                variable = line[m.end()-1:].lstrip()
+                colon = line[:m.end()-2].index('::')
+                var_type = line[:colon-1].rstrip()
+
+
+        if DEBUG: print("DECL: search "+declarations[i]+", found "+str(bool(m)))
+
+        if m:
 
             vls = variable.lower().strip()
+            if DEBUG: print("VAIRABLE + "+vls)
 
             # Patch function argument
             if vls=='selctg':
@@ -884,6 +899,8 @@ def adjust_variable_declaration(Source,line,datatype):
 
                 # Extract individual variable names
                 v,v_noarray = extract_variable_declarations(vls)
+
+                print("variable decl "+vls)
 
                 if len(v)<=0:
                     print(vls)
@@ -1221,6 +1238,7 @@ class Fortran_Source:
         # Extract name with no (*) or other arguments
         vname = re.search(r'([a-zA-Z0-9\_]+)(?:\([ a-zA-Z0-9\-\+\_\*\:\,]+\)){0,1}',lsa)
         if vname is None:
+            print("ARGUMENT: "+argument)
             print(lsa)
             print("NO NAME FOUND!!!!")
             exit(1)
@@ -2321,7 +2339,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False #file_name.startswith("srotg")
+    DEBUG  = False # file_name.startswith("srotg")
 
     Procedures = []
 
@@ -2565,6 +2583,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                                           Source.ptype.append(ptype[k])
 
                                       # Do not include "parameter" line in the body
+                                      if DEBUG: print("there are parameters, remove "+line)
                                       line = ""
 
                                    if len(line)>0: Source.decl.append(line)
