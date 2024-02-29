@@ -951,6 +951,8 @@ def find_parameter_declaration(line,datatype):
 
     ll = line.lower()
 
+    print("FIND PARAMETER DECL")
+
     parameter_name  = []
     parameter_value = []
     parameter_type  = []
@@ -973,11 +975,15 @@ def find_parameter_declaration(line,datatype):
     if not (new_style or old_style):
         return parameter_name, parameter_value, parameter_type
 
+    print("new style "+str(new_style) + " old syle "+str(old_style))
+
     # Remove header and spaces
     if old_style:
         nospace = re.sub('\s','',ll)
+        print(nospace)
         nospace = nospace[10:len(nospace)-1]
         datatype = " "
+
     else:
         nospace = re.sub('\s','',ll)
         start = nospace.index('::')
@@ -999,28 +1005,56 @@ def find_parameter_declaration(line,datatype):
         mcmplx = re.search(r'[a-zA-Z0-9\_]+\=\([a-zA-Z0-9\.\_\,\+\-]+\)',nospace)
 
     # Other parameters can just be identified with equal signs
+    if old_style:
 
-    while '=' in nospace:
+        others = nospace.split(",")
 
-        others = []
+        for i in range(len(others)):
+            ll = others[i].strip()
+            if len(ll)<1:
+                # do nothing
+                ieq = 0
+            elif "=" in ll:
+                ieq = ll.index("=")
+                parameter_name .append(ll[:ieq])
+                parameter_value.append(ll[ieq+1:])
+                parameter_type.append(datatype)
 
-        equal    = nospace.index("=")
-        name     = nospace[:equal]
-        reminder = nospace[equal+1:]
+            else:
+                print(others[i])
+                print("is error!")
+                print(nospace)
+                print(line)
+                exit(1)
 
-        # There will be more names: find the last comma before that
-        if '=' in reminder:
-            # The new variable starts after the last comma
-            splitted = reminder.rsplit(',', 1)
-            reminder = splitted[0]
-            nospace = splitted[1]
-        else:
-            # Stop searching
-            nospace = ""
+    else:
+        while '=' in nospace:
 
-        parameter_name .append(name.strip())
-        parameter_value.append(reminder.strip())
-        parameter_type.append(datatype)
+            others = []
+
+            equal    = nospace.index("=")
+            name     = nospace[:equal]
+            reminder = nospace[equal+1:]
+
+            print("name "+name)
+            print("reminder "+reminder)
+
+            # There will be more names: find the last comma before that
+            if '=' in reminder:
+                # The new variable starts after the last comma before the
+                equal = reminder.index("=")
+                splitted = reminder[:equal].rsplit(',', 1)
+                nospace = splitted[1]+reminder[equal+1:]
+                reminder = splitted[0]
+                print("remiinder "+reminder)
+                print("nospace "+nospace)
+            else:
+                # Stop searching
+                nospace = ""
+
+            parameter_name .append(name.strip())
+            parameter_value.append(reminder.strip())
+            parameter_type.append(datatype)
 
 
 
@@ -1301,7 +1335,8 @@ class Fortran_Source:
             intent = "in"
         elif (self.old_name.endswith('zasum') and arg_name=='zx'):
             intent = "in"
-
+        elif self.old_name=='chla_transtype' and arg_name=='trans':
+            intent = "in"
 
         # Add to list if this is an argument
         elif self.is_argument(arg_name):
@@ -1399,7 +1434,7 @@ class Fortran_Source:
     # Check if a procedure is pure
     def is_pure(self):
 
-        DEBUG = self.old_name=='snrm2'
+        DEBUG = self.old_name=='ilaenv'
 
         io = 'stop' in self.body or 'write' in self.body;
         if DEBUG: print(self.old_name+" is pure? io = "+str(bool(io)))
@@ -1436,7 +1471,7 @@ class Fortran_Source:
     # Return declaration line of a function
     def declaration(self,strip_prefix,keep_classifiers):
 
-        DEBUG = False # self.old_name == 'cgejsv'
+        DEBUG = self.old_name == 'ilaenv'
 
         # Find header
         head = ""
@@ -1648,7 +1683,7 @@ def replace_f77_types(line,is_free_form):
     new_line = re.sub(r'^\s*REAL,',INDENT+'REAL(sp),',new_line)
     new_line = re.sub(r'^\s*DOUBLE PRECISION,',INDENT+'REAL(dp),',new_line)
     new_line = re.sub(r'^\s*CHARACTER\*1 ',INDENT+'CHARACTER ',new_line)
-    new_line = re.sub(r'^\s*CHARACTER\*\(\*\) ',INDENT+'CHARACTER(len=*) ',new_line)
+    new_line = re.sub(r'^\s*CHARACTER\s*\*\s*\(\s*\*\s*\) ',INDENT+'CHARACTER(len=*) ',new_line)
 
     # Relabel double precision intrinsic functions with kind-agnostic ones
     new_line = re.sub(r'\bDABS\b',r'ABS',new_line) # abs
@@ -2319,23 +2354,53 @@ def unroll_data_statement(Line,file_body):
 
         m = re.match(data_match,ll)
 
-        clist =list(filter(None,re.split(',|/', m.group('clist'))))
-        nlist =list(filter(None,re.split(',|/', m.group('nlist'))))
+        if not m:
+            print(ll)
+            print("CANNOT MATCH DATA STATEMENT")
+            return
+        else:
+            clist =list(filter(None,re.split(',|/', m.group('clist'))))
+            nlist =list(filter(None,re.split(',|/', m.group('nlist'))))
 
-        if len(clist)!=len(nlist):
-            print(clist)
-            print(nlist)
-            print(lsl)
-            print("DATA STATEMENT HAS WRONG SIZE")
-            exit(1)
+        # MANUAL PATCHES for non-scalar arguments
+        if len(clist)>len(nlist):
+            if nlist[0].strip()=='cswap' \
+            or nlist[0].strip()=='zswap' \
+            or nlist[0].strip()=='xswpiv':
+                line = nlist[0]+' = [logical(lk) :: .false.,.false.,.true.,.true.]'
+                file_body.append(line)
+            elif nlist[0].strip()=='rswap' \
+            or   nlist[0].strip()=='bswpiv':
+                line = nlist[0]+' = [logical(lk) :: .false.,.true.,.false.,.true.]'
+                file_body.append(line)
+            elif nlist[0].strip()=='ipivot':
+                line = nlist[0]+' = reshape([1,2,3,4,2,1,4,3,3,4,1,2,4,3,2,1],[4,4])'
+                file_body.append(line)
+            elif nlist[0].strip()=='locu12':
+                nspaces = len(nlist[0])-len(nlist[0].lstrip())
+                line = " "*nspaces+"locu12 = [3,4,1,2]"
+                file_body.append(line)
+                line = " "*nspaces+"locl21 = [2,1,4,3]"
+                file_body.append(line)
+                line = " "*nspaces+"locu22 = [4,3,2,1]"
+                file_body.append(line)
+            else:
 
-        # Replace data statement with line declaration
-        nspaces = len(ll)-len(lsl)
-        for k in range(len(clist)):
-            line = " "*nspaces + nlist[k].strip() + " = " + clist[k].strip()
-            file_body.append(line)
-            print(line)
-            print(clist)
+                print(clist)
+                print(nlist)
+                print(lsl)
+                print("DATA STATEMENT HAS WRONG SIZE")
+                exit(1)
+        else:
+            # Replace data statement with line declaration
+            nspaces = len(ll)-len(lsl)
+            for k in range(len(clist)):
+                line = " "*nspaces + nlist[k].strip() + " = " + clist[k].strip()
+                file_body.append(line)
+                print(line)
+                print(clist)
+
+
 
 def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
@@ -2347,7 +2412,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False # file_name.startswith("srotg")
+    DEBUG  = file_name.startswith("ilaenv")
 
     Procedures = []
 
@@ -2854,12 +2919,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
