@@ -1399,7 +1399,10 @@ class Fortran_Source:
     # Check if a procedure is pure
     def is_pure(self):
 
+        DEBUG = self.old_name=='snrm2'
+
         io = 'stop' in self.body or 'write' in self.body;
+        if DEBUG: print(self.old_name+" is pure? io = "+str(bool(io)))
         if io:
             return False
 
@@ -1407,7 +1410,13 @@ class Fortran_Source:
             # Check that all arguments have intent(in)
             for a in range(len(self.arguments)):
                 arg = self.arguments[a]
-                if self.argument_intent(arg)!="in": return False
+
+                # Function name: do not check
+                if self.is_function and arg==self.old_name: continue
+
+                if self.argument_intent(arg)!="in":
+                    if DEBUG: print(self.old_name+" is pure? argument = "+arg+" is NOT INTENT(IN)")
+                    return False
             # All arguments intent(in)
             return True
         else:
