@@ -701,6 +701,34 @@ def print_module_constants(fid,prefix,INDENT):
     if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: ssml   = rradix**(-floor((minexp-digits(zero))*half)) \n")
     if fid: fid.write(INDENT + "real("+rk+"),    parameter, private :: sbig   = rradix**(-ceiling((maxexp+digits(zero)-1)*half)) \n")
 
+    const_names.append("rradix")
+    const_types.append("real("+rk+")")
+    const_names.append("ulp")
+    const_types.append("real("+rk+")")
+    const_names.append("eps")
+    const_types.append("real("+rk+")")
+    const_names.append("safmin")
+    const_types.append("real("+rk+")")
+    const_names.append("safmax")
+    const_types.append("real("+rk+")")
+    const_names.append("smlnum")
+    const_types.append("real("+rk+")")
+    const_names.append("bignum")
+    const_types.append("real("+rk+")")
+    const_names.append("rtmin")
+    const_types.append("real("+rk+")")
+    const_names.append("rtmax")
+    const_types.append("real("+rk+")")
+    const_names.append("tsml")
+    const_types.append("real("+rk+")")
+    const_names.append("tbig")
+    const_types.append("real("+rk+")")
+    const_names.append("ssml")
+    const_types.append("real("+rk+")")
+    const_names.append("sbig")
+    const_types.append("real("+rk+")")
+
+
     return const_names,const_types,rk
 
 # Print function tree in a dependency-suitable way
@@ -819,32 +847,6 @@ def adjust_variable_declaration(Source,line,datatype):
     lines = []
 
     ll = line.lower()
-    lsl = ll.lstrip()
-
-    # Check for DATA statement first
-    if lsl.startswith('data'):
-
-        data_match = r'^\s*data(?P<nlist>\s*(?:\w+\s*,)*(?:\w+\s*)/)(?P<clist>\s*(?:[^,/]+\s*,)*(?:[^,/]+\s*)/)'
-
-        m = re.match(data_match,ll)
-
-        clist =list(filter(None,re.split(',|/', m.group('clist'))))
-        nlist =list(filter(None,re.split(',|/', m.group('nlist'))))
-
-        if len(clist)!=len(nlist):
-            print(clist)
-            print(nlist)
-            print(lsl)
-            print("DATA STATEMENT HAS WRONG SIZE")
-            exit(1)
-
-        # Replace data statement with line declaration
-        nspaces = len(ll)-len(lsl)
-        for k in range(len(clist)):
-            line = " "*nspaces + nlist[k].strip() + " = " + clist[k].strip()
-            lines.append(line)
-            print(line)
-            print(clist)
 
     for i in range(len(declarations)):
         m  = re.match(r'^\s*' + declarations[i] + r'\s+\w',ll)
@@ -934,33 +936,36 @@ def find_parameter_declaration(line,datatype):
 
     parameter_name  = []
     parameter_value = []
+    parameter_type  = []
 
-    # Search for parameter
+    # Old style parameter line:
+    # parameter (A = 123, B = 2345)
     m = re.match(r'\s*parameter\s*\(.+\)',ll)
 
-    is_param = bool(m)
-    is_data  = False
+    old_style = bool(m)
+    new_style = False
+    datatype  = " "
 
-    if not m:
-        # Search for data
-        m = re.match(r'(?:data\s*){1}(?:([a-zA-Z0-9\_]+)(?:\s*/\s*)([^/\n\r]+)(?:\s*/\s*)(?:\,{0,1}\s*)\s*)+',ll)
+    if not old_style:
 
-        if not m is None:
-            print(m)
-            print(ll)
-            exit(1)
+        # check for new style
+        # datatype, parameter :: A = 123, B = 2345
+        m = re.match(r'\s*(.+)parameter\s+\:{2}\s+(.+)',ll)
+        new_style = bool(m)
 
+    if not (new_style or old_style):
+        return parameter_name, parameter_value, parameter_type
+
+    # Remove header and spaces
+    if old_style:
+        nospace = re.sub('\s','',ll)
+        nospace = nospace[10:len(nospace)-1]
+        datatype = " "
     else:
-        is_data = False
-
-    if not (is_param or is_data):
-        return parameter_name, parameter_value
-
-    # Remove all spaces from the line
-    nospace = re.sub('\s','',ll)
-
-    # Remove header
-    nospace = nospace[10:len(nospace)-1]
+        nospace = re.sub('\s','',ll)
+        start = nospace.index('::')
+        nospace = nospace[start+2:]
+        datatype = re.sub(r'\,','',m.group(1)).strip()
 
     # Search complex values first
     mcmplx = re.search(r'[a-zA-Z0-9\_]+\=\([a-zA-Z0-9\.\_\,\+\-]+\)',nospace)
@@ -969,35 +974,40 @@ def find_parameter_declaration(line,datatype):
         splitted = this_var.split("=")
         parameter_name .append(splitted[0].strip())
         parameter_value.append(splitted[1].strip())
+        parameter_type.append(datatype)
         if mcmplx.start()>0:
             nospace = nospace[:mcmplx.start()] + nospace[mcmplx.end()+1:]
         else:
             nospace = nospace[mcmplx.end()+1:]
         mcmplx = re.search(r'[a-zA-Z0-9\_]+\=\([a-zA-Z0-9\.\_\,\+\-]+\)',nospace)
 
-    # Other parameters can just be identified with commas
-    others = nospace.split(",")
+    # Other parameters can just be identified with equal signs
 
-    for i in range(len(others)):
-        ll = others[i].strip()
-        if len(ll)<1:
-            # do nothing
-            ieq = 0
-        elif "=" in ll:
-            ieq = ll.index("=")
-            parameter_name .append(ll[:ieq])
-            parameter_value.append(ll[ieq+1:])
+    while '=' in nospace:
+
+        others = []
+
+        equal    = nospace.index("=")
+        name     = nospace[:equal]
+        reminder = nospace[equal+1:]
+
+        # There will be more names: find the last comma before that
+        if '=' in reminder:
+            # The new variable starts after the last comma
+            splitted = reminder.rsplit(',', 1)
+            reminder = splitted[0]
+            nospace = splitted[1]
         else:
-            print(others[i])
-            print("is error!")
-            print(nospace)
-            print(line)
-            exit(1)
+            # Stop searching
+            nospace = ""
 
-    #for i in range(len(parameter_name)):
-    #    print("parameter #" + str(i+1) + " found: name = " + parameter_name[i] + ",   value = " + parameter_value[i])
+        parameter_name .append(name.strip())
+        parameter_value.append(reminder.strip())
+        parameter_type.append(datatype)
 
-    return parameter_name, parameter_value
+
+
+    return parameter_name, parameter_value, parameter_type
 
 # Replace group match with uppercase
 def upper_repl(match):
@@ -1352,19 +1362,20 @@ class Fortran_Source:
 
     # Add classifiers (pure, recursive, etc.)
     def add_classifiers(self):
+        return
 
-        if self.is_pure():
-
-            for i in range(len(self.body)):
-                lsl = self.body[i].lower()
-                if self.is_function and 'function' in lsl:
-                    nspaces = len(lsl)-len(lsl.lstrip())
-                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
-                    return
-                elif 'subroutine' in lsl:
-                    nspaces = len(lsl)-len(lsl.lstrip())
-                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
-                    return
+#        if self.is_pure():
+#
+#            for i in range(len(self.body)):
+#                lsl = self.body[i].lower()
+#                if self.is_function and 'function' in lsl:
+#                    nspaces = len(lsl)-len(lsl.lstrip())
+#                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+#                    return
+#                elif 'subroutine' in lsl:
+#                    nspaces = len(lsl)-len(lsl.lstrip())
+#                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+#                    return
 
 
 
@@ -1457,8 +1468,8 @@ class Fortran_Source:
 
                         # Search for an intent to this variable in the function header comments
                         intent = self.argument_intent(name)
-                        print(intent)
-                        print(name)
+                        if DEBUG: print(intent)
+                        if DEBUG: print(name)
 
                         # Declarations are combined by datatype
                         exists = False
@@ -1476,7 +1487,7 @@ class Fortran_Source:
                                   var_decl.append(datatype+", intent("+intent+") :: "+v[k])
                             var_intent.append(intent)
                     else:
-                        print("variable <"+v[k]+"> not in args")
+                        if DEBUG: print("variable <"+v[k]+"> not in args")
 
         if DEBUG: exit(1)
 
@@ -1496,7 +1507,7 @@ class Fortran_Line:
 # DIMENSION attribute)
 def extract_variable_declarations(line):
 
-    DEBUG = True
+    DEBUG = False
 
     var_names   = []
     var_noarray = []
@@ -1552,7 +1563,6 @@ def line_read_and_preprocess(line,is_free_form,file_name,old_name):
        is_comment_line = bool(re.match(r'^\s*!', processed))
        is_continuation = bool(re.match(r'^\s*&', processed))
        is_use          = bool(re.match(r'^\s*use', processed))
-       is_data         = bool(re.match(r'^\s*data', processed))
 
        # If this is a continuation line, remove all that's before the continuation character
        if is_continuation and not is_dir:
@@ -1561,14 +1571,13 @@ def line_read_and_preprocess(line,is_free_form,file_name,old_name):
     else:
        is_comment_line = bool(re.match(r'^\S\S*.*', processed))
        is_continuation = bool(re.match(r'^     [\S\&\*]', processed))
-
-
        is_use          = bool(re.match(r'^      \s*use', processed))
-       is_data         = bool(re.match(r'^      \s*data', processed))
 
        # Remove continuation character
        if is_continuation and not is_dir:
            processed = re.sub(r'^     [\S\&\*]', '', processed).strip()
+
+    is_data = bool(re.match(r'^\s*data', processed)) or bool(re.match(r'^\s*DATA',processed))
 
     will_continue = will_continue and not is_comment_line
 
@@ -1674,7 +1683,7 @@ def replace_la_constants(line,file_name,is_aux_module):
     if not (is_complex_parameter or is_aux_module or is_parameter_line):
         new_line = re.sub(r'([-\s\,\*])0+\.0+[deDE][\-\+]{0,1}0+('+ext+r')*',r'\1zero',new_line)  # zero
         new_line = re.sub(r'([-\s\,\*])0*1\.0+[deDE][\-\+]{0,1}0+('+ext+r')*',r'\1one',new_line)   # one
-    new_line = re.sub(r'([0-9\.])([de])([0-9\+\-]+)',r'\1e\3'+ext,new_line)   # other numbers not finished by real precision
+    new_line = re.sub(r'([0-9\.])([de])([0-9\+\-]+)('+ext+r')*',r'\1e\3'+ext,new_line)   # other numbers not finished by real precision
     new_line = re.sub(r'([\.])([0-9]+)([\s\,\:\=\)\*])',r'\1\2'+ext+r'\3',new_line)   # other numbers not finished by real precision
 
     if 'zero_dp' in new_line:
@@ -2016,7 +2025,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
 
     import re
 
-    DEBUG = Source.old_name.lower()=='clartg'
+    DEBUG = False # Source.old_name.lower()=='clartg'
 
     name  = Source.old_name
     lines = Source.body
@@ -2148,7 +2157,9 @@ def add_parameter_lines(Source,prefix,body):
           re.match(r'\s*\!\s*parameters\s*',ll) or \
           re.match(r'\s*\!\s*\.\.\sparameter\s\.\.\s*',ll) or \
           re.match(r'\s*\!\s*\.\.\sconstants\s\.\.\s*',ll) or \
-          re.match(r"\s*\!\s*\.\.\sblue\'s\sscaling\sconstants\s\.\.\s*",ll):
+          re.match(r'\s*\!\s*\.\.\sConstants\s\.\.\s*',ll) or \
+          re.match(r'\s*\!\s*\.\.\sScaling constants\s\.\.\s*',ll) or \
+          re.match(r'\s*\!\s*\.\.\sblue\'s\sscaling\sconstants\s\.\.\s*',ll):
              heading = re.match(r'\!\s*',ll);
              start_line = i
              nspaces = len(body[i])-len(ll)+heading.end()-heading.start()
@@ -2269,6 +2280,37 @@ def add_parameter_lines(Source,prefix,body):
 
     return new
 
+def unroll_data_statement(Line,file_body):
+
+    ll = Line.string.lower()
+
+    lsl = ll.lstrip()
+
+    # Check for DATA statement first
+    if lsl.startswith('data'):
+
+        data_match = r'^\s*data(?P<nlist>\s*(?:\w+\s*,)*(?:\w+\s*)/)(?P<clist>\s*(?:[^,/]+\s*,)*(?:[^,/]+\s*)/)'
+
+        m = re.match(data_match,ll)
+
+        clist =list(filter(None,re.split(',|/', m.group('clist'))))
+        nlist =list(filter(None,re.split(',|/', m.group('nlist'))))
+
+        if len(clist)!=len(nlist):
+            print(clist)
+            print(nlist)
+            print(lsl)
+            print("DATA STATEMENT HAS WRONG SIZE")
+            exit(1)
+
+        # Replace data statement with line declaration
+        nspaces = len(ll)-len(lsl)
+        for k in range(len(clist)):
+            line = " "*nspaces + nlist[k].strip() + " = " + clist[k].strip()
+            file_body.append(line)
+            print(line)
+            print(clist)
+
 def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
     from platform import os
@@ -2279,7 +2321,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False # file_name.startswith("srotm")
+    DEBUG  = False #file_name.startswith("srotg")
 
     Procedures = []
 
@@ -2332,6 +2374,10 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                    if DEBUG: print("last not comment, add "+Line.string+" to "+file_body[-1])
                    file_body[-1] = file_body[-1] + Line.string
 
+            elif Line.data:
+                # Unroll data statement
+                unroll_data_statement(Line,file_body)
+
             else:
                if DEBUG: print("new line: "+Line.string)
                file_body.append(Line.string)
@@ -2347,13 +2393,10 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             # Remove the newline character at the end of the line
             Line = line_read_and_preprocess(line,Source.is_free_form,file_name,Source.old_name)
 
-
             if Line.data:
                 print(line)
-                print("data statement starting")
-
+                print("data statement starting, should not be anymore")
                 exit(1)
-
 
             # Append the line to the list
             elif Line.directive:
@@ -2511,14 +2554,15 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
                                    # Parse parameter lines
                                    if DEBUG: print("find parameter decl: "+line)
-                                   pname, pval = find_parameter_declaration(line,initial)
+                                   pname, pval, ptype = find_parameter_declaration(line,initial)
+                                   if DEBUG: print("PARAMETERS FOUND: "+str(len(pname)))
 
                                    # If parameters were found, strip them off the declaration for now
                                    if len(pname)>0:
                                       for k in range(len(pname)):
                                           Source.pname.append(pname[k])
                                           Source.pvalue.append(pval[k])
-                                          Source.ptype.append(" ")
+                                          Source.ptype.append(ptype[k])
 
                                       # Do not include "parameter" line in the body
                                       line = ""
@@ -2672,16 +2716,18 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
            Procedures.append(double_procedure)
 
     if DEBUG:
-        for i in range(len(Source.body)):
-           print(Source.body[i])
+        print("SOURCE BODY:")
+        for i in range(len(Procedures[-1].body)):
+           print(Procedures[-1].body[i])
 
-        Procedures[-1].old_name
+        print("OLD NAME:  "+Procedures[-1].old_name)
 
         ddd, aaa = Procedures[-1].declaration('stdlib_',False)
 
-        print(ddd)
+        print("PROCEDURE DECL: "+ddd)
         for i in range(len(aaa)):
-           print(aaa[i])
+           print("ARGUMENT "+str(i)+": "+aaa[i])
+        print("END OF DEBUG")
 
         exit(1)
 
@@ -2772,14 +2818,6 @@ shutil.copyfile('../assets/reference_lapack/INSTALL/dlamch.f', '../assets/lapack
 shutil.copyfile('../assets/reference_lapack/INSTALL/sroundup_lwork.f', '../assets/lapack_sources/sroundup_lwork.f')
 shutil.copyfile('../assets/reference_lapack/INSTALL/droundup_lwork.f', '../assets/lapack_sources/droundup_lwork.f')
 
-
-
-#line = replace_kind_functions('         PHI(I) = ATAN2( DBLE( X11(I+1,I) ), DBLE( X21(I,I) ) )'.lower(),'ilp','dp')
-#print('         PHI(I) = ATAN2( DBLE( X11(I+1,I) ), DBLE( X21(I,I) ) )')
-#print(line)
-#line = replace_kind_functions('real(sp) :: a(lda, *), b(ldb, *), c(ldc, *)','ilp','sp')
-#print(line)
-#exit(1)
 
 # Run script
 funs = []

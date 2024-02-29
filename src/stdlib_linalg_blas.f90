@@ -13,7 +13,7 @@ module stdlib_linalg_blas
           ! AXPY constant times a vector plus a vector.
           interface axpy
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine caxpy(n,ca,cx,incx,cy,incy)
+               subroutine caxpy(n,ca,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: ca,cx(*)
@@ -24,7 +24,7 @@ module stdlib_linalg_blas
                module procedure stdlib_caxpy
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine daxpy(n,da,dx,incx,dy,incy)
+               subroutine daxpy(n,da,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: da,dx(*)
@@ -36,7 +36,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qaxpy
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine saxpy(n,sa,sx,incx,sy,incy)
+               subroutine saxpy(n,sa,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: sa,sx(*)
@@ -48,7 +48,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_waxpy
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zaxpy(n,za,zx,incx,zy,incy)
+               subroutine zaxpy(n,za,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: za,zx(*)
@@ -65,7 +65,7 @@ module stdlib_linalg_blas
           ! COPY copies a vector x to a vector y.
           interface copy
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ccopy(n,cx,incx,cy,incy)
+               subroutine ccopy(n,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -76,7 +76,7 @@ module stdlib_linalg_blas
                module procedure stdlib_ccopy
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dcopy(n,dx,incx,dy,incy)
+               subroutine dcopy(n,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -88,7 +88,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qcopy
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine scopy(n,sx,incx,sy,incy)
+               subroutine scopy(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -100,7 +100,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wcopy
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zcopy(n,zx,incx,zy,incy)
+               subroutine zcopy(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -118,7 +118,7 @@ module stdlib_linalg_blas
           ! uses unrolled loops for increments equal to one.
           interface dot
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure real(dp) function ddot(n,dx,incx,dy,incy)
+               real(dp) function ddot(n,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -129,7 +129,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qdot
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure real(sp) function sdot(n,sx,incx,sy,incy)
+               real(sp) function sdot(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -146,7 +146,7 @@ module stdlib_linalg_blas
           ! DOTC = X^H * Y
           interface dotc
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure complex(sp) function cdotc(n,cx,incx,cy,incy)
+               complex(sp) function cdotc(n,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -157,7 +157,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wdotc
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure complex(dp) function zdotc(n,zx,incx,zy,incy)
+               complex(dp) function zdotc(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -174,7 +174,7 @@ module stdlib_linalg_blas
           ! DOTU = X^T * Y
           interface dotu
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure complex(sp) function cdotu(n,cx,incx,cy,incy)
+               complex(sp) function cdotu(n,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -185,7 +185,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wdotu
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure complex(dp) function zdotu(n,zx,incx,zy,incy)
+               complex(dp) function zdotu(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -205,7 +205,7 @@ module stdlib_linalg_blas
           ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
           interface gbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -217,7 +217,7 @@ module stdlib_linalg_blas
                module procedure stdlib_cgbmv
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine dgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -230,7 +230,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qgbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -243,7 +243,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wgbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -266,7 +266,7 @@ module stdlib_linalg_blas
           ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
           interface gemm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -278,7 +278,7 @@ module stdlib_linalg_blas
                module procedure stdlib_cgemm
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine dgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -291,7 +291,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qgemm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -304,7 +304,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wgemm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -326,7 +326,7 @@ module stdlib_linalg_blas
           ! m by n matrix.
           interface gemv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -338,7 +338,7 @@ module stdlib_linalg_blas
                module procedure stdlib_cgemv
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine dgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -351,7 +351,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qgemv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -364,7 +364,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wgemv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -385,7 +385,7 @@ module stdlib_linalg_blas
           ! vector and A is an m by n matrix.
           interface ger
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dger(m,n,alpha,x,incx,y,incy,a,lda)
+               subroutine dger(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,x(*),y(*)
@@ -397,7 +397,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qger
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine sger(m,n,alpha,x,incx,y,incy,a,lda)
+               subroutine sger(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,x(*),y(*)
@@ -417,7 +417,7 @@ module stdlib_linalg_blas
           ! vector and A is an m by n matrix.
           interface gerc
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cgerc(m,n,alpha,x,incx,y,incy,a,lda)
+               subroutine cgerc(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,x(*),y(*)
@@ -429,7 +429,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wgerc
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zgerc(m,n,alpha,x,incx,y,incy,a,lda)
+               subroutine zgerc(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,x(*),y(*)
@@ -449,7 +449,7 @@ module stdlib_linalg_blas
           ! vector and A is an m by n matrix.
           interface geru
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cgeru(m,n,alpha,x,incx,y,incy,a,lda)
+               subroutine cgeru(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,x(*),y(*)
@@ -461,7 +461,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wgeru
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zgeru(m,n,alpha,x,incx,y,incy,a,lda)
+               subroutine zgeru(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,x(*),y(*)
@@ -481,7 +481,7 @@ module stdlib_linalg_blas
           ! A is an n by n hermitian band matrix, with k super-diagonals.
           interface hbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -494,7 +494,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_whbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -517,7 +517,7 @@ module stdlib_linalg_blas
           ! C are m by n matrices.
           interface hemm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -530,7 +530,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_whemm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -551,7 +551,7 @@ module stdlib_linalg_blas
           ! A is an n by n hermitian matrix.
           interface hemv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -564,7 +564,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_whemv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -585,7 +585,7 @@ module stdlib_linalg_blas
           ! n by n hermitian matrix.
           interface her
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cher(uplo,n,alpha,x,incx,a,lda)
+               subroutine cher(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha
@@ -599,7 +599,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wher
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zher(uplo,n,alpha,x,incx,a,lda)
+               subroutine zher(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha
@@ -621,7 +621,7 @@ module stdlib_linalg_blas
           ! by n hermitian matrix.
           interface her2
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
+               subroutine cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,x(*),y(*)
@@ -634,7 +634,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wher2
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
+               subroutine zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,x(*),y(*)
@@ -658,7 +658,7 @@ module stdlib_linalg_blas
           ! and  k by n  matrices in the second case.
           interface her2k
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,a(lda,*),b(ldb,*)
@@ -672,7 +672,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wher2k
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,a(lda,*),b(ldb,*)
@@ -697,7 +697,7 @@ module stdlib_linalg_blas
           ! matrix in the second case.
           interface herk
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+               subroutine cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta
@@ -711,7 +711,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wherk
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+               subroutine zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta
@@ -733,7 +733,7 @@ module stdlib_linalg_blas
           ! A is an n by n hermitian matrix, supplied in packed form.
           interface hpmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+               subroutine chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,ap(*),x(*)
@@ -746,7 +746,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_whpmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+               subroutine zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,ap(*),x(*)
@@ -767,7 +767,7 @@ module stdlib_linalg_blas
           ! n by n hermitian matrix, supplied in packed form.
           interface hpr
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine chpr(uplo,n,alpha,x,incx,ap)
+               subroutine chpr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha
@@ -781,7 +781,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_whpr
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zhpr(uplo,n,alpha,x,incx,ap)
+               subroutine zhpr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha
@@ -803,7 +803,7 @@ module stdlib_linalg_blas
           ! n by n hermitian matrix, supplied in packed form.
           interface hpr2
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine chpr2(uplo,n,alpha,x,incx,y,incy,ap)
+               subroutine chpr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,x(*),y(*)
@@ -816,7 +816,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_whpr2
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
+               subroutine zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,x(*),y(*)
@@ -866,7 +866,7 @@ module stdlib_linalg_blas
           ! ROT applies a plane rotation.
           interface rot
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine drot(n,dx,incx,dy,incy,c,s)
+               subroutine drot(n,dx,incx,dy,incy,c,s)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: c,s
@@ -878,7 +878,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qrot
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine srot(n,sx,incx,sy,incy,c,s)
+               subroutine srot(n,sx,incx,sy,incy,c,s)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: c,s
@@ -908,7 +908,7 @@ module stdlib_linalg_blas
           ! if the signs of a and b are not the same.
           interface rotg
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine crotg( a, b, c, s )
+               subroutine crotg( a, b, c, s )
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(out) :: c
@@ -920,7 +920,7 @@ module stdlib_linalg_blas
                module procedure stdlib_crotg
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine drotg( a, b, c, s )
+               subroutine drotg( a, b, c, s )
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(inout) :: a,b
@@ -931,7 +931,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qrotg
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine srotg( a, b, c, s )
+               subroutine srotg( a, b, c, s )
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(inout) :: a,b
@@ -942,7 +942,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wrotg
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zrotg( a, b, c, s )
+               subroutine zrotg( a, b, c, s )
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(out) :: c
@@ -970,7 +970,7 @@ module stdlib_linalg_blas
           ! SEE ROTMG FOR A DESCRIPTION OF DATA STORAGE IN DPARAM.
           interface rotm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine drotm(n,dx,incx,dy,incy,dparam)
+               subroutine drotm(n,dx,incx,dy,incy,dparam)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -982,7 +982,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qrotm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine srotm(n,sx,incx,sy,incy,sparam)
+               subroutine srotm(n,sx,incx,sy,incy,sparam)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -1011,7 +1011,7 @@ module stdlib_linalg_blas
           ! OF DD1 AND DD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
           interface rotmg
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine drotmg(dd1,dd2,dx1,dy1,dparam)
+               subroutine drotmg(dd1,dd2,dx1,dy1,dparam)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(inout) :: dd1,dd2,dx1
@@ -1023,7 +1023,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qrotmg
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine srotmg(sd1,sd2,sx1,sy1,sparam)
+               subroutine srotmg(sd1,sd2,sx1,sy1,sparam)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(inout) :: sd1,sd2,sx1
@@ -1043,7 +1043,7 @@ module stdlib_linalg_blas
           ! A is an n by n symmetric band matrix, with k super-diagonals.
           interface sbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine dsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -1056,7 +1056,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qsbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -1074,7 +1074,7 @@ module stdlib_linalg_blas
           ! SCAL scales a vector by a constant.
           interface scal
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cscal(n,ca,cx,incx)
+               subroutine cscal(n,ca,cx,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: ca
@@ -1085,7 +1085,7 @@ module stdlib_linalg_blas
                module procedure stdlib_cscal
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dscal(n,da,dx,incx)
+               subroutine dscal(n,da,dx,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: da
@@ -1097,7 +1097,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qscal
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine sscal(n,sa,sx,incx)
+               subroutine sscal(n,sa,sx,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: sa
@@ -1109,7 +1109,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wscal
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zscal(n,za,zx,incx)
+               subroutine zscal(n,za,zx,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: za
@@ -1131,7 +1131,7 @@ module stdlib_linalg_blas
           ! defined in a similar way using INCY.
           interface sdot
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure real(dp) function dsdot(n,sx,incx,sy,incy)
+               real(dp) function dsdot(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -1151,7 +1151,7 @@ module stdlib_linalg_blas
           ! A is an n by n symmetric matrix, supplied in packed form.
           interface spmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+               subroutine dspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta,ap(*),x(*)
@@ -1164,7 +1164,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qspmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+               subroutine sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta,ap(*),x(*)
@@ -1185,7 +1185,7 @@ module stdlib_linalg_blas
           ! n by n symmetric matrix, supplied in packed form.
           interface spr
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dspr(uplo,n,alpha,x,incx,ap)
+               subroutine dspr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,x(*)
@@ -1198,7 +1198,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qspr
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine sspr(uplo,n,alpha,x,incx,ap)
+               subroutine sspr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,x(*)
@@ -1219,7 +1219,7 @@ module stdlib_linalg_blas
           ! n by n symmetric matrix, supplied in packed form.
           interface spr2
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dspr2(uplo,n,alpha,x,incx,y,incy,ap)
+               subroutine dspr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,x(*),y(*)
@@ -1232,7 +1232,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qspr2
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine sspr2(uplo,n,alpha,x,incx,y,incy,ap)
+               subroutine sspr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,x(*),y(*)
@@ -1252,7 +1252,7 @@ module stdlib_linalg_blas
           ! jack dongarra, linpack, 3/11/78.
           interface srot
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine csrot( n, cx, incx, cy, incy, c, s )
+               subroutine csrot( n, cx, incx, cy, incy, c, s )
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -1269,7 +1269,7 @@ module stdlib_linalg_blas
           ! SSCAL scales a complex vector by a real constant.
           interface sscal
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine csscal(n,sa,cx,incx)
+               subroutine csscal(n,sa,cx,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: sa
@@ -1286,7 +1286,7 @@ module stdlib_linalg_blas
           ! SWAP interchanges two vectors.
           interface swap
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine cswap(n,cx,incx,cy,incy)
+               subroutine cswap(n,cx,incx,cy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -1296,7 +1296,7 @@ module stdlib_linalg_blas
                module procedure stdlib_cswap
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dswap(n,dx,incx,dy,incy)
+               subroutine dswap(n,dx,incx,dy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -1307,7 +1307,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qswap
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine sswap(n,sx,incx,sy,incy)
+               subroutine sswap(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -1318,7 +1318,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wswap
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zswap(n,zx,incx,zy,incy)
+               subroutine zswap(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,incy,n
@@ -1339,7 +1339,7 @@ module stdlib_linalg_blas
           ! C are m by n matrices.
           interface symm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine csymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine csymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -1351,7 +1351,7 @@ module stdlib_linalg_blas
                module procedure stdlib_csymm
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine dsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -1364,7 +1364,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qsymm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -1377,7 +1377,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wsymm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -1398,7 +1398,7 @@ module stdlib_linalg_blas
           ! A is an n by n symmetric matrix.
           interface symv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine dsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -1411,7 +1411,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qsymv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               subroutine ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -1432,7 +1432,7 @@ module stdlib_linalg_blas
           ! n by n symmetric matrix.
           interface syr
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dsyr(uplo,n,alpha,x,incx,a,lda)
+               subroutine dsyr(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,x(*)
@@ -1445,7 +1445,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qsyr
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ssyr(uplo,n,alpha,x,incx,a,lda)
+               subroutine ssyr(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,x(*)
@@ -1466,7 +1466,7 @@ module stdlib_linalg_blas
           ! by n symmetric matrix.
           interface syr2
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
+               subroutine dsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,x(*),y(*)
@@ -1479,7 +1479,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qsyr2
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
+               subroutine ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,x(*),y(*)
@@ -1503,7 +1503,7 @@ module stdlib_linalg_blas
           ! matrices in the second case.
           interface syr2k
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine csyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine csyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -1515,7 +1515,7 @@ module stdlib_linalg_blas
                module procedure stdlib_csyr2k
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine dsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -1528,7 +1528,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qsyr2k
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -1541,7 +1541,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wsyr2k
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+               subroutine zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,a(lda,*),b(ldb,*)
@@ -1565,7 +1565,7 @@ module stdlib_linalg_blas
           ! in the second case.
           interface syrk
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine csyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+               subroutine csyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,beta,a(lda,*)
@@ -1577,7 +1577,7 @@ module stdlib_linalg_blas
                module procedure stdlib_csyrk
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+               subroutine dsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,beta,a(lda,*)
@@ -1590,7 +1590,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qsyrk
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+               subroutine ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,beta,a(lda,*)
@@ -1603,7 +1603,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wsyrk
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+               subroutine zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,beta,a(lda,*)
@@ -1624,7 +1624,7 @@ module stdlib_linalg_blas
           ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
           interface tbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ctbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+               subroutine ctbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,k,lda,n
@@ -1636,7 +1636,7 @@ module stdlib_linalg_blas
                module procedure stdlib_ctbmv
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+               subroutine dtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,k,lda,n
@@ -1649,7 +1649,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qtbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+               subroutine stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,k,lda,n
@@ -1662,7 +1662,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wtbmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+               subroutine ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,k,lda,n
@@ -1686,7 +1686,7 @@ module stdlib_linalg_blas
           ! routine. Such tests must be performed before calling this routine.
           interface tbsv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ctbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+               subroutine ctbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,k,lda,n
@@ -1698,7 +1698,7 @@ module stdlib_linalg_blas
                module procedure stdlib_ctbsv
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+               subroutine dtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,k,lda,n
@@ -1711,7 +1711,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qtbsv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+               subroutine stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,k,lda,n
@@ -1724,7 +1724,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wtbsv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+               subroutine ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,k,lda,n
@@ -1745,7 +1745,7 @@ module stdlib_linalg_blas
           ! upper or lower triangular matrix, supplied in packed form.
           interface tpmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ctpmv(uplo,trans,diag,n,ap,x,incx)
+               subroutine ctpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,n
@@ -1757,7 +1757,7 @@ module stdlib_linalg_blas
                module procedure stdlib_ctpmv
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dtpmv(uplo,trans,diag,n,ap,x,incx)
+               subroutine dtpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,n
@@ -1770,7 +1770,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qtpmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine stpmv(uplo,trans,diag,n,ap,x,incx)
+               subroutine stpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,n
@@ -1783,7 +1783,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wtpmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ztpmv(uplo,trans,diag,n,ap,x,incx)
+               subroutine ztpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,n
@@ -1806,7 +1806,7 @@ module stdlib_linalg_blas
           ! routine. Such tests must be performed before calling this routine.
           interface tpsv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ctpsv(uplo,trans,diag,n,ap,x,incx)
+               subroutine ctpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,n
@@ -1818,7 +1818,7 @@ module stdlib_linalg_blas
                module procedure stdlib_ctpsv
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dtpsv(uplo,trans,diag,n,ap,x,incx)
+               subroutine dtpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,n
@@ -1831,7 +1831,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qtpsv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine stpsv(uplo,trans,diag,n,ap,x,incx)
+               subroutine stpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,n
@@ -1844,7 +1844,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wtpsv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ztpsv(uplo,trans,diag,n,ap,x,incx)
+               subroutine ztpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,n
@@ -1866,7 +1866,7 @@ module stdlib_linalg_blas
           ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
           interface trmm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ctrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+               subroutine ctrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,a(lda,*)
@@ -1878,7 +1878,7 @@ module stdlib_linalg_blas
                module procedure stdlib_ctrmm
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+               subroutine dtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,a(lda,*)
@@ -1891,7 +1891,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qtrmm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+               subroutine strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,a(lda,*)
@@ -1904,7 +1904,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wtrmm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+               subroutine ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,a(lda,*)
@@ -1925,7 +1925,7 @@ module stdlib_linalg_blas
           ! upper or lower triangular matrix.
           interface trmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ctrmv(uplo,trans,diag,n,a,lda,x,incx)
+               subroutine ctrmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,lda,n
@@ -1937,7 +1937,7 @@ module stdlib_linalg_blas
                module procedure stdlib_ctrmv
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dtrmv(uplo,trans,diag,n,a,lda,x,incx)
+               subroutine dtrmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,lda,n
@@ -1950,7 +1950,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qtrmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine strmv(uplo,trans,diag,n,a,lda,x,incx)
+               subroutine strmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,lda,n
@@ -1963,7 +1963,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wtrmv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ztrmv(uplo,trans,diag,n,a,lda,x,incx)
+               subroutine ztrmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,lda,n
@@ -1986,7 +1986,7 @@ module stdlib_linalg_blas
           ! The matrix X is overwritten on B.
           interface trsm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ctrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+               subroutine ctrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(sp), intent(in) :: alpha,a(lda,*)
@@ -1998,7 +1998,7 @@ module stdlib_linalg_blas
                module procedure stdlib_ctrsm
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+               subroutine dtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(dp), intent(in) :: alpha,a(lda,*)
@@ -2011,7 +2011,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qtrsm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+               subroutine strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     real(sp), intent(in) :: alpha,a(lda,*)
@@ -2024,7 +2024,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wtrsm
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+               subroutine ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     complex(dp), intent(in) :: alpha,a(lda,*)
@@ -2047,7 +2047,7 @@ module stdlib_linalg_blas
           ! routine. Such tests must be performed before calling this routine.
           interface trsv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ctrsv(uplo,trans,diag,n,a,lda,x,incx)
+               subroutine ctrsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,lda,n
@@ -2059,7 +2059,7 @@ module stdlib_linalg_blas
                module procedure stdlib_ctrsv
 #endif
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine dtrsv(uplo,trans,diag,n,a,lda,x,incx)
+               subroutine dtrsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,lda,n
@@ -2072,7 +2072,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qtrsv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine strsv(uplo,trans,diag,n,a,lda,x,incx)
+               subroutine strsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,lda,n
@@ -2085,7 +2085,7 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_wtrsv
 #ifdef STDLIB_EXTERNAL_BLAS
-               pure subroutine ztrsv(uplo,trans,diag,n,a,lda,x,incx)
+               subroutine ztrsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk 
                     implicit none(type,external) 
                     integer(ilp), intent(in) :: incx,lda,n

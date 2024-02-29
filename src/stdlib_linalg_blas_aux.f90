@@ -27,7 +27,7 @@ module stdlib_linalg_blas_aux
 
      ! ISAMAX finds the index of the first element having maximum absolute value.
 
-     pure integer(ilp) function stdlib_isamax(n,sx,incx)
+     integer(ilp) function stdlib_isamax(n,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -73,7 +73,7 @@ module stdlib_linalg_blas_aux
      ! LSAME returns .TRUE. if CA is the same letter as CB regardless of
      ! case.
 
-     pure logical(lk) function stdlib_lsame(ca,cb)
+     logical(lk) function stdlib_lsame(ca,cb)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -119,7 +119,7 @@ module stdlib_linalg_blas_aux
 
      ! SCABS1 computes |Re(.)| + |Im(.)| of a complex number
 
-     pure real(sp) function stdlib_scabs1(z)
+     real(sp) function stdlib_scabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -138,7 +138,7 @@ module stdlib_linalg_blas_aux
      ! Installers may consider modifying the STOP statement in order to
      ! call system-specific exception-handling facilities.
 
-     pure subroutine stdlib_xerbla( srname, info )
+     subroutine stdlib_xerbla( srname, info )
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -170,7 +170,7 @@ module stdlib_linalg_blas_aux
      ! Providing XERBLA_ARRAY is not necessary for intercepting LAPACK
      ! errors.  XERBLA_ARRAY calls XERBLA.
 
-     pure subroutine stdlib_xerbla_array(srname_array, srname_len, info)
+     subroutine stdlib_xerbla_array(srname_array, srname_len, info)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -196,7 +196,7 @@ module stdlib_linalg_blas_aux
 
      ! QCABS1 computes |Re(.)| + |Im(.)| of a double complex number
 
-     pure real(qp) function stdlib_qcabs1(z)
+     real(qp) function stdlib_qcabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -211,7 +211,7 @@ module stdlib_linalg_blas_aux
 
      ! IQAMAX finds the index of the first element having maximum absolute value.
 
-     pure integer(ilp) function stdlib_iqamax(n,dx,incx)
+     integer(ilp) function stdlib_iqamax(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -256,7 +256,7 @@ module stdlib_linalg_blas_aux
 
      ! IWAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
-     pure integer(ilp) function stdlib_iwamax(n,zx,incx)
+     integer(ilp) function stdlib_iwamax(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -299,7 +299,7 @@ module stdlib_linalg_blas_aux
 
      ! DCABS1 computes |Re(.)| + |Im(.)| of a double complex number
 
-     pure real(dp) function stdlib_dcabs1(z)
+     real(dp) function stdlib_dcabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -314,7 +314,7 @@ module stdlib_linalg_blas_aux
 
      ! ICAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
-     pure integer(ilp) function stdlib_icamax(n,cx,incx)
+     integer(ilp) function stdlib_icamax(n,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -357,7 +357,7 @@ module stdlib_linalg_blas_aux
 
      ! IDAMAX finds the index of the first element having maximum absolute value.
 
-     pure integer(ilp) function stdlib_idamax(n,dx,incx)
+     integer(ilp) function stdlib_idamax(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -402,7 +402,7 @@ module stdlib_linalg_blas_aux
 
      ! IZAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
-     pure integer(ilp) function stdlib_izamax(n,zx,incx)
+     integer(ilp) function stdlib_izamax(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
