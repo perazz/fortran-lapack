@@ -1380,20 +1380,19 @@ class Fortran_Source:
 
     # Add classifiers (pure, recursive, etc.)
     def add_classifiers(self):
-        return
 
-#        if self.is_pure():
-#
-#            for i in range(len(self.body)):
-#                lsl = self.body[i].lower()
-#                if self.is_function and 'function' in lsl:
-#                    nspaces = len(lsl)-len(lsl.lstrip())
-#                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
-#                    return
-#                elif 'subroutine' in lsl:
-#                    nspaces = len(lsl)-len(lsl.lstrip())
-#                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
-#                    return
+        if self.is_pure():
+
+            for i in range(len(self.body)):
+                lsl = self.body[i].lower()
+                if self.is_function and 'function' in lsl:
+                    nspaces = len(lsl)-len(lsl.lstrip())
+                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+                    return
+                elif 'subroutine' in lsl:
+                    nspaces = len(lsl)-len(lsl.lstrip())
+                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+                    return
 
 
 

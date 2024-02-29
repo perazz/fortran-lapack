@@ -4,11 +4,6 @@ module stdlib_linalg_blas_s
      implicit none(type,external)
      private
 
-
-
-
-
-
      public :: sp,dp,qp,lk,ilp
      public :: stdlib_sasum
      public :: stdlib_saxpy
@@ -47,83 +42,82 @@ module stdlib_linalg_blas_s
      public :: stdlib_strsm
      public :: stdlib_strsv
 
-     ! 32-bit real constants 
-     real(sp),    parameter, private ::     negone = -1.00_sp
-     real(sp),    parameter, private ::       zero = 0.00_sp
-     real(sp),    parameter, private ::       half = 0.50_sp
-     real(sp),    parameter, private ::        one = 1.00_sp
-     real(sp),    parameter, private ::        two = 2.00_sp
-     real(sp),    parameter, private ::      three = 3.00_sp
-     real(sp),    parameter, private ::       four = 4.00_sp
-     real(sp),    parameter, private ::      eight = 8.00_sp
-     real(sp),    parameter, private ::        ten = 10.00_sp
+     ! 32-bit real constants
+     real(sp),parameter,private :: negone = -1.00_sp
+     real(sp),parameter,private :: zero = 0.00_sp
+     real(sp),parameter,private :: half = 0.50_sp
+     real(sp),parameter,private :: one = 1.00_sp
+     real(sp),parameter,private :: two = 2.00_sp
+     real(sp),parameter,private :: three = 3.00_sp
+     real(sp),parameter,private :: four = 4.00_sp
+     real(sp),parameter,private :: eight = 8.00_sp
+     real(sp),parameter,private :: ten = 10.00_sp
 
-     ! 32-bit complex constants 
-     complex(sp), parameter, private :: czero   = ( 0.0_sp,0.0_sp)
-     complex(sp), parameter, private :: chalf   = ( 0.5_sp,0.0_sp)
-     complex(sp), parameter, private :: cone    = ( 1.0_sp,0.0_sp)
-     complex(sp), parameter, private :: cnegone = (-1.0_sp,0.0_sp)
+     ! 32-bit complex constants
+     complex(sp),parameter,private :: czero = (0.0_sp,0.0_sp)
+     complex(sp),parameter,private :: chalf = (0.5_sp,0.0_sp)
+     complex(sp),parameter,private :: cone = (1.0_sp,0.0_sp)
+     complex(sp),parameter,private :: cnegone = (-1.0_sp,0.0_sp)
 
-     ! 32-bit scaling constants 
-     integer,     parameter, private :: maxexp = maxexponent(zero) 
-     integer,     parameter, private :: minexp = minexponent(zero) 
-     real(sp),    parameter, private :: rradix = real(radix(zero),sp) 
-     real(sp),    parameter, private :: ulp    = epsilon(zero) 
-     real(sp),    parameter, private :: eps    = ulp*half 
-     real(sp),    parameter, private :: safmin = rradix**max(minexp-1,1-maxexp) 
-     real(sp),    parameter, private :: safmax = one/safmin 
-     real(sp),    parameter, private :: smlnum = safmin/ulp 
-     real(sp),    parameter, private :: bignum = safmax*ulp 
-     real(sp),    parameter, private :: rtmin  = sqrt(smlnum) 
-     real(sp),    parameter, private :: rtmax  = sqrt(bignum) 
+     ! 32-bit scaling constants
+     integer,parameter,private :: maxexp = maxexponent(zero)
+     integer,parameter,private :: minexp = minexponent(zero)
+     real(sp),parameter,private :: rradix = real(radix(zero),sp)
+     real(sp),parameter,private :: ulp = epsilon(zero)
+     real(sp),parameter,private :: eps = ulp*half
+     real(sp),parameter,private :: safmin = rradix**max(minexp - 1,1 - maxexp)
+     real(sp),parameter,private :: safmax = one/safmin
+     real(sp),parameter,private :: smlnum = safmin/ulp
+     real(sp),parameter,private :: bignum = safmax*ulp
+     real(sp),parameter,private :: rtmin = sqrt(smlnum)
+     real(sp),parameter,private :: rtmax = sqrt(bignum)
 
-     ! 32-bit Blue's scaling constants 
-     ! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771 
-     real(sp),    parameter, private :: tsml   = rradix**ceiling((minexp-1)*half) 
-     real(sp),    parameter, private :: tbig   = rradix**floor((maxexp-digits(zero)+1)*half) 
-     real(sp),    parameter, private :: ssml   = rradix**(-floor((minexp-digits(zero))*half)) 
-     real(sp),    parameter, private :: sbig   = rradix**(-ceiling((maxexp+digits(zero)-1)*half)) 
-
+     ! 32-bit Blue's scaling constants
+     ! ssml>=1/s and sbig==1/S with s,S as defined in https://doi.org/10.1145/355769.355771
+     real(sp),parameter,private :: tsml = rradix**ceiling((minexp - 1)*half)
+     real(sp),parameter,private :: tbig = rradix**floor((maxexp - digits(zero) + 1)*half)
+     real(sp),parameter,private :: ssml = rradix**(-floor((minexp - digits(zero))*half))
+     real(sp),parameter,private :: sbig = rradix**(-ceiling((maxexp + digits(zero) - 1)*half))
 
      contains
 
      ! SASUM takes the sum of the absolute values.
      ! uses unrolled loops for increment equal to one.
 
-     real(sp) function stdlib_sasum(n,sx,incx)
+     pure real(sp) function stdlib_sasum(n,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           real(sp), intent(in) :: sx(*)
+           real(sp),intent(in) :: sx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: stemp
-           integer(ilp) :: i, m, mp1, nincx
+           integer(ilp) :: i,m,mp1,nincx
            ! .. intrinsic functions ..
            intrinsic :: abs,mod
            stdlib_sasum = zero
            stemp = zero
-           if (n<=0 .or. incx<=0) return
-           if (incx==1) then
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
               ! code for increment equal to 1
               ! clean-up loop
               m = mod(n,6)
-              if (m/=0) then
+              if (m /= 0) then
                  do i = 1,m
                     stemp = stemp + abs(sx(i))
                  end do
-                 if (n<6) then
+                 if (n < 6) then
                     stdlib_sasum = stemp
                     return
                  end if
               end if
               mp1 = m + 1
               do i = mp1,n,6
-                 stemp = stemp + abs(sx(i)) + abs(sx(i+1)) +abs(sx(i+2)) + abs(sx(i+3)) +abs(sx(i+&
-                           4)) + abs(sx(i+5))
+                 stemp = stemp + abs(sx(i)) + abs(sx(i + 1)) + abs(sx(i + 2)) + abs(sx(i + 3)) + abs(sx(i + &
+                           4)) + abs(sx(i + 5))
               end do
            else
               ! code for increment not equal to 1
@@ -139,47 +133,47 @@ module stdlib_linalg_blas_s
      ! SAXPY constant times a vector plus a vector.
      ! uses unrolled loops for increments equal to one.
 
-     subroutine stdlib_saxpy(n,sa,sx,incx,sy,incy)
+     pure subroutine stdlib_saxpy(n,sa,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: sa
-           integer(ilp), intent(in) :: incx, incy, n
+           real(sp),intent(in) :: sa
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(sp), intent(in) :: sx(*)
-           real(sp), intent(inout) :: sy(*)
+           real(sp),intent(in) :: sx(*)
+           real(sp),intent(inout) :: sy(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(ilp) :: i, ix, iy, m, mp1
+           integer(ilp) :: i,ix,iy,m,mp1
            ! .. intrinsic functions ..
            intrinsic :: mod
-           if (n<=0) return
-           if (sa==0.0_sp) return
-           if (incx==1 .and. incy==1) then
+           if (n <= 0) return
+           if (sa == 0.0_sp) return
+           if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               ! clean-up loop
               m = mod(n,4)
-              if (m/=0) then
+              if (m /= 0) then
                  do i = 1,m
                     sy(i) = sy(i) + sa*sx(i)
                  end do
               end if
-              if (n<4) return
+              if (n < 4) return
               mp1 = m + 1
               do i = mp1,n,4
                  sy(i) = sy(i) + sa*sx(i)
-                 sy(i+1) = sy(i+1) + sa*sx(i+1)
-                 sy(i+2) = sy(i+2) + sa*sx(i+2)
-                 sy(i+3) = sy(i+3) + sa*sx(i+3)
+                 sy(i + 1) = sy(i + 1) + sa*sx(i + 1)
+                 sy(i + 2) = sy(i + 2) + sa*sx(i + 2)
+                 sy(i + 3) = sy(i + 3) + sa*sx(i + 3)
               end do
            else
               ! code for unequal increments or equal increments
                 ! not equal to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
               do i = 1,n
                sy(iy) = sy(iy) + sa*sx(ix)
                ix = ix + incx
@@ -192,24 +186,24 @@ module stdlib_linalg_blas_s
      ! SCASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
      ! returns a single precision result.
 
-     real(sp) function stdlib_scasum(n,cx,incx)
+     pure real(sp) function stdlib_scasum(n,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, n
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           complex(sp), intent(in) :: cx(*)
+           complex(sp),intent(in) :: cx(*)
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: stemp
-           integer(ilp) :: i, nincx
+           integer(ilp) :: i,nincx
            ! .. intrinsic functions ..
            intrinsic :: abs,aimag,real
            stdlib_scasum = zero
            stemp = zero
-           if (n<=0 .or. incx<=0) return
-           if (incx==1) then
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
               ! code for increment equal to 1
               do i = 1,n
                  stemp = stemp + abs(real(cx(i),KIND=sp)) + abs(aimag(cx(i)))
@@ -230,27 +224,27 @@ module stdlib_linalg_blas_s
      ! name, so that
      ! SCNRM2 := sqrt( x**H*x )
 
-     function stdlib_scnrm2( n, x, incx )
+     function stdlib_scnrm2(n,x,incx)
         real(sp) :: stdlib_scnrm2
         ! -- reference blas level1 routine (version 3.9.1_sp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        integer, parameter :: wp = kind(1._sp)
-        real(sp), parameter :: maxn = huge(0.0_sp)
+        integer,parameter :: wp = kind(1._sp)
+        real(sp),parameter :: maxn = huge(0.0_sp)
         ! .. blue's scaling constants ..
         ! .. scalar arguments ..
-     integer(ilp) :: incx, n
+     integer(ilp),intent(in) :: incx,n
         ! .. array arguments ..
-        complex(sp) :: x(*)
+        complex(sp),intent(in) :: x(*)
         ! .. local scalars ..
-     integer(ilp) :: i, ix
+     integer(ilp) :: i,ix
      logical(lk) :: notbig
-        real(sp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
+        real(sp) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin
         ! quick return if possible
         stdlib_scnrm2 = zero
-        if( n <= 0 ) return
+        if (n <= 0) return
         scl = one
         sumsq = zero
         ! compute the sum of squares in 3 accumulators:
@@ -265,8 +259,8 @@ module stdlib_linalg_blas_s
         amed = zero
         abig = zero
         ix = 1
-        if( incx < 0 ) ix = 1 - (n-1)*incx
-        do i = 1, n
+        if (incx < 0) ix = 1 - (n - 1)*incx
+        do i = 1,n
            ax = abs(real(x(ix),KIND=sp))
            if (ax > tbig) then
               abig = abig + (ax*sbig)**2
@@ -291,16 +285,16 @@ module stdlib_linalg_blas_s
         ! accumulator was used.
         if (abig > zero) then
            ! combine abig and amed if abig > 0.
-           if ( (amed > zero) .or. (amed > maxn) .or. (amed /= amed) ) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               abig = abig + (amed*sbig)*sbig
            end if
-           scl = one / sbig
+           scl = one/sbig
            sumsq = abig
         else if (asml > zero) then
            ! combine amed and asml if asml > 0.
-           if ( (amed > zero) .or. (amed > maxn) .or. (amed /= amed) ) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               amed = sqrt(amed)
-              asml = sqrt(asml) / ssml
+              asml = sqrt(asml)/ssml
               if (asml > amed) then
                  ymin = amed
                  ymax = asml
@@ -309,9 +303,9 @@ module stdlib_linalg_blas_s
                  ymax = amed
               end if
               scl = one
-              sumsq = ymax**2*( one + (ymin/ymax)**2 )
+              sumsq = ymax**2*(one + (ymin/ymax)**2)
            else
-              scl = one / ssml
+              scl = one/ssml
               sumsq = asml
            end if
         else
@@ -319,55 +313,55 @@ module stdlib_linalg_blas_s
            scl = one
            sumsq = amed
         end if
-        stdlib_scnrm2 = scl*sqrt( sumsq )
+        stdlib_scnrm2 = scl*sqrt(sumsq)
         return
      end function stdlib_scnrm2
 
      ! SCOPY copies a vector, x, to a vector, y.
      ! uses unrolled loops for increments equal to 1.
 
-     subroutine stdlib_scopy(n,sx,incx,sy,incy)
+     pure subroutine stdlib_scopy(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, incy, n
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(sp), intent(in) :: sx(*)
-           real(sp), intent(out) :: sy(*)
+           real(sp),intent(in) :: sx(*)
+           real(sp),intent(out) :: sy(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(ilp) :: i, ix, iy, m, mp1
+           integer(ilp) :: i,ix,iy,m,mp1
            ! .. intrinsic functions ..
            intrinsic :: mod
-           if (n<=0) return
-           if (incx==1 .and. incy==1) then
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               ! clean-up loop
               m = mod(n,7)
-              if (m/=0) then
+              if (m /= 0) then
                  do i = 1,m
                     sy(i) = sx(i)
                  end do
-                 if (n<7) return
+                 if (n < 7) return
               end if
               mp1 = m + 1
               do i = mp1,n,7
                  sy(i) = sx(i)
-                 sy(i+1) = sx(i+1)
-                 sy(i+2) = sx(i+2)
-                 sy(i+3) = sx(i+3)
-                 sy(i+4) = sx(i+4)
-                 sy(i+5) = sx(i+5)
-                 sy(i+6) = sx(i+6)
+                 sy(i + 1) = sx(i + 1)
+                 sy(i + 2) = sx(i + 2)
+                 sy(i + 3) = sx(i + 3)
+                 sy(i + 4) = sx(i + 4)
+                 sy(i + 5) = sx(i + 5)
+                 sy(i + 6) = sx(i + 6)
               end do
            else
               ! code for unequal increments or equal increments
                 ! not equal to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
               do i = 1,n
                  sy(iy) = sx(ix)
                  ix = ix + incx
@@ -380,48 +374,48 @@ module stdlib_linalg_blas_s
      ! SDOT forms the dot product of two vectors.
      ! uses unrolled loops for increments equal to one.
 
-     real(sp) function stdlib_sdot(n,sx,incx,sy,incy)
+     pure real(sp) function stdlib_sdot(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, incy, n
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(sp), intent(in) :: sx(*), sy(*)
+           real(sp),intent(in) :: sx(*),sy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: stemp
-           integer(ilp) :: i, ix, iy, m, mp1
+           integer(ilp) :: i,ix,iy,m,mp1
            ! .. intrinsic functions ..
            intrinsic :: mod
            stemp = zero
            stdlib_sdot = zero
-           if (n<=0) return
-           if (incx==1 .and. incy==1) then
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
               ! clean-up loop
               m = mod(n,5)
-              if (m/=0) then
+              if (m /= 0) then
                  do i = 1,m
                     stemp = stemp + sx(i)*sy(i)
                  end do
-                 if (n<5) then
-                    stdlib_sdot=stemp
+                 if (n < 5) then
+                    stdlib_sdot = stemp
                  return
                  end if
               end if
               mp1 = m + 1
               do i = mp1,n,5
-               stemp = stemp + sx(i)*sy(i) + sx(i+1)*sy(i+1) +sx(i+2)*sy(i+2) + sx(i+3)*sy(i+3) + &
-                         sx(i+4)*sy(i+4)
+               stemp = stemp + sx(i)*sy(i) + sx(i + 1)*sy(i + 1) + sx(i + 2)*sy(i + 2) + sx(i + 3)*sy(i + 3) + &
+                         sx(i + 4)*sy(i + 4)
               end do
            else
               ! code for unequal increments or equal increments
                 ! not equal to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
               do i = 1,n
                  stemp = stemp + sx(ix)*sy(iy)
                  ix = ix + incx
@@ -439,26 +433,26 @@ module stdlib_linalg_blas_s
      ! where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
      ! defined in a similar way using INCY.
 
-     real(sp) function stdlib_sdsdot(n,sb,sx,incx,sy,incy)
+     pure real(sp) function stdlib_sdsdot(n,sb,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: sb
-           integer(ilp), intent(in) :: incx, incy, n
+           real(sp),intent(in) :: sb
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(sp), intent(in) :: sx(*), sy(*)
+           real(sp),intent(in) :: sx(*),sy(*)
            ! .. local scalars ..
            real(dp) :: dsdot
-           integer(ilp) :: i, kx, ky, ns
+           integer(ilp) :: i,kx,ky,ns
            ! .. intrinsic functions ..
            intrinsic :: real
            dsdot = sb
-           if (n<=0) then
+           if (n <= 0) then
               stdlib_sdsdot = dsdot
               return
            end if
-           if (incx==incy .and. incx>0) then
+           if (incx == incy .and. incx > 0) then
            ! code for equal and positive increments.
               ns = n*incx
               do i = 1,ns,incx
@@ -468,8 +462,8 @@ module stdlib_linalg_blas_s
            ! code for unequal or nonpositive increments.
               kx = 1
               ky = 1
-              if (incx<0) kx = 1 + (1-n)*incx
-              if (incy<0) ky = 1 + (1-n)*incy
+              if (incx < 0) kx = 1 + (1 - n)*incx
+              if (incy < 0) ky = 1 + (1 - n)*incy
               do i = 1,n
                  dsdot = dsdot + real(sx(kx),KIND=sp)*real(sy(ky),KIND=sp)
                  kx = kx + incx
@@ -485,50 +479,50 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
-     subroutine stdlib_sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha, beta
-           integer(ilp), intent(in) :: incx, incy, kl, ku, lda, m, n
-           character, intent(in) :: trans
+           real(sp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,kl,ku,lda,m,n
+           character,intent(in) :: trans
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*), x(*)
-           real(sp), intent(inout) :: y(*)
+           real(sp),intent(in) :: a(lda,*),x(*)
+           real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kup1, kx, ky, lenx, leny
+           integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
            ! .. intrinsic functions ..
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(trans,'N') .and. .not.stdlib_lsame(trans,'T') &
-                     .and..not.stdlib_lsame(trans,'C')) then
+           if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 1
-           else if (m<0) then
+           else if (m < 0) then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (kl<0) then
+           else if (kl < 0) then
                info = 4
-           else if (ku<0) then
+           else if (ku < 0) then
                info = 5
-           else if (lda< (kl+ku+1)) then
+           else if (lda < (kl + ku + 1)) then
                info = 8
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 10
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 13
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SGBMV ',info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
+           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
            if (stdlib_lsame(trans,'N')) then
@@ -538,22 +532,22 @@ module stdlib_linalg_blas_s
                lenx = m
                leny = n
            end if
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (lenx-1)*incx
+               kx = 1 - (lenx - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (leny-1)*incy
+               ky = 1 - (leny - 1)*incy
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through the band part of a.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
                        do i = 1,leny
                            y(i) = zero
                        end do
@@ -564,7 +558,7 @@ module stdlib_linalg_blas_s
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do i = 1,leny
                            y(iy) = zero
                            iy = iy + incy
@@ -577,17 +571,17 @@ module stdlib_linalg_blas_s
                    end if
                end if
            end if
-           if (alpha==zero) return
+           if (alpha == zero) return
            kup1 = ku + 1
            if (stdlib_lsame(trans,'N')) then
               ! form  y := alpha*a*x + y.
                jx = kx
-               if (incy==1) then
+               if (incy == 1) then
                    do j = 1,n
                        temp = alpha*x(jx)
                        k = kup1 - j
-                       do i = max(1,j-ku),min(m,j+kl)
-                           y(i) = y(i) + temp*a(k+i,j)
+                       do i = max(1,j - ku),min(m,j + kl)
+                           y(i) = y(i) + temp*a(k + i,j)
                        end do
                        jx = jx + incx
                    end do
@@ -596,23 +590,23 @@ module stdlib_linalg_blas_s
                        temp = alpha*x(jx)
                        iy = ky
                        k = kup1 - j
-                       do i = max(1,j-ku),min(m,j+kl)
-                           y(iy) = y(iy) + temp*a(k+i,j)
+                       do i = max(1,j - ku),min(m,j + kl)
+                           y(iy) = y(iy) + temp*a(k + i,j)
                            iy = iy + incy
                        end do
                        jx = jx + incx
-                       if (j>ku) ky = ky + incy
+                       if (j > ku) ky = ky + incy
                    end do
                end if
            else
               ! form  y := alpha*a**t*x + y.
                jy = ky
-               if (incx==1) then
+               if (incx == 1) then
                    do j = 1,n
                        temp = zero
                        k = kup1 - j
-                       do i = max(1,j-ku),min(m,j+kl)
-                           temp = temp + a(k+i,j)*x(i)
+                       do i = max(1,j - ku),min(m,j + kl)
+                           temp = temp + a(k + i,j)*x(i)
                        end do
                        y(jy) = y(jy) + alpha*temp
                        jy = jy + incy
@@ -622,13 +616,13 @@ module stdlib_linalg_blas_s
                        temp = zero
                        ix = kx
                        k = kup1 - j
-                       do i = max(1,j-ku),min(m,j+kl)
-                           temp = temp + a(k+i,j)*x(ix)
+                       do i = max(1,j - ku),min(m,j + kl)
+                           temp = temp + a(k + i,j)*x(ix)
                            ix = ix + incx
                        end do
                        y(jy) = y(jy) + alpha*temp
                        jy = jy + incy
-                       if (j>ku) kx = kx + incx
+                       if (j > ku) kx = kx + incx
                    end do
                end if
            end if
@@ -642,24 +636,24 @@ module stdlib_linalg_blas_s
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
-     subroutine stdlib_sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha, beta
-           integer(ilp), intent(in) :: k, lda, ldb, ldc, m, n
-           character, intent(in) :: transa, transb
+           real(sp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: k,lda,ldb,ldc,m,n
+           character,intent(in) :: transa,transb
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*), b(ldb,*)
-           real(sp), intent(inout) :: c(ldc,*)
+           real(sp),intent(in) :: a(lda,*),b(ldb,*)
+           real(sp),intent(inout) :: c(ldc,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, j, l, nrowa, nrowb
-           logical(lk) :: nota, notb
+           integer(ilp) :: i,info,j,l,nrowa,nrowb
+           logical(lk) :: nota,notb
            
            ! set  nota  and  notb  as  true if  a  and  b  respectively are not
            ! transposed and set  nrowa and nrowb  as the number of rows of  a
@@ -678,35 +672,35 @@ module stdlib_linalg_blas_s
            end if
            ! test the input parameters.
            info = 0
-           if ((.not.nota) .and. (.not.stdlib_lsame(transa,'C')) .and.(.not.stdlib_lsame(transa,&
+           if ((.not. nota) .and. (.not. stdlib_lsame(transa,'C')) .and. (.not. stdlib_lsame(transa, &
                      'T'))) then
                info = 1
-           else if ((.not.notb) .and. (.not.stdlib_lsame(transb,'C')) .and.(.not.stdlib_lsame(&
+           else if ((.not. notb) .and. (.not. stdlib_lsame(transb,'C')) .and. (.not. stdlib_lsame( &
                      transb,'T'))) then
                info = 2
-           else if (m<0) then
+           else if (m < 0) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (k<0) then
+           else if (k < 0) then
                info = 5
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1,nrowa)) then
                info = 8
-           else if (ldb<max(1,nrowb)) then
+           else if (ldb < max(1,nrowb)) then
                info = 10
-           else if (ldc<max(1,m)) then
+           else if (ldc < max(1,m)) then
                info = 13
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SGEMM ',info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or.(((alpha==zero).or. (k==0)).and. (beta==one))) &
+           if ((m == 0) .or. (n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) &
                      return
            ! and if  alpha.eq.zero.
-           if (alpha==zero) then
-               if (beta==zero) then
+           if (alpha == zero) then
+               if (beta == zero) then
                    do j = 1,n
                        do i = 1,m
                            c(i,j) = zero
@@ -726,11 +720,11 @@ module stdlib_linalg_blas_s
                if (nota) then
                  ! form  c := alpha*a*b + beta*c.
                    do j = 1,n
-                       if (beta==zero) then
+                       if (beta == zero) then
                            do i = 1,m
                                c(i,j) = zero
                            end do
-                       else if (beta/=one) then
+                       else if (beta /= one) then
                            do i = 1,m
                                c(i,j) = beta*c(i,j)
                            end do
@@ -750,7 +744,7 @@ module stdlib_linalg_blas_s
                            do l = 1,k
                                temp = temp + a(l,i)*b(l,j)
                            end do
-                           if (beta==zero) then
+                           if (beta == zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
@@ -762,11 +756,11 @@ module stdlib_linalg_blas_s
                if (nota) then
                  ! form  c := alpha*a*b**t + beta*c
                    do j = 1,n
-                       if (beta==zero) then
+                       if (beta == zero) then
                            do i = 1,m
                                c(i,j) = zero
                            end do
-                       else if (beta/=one) then
+                       else if (beta /= one) then
                            do i = 1,m
                                c(i,j) = beta*c(i,j)
                            end do
@@ -786,7 +780,7 @@ module stdlib_linalg_blas_s
                            do l = 1,k
                                temp = temp + a(l,i)*b(j,l)
                            end do
-                           if (beta==zero) then
+                           if (beta == zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
@@ -803,46 +797,46 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
 
-     subroutine stdlib_sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha, beta
-           integer(ilp), intent(in) :: incx, incy, lda, m, n
-           character, intent(in) :: trans
+           real(sp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,m,n
+           character,intent(in) :: trans
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*), x(*)
-           real(sp), intent(inout) :: y(*)
+           real(sp),intent(in) :: a(lda,*),x(*)
+           real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky, lenx, leny
+           integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(trans,'N') .and. .not.stdlib_lsame(trans,'T') &
-                     .and..not.stdlib_lsame(trans,'C')) then
+           if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 1
-           else if (m<0) then
+           else if (m < 0) then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (lda<max(1,m)) then
+           else if (lda < max(1,m)) then
                info = 6
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 8
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 11
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SGEMV ',info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
+           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
            ! up the start points in  x  and  y.
            if (stdlib_lsame(trans,'N')) then
@@ -852,22 +846,22 @@ module stdlib_linalg_blas_s
                lenx = m
                leny = n
            end if
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (lenx-1)*incx
+               kx = 1 - (lenx - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (leny-1)*incy
+               ky = 1 - (leny - 1)*incy
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
                        do i = 1,leny
                            y(i) = zero
                        end do
@@ -878,7 +872,7 @@ module stdlib_linalg_blas_s
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do i = 1,leny
                            y(iy) = zero
                            iy = iy + incy
@@ -891,11 +885,11 @@ module stdlib_linalg_blas_s
                    end if
                end if
            end if
-           if (alpha==zero) return
+           if (alpha == zero) return
            if (stdlib_lsame(trans,'N')) then
               ! form  y := alpha*a*x + y.
                jx = kx
-               if (incy==1) then
+               if (incy == 1) then
                    do j = 1,n
                        temp = alpha*x(jx)
                        do i = 1,m
@@ -917,7 +911,7 @@ module stdlib_linalg_blas_s
            else
               ! form  y := alpha*a**t*x + y.
                jy = ky
-               if (incx==1) then
+               if (incx == 1) then
                    do j = 1,n
                        temp = zero
                        do i = 1,m
@@ -947,52 +941,52 @@ module stdlib_linalg_blas_s
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_sger(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_sger(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha
-           integer(ilp), intent(in) :: incx, incy, lda, m, n
+           real(sp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,incy,lda,m,n
            ! .. array arguments ..
-           real(sp), intent(inout) :: a(lda,*)
-           real(sp), intent(in) :: x(*), y(*)
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, j, jy, kx
+           integer(ilp) :: i,info,ix,j,jy,kx
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (m<0) then
+           if (m < 0) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 7
-           else if (lda<max(1,m)) then
+           else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SGER  ',info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or. (alpha==zero)) return
+           if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through a.
-           if (incy>0) then
+           if (incy > 0) then
                jy = 1
            else
-               jy = 1 - (n-1)*incy
+               jy = 1 - (n - 1)*incy
            end if
-           if (incx==1) then
+           if (incx == 1) then
                do j = 1,n
-                   if (y(jy)/=zero) then
+                   if (y(jy) /= zero) then
                        temp = alpha*y(jy)
                        do i = 1,m
                            a(i,j) = a(i,j) + x(i)*temp
@@ -1001,13 +995,13 @@ module stdlib_linalg_blas_s
                    jy = jy + incy
                end do
            else
-               if (incx>0) then
+               if (incx > 0) then
                    kx = 1
                else
-                   kx = 1 - (m-1)*incx
+                   kx = 1 - (m - 1)*incx
                end if
                do j = 1,n
-                   if (y(jy)/=zero) then
+                   if (y(jy) /= zero) then
                        temp = alpha*y(jy)
                        ix = kx
                        do i = 1,m
@@ -1026,27 +1020,27 @@ module stdlib_linalg_blas_s
      ! name, so that
      ! SNRM2 := sqrt( x'*x ).
 
-     function stdlib_snrm2( n, x, incx )
+     function stdlib_snrm2(n,x,incx)
         real(sp) :: stdlib_snrm2
         ! -- reference blas level1 routine (version 3.9.1_sp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        integer, parameter :: wp = kind(1._sp)
-        real(sp), parameter :: maxn = huge(0.0_sp)
+        integer,parameter :: wp = kind(1._sp)
+        real(sp),parameter :: maxn = huge(0.0_sp)
         ! .. blue's scaling constants ..
         ! .. scalar arguments ..
-     integer(ilp) :: incx, n
+     integer(ilp),intent(in) :: incx,n
         ! .. array arguments ..
-        real(sp) :: x(*)
+        real(sp),intent(in) :: x(*)
         ! .. local scalars ..
-     integer(ilp) :: i, ix
+     integer(ilp) :: i,ix
      logical(lk) :: notbig
-        real(sp) :: abig, amed, asml, ax, scl, sumsq, ymax, ymin
+        real(sp) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin
         ! quick return if possible
         stdlib_snrm2 = zero
-        if( n <= 0 ) return
+        if (n <= 0) return
         scl = one
         sumsq = zero
         ! compute the sum of squares in 3 accumulators:
@@ -1061,8 +1055,8 @@ module stdlib_linalg_blas_s
         amed = zero
         abig = zero
         ix = 1
-        if( incx < 0 ) ix = 1 - (n-1)*incx
-        do i = 1, n
+        if (incx < 0) ix = 1 - (n - 1)*incx
+        do i = 1,n
            ax = abs(x(ix))
            if (ax > tbig) then
               abig = abig + (ax*sbig)**2
@@ -1078,16 +1072,16 @@ module stdlib_linalg_blas_s
         ! accumulator was used.
         if (abig > zero) then
            ! combine abig and amed if abig > 0.
-           if ( (amed > zero) .or. (amed > maxn) .or. (amed /= amed) ) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               abig = abig + (amed*sbig)*sbig
            end if
-           scl = one / sbig
+           scl = one/sbig
            sumsq = abig
         else if (asml > zero) then
            ! combine amed and asml if asml > 0.
-           if ( (amed > zero) .or. (amed > maxn) .or. (amed /= amed) ) then
+           if ((amed > zero) .or. (amed > maxn) .or. (amed /= amed)) then
               amed = sqrt(amed)
-              asml = sqrt(asml) / ssml
+              asml = sqrt(asml)/ssml
               if (asml > amed) then
                  ymin = amed
                  ymax = asml
@@ -1096,9 +1090,9 @@ module stdlib_linalg_blas_s
                  ymax = amed
               end if
               scl = one
-              sumsq = ymax**2*( one + (ymin/ymax)**2 )
+              sumsq = ymax**2*(one + (ymin/ymax)**2)
            else
-              scl = one / ssml
+              scl = one/ssml
               sumsq = asml
            end if
         else
@@ -1106,27 +1100,27 @@ module stdlib_linalg_blas_s
            scl = one
            sumsq = amed
         end if
-        stdlib_snrm2 = scl*sqrt( sumsq )
+        stdlib_snrm2 = scl*sqrt(sumsq)
         return
      end function stdlib_snrm2
 
      ! applies a plane rotation.
 
-     subroutine stdlib_srot(n,sx,incx,sy,incy,c,s)
+     pure subroutine stdlib_srot(n,sx,incx,sy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: c, s
-           integer(ilp), intent(in) :: incx, incy, n
+           real(sp),intent(in) :: c,s
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(sp), intent(inout) :: sx(*), sy(*)
+           real(sp),intent(inout) :: sx(*),sy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: stemp
-           integer(ilp) :: i, ix, iy
-           if (n<=0) return
-           if (incx==1 .and. incy==1) then
+           integer(ilp) :: i,ix,iy
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
              ! code for both increments equal to 1
               do i = 1,n
                  stemp = c*sx(i) + s*sy(i)
@@ -1138,8 +1132,8 @@ module stdlib_linalg_blas_s
                ! to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
               do i = 1,n
                  stemp = c*sx(ix) + s*sy(iy)
                  sy(iy) = c*sy(iy) - s*sx(ix)
@@ -1167,41 +1161,42 @@ module stdlib_linalg_blas_s
      ! If |z| < 1, set c = sqrt(1 - z**2) and s = z.
      ! If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
 
-     subroutine stdlib_srotg( a, b, c, s )
+     pure subroutine stdlib_srotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        integer, parameter :: wp = kind(1._sp)
+        integer,parameter :: wp = kind(1._sp)
         ! .. scaling constants ..
         ! .. scalar arguments ..
-        real(sp) :: a, b, c, s
+        real(sp),intent(inout) :: a,b
+        real(sp),intent(out) :: c,s
         ! .. local scalars ..
-        real(sp) :: anorm, bnorm, scl, sigma, r, z
+        real(sp) :: anorm,bnorm,scl,sigma,r,z
         anorm = abs(a)
         bnorm = abs(b)
-        if( bnorm == zero ) then
+        if (bnorm == zero) then
            c = one
            s = zero
            b = zero
-        else if( anorm == zero ) then
+        else if (anorm == zero) then
            c = zero
            s = one
            a = b
            b = one
         else
-           scl = min( safmax, max( safmin, anorm, bnorm ) )
-           if( anorm > bnorm ) then
+           scl = min(safmax,max(safmin,anorm,bnorm))
+           if (anorm > bnorm) then
               sigma = sign(one,a)
            else
               sigma = sign(one,b)
            end if
-           r = sigma*( scl*sqrt((a/scl)**2 + (b/scl)**2) )
+           r = sigma*(scl*sqrt((a/scl)**2 + (b/scl)**2))
            c = a/r
            s = b/r
-           if( anorm > bnorm ) then
+           if (anorm > bnorm) then
               z = s
-           else if( c /= zero ) then
+           else if (c /= zero) then
               z = one/c
            else
               z = one
@@ -1224,27 +1219,27 @@ module stdlib_linalg_blas_s
      ! (SH21  SH22),   (SH21  1._sp),   (-1._sp SH22),   (0._sp  1._sp).
      ! SEE  SROTMG FOR A DESCRIPTION OF DATA STORAGE IN SPARAM.
 
-     subroutine stdlib_srotm(n,sx,incx,sy,incy,sparam)
+     pure subroutine stdlib_srotm(n,sx,incx,sy,incy,sparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, incy, n
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(sp), intent(in) :: sparam(5)
-           real(sp), intent(inout) :: sx(*), sy(*)
+           real(sp),intent(in) :: sparam(5)
+           real(sp),intent(inout) :: sx(*),sy(*)
         ! =====================================================================
            ! .. local scalars ..
-           real(sp) :: sflag, sh11, sh12, sh21, sh22, two, w, z, zero
-           integer(ilp) :: i, kx, ky, nsteps
+           real(sp) :: sflag,sh11,sh12,sh21,sh22,two,w,z,zero
+           integer(ilp) :: i,kx,ky,nsteps
            ! .. data statements ..
            zero = 0._sp
            two = 2._sp
            sflag = sparam(1)
-           if (n<=0 .or. (sflag+two==zero)) return
-           if (incx==incy.and.incx>0) then
+           if (n <= 0 .or. (sflag + two == zero)) return
+           if (incx == incy .and. incx > 0) then
               nsteps = n*incx
-              if (sflag<zero) then
+              if (sflag < zero) then
                  sh11 = sparam(2)
                  sh12 = sparam(4)
                  sh21 = sparam(3)
@@ -1255,7 +1250,7 @@ module stdlib_linalg_blas_s
                     sx(i) = w*sh11 + z*sh12
                     sy(i) = w*sh21 + z*sh22
                  end do
-              else if (sflag==zero) then
+              else if (sflag == zero) then
                  sh12 = sparam(4)
                  sh21 = sparam(3)
                  do i = 1,nsteps,incx
@@ -1277,9 +1272,9 @@ module stdlib_linalg_blas_s
            else
               kx = 1
               ky = 1
-              if (incx<0) kx = 1 + (1-n)*incx
-              if (incy<0) ky = 1 + (1-n)*incy
-              if (sflag<zero) then
+              if (incx < 0) kx = 1 + (1 - n)*incx
+              if (incy < 0) ky = 1 + (1 - n)*incy
+              if (sflag < zero) then
                  sh11 = sparam(2)
                  sh12 = sparam(4)
                  sh21 = sparam(3)
@@ -1292,7 +1287,7 @@ module stdlib_linalg_blas_s
                     kx = kx + incx
                     ky = ky + incy
                  end do
-              else if (sflag==zero) then
+              else if (sflag == zero) then
                  sh12 = sparam(4)
                  sh21 = sparam(3)
                  do i = 1,n
@@ -1333,19 +1328,19 @@ module stdlib_linalg_blas_s
      ! INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
      ! OF SD1 AND SD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
 
-     subroutine stdlib_srotmg(sd1,sd2,sx1,sy1,sparam)
+     pure subroutine stdlib_srotmg(sd1,sd2,sx1,sy1,sparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(inout) :: sd1, sd2, sx1
-           real(sp), intent(in) :: sy1
+           real(sp),intent(inout) :: sd1,sd2,sx1
+           real(sp),intent(in) :: sy1
            ! .. array arguments ..
-           real(sp), intent(out) :: sparam(5)
+           real(sp),intent(out) :: sparam(5)
         ! =====================================================================
            ! .. local scalars ..
-           real(sp) :: gam, gamsq, one, rgamsq, sflag, sh11, sh12, sh21, sh22, sp1, sp2, sq1, sq2,&
-                      stemp, su, two, zero
+           real(sp) :: gam,gamsq,one,rgamsq,sflag,sh11,sh12,sh21,sh22,sp1,sp2,sq1,sq2, &
+                      stemp,su,two,zero
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. data statements ..
@@ -1355,7 +1350,7 @@ module stdlib_linalg_blas_s
            gam = 4096._sp
            gamsq = 1.67772e7_sp
            rgamsq = 5.96046e-8_sp
-           if (sd1<zero) then
+           if (sd1 < zero) then
               ! go zero-h-d-and-sx1..
               sflag = -one
               sh11 = zero
@@ -1368,7 +1363,7 @@ module stdlib_linalg_blas_s
            else
               ! case-sd1-nonnegative
               sp2 = sd2*sy1
-              if (sp2==zero) then
+              if (sp2 == zero) then
                  sflag = -two
                  sparam(1) = sflag
                  return
@@ -1377,11 +1372,11 @@ module stdlib_linalg_blas_s
               sp1 = sd1*sx1
               sq2 = sp2*sy1
               sq1 = sp1*sx1
-              if (abs(sq1)>abs(sq2)) then
+              if (abs(sq1) > abs(sq2)) then
                  sh21 = -sy1/sx1
                  sh12 = sp2/sp1
                  su = one - sh12*sh21
-                if (su>zero) then
+                if (su > zero) then
                   sflag = zero
                   sd1 = sd1/su
                   sd2 = sd2/su
@@ -1400,7 +1395,7 @@ module stdlib_linalg_blas_s
                   sx1 = zero
                 end if
               else
-                 if (sq2<zero) then
+                 if (sq2 < zero) then
                     ! go zero-h-d-and-sx1..
                     sflag = -one
                     sh11 = zero
@@ -1422,9 +1417,9 @@ module stdlib_linalg_blas_s
                  end if
               end if
            ! procedure..scale-check
-              if (sd1/=zero) then
-                 do while ((sd1<=rgamsq) .or. (sd1>=gamsq))
-                    if (sflag==zero) then
+              if (sd1 /= zero) then
+                 do while ((sd1 <= rgamsq) .or. (sd1 >= gamsq))
+                    if (sflag == zero) then
                        sh11 = one
                        sh22 = one
                        sflag = -one
@@ -1433,7 +1428,7 @@ module stdlib_linalg_blas_s
                        sh12 = one
                        sflag = -one
                     end if
-                    if (sd1<=rgamsq) then
+                    if (sd1 <= rgamsq) then
                        sd1 = sd1*gam**2
                        sx1 = sx1/gam
                        sh11 = sh11/gam
@@ -1444,11 +1439,11 @@ module stdlib_linalg_blas_s
                        sh11 = sh11*gam
                        sh12 = sh12*gam
                     end if
-                 enddo
+                 end do
               end if
-              if (sd2/=zero) then
-                 do while ( (abs(sd2)<=rgamsq) .or. (abs(sd2)>=gamsq) )
-                    if (sflag==zero) then
+              if (sd2 /= zero) then
+                 do while ((abs(sd2) <= rgamsq) .or. (abs(sd2) >= gamsq))
+                    if (sflag == zero) then
                        sh11 = one
                        sh22 = one
                        sflag = -one
@@ -1457,7 +1452,7 @@ module stdlib_linalg_blas_s
                        sh12 = one
                        sflag = -one
                     end if
-                    if (abs(sd2)<=rgamsq) then
+                    if (abs(sd2) <= rgamsq) then
                        sd2 = sd2*gam**2
                        sh21 = sh21/gam
                        sh22 = sh22/gam
@@ -1469,12 +1464,12 @@ module stdlib_linalg_blas_s
                  end do
               end if
            end if
-           if (sflag<zero) then
+           if (sflag < zero) then
               sparam(2) = sh11
               sparam(3) = sh21
               sparam(4) = sh12
               sparam(5) = sh22
-           else if (sflag==zero) then
+           else if (sflag == zero) then
               sparam(3) = sh21
               sparam(4) = sh12
            else
@@ -1490,62 +1485,62 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric band matrix, with k super-diagonals.
 
-     subroutine stdlib_ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha, beta
-           integer(ilp), intent(in) :: incx, incy, k, lda, n
-           character, intent(in) :: uplo
+           real(sp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,k,lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*), x(*)
-           real(sp), intent(inout) :: y(*)
+           real(sp),intent(in) :: a(lda,*),x(*)
+           real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
-           real(sp) :: temp1, temp2
-           integer(ilp) :: i, info, ix, iy, j, jx, jy, kplus1, kx, ky, l
+           real(sp) :: temp1,temp2
+           integer(ilp) :: i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
            ! .. intrinsic functions ..
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (k<0) then
+           else if (k < 0) then
                info = 3
-           else if (lda< (k+1)) then
+           else if (lda < (k + 1)) then
                info = 6
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 8
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 11
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSBMV ',info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (n-1)*incx
+               kx = 1 - (n - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (n-1)*incy
+               ky = 1 - (n - 1)*incy
            end if
            ! start the operations. in this version the elements of the array a
            ! are accessed sequentially with one pass through a.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
                        do i = 1,n
                            y(i) = zero
                        end do
@@ -1556,7 +1551,7 @@ module stdlib_linalg_blas_s
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do i = 1,n
                            y(iy) = zero
                            iy = iy + incy
@@ -1569,18 +1564,18 @@ module stdlib_linalg_blas_s
                    end if
                end if
            end if
-           if (alpha==zero) return
+           if (alpha == zero) return
            if (stdlib_lsame(uplo,'U')) then
               ! form  y  when upper triangle of a is stored.
                kplus1 = k + 1
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        l = kplus1 - j
-                       do i = max(1,j-k),j - 1
-                           y(i) = y(i) + temp1*a(l+i,j)
-                           temp2 = temp2 + a(l+i,j)*x(i)
+                       do i = max(1,j - k),j - 1
+                           y(i) = y(i) + temp1*a(l + i,j)
+                           temp2 = temp2 + a(l + i,j)*x(i)
                        end do
                        y(j) = y(j) + temp1*a(kplus1,j) + alpha*temp2
                    end do
@@ -1593,16 +1588,16 @@ module stdlib_linalg_blas_s
                        ix = kx
                        iy = ky
                        l = kplus1 - j
-                       do i = max(1,j-k),j - 1
-                           y(iy) = y(iy) + temp1*a(l+i,j)
-                           temp2 = temp2 + a(l+i,j)*x(ix)
+                       do i = max(1,j - k),j - 1
+                           y(iy) = y(iy) + temp1*a(l + i,j)
+                           temp2 = temp2 + a(l + i,j)*x(ix)
                            ix = ix + incx
                            iy = iy + incy
                        end do
                        y(jy) = y(jy) + temp1*a(kplus1,j) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
-                       if (j>k) then
+                       if (j > k) then
                            kx = kx + incx
                            ky = ky + incy
                        end if
@@ -1610,15 +1605,15 @@ module stdlib_linalg_blas_s
                end if
            else
               ! form  y  when lower triangle of a is stored.
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
                        y(j) = y(j) + temp1*a(1,j)
                        l = 1 - j
-                       do i = j + 1,min(n,j+k)
-                           y(i) = y(i) + temp1*a(l+i,j)
-                           temp2 = temp2 + a(l+i,j)*x(i)
+                       do i = j + 1,min(n,j + k)
+                           y(i) = y(i) + temp1*a(l + i,j)
+                           temp2 = temp2 + a(l + i,j)*x(i)
                        end do
                        y(j) = y(j) + alpha*temp2
                    end do
@@ -1632,11 +1627,11 @@ module stdlib_linalg_blas_s
                        l = 1 - j
                        ix = jx
                        iy = jy
-                       do i = j + 1,min(n,j+k)
+                       do i = j + 1,min(n,j + k)
                            ix = ix + incx
                            iy = iy + incy
-                           y(iy) = y(iy) + temp1*a(l+i,j)
-                           temp2 = temp2 + a(l+i,j)*x(ix)
+                           y(iy) = y(iy) + temp1*a(l + i,j)
+                           temp2 = temp2 + a(l + i,j)*x(ix)
                        end do
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
@@ -1650,38 +1645,38 @@ module stdlib_linalg_blas_s
      ! SSCAL scales a vector by a constant.
      ! uses unrolled loops for increment equal to 1.
 
-     subroutine stdlib_sscal(n,sa,sx,incx)
+     pure subroutine stdlib_sscal(n,sa,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: sa
-           integer(ilp), intent(in) :: incx, n
+           real(sp),intent(in) :: sa
+           integer(ilp),intent(in) :: incx,n
            ! .. array arguments ..
-           real(sp), intent(inout) :: sx(*)
+           real(sp),intent(inout) :: sx(*)
         ! =====================================================================
            ! .. local scalars ..
-           integer(ilp) :: i, m, mp1, nincx
+           integer(ilp) :: i,m,mp1,nincx
            ! .. intrinsic functions ..
            intrinsic :: mod
-           if (n<=0 .or. incx<=0) return
-           if (incx==1) then
+           if (n <= 0 .or. incx <= 0) return
+           if (incx == 1) then
               ! code for increment equal to 1
               ! clean-up loop
               m = mod(n,5)
-              if (m/=0) then
+              if (m /= 0) then
                  do i = 1,m
                     sx(i) = sa*sx(i)
                  end do
-                 if (n<5) return
+                 if (n < 5) return
               end if
               mp1 = m + 1
               do i = mp1,n,5
                  sx(i) = sa*sx(i)
-                 sx(i+1) = sa*sx(i+1)
-                 sx(i+2) = sa*sx(i+2)
-                 sx(i+3) = sa*sx(i+3)
-                 sx(i+4) = sa*sx(i+4)
+                 sx(i + 1) = sa*sx(i + 1)
+                 sx(i + 2) = sa*sx(i + 2)
+                 sx(i + 3) = sa*sx(i + 3)
+                 sx(i + 4) = sa*sx(i + 4)
               end do
            else
               ! code for increment not equal to 1
@@ -1698,56 +1693,56 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     pure subroutine stdlib_sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha, beta
-           integer(ilp), intent(in) :: incx, incy, n
-           character, intent(in) :: uplo
+           real(sp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: ap(*), x(*)
-           real(sp), intent(inout) :: y(*)
+           real(sp),intent(in) :: ap(*),x(*)
+           real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
-           real(sp) :: temp1, temp2
-           integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
+           real(sp) :: temp1,temp2
+           integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 6
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 9
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSPMV ',info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (n-1)*incx
+               kx = 1 - (n - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (n-1)*incy
+               ky = 1 - (n - 1)*incy
            end if
            ! start the operations. in this version the elements of the array ap
            ! are accessed sequentially with one pass through ap.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
                        do i = 1,n
                            y(i) = zero
                        end do
@@ -1758,7 +1753,7 @@ module stdlib_linalg_blas_s
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do i = 1,n
                            y(iy) = zero
                            iy = iy + incy
@@ -1771,11 +1766,11 @@ module stdlib_linalg_blas_s
                    end if
                end if
            end if
-           if (alpha==zero) return
+           if (alpha == zero) return
            kk = 1
            if (stdlib_lsame(uplo,'U')) then
               ! form  y  when ap contains the upper triangle.
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
@@ -1785,7 +1780,7 @@ module stdlib_linalg_blas_s
                            temp2 = temp2 + ap(k)*x(i)
                            k = k + 1
                        end do
-                       y(j) = y(j) + temp1*ap(kk+j-1) + alpha*temp2
+                       y(j) = y(j) + temp1*ap(kk + j - 1) + alpha*temp2
                        kk = kk + j
                    end do
                else
@@ -1802,7 +1797,7 @@ module stdlib_linalg_blas_s
                            ix = ix + incx
                            iy = iy + incy
                        end do
-                       y(jy) = y(jy) + temp1*ap(kk+j-1) + alpha*temp2
+                       y(jy) = y(jy) + temp1*ap(kk + j - 1) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
                        kk = kk + j
@@ -1810,7 +1805,7 @@ module stdlib_linalg_blas_s
                end if
            else
               ! form  y  when ap contains the lower triangle.
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
@@ -1822,7 +1817,7 @@ module stdlib_linalg_blas_s
                            k = k + 1
                        end do
                        y(j) = y(j) + alpha*temp2
-                       kk = kk + (n-j+1)
+                       kk = kk + (n - j + 1)
                    end do
                else
                    jx = kx
@@ -1842,7 +1837,7 @@ module stdlib_linalg_blas_s
                        y(jy) = y(jy) + alpha*temp2
                        jx = jx + incx
                        jy = jy + incy
-                       kk = kk + (n-j+1)
+                       kk = kk + (n - j + 1)
                    end do
                end if
            end if
@@ -1854,41 +1849,41 @@ module stdlib_linalg_blas_s
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_sspr(uplo,n,alpha,x,incx,ap)
+     pure subroutine stdlib_sspr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha
-           integer(ilp), intent(in) :: incx, n
-           character, intent(in) :: uplo
+           real(sp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(sp), intent(inout) :: ap(*)
-           real(sp), intent(in) :: x(*)
+           real(sp),intent(inout) :: ap(*)
+           real(sp),intent(in) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, j, jx, k, kk, kx
+           integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSPR  ',info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (alpha==zero)) return
+           if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of the array ap
@@ -1896,9 +1891,9 @@ module stdlib_linalg_blas_s
            kk = 1
            if (stdlib_lsame(uplo,'U')) then
               ! form  a  when upper triangle is stored in ap.
-               if (incx==1) then
+               if (incx == 1) then
                    do j = 1,n
-                       if (x(j)/=zero) then
+                       if (x(j) /= zero) then
                            temp = alpha*x(j)
                            k = kk
                            do i = 1,j
@@ -1911,7 +1906,7 @@ module stdlib_linalg_blas_s
                else
                    jx = kx
                    do j = 1,n
-                       if (x(jx)/=zero) then
+                       if (x(jx) /= zero) then
                            temp = alpha*x(jx)
                            ix = kx
                            do k = kk,kk + j - 1
@@ -1925,9 +1920,9 @@ module stdlib_linalg_blas_s
                end if
            else
               ! form  a  when lower triangle is stored in ap.
-               if (incx==1) then
+               if (incx == 1) then
                    do j = 1,n
-                       if (x(j)/=zero) then
+                       if (x(j) /= zero) then
                            temp = alpha*x(j)
                            k = kk
                            do i = j,n
@@ -1940,7 +1935,7 @@ module stdlib_linalg_blas_s
                else
                    jx = kx
                    do j = 1,n
-                       if (x(jx)/=zero) then
+                       if (x(jx) /= zero) then
                            temp = alpha*x(jx)
                            ix = jx
                            do k = kk,kk + n - j
@@ -1961,51 +1956,51 @@ module stdlib_linalg_blas_s
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_sspr2(uplo,n,alpha,x,incx,y,incy,ap)
+     pure subroutine stdlib_sspr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha
-           integer(ilp), intent(in) :: incx, incy, n
-           character, intent(in) :: uplo
+           real(sp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,incy,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(sp), intent(inout) :: ap(*)
-           real(sp), intent(in) :: x(*), y(*)
+           real(sp),intent(inout) :: ap(*)
+           real(sp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
            ! .. local scalars ..
-           real(sp) :: temp1, temp2
-           integer(ilp) :: i, info, ix, iy, j, jx, jy, k, kk, kx, ky
+           real(sp) :: temp1,temp2
+           integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 7
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSPR2 ',info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (alpha==zero)) return
+           if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
            ! unity.
-           if ((incx/=1) .or. (incy/=1)) then
-               if (incx>0) then
+           if ((incx /= 1) .or. (incy /= 1)) then
+               if (incx > 0) then
                    kx = 1
                else
-                   kx = 1 - (n-1)*incx
+                   kx = 1 - (n - 1)*incx
                end if
-               if (incy>0) then
+               if (incy > 0) then
                    ky = 1
                else
-                   ky = 1 - (n-1)*incy
+                   ky = 1 - (n - 1)*incy
                end if
                jx = kx
                jy = ky
@@ -2015,9 +2010,9 @@ module stdlib_linalg_blas_s
            kk = 1
            if (stdlib_lsame(uplo,'U')) then
               ! form  a  when upper triangle is stored in ap.
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
-                       if ((x(j)/=zero) .or. (y(j)/=zero)) then
+                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
                            temp1 = alpha*y(j)
                            temp2 = alpha*x(j)
                            k = kk
@@ -2030,7 +2025,7 @@ module stdlib_linalg_blas_s
                    end do
                else
                    do j = 1,n
-                       if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
+                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
                            temp1 = alpha*y(jy)
                            temp2 = alpha*x(jx)
                            ix = kx
@@ -2048,9 +2043,9 @@ module stdlib_linalg_blas_s
                end if
            else
               ! form  a  when lower triangle is stored in ap.
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
-                       if ((x(j)/=zero) .or. (y(j)/=zero)) then
+                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
                            temp1 = alpha*y(j)
                            temp2 = alpha*x(j)
                            k = kk
@@ -2063,7 +2058,7 @@ module stdlib_linalg_blas_s
                    end do
                else
                    do j = 1,n
-                       if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
+                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
                            temp1 = alpha*y(jy)
                            temp2 = alpha*x(jx)
                            ix = jx
@@ -2086,52 +2081,52 @@ module stdlib_linalg_blas_s
      ! SSWAP interchanges two vectors.
      ! uses unrolled loops for increments equal to 1.
 
-     subroutine stdlib_sswap(n,sx,incx,sy,incy)
+     pure subroutine stdlib_sswap(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, incy, n
+           integer(ilp),intent(in) :: incx,incy,n
            ! .. array arguments ..
-           real(sp), intent(inout) :: sx(*), sy(*)
+           real(sp),intent(inout) :: sx(*),sy(*)
         ! =====================================================================
            ! .. local scalars ..
            real(sp) :: stemp
-           integer(ilp) :: i, ix, iy, m, mp1
+           integer(ilp) :: i,ix,iy,m,mp1
            ! .. intrinsic functions ..
            intrinsic :: mod
-           if (n<=0) return
-           if (incx==1 .and. incy==1) then
+           if (n <= 0) return
+           if (incx == 1 .and. incy == 1) then
              ! code for both increments equal to 1
              ! clean-up loop
               m = mod(n,3)
-              if (m/=0) then
+              if (m /= 0) then
                  do i = 1,m
                     stemp = sx(i)
                     sx(i) = sy(i)
                     sy(i) = stemp
                  end do
-                 if (n<3) return
+                 if (n < 3) return
               end if
               mp1 = m + 1
               do i = mp1,n,3
                  stemp = sx(i)
                  sx(i) = sy(i)
                  sy(i) = stemp
-                 stemp = sx(i+1)
-                 sx(i+1) = sy(i+1)
-                 sy(i+1) = stemp
-                 stemp = sx(i+2)
-                 sx(i+2) = sy(i+2)
-                 sy(i+2) = stemp
+                 stemp = sx(i + 1)
+                 sx(i + 1) = sy(i + 1)
+                 sy(i + 1) = stemp
+                 stemp = sx(i + 2)
+                 sx(i + 2) = sy(i + 2)
+                 sy(i + 2) = stemp
               end do
            else
              ! code for unequal increments or equal increments not equal
                ! to 1
               ix = 1
               iy = 1
-              if (incx<0) ix = (-n+1)*incx + 1
-              if (incy<0) iy = (-n+1)*incy + 1
+              if (incx < 0) ix = (-n + 1)*incx + 1
+              if (incy < 0) iy = (-n + 1)*incy + 1
               do i = 1,n
                  stemp = sx(ix)
                  sx(ix) = sy(iy)
@@ -2150,23 +2145,23 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars,  A is a symmetric matrix and  B and
      ! C are  m by n matrices.
 
-     subroutine stdlib_ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha, beta
-           integer(ilp), intent(in) :: lda, ldb, ldc, m, n
-           character, intent(in) :: side, uplo
+           real(sp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: lda,ldb,ldc,m,n
+           character,intent(in) :: side,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*), b(ldb,*)
-           real(sp), intent(inout) :: c(ldc,*)
+           real(sp),intent(in) :: a(lda,*),b(ldb,*)
+           real(sp),intent(inout) :: c(ldc,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
-           real(sp) :: temp1, temp2
-           integer(ilp) :: i, info, j, k, nrowa
+           real(sp) :: temp1,temp2
+           integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: upper
            
            ! set nrowa as the number of rows of a.
@@ -2178,30 +2173,30 @@ module stdlib_linalg_blas_s
            upper = stdlib_lsame(uplo,'U')
            ! test the input parameters.
            info = 0
-           if ((.not.stdlib_lsame(side,'L')) .and. (.not.stdlib_lsame(side,'R'))) then
+           if ((.not. stdlib_lsame(side,'L')) .and. (.not. stdlib_lsame(side,'R'))) then
                info = 1
-           else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 2
-           else if (m<0) then
+           else if (m < 0) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1,nrowa)) then
                info = 7
-           else if (ldb<max(1,m)) then
+           else if (ldb < max(1,m)) then
                info = 9
-           else if (ldc<max(1,m)) then
+           else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSYMM ',info)
                return
            end if
            ! quick return if possible.
-           if ((m==0) .or. (n==0) .or.((alpha==zero).and. (beta==one))) return
+           if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
-               if (beta==zero) then
+           if (alpha == zero) then
+               if (beta == zero) then
                    do j = 1,n
                        do i = 1,m
                            c(i,j) = zero
@@ -2228,10 +2223,10 @@ module stdlib_linalg_blas_s
                                c(k,j) = c(k,j) + temp1*a(k,i)
                                temp2 = temp2 + b(k,j)*a(k,i)
                            end do
-                           if (beta==zero) then
+                           if (beta == zero) then
                                c(i,j) = temp1*a(i,i) + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + temp1*a(i,i) +alpha*temp2
+                               c(i,j) = beta*c(i,j) + temp1*a(i,i) + alpha*temp2
                            end if
                        end do
                    end do
@@ -2244,10 +2239,10 @@ module stdlib_linalg_blas_s
                                c(k,j) = c(k,j) + temp1*a(k,i)
                                temp2 = temp2 + b(k,j)*a(k,i)
                            end do
-                           if (beta==zero) then
+                           if (beta == zero) then
                                c(i,j) = temp1*a(i,i) + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + temp1*a(i,i) +alpha*temp2
+                               c(i,j) = beta*c(i,j) + temp1*a(i,i) + alpha*temp2
                            end if
                        end do
                    end do
@@ -2256,7 +2251,7 @@ module stdlib_linalg_blas_s
               ! form  c := alpha*b*a + beta*c.
                loop_170: do j = 1,n
                    temp1 = alpha*a(j,j)
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do i = 1,m
                            c(i,j) = temp1*b(i,j)
                        end do
@@ -2295,61 +2290,61 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix.
 
-     subroutine stdlib_ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha, beta
-           integer(ilp), intent(in) :: incx, incy, lda, n
-           character, intent(in) :: uplo
+           real(sp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: incx,incy,lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*), x(*)
-           real(sp), intent(inout) :: y(*)
+           real(sp),intent(in) :: a(lda,*),x(*)
+           real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
            ! .. local scalars ..
-           real(sp) :: temp1, temp2
-           integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
+           real(sp) :: temp1,temp2
+           integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (lda<max(1,n)) then
+           else if (lda < max(1,n)) then
                info = 5
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 7
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 10
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSYMV ',info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. ((alpha==zero).and. (beta==one))) return
+           if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
-           if (incx>0) then
+           if (incx > 0) then
                kx = 1
            else
-               kx = 1 - (n-1)*incx
+               kx = 1 - (n - 1)*incx
            end if
-           if (incy>0) then
+           if (incy > 0) then
                ky = 1
            else
-               ky = 1 - (n-1)*incy
+               ky = 1 - (n - 1)*incy
            end if
            ! start the operations. in this version the elements of a are
            ! accessed sequentially with one pass through the triangular part
            ! of a.
            ! first form  y := beta*y.
-           if (beta/=one) then
-               if (incy==1) then
-                   if (beta==zero) then
+           if (beta /= one) then
+               if (incy == 1) then
+                   if (beta == zero) then
                        do i = 1,n
                            y(i) = zero
                        end do
@@ -2360,7 +2355,7 @@ module stdlib_linalg_blas_s
                    end if
                else
                    iy = ky
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do i = 1,n
                            y(iy) = zero
                            iy = iy + incy
@@ -2373,10 +2368,10 @@ module stdlib_linalg_blas_s
                    end if
                end if
            end if
-           if (alpha==zero) return
+           if (alpha == zero) return
            if (stdlib_lsame(uplo,'U')) then
               ! form  y  when a is stored in upper triangle.
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
@@ -2407,7 +2402,7 @@ module stdlib_linalg_blas_s
                end if
            else
               ! form  y  when a is stored in lower triangle.
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
                        temp1 = alpha*x(j)
                        temp2 = zero
@@ -2447,45 +2442,45 @@ module stdlib_linalg_blas_s
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix.
 
-     subroutine stdlib_ssyr(uplo,n,alpha,x,incx,a,lda)
+     pure subroutine stdlib_ssyr(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha
-           integer(ilp), intent(in) :: incx, lda, n
-           character, intent(in) :: uplo
+           real(sp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(sp), intent(inout) :: a(lda,*)
-           real(sp), intent(in) :: x(*)
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(in) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, j, jx, kx
+           integer(ilp) :: i,info,ix,j,jx,kx
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
-           else if (lda<max(1,n)) then
+           else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSYR  ',info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (alpha==zero)) return
+           if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
@@ -2493,9 +2488,9 @@ module stdlib_linalg_blas_s
            ! of a.
            if (stdlib_lsame(uplo,'U')) then
               ! form  a  when a is stored in upper triangle.
-               if (incx==1) then
+               if (incx == 1) then
                    do j = 1,n
-                       if (x(j)/=zero) then
+                       if (x(j) /= zero) then
                            temp = alpha*x(j)
                            do i = 1,j
                                a(i,j) = a(i,j) + x(i)*temp
@@ -2505,7 +2500,7 @@ module stdlib_linalg_blas_s
                else
                    jx = kx
                    do j = 1,n
-                       if (x(jx)/=zero) then
+                       if (x(jx) /= zero) then
                            temp = alpha*x(jx)
                            ix = kx
                            do i = 1,j
@@ -2518,9 +2513,9 @@ module stdlib_linalg_blas_s
                end if
            else
               ! form  a  when a is stored in lower triangle.
-               if (incx==1) then
+               if (incx == 1) then
                    do j = 1,n
-                       if (x(j)/=zero) then
+                       if (x(j) /= zero) then
                            temp = alpha*x(j)
                            do i = j,n
                                a(i,j) = a(i,j) + x(i)*temp
@@ -2530,7 +2525,7 @@ module stdlib_linalg_blas_s
                else
                    jx = kx
                    do j = 1,n
-                       if (x(jx)/=zero) then
+                       if (x(jx) /= zero) then
                            temp = alpha*x(jx)
                            ix = jx
                            do i = j,n
@@ -2550,55 +2545,55 @@ module stdlib_linalg_blas_s
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n symmetric matrix.
 
-     subroutine stdlib_ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha
-           integer(ilp), intent(in) :: incx, incy, lda, n
-           character, intent(in) :: uplo
+           real(sp),intent(in) :: alpha
+           integer(ilp),intent(in) :: incx,incy,lda,n
+           character,intent(in) :: uplo
            ! .. array arguments ..
-           real(sp), intent(inout) :: a(lda,*)
-           real(sp), intent(in) :: x(*), y(*)
+           real(sp),intent(inout) :: a(lda,*)
+           real(sp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
            ! .. local scalars ..
-           real(sp) :: temp1, temp2
-           integer(ilp) :: i, info, ix, iy, j, jx, jy, kx, ky
+           real(sp) :: temp1,temp2
+           integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (n<0) then
+           else if (n < 0) then
                info = 2
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 5
-           else if (incy==0) then
+           else if (incy == 0) then
                info = 7
-           else if (lda<max(1,n)) then
+           else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSYR2 ',info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (alpha==zero)) return
+           if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
            ! unity.
-           if ((incx/=1) .or. (incy/=1)) then
-               if (incx>0) then
+           if ((incx /= 1) .or. (incy /= 1)) then
+               if (incx > 0) then
                    kx = 1
                else
-                   kx = 1 - (n-1)*incx
+                   kx = 1 - (n - 1)*incx
                end if
-               if (incy>0) then
+               if (incy > 0) then
                    ky = 1
                else
-                   ky = 1 - (n-1)*incy
+                   ky = 1 - (n - 1)*incy
                end if
                jx = kx
                jy = ky
@@ -2608,9 +2603,9 @@ module stdlib_linalg_blas_s
            ! of a.
            if (stdlib_lsame(uplo,'U')) then
               ! form  a  when a is stored in the upper triangle.
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
-                       if ((x(j)/=zero) .or. (y(j)/=zero)) then
+                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
                            temp1 = alpha*y(j)
                            temp2 = alpha*x(j)
                            do i = 1,j
@@ -2620,7 +2615,7 @@ module stdlib_linalg_blas_s
                    end do
                else
                    do j = 1,n
-                       if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
+                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
                            temp1 = alpha*y(jy)
                            temp2 = alpha*x(jx)
                            ix = kx
@@ -2637,9 +2632,9 @@ module stdlib_linalg_blas_s
                end if
            else
               ! form  a  when a is stored in the lower triangle.
-               if ((incx==1) .and. (incy==1)) then
+               if ((incx == 1) .and. (incy == 1)) then
                    do j = 1,n
-                       if ((x(j)/=zero) .or. (y(j)/=zero)) then
+                       if ((x(j) /= zero) .or. (y(j) /= zero)) then
                            temp1 = alpha*y(j)
                            temp2 = alpha*x(j)
                            do i = j,n
@@ -2649,7 +2644,7 @@ module stdlib_linalg_blas_s
                    end do
                else
                    do j = 1,n
-                       if ((x(jx)/=zero) .or. (y(jy)/=zero)) then
+                       if ((x(jx) /= zero) .or. (y(jy) /= zero)) then
                            temp1 = alpha*y(jy)
                            temp2 = alpha*x(jx)
                            ix = jx
@@ -2676,23 +2671,23 @@ module stdlib_linalg_blas_s
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
 
-     subroutine stdlib_ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha, beta
-           integer(ilp), intent(in) :: k, lda, ldb, ldc, n
-           character, intent(in) :: trans, uplo
+           real(sp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: k,lda,ldb,ldc,n
+           character,intent(in) :: trans,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*), b(ldb,*)
-           real(sp), intent(inout) :: c(ldc,*)
+           real(sp),intent(in) :: a(lda,*),b(ldb,*)
+           real(sp),intent(inout) :: c(ldc,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
-           real(sp) :: temp1, temp2
-           integer(ilp) :: i, info, j, l, nrowa
+           real(sp) :: temp1,temp2
+           integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
            
            ! test the input parameters.
@@ -2703,32 +2698,32 @@ module stdlib_linalg_blas_s
            end if
            upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'L'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'N')) .and.(.not.stdlib_lsame(trans,'T')) .and.(&
-                     .not.stdlib_lsame(trans,'C'))) then
+           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'T')) .and. ( &
+                     .not. stdlib_lsame(trans,'C'))) then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (k<0) then
+           else if (k < 0) then
                info = 4
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1,nrowa)) then
                info = 7
-           else if (ldb<max(1,nrowa)) then
+           else if (ldb < max(1,nrowa)) then
                info = 9
-           else if (ldc<max(1,n)) then
+           else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSYR2K',info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
+           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
+           if (alpha == zero) then
                if (upper) then
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do j = 1,n
                            do i = 1,j
                                c(i,j) = zero
@@ -2742,7 +2737,7 @@ module stdlib_linalg_blas_s
                        end do
                    end if
                else
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do j = 1,n
                            do i = j,n
                                c(i,j) = zero
@@ -2763,42 +2758,42 @@ module stdlib_linalg_blas_s
               ! form  c := alpha*a*b**t + alpha*b*a**t + c.
                if (upper) then
                    do j = 1,n
-                       if (beta==zero) then
+                       if (beta == zero) then
                            do i = 1,j
                                c(i,j) = zero
                            end do
-                       else if (beta/=one) then
+                       else if (beta /= one) then
                            do i = 1,j
                                c(i,j) = beta*c(i,j)
                            end do
                        end if
                        do l = 1,k
-                           if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
+                           if ((a(j,l) /= zero) .or. (b(j,l) /= zero)) then
                                temp1 = alpha*b(j,l)
                                temp2 = alpha*a(j,l)
                                do i = 1,j
-                                   c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
+                                   c(i,j) = c(i,j) + a(i,l)*temp1 + b(i,l)*temp2
                                end do
                            end if
                        end do
                    end do
                else
                    do j = 1,n
-                       if (beta==zero) then
+                       if (beta == zero) then
                            do i = j,n
                                c(i,j) = zero
                            end do
-                       else if (beta/=one) then
+                       else if (beta /= one) then
                            do i = j,n
                                c(i,j) = beta*c(i,j)
                            end do
                        end if
                        do l = 1,k
-                           if ((a(j,l)/=zero) .or. (b(j,l)/=zero)) then
+                           if ((a(j,l) /= zero) .or. (b(j,l) /= zero)) then
                                temp1 = alpha*b(j,l)
                                temp2 = alpha*a(j,l)
                                do i = j,n
-                                   c(i,j) = c(i,j) + a(i,l)*temp1 +b(i,l)*temp2
+                                   c(i,j) = c(i,j) + a(i,l)*temp1 + b(i,l)*temp2
                                end do
                            end if
                        end do
@@ -2815,10 +2810,10 @@ module stdlib_linalg_blas_s
                                temp1 = temp1 + a(l,i)*b(l,j)
                                temp2 = temp2 + b(l,i)*a(l,j)
                            end do
-                           if (beta==zero) then
+                           if (beta == zero) then
                                c(i,j) = alpha*temp1 + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + alpha*temp1 +alpha*temp2
+                               c(i,j) = beta*c(i,j) + alpha*temp1 + alpha*temp2
                            end if
                        end do
                    end do
@@ -2831,10 +2826,10 @@ module stdlib_linalg_blas_s
                                temp1 = temp1 + a(l,i)*b(l,j)
                                temp2 = temp2 + b(l,i)*a(l,j)
                            end do
-                           if (beta==zero) then
+                           if (beta == zero) then
                                c(i,j) = alpha*temp1 + alpha*temp2
                            else
-                               c(i,j) = beta*c(i,j) + alpha*temp1 +alpha*temp2
+                               c(i,j) = beta*c(i,j) + alpha*temp1 + alpha*temp2
                            end if
                        end do
                    end do
@@ -2851,23 +2846,23 @@ module stdlib_linalg_blas_s
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
 
-     subroutine stdlib_ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine stdlib_ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha, beta
-           integer(ilp), intent(in) :: k, lda, ldc, n
-           character, intent(in) :: trans, uplo
+           real(sp),intent(in) :: alpha,beta
+           integer(ilp),intent(in) :: k,lda,ldc,n
+           character,intent(in) :: trans,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*)
-           real(sp), intent(inout) :: c(ldc,*)
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(inout) :: c(ldc,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, j, l, nrowa
+           integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
            
            ! test the input parameters.
@@ -2878,30 +2873,30 @@ module stdlib_linalg_blas_s
            end if
            upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'L'))) then
+           if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 1
-           else if ((.not.stdlib_lsame(trans,'N')) .and.(.not.stdlib_lsame(trans,'T')) .and.(&
-                     .not.stdlib_lsame(trans,'C'))) then
+           else if ((.not. stdlib_lsame(trans,'N')) .and. (.not. stdlib_lsame(trans,'T')) .and. ( &
+                     .not. stdlib_lsame(trans,'C'))) then
                info = 2
-           else if (n<0) then
+           else if (n < 0) then
                info = 3
-           else if (k<0) then
+           else if (k < 0) then
                info = 4
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1,nrowa)) then
                info = 7
-           else if (ldc<max(1,n)) then
+           else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('SSYRK ',info)
                return
            end if
            ! quick return if possible.
-           if ((n==0) .or. (((alpha==zero).or.(k==0)).and. (beta==one))) return
+           if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
+           if (alpha == zero) then
                if (upper) then
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do j = 1,n
                            do i = 1,j
                                c(i,j) = zero
@@ -2915,7 +2910,7 @@ module stdlib_linalg_blas_s
                        end do
                    end if
                else
-                   if (beta==zero) then
+                   if (beta == zero) then
                        do j = 1,n
                            do i = j,n
                                c(i,j) = zero
@@ -2936,17 +2931,17 @@ module stdlib_linalg_blas_s
               ! form  c := alpha*a*a**t + beta*c.
                if (upper) then
                    do j = 1,n
-                       if (beta==zero) then
+                       if (beta == zero) then
                            do i = 1,j
                                c(i,j) = zero
                            end do
-                       else if (beta/=one) then
+                       else if (beta /= one) then
                            do i = 1,j
                                c(i,j) = beta*c(i,j)
                            end do
                        end if
                        do l = 1,k
-                           if (a(j,l)/=zero) then
+                           if (a(j,l) /= zero) then
                                temp = alpha*a(j,l)
                                do i = 1,j
                                    c(i,j) = c(i,j) + temp*a(i,l)
@@ -2956,17 +2951,17 @@ module stdlib_linalg_blas_s
                    end do
                else
                    do j = 1,n
-                       if (beta==zero) then
+                       if (beta == zero) then
                            do i = j,n
                                c(i,j) = zero
                            end do
-                       else if (beta/=one) then
+                       else if (beta /= one) then
                            do i = j,n
                                c(i,j) = beta*c(i,j)
                            end do
                        end if
                        do l = 1,k
-                           if (a(j,l)/=zero) then
+                           if (a(j,l) /= zero) then
                                temp = alpha*a(j,l)
                                do i = j,n
                                    c(i,j) = c(i,j) + temp*a(i,l)
@@ -2984,7 +2979,7 @@ module stdlib_linalg_blas_s
                            do l = 1,k
                                temp = temp + a(l,i)*a(l,j)
                            end do
-                           if (beta==zero) then
+                           if (beta == zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
@@ -2998,7 +2993,7 @@ module stdlib_linalg_blas_s
                            do l = 1,k
                                temp = temp + a(l,i)*a(l,j)
                            end do
-                           if (beta==zero) then
+                           if (beta == zero) then
                                c(i,j) = alpha*temp
                            else
                                c(i,j) = alpha*temp + beta*c(i,j)
@@ -3015,54 +3010,54 @@ module stdlib_linalg_blas_s
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
-     subroutine stdlib_stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, k, lda, n
-           character, intent(in) :: diag, trans, uplo
+           integer(ilp),intent(in) :: incx,k,lda,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*)
-           real(sp), intent(inout) :: x(*)
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
+           integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
            logical(lk) :: nounit
            ! .. intrinsic functions ..
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'N') .and. .not.stdlib_lsame(trans,'T') &
-                     .and..not.stdlib_lsame(trans,'C')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'U') .and. .not.stdlib_lsame(diag,'N')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (k<0) then
+           else if (k < 0) then
                info = 5
-           else if (lda< (k+1)) then
+           else if (lda < (k + 1)) then
                info = 7
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 9
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('STBMV ',info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
+           if (n == 0) return
            nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx   too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
@@ -3071,13 +3066,13 @@ module stdlib_linalg_blas_s
                ! form  x := a*x.
                if (stdlib_lsame(uplo,'U')) then
                    kplus1 = k + 1
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                temp = x(j)
                                l = kplus1 - j
-                               do i = max(1,j-k),j - 1
-                                   x(i) = x(i) + temp*a(l+i,j)
+                               do i = max(1,j - k),j - 1
+                                   x(i) = x(i) + temp*a(l + i,j)
                                end do
                                if (nounit) x(j) = x(j)*a(kplus1,j)
                            end if
@@ -3085,48 +3080,48 @@ module stdlib_linalg_blas_s
                    else
                        jx = kx
                        do j = 1,n
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
                                l = kplus1 - j
-                               do i = max(1,j-k),j - 1
-                                   x(ix) = x(ix) + temp*a(l+i,j)
+                               do i = max(1,j - k),j - 1
+                                   x(ix) = x(ix) + temp*a(l + i,j)
                                    ix = ix + incx
                                end do
                                if (nounit) x(jx) = x(jx)*a(kplus1,j)
                            end if
                            jx = jx + incx
-                           if (j>k) kx = kx + incx
+                           if (j > k) kx = kx + incx
                        end do
                    end if
                else
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = n,1,-1
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                temp = x(j)
                                l = 1 - j
-                               do i = min(n,j+k),j + 1,-1
-                                   x(i) = x(i) + temp*a(l+i,j)
+                               do i = min(n,j + k),j + 1,-1
+                                   x(i) = x(i) + temp*a(l + i,j)
                                end do
                                if (nounit) x(j) = x(j)*a(1,j)
                            end if
                        end do
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n,1,-1
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
                                l = 1 - j
-                               do i = min(n,j+k),j + 1,-1
-                                   x(ix) = x(ix) + temp*a(l+i,j)
+                               do i = min(n,j + k),j + 1,-1
+                                   x(ix) = x(ix) + temp*a(l + i,j)
                                    ix = ix - incx
                                end do
                                if (nounit) x(jx) = x(jx)*a(1,j)
                            end if
                            jx = jx - incx
-                           if ((n-j)>=k) kx = kx - incx
+                           if ((n - j) >= k) kx = kx - incx
                        end do
                    end if
                end if
@@ -3134,18 +3129,18 @@ module stdlib_linalg_blas_s
               ! form  x := a**t*x.
                if (stdlib_lsame(uplo,'U')) then
                    kplus1 = k + 1
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = n,1,-1
                            temp = x(j)
                            l = kplus1 - j
                            if (nounit) temp = temp*a(kplus1,j)
-                           do i = j - 1,max(1,j-k),-1
-                               temp = temp + a(l+i,j)*x(i)
+                           do i = j - 1,max(1,j - k),-1
+                               temp = temp + a(l + i,j)*x(i)
                            end do
                            x(j) = temp
                        end do
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n,1,-1
                            temp = x(jx)
@@ -3153,8 +3148,8 @@ module stdlib_linalg_blas_s
                            ix = kx
                            l = kplus1 - j
                            if (nounit) temp = temp*a(kplus1,j)
-                           do i = j - 1,max(1,j-k),-1
-                               temp = temp + a(l+i,j)*x(ix)
+                           do i = j - 1,max(1,j - k),-1
+                               temp = temp + a(l + i,j)*x(ix)
                                ix = ix - incx
                            end do
                            x(jx) = temp
@@ -3162,13 +3157,13 @@ module stdlib_linalg_blas_s
                        end do
                    end if
                else
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
                            temp = x(j)
                            l = 1 - j
                            if (nounit) temp = temp*a(1,j)
-                           do i = j + 1,min(n,j+k)
-                               temp = temp + a(l+i,j)*x(i)
+                           do i = j + 1,min(n,j + k)
+                               temp = temp + a(l + i,j)*x(i)
                            end do
                            x(j) = temp
                        end do
@@ -3180,8 +3175,8 @@ module stdlib_linalg_blas_s
                            ix = kx
                            l = 1 - j
                            if (nounit) temp = temp*a(1,j)
-                           do i = j + 1,min(n,j+k)
-                               temp = temp + a(l+i,j)*x(ix)
+                           do i = j + 1,min(n,j + k)
+                               temp = temp + a(l + i,j)*x(ix)
                                ix = ix + incx
                            end do
                            x(jx) = temp
@@ -3201,54 +3196,54 @@ module stdlib_linalg_blas_s
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, k, lda, n
-           character, intent(in) :: diag, trans, uplo
+           integer(ilp),intent(in) :: incx,k,lda,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*)
-           real(sp), intent(inout) :: x(*)
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, j, jx, kplus1, kx, l
+           integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
            logical(lk) :: nounit
            ! .. intrinsic functions ..
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'N') .and. .not.stdlib_lsame(trans,'T') &
-                     .and..not.stdlib_lsame(trans,'C')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'U') .and. .not.stdlib_lsame(diag,'N')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (k<0) then
+           else if (k < 0) then
                info = 5
-           else if (lda< (k+1)) then
+           else if (lda < (k + 1)) then
                info = 7
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 9
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('STBSV ',info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
+           if (n == 0) return
            nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
@@ -3257,29 +3252,29 @@ module stdlib_linalg_blas_s
               ! form  x := inv( a )*x.
                if (stdlib_lsame(uplo,'U')) then
                    kplus1 = k + 1
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = n,1,-1
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                l = kplus1 - j
                                if (nounit) x(j) = x(j)/a(kplus1,j)
                                temp = x(j)
-                               do i = j - 1,max(1,j-k),-1
-                                   x(i) = x(i) - temp*a(l+i,j)
+                               do i = j - 1,max(1,j - k),-1
+                                   x(i) = x(i) - temp*a(l + i,j)
                                end do
                            end if
                        end do
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n,1,-1
                            kx = kx - incx
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                ix = kx
                                l = kplus1 - j
                                if (nounit) x(jx) = x(jx)/a(kplus1,j)
                                temp = x(jx)
-                               do i = j - 1,max(1,j-k),-1
-                                   x(ix) = x(ix) - temp*a(l+i,j)
+                               do i = j - 1,max(1,j - k),-1
+                                   x(ix) = x(ix) - temp*a(l + i,j)
                                    ix = ix - incx
                                end do
                            end if
@@ -3287,14 +3282,14 @@ module stdlib_linalg_blas_s
                        end do
                    end if
                else
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                l = 1 - j
                                if (nounit) x(j) = x(j)/a(1,j)
                                temp = x(j)
-                               do i = j + 1,min(n,j+k)
-                                   x(i) = x(i) - temp*a(l+i,j)
+                               do i = j + 1,min(n,j + k)
+                                   x(i) = x(i) - temp*a(l + i,j)
                                end do
                            end if
                        end do
@@ -3302,13 +3297,13 @@ module stdlib_linalg_blas_s
                        jx = kx
                        do j = 1,n
                            kx = kx + incx
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                ix = kx
                                l = 1 - j
                                if (nounit) x(jx) = x(jx)/a(1,j)
                                temp = x(jx)
-                               do i = j + 1,min(n,j+k)
-                                   x(ix) = x(ix) - temp*a(l+i,j)
+                               do i = j + 1,min(n,j + k)
+                                   x(ix) = x(ix) - temp*a(l + i,j)
                                    ix = ix + incx
                                end do
                            end if
@@ -3320,12 +3315,12 @@ module stdlib_linalg_blas_s
               ! form  x := inv( a**t)*x.
                if (stdlib_lsame(uplo,'U')) then
                    kplus1 = k + 1
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
                            temp = x(j)
                            l = kplus1 - j
-                           do i = max(1,j-k),j - 1
-                               temp = temp - a(l+i,j)*x(i)
+                           do i = max(1,j - k),j - 1
+                               temp = temp - a(l + i,j)*x(i)
                            end do
                            if (nounit) temp = temp/a(kplus1,j)
                            x(j) = temp
@@ -3336,42 +3331,42 @@ module stdlib_linalg_blas_s
                            temp = x(jx)
                            ix = kx
                            l = kplus1 - j
-                           do i = max(1,j-k),j - 1
-                               temp = temp - a(l+i,j)*x(ix)
+                           do i = max(1,j - k),j - 1
+                               temp = temp - a(l + i,j)*x(ix)
                                ix = ix + incx
                            end do
                            if (nounit) temp = temp/a(kplus1,j)
                            x(jx) = temp
                            jx = jx + incx
-                           if (j>k) kx = kx + incx
+                           if (j > k) kx = kx + incx
                        end do
                    end if
                else
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = n,1,-1
                            temp = x(j)
                            l = 1 - j
-                           do i = min(n,j+k),j + 1,-1
-                               temp = temp - a(l+i,j)*x(i)
+                           do i = min(n,j + k),j + 1,-1
+                               temp = temp - a(l + i,j)*x(i)
                            end do
                            if (nounit) temp = temp/a(1,j)
                            x(j) = temp
                        end do
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n,1,-1
                            temp = x(jx)
                            ix = kx
                            l = 1 - j
-                           do i = min(n,j+k),j + 1,-1
-                               temp = temp - a(l+i,j)*x(ix)
+                           do i = min(n,j + k),j + 1,-1
+                               temp = temp - a(l + i,j)*x(ix)
                                ix = ix - incx
                            end do
                            if (nounit) temp = temp/a(1,j)
                            x(jx) = temp
                            jx = jx - incx
-                           if ((n-j)>=k) kx = kx - incx
+                           if ((n - j) >= k) kx = kx - incx
                        end do
                    end if
                end if
@@ -3384,48 +3379,48 @@ module stdlib_linalg_blas_s
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
 
-     subroutine stdlib_stpmv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_stpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, n
-           character, intent(in) :: diag, trans, uplo
+           integer(ilp),intent(in) :: incx,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: ap(*)
-           real(sp), intent(inout) :: x(*)
+           real(sp),intent(in) :: ap(*)
+           real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, j, jx, k, kk, kx
+           integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            logical(lk) :: nounit
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'N') .and. .not.stdlib_lsame(trans,'T') &
-                     .and..not.stdlib_lsame(trans,'C')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'U') .and. .not.stdlib_lsame(diag,'N')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 7
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('STPMV ',info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
+           if (n == 0) return
            nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of ap are
@@ -3434,73 +3429,73 @@ module stdlib_linalg_blas_s
               ! form  x:= a*x.
                if (stdlib_lsame(uplo,'U')) then
                    kk = 1
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                temp = x(j)
                                k = kk
                                do i = 1,j - 1
                                    x(i) = x(i) + temp*ap(k)
                                    k = k + 1
                                end do
-                               if (nounit) x(j) = x(j)*ap(kk+j-1)
+                               if (nounit) x(j) = x(j)*ap(kk + j - 1)
                            end if
                            kk = kk + j
                        end do
                    else
                        jx = kx
                        do j = 1,n
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
                                do k = kk,kk + j - 2
                                    x(ix) = x(ix) + temp*ap(k)
                                    ix = ix + incx
                                end do
-                               if (nounit) x(jx) = x(jx)*ap(kk+j-1)
+                               if (nounit) x(jx) = x(jx)*ap(kk + j - 1)
                            end if
                            jx = jx + incx
                            kk = kk + j
                        end do
                    end if
                else
-                   kk = (n* (n+1))/2
-                   if (incx==1) then
+                   kk = (n*(n + 1))/2
+                   if (incx == 1) then
                        do j = n,1,-1
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                temp = x(j)
                                k = kk
                                do i = n,j + 1,-1
                                    x(i) = x(i) + temp*ap(k)
                                    k = k - 1
                                end do
-                               if (nounit) x(j) = x(j)*ap(kk-n+j)
+                               if (nounit) x(j) = x(j)*ap(kk - n + j)
                            end if
-                           kk = kk - (n-j+1)
+                           kk = kk - (n - j + 1)
                        end do
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n,1,-1
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
-                               do k = kk,kk - (n- (j+1)),-1
+                               do k = kk,kk - (n - (j + 1)),-1
                                    x(ix) = x(ix) + temp*ap(k)
                                    ix = ix - incx
                                end do
-                               if (nounit) x(jx) = x(jx)*ap(kk-n+j)
+                               if (nounit) x(jx) = x(jx)*ap(kk - n + j)
                            end if
                            jx = jx - incx
-                           kk = kk - (n-j+1)
+                           kk = kk - (n - j + 1)
                        end do
                    end if
                end if
            else
               ! form  x := a**t*x.
                if (stdlib_lsame(uplo,'U')) then
-                   kk = (n* (n+1))/2
-                   if (incx==1) then
+                   kk = (n*(n + 1))/2
+                   if (incx == 1) then
                        do j = n,1,-1
                            temp = x(j)
                            if (nounit) temp = temp*ap(kk)
@@ -3513,7 +3508,7 @@ module stdlib_linalg_blas_s
                            kk = kk - j
                        end do
                    else
-                       jx = kx + (n-1)*incx
+                       jx = kx + (n - 1)*incx
                        do j = n,1,-1
                            temp = x(jx)
                            ix = jx
@@ -3529,7 +3524,7 @@ module stdlib_linalg_blas_s
                    end if
                else
                    kk = 1
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
                            temp = x(j)
                            if (nounit) temp = temp*ap(kk)
@@ -3539,7 +3534,7 @@ module stdlib_linalg_blas_s
                                k = k + 1
                            end do
                            x(j) = temp
-                           kk = kk + (n-j+1)
+                           kk = kk + (n - j + 1)
                        end do
                    else
                        jx = kx
@@ -3553,7 +3548,7 @@ module stdlib_linalg_blas_s
                            end do
                            x(jx) = temp
                            jx = jx + incx
-                           kk = kk + (n-j+1)
+                           kk = kk + (n - j + 1)
                        end do
                    end if
                end if
@@ -3568,48 +3563,48 @@ module stdlib_linalg_blas_s
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_stpsv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_stpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, n
-           character, intent(in) :: diag, trans, uplo
+           integer(ilp),intent(in) :: incx,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: ap(*)
-           real(sp), intent(inout) :: x(*)
+           real(sp),intent(in) :: ap(*)
+           real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, j, jx, k, kk, kx
+           integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            logical(lk) :: nounit
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'N') .and. .not.stdlib_lsame(trans,'T') &
-                     .and..not.stdlib_lsame(trans,'C')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'U') .and. .not.stdlib_lsame(diag,'N')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 7
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('STPSV ',info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
+           if (n == 0) return
            nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of ap are
@@ -3617,10 +3612,10 @@ module stdlib_linalg_blas_s
            if (stdlib_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
                if (stdlib_lsame(uplo,'U')) then
-                   kk = (n* (n+1))/2
-                   if (incx==1) then
+                   kk = (n*(n + 1))/2
+                   if (incx == 1) then
                        do j = n,1,-1
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                if (nounit) x(j) = x(j)/ap(kk)
                                temp = x(j)
                                k = kk - 1
@@ -3632,9 +3627,9 @@ module stdlib_linalg_blas_s
                            kk = kk - j
                        end do
                    else
-                       jx = kx + (n-1)*incx
+                       jx = kx + (n - 1)*incx
                        do j = n,1,-1
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                if (nounit) x(jx) = x(jx)/ap(kk)
                                temp = x(jx)
                                ix = jx
@@ -3649,9 +3644,9 @@ module stdlib_linalg_blas_s
                    end if
                else
                    kk = 1
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                if (nounit) x(j) = x(j)/ap(kk)
                                temp = x(j)
                                k = kk + 1
@@ -3660,12 +3655,12 @@ module stdlib_linalg_blas_s
                                    k = k + 1
                                end do
                            end if
-                           kk = kk + (n-j+1)
+                           kk = kk + (n - j + 1)
                        end do
                    else
                        jx = kx
                        do j = 1,n
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                if (nounit) x(jx) = x(jx)/ap(kk)
                                temp = x(jx)
                                ix = jx
@@ -3675,7 +3670,7 @@ module stdlib_linalg_blas_s
                                end do
                            end if
                            jx = jx + incx
-                           kk = kk + (n-j+1)
+                           kk = kk + (n - j + 1)
                        end do
                    end if
                end if
@@ -3683,7 +3678,7 @@ module stdlib_linalg_blas_s
               ! form  x := inv( a**t )*x.
                if (stdlib_lsame(uplo,'U')) then
                    kk = 1
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
                            temp = x(j)
                            k = kk
@@ -3691,7 +3686,7 @@ module stdlib_linalg_blas_s
                                temp = temp - ap(k)*x(i)
                                k = k + 1
                            end do
-                           if (nounit) temp = temp/ap(kk+j-1)
+                           if (nounit) temp = temp/ap(kk + j - 1)
                            x(j) = temp
                            kk = kk + j
                        end do
@@ -3704,15 +3699,15 @@ module stdlib_linalg_blas_s
                                temp = temp - ap(k)*x(ix)
                                ix = ix + incx
                            end do
-                           if (nounit) temp = temp/ap(kk+j-1)
+                           if (nounit) temp = temp/ap(kk + j - 1)
                            x(jx) = temp
                            jx = jx + incx
                            kk = kk + j
                        end do
                    end if
                else
-                   kk = (n* (n+1))/2
-                   if (incx==1) then
+                   kk = (n*(n + 1))/2
+                   if (incx == 1) then
                        do j = n,1,-1
                            temp = x(j)
                            k = kk
@@ -3720,24 +3715,24 @@ module stdlib_linalg_blas_s
                                temp = temp - ap(k)*x(i)
                                k = k - 1
                            end do
-                           if (nounit) temp = temp/ap(kk-n+j)
+                           if (nounit) temp = temp/ap(kk - n + j)
                            x(j) = temp
-                           kk = kk - (n-j+1)
+                           kk = kk - (n - j + 1)
                        end do
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n,1,-1
                            temp = x(jx)
                            ix = kx
-                           do k = kk,kk - (n- (j+1)),-1
+                           do k = kk,kk - (n - (j + 1)),-1
                                temp = temp - ap(k)*x(ix)
                                ix = ix - incx
                            end do
-                           if (nounit) temp = temp/ap(kk-n+j)
+                           if (nounit) temp = temp/ap(kk - n + j)
                            x(jx) = temp
                            jx = jx - incx
-                           kk = kk - (n-j+1)
+                           kk = kk - (n - j + 1)
                        end do
                    end if
                end if
@@ -3751,24 +3746,24 @@ module stdlib_linalg_blas_s
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T.
 
-     subroutine stdlib_strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha
-           integer(ilp), intent(in) :: lda, ldb, m, n
-           character, intent(in) :: diag, side, transa, uplo
+           real(sp),intent(in) :: alpha
+           integer(ilp),intent(in) :: lda,ldb,m,n
+           character,intent(in) :: diag,side,transa,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*)
-           real(sp), intent(inout) :: b(ldb,*)
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, j, k, nrowa
-           logical(lk) :: lside, nounit, upper
+           integer(ilp) :: i,info,j,k,nrowa
+           logical(lk) :: lside,nounit,upper
            
            ! test the input parameters.
            lside = stdlib_lsame(side,'L')
@@ -3780,33 +3775,33 @@ module stdlib_linalg_blas_s
            nounit = stdlib_lsame(diag,'N')
            upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not.lside) .and. (.not.stdlib_lsame(side,'R'))) then
+           if ((.not. lside) .and. (.not. stdlib_lsame(side,'R'))) then
                info = 1
-           else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 2
-           else if ((.not.stdlib_lsame(transa,'N')) .and.(.not.stdlib_lsame(transa,'T')) .and.(&
-                     .not.stdlib_lsame(transa,'C'))) then
+           else if ((.not. stdlib_lsame(transa,'N')) .and. (.not. stdlib_lsame(transa,'T')) .and. ( &
+                     .not. stdlib_lsame(transa,'C'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'U')) .and. (.not.stdlib_lsame(diag,'N'))) &
+           else if ((.not. stdlib_lsame(diag,'U')) .and. (.not. stdlib_lsame(diag,'N'))) &
                      then
                info = 4
-           else if (m<0) then
+           else if (m < 0) then
                info = 5
-           else if (n<0) then
+           else if (n < 0) then
                info = 6
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1,nrowa)) then
                info = 9
-           else if (ldb<max(1,m)) then
+           else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('STRMM ',info)
                return
            end if
            ! quick return if possible.
-           if (m==0 .or. n==0) return
+           if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
+           if (alpha == zero) then
                do j = 1,n
                    do i = 1,m
                        b(i,j) = zero
@@ -3821,7 +3816,7 @@ module stdlib_linalg_blas_s
                    if (upper) then
                        do j = 1,n
                            do k = 1,m
-                               if (b(k,j)/=zero) then
+                               if (b(k,j) /= zero) then
                                    temp = alpha*b(k,j)
                                    do i = 1,k - 1
                                        b(i,j) = b(i,j) + temp*a(i,k)
@@ -3834,7 +3829,7 @@ module stdlib_linalg_blas_s
                    else
                        do j = 1,n
                            do k = m,1,-1
-                               if (b(k,j)/=zero) then
+                               if (b(k,j) /= zero) then
                                    temp = alpha*b(k,j)
                                    b(k,j) = temp
                                    if (nounit) b(k,j) = b(k,j)*a(k,k)
@@ -3882,7 +3877,7 @@ module stdlib_linalg_blas_s
                                b(i,j) = temp*b(i,j)
                            end do
                            do k = 1,j - 1
-                               if (a(k,j)/=zero) then
+                               if (a(k,j) /= zero) then
                                    temp = alpha*a(k,j)
                                    do i = 1,m
                                        b(i,j) = b(i,j) + temp*b(i,k)
@@ -3898,7 +3893,7 @@ module stdlib_linalg_blas_s
                                b(i,j) = temp*b(i,j)
                            end do
                            do k = j + 1,n
-                               if (a(k,j)/=zero) then
+                               if (a(k,j) /= zero) then
                                    temp = alpha*a(k,j)
                                    do i = 1,m
                                        b(i,j) = b(i,j) + temp*b(i,k)
@@ -3912,7 +3907,7 @@ module stdlib_linalg_blas_s
                    if (upper) then
                        do k = 1,n
                            do j = 1,k - 1
-                               if (a(j,k)/=zero) then
+                               if (a(j,k) /= zero) then
                                    temp = alpha*a(j,k)
                                    do i = 1,m
                                        b(i,j) = b(i,j) + temp*b(i,k)
@@ -3921,7 +3916,7 @@ module stdlib_linalg_blas_s
                            end do
                            temp = alpha
                            if (nounit) temp = temp*a(k,k)
-                           if (temp/=one) then
+                           if (temp /= one) then
                                do i = 1,m
                                    b(i,k) = temp*b(i,k)
                                end do
@@ -3930,7 +3925,7 @@ module stdlib_linalg_blas_s
                    else
                        do k = n,1,-1
                            do j = k + 1,n
-                               if (a(j,k)/=zero) then
+                               if (a(j,k) /= zero) then
                                    temp = alpha*a(j,k)
                                    do i = 1,m
                                        b(i,j) = b(i,j) + temp*b(i,k)
@@ -3939,7 +3934,7 @@ module stdlib_linalg_blas_s
                            end do
                            temp = alpha
                            if (nounit) temp = temp*a(k,k)
-                           if (temp/=one) then
+                           if (temp /= one) then
                                do i = 1,m
                                    b(i,k) = temp*b(i,k)
                                end do
@@ -3956,52 +3951,52 @@ module stdlib_linalg_blas_s
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
 
-     subroutine stdlib_strmv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_strmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, lda, n
-           character, intent(in) :: diag, trans, uplo
+           integer(ilp),intent(in) :: incx,lda,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*)
-           real(sp), intent(inout) :: x(*)
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, j, jx, kx
+           integer(ilp) :: i,info,ix,j,jx,kx
            logical(lk) :: nounit
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'N') .and. .not.stdlib_lsame(trans,'T') &
-                     .and..not.stdlib_lsame(trans,'C')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'U') .and. .not.stdlib_lsame(diag,'N')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (lda<max(1,n)) then
+           else if (lda < max(1,n)) then
                info = 6
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 8
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('STRMV ',info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
+           if (n == 0) return
            nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
@@ -4009,9 +4004,9 @@ module stdlib_linalg_blas_s
            if (stdlib_lsame(trans,'N')) then
               ! form  x := a*x.
                if (stdlib_lsame(uplo,'U')) then
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                temp = x(j)
                                do i = 1,j - 1
                                    x(i) = x(i) + temp*a(i,j)
@@ -4022,7 +4017,7 @@ module stdlib_linalg_blas_s
                    else
                        jx = kx
                        do j = 1,n
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
                                do i = 1,j - 1
@@ -4035,9 +4030,9 @@ module stdlib_linalg_blas_s
                        end do
                    end if
                else
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = n,1,-1
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                temp = x(j)
                                do i = n,j + 1,-1
                                    x(i) = x(i) + temp*a(i,j)
@@ -4046,10 +4041,10 @@ module stdlib_linalg_blas_s
                            end if
                        end do
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n,1,-1
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                temp = x(jx)
                                ix = kx
                                do i = n,j + 1,-1
@@ -4065,7 +4060,7 @@ module stdlib_linalg_blas_s
            else
               ! form  x := a**t*x.
                if (stdlib_lsame(uplo,'U')) then
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = n,1,-1
                            temp = x(j)
                            if (nounit) temp = temp*a(j,j)
@@ -4075,7 +4070,7 @@ module stdlib_linalg_blas_s
                            x(j) = temp
                        end do
                    else
-                       jx = kx + (n-1)*incx
+                       jx = kx + (n - 1)*incx
                        do j = n,1,-1
                            temp = x(jx)
                            ix = jx
@@ -4089,7 +4084,7 @@ module stdlib_linalg_blas_s
                        end do
                    end if
                else
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
                            temp = x(j)
                            if (nounit) temp = temp*a(j,j)
@@ -4124,24 +4119,24 @@ module stdlib_linalg_blas_s
      ! op( A ) = A   or   op( A ) = A**T.
      ! The matrix X is overwritten on B.
 
-     subroutine stdlib_strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           real(sp), intent(in) :: alpha
-           integer(ilp), intent(in) :: lda, ldb, m, n
-           character, intent(in) :: diag, side, transa, uplo
+           real(sp),intent(in) :: alpha
+           integer(ilp),intent(in) :: lda,ldb,m,n
+           character,intent(in) :: diag,side,transa,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*)
-           real(sp), intent(inout) :: b(ldb,*)
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(inout) :: b(ldb,*)
         ! =====================================================================
            ! .. intrinsic functions ..
            intrinsic :: max
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, j, k, nrowa
-           logical(lk) :: lside, nounit, upper
+           integer(ilp) :: i,info,j,k,nrowa
+           logical(lk) :: lside,nounit,upper
            
            ! test the input parameters.
            lside = stdlib_lsame(side,'L')
@@ -4153,33 +4148,33 @@ module stdlib_linalg_blas_s
            nounit = stdlib_lsame(diag,'N')
            upper = stdlib_lsame(uplo,'U')
            info = 0
-           if ((.not.lside) .and. (.not.stdlib_lsame(side,'R'))) then
+           if ((.not. lside) .and. (.not. stdlib_lsame(side,'R'))) then
                info = 1
-           else if ((.not.upper) .and. (.not.stdlib_lsame(uplo,'L'))) then
+           else if ((.not. upper) .and. (.not. stdlib_lsame(uplo,'L'))) then
                info = 2
-           else if ((.not.stdlib_lsame(transa,'N')) .and.(.not.stdlib_lsame(transa,'T')) .and.(&
-                     .not.stdlib_lsame(transa,'C'))) then
+           else if ((.not. stdlib_lsame(transa,'N')) .and. (.not. stdlib_lsame(transa,'T')) .and. ( &
+                     .not. stdlib_lsame(transa,'C'))) then
                info = 3
-           else if ((.not.stdlib_lsame(diag,'U')) .and. (.not.stdlib_lsame(diag,'N'))) &
+           else if ((.not. stdlib_lsame(diag,'U')) .and. (.not. stdlib_lsame(diag,'N'))) &
                      then
                info = 4
-           else if (m<0) then
+           else if (m < 0) then
                info = 5
-           else if (n<0) then
+           else if (n < 0) then
                info = 6
-           else if (lda<max(1,nrowa)) then
+           else if (lda < max(1,nrowa)) then
                info = 9
-           else if (ldb<max(1,m)) then
+           else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('STRSM ',info)
                return
            end if
            ! quick return if possible.
-           if (m==0 .or. n==0) return
+           if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
-           if (alpha==zero) then
+           if (alpha == zero) then
                do j = 1,n
                    do i = 1,m
                        b(i,j) = zero
@@ -4193,13 +4188,13 @@ module stdlib_linalg_blas_s
                  ! form  b := alpha*inv( a )*b.
                    if (upper) then
                        do j = 1,n
-                           if (alpha/=one) then
+                           if (alpha /= one) then
                                do i = 1,m
                                    b(i,j) = alpha*b(i,j)
                                end do
                            end if
                            do k = m,1,-1
-                               if (b(k,j)/=zero) then
+                               if (b(k,j) /= zero) then
                                    if (nounit) b(k,j) = b(k,j)/a(k,k)
                                    do i = 1,k - 1
                                        b(i,j) = b(i,j) - b(k,j)*a(i,k)
@@ -4209,13 +4204,13 @@ module stdlib_linalg_blas_s
                        end do
                    else
                        do j = 1,n
-                           if (alpha/=one) then
+                           if (alpha /= one) then
                                do i = 1,m
                                    b(i,j) = alpha*b(i,j)
                                end do
                            end if
                            do k = 1,m
-                               if (b(k,j)/=zero) then
+                               if (b(k,j) /= zero) then
                                    if (nounit) b(k,j) = b(k,j)/a(k,k)
                                    do i = k + 1,m
                                        b(i,j) = b(i,j) - b(k,j)*a(i,k)
@@ -4255,13 +4250,13 @@ module stdlib_linalg_blas_s
                  ! form  b := alpha*b*inv( a ).
                    if (upper) then
                        do j = 1,n
-                           if (alpha/=one) then
+                           if (alpha /= one) then
                                do i = 1,m
                                    b(i,j) = alpha*b(i,j)
                                end do
                            end if
                            do k = 1,j - 1
-                               if (a(k,j)/=zero) then
+                               if (a(k,j) /= zero) then
                                    do i = 1,m
                                        b(i,j) = b(i,j) - a(k,j)*b(i,k)
                                    end do
@@ -4276,13 +4271,13 @@ module stdlib_linalg_blas_s
                        end do
                    else
                        do j = n,1,-1
-                           if (alpha/=one) then
+                           if (alpha /= one) then
                                do i = 1,m
                                    b(i,j) = alpha*b(i,j)
                                end do
                            end if
                            do k = j + 1,n
-                               if (a(k,j)/=zero) then
+                               if (a(k,j) /= zero) then
                                    do i = 1,m
                                        b(i,j) = b(i,j) - a(k,j)*b(i,k)
                                    end do
@@ -4307,14 +4302,14 @@ module stdlib_linalg_blas_s
                                end do
                            end if
                            do j = 1,k - 1
-                               if (a(j,k)/=zero) then
+                               if (a(j,k) /= zero) then
                                    temp = a(j,k)
                                    do i = 1,m
                                        b(i,j) = b(i,j) - temp*b(i,k)
                                    end do
                                end if
                            end do
-                           if (alpha/=one) then
+                           if (alpha /= one) then
                                do i = 1,m
                                    b(i,k) = alpha*b(i,k)
                                end do
@@ -4329,14 +4324,14 @@ module stdlib_linalg_blas_s
                                end do
                            end if
                            do j = k + 1,n
-                               if (a(j,k)/=zero) then
+                               if (a(j,k) /= zero) then
                                    temp = a(j,k)
                                    do i = 1,m
                                        b(i,j) = b(i,j) - temp*b(i,k)
                                    end do
                                end if
                            end do
-                           if (alpha/=one) then
+                           if (alpha /= one) then
                                do i = 1,m
                                    b(i,k) = alpha*b(i,k)
                                end do
@@ -4355,52 +4350,52 @@ module stdlib_linalg_blas_s
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_strsv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_strsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! .. scalar arguments ..
-           integer(ilp), intent(in) :: incx, lda, n
-           character, intent(in) :: diag, trans, uplo
+           integer(ilp),intent(in) :: incx,lda,n
+           character,intent(in) :: diag,trans,uplo
            ! .. array arguments ..
-           real(sp), intent(in) :: a(lda,*)
-           real(sp), intent(inout) :: x(*)
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
            ! .. local scalars ..
            real(sp) :: temp
-           integer(ilp) :: i, info, ix, j, jx, kx
+           integer(ilp) :: i,info,ix,j,jx,kx
            logical(lk) :: nounit
            ! .. intrinsic functions ..
            intrinsic :: max
            ! test the input parameters.
            info = 0
-           if (.not.stdlib_lsame(uplo,'U') .and. .not.stdlib_lsame(uplo,'L')) then
+           if (.not. stdlib_lsame(uplo,'U') .and. .not. stdlib_lsame(uplo,'L')) then
                info = 1
-           else if (.not.stdlib_lsame(trans,'N') .and. .not.stdlib_lsame(trans,'T') &
-                     .and..not.stdlib_lsame(trans,'C')) then
+           else if (.not. stdlib_lsame(trans,'N') .and. .not. stdlib_lsame(trans,'T') &
+                     .and. .not. stdlib_lsame(trans,'C')) then
                info = 2
-           else if (.not.stdlib_lsame(diag,'U') .and. .not.stdlib_lsame(diag,'N')) then
+           else if (.not. stdlib_lsame(diag,'U') .and. .not. stdlib_lsame(diag,'N')) then
                info = 3
-           else if (n<0) then
+           else if (n < 0) then
                info = 4
-           else if (lda<max(1,n)) then
+           else if (lda < max(1,n)) then
                info = 6
-           else if (incx==0) then
+           else if (incx == 0) then
                info = 8
            end if
-           if (info/=0) then
+           if (info /= 0) then
                call stdlib_xerbla('STRSV ',info)
                return
            end if
            ! quick return if possible.
-           if (n==0) return
+           if (n == 0) return
            nounit = stdlib_lsame(diag,'N')
            ! set up the start point in x if the increment is not unity. this
            ! will be  ( n - 1 )*incx  too small for descending loops.
-           if (incx<=0) then
-               kx = 1 - (n-1)*incx
-           else if (incx/=1) then
+           if (incx <= 0) then
+               kx = 1 - (n - 1)*incx
+           else if (incx /= 1) then
                kx = 1
            end if
            ! start the operations. in this version the elements of a are
@@ -4408,9 +4403,9 @@ module stdlib_linalg_blas_s
            if (stdlib_lsame(trans,'N')) then
               ! form  x := inv( a )*x.
                if (stdlib_lsame(uplo,'U')) then
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = n,1,-1
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                if (nounit) x(j) = x(j)/a(j,j)
                                temp = x(j)
                                do i = j - 1,1,-1
@@ -4419,9 +4414,9 @@ module stdlib_linalg_blas_s
                            end if
                        end do
                    else
-                       jx = kx + (n-1)*incx
+                       jx = kx + (n - 1)*incx
                        do j = n,1,-1
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                if (nounit) x(jx) = x(jx)/a(j,j)
                                temp = x(jx)
                                ix = jx
@@ -4434,9 +4429,9 @@ module stdlib_linalg_blas_s
                        end do
                    end if
                else
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
-                           if (x(j)/=zero) then
+                           if (x(j) /= zero) then
                                if (nounit) x(j) = x(j)/a(j,j)
                                temp = x(j)
                                do i = j + 1,n
@@ -4447,7 +4442,7 @@ module stdlib_linalg_blas_s
                    else
                        jx = kx
                        do j = 1,n
-                           if (x(jx)/=zero) then
+                           if (x(jx) /= zero) then
                                if (nounit) x(jx) = x(jx)/a(j,j)
                                temp = x(jx)
                                ix = jx
@@ -4463,7 +4458,7 @@ module stdlib_linalg_blas_s
            else
               ! form  x := inv( a**t )*x.
                if (stdlib_lsame(uplo,'U')) then
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = 1,n
                            temp = x(j)
                            do i = 1,j - 1
@@ -4487,7 +4482,7 @@ module stdlib_linalg_blas_s
                        end do
                    end if
                else
-                   if (incx==1) then
+                   if (incx == 1) then
                        do j = n,1,-1
                            temp = x(j)
                            do i = n,j + 1,-1
@@ -4497,7 +4492,7 @@ module stdlib_linalg_blas_s
                            x(j) = temp
                        end do
                    else
-                       kx = kx + (n-1)*incx
+                       kx = kx + (n - 1)*incx
                        jx = kx
                        do j = n,1,-1
                            temp = x(jx)
@@ -4515,7 +4510,5 @@ module stdlib_linalg_blas_s
            end if
            return
      end subroutine stdlib_strsv
-
-
 
 end module stdlib_linalg_blas_s
