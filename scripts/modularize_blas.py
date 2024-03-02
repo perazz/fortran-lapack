@@ -70,23 +70,23 @@ def patch_lapack_aux(fid,prefix,indent):
     fid.write(INDENT + "abstract interface \n")
     for i in range(len(initials)):
         if (i<=2):
-            fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   pure elemental logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alphar,alphai,beta \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   pure elemental logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alphar,alphai \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
         else:
-            fid.write(INDENT + "   logical(lk) function {prf}selctg_{int}(alpha,beta) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   pure elemental logical(lk) function {prf}selctg_{int}(alpha,beta) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alpha,beta \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "   logical(lk) function {prf}select_{int}(alpha) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   pure elemental logical(lk) function {prf}select_{int}(alpha) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alpha \n".format(datatypes[i]))
@@ -873,7 +873,7 @@ def adjust_variable_declaration(Source,line,datatype):
             if DEBUG: print("VAIRABLE + "+vls)
 
             # Patch function argument
-            if vls=='selctg':
+            if vls=='selctg' and vls in Source.arguments:
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_selctg_"+datatype[0]+") :: selctg"
                 lines.append(line)
@@ -884,7 +884,7 @@ def adjust_variable_declaration(Source,line,datatype):
                     print(datatype)
                     exit(1)
 
-            elif vls=='select':
+            elif vls=='select' and vls in Source.arguments:
                 nspaces = len(line)-len(line.lstrip(' '))
                 line = nspaces*" " + "procedure(stdlib_select_"+datatype[0]+") :: select"
                 lines.append(line)
@@ -899,8 +899,6 @@ def adjust_variable_declaration(Source,line,datatype):
 
                 # Extract individual variable names
                 v,v_noarray = extract_variable_declarations(vls)
-
-                print("variable decl "+vls)
 
                 if len(v)<=0:
                     print(vls)
@@ -1418,6 +1416,8 @@ class Fortran_Source:
 
         if self.is_pure():
 
+            print("Function "+self.old_name+" IS PURE ")
+
             for i in range(len(self.body)):
                 lsl = self.body[i].lower()
                 if self.is_function and 'function' in lsl:
@@ -1464,6 +1464,7 @@ class Fortran_Source:
             for a in range(len(self.arguments)):
                 arg = self.arguments[a]
                 print(arg)
+            print(self.old_name+"is pure")
             exit(1)
         else:
            return False
@@ -1471,7 +1472,7 @@ class Fortran_Source:
     # Return declaration line of a function
     def declaration(self,strip_prefix,keep_classifiers):
 
-        DEBUG = self.old_name == 'ilaenv'
+        DEBUG = False #self.old_name == 'ilaenv'
 
         # Find header
         head = ""
@@ -1550,6 +1551,7 @@ class Fortran_Source:
                     else:
                         if DEBUG: print("variable <"+v[k]+"> not in args")
 
+        if DEBUG: print("exit after declaration: "+self.old_name)
         if DEBUG: exit(1)
 
         return head,var_decl
@@ -2180,6 +2182,9 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     # Add parameters
     body = add_parameter_lines(Source,prefix,body)
 
+    # Data statements
+#    body = replace_data_statements(Source,prefix,body)
+
     # PATCHES
     if Source.old_name.lower().endswith('la_lin_berr'):
         for j in range(len(body)):
@@ -2193,6 +2198,113 @@ def rename_source_body(Source,Sources,external_funs,prefix):
            body[j] = re.sub(r' lsame\(',r' stdlib_lsame(',body[j])
 
     return body,dependency_list
+
+# Replace data statements with variable assignments.
+# There is no parsing here: just patches
+def replace_data_statements(Source,prefix,body):
+
+    import re
+
+    start_line = 0
+    INDENT = "    "
+
+    new_body = []
+
+    # Find parameter line
+    for i in range(len(body)):
+       ll = body[i].lstrip().lower()
+       nosp = ll.replace(" ","")
+       nspaces = len(body[i])-len(ll)
+       if ll.startswith('data') and not ll[0]=='!':
+
+           if ll.startswith('data zero,two/0._dp,2._dp/'):
+               line = nspaces*" "+"zero = 0.0_dp"
+               new_body.append(line)
+               line = nspaces*" "+"two = 2.0_dp"
+               new_body.append(line)
+           elif ll.startswith('data zero,two/0._sp,2._sp/'):
+               line = nspaces*" "+"zero = 0.0_sp"
+               new_body.append(line)
+               line = nspaces*" "+"two = 2.0_sp"
+               new_body.append(line)
+           elif ll.startswith('data zero,one,two/0._sp,1._sp,2._sp/'):
+               line = nspaces*" "+"zero = 0.0_sp"
+               new_body.append(line)
+               line = nspaces*" "+"one = 1.0_sp"
+               new_body.append(line)
+               line = nspaces*" "+"two = 2.0_sp"
+               new_body.append(line)
+           elif ll.startswith('data zero,one,two/0._dp,1._dp,2._dp/'):
+               line = nspaces*" "+"zero = 0.0_dp"
+               new_body.append(line)
+               line = nspaces*" "+"one = 1.0_dp"
+               new_body.append(line)
+               line = nspaces*" "+"two = 2.0_dp"
+               new_body.append(line)
+           elif ll.startswith('data gam,gamsq,rgamsq/4096._dp,16777216._dp,5.9604645d-8/'):
+               line = nspaces*" "+"gam = 4096.0_dp"
+               new_body.append(line)
+               line = nspaces*" "+"gamsq = 16777216.0_dp"
+               new_body.append(line)
+               line = nspaces*" "+"rgamsq = 5.9604645e-8_dp"
+               new_body.append(line)
+           elif ll.startswith('data gam,gamsq,rgamsq/4096._sp,1.67772e7,5.96046e-8/'):
+               line = nspaces*" "+"gam = 4096.0_sp"
+               new_body.append(line)
+               line = nspaces*" "+"gamsq = 1.67772e7_sp"
+               new_body.append(line)
+               line = nspaces*" "+"rgamsq = 5.96046e-8_sp"
+               new_body.append(line)
+           elif ll.startswith('data               zswap / .false., .false., .true., .true. /'):
+               line = nspaces*" "+"zswap = [.false.,.false.,.true.,.true.]"
+               new_body.append(line)
+           elif ll.startswith('data               xswpiv / .false., .false., .true., .true. /'):
+               line = nspaces*" "+"xswpiv = [.false.,.false.,.true.,.true.]"
+               new_body.append(line)
+           elif ll.startswith('data               rswap / .false., .true., .false., .true. /'):
+               line = nspaces*" "+"rswap = [.false.,.true.,.false.,.true.]"
+               new_body.append(line)
+           elif ll.startswith('data               bswpiv / .false., .true., .false., .true. /'):
+               line = nspaces*" "+"bswpiv = [.false.,.true.,.false.,.true.]"
+               new_body.append(line)
+           elif ll.startswith('data               cswap / .false., .false., .true., .true. /'):
+               line = nspaces*" "+"cswap = [.false.,.false.,.true.,.true.]"
+               new_body.append(line)
+           elif ll.startswith('data               ipivot / 1, 2, 3, 4, 2, 1, 4, 3, 3, 4, 1, 2, 4,3, 2, 1 /'):
+               line = nspaces*" "+"ipivot = reshape([1,2,3,4,2,1,4,3,3,4,1,2,4,3,2,1],[4,4])"
+               new_body.append(line)
+           elif ll.startswith('data               locu12 / 3, 4, 1, 2 / , locl21 / 2, 1, 4, 3 / ,locu22 / 4, 3, 2, 1 /'):
+               line = nspaces*" "+"locu12 = [3,4,1,2]"
+               new_body.append(line)
+               line = nspaces*" "+"locl21 = [2,1,4,3]"
+               new_body.append(line)
+               line = nspaces*" "+"locu22 = [4,3,2,1]"
+               new_body.append(line)
+           else:
+
+               # Match MM pattern
+               nosp = ll.replace(" ","")
+
+
+               m = re.match(r'data\(mm\((\d+),j\),j=(\d+),(\d+)\)/(.+)/',nosp)
+
+               if (not m is None):
+                   print(m.group(1))
+                   print(m.group(4))
+                   line = nspaces*" "+"mm("+m.group(1)+","+m.group(2)+":"+m.group(3)+"=["+m.group(4)+"]"
+                   new_body.append(line)
+
+               else:
+                   print(Source.old_name)
+                   print("starts? "+str(ll.startswith('data zero,two/0._dp,2._dp/')))
+                   print(ll)
+                   print("NEW DATA STATEMENT FOUND")
+                   exit(1)
+
+       else:
+          new_body.append(body[i])
+
+    return new_body
 
 # Filter out parameters from the global config, and list those in the current routine
 def add_parameter_lines(Source,prefix,body):
@@ -2412,7 +2524,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = file_name.startswith("ilaenv")
+    DEBUG  = False # file_name.startswith("ilaenv")
 
     Procedures = []
 
@@ -2465,9 +2577,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                    if DEBUG: print("last not comment, add "+Line.string+" to "+file_body[-1])
                    file_body[-1] = file_body[-1] + Line.string
 
-            elif Line.data:
-                # Unroll data statement
-                unroll_data_statement(Line,file_body)
+            #elif Line.data:
+            #    # Unroll data statement
+            #    unroll_data_statement(Line,file_body)
 
             else:
                if DEBUG: print("new line: "+Line.string)
@@ -2484,13 +2596,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             # Remove the newline character at the end of the line
             Line = line_read_and_preprocess(line,Source.is_free_form,file_name,Source.old_name)
 
-            if Line.data:
-                print(line)
-                print("data statement starting, should not be anymore")
-                exit(1)
-
             # Append the line to the list
-            elif Line.directive:
+            if Line.directive:
 
                # Directives: apend as-is
                Source.body.append(line)
@@ -2780,6 +2887,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   # Now that the function is over, make it pure if possible
                   Source.add_classifiers()
 
+                  # Data statements
+                  Source.body = replace_data_statements(Source,prefix,Source.body)
+
                   # Save source
                   Procedures.append(Source)
 
@@ -2814,7 +2924,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
         print("OLD NAME:  "+Procedures[-1].old_name)
 
-        ddd, aaa = Procedures[-1].declaration('stdlib_',False)
+        ddd, aaa = Procedures[-1].declaration('stdlib_',True)
 
         print("PROCEDURE DECL: "+ddd)
         for i in range(len(aaa)):
