@@ -70,23 +70,23 @@ def patch_lapack_aux(fid,prefix,indent):
     fid.write(INDENT + "abstract interface \n")
     for i in range(len(initials)):
         if (i<=2):
-            fid.write(INDENT + "   pure elemental logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   pure logical(lk) function {prf}selctg_{int}(alphar,alphai,beta) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alphar,alphai,beta \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "   pure elemental logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   pure logical(lk) function {prf}select_{int}(alphar,alphai) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alphar,alphai \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}select_{int} \n".format(prf=prefix,int=initials[i]))
         else:
-            fid.write(INDENT + "   pure elemental logical(lk) function {prf}selctg_{int}(alpha,beta) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   pure logical(lk) function {prf}selctg_{int}(alpha,beta) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alpha,beta \n".format(datatypes[i]))
             fid.write(INDENT + "   end function {prf}selctg_{int} \n".format(prf=prefix,int=initials[i]))
-            fid.write(INDENT + "   pure elemental logical(lk) function {prf}select_{int}(alpha) \n".format(prf=prefix,int=initials[i]))
+            fid.write(INDENT + "   pure logical(lk) function {prf}select_{int}(alpha) \n".format(prf=prefix,int=initials[i]))
             fid.write(INDENT + "       import sp,dp,qp,lk \n")
             fid.write(INDENT + "       implicit none \n")
             fid.write(INDENT + "       {}, intent(in) :: alpha \n".format(datatypes[i]))
@@ -949,7 +949,7 @@ def find_parameter_declaration(line,datatype):
 
     ll = line.lower()
 
-    print("FIND PARAMETER DECL")
+    # print("FIND PARAMETER DECL")
 
     parameter_name  = []
     parameter_value = []
@@ -973,7 +973,7 @@ def find_parameter_declaration(line,datatype):
     if not (new_style or old_style):
         return parameter_name, parameter_value, parameter_type
 
-    print("new style "+str(new_style) + " old syle "+str(old_style))
+    # print("new style "+str(new_style) + " old syle "+str(old_style))
 
     # Remove header and spaces
     if old_style:
@@ -1034,8 +1034,8 @@ def find_parameter_declaration(line,datatype):
             name     = nospace[:equal]
             reminder = nospace[equal+1:]
 
-            print("name "+name)
-            print("reminder "+reminder)
+            #print("name "+name)
+            #print("reminder "+reminder)
 
             # There will be more names: find the last comma before that
             if '=' in reminder:
@@ -1044,8 +1044,8 @@ def find_parameter_declaration(line,datatype):
                 splitted = reminder[:equal].rsplit(',', 1)
                 nospace = splitted[1]+reminder[equal+1:]
                 reminder = splitted[0]
-                print("remiinder "+reminder)
-                print("nospace "+nospace)
+                #print("remiinder "+reminder)
+                #print("nospace "+nospace)
             else:
                 # Stop searching
                 nospace = ""
@@ -1335,7 +1335,14 @@ class Fortran_Source:
             intent = "in"
         elif self.old_name=='chla_transtype' and arg_name=='trans':
             intent = "in"
-
+        elif self.old_name.endswith('ladiv2') and arg_name in ['a','b','c','d','r','t']:
+            intent = "in"
+        elif self.old_name.endswith('ladiv1') and arg_name in ['a','b','c','d']:
+            intent = "in"
+        elif self.old_name.endswith('ladiv1') and arg_name in ['p','q']:
+            intent = "out"
+        elif self.old_name.endswith('lassq') and arg_name=='scl':
+            intent = "inout"
         # Add to list if this is an argument
         elif self.is_argument(arg_name):
 
@@ -1416,7 +1423,7 @@ class Fortran_Source:
 
         if self.is_pure():
 
-            print("Function "+self.old_name+" IS PURE ")
+            # print("Function "+self.old_name+" IS PURE ")
 
             for i in range(len(self.body)):
                 lsl = self.body[i].lower()
@@ -2291,7 +2298,7 @@ def replace_data_statements(Source,prefix,body):
                if (not m is None):
                    print(m.group(1))
                    print(m.group(4))
-                   line = nspaces*" "+"mm("+m.group(1)+","+m.group(2)+":"+m.group(3)+"=["+m.group(4)+"]"
+                   line = nspaces*" "+"mm("+m.group(1)+","+m.group(2)+":"+m.group(3)+")=["+m.group(4)+"]"
                    new_body.append(line)
 
                else:
@@ -2524,7 +2531,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False # file_name.startswith("ilaenv")
+    DEBUG  = False # file_name.startswith("sladiv")
 
     Procedures = []
 
