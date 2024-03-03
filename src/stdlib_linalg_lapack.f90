@@ -34,9 +34,9 @@ module stdlib_linalg_lapack
           ! singular vector matrices.
           interface bbcsd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi,u1, &
-               ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
-                         b22e,rwork,lrwork,info)
+               pure subroutine cbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi, &
+               u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
+                          b22e,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobu1,jobu2,jobv1t,jobv2t,trans
@@ -52,9 +52,9 @@ module stdlib_linalg_lapack
                module procedure stdlib_cbbcsd
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi,u1, &
-               ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
-                         b22e,work,lwork,info)
+               pure subroutine dbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi, &
+               u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
+                          b22e,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobu1,jobu2,jobv1t,jobv2t,trans
@@ -70,9 +70,9 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qbbcsd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi,u1, &
-               ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
-                         b22e,work,lwork,info)
+               pure subroutine sbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi, &
+               u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
+                          b22e,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobu1,jobu2,jobv1t,jobv2t,trans
@@ -88,9 +88,9 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wbbcsd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi,u1, &
-               ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
-                         b22e,rwork,lrwork,info)
+               pure subroutine zbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi, &
+               u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
+                          b22e,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobu1,jobu2,jobv1t,jobv2t,trans
@@ -125,8 +125,8 @@ module stdlib_linalg_lapack
           ! using the divide and conquer method.
           interface bdsdc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dbdsdc(uplo,compq,n,d,e,u,ldu,vt,ldvt,q,iq,work,iwork,info &
-                         )
+               pure subroutine dbdsdc(uplo,compq,n,d,e,u,ldu,vt,ldvt,q,iq,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq,uplo
@@ -140,8 +140,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qbdsdc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sbdsdc(uplo,compq,n,d,e,u,ldu,vt,ldvt,q,iq,work,iwork,info &
-                         )
+               pure subroutine sbdsdc(uplo,compq,n,d,e,u,ldu,vt,ldvt,q,iq,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq,uplo
@@ -181,8 +181,8 @@ module stdlib_linalg_lapack
           ! for a detailed description of the algorithm.
           interface bdsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc,rwork, &
-                         info)
+               pure subroutine cbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc, &
+                         rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -196,8 +196,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cbdsqr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc,work, &
-                         info)
+               pure subroutine dbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc, &
+                         work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -211,8 +211,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qbdsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc,work, &
-                         info)
+               pure subroutine sbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc, &
+                         work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -226,8 +226,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wbdsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc,rwork, &
-                         info)
+               pure subroutine zbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc, &
+                         rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -257,7 +257,7 @@ module stdlib_linalg_lapack
           ! the generalized symmetric definite eigenproblem.
           interface disna
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ddisna(job,m,n,d,sep,info)
+               pure subroutine ddisna(job,m,n,d,sep,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -271,7 +271,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qdisna
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sdisna(job,m,n,d,sep,info)
+               pure subroutine sdisna(job,m,n,d,sep,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -291,8 +291,8 @@ module stdlib_linalg_lapack
           ! Q**H*C for a given matrix C.
           interface gbbrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt,c, &
-                         ldc,work,rwork,info)
+               pure subroutine cgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt, &
+                         c,ldc,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: vect
@@ -306,8 +306,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgbbrd
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt,c, &
-                         ldc,work,info)
+               pure subroutine dgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt, &
+                         c,ldc,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: vect
@@ -321,8 +321,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgbbrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt,c, &
-                         ldc,work,info)
+               pure subroutine sgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt, &
+                         c,ldc,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: vect
@@ -336,8 +336,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgbbrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt,c, &
-                         ldc,work,rwork,info)
+               pure subroutine zgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt, &
+                         c,ldc,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: vect
@@ -360,8 +360,8 @@ module stdlib_linalg_lapack
           ! RCOND = 1 / ( norm(A) * norm(inv(A)) ).
           interface gbcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,rwork,info &
-                         )
+               pure subroutine cgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,rwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -376,8 +376,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgbcon
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,iwork,info &
-                         )
+               pure subroutine dgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -391,8 +391,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgbcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,iwork,info &
-                         )
+               pure subroutine sgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -406,8 +406,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgbcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,rwork,info &
-                         )
+               pure subroutine zgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,rwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -434,7 +434,7 @@ module stdlib_linalg_lapack
           ! works well in practice.
           interface gbequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine cgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -447,7 +447,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgbequ
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine dgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -461,7 +461,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgbequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine sgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -475,7 +475,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgbequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine zgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -506,7 +506,7 @@ module stdlib_linalg_lapack
           ! between sqrt(radix) and 1/sqrt(radix).
           interface gbequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine cgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -519,7 +519,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgbequb
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine dgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -533,7 +533,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgbequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine sgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -547,7 +547,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgbequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine zgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -566,8 +566,8 @@ module stdlib_linalg_lapack
           ! error bounds and backward error estimates for the solution.
           interface gbrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb,x, &
-                         ldx,ferr,berr,work,rwork,info)
+               pure subroutine cgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb, &
+                         x,ldx,ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -582,8 +582,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgbrfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb,x, &
-                         ldx,ferr,berr,work,iwork,info)
+               pure subroutine dgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb, &
+                         x,ldx,ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -598,8 +598,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgbrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb,x, &
-                         ldx,ferr,berr,work,iwork,info)
+               pure subroutine sgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb, &
+                         x,ldx,ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -614,8 +614,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgbrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb,x, &
-                         ldx,ferr,berr,work,rwork,info)
+               pure subroutine zgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb, &
+                         x,ldx,ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -641,7 +641,7 @@ module stdlib_linalg_lapack
           ! is then used to solve the system of equations A * X = B.
           interface gbsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+               pure subroutine cgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -652,7 +652,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgbsv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+               pure subroutine dgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -664,7 +664,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgbsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+               pure subroutine sgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -676,7 +676,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgbsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+               pure subroutine zgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -693,7 +693,7 @@ module stdlib_linalg_lapack
           ! This is the blocked version of the algorithm, calling Level 3 BLAS.
           interface gbtrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
+               pure subroutine cgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -704,7 +704,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgbtrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
+               pure subroutine dgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -716,7 +716,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgbtrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
+               pure subroutine sgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -728,7 +728,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgbtrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
+               pure subroutine zgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -746,7 +746,8 @@ module stdlib_linalg_lapack
           ! by CGBTRF.
           interface gbtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+               pure subroutine cgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -759,7 +760,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgbtrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+               pure subroutine dgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -773,7 +775,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgbtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+               pure subroutine sgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -787,7 +790,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgbtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+               pure subroutine zgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -806,7 +810,7 @@ module stdlib_linalg_lapack
           ! balanced matrix output by CGEBAL.
           interface gebak
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
+               pure subroutine cgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job,side
@@ -819,7 +823,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgebak
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
+               pure subroutine dgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job,side
@@ -833,7 +837,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgebak
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
+               pure subroutine sgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job,side
@@ -847,7 +851,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgebak
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
+               pure subroutine zgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job,side
@@ -871,7 +875,7 @@ module stdlib_linalg_lapack
           ! accuracy of the computed eigenvalues and/or eigenvectors.
           interface gebal
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgebal(job,n,a,lda,ilo,ihi,scale,info)
+               pure subroutine cgebal(job,n,a,lda,ilo,ihi,scale,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -884,7 +888,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgebal
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgebal(job,n,a,lda,ilo,ihi,scale,info)
+               pure subroutine dgebal(job,n,a,lda,ilo,ihi,scale,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -898,7 +902,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgebal
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgebal(job,n,a,lda,ilo,ihi,scale,info)
+               pure subroutine sgebal(job,n,a,lda,ilo,ihi,scale,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -912,7 +916,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgebal
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgebal(job,n,a,lda,ilo,ihi,scale,info)
+               pure subroutine zgebal(job,n,a,lda,ilo,ihi,scale,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -931,7 +935,7 @@ module stdlib_linalg_lapack
           ! If m >= n, B is upper bidiagonal; if m < n, B is lower bidiagonal.
           interface gebrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
+               pure subroutine cgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -944,7 +948,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgebrd
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
+               pure subroutine dgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -957,7 +961,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgebrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
+               pure subroutine sgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -970,7 +974,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgebrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
+               pure subroutine zgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -992,7 +996,7 @@ module stdlib_linalg_lapack
           ! RCOND = 1 / ( norm(A) * norm(inv(A)) ).
           interface gecon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgecon(norm,n,a,lda,anorm,rcond,work,rwork,info)
+               pure subroutine cgecon(norm,n,a,lda,anorm,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -1007,7 +1011,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgecon
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgecon(norm,n,a,lda,anorm,rcond,work,iwork,info)
+               pure subroutine dgecon(norm,n,a,lda,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -1022,7 +1026,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgecon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgecon(norm,n,a,lda,anorm,rcond,work,iwork,info)
+               pure subroutine sgecon(norm,n,a,lda,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -1037,7 +1041,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgecon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgecon(norm,n,a,lda,anorm,rcond,work,rwork,info)
+               pure subroutine zgecon(norm,n,a,lda,anorm,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -1064,7 +1068,7 @@ module stdlib_linalg_lapack
           ! works well in practice.
           interface geequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine cgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1076,7 +1080,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgeequ
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine dgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1089,7 +1093,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgeequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine sgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1102,7 +1106,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgeequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine zgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1132,7 +1136,7 @@ module stdlib_linalg_lapack
           ! between sqrt(radix) and 1/sqrt(radix).
           interface geequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine cgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1144,7 +1148,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgeequb
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine dgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1157,7 +1161,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgeequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine sgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1170,7 +1174,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgeequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+               pure subroutine zgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1339,7 +1343,7 @@ module stdlib_linalg_lapack
           ! an unitary similarity transformation:  Q**H * A * Q = H .
           interface gehrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
+               pure subroutine cgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
@@ -1351,7 +1355,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgehrd
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
+               pure subroutine dgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
@@ -1364,7 +1368,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgehrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
+               pure subroutine sgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
@@ -1377,7 +1381,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgehrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
+               pure subroutine zgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
@@ -1402,8 +1406,8 @@ module stdlib_linalg_lapack
           ! of [SIGMA] is computed and stored in the array SVA.
           interface gejsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u,ldu,v, &
-                          ldv,cwork,lwork,rwork,lrwork,iwork,info)
+               pure subroutine cgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u, &
+                         ldu,v,ldv,cwork,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,iwork(*)
@@ -1417,8 +1421,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgejsv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u,ldu,v, &
-                          ldv,work,lwork,iwork,info)
+               pure subroutine dgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u, &
+                         ldu,v,ldv,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,iwork(*)
@@ -1432,8 +1436,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgejsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u,ldu,v, &
-                          ldv,work,lwork,iwork,info)
+               pure subroutine sgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u, &
+                         ldu,v,ldv,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,iwork(*)
@@ -1447,8 +1451,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgejsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u,ldu,v, &
-                          ldv,cwork,lwork,rwork,lrwork,iwork,info)
+               pure subroutine zgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u, &
+                         ldu,v,ldv,cwork,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,iwork(*)
@@ -1471,7 +1475,7 @@ module stdlib_linalg_lapack
           ! 0 is a M-by-(N-M) zero matrix, if M < N.
           interface gelq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgelq(m,n,a,lda,t,tsize,work,lwork,info)
+               pure subroutine cgelq(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1483,7 +1487,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgelq
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgelq(m,n,a,lda,t,tsize,work,lwork,info)
+               pure subroutine dgelq(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1496,7 +1500,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgelq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgelq(m,n,a,lda,t,tsize,work,lwork,info)
+               pure subroutine sgelq(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1509,7 +1513,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgelq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgelq(m,n,a,lda,t,tsize,work,lwork,info)
+               pure subroutine zgelq(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1530,7 +1534,7 @@ module stdlib_linalg_lapack
           ! 0 is a M-by-(N-M) zero matrix, if M < N.
           interface gelqf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgelqf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine cgelqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1542,7 +1546,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgelqf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgelqf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine dgelqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1555,7 +1559,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgelqf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgelqf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine sgelqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1568,7 +1572,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgelqf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgelqf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine zgelqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1585,7 +1589,7 @@ module stdlib_linalg_lapack
           ! using the compact WY representation of Q.
           interface gelqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgelqt(m,n,mb,a,lda,t,ldt,work,info)
+               pure subroutine cgelqt(m,n,mb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1597,7 +1601,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgelqt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgelqt(m,n,mb,a,lda,t,ldt,work,info)
+               pure subroutine dgelqt(m,n,mb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1610,7 +1614,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgelqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgelqt(m,n,mb,a,lda,t,ldt,work,info)
+               pure subroutine sgelqt(m,n,mb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1623,7 +1627,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgelqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgelqt(m,n,mb,a,lda,t,ldt,work,info)
+               pure subroutine zgelqt(m,n,mb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1642,7 +1646,7 @@ module stdlib_linalg_lapack
           ! IBM J. Res. Develop. Vol 44 No. 4 July 2000.
           interface gelqt3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine cgelqt3(m,n,a,lda,t,ldt,info)
+               pure recursive subroutine cgelqt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1654,7 +1658,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgelqt3
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine dgelqt3(m,n,a,lda,t,ldt,info)
+               pure recursive subroutine dgelqt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1667,7 +1671,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgelqt3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine sgelqt3(m,n,a,lda,t,ldt,info)
+               pure recursive subroutine sgelqt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -1680,7 +1684,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgelqt3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine zgelqt3(m,n,a,lda,t,ldt,info)
+               pure recursive subroutine zgelqt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2039,8 +2043,8 @@ module stdlib_linalg_lapack
           ! LQ factorization (CGELQ)
           interface gemlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
-                         info)
+               pure subroutine cgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2054,8 +2058,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgemlq
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
-                         info)
+               pure subroutine dgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2070,8 +2074,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgemlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
-                         info)
+               pure subroutine sgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2086,8 +2090,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgemlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
-                         info)
+               pure subroutine zgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2113,8 +2117,8 @@ module stdlib_linalg_lapack
           ! Q is of order M if SIDE = 'L' and of order N  if SIDE = 'R'.
           interface gemlqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work,info)
-                         
+               pure subroutine cgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2128,8 +2132,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgemlqt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work,info)
-                         
+               pure subroutine dgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2144,8 +2148,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgemlqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work,info)
-                         
+               pure subroutine sgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2160,8 +2164,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgemlqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work,info)
-                         
+               pure subroutine zgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2185,8 +2189,8 @@ module stdlib_linalg_lapack
           ! QR factorization (CGEQR)
           interface gemqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
-                         info)
+               pure subroutine cgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2200,8 +2204,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgemqr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
-                         info)
+               pure subroutine dgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2216,8 +2220,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgemqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
-                         info)
+               pure subroutine sgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2232,8 +2236,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgemqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
-                         info)
+               pure subroutine zgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2259,8 +2263,8 @@ module stdlib_linalg_lapack
           ! Q is of order M if SIDE = 'L' and of order N  if SIDE = 'R'.
           interface gemqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work,info)
-                         
+               pure subroutine cgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2274,8 +2278,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgemqrt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work,info)
-                         
+               pure subroutine dgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2290,8 +2294,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgemqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work,info)
-                         
+               pure subroutine sgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2306,8 +2310,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgemqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work,info)
-                         
+               pure subroutine zgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -2326,7 +2330,7 @@ module stdlib_linalg_lapack
           ! A = Q * L.
           interface geqlf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgeqlf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine cgeqlf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2338,7 +2342,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgeqlf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgeqlf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine dgeqlf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2351,7 +2355,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgeqlf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgeqlf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine sgeqlf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2364,7 +2368,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgeqlf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgeqlf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine zgeqlf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2386,7 +2390,7 @@ module stdlib_linalg_lapack
           ! 0 is a (M-N)-by-N zero matrix, if M > N.
           interface geqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgeqr(m,n,a,lda,t,tsize,work,lwork,info)
+               pure subroutine cgeqr(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2398,7 +2402,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgeqr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgeqr(m,n,a,lda,t,tsize,work,lwork,info)
+               pure subroutine dgeqr(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2411,7 +2415,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgeqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgeqr(m,n,a,lda,t,tsize,work,lwork,info)
+               pure subroutine sgeqr(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2424,7 +2428,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgeqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgeqr(m,n,a,lda,t,tsize,work,lwork,info)
+               pure subroutine zgeqr(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2507,7 +2511,7 @@ module stdlib_linalg_lapack
           ! 0 is a (M-N)-by-N zero matrix, if M > N.
           interface geqrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgeqrf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine cgeqrf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2519,7 +2523,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgeqrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgeqrf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine dgeqrf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2532,7 +2536,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgeqrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgeqrf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine sgeqrf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2545,7 +2549,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgeqrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2623,7 +2627,7 @@ module stdlib_linalg_lapack
           ! using the compact WY representation of Q.
           interface geqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgeqrt(m,n,nb,a,lda,t,ldt,work,info)
+               pure subroutine cgeqrt(m,n,nb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2635,7 +2639,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgeqrt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgeqrt(m,n,nb,a,lda,t,ldt,work,info)
+               pure subroutine dgeqrt(m,n,nb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2648,7 +2652,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgeqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgeqrt(m,n,nb,a,lda,t,ldt,work,info)
+               pure subroutine sgeqrt(m,n,nb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2661,7 +2665,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgeqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgeqrt(m,n,nb,a,lda,t,ldt,work,info)
+               pure subroutine zgeqrt(m,n,nb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2678,7 +2682,7 @@ module stdlib_linalg_lapack
           ! using the compact WY representation of Q.
           interface geqrt2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgeqrt2(m,n,a,lda,t,ldt,info)
+               pure subroutine cgeqrt2(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2690,7 +2694,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgeqrt2
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgeqrt2(m,n,a,lda,t,ldt,info)
+               pure subroutine dgeqrt2(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2703,7 +2707,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgeqrt2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgeqrt2(m,n,a,lda,t,ldt,info)
+               pure subroutine sgeqrt2(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2716,7 +2720,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgeqrt2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgeqrt2(m,n,a,lda,t,ldt,info)
+               pure subroutine zgeqrt2(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2735,7 +2739,7 @@ module stdlib_linalg_lapack
           ! IBM J. Res. Develop. Vol 44 No. 4 July 2000.
           interface geqrt3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine cgeqrt3(m,n,a,lda,t,ldt,info)
+               pure recursive subroutine cgeqrt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2747,7 +2751,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgeqrt3
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine dgeqrt3(m,n,a,lda,t,ldt,info)
+               pure recursive subroutine dgeqrt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2760,7 +2764,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgeqrt3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine sgeqrt3(m,n,a,lda,t,ldt,info)
+               pure recursive subroutine sgeqrt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2773,7 +2777,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgeqrt3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine zgeqrt3(m,n,a,lda,t,ldt,info)
+               pure recursive subroutine zgeqrt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2791,8 +2795,8 @@ module stdlib_linalg_lapack
           ! the solution.
           interface gerfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine cgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx, &
+                         ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -2807,8 +2811,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgerfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,iwork,info)
+               pure subroutine dgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx, &
+                         ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -2823,8 +2827,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgerfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,iwork,info)
+               pure subroutine sgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx, &
+                         ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -2839,8 +2843,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgerfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine zgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx, &
+                         ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -2860,7 +2864,7 @@ module stdlib_linalg_lapack
           ! A = R * Q.
           interface gerqf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgerqf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine cgerqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2872,7 +2876,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgerqf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgerqf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine dgerqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2885,7 +2889,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgerqf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgerqf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine sgerqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2898,7 +2902,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgerqf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgerqf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine zgerqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3002,7 +3006,7 @@ module stdlib_linalg_lapack
           ! system of equations A * X = B.
           interface gesv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine cgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3013,7 +3017,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgesv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine dgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3025,7 +3029,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgesv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine sgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3037,7 +3041,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgesv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine zgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3210,8 +3214,8 @@ module stdlib_linalg_lapack
           ! left and the right singular vectors of A, respectively.
           interface gesvj
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,cwork,lwork, &
-                         rwork,lrwork,info)
+               pure subroutine cgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,cwork, &
+                         lwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3225,8 +3229,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgesvj
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,work,lwork, &
-                         info)
+               pure subroutine dgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3240,8 +3244,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgesvj
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,work,lwork, &
-                         info)
+               pure subroutine sgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3255,8 +3259,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgesvj
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,cwork,lwork, &
-                         rwork,lrwork,info)
+               pure subroutine zgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,cwork, &
+                         lwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3281,7 +3285,7 @@ module stdlib_linalg_lapack
           ! This is the right-looking Level 3 BLAS version of the algorithm.
           interface getrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgetrf(m,n,a,lda,ipiv,info)
+               pure subroutine cgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3292,7 +3296,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgetrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgetrf(m,n,a,lda,ipiv,info)
+               pure subroutine dgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3304,7 +3308,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgetrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgetrf(m,n,a,lda,ipiv,info)
+               pure subroutine sgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3316,7 +3320,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgetrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgetrf(m,n,a,lda,ipiv,info)
+               pure subroutine zgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3349,7 +3353,7 @@ module stdlib_linalg_lapack
           ! then calls itself to factor A22 and do the swaps on A21.
           interface getrf2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine cgetrf2(m,n,a,lda,ipiv,info)
+               pure recursive subroutine cgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3360,7 +3364,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgetrf2
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine dgetrf2(m,n,a,lda,ipiv,info)
+               pure recursive subroutine dgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3372,7 +3376,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgetrf2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine sgetrf2(m,n,a,lda,ipiv,info)
+               pure recursive subroutine sgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3384,7 +3388,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgetrf2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine zgetrf2(m,n,a,lda,ipiv,info)
+               pure recursive subroutine zgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -3402,7 +3406,7 @@ module stdlib_linalg_lapack
           ! inv(A)*L = inv(U) for inv(A).
           interface getri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgetri(n,a,lda,ipiv,work,lwork,info)
+               pure subroutine cgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3414,7 +3418,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgetri
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgetri(n,a,lda,ipiv,work,lwork,info)
+               pure subroutine dgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3427,7 +3431,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgetri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
+               pure subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3440,7 +3444,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgetri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
+               pure subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3459,7 +3463,7 @@ module stdlib_linalg_lapack
           ! by CGETRF.
           interface getrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine cgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -3472,7 +3476,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgetrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine dgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -3486,7 +3490,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgetrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine sgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -3500,7 +3504,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgetrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -3603,7 +3607,7 @@ module stdlib_linalg_lapack
           ! of CGEQRT for more details on the format.
           interface getsqrhrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
+               pure subroutine cgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3616,7 +3620,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgetsqrhrt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
+               pure subroutine dgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3630,7 +3634,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgetsqrhrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
+               pure subroutine sgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3644,7 +3648,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgetsqrhrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
+               pure subroutine zgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3664,7 +3668,8 @@ module stdlib_linalg_lapack
           ! CGGBAL.
           interface ggbak
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+               pure subroutine cggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job,side
@@ -3677,7 +3682,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cggbak
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+               pure subroutine dggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job,side
@@ -3691,7 +3697,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qggbak
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+               pure subroutine sggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job,side
@@ -3705,7 +3712,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wggbak
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+               pure subroutine zggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job,side
@@ -3730,8 +3738,8 @@ module stdlib_linalg_lapack
           ! generalized eigenvalue problem A*x = lambda*B*x.
           interface ggbal
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work,info)
-                         
+               pure subroutine cggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -3744,8 +3752,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cggbal
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work,info)
-                         
+               pure subroutine dggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -3759,8 +3767,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qggbal
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work,info)
-                         
+               pure subroutine sggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -3774,8 +3782,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wggbal
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work,info)
-                         
+               pure subroutine zggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: job
@@ -3822,6 +3830,7 @@ module stdlib_linalg_lapack
                     real(sp),intent(out) :: rwork(*)
                     complex(sp),intent(inout) :: a(lda,*),b(ldb,*)
                     complex(sp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
+                              
                     procedure(stdlib_selctg_c) :: selctg
                end subroutine cgges
 #else
@@ -3985,7 +3994,8 @@ module stdlib_linalg_lapack
           ! where inv(B) denotes the inverse of B.
           interface ggglm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
+               pure subroutine cggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3997,7 +4007,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cggglm
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
+               pure subroutine dggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4010,7 +4021,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qggglm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
+               pure subroutine sggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4023,7 +4035,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wggglm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
+               pure subroutine zggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4061,8 +4074,8 @@ module stdlib_linalg_lapack
           ! problem to generalized Hessenberg form.
           interface gghrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,info)
-                         
+               pure subroutine cgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq,compz
@@ -4074,8 +4087,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgghrd
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,info)
-                         
+               pure subroutine dgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq,compz
@@ -4088,8 +4101,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgghrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,info)
-                         
+               pure subroutine sgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq,compz
@@ -4102,8 +4115,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgghrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,info)
-                         
+               pure subroutine zgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq,compz
@@ -4130,7 +4143,8 @@ module stdlib_linalg_lapack
           ! B = (0 R)*Q,   A = Z*T*Q.
           interface gglse
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
+               pure subroutine cgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4142,7 +4156,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgglse
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
+               pure subroutine dgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4155,7 +4170,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgglse
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
+               pure subroutine sgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4168,7 +4184,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgglse
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
+               pure subroutine zgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4201,7 +4218,8 @@ module stdlib_linalg_lapack
           ! conjugate transpose of matrix Z.
           interface ggqrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+               pure subroutine cggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4213,7 +4231,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cggqrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+               pure subroutine dggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4226,7 +4245,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qggqrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+               pure subroutine sggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4239,7 +4259,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wggqrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+               pure subroutine zggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4272,7 +4293,8 @@ module stdlib_linalg_lapack
           ! conjugate transpose of the matrix Z.
           interface ggrqf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+               pure subroutine cggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4284,7 +4306,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cggrqf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+               pure subroutine dggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4297,7 +4320,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qggrqf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+               pure subroutine sggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4310,7 +4334,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wggrqf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+               pure subroutine zggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4329,8 +4354,8 @@ module stdlib_linalg_lapack
           ! parameters (marked by [TP]) are available for the implementer.
           interface gsvj0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol,nsweep, &
-                         work,lwork,info)
+               pure subroutine cgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+                         nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4345,8 +4370,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgsvj0
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol,nsweep, &
-                         work,lwork,info)
+               pure subroutine dgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+                         nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4361,8 +4386,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgsvj0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol,nsweep, &
-                         work,lwork,info)
+               pure subroutine sgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+                         nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4377,8 +4402,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgsvj0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol,nsweep, &
-                         work,lwork,info)
+               pure subroutine zgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+                         nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4420,8 +4445,8 @@ module stdlib_linalg_lapack
           ! is given in TOL.
           interface gsvj1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
-                         nsweep,work,lwork,info)
+               pure subroutine cgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+                          nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: eps,sfmin,tol
@@ -4436,8 +4461,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgsvj1
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
-                         nsweep,work,lwork,info)
+               pure subroutine dgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+                          nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: eps,sfmin,tol
@@ -4452,8 +4477,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgsvj1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
-                         nsweep,work,lwork,info)
+               pure subroutine sgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+                          nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: eps,sfmin,tol
@@ -4468,8 +4493,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgsvj1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
-                         nsweep,work,lwork,info)
+               pure subroutine zgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+                          nsweep,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: eps,sfmin,tol
@@ -4492,7 +4517,8 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface gtcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,info)
+               pure subroutine cgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -4507,8 +4533,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgtcon
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,iwork,info)
-                         
+               pure subroutine dgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -4522,8 +4548,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgtcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,iwork,info)
-                         
+               pure subroutine sgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -4537,7 +4563,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgtcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,info)
+               pure subroutine zgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -4558,8 +4585,8 @@ module stdlib_linalg_lapack
           ! error bounds and backward error estimates for the solution.
           interface gtrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb,x, &
-                         ldx,ferr,berr,work,rwork,info)
+               pure subroutine cgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb, &
+                         x,ldx,ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4575,8 +4602,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgtrfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb,x, &
-                         ldx,ferr,berr,work,iwork,info)
+               pure subroutine dgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb, &
+                         x,ldx,ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4592,8 +4619,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgtrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb,x, &
-                         ldx,ferr,berr,work,iwork,info)
+               pure subroutine sgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb, &
+                         x,ldx,ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4609,8 +4636,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgtrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb,x, &
-                         ldx,ferr,berr,work,rwork,info)
+               pure subroutine zgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb, &
+                         x,ldx,ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4635,7 +4662,7 @@ module stdlib_linalg_lapack
           ! order of the arguments DU and DL.
           interface gtsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgtsv(n,nrhs,dl,d,du,b,ldb,info)
+               pure subroutine cgtsv(n,nrhs,dl,d,du,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4646,7 +4673,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgtsv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgtsv(n,nrhs,dl,d,du,b,ldb,info)
+               pure subroutine dgtsv(n,nrhs,dl,d,du,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4658,7 +4685,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgtsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgtsv(n,nrhs,dl,d,du,b,ldb,info)
+               pure subroutine sgtsv(n,nrhs,dl,d,du,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4670,7 +4697,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgtsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgtsv(n,nrhs,dl,d,du,b,ldb,info)
+               pure subroutine zgtsv(n,nrhs,dl,d,du,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -4691,7 +4718,7 @@ module stdlib_linalg_lapack
           ! diagonal and first two superdiagonals.
           interface gttrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgttrf(n,dl,d,du,du2,ipiv,info)
+               pure subroutine cgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -4703,7 +4730,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgttrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgttrf(n,dl,d,du,du2,ipiv,info)
+               pure subroutine dgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -4716,7 +4743,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgttrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgttrf(n,dl,d,du,du2,ipiv,info)
+               pure subroutine sgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -4729,7 +4756,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgttrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgttrf(n,dl,d,du,du2,ipiv,info)
+               pure subroutine zgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ipiv(*)
@@ -4748,7 +4775,7 @@ module stdlib_linalg_lapack
           ! by CGTTRF.
           interface gttrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
+               pure subroutine cgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4761,7 +4788,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cgttrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
+               pure subroutine dgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4775,7 +4802,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qgttrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
+               pure subroutine sgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4789,7 +4816,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wgttrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
+               pure subroutine zgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4807,8 +4834,8 @@ module stdlib_linalg_lapack
           ! subroutine.
           interface hb2st_kernels
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda,v, &
-                         tau,ldvt,work)
+               pure subroutine chb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a, &
+                         lda,v,tau,ldvt,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -4822,8 +4849,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whb2st_kernels
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda,v, &
-                         tau,ldvt,work)
+               pure subroutine zhb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a, &
+                         lda,v,tau,ldvt,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -4925,8 +4952,8 @@ module stdlib_linalg_lapack
           ! bandwidth of A.
           interface hbgst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work,rwork, &
-                         info)
+               pure subroutine chbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work, &
+                         rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,vect
@@ -4942,8 +4969,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whbgst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work,rwork, &
-                         info)
+               pure subroutine zhbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work, &
+                         rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,vect
@@ -4965,8 +4992,8 @@ module stdlib_linalg_lapack
           ! and banded, and B is also positive definite.
           interface hbgv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work,rwork, &
-                          info)
+               pure subroutine chbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+                         rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -4981,8 +5008,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whbgv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work,rwork, &
-                          info)
+               pure subroutine zhbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+                         rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -5010,7 +5037,7 @@ module stdlib_linalg_lapack
           ! without guard digits, but we know of none.
           interface hbgvd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               pure subroutine chbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
                          lwork,rwork,lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5026,7 +5053,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whbgvd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               pure subroutine zhbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
                          lwork,rwork,lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5047,7 +5074,8 @@ module stdlib_linalg_lapack
           ! Q**H * A * Q = T.
           interface hbtrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
+               pure subroutine chbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,vect
@@ -5062,7 +5090,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whbtrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
+               pure subroutine zhbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,vect
@@ -5084,7 +5113,7 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface hecon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine checon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+               pure subroutine checon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5100,7 +5129,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whecon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhecon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+               pure subroutine zhecon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5123,7 +5152,8 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface hecon_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine checon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+               pure subroutine checon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5139,7 +5169,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whecon_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhecon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+               pure subroutine zhecon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5164,7 +5195,7 @@ module stdlib_linalg_lapack
           ! scalings.
           interface heequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cheequb(uplo,n,a,lda,s,scond,amax,work,info)
+               pure subroutine cheequb(uplo,n,a,lda,s,scond,amax,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -5179,7 +5210,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wheequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zheequb(uplo,n,a,lda,s,scond,amax,work,info)
+               pure subroutine zheequb(uplo,n,a,lda,s,scond,amax,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -5366,7 +5397,7 @@ module stdlib_linalg_lapack
           ! B must have been previously factorized as U**H*U or L*L**H by CPOTRF.
           interface hegst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chegst(itype,uplo,n,a,lda,b,ldb,info)
+               pure subroutine chegst(itype,uplo,n,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5379,7 +5410,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whegst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhegst(itype,uplo,n,a,lda,b,ldb,info)
+               pure subroutine zhegst(itype,uplo,n,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5481,8 +5512,8 @@ module stdlib_linalg_lapack
           ! provides error bounds and backward error estimates for the solution.
           interface herfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cherfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine cherfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
+                          berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5498,8 +5529,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wherfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zherfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine zherfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
+                          berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5528,7 +5559,8 @@ module stdlib_linalg_lapack
           ! used to solve the system of equations A * X = B.
           interface hesv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chesv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine chesv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5542,7 +5574,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whesv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhesv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine zhesv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5568,7 +5601,7 @@ module stdlib_linalg_lapack
           ! of A is then used to solve the system of equations A * X = B.
           interface hesv_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chesv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine chesv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5583,7 +5616,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whesv_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhesv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine zhesv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5614,8 +5647,8 @@ module stdlib_linalg_lapack
           ! the system of equations A * X = B by calling BLAS3 routine CHETRS_3.
           interface hesv_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-                         
+               pure subroutine chesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5629,8 +5662,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whesv_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-                         
+               pure subroutine zhesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5662,7 +5695,7 @@ module stdlib_linalg_lapack
           ! of equations A * X = B by calling CHETRS_ROOK (uses BLAS 2).
           interface hesv_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chesv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine chesv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5677,7 +5710,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whesv_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhesv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine zhesv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5696,7 +5729,7 @@ module stdlib_linalg_lapack
           ! a hermitian matrix.
           interface heswapr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cheswapr(uplo,n,a,lda,i1,i2)
+               pure subroutine cheswapr(uplo,n,a,lda,i1,i2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5708,7 +5741,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wheswapr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zheswapr(uplo,n,a,lda,i1,i2)
+               pure subroutine zheswapr(uplo,n,a,lda,i1,i2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5731,7 +5764,7 @@ module stdlib_linalg_lapack
           ! For more information see Further Details section.
           interface hetf2_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetf2_rk(uplo,n,a,lda,e,ipiv,info)
+               pure subroutine chetf2_rk(uplo,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5745,7 +5778,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetf2_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetf2_rk(uplo,n,a,lda,e,ipiv,info)
+               pure subroutine zhetf2_rk(uplo,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5768,7 +5801,7 @@ module stdlib_linalg_lapack
           ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
           interface hetf2_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetf2_rook(uplo,n,a,lda,ipiv,info)
+               pure subroutine chetf2_rook(uplo,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5781,7 +5814,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetf2_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetf2_rook(uplo,n,a,lda,ipiv,info)
+               pure subroutine zhetf2_rook(uplo,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5799,7 +5832,7 @@ module stdlib_linalg_lapack
           ! Q**H * A * Q = T.
           interface hetrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+               pure subroutine chetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5814,7 +5847,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+               pure subroutine zhetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5834,8 +5867,8 @@ module stdlib_linalg_lapack
           ! Q**H * A * Q = T.
           interface hetrd_hb2st
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
-                         work,lwork,info)
+               pure subroutine chetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous, &
+                         lhous,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: stage1,uplo,vect
@@ -5850,8 +5883,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrd_hb2st
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
-                         work,lwork,info)
+               pure subroutine zhetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous, &
+                         lhous,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: stage1,uplo,vect
@@ -5871,8 +5904,8 @@ module stdlib_linalg_lapack
           ! Q**H * A * Q = AB.
           interface hetrd_he2hb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
-                         
+               pure subroutine chetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5886,8 +5919,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrd_he2hb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
-                         
+               pure subroutine zhetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5911,7 +5944,7 @@ module stdlib_linalg_lapack
           ! This is the blocked version of the algorithm, calling Level 3 BLAS.
           interface hetrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrf(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine chetrf(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5925,7 +5958,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrf(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine zhetrf(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5947,7 +5980,7 @@ module stdlib_linalg_lapack
           ! This is the blocked version of the algorithm, calling Level 3 BLAS.
           interface hetrf_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine chetrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5961,7 +5994,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrf_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine zhetrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -5986,7 +6019,7 @@ module stdlib_linalg_lapack
           ! For more information see Further Details section.
           interface hetrf_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+               pure subroutine chetrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6000,7 +6033,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrf_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+               pure subroutine zhetrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6024,7 +6057,7 @@ module stdlib_linalg_lapack
           ! This is the blocked version of the algorithm, calling Level 3 BLAS.
           interface hetrf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine chetrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6038,7 +6071,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine zhetrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6057,7 +6090,7 @@ module stdlib_linalg_lapack
           ! CHETRF.
           interface hetri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetri(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine chetri(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6071,7 +6104,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetri(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine zhetri(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6090,7 +6123,7 @@ module stdlib_linalg_lapack
           ! CHETRF_ROOK.
           interface hetri_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetri_rook(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine chetri_rook(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6104,7 +6137,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetri_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetri_rook(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine zhetri_rook(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6123,7 +6156,7 @@ module stdlib_linalg_lapack
           ! A = L*D*L**H computed by CHETRF.
           interface hetrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine chetrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6137,7 +6170,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine zhetrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6156,7 +6189,7 @@ module stdlib_linalg_lapack
           ! A = L*D*L**H computed by CHETRF and converted by CSYCONV.
           interface hetrs2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+               pure subroutine chetrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6170,7 +6203,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrs2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+               pure subroutine zhetrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6195,7 +6228,7 @@ module stdlib_linalg_lapack
           ! This algorithm is using Level 3 BLAS.
           interface hetrs_3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+               pure subroutine chetrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6209,7 +6242,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrs_3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+               pure subroutine zhetrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6228,7 +6261,7 @@ module stdlib_linalg_lapack
           ! A = L*T*L**H computed by CHETRF_AA.
           interface hetrs_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine chetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6244,7 +6277,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrs_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine zhetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6265,7 +6298,7 @@ module stdlib_linalg_lapack
           ! A = L*D*L**H computed by CHETRF_ROOK.
           interface hetrs_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chetrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine chetrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6279,7 +6312,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whetrs_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhetrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine zhetrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6303,7 +6336,7 @@ module stdlib_linalg_lapack
           ! matrix in the second case.
           interface hfrk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
+               pure subroutine chfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta
@@ -6317,7 +6350,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whfrk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
+               pure subroutine zhfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta
@@ -6434,7 +6467,7 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface hpcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chpcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
+               pure subroutine chpcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6450,7 +6483,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whpcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhpcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
+               pure subroutine zhpcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6552,7 +6585,7 @@ module stdlib_linalg_lapack
           ! B must have been previously factorized as U**H*U or L*L**H by CPPTRF.
           interface hpgst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chpgst(itype,uplo,n,ap,bp,info)
+               pure subroutine chpgst(itype,uplo,n,ap,bp,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6566,7 +6599,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whpgst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhpgst(itype,uplo,n,ap,bp,info)
+               pure subroutine zhpgst(itype,uplo,n,ap,bp,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6671,8 +6704,8 @@ module stdlib_linalg_lapack
           ! for the solution.
           interface hprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
-                         rwork,info)
+               pure subroutine chprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6688,8 +6721,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
-                         rwork,info)
+               pure subroutine zhprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6718,7 +6751,7 @@ module stdlib_linalg_lapack
           ! solve the system of equations A * X = B.
           interface hpsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chpsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine chpsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6731,7 +6764,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whpsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhpsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine zhpsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6749,7 +6782,7 @@ module stdlib_linalg_lapack
           ! transformation: Q**H * A * Q = T.
           interface hptrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chptrd(uplo,n,ap,d,e,tau,info)
+               pure subroutine chptrd(uplo,n,ap,d,e,tau,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6764,7 +6797,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whptrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhptrd(uplo,n,ap,d,e,tau,info)
+               pure subroutine zhptrd(uplo,n,ap,d,e,tau,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6787,7 +6820,7 @@ module stdlib_linalg_lapack
           ! 1-by-1 and 2-by-2 diagonal blocks.
           interface hptrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chptrf(uplo,n,ap,ipiv,info)
+               pure subroutine chptrf(uplo,n,ap,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6800,7 +6833,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whptrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhptrf(uplo,n,ap,ipiv,info)
+               pure subroutine zhptrf(uplo,n,ap,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6818,7 +6851,7 @@ module stdlib_linalg_lapack
           ! A = L*D*L**H computed by CHPTRF.
           interface hptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chptri(uplo,n,ap,ipiv,work,info)
+               pure subroutine chptri(uplo,n,ap,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6832,7 +6865,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhptri(uplo,n,ap,ipiv,work,info)
+               pure subroutine zhptri(uplo,n,ap,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6851,7 +6884,7 @@ module stdlib_linalg_lapack
           ! A = U*D*U**H or A = L*D*L**H computed by CHPTRF.
           interface hptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine chptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6865,7 +6898,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine zhptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -6966,8 +6999,8 @@ module stdlib_linalg_lapack
           ! by the unitary matrix Q:  A = Q*H*Q**H = (QZ)*T*(QZ)**H.
           interface hseqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine chseqr(job,compz,n,ilo,ihi,h,ldh,w,z,ldz,work,lwork,info)
-                         
+               pure subroutine chseqr(job,compz,n,ilo,ihi,h,ldh,w,z,ldz,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,ldh,ldz,lwork,n
@@ -7010,8 +7043,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_whseqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zhseqr(job,compz,n,ilo,ihi,h,ldh,w,z,ldz,work,lwork,info)
-                         
+               pure subroutine zhseqr(job,compz,n,ilo,ihi,h,ldh,w,z,ldz,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,ldh,ldz,lwork,n
@@ -7030,7 +7063,7 @@ module stdlib_linalg_lapack
           ! future.
           interface isnan
 #ifdef STDLIB_EXTERNAL_LAPACK
-               logical(lk) function disnan(din)
+               pure logical(lk) function disnan(din)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: din
@@ -7040,7 +7073,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qisnan
 #ifdef STDLIB_EXTERNAL_LAPACK
-               logical(lk) function sisnan(sin)
+               pure logical(lk) function sisnan(sin)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: sin
@@ -7207,7 +7240,8 @@ module stdlib_linalg_lapack
           ! unreliable.
           interface la_gbrpvgrw
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function cla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
+               pure real(sp) function cla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,kl,ku,ncols,ldab,ldafb
@@ -7217,7 +7251,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cla_gbrpvgrw
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function dla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
+               pure real(dp) function dla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,kl,ku,ncols,ldab,ldafb
@@ -7228,7 +7263,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qla_gbrpvgrw
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function sla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
+               pure real(sp) function sla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,kl,ku,ncols,ldab,ldafb
@@ -7239,7 +7275,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wla_gbrpvgrw
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function zla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
+               pure real(dp) function zla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,kl,ku,ncols,ldab,ldafb
@@ -7403,7 +7440,7 @@ module stdlib_linalg_lapack
           ! unreliable.
           interface la_gerpvgrw
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function cla_gerpvgrw(n,ncols,a,lda,af,ldaf)
+               pure real(sp) function cla_gerpvgrw(n,ncols,a,lda,af,ldaf)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,ncols,lda,ldaf
@@ -7413,7 +7450,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cla_gerpvgrw
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function dla_gerpvgrw(n,ncols,a,lda,af,ldaf)
+               pure real(dp) function dla_gerpvgrw(n,ncols,a,lda,af,ldaf)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,ncols,lda,ldaf
@@ -7424,7 +7461,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qla_gerpvgrw
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function sla_gerpvgrw(n,ncols,a,lda,af,ldaf)
+               pure real(sp) function sla_gerpvgrw(n,ncols,a,lda,af,ldaf)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,ncols,lda,ldaf
@@ -7435,7 +7472,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wla_gerpvgrw
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function zla_gerpvgrw(n,ncols,a,lda,af,ldaf)
+               pure real(dp) function zla_gerpvgrw(n,ncols,a,lda,af,ldaf)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,ncols,lda,ldaf
@@ -7569,7 +7606,7 @@ module stdlib_linalg_lapack
           ! or vector Z.
           interface la_lin_berr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cla_lin_berr(n,nz,nrhs,res,ayb,berr)
+               pure subroutine cla_lin_berr(n,nz,nrhs,res,ayb,berr)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,nz,nrhs
@@ -7581,7 +7618,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cla_lin_berr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dla_lin_berr(n,nz,nrhs,res,ayb,berr)
+               pure subroutine dla_lin_berr(n,nz,nrhs,res,ayb,berr)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,nz,nrhs
@@ -7593,7 +7630,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qla_lin_berr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sla_lin_berr(n,nz,nrhs,res,ayb,berr)
+               pure subroutine sla_lin_berr(n,nz,nrhs,res,ayb,berr)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,nz,nrhs
@@ -7605,7 +7642,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wla_lin_berr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zla_lin_berr(n,nz,nrhs,res,ayb,berr)
+               pure subroutine zla_lin_berr(n,nz,nrhs,res,ayb,berr)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,nz,nrhs
@@ -7970,7 +8007,7 @@ module stdlib_linalg_lapack
           ! arithmetic, but not for decimal.
           interface la_wwaddw
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cla_wwaddw(n,x,y,w)
+               pure subroutine cla_wwaddw(n,x,y,w)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n
@@ -7981,7 +8018,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cla_wwaddw
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dla_wwaddw(n,x,y,w)
+               pure subroutine dla_wwaddw(n,x,y,w)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n
@@ -7993,7 +8030,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qla_wwaddw
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sla_wwaddw(n,x,y,w)
+               pure subroutine sla_wwaddw(n,x,y,w)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n
@@ -8005,7 +8042,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wla_wwaddw
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zla_wwaddw(n,x,y,w)
+               pure subroutine zla_wwaddw(n,x,y,w)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n
@@ -8027,7 +8064,7 @@ module stdlib_linalg_lapack
           ! the exponent range, as is found on a Cray.
           interface labad
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlabad(small,large)
+               pure subroutine dlabad(small,large)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(inout) :: large,small
@@ -8037,7 +8074,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlabad
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slabad(small,large)
+               pure subroutine slabad(small,large)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(inout) :: large,small
@@ -8056,7 +8093,7 @@ module stdlib_linalg_lapack
           ! This is an auxiliary routine called by CGEBRD
           interface labrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
+               pure subroutine clabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldx,ldy,m,n,nb
@@ -8068,7 +8105,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clabrd
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
+               pure subroutine dlabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldx,ldy,m,n,nb
@@ -8080,7 +8117,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlabrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
+               pure subroutine slabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldx,ldy,m,n,nb
@@ -8092,7 +8129,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlabrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
+               pure subroutine zlabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldx,ldy,m,n,nb
@@ -8108,7 +8145,7 @@ module stdlib_linalg_lapack
           ! LACGV conjugates a complex vector of length N.
           interface lacgv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clacgv(n,x,incx)
+               pure subroutine clacgv(n,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -8119,7 +8156,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlacgv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlacgv(n,x,incx)
+               pure subroutine zlacgv(n,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -8193,7 +8230,7 @@ module stdlib_linalg_lapack
           ! matrix B.
           interface lacpy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clacpy(uplo,m,n,a,lda,b,ldb)
+               pure subroutine clacpy(uplo,m,n,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -8205,7 +8242,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clacpy
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlacpy(uplo,m,n,a,lda,b,ldb)
+               pure subroutine dlacpy(uplo,m,n,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -8218,7 +8255,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlacpy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slacpy(uplo,m,n,a,lda,b,ldb)
+               pure subroutine slacpy(uplo,m,n,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -8231,7 +8268,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlacpy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlacpy(uplo,m,n,a,lda,b,ldb)
+               pure subroutine zlacpy(uplo,m,n,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -8250,7 +8287,7 @@ module stdlib_linalg_lapack
           ! C is M by N and complex.
           interface lacrm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clacrm(m,n,a,lda,b,ldb,c,ldc,rwork)
+               pure subroutine clacrm(m,n,a,lda,b,ldb,c,ldc,rwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldb,ldc,m,n
@@ -8264,7 +8301,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlacrm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlacrm(m,n,a,lda,b,ldb,c,ldc,rwork)
+               pure subroutine zlacrm(m,n,a,lda,b,ldb,c,ldc,rwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldb,ldc,m,n
@@ -8284,7 +8321,7 @@ module stdlib_linalg_lapack
           ! where c and s are complex and the vectors x and y are complex.
           interface lacrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clacrt(n,cx,incx,cy,incy,c,s)
+               pure subroutine clacrt(n,cx,incx,cy,incy,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,incy,n
@@ -8296,7 +8333,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlacrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlacrt(n,cx,incx,cy,incy,c,s)
+               pure subroutine zlacrt(n,cx,incx,cy,incy,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,incy,n
@@ -8313,7 +8350,7 @@ module stdlib_linalg_lapack
           ! overflows.
           interface ladiv_f
 #ifdef STDLIB_EXTERNAL_LAPACK
-               complex(sp) function cladiv(x,y)
+               pure complex(sp) function cladiv(x,y)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     complex(sp),intent(in) :: x,y
@@ -8323,7 +8360,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wladiv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               complex(dp) function zladiv(x,y)
+               pure complex(dp) function zladiv(x,y)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     complex(dp),intent(in) :: x,y
@@ -8342,7 +8379,7 @@ module stdlib_linalg_lapack
           ! "A Robust Complex Division in Scilab"
           interface ladiv_s
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dladiv(a,b,c,d,p,q)
+               pure subroutine dladiv(a,b,c,d,p,q)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: a,b,c,d
@@ -8353,7 +8390,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qladiv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sladiv(a,b,c,d,p,q)
+               pure subroutine sladiv(a,b,c,d,p,q)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: a,b,c,d
@@ -8366,20 +8403,24 @@ module stdlib_linalg_lapack
 
           interface ladiv1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dladiv1(a,b,c,d,p,q)
+               pure subroutine dladiv1(a,b,c,d,p,q)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: a,b,c,d,p,q
+                    real(dp),intent(inout) :: a
+                    real(dp),intent(in) :: b,c,d
+                    real(dp),intent(out) :: p,q
                end subroutine dladiv1
 #else
                module procedure stdlib_dladiv1
 #endif
                module procedure stdlib_qladiv1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sladiv1(a,b,c,d,p,q)
+               pure subroutine sladiv1(a,b,c,d,p,q)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: a,b,c,d,p,q
+                    real(sp),intent(inout) :: a
+                    real(sp),intent(in) :: b,c,d
+                    real(sp),intent(out) :: p,q
                end subroutine sladiv1
 #else
                module procedure stdlib_sladiv1
@@ -8388,20 +8429,20 @@ module stdlib_linalg_lapack
 
           interface ladiv2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function dladiv2(a,b,c,d,r,t)
+               pure real(dp) function dladiv2(a,b,c,d,r,t)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: a,b,c,d,r,t
+                    real(dp),intent(in) :: a,b,c,d,r,t
                end function dladiv2
 #else
                module procedure stdlib_dladiv2
 #endif
                module procedure stdlib_qladiv2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function sladiv2(a,b,c,d,r,t)
+               pure real(sp) function sladiv2(a,b,c,d,r,t)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: a,b,c,d,r,t
+                    real(sp),intent(in) :: a,b,c,d,r,t
                end function sladiv2
 #else
                module procedure stdlib_sladiv2
@@ -8441,8 +8482,8 @@ module stdlib_linalg_lapack
           ! values.
           interface laebz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaebz(ijob,nitmax,n,mmax,minp,nbmin,abstol,reltol,pivmin,d,e, &
-                          e2,nval,ab,c,mout,nab,work,iwork,info)
+               pure subroutine dlaebz(ijob,nitmax,n,mmax,minp,nbmin,abstol,reltol,pivmin, &
+                         d,e,e2,nval,ab,c,mout,nab,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ijob,minp,mmax,n,nbmin,nitmax
@@ -8457,8 +8498,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaebz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaebz(ijob,nitmax,n,mmax,minp,nbmin,abstol,reltol,pivmin,d,e, &
-                          e2,nval,ab,c,mout,nab,work,iwork,info)
+               pure subroutine slaebz(ijob,nitmax,n,mmax,minp,nbmin,abstol,reltol,pivmin, &
+                         d,e,e2,nval,ab,c,mout,nab,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ijob,minp,mmax,n,nbmin,nitmax
@@ -8479,7 +8520,8 @@ module stdlib_linalg_lapack
           ! corresponding eigenvectors of the dense or band matrix.
           interface laed0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
+               pure subroutine claed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,iwork(*)
@@ -8493,8 +8535,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_claed0
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaed0(icompq,qsiz,n,d,e,q,ldq,qstore,ldqs,work,iwork,info)
-                         
+               pure subroutine dlaed0(icompq,qsiz,n,d,e,q,ldq,qstore,ldqs,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: icompq,ldq,ldqs,n,qsiz
@@ -8507,8 +8549,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaed0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaed0(icompq,qsiz,n,d,e,q,ldq,qstore,ldqs,work,iwork,info)
-                         
+               pure subroutine slaed0(icompq,qsiz,n,d,e,q,ldq,qstore,ldqs,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: icompq,ldq,ldqs,n,qsiz
@@ -8521,7 +8563,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaed0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
+               pure subroutine zlaed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,iwork(*)
@@ -8564,7 +8607,8 @@ module stdlib_linalg_lapack
           ! the overall problem.
           interface laed1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaed1(n,d,q,ldq,indxq,rho,cutpnt,work,iwork,info)
+               pure subroutine dlaed1(n,d,q,ldq,indxq,rho,cutpnt,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: cutpnt,ldq,n
@@ -8578,7 +8622,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaed1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaed1(n,d,q,ldq,indxq,rho,cutpnt,work,iwork,info)
+               pure subroutine slaed1(n,d,q,ldq,indxq,rho,cutpnt,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: cutpnt,ldq,n
@@ -8604,7 +8649,7 @@ module stdlib_linalg_lapack
           ! secular equation by simpler interpolating rational functions.
           interface laed4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaed4(n,i,d,z,delta,rho,dlam,info)
+               pure subroutine dlaed4(n,i,d,z,delta,rho,dlam,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i,n
@@ -8617,7 +8662,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaed4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaed4(n,i,d,z,delta,rho,dlam,info)
+               pure subroutine slaed4(n,i,d,z,delta,rho,dlam,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i,n
@@ -8639,7 +8684,7 @@ module stdlib_linalg_lapack
           ! Z is one.
           interface laed5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaed5(i,d,z,delta,rho,dlam)
+               pure subroutine dlaed5(i,d,z,delta,rho,dlam)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i
@@ -8651,7 +8696,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaed5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaed5(i,d,z,delta,rho,dlam)
+               pure subroutine slaed5(i,d,z,delta,rho,dlam)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i
@@ -8676,7 +8721,7 @@ module stdlib_linalg_lapack
           ! in some extremely rare situations.
           interface laed6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaed6(kniter,orgati,rho,d,z,finit,tau,info)
+               pure subroutine dlaed6(kniter,orgati,rho,d,z,finit,tau,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: orgati
@@ -8690,7 +8735,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaed6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaed6(kniter,orgati,rho,d,z,finit,tau,info)
+               pure subroutine slaed6(kniter,orgati,rho,d,z,finit,tau,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: orgati
@@ -8730,8 +8775,8 @@ module stdlib_linalg_lapack
           ! the overall problem.
           interface laed7
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claed7(n,cutpnt,qsiz,tlvls,curlvl,curpbm,d,q,ldq,rho,indxq, &
-               qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,rwork,iwork,info)
+               pure subroutine claed7(n,cutpnt,qsiz,tlvls,curlvl,curpbm,d,q,ldq,rho, &
+               indxq,qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,rwork,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8748,8 +8793,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_claed7
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaed7(icompq,n,qsiz,tlvls,curlvl,curpbm,d,q,ldq,indxq,rho, &
-               cutpnt,qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,iwork,info)
+               pure subroutine dlaed7(icompq,n,qsiz,tlvls,curlvl,curpbm,d,q,ldq,indxq, &
+               rho,cutpnt,qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8766,8 +8811,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaed7
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaed7(icompq,n,qsiz,tlvls,curlvl,curpbm,d,q,ldq,indxq,rho, &
-               cutpnt,qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,iwork,info)
+               pure subroutine slaed7(icompq,n,qsiz,tlvls,curlvl,curpbm,d,q,ldq,indxq, &
+               rho,cutpnt,qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8784,8 +8829,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaed7
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaed7(n,cutpnt,qsiz,tlvls,curlvl,curpbm,d,q,ldq,rho,indxq, &
-               qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,rwork,iwork,info)
+               pure subroutine zlaed7(n,cutpnt,qsiz,tlvls,curlvl,curpbm,d,q,ldq,rho, &
+               indxq,qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,rwork,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8811,7 +8856,7 @@ module stdlib_linalg_lapack
           ! equation problem is reduced by one.
           interface laed8
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claed8(k,n,qsiz,q,ldq,d,rho,cutpnt,z,dlamda,q2,ldq2,w, &
+               pure subroutine claed8(k,n,qsiz,q,ldq,d,rho,cutpnt,z,dlamda,q2,ldq2,w, &
                          indxp,indx,indxq,perm,givptr,givcol,givnum,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8828,8 +8873,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_claed8
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaed8(icompq,k,n,qsiz,d,q,ldq,indxq,rho,cutpnt,z,dlamda,q2, &
-                          ldq2,w,perm,givptr,givcol,givnum,indxp,indx,info)
+               pure subroutine dlaed8(icompq,k,n,qsiz,d,q,ldq,indxq,rho,cutpnt,z, &
+                         dlamda,q2,ldq2,w,perm,givptr,givcol,givnum,indxp,indx,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: cutpnt,icompq,ldq,ldq2,n,qsiz
@@ -8844,8 +8889,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaed8
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaed8(icompq,k,n,qsiz,d,q,ldq,indxq,rho,cutpnt,z,dlamda,q2, &
-                          ldq2,w,perm,givptr,givcol,givnum,indxp,indx,info)
+               pure subroutine slaed8(icompq,k,n,qsiz,d,q,ldq,indxq,rho,cutpnt,z, &
+                         dlamda,q2,ldq2,w,perm,givptr,givcol,givnum,indxp,indx,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: cutpnt,icompq,ldq,ldq2,n,qsiz
@@ -8860,7 +8905,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaed8
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaed8(k,n,qsiz,q,ldq,d,rho,cutpnt,z,dlamda,q2,ldq2,w, &
+               pure subroutine zlaed8(k,n,qsiz,q,ldq,d,rho,cutpnt,z,dlamda,q2,ldq2,w, &
                          indxp,indx,indxq,perm,givptr,givcol,givnum,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8884,8 +8929,8 @@ module stdlib_linalg_lapack
           ! eigenvectors for use in calculating the next level of Z vectors.
           interface laed9
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaed9(k,kstart,kstop,n,d,q,ldq,rho,dlamda,w,s,lds,info)
-                         
+               pure subroutine dlaed9(k,kstart,kstop,n,d,q,ldq,rho,dlamda,w,s,lds, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -8899,8 +8944,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaed9
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaed9(k,kstart,kstop,n,d,q,ldq,rho,dlamda,w,s,lds,info)
-                         
+               pure subroutine slaed9(k,kstart,kstop,n,d,q,ldq,rho,dlamda,w,s,lds, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -8919,8 +8964,8 @@ module stdlib_linalg_lapack
           ! problem.
           interface laeda
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaeda(n,tlvls,curlvl,curpbm,prmptr,perm,givptr,givcol,givnum, &
-                         q,qptr,z,ztemp,info)
+               pure subroutine dlaeda(n,tlvls,curlvl,curpbm,prmptr,perm,givptr,givcol, &
+                         givnum,q,qptr,z,ztemp,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: curlvl,curpbm,n,tlvls,givcol(2,*),givptr(*),perm( &
@@ -8934,8 +8979,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaeda
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaeda(n,tlvls,curlvl,curpbm,prmptr,perm,givptr,givcol,givnum, &
-                         q,qptr,z,ztemp,info)
+               pure subroutine slaeda(n,tlvls,curlvl,curpbm,prmptr,perm,givptr,givcol, &
+                         givnum,q,qptr,z,ztemp,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: curlvl,curpbm,n,tlvls,givcol(2,*),givptr(*),perm( &
@@ -8954,8 +8999,8 @@ module stdlib_linalg_lapack
           ! matrix H.
           interface laein
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claein(rightv,noinit,n,h,ldh,w,v,b,ldb,rwork,eps3,smlnum, &
-                         info)
+               pure subroutine claein(rightv,noinit,n,h,ldh,w,v,b,ldb,rwork,eps3, &
+                         smlnum,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: noinit,rightv
@@ -8971,8 +9016,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_claein
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaein(rightv,noinit,n,h,ldh,wr,wi,vr,vi,b,ldb,work,eps3, &
-                         smlnum,bignum,info)
+               pure subroutine dlaein(rightv,noinit,n,h,ldh,wr,wi,vr,vi,b,ldb,work, &
+                         eps3,smlnum,bignum,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: noinit,rightv
@@ -8987,8 +9032,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaein
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaein(rightv,noinit,n,h,ldh,wr,wi,vr,vi,b,ldb,work,eps3, &
-                         smlnum,bignum,info)
+               pure subroutine slaein(rightv,noinit,n,h,ldh,wr,wi,vr,vi,b,ldb,work, &
+                         eps3,smlnum,bignum,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: noinit,rightv
@@ -9003,8 +9048,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaein
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaein(rightv,noinit,n,h,ldh,w,v,b,ldb,rwork,eps3,smlnum, &
-                         info)
+               pure subroutine zlaein(rightv,noinit,n,h,ldh,w,v,b,ldb,rwork,eps3, &
+                         smlnum,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: noinit,rightv
@@ -9032,7 +9077,7 @@ module stdlib_linalg_lapack
           ! [ -SN1     CS1   ]   [ B  C ]   [ SN1     CS1   ]   [  0  RT2 ]
           interface laesy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claesy(a,b,c,rt1,rt2,evscal,cs1,sn1)
+               pure subroutine claesy(a,b,c,rt1,rt2,evscal,cs1,sn1)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     complex(sp),intent(in) :: a,b,c
@@ -9043,7 +9088,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaesy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaesy(a,b,c,rt1,rt2,evscal,cs1,sn1)
+               pure subroutine zlaesy(a,b,c,rt1,rt2,evscal,cs1,sn1)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     complex(dp),intent(in) :: a,b,c
@@ -9105,7 +9150,7 @@ module stdlib_linalg_lapack
           ! inverse iteration.
           interface lagtf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlagtf(n,a,lambda,b,c,tol,d,in,info)
+               pure subroutine dlagtf(n,a,lambda,b,c,tol,d,in,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,in(*)
@@ -9119,7 +9164,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlagtf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slagtf(n,a,lambda,b,c,tol,d,in,info)
+               pure subroutine slagtf(n,a,lambda,b,c,tol,d,in,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,in(*)
@@ -9140,7 +9185,8 @@ module stdlib_linalg_lapack
           ! 0., 1., or -1.
           interface lagtm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+               pure subroutine clagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -9153,7 +9199,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clagtm
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+               pure subroutine dlagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -9166,7 +9213,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlagtm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+               pure subroutine slagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -9179,7 +9227,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlagtm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+               pure subroutine zlagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -9204,7 +9253,7 @@ module stdlib_linalg_lapack
           ! being intended for use in applications such as inverse iteration.
           interface lagts
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlagts(job,n,a,b,c,d,in,y,tol,info)
+               pure subroutine dlagts(job,n,a,b,c,d,in,y,tol,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -9217,7 +9266,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlagts
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slagts(job,n,a,b,c,d,in,y,tol,info)
+               pure subroutine slagts(job,n,a,b,c,d,in,y,tol,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -9245,7 +9294,7 @@ module stdlib_linalg_lapack
           ! A22 (if UPLO = 'L').
           interface lahef
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clahef(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine clahef(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9259,7 +9308,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlahef
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlahef(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine zlahef(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9285,7 +9334,7 @@ module stdlib_linalg_lapack
           ! the diagonal and subdiagonal of A are overwritten by those of T.
           interface lahef_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clahef_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
+               pure subroutine clahef_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9299,7 +9348,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlahef_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlahef_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
+               pure subroutine zlahef_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9327,7 +9376,7 @@ module stdlib_linalg_lapack
           ! A11 (if UPLO = 'U') or A22 (if UPLO = 'L').
           interface lahef_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clahef_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
+               pure subroutine clahef_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9341,7 +9390,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlahef_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlahef_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
+               pure subroutine zlahef_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9370,7 +9419,7 @@ module stdlib_linalg_lapack
           ! A11 (if UPLO = 'U') or A22 (if UPLO = 'L').
           interface lahef_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clahef_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine clahef_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9384,7 +9433,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlahef_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlahef_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine zlahef_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9404,8 +9453,8 @@ module stdlib_linalg_lapack
           ! IHI.
           interface lahqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,info)
-                         
+               pure subroutine clahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,n
@@ -9418,8 +9467,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clahqr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlahqr(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
-                         info)
+               pure subroutine dlahqr(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z, &
+                         ldz,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,n
@@ -9433,8 +9482,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlahqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slahqr(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
-                         info)
+               pure subroutine slahqr(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z, &
+                         ldz,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,n
@@ -9448,8 +9497,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlahqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,info)
-                         
+               pure subroutine zlahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,n
@@ -9485,7 +9534,7 @@ module stdlib_linalg_lapack
           ! where  alpha =  x**H*w.
           interface laic1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claic1(job,j,x,sest,w,gamma,sestpr,s,c)
+               pure subroutine claic1(job,j,x,sest,w,gamma,sestpr,s,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: j,job
@@ -9498,7 +9547,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claic1
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaic1(job,j,x,sest,w,gamma,sestpr,s,c)
+               pure subroutine dlaic1(job,j,x,sest,w,gamma,sestpr,s,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: j,job
@@ -9510,7 +9559,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaic1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaic1(job,j,x,sest,w,gamma,sestpr,s,c)
+               pure subroutine slaic1(job,j,x,sest,w,gamma,sestpr,s,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: j,job
@@ -9522,7 +9571,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaic1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaic1(job,j,x,sest,w,gamma,sestpr,s,c)
+               pure subroutine zlaic1(job,j,x,sest,w,gamma,sestpr,s,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: j,job
@@ -9549,7 +9598,7 @@ module stdlib_linalg_lapack
           ! Fortran 03 intrinsic once the intrinsic is widely available.
           interface laisnan
 #ifdef STDLIB_EXTERNAL_LAPACK
-               logical(lk) function dlaisnan(din1,din2)
+               pure logical(lk) function dlaisnan(din1,din2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: din1,din2
@@ -9559,7 +9608,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaisnan
 #ifdef STDLIB_EXTERNAL_LAPACK
-               logical(lk) function slaisnan(sin1,sin2)
+               pure logical(lk) function slaisnan(sin1,sin2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: sin1,sin2
@@ -9591,7 +9640,7 @@ module stdlib_linalg_lapack
           ! (4R) The inverse transformation of (1L).
           interface lals0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
+               pure subroutine clals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
                          givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -9608,7 +9657,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clals0
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
+               pure subroutine dlals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
                          givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -9625,7 +9674,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlals0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
+               pure subroutine slals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
                          givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -9642,7 +9691,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlals0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
+               pure subroutine zlals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
                          givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -9671,9 +9720,9 @@ module stdlib_linalg_lapack
           ! compact form by LALSA.
           interface lalsa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k,difl, &
-               difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,rwork,iwork,info)
-                         
+               pure subroutine clalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k, &
+               difl,difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,rwork,iwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: icompq,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol( &
@@ -9689,8 +9738,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clalsa
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k,difl, &
-               difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
+               pure subroutine dlalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k, &
+               difl,difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -9707,8 +9756,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlalsa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k,difl, &
-               difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
+               pure subroutine slalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k, &
+               difl,difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -9725,9 +9774,9 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlalsa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k,difl, &
-               difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,rwork,iwork,info)
-                         
+               pure subroutine zlalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k, &
+               difl,difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,rwork,iwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: icompq,ldb,ldbx,ldgcol,ldu,n,nrhs,smlsiz,givcol( &
@@ -9760,8 +9809,8 @@ module stdlib_linalg_lapack
           ! without guard digits, but we know of none.
           interface lalsd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work,rwork, &
-                         iwork,info)
+               pure subroutine clalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work, &
+                         rwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9777,8 +9826,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clalsd
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work,iwork, &
-                         info)
+               pure subroutine dlalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work, &
+                         iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9793,8 +9842,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlalsd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work,iwork, &
-                         info)
+               pure subroutine slalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work, &
+                         iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9809,8 +9858,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlalsd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work,rwork, &
-                         iwork,info)
+               pure subroutine zlalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work, &
+                         rwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -9832,7 +9881,7 @@ module stdlib_linalg_lapack
           ! single set which is sorted in ascending order.
           interface lamrg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlamrg(n1,n2,a,dtrd1,dtrd2,index)
+               pure subroutine dlamrg(n1,n2,a,dtrd1,dtrd2,index)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: dtrd1,dtrd2,n1,n2
@@ -9844,7 +9893,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlamrg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slamrg(n1,n2,a,strd1,strd2,index)
+               pure subroutine slamrg(n1,n2,a,strd1,strd2,index)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n1,n2,strd1,strd2
@@ -9865,8 +9914,8 @@ module stdlib_linalg_lapack
           ! factorization (CLASWLQ)
           interface lamswlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
-                         lwork,info)
+               pure subroutine clamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -9880,8 +9929,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clamswlq
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
-                         lwork,info)
+               pure subroutine dlamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -9896,8 +9945,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlamswlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
-                         lwork,info)
+               pure subroutine slamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -9912,8 +9961,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlamswlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
-                         lwork,info)
+               pure subroutine zlamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -9937,8 +9986,8 @@ module stdlib_linalg_lapack
           ! QR factorization (CLATSQR)
           interface lamtsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
-                         lwork,info)
+               pure subroutine clamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -9952,8 +10001,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clamtsqr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
-                         lwork,info)
+               pure subroutine dlamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -9968,8 +10017,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlamtsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
-                         lwork,info)
+               pure subroutine slamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -9984,8 +10033,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlamtsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
-                         lwork,info)
+               pure subroutine zlamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -10017,7 +10066,7 @@ module stdlib_linalg_lapack
           ! (Tech report version in LAWN 172 with the same title.)
           interface laneg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               integer(ilp) function dlaneg(n,d,lld,sigma,pivmin,r)
+               pure integer(ilp) function dlaneg(n,d,lld,sigma,pivmin,r)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,r
@@ -10028,7 +10077,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaneg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               integer(ilp) function slaneg(n,d,lld,sigma,pivmin,r)
+               pure integer(ilp) function slaneg(n,d,lld,sigma,pivmin,r)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n,r
@@ -10156,7 +10205,7 @@ module stdlib_linalg_lapack
           ! complex tridiagonal matrix A.
           interface langt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function clangt(norm,n,dl,d,du)
+               pure real(sp) function clangt(norm,n,dl,d,du)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -10167,7 +10216,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clangt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function dlangt(norm,n,dl,d,du)
+               pure real(dp) function dlangt(norm,n,dl,d,du)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -10179,7 +10228,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlangt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function slangt(norm,n,dl,d,du)
+               pure real(sp) function slangt(norm,n,dl,d,du)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -10191,7 +10240,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlangt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function zlangt(norm,n,dl,d,du)
+               pure real(dp) function zlangt(norm,n,dl,d,du)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -10388,7 +10437,7 @@ module stdlib_linalg_lapack
           ! complex Hermitian tridiagonal matrix A.
           interface lanht
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function clanht(norm,n,d,e)
+               pure real(sp) function clanht(norm,n,d,e)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -10401,7 +10450,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlanht
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function zlanht(norm,n,d,e)
+               pure real(dp) function zlanht(norm,n,d,e)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -10562,7 +10611,7 @@ module stdlib_linalg_lapack
           ! real symmetric tridiagonal matrix A.
           interface lanst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(dp) function dlanst(norm,n,d,e)
+               pure real(dp) function dlanst(norm,n,d,e)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -10574,7 +10623,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlanst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               real(sp) function slanst(norm,n,d,e)
+               pure real(sp) function slanst(norm,n,d,e)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
@@ -10847,7 +10896,7 @@ module stdlib_linalg_lapack
           ! vol. 85, pp. 3-31, 2015.
           interface laorhr_col_getrfnp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaorhr_col_getrfnp(m,n,a,lda,d,info)
+               pure subroutine dlaorhr_col_getrfnp(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -10860,7 +10909,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaorhr_col_getrfnp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaorhr_col_getrfnp(m,n,a,lda,d,info)
+               pure subroutine slaorhr_col_getrfnp(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -10923,7 +10972,7 @@ module stdlib_linalg_lapack
           ! vol. 41, no. 6, pp. 737-755, 1997.
           interface laorhr_col_getrfnp2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine dlaorhr_col_getrfnp2(m,n,a,lda,d,info)
+               pure recursive subroutine dlaorhr_col_getrfnp2(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -10936,7 +10985,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaorhr_col_getrfnp2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine slaorhr_col_getrfnp2(m,n,a,lda,d,info)
+               pure recursive subroutine slaorhr_col_getrfnp2(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -10957,7 +11006,7 @@ module stdlib_linalg_lapack
           ! as the measurement of the linear dependency of the vectors X and Y.
           interface lapll
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clapll(n,x,incx,y,incy,ssmin)
+               pure subroutine clapll(n,x,incx,y,incy,ssmin)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,incy,n
@@ -10968,7 +11017,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clapll
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlapll(n,x,incx,y,incy,ssmin)
+               pure subroutine dlapll(n,x,incx,y,incy,ssmin)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,incy,n
@@ -10980,7 +11029,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlapll
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slapll(n,x,incx,y,incy,ssmin)
+               pure subroutine slapll(n,x,incx,y,incy,ssmin)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,incy,n
@@ -10992,7 +11041,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlapll
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlapll(n,x,incx,y,incy,ssmin)
+               pure subroutine zlapll(n,x,incx,y,incy,ssmin)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,incy,n
@@ -11012,7 +11061,7 @@ module stdlib_linalg_lapack
           ! X(I,*) is moved to X(K(I),*) for I = 1,2,...,M.
           interface lapmr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clapmr(forwrd,m,n,x,ldx,k)
+               pure subroutine clapmr(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: forwrd
@@ -11024,7 +11073,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clapmr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlapmr(forwrd,m,n,x,ldx,k)
+               pure subroutine dlapmr(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: forwrd
@@ -11037,7 +11086,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlapmr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slapmr(forwrd,m,n,x,ldx,k)
+               pure subroutine slapmr(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: forwrd
@@ -11050,7 +11099,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlapmr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlapmr(forwrd,m,n,x,ldx,k)
+               pure subroutine zlapmr(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: forwrd
@@ -11071,7 +11120,7 @@ module stdlib_linalg_lapack
           ! X(*,J) is moved to X(*,K(J)) for J = 1,2,...,N.
           interface lapmt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clapmt(forwrd,m,n,x,ldx,k)
+               pure subroutine clapmt(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: forwrd
@@ -11083,7 +11132,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clapmt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlapmt(forwrd,m,n,x,ldx,k)
+               pure subroutine dlapmt(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: forwrd
@@ -11096,7 +11145,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlapmt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slapmt(forwrd,m,n,x,ldx,k)
+               pure subroutine slapmt(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: forwrd
@@ -11109,7 +11158,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlapmt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlapmt(forwrd,m,n,x,ldx,k)
+               pure subroutine zlapmt(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: forwrd
@@ -11127,7 +11176,7 @@ module stdlib_linalg_lapack
           ! in the vectors R and C.
           interface laqgb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
+               pure subroutine claqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -11140,7 +11189,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claqgb
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
+               pure subroutine dlaqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -11154,7 +11203,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqgb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
+               pure subroutine slaqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -11168,7 +11217,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqgb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
+               pure subroutine zlaqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -11186,7 +11235,7 @@ module stdlib_linalg_lapack
           ! column scaling factors in the vectors R and C.
           interface laqge
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
+               pure subroutine claqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11198,7 +11247,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claqge
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
+               pure subroutine dlaqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11211,7 +11260,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqge
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
+               pure subroutine slaqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11224,7 +11273,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqge
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
+               pure subroutine zlaqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11241,7 +11290,7 @@ module stdlib_linalg_lapack
           ! factors in the vector S.
           interface laqhb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqhb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+               pure subroutine claqhb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11256,7 +11305,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqhb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqhb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+               pure subroutine zlaqhb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11275,7 +11324,7 @@ module stdlib_linalg_lapack
           ! in the vector S.
           interface laqhe
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqhe(uplo,n,a,lda,s,scond,amax,equed)
+               pure subroutine claqhe(uplo,n,a,lda,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11289,7 +11338,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqhe
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqhe(uplo,n,a,lda,s,scond,amax,equed)
+               pure subroutine zlaqhe(uplo,n,a,lda,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11307,7 +11356,7 @@ module stdlib_linalg_lapack
           ! in the vector S.
           interface laqhp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqhp(uplo,n,ap,s,scond,amax,equed)
+               pure subroutine claqhp(uplo,n,ap,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11321,7 +11370,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqhp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqhp(uplo,n,ap,s,scond,amax,equed)
+               pure subroutine zlaqhp(uplo,n,ap,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11345,8 +11394,8 @@ module stdlib_linalg_lapack
           ! Block A(1:OFFSET,1:N) is accordingly pivoted, but not factorized.
           interface laqps
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f,ldf)
-                         
+               pure subroutine claqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f, &
+                         ldf)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: kb
@@ -11360,8 +11409,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_claqps
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f,ldf)
-                         
+               pure subroutine dlaqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f, &
+                         ldf)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: kb
@@ -11375,8 +11424,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqps
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f,ldf)
-                         
+               pure subroutine slaqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f, &
+                         ldf)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: kb
@@ -11390,8 +11439,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqps
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f,ldf)
-                         
+               pure subroutine zlaqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f, &
+                         ldf)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: kb
@@ -11416,8 +11465,8 @@ module stdlib_linalg_lapack
           ! by the unitary matrix Q:  A = Q*H*Q**H = (QZ)*H*(QZ)**H.
           interface laqr0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqr0(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,work, &
-                         lwork,info)
+               pure subroutine claqr0(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,lwork,n
@@ -11460,8 +11509,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqr0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqr0(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,work, &
-                         lwork,info)
+               pure subroutine zlaqr0(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,lwork,n
@@ -11483,7 +11532,7 @@ module stdlib_linalg_lapack
           ! in the QR algorithm.
           interface laqr1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqr1(n,h,ldh,s1,s2,v)
+               pure subroutine claqr1(n,h,ldh,s1,s2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     complex(sp),intent(in) :: s1,s2,h(ldh,*)
@@ -11494,7 +11543,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claqr1
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqr1(n,h,ldh,sr1,si1,sr2,si2,v)
+               pure subroutine dlaqr1(n,h,ldh,sr1,si1,sr2,si2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: si1,si2,sr1,sr2,h(ldh,*)
@@ -11506,7 +11555,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqr1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqr1(n,h,ldh,sr1,si1,sr2,si2,v)
+               pure subroutine slaqr1(n,h,ldh,sr1,si1,sr2,si2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: si1,si2,sr1,sr2,h(ldh,*)
@@ -11518,7 +11567,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqr1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqr1(n,h,ldh,s1,s2,v)
+               pure subroutine zlaqr1(n,h,ldh,s1,s2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     complex(dp),intent(in) :: s1,s2,h(ldh,*)
@@ -11546,8 +11595,8 @@ module stdlib_linalg_lapack
           ! by the unitary matrix Q:  A = Q*H*Q**H = (QZ)*H*(QZ)**H.
           interface laqr4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqr4(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,work, &
-                         lwork,info)
+               pure subroutine claqr4(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,lwork,n
@@ -11590,8 +11639,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqr4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqr4(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,work, &
-                         lwork,info)
+               pure subroutine zlaqr4(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz, &
+                         work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ihiz,ilo,iloz,ldh,ldz,lwork,n
@@ -11609,8 +11658,8 @@ module stdlib_linalg_lapack
           ! single small-bulge multi-shift QR sweep.
           interface laqr5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,s,h,ldh,iloz, &
-                         ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
+               pure subroutine claqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,s,h,ldh, &
+                         iloz,ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv, &
@@ -11623,8 +11672,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_claqr5
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,sr,si,h,ldh, &
-                         iloz,ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
+               pure subroutine dlaqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,sr,si,h,ldh, &
+                          iloz,ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv, &
@@ -11638,8 +11687,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqr5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,sr,si,h,ldh, &
-                         iloz,ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
+               pure subroutine slaqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,sr,si,h,ldh, &
+                          iloz,ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv, &
@@ -11653,8 +11702,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqr5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,s,h,ldh,iloz, &
-                         ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
+               pure subroutine zlaqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,s,h,ldh, &
+                         iloz,ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihiz,iloz,kacc22,kbot,ktop,ldh,ldu,ldv,ldwh,ldwv, &
@@ -11672,7 +11721,7 @@ module stdlib_linalg_lapack
           ! factors in the vector S.
           interface laqsb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+               pure subroutine claqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11685,7 +11734,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claqsb
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+               pure subroutine dlaqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11699,7 +11748,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqsb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+               pure subroutine slaqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11713,7 +11762,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqsb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+               pure subroutine zlaqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11731,7 +11780,7 @@ module stdlib_linalg_lapack
           ! in the vector S.
           interface laqsp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqsp(uplo,n,ap,s,scond,amax,equed)
+               pure subroutine claqsp(uplo,n,ap,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11744,7 +11793,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claqsp
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqsp(uplo,n,ap,s,scond,amax,equed)
+               pure subroutine dlaqsp(uplo,n,ap,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11758,7 +11807,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqsp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqsp(uplo,n,ap,s,scond,amax,equed)
+               pure subroutine slaqsp(uplo,n,ap,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11772,7 +11821,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqsp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqsp(uplo,n,ap,s,scond,amax,equed)
+               pure subroutine zlaqsp(uplo,n,ap,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11790,7 +11839,7 @@ module stdlib_linalg_lapack
           ! in the vector S.
           interface laqsy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqsy(uplo,n,a,lda,s,scond,amax,equed)
+               pure subroutine claqsy(uplo,n,a,lda,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11803,7 +11852,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claqsy
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqsy(uplo,n,a,lda,s,scond,amax,equed)
+               pure subroutine dlaqsy(uplo,n,a,lda,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11817,7 +11866,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqsy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqsy(uplo,n,a,lda,s,scond,amax,equed)
+               pure subroutine slaqsy(uplo,n,a,lda,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -11831,7 +11880,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqsy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqsy(uplo,n,a,lda,s,scond,amax,equed)
+               pure subroutine zlaqsy(uplo,n,a,lda,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(out) :: equed
@@ -12001,8 +12050,8 @@ module stdlib_linalg_lapack
           ! LAQZ1 chases a 1x1 shift bulge in a matrix pencil down a single position
           interface laqz1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claqz1(ilq,ilz,k,istartm,istopm,ihi,a,lda,b,ldb,nq,qstart,q, &
-                          ldq,nz,zstart,z,ldz)
+               pure subroutine claqz1(ilq,ilz,k,istartm,istopm,ihi,a,lda,b,ldb,nq, &
+                         qstart,q,ldq,nz,zstart,z,ldz)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: ilq,ilz
@@ -12014,7 +12063,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claqz1
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqz1(a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v)
+               pure subroutine dlaqz1(a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldb
@@ -12026,7 +12075,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqz1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqz1(a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v)
+               pure subroutine slaqz1(a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldb
@@ -12038,8 +12087,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaqz1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaqz1(ilq,ilz,k,istartm,istopm,ihi,a,lda,b,ldb,nq,qstart,q, &
-                          ldq,nz,zstart,z,ldz)
+               pure subroutine zlaqz1(ilq,ilz,k,istartm,istopm,ihi,a,lda,b,ldb,nq, &
+                         qstart,q,ldq,nz,zstart,z,ldz)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: ilq,ilz
@@ -12055,8 +12104,9 @@ module stdlib_linalg_lapack
           ! LAQZ4 Executes a single multishift QZ sweep
           interface laqz4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaqz4(ilschur,ilq,ilz,n,ilo,ihi,nshifts,nblock_desired,sr,si, &
-                         ss,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,lwork,info)
+               pure subroutine dlaqz4(ilschur,ilq,ilz,n,ilo,ihi,nshifts,nblock_desired,sr, &
+                si,ss,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,lwork,info)
+                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: ilschur,ilq,ilz
@@ -12073,8 +12123,9 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaqz4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaqz4(ilschur,ilq,ilz,n,ilo,ihi,nshifts,nblock_desired,sr,si, &
-                         ss,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,lwork,info)
+               pure subroutine slaqz4(ilschur,ilq,ilz,n,ilo,ihi,nshifts,nblock_desired,sr, &
+                si,ss,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,lwork,info)
+                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: ilschur,ilq,ilz
@@ -12108,8 +12159,8 @@ module stdlib_linalg_lapack
           ! the stationary and the bottom part of the progressive transform.
           interface lar1v
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
-                         negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
+               pure subroutine clar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
+                          negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantnc
@@ -12124,8 +12175,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clar1v
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
-                         negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
+               pure subroutine dlar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
+                          negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantnc
@@ -12141,8 +12192,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlar1v
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
-                         negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
+               pure subroutine slar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
+                          negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantnc
@@ -12158,8 +12209,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlar1v
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
-                         negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
+               pure subroutine zlar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
+                          negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantnc
@@ -12184,7 +12235,7 @@ module stdlib_linalg_lapack
           ! ( -s(i)       c(i)  ) ( conjg(z(i)) y(i) ) ( s(i)        c(i)  )
           interface lar2v
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clar2v(n,x,y,z,incx,c,s,incc)
+               pure subroutine clar2v(n,x,y,z,incx,c,s,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,n
@@ -12196,7 +12247,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clar2v
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlar2v(n,x,y,z,incx,c,s,incc)
+               pure subroutine dlar2v(n,x,y,z,incx,c,s,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,n
@@ -12208,7 +12259,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlar2v
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slar2v(n,x,y,z,incx,c,s,incc)
+               pure subroutine slar2v(n,x,y,z,incx,c,s,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,n
@@ -12220,7 +12271,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlar2v
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlar2v(n,x,y,z,incx,c,s,incc)
+               pure subroutine zlar2v(n,x,y,z,incx,c,s,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,n
@@ -12239,7 +12290,7 @@ module stdlib_linalg_lapack
           ! C is M by N and complex.
           interface larcm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarcm(m,n,a,lda,b,ldb,c,ldc,rwork)
+               pure subroutine clarcm(m,n,a,lda,b,ldb,c,ldc,rwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldb,ldc,m,n
@@ -12253,7 +12304,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarcm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarcm(m,n,a,lda,b,ldb,c,ldc,rwork)
+               pure subroutine zlarcm(m,n,a,lda,b,ldb,c,ldc,rwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: lda,ldb,ldc,m,n
@@ -12277,7 +12328,7 @@ module stdlib_linalg_lapack
           ! tau.
           interface larf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarf(side,m,n,v,incv,tau,c,ldc,work)
+               pure subroutine clarf(side,m,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side
@@ -12290,7 +12341,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarf(side,m,n,v,incv,tau,c,ldc,work)
+               pure subroutine dlarf(side,m,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side
@@ -12304,7 +12355,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarf(side,m,n,v,incv,tau,c,ldc,work)
+               pure subroutine slarf(side,m,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side
@@ -12318,7 +12369,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarf(side,m,n,v,incv,tau,c,ldc,work)
+               pure subroutine zlarf(side,m,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side
@@ -12336,8 +12387,8 @@ module stdlib_linalg_lapack
           ! complex M-by-N matrix C, from either the left or the right.
           interface larfb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c,ldc, &
-                         work,ldwork)
+               pure subroutine clarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c, &
+                         ldc,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -12350,8 +12401,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarfb
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c,ldc, &
-                         work,ldwork)
+               pure subroutine dlarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c, &
+                         ldc,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -12365,8 +12416,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarfb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c,ldc, &
-                         work,ldwork)
+               pure subroutine slarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c, &
+                         ldc,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -12380,8 +12431,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarfb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c,ldc, &
-                         work,ldwork)
+               pure subroutine zlarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c, &
+                         ldc,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -12404,7 +12455,7 @@ module stdlib_linalg_lapack
           ! arrays A, B and T. See Further Details section.
           interface larfb_gett
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
+               pure subroutine clarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -12418,7 +12469,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarfb_gett
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
+               pure subroutine dlarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -12433,7 +12484,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarfb_gett
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
+               pure subroutine slarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -12448,7 +12499,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarfb_gett
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
+               pure subroutine zlarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -12478,7 +12529,7 @@ module stdlib_linalg_lapack
           ! Otherwise  1 <= real(tau) <= 2  and  abs(tau-1) <= 1 .
           interface larfg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarfg(n,alpha,x,incx,tau)
+               pure subroutine clarfg(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -12489,7 +12540,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarfg
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarfg(n,alpha,x,incx,tau)
+               pure subroutine dlarfg(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -12501,7 +12552,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarfg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarfg(n,alpha,x,incx,tau)
+               pure subroutine slarfg(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -12513,7 +12564,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarfg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarfg(n,alpha,x,incx,tau)
+               pure subroutine zlarfg(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -12598,7 +12649,7 @@ module stdlib_linalg_lapack
           ! H  =  I - V**H * T * V
           interface larft
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarft(direct,storev,n,k,v,ldv,tau,t,ldt)
+               pure subroutine clarft(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,storev
@@ -12610,7 +12661,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarft
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarft(direct,storev,n,k,v,ldv,tau,t,ldt)
+               pure subroutine dlarft(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,storev
@@ -12623,7 +12674,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarft
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarft(direct,storev,n,k,v,ldv,tau,t,ldt)
+               pure subroutine slarft(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,storev
@@ -12636,7 +12687,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarft
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarft(direct,storev,n,k,v,ldv,tau,t,ldt)
+               pure subroutine zlarft(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,storev
@@ -12657,7 +12708,7 @@ module stdlib_linalg_lapack
           ! If  tau  is  zero, then  H  is taken to be the unit matrix.
           interface larfy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarfy(uplo,n,v,incv,tau,c,ldc,work)
+               pure subroutine clarfy(uplo,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -12670,7 +12721,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarfy
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarfy(uplo,n,v,incv,tau,c,ldc,work)
+               pure subroutine dlarfy(uplo,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -12684,7 +12735,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarfy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarfy(uplo,n,v,incv,tau,c,ldc,work)
+               pure subroutine slarfy(uplo,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -12698,7 +12749,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarfy
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarfy(uplo,n,v,incv,tau,c,ldc,work)
+               pure subroutine zlarfy(uplo,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -12724,7 +12775,7 @@ module stdlib_linalg_lapack
           ! If x(i)=0, then c(i)=0 and s(i) is chosen so that r(i) is real.
           interface largv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clargv(n,x,incx,y,incy,c,incc)
+               pure subroutine clargv(n,x,incx,y,incy,c,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,incy,n
@@ -12735,7 +12786,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clargv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlargv(n,x,incx,y,incy,c,incc)
+               pure subroutine dlargv(n,x,incx,y,incy,c,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,incy,n
@@ -12747,7 +12798,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlargv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slargv(n,x,incx,y,incy,c,incc)
+               pure subroutine slargv(n,x,incx,y,incy,c,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,incy,n
@@ -12759,7 +12810,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlargv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlargv(n,x,incx,y,incy,c,incc)
+               pure subroutine zlargv(n,x,incx,y,incy,c,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,incy,n
@@ -12775,7 +12826,7 @@ module stdlib_linalg_lapack
           ! normal distribution.
           interface larnv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarnv(idist,iseed,n,x)
+               pure subroutine clarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: idist,n
@@ -12786,7 +12837,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarnv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarnv(idist,iseed,n,x)
+               pure subroutine dlarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: idist,n
@@ -12798,7 +12849,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarnv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarnv(idist,iseed,n,x)
+               pure subroutine slarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: idist,n
@@ -12810,7 +12861,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarnv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarnv(idist,iseed,n,x)
+               pure subroutine zlarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: idist,n
@@ -12826,7 +12877,7 @@ module stdlib_linalg_lapack
           ! LARRA sets any "small" off-diagonal elements to zero.
           interface larra
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarra(n,d,e,e2,spltol,tnrm,nsplit,isplit,info)
+               pure subroutine dlarra(n,d,e,e2,spltol,tnrm,nsplit,isplit,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,nsplit,isplit(*)
@@ -12839,7 +12890,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarra
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarra(n,d,e,e2,spltol,tnrm,nsplit,isplit,info)
+               pure subroutine slarra(n,d,e,e2,spltol,tnrm,nsplit,isplit,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,nsplit,isplit(*)
@@ -12862,8 +12913,8 @@ module stdlib_linalg_lapack
           ! semi-widths in the arrays W and WERR respectively.
           interface larrb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarrb(n,d,lld,ifirst,ilast,rtol1,rtol2,offset,w,wgap,werr, &
-                         work,iwork,pivmin,spdiam,twist,info)
+               pure subroutine dlarrb(n,d,lld,ifirst,ilast,rtol1,rtol2,offset,w,wgap, &
+                         werr,work,iwork,pivmin,spdiam,twist,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ifirst,ilast,n,offset,twist
@@ -12877,8 +12928,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarrb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarrb(n,d,lld,ifirst,ilast,rtol1,rtol2,offset,w,wgap,werr, &
-                         work,iwork,pivmin,spdiam,twist,info)
+               pure subroutine slarrb(n,d,lld,ifirst,ilast,rtol1,rtol2,offset,w,wgap, &
+                         werr,work,iwork,pivmin,spdiam,twist,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ifirst,ilast,n,offset,twist
@@ -12897,7 +12948,8 @@ module stdlib_linalg_lapack
           ! if JOBT = 'L'.
           interface larrc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarrc(jobt,n,vl,vu,d,e,pivmin,eigcnt,lcnt,rcnt,info)
+               pure subroutine dlarrc(jobt,n,vl,vu,d,e,pivmin,eigcnt,lcnt,rcnt,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobt
@@ -12910,7 +12962,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarrc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarrc(jobt,n,vl,vu,d,e,pivmin,eigcnt,lcnt,rcnt,info)
+               pure subroutine slarrc(jobt,n,vl,vu,d,e,pivmin,eigcnt,lcnt,rcnt,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobt
@@ -12937,8 +12990,9 @@ module stdlib_linalg_lapack
           ! University, July 21, 1966.
           interface larrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarrd(range,order,n,vl,vu,il,iu,gers,reltol,d,e,e2,pivmin, &
-                         nsplit,isplit,m,w,werr,wl,wu,iblock,indexw,work,iwork,info)
+               pure subroutine dlarrd(range,order,n,vl,vu,il,iu,gers,reltol,d,e,e2, &
+               pivmin,nsplit,isplit,m,w,werr,wl,wu,iblock,indexw,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: order,range
@@ -12952,8 +13006,9 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarrd(range,order,n,vl,vu,il,iu,gers,reltol,d,e,e2,pivmin, &
-                         nsplit,isplit,m,w,werr,wl,wu,iblock,indexw,work,iwork,info)
+               pure subroutine slarrd(range,order,n,vl,vu,il,iu,gers,reltol,d,e,e2, &
+               pivmin,nsplit,isplit,m,w,werr,wl,wu,iblock,indexw,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: order,range
@@ -12982,8 +13037,9 @@ module stdlib_linalg_lapack
           ! Gerschgorin intervals for the matrices L_i D_i L_i^T.
           interface larre
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarre(range,n,vl,vu,il,iu,d,e,e2,rtol1,rtol2,spltol,nsplit, &
-                          isplit,m,w,werr,wgap,iblock,indexw,gers,pivmin,work,iwork,info)
+               pure subroutine dlarre(range,n,vl,vu,il,iu,d,e,e2,rtol1,rtol2,spltol, &
+               nsplit,isplit,m,w,werr,wgap,iblock,indexw,gers,pivmin,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: range
@@ -12999,8 +13055,9 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarre
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarre(range,n,vl,vu,il,iu,d,e,e2,rtol1,rtol2,spltol,nsplit, &
-                          isplit,m,w,werr,wgap,iblock,indexw,gers,pivmin,work,iwork,info)
+               pure subroutine slarre(range,n,vl,vu,il,iu,d,e,e2,rtol1,rtol2,spltol, &
+               nsplit,isplit,m,w,werr,wgap,iblock,indexw,gers,pivmin,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: range
@@ -13023,8 +13080,8 @@ module stdlib_linalg_lapack
           ! eigenvalues of L(+) D(+) L(+)^T is relatively isolated.
           interface larrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarrf(n,d,l,ld,clstrt,clend,w,wgap,werr,spdiam,clgapl,clgapr, &
-                          pivmin,sigma,dplus,lplus,work,info)
+               pure subroutine dlarrf(n,d,l,ld,clstrt,clend,w,wgap,werr,spdiam,clgapl, &
+                         clgapr,pivmin,sigma,dplus,lplus,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: clstrt,clend,n
@@ -13039,8 +13096,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarrf(n,d,l,ld,clstrt,clend,w,wgap,werr,spdiam,clgapl,clgapr, &
-                          pivmin,sigma,dplus,lplus,work,info)
+               pure subroutine slarrf(n,d,l,ld,clstrt,clend,w,wgap,werr,spdiam,clgapl, &
+                         clgapr,pivmin,sigma,dplus,lplus,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: clstrt,clend,n
@@ -13064,7 +13121,7 @@ module stdlib_linalg_lapack
           ! semi-widths in the arrays W and WERR respectively.
           interface larrj
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarrj(n,d,e2,ifirst,ilast,rtol,offset,w,werr,work,iwork, &
+               pure subroutine dlarrj(n,d,e2,ifirst,ilast,rtol,offset,w,werr,work,iwork, &
                          pivmin,spdiam,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -13079,7 +13136,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarrj
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarrj(n,d,e2,ifirst,ilast,rtol,offset,w,werr,work,iwork, &
+               pure subroutine slarrj(n,d,e2,ifirst,ilast,rtol,offset,w,werr,work,iwork, &
                          pivmin,spdiam,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -13105,7 +13162,7 @@ module stdlib_linalg_lapack
           ! University, July 21, 1966.
           interface larrk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarrk(n,iw,gl,gu,d,e2,pivmin,reltol,w,werr,info)
+               pure subroutine dlarrk(n,iw,gl,gu,d,e2,pivmin,reltol,w,werr,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -13118,7 +13175,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarrk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarrk(n,iw,gl,gu,d,e2,pivmin,reltol,w,werr,info)
+               pure subroutine slarrk(n,iw,gl,gu,d,e2,pivmin,reltol,w,werr,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -13136,7 +13193,7 @@ module stdlib_linalg_lapack
           ! in the eigenvalues.
           interface larrr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarrr(n,d,e,info)
+               pure subroutine dlarrr(n,d,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n
@@ -13149,7 +13206,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarrr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarrr(n,d,e,info)
+               pure subroutine slarrr(n,d,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n
@@ -13167,7 +13224,7 @@ module stdlib_linalg_lapack
           ! The input eigenvalues should have been computed by SLARRE.
           interface larrv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
+               pure subroutine clarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
                rtol2,w,werr,wgap,iblock,indexw,gers,z,ldz,isuppz,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
@@ -13184,7 +13241,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarrv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
+               pure subroutine dlarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
                rtol2,w,werr,wgap,iblock,indexw,gers,z,ldz,isuppz,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
@@ -13201,7 +13258,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarrv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
+               pure subroutine slarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
                rtol2,w,werr,wgap,iblock,indexw,gers,z,ldz,isuppz,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
@@ -13218,7 +13275,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarrv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
+               pure subroutine zlarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
                rtol2,w,werr,wgap,iblock,indexw,gers,z,ldz,isuppz,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
@@ -13261,7 +13318,7 @@ module stdlib_linalg_lapack
           ! Below, wp=>sp stands for single precision from LA_CONSTANTS module.
           interface lartg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clartg(f,g,c,s,r)
+               pure subroutine clartg(f,g,c,s,r)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(out) :: c
@@ -13272,7 +13329,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clartg
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlartg(f,g,c,s,r)
+               pure subroutine dlartg(f,g,c,s,r)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(out) :: c,r,s
@@ -13283,7 +13340,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlartg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slartg(f,g,c,s,r)
+               pure subroutine slartg(f,g,c,s,r)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(out) :: c,r,s
@@ -13294,7 +13351,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlartg
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlartg(f,g,c,s,r)
+               pure subroutine zlartg(f,g,c,s,r)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(out) :: c
@@ -13317,7 +13374,7 @@ module stdlib_linalg_lapack
           ! The sign is chosen so that R >= 0.
           interface lartgp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlartgp(f,g,cs,sn,r)
+               pure subroutine dlartgp(f,g,cs,sn,r)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(out) :: cs,r,sn
@@ -13328,7 +13385,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlartgp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slartgp(f,g,cs,sn,r)
+               pure subroutine slartgp(f,g,cs,sn,r)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(out) :: cs,r,sn
@@ -13349,7 +13406,7 @@ module stdlib_linalg_lapack
           ! rotation is by PI/2.
           interface lartgs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlartgs(x,y,sigma,cs,sn)
+               pure subroutine dlartgs(x,y,sigma,cs,sn)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(out) :: cs,sn
@@ -13360,7 +13417,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlartgs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slartgs(x,y,sigma,cs,sn)
+               pure subroutine slartgs(x,y,sigma,cs,sn)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(out) :: cs,sn
@@ -13377,7 +13434,7 @@ module stdlib_linalg_lapack
           ! ( y(i) )    ( -conjg(s(i))  c(i) ) ( y(i) )
           interface lartv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clartv(n,x,incx,y,incy,c,s,incc)
+               pure subroutine clartv(n,x,incx,y,incy,c,s,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,incy,n
@@ -13389,7 +13446,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clartv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlartv(n,x,incx,y,incy,c,s,incc)
+               pure subroutine dlartv(n,x,incx,y,incy,c,s,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,incy,n
@@ -13401,7 +13458,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlartv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slartv(n,x,incx,y,incy,c,s,incc)
+               pure subroutine slartv(n,x,incx,y,incy,c,s,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,incy,n
@@ -13413,7 +13470,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlartv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlartv(n,x,incx,y,incy,c,s,incc)
+               pure subroutine zlartv(n,x,incx,y,incy,c,s,incc)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incc,incx,incy,n
@@ -13431,7 +13488,7 @@ module stdlib_linalg_lapack
           ! This is an auxiliary routine called by DLARNV and ZLARNV.
           interface laruv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaruv(iseed,n,x)
+               pure subroutine dlaruv(iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n
@@ -13443,7 +13500,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaruv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaruv(iseed,n,x)
+               pure subroutine slaruv(iseed,n,x)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: n
@@ -13466,7 +13523,7 @@ module stdlib_linalg_lapack
           ! H is a product of k elementary reflectors as returned by CTZRZF.
           interface larz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarz(side,m,n,l,v,incv,tau,c,ldc,work)
+               pure subroutine clarz(side,m,n,l,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side
@@ -13479,7 +13536,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarz
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarz(side,m,n,l,v,incv,tau,c,ldc,work)
+               pure subroutine dlarz(side,m,n,l,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side
@@ -13493,7 +13550,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarz(side,m,n,l,v,incv,tau,c,ldc,work)
+               pure subroutine slarz(side,m,n,l,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side
@@ -13507,7 +13564,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarz(side,m,n,l,v,incv,tau,c,ldc,work)
+               pure subroutine zlarz(side,m,n,l,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side
@@ -13526,8 +13583,8 @@ module stdlib_linalg_lapack
           ! Currently, only STOREV = 'R' and DIRECT = 'B' are supported.
           interface larzb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c,ldc, &
-                         work,ldwork)
+               pure subroutine clarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c, &
+                         ldc,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -13539,8 +13596,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarzb
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c,ldc, &
-                         work,ldwork)
+               pure subroutine dlarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c, &
+                         ldc,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -13553,8 +13610,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarzb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c,ldc, &
-                         work,ldwork)
+               pure subroutine slarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c, &
+                         ldc,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -13567,8 +13624,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarzb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c,ldc, &
-                         work,ldwork)
+               pure subroutine zlarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c, &
+                         ldc,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -13595,7 +13652,7 @@ module stdlib_linalg_lapack
           ! Currently, only STOREV = 'R' and DIRECT = 'B' are supported.
           interface larzt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
+               pure subroutine clarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,storev
@@ -13608,7 +13665,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clarzt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
+               pure subroutine dlarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,storev
@@ -13622,7 +13679,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlarzt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
+               pure subroutine slarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,storev
@@ -13636,7 +13693,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlarzt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
+               pure subroutine zlarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,storev
@@ -13657,7 +13714,7 @@ module stdlib_linalg_lapack
           ! or banded.
           interface lascl
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
+               pure subroutine clascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: type
@@ -13670,7 +13727,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clascl
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
+               pure subroutine dlascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: type
@@ -13684,7 +13741,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlascl
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
+               pure subroutine slascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: type
@@ -13698,7 +13755,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlascl
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
+               pure subroutine zlascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: type
@@ -13721,7 +13778,7 @@ module stdlib_linalg_lapack
           ! and optionally, the singular vectors in compact form.
           interface lasd0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasd0(n,sqre,d,e,u,ldu,vt,ldvt,smlsiz,iwork,work,info)
+               pure subroutine dlasd0(n,sqre,d,e,u,ldu,vt,ldvt,smlsiz,iwork,work,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -13735,7 +13792,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasd0
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasd0(n,sqre,d,e,u,ldu,vt,ldvt,smlsiz,iwork,work,info)
+               pure subroutine slasd0(n,sqre,d,e,u,ldu,vt,ldvt,smlsiz,iwork,work,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -13780,8 +13837,8 @@ module stdlib_linalg_lapack
           ! from the overall problem.
           interface lasd1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasd1(nl,nr,sqre,d,alpha,beta,u,ldu,vt,ldvt,idxq,iwork, &
-                         work,info)
+               pure subroutine dlasd1(nl,nr,sqre,d,alpha,beta,u,ldu,vt,ldvt,idxq,iwork, &
+                          work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,iwork(*)
@@ -13795,8 +13852,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasd1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasd1(nl,nr,sqre,d,alpha,beta,u,ldu,vt,ldvt,idxq,iwork, &
-                         work,info)
+               pure subroutine slasd1(nl,nr,sqre,d,alpha,beta,u,ldu,vt,ldvt,idxq,iwork, &
+                          work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,iwork(*)
@@ -13823,7 +13880,7 @@ module stdlib_linalg_lapack
           ! secular equation by simpler interpolating rational functions.
           interface lasd4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasd4(n,i,d,z,delta,rho,sigma,work,info)
+               pure subroutine dlasd4(n,i,d,z,delta,rho,sigma,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i,n
@@ -13836,7 +13893,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasd4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasd4(n,i,d,z,delta,rho,sigma,work,info)
+               pure subroutine slasd4(n,i,d,z,delta,rho,sigma,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i,n
@@ -13859,7 +13916,7 @@ module stdlib_linalg_lapack
           ! Z is one.
           interface lasd5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasd5(i,d,z,delta,rho,dsigma,work)
+               pure subroutine dlasd5(i,d,z,delta,rho,dsigma,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i
@@ -13871,7 +13928,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasd5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasd5(i,d,z,delta,rho,dsigma,work)
+               pure subroutine slasd5(i,d,z,delta,rho,dsigma,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i
@@ -13920,9 +13977,9 @@ module stdlib_linalg_lapack
           ! LASD6 is called from DLASDA.
           interface lasd6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasd6(icompq,nl,nr,sqre,d,vf,vl,alpha,beta,idxq,perm,givptr, &
-                givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,work,iwork,info)
-                          
+               pure subroutine dlasd6(icompq,nl,nr,sqre,d,vf,vl,alpha,beta,idxq,perm, &
+               givptr,givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: givptr,info,k,givcol(ldgcol,*),iwork(*),perm(*)
@@ -13938,9 +13995,9 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasd6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasd6(icompq,nl,nr,sqre,d,vf,vl,alpha,beta,idxq,perm,givptr, &
-                givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,work,iwork,info)
-                          
+               pure subroutine slasd6(icompq,nl,nr,sqre,d,vf,vl,alpha,beta,idxq,perm, &
+               givptr,givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,work,iwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: givptr,info,k,givcol(ldgcol,*),iwork(*),perm(*)
@@ -13965,9 +14022,9 @@ module stdlib_linalg_lapack
           ! LASD7 is called from DLASD6.
           interface lasd7
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasd7(icompq,nl,nr,sqre,k,d,z,zw,vf,vfw,vl,vlw,alpha,beta, &
-                dsigma,idx,idxp,idxq,perm,givptr,givcol,ldgcol,givnum,ldgnum,c,s,info)
-                          
+               pure subroutine dlasd7(icompq,nl,nr,sqre,k,d,z,zw,vf,vfw,vl,vlw,alpha, &
+               beta,dsigma,idx,idxp,idxq,perm,givptr,givcol,ldgcol,givnum,ldgnum,c,s, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: givptr,info,k,givcol(ldgcol,*),idx(*),idxp(*), &
@@ -13984,9 +14041,9 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasd7
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasd7(icompq,nl,nr,sqre,k,d,z,zw,vf,vfw,vl,vlw,alpha,beta, &
-                dsigma,idx,idxp,idxq,perm,givptr,givcol,ldgcol,givnum,ldgnum,c,s,info)
-                          
+               pure subroutine slasd7(icompq,nl,nr,sqre,k,d,z,zw,vf,vfw,vl,vlw,alpha, &
+               beta,dsigma,idx,idxp,idxq,perm,givptr,givcol,ldgcol,givnum,ldgnum,c,s, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: givptr,info,k,givcol(ldgcol,*),idx(*),idxp(*), &
@@ -14012,8 +14069,8 @@ module stdlib_linalg_lapack
           ! LASD8 is called from DLASD6.
           interface lasd8
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasd8(icompq,k,d,z,vf,vl,difl,difr,lddifr,dsigma,work,info)
-                         
+               pure subroutine dlasd8(icompq,k,d,z,vf,vl,difl,difr,lddifr,dsigma,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: icompq,k,lddifr
@@ -14026,8 +14083,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasd8
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasd8(icompq,k,d,z,vf,vl,difl,difr,lddifr,dsigma,work,info)
-                         
+               pure subroutine slasd8(icompq,k,d,z,vf,vl,difl,difr,lddifr,dsigma,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: icompq,k,lddifr
@@ -14050,8 +14107,8 @@ module stdlib_linalg_lapack
           ! the singular vectors in explicit form.
           interface lasda
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasda(icompq,smlsiz,n,sqre,d,e,u,ldu,vt,k,difl,difr,z, &
-                         poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
+               pure subroutine dlasda(icompq,smlsiz,n,sqre,d,e,u,ldu,vt,k,difl,difr,z, &
+                          poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: icompq,ldgcol,ldu,n,smlsiz,sqre
@@ -14066,8 +14123,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasda
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasda(icompq,smlsiz,n,sqre,d,e,u,ldu,vt,k,difl,difr,z, &
-                         poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
+               pure subroutine slasda(icompq,smlsiz,n,sqre,d,e,u,ldu,vt,k,difl,difr,z, &
+                          poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: icompq,ldgcol,ldu,n,smlsiz,sqre
@@ -14096,8 +14153,8 @@ module stdlib_linalg_lapack
           ! LAPACK Working Note #3, for a detailed description of the algorithm.
           interface lasdq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasdq(uplo,sqre,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc, &
-                         work,info)
+               pure subroutine dlasdq(uplo,sqre,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c, &
+                         ldc,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14111,8 +14168,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasdq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasdq(uplo,sqre,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc, &
-                         work,info)
+               pure subroutine slasdq(uplo,sqre,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c, &
+                         ldc,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14130,7 +14187,7 @@ module stdlib_linalg_lapack
           ! ALPHA on the offdiagonals.
           interface laset
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claset(uplo,m,n,alpha,beta,a,lda)
+               pure subroutine claset(uplo,m,n,alpha,beta,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14142,7 +14199,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claset
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaset(uplo,m,n,alpha,beta,a,lda)
+               pure subroutine dlaset(uplo,m,n,alpha,beta,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14155,7 +14212,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaset
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaset(uplo,m,n,alpha,beta,a,lda)
+               pure subroutine slaset(uplo,m,n,alpha,beta,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14168,7 +14225,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaset
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaset(uplo,m,n,alpha,beta,a,lda)
+               pure subroutine zlaset(uplo,m,n,alpha,beta,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14193,7 +14250,7 @@ module stdlib_linalg_lapack
           ! the dqds Algorithm (Positive Case)", LAPACK Working Note.
           interface lasq1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasq1(n,d,e,work,info)
+               pure subroutine dlasq1(n,d,e,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -14206,7 +14263,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasq1
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasq1(n,d,e,work,info)
+               pure subroutine slasq1(n,d,e,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -14223,7 +14280,7 @@ module stdlib_linalg_lapack
           ! using values of d from the previous transform.
           interface lasq4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasq4(i0,n0,z,pp,n0in,dmin,dmin1,dmin2,dn,dn1,dn2,tau, &
+               pure subroutine dlasq4(i0,n0,z,pp,n0in,dmin,dmin1,dmin2,dn,dn1,dn2,tau, &
                          ttype,g)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -14238,7 +14295,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasq4
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasq4(i0,n0,z,pp,n0in,dmin,dmin1,dmin2,dn,dn1,dn2,tau, &
+               pure subroutine slasq4(i0,n0,z,pp,n0in,dmin,dmin1,dmin2,dn,dn1,dn2,tau, &
                          ttype,g)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -14257,8 +14314,8 @@ module stdlib_linalg_lapack
           ! version for IEEE machines another for non IEEE machines.
           interface lasq5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasq5(i0,n0,z,pp,tau,sigma,dmin,dmin1,dmin2,dn,dnm1,dnm2, &
-                         ieee,eps)
+               pure subroutine dlasq5(i0,n0,z,pp,tau,sigma,dmin,dmin1,dmin2,dn,dnm1, &
+                         dnm2,ieee,eps)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: ieee
@@ -14272,8 +14329,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasq5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasq5(i0,n0,z,pp,tau,sigma,dmin,dmin1,dmin2,dn,dnm1,dnm2, &
-                         ieee,eps)
+               pure subroutine slasq5(i0,n0,z,pp,tau,sigma,dmin,dmin1,dmin2,dn,dnm1, &
+                         dnm2,ieee,eps)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: ieee
@@ -14291,7 +14348,7 @@ module stdlib_linalg_lapack
           ! ping-pong form, with protection against underflow and overflow.
           interface lasq6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasq6(i0,n0,z,pp,dmin,dmin1,dmin2,dn,dnm1,dnm2)
+               pure subroutine dlasq6(i0,n0,z,pp,dmin,dmin1,dmin2,dn,dnm1,dnm2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i0,n0,pp
@@ -14303,7 +14360,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasq6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasq6(i0,n0,z,pp,dmin,dmin1,dmin2,dn,dnm1,dnm2)
+               pure subroutine slasq6(i0,n0,z,pp,dmin,dmin1,dmin2,dn,dnm1,dnm2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: i0,n0,pp
@@ -14368,7 +14425,7 @@ module stdlib_linalg_lapack
           ! performed without ever forming P(k) explicitly.
           interface lasr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clasr(side,pivot,direct,m,n,c,s,a,lda)
+               pure subroutine clasr(side,pivot,direct,m,n,c,s,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,pivot,side
@@ -14380,7 +14437,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clasr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasr(side,pivot,direct,m,n,c,s,a,lda)
+               pure subroutine dlasr(side,pivot,direct,m,n,c,s,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,pivot,side
@@ -14393,7 +14450,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasr(side,pivot,direct,m,n,c,s,a,lda)
+               pure subroutine slasr(side,pivot,direct,m,n,c,s,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,pivot,side
@@ -14406,7 +14463,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlasr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlasr(side,pivot,direct,m,n,c,s,a,lda)
+               pure subroutine zlasr(side,pivot,direct,m,n,c,s,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,pivot,side
@@ -14425,7 +14482,7 @@ module stdlib_linalg_lapack
           ! size <= 20. Dimension of STACK limits N to about 2**32.
           interface lasrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasrt(id,n,d,info)
+               pure subroutine dlasrt(id,n,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: id
@@ -14438,7 +14495,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasrt(id,n,d,info)
+               pure subroutine slasrt(id,n,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: id
@@ -14472,24 +14529,22 @@ module stdlib_linalg_lapack
           ! HUGE     -- biggest representable number.
           interface lassq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine classq(n,x,incx,scl,sumsq)
+               pure subroutine classq(n,x,incx,scl,sumsq)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
-                    real(sp) :: scl
-                    real(sp),intent(inout) :: sumsq
+                    real(sp),intent(inout) :: scl,sumsq
                     complex(sp),intent(in) :: x(*)
                end subroutine classq
 #else
                module procedure stdlib_classq
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlassq(n,x,incx,scl,sumsq)
+               pure subroutine dlassq(n,x,incx,scl,sumsq)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
-                    real(dp) :: scl
-                    real(dp),intent(inout) :: sumsq
+                    real(dp),intent(inout) :: scl,sumsq
                     real(dp),intent(in) :: x(*)
                end subroutine dlassq
 #else
@@ -14497,12 +14552,11 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlassq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slassq(n,x,incx,scl,sumsq)
+               pure subroutine slassq(n,x,incx,scl,sumsq)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
-                    real(sp) :: scl
-                    real(sp),intent(inout) :: sumsq
+                    real(sp),intent(inout) :: scl,sumsq
                     real(sp),intent(in) :: x(*)
                end subroutine slassq
 #else
@@ -14510,12 +14564,11 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlassq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlassq(n,x,incx,scl,sumsq)
+               pure subroutine zlassq(n,x,incx,scl,sumsq)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
-                    real(dp) :: scl
-                    real(dp),intent(inout) :: sumsq
+                    real(dp),intent(inout) :: scl,sumsq
                     complex(dp),intent(in) :: x(*)
                end subroutine zlassq
 #else
@@ -14535,7 +14588,7 @@ module stdlib_linalg_lapack
           ! 0 is a M-by-(N-M) zero matrix, if M < N, and is not stored.
           interface laswlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine claswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -14547,7 +14600,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claswlq
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine dlaswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -14560,7 +14613,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaswlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine slaswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -14573,7 +14626,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaswlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine zlaswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -14590,7 +14643,7 @@ module stdlib_linalg_lapack
           ! One row interchange is initiated for each of rows K1 through K2 of A.
           interface laswp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claswp(n,a,lda,k1,k2,ipiv,incx)
+               pure subroutine claswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,k1,k2,lda,n,ipiv(*)
@@ -14600,7 +14653,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_claswp
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlaswp(n,a,lda,k1,k2,ipiv,incx)
+               pure subroutine dlaswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,k1,k2,lda,n,ipiv(*)
@@ -14611,7 +14664,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlaswp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slaswp(n,a,lda,k1,k2,ipiv,incx)
+               pure subroutine slaswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,k1,k2,lda,n,ipiv(*)
@@ -14622,7 +14675,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaswp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaswp(n,a,lda,k1,k2,ipiv,incx)
+               pure subroutine zlaswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,k1,k2,lda,n,ipiv(*)
@@ -14648,7 +14701,7 @@ module stdlib_linalg_lapack
           ! A22 (if UPLO = 'L').
           interface lasyf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine clasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14661,7 +14714,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clasyf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine dlasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14675,7 +14728,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasyf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine slasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14689,7 +14742,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlasyf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine zlasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14715,7 +14768,7 @@ module stdlib_linalg_lapack
           ! the diagonal and subdiagonal of A are overwritten by those of T.
           interface lasyf_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
+               pure subroutine clasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14728,7 +14781,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clasyf_aa
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
+               pure subroutine dlasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14742,7 +14795,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasyf_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
+               pure subroutine slasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14756,7 +14809,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlasyf_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
+               pure subroutine zlasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14784,7 +14837,7 @@ module stdlib_linalg_lapack
           ! A11 (if UPLO = 'U') or A22 (if UPLO = 'L').
           interface lasyf_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
+               pure subroutine clasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14797,7 +14850,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clasyf_rk
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
+               pure subroutine dlasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14811,7 +14864,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasyf_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
+               pure subroutine slasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14825,7 +14878,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlasyf_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
+               pure subroutine zlasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14853,7 +14906,7 @@ module stdlib_linalg_lapack
           ! A11 (if UPLO = 'U') or A22 (if UPLO = 'L').
           interface lasyf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine clasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14866,7 +14919,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clasyf_rook
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine dlasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14880,7 +14933,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlasyf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine slasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14894,7 +14947,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlasyf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+               pure subroutine zlasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -14920,8 +14973,8 @@ module stdlib_linalg_lapack
           ! non-trivial solution to A*x = 0 is returned.
           interface latbs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
-                         info)
+               pure subroutine clatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -14936,8 +14989,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clatbs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
-                         info)
+               pure subroutine dlatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -14952,8 +15005,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlatbs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
-                         info)
+               pure subroutine slatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -14968,8 +15021,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlatbs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
-                         info)
+               pure subroutine zlatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -14995,7 +15048,7 @@ module stdlib_linalg_lapack
           ! triangular with unit diagonal elements and U is upper triangular.
           interface latdf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
+               pure subroutine clatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ijob,ldz,n,ipiv(*),jpiv(*)
@@ -15006,7 +15059,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clatdf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
+               pure subroutine dlatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ijob,ldz,n,ipiv(*),jpiv(*)
@@ -15017,7 +15070,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlatdf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
+               pure subroutine slatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ijob,ldz,n,ipiv(*),jpiv(*)
@@ -15028,7 +15081,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlatdf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
+               pure subroutine zlatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ijob,ldz,n,ipiv(*),jpiv(*)
@@ -15053,7 +15106,8 @@ module stdlib_linalg_lapack
           ! non-trivial solution to A*x = 0 is returned.
           interface latps
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+               pure subroutine clatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -15068,7 +15122,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clatps
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+               pure subroutine dlatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -15083,7 +15138,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlatps
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+               pure subroutine slatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -15098,7 +15154,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlatps
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+               pure subroutine zlatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -15125,7 +15182,7 @@ module stdlib_linalg_lapack
           ! This is an auxiliary routine called by CHETRD.
           interface latrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
+               pure subroutine clatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15138,7 +15195,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clatrd
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
+               pure subroutine dlatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15151,7 +15208,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlatrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
+               pure subroutine slatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15164,7 +15221,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlatrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
+               pure subroutine zlatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15190,8 +15247,8 @@ module stdlib_linalg_lapack
           ! then s is set to 0 and a non-trivial solution to A*x = 0 is returned.
           interface latrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info)
-                         
+               pure subroutine clatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -15206,8 +15263,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_clatrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info)
-                         
+               pure subroutine dlatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -15222,8 +15279,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlatrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info)
-                         
+               pure subroutine slatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -15238,8 +15295,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlatrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info)
-                         
+               pure subroutine zlatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,normin,trans,uplo
@@ -15261,7 +15318,7 @@ module stdlib_linalg_lapack
           ! matrix and, R and A1 are M-by-M upper triangular matrices.
           interface latrz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clatrz(m,n,l,a,lda,tau,work)
+               pure subroutine clatrz(m,n,l,a,lda,tau,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: l,lda,m,n
@@ -15272,7 +15329,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clatrz
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlatrz(m,n,l,a,lda,tau,work)
+               pure subroutine dlatrz(m,n,l,a,lda,tau,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: l,lda,m,n
@@ -15284,7 +15341,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlatrz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slatrz(m,n,l,a,lda,tau,work)
+               pure subroutine slatrz(m,n,l,a,lda,tau,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: l,lda,m,n
@@ -15296,7 +15353,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlatrz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlatrz(m,n,l,a,lda,tau,work)
+               pure subroutine zlatrz(m,n,l,a,lda,tau,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: l,lda,m,n
@@ -15321,7 +15378,7 @@ module stdlib_linalg_lapack
           ! 0 is a (M-N)-by-N zero matrix, and is not stored.
           interface latsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine clatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -15333,7 +15390,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clatsqr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine dlatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -15346,7 +15403,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlatsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine slatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -15359,7 +15416,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlatsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine zlatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -15407,7 +15464,7 @@ module stdlib_linalg_lapack
           ! vol. 85, pp. 3-31, 2015.
           interface launhr_col_getrfnp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine claunhr_col_getrfnp(m,n,a,lda,d,info)
+               pure subroutine claunhr_col_getrfnp(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -15420,7 +15477,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaunhr_col_getrfnp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlaunhr_col_getrfnp(m,n,a,lda,d,info)
+               pure subroutine zlaunhr_col_getrfnp(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -15483,7 +15540,7 @@ module stdlib_linalg_lapack
           ! vol. 41, no. 6, pp. 737-755, 1997.
           interface launhr_col_getrfnp2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine claunhr_col_getrfnp2(m,n,a,lda,d,info)
+               pure recursive subroutine claunhr_col_getrfnp2(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -15496,7 +15553,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlaunhr_col_getrfnp2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine zlaunhr_col_getrfnp2(m,n,a,lda,d,info)
+               pure recursive subroutine zlaunhr_col_getrfnp2(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -15519,7 +15576,7 @@ module stdlib_linalg_lapack
           ! This is the blocked form of the algorithm, calling Level 3 BLAS.
           interface lauum
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine clauum(uplo,n,a,lda,info)
+               pure subroutine clauum(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15531,7 +15588,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_clauum
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dlauum(uplo,n,a,lda,info)
+               pure subroutine dlauum(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15544,7 +15601,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qlauum
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine slauum(uplo,n,a,lda,info)
+               pure subroutine slauum(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15557,7 +15614,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wlauum
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zlauum(uplo,n,a,lda,info)
+               pure subroutine zlauum(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15577,7 +15634,7 @@ module stdlib_linalg_lapack
           ! if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
           interface opgtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dopgtr(uplo,n,ap,tau,q,ldq,work,info)
+               pure subroutine dopgtr(uplo,n,ap,tau,q,ldq,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15591,7 +15648,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qopgtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sopgtr(uplo,n,ap,tau,q,ldq,work,info)
+               pure subroutine sopgtr(uplo,n,ap,tau,q,ldq,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -15617,7 +15674,8 @@ module stdlib_linalg_lapack
           ! if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
           interface opmtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dopmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
+               pure subroutine dopmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,uplo
@@ -15632,7 +15690,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qopmtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sopmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
+               pure subroutine sopmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,uplo
@@ -15900,7 +15959,7 @@ module stdlib_linalg_lapack
           ! way.
           interface orbdb5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               pure subroutine dorbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15915,7 +15974,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorbdb5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               pure subroutine sorbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15941,7 +16000,7 @@ module stdlib_linalg_lapack
           ! criterion, then the zero vector is returned.
           interface orbdb6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               pure subroutine dorbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15956,7 +16015,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorbdb6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               pure subroutine sorbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -16080,7 +16139,7 @@ module stdlib_linalg_lapack
           ! as returned by DGEQLF.
           interface org2l
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorg2l(m,n,k,a,lda,tau,work,info)
+               pure subroutine dorg2l(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16094,7 +16153,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorg2l
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorg2l(m,n,k,a,lda,tau,work,info)
+               pure subroutine sorg2l(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16115,7 +16174,7 @@ module stdlib_linalg_lapack
           ! as returned by DGEQRF.
           interface org2r
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorg2r(m,n,k,a,lda,tau,work,info)
+               pure subroutine dorg2r(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16129,7 +16188,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorg2r
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorg2r(m,n,k,a,lda,tau,work,info)
+               pure subroutine sorg2r(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16161,7 +16220,7 @@ module stdlib_linalg_lapack
           ! an N-by-N matrix.
           interface orgbr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorgbr(vect,m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine dorgbr(vect,m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: vect
@@ -16176,7 +16235,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorgbr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorgbr(vect,m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine sorgbr(vect,m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: vect
@@ -16197,7 +16256,7 @@ module stdlib_linalg_lapack
           ! Q = H(ilo) H(ilo+1) . . . H(ihi-1).
           interface orghr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
+               pure subroutine dorghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
@@ -16211,7 +16270,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorghr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
+               pure subroutine sorghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
@@ -16232,7 +16291,7 @@ module stdlib_linalg_lapack
           ! as returned by DGELQF.
           interface orglq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorglq(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine dorglq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16246,7 +16305,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorglq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorglq(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine sorglq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16267,7 +16326,7 @@ module stdlib_linalg_lapack
           ! as returned by DGEQLF.
           interface orgql
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorgql(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine dorgql(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16281,7 +16340,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorgql
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorgql(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine sorgql(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16302,7 +16361,7 @@ module stdlib_linalg_lapack
           ! as returned by DGEQRF.
           interface orgqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorgqr(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine dorgqr(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16316,7 +16375,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorgqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorgqr(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine sorgqr(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16337,7 +16396,7 @@ module stdlib_linalg_lapack
           ! as returned by DGERQF.
           interface orgrq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorgrq(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine dorgrq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16351,7 +16410,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorgrq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorgrq(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine sorgrq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16372,7 +16431,7 @@ module stdlib_linalg_lapack
           ! if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
           interface orgtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorgtr(uplo,n,a,lda,tau,work,lwork,info)
+               pure subroutine dorgtr(uplo,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -16387,7 +16446,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorgtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorgtr(uplo,n,a,lda,tau,work,lwork,info)
+               pure subroutine sorgtr(uplo,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -16409,7 +16468,7 @@ module stdlib_linalg_lapack
           ! See the documentation for DLATSQR.
           interface orgtsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorgtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine dorgtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16423,7 +16482,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorgtsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorgtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine sorgtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16454,7 +16513,8 @@ module stdlib_linalg_lapack
           ! the order in which DLATSQR generates the output blocks.
           interface orgtsqr_row
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorgtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine dorgtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16468,7 +16528,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorgtsqr_row
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorgtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine sorgtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16493,7 +16554,7 @@ module stdlib_linalg_lapack
           ! (same output format as DGEQRT).
           interface orhr_col
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorhr_col(m,n,nb,a,lda,t,ldt,d,info)
+               pure subroutine dorhr_col(m,n,nb,a,lda,t,ldt,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16506,7 +16567,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorhr_col
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorhr_col(m,n,nb,a,lda,t,ldt,d,info)
+               pure subroutine sorhr_col(m,n,nb,a,lda,t,ldt,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -16531,7 +16592,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface orm2l
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+               pure subroutine dorm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16546,7 +16608,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorm2l
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+               pure subroutine sorm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16573,7 +16636,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface orm2r
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dorm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+               pure subroutine dorm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16588,7 +16652,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qorm2r
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sorm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+               pure subroutine sorm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16627,8 +16692,8 @@ module stdlib_linalg_lapack
           ! if k >= nq, P = G(1) G(2) . . . G(nq-1).
           interface ormbr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dormbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
-                         info)
+               pure subroutine dormbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,vect
@@ -16643,8 +16708,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qormbr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sormbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
-                         info)
+               pure subroutine sormbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,vect
@@ -16669,8 +16734,8 @@ module stdlib_linalg_lapack
           ! Q = H(ilo) H(ilo+1) . . . H(ihi-1).
           interface ormhr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dormhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work,lwork, &
-                         info)
+               pure subroutine dormhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16685,8 +16750,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qormhr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sormhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work,lwork, &
-                         info)
+               pure subroutine sormhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16712,8 +16777,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface ormlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dormlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine dormlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16728,8 +16793,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qormlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sormlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine sormlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16755,8 +16820,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface ormql
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dormql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine dormql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16771,8 +16836,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qormql
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sormql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine sormql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16798,8 +16863,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface ormqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dormqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine dormqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16814,8 +16879,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qormqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sormqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine sormqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16841,8 +16906,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface ormrq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dormrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine dormrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16857,8 +16922,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qormrq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sormrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine sormrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16884,8 +16949,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface ormrz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dormrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine dormrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16900,8 +16965,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qormrz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sormrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine sormrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -16927,8 +16992,8 @@ module stdlib_linalg_lapack
           ! if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
           interface ormtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dormtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine dormtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,uplo
@@ -16943,8 +17008,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qormtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sormtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine sormtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,uplo
@@ -16967,7 +17032,8 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface pbcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,rwork,info)
+               pure subroutine cpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,rwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -16982,7 +17048,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpbcon
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,iwork,info)
+               pure subroutine dpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -16996,7 +17063,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpbcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,iwork,info)
+               pure subroutine spbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17010,7 +17078,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpbcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,rwork,info)
+               pure subroutine zpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,rwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17036,7 +17105,7 @@ module stdlib_linalg_lapack
           ! scalings.
           interface pbequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
+               pure subroutine cpbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17049,7 +17118,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpbequ
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
+               pure subroutine dpbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17063,7 +17132,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpbequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
+               pure subroutine spbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17077,7 +17146,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpbequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
+               pure subroutine zpbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17097,8 +17166,8 @@ module stdlib_linalg_lapack
           ! for the solution.
           interface pbrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine cpbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx, &
+                         ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17113,8 +17182,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpbrfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx,ferr, &
-                         berr,work,iwork,info)
+               pure subroutine dpbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx, &
+                         ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17129,8 +17198,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpbrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx,ferr, &
-                         berr,work,iwork,info)
+               pure subroutine spbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx, &
+                         ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17145,8 +17214,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpbrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine zpbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx, &
+                         ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17173,7 +17242,7 @@ module stdlib_linalg_lapack
           ! triangular of order n-m.
           interface pbstf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpbstf(uplo,n,kd,ab,ldab,info)
+               pure subroutine cpbstf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17185,7 +17254,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpbstf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpbstf(uplo,n,kd,ab,ldab,info)
+               pure subroutine dpbstf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17198,7 +17267,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpbstf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spbstf(uplo,n,kd,ab,ldab,info)
+               pure subroutine spbstf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17211,7 +17280,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpbstf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpbstf(uplo,n,kd,ab,ldab,info)
+               pure subroutine zpbstf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17237,7 +17306,7 @@ module stdlib_linalg_lapack
           ! system of equations A * X = B.
           interface pbsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine cpbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17249,7 +17318,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpbsv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine dpbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17262,7 +17331,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpbsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine spbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17275,7 +17344,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpbsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine zpbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17296,7 +17365,7 @@ module stdlib_linalg_lapack
           ! where U is an upper triangular matrix and L is lower triangular.
           interface pbtrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpbtrf(uplo,n,kd,ab,ldab,info)
+               pure subroutine cpbtrf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17308,7 +17377,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpbtrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpbtrf(uplo,n,kd,ab,ldab,info)
+               pure subroutine dpbtrf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17321,7 +17390,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpbtrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spbtrf(uplo,n,kd,ab,ldab,info)
+               pure subroutine spbtrf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17334,7 +17403,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpbtrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpbtrf(uplo,n,kd,ab,ldab,info)
+               pure subroutine zpbtrf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17352,7 +17421,7 @@ module stdlib_linalg_lapack
           ! A = U**H*U or A = L*L**H computed by CPBTRF.
           interface pbtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine cpbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17365,7 +17434,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpbtrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine dpbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17379,7 +17448,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpbtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine spbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17393,7 +17462,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpbtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine zpbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17416,7 +17485,7 @@ module stdlib_linalg_lapack
           ! This is the block version of the algorithm, calling Level 3 BLAS.
           interface pftrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpftrf(transr,uplo,n,a,info)
+               pure subroutine cpftrf(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17428,7 +17497,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpftrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpftrf(transr,uplo,n,a,info)
+               pure subroutine dpftrf(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17441,7 +17510,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpftrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spftrf(transr,uplo,n,a,info)
+               pure subroutine spftrf(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17454,7 +17523,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpftrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpftrf(transr,uplo,n,a,info)
+               pure subroutine zpftrf(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17472,7 +17541,7 @@ module stdlib_linalg_lapack
           ! computed by CPFTRF.
           interface pftri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpftri(transr,uplo,n,a,info)
+               pure subroutine cpftri(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17484,7 +17553,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpftri
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpftri(transr,uplo,n,a,info)
+               pure subroutine dpftri(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17497,7 +17566,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpftri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spftri(transr,uplo,n,a,info)
+               pure subroutine spftri(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17510,7 +17579,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpftri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpftri(transr,uplo,n,a,info)
+               pure subroutine zpftri(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17528,7 +17597,7 @@ module stdlib_linalg_lapack
           ! A = U**H*U or A = L*L**H computed by CPFTRF.
           interface pftrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpftrs(transr,uplo,n,nrhs,a,b,ldb,info)
+               pure subroutine cpftrs(transr,uplo,n,nrhs,a,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17541,7 +17610,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpftrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpftrs(transr,uplo,n,nrhs,a,b,ldb,info)
+               pure subroutine dpftrs(transr,uplo,n,nrhs,a,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17555,7 +17624,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpftrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spftrs(transr,uplo,n,nrhs,a,b,ldb,info)
+               pure subroutine spftrs(transr,uplo,n,nrhs,a,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17569,7 +17638,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpftrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpftrs(transr,uplo,n,nrhs,a,b,ldb,info)
+               pure subroutine zpftrs(transr,uplo,n,nrhs,a,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -17590,7 +17659,7 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface pocon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpocon(uplo,n,a,lda,anorm,rcond,work,rwork,info)
+               pure subroutine cpocon(uplo,n,a,lda,anorm,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17605,7 +17674,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpocon
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpocon(uplo,n,a,lda,anorm,rcond,work,iwork,info)
+               pure subroutine dpocon(uplo,n,a,lda,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17620,7 +17689,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpocon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spocon(uplo,n,a,lda,anorm,rcond,work,iwork,info)
+               pure subroutine spocon(uplo,n,a,lda,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17635,7 +17704,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpocon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpocon(uplo,n,a,lda,anorm,rcond,work,rwork,info)
+               pure subroutine zpocon(uplo,n,a,lda,anorm,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17661,7 +17730,7 @@ module stdlib_linalg_lapack
           ! scalings.
           interface poequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpoequ(n,a,lda,s,scond,amax,info)
+               pure subroutine cpoequ(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -17673,7 +17742,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpoequ
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpoequ(n,a,lda,s,scond,amax,info)
+               pure subroutine dpoequ(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -17686,7 +17755,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpoequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spoequ(n,a,lda,s,scond,amax,info)
+               pure subroutine spoequ(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -17699,7 +17768,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpoequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpoequ(n,a,lda,s,scond,amax,info)
+               pure subroutine zpoequ(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -17727,7 +17796,7 @@ module stdlib_linalg_lapack
           ! between sqrt(radix) and 1/sqrt(radix).
           interface poequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpoequb(n,a,lda,s,scond,amax,info)
+               pure subroutine cpoequb(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -17739,7 +17808,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpoequb
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpoequb(n,a,lda,s,scond,amax,info)
+               pure subroutine dpoequb(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -17752,7 +17821,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpoequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spoequb(n,a,lda,s,scond,amax,info)
+               pure subroutine spoequb(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -17765,7 +17834,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpoequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpoequb(n,a,lda,s,scond,amax,info)
+               pure subroutine zpoequb(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -17784,8 +17853,8 @@ module stdlib_linalg_lapack
           ! solution.
           interface porfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
-                         work,rwork,info)
+               pure subroutine cporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
+                          work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17800,8 +17869,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cporfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
-                         work,iwork,info)
+               pure subroutine dporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
+                          work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17816,8 +17885,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qporfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
-                         work,iwork,info)
+               pure subroutine sporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
+                          work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17832,8 +17901,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wporfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
-                         work,rwork,info)
+               pure subroutine zporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
+                          work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17861,7 +17930,7 @@ module stdlib_linalg_lapack
           ! equations A * X = B.
           interface posv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cposv(uplo,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine cposv(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17873,7 +17942,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cposv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dposv(uplo,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine dposv(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17886,7 +17955,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qposv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sposv(uplo,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine sposv(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17899,7 +17968,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wposv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zposv(uplo,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine zposv(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17921,7 +17990,7 @@ module stdlib_linalg_lapack
           ! This is the block version of the algorithm, calling Level 3 BLAS.
           interface potrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpotrf(uplo,n,a,lda,info)
+               pure subroutine cpotrf(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17933,7 +18002,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpotrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpotrf(uplo,n,a,lda,info)
+               pure subroutine dpotrf(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17946,7 +18015,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpotrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spotrf(uplo,n,a,lda,info)
+               pure subroutine spotrf(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17959,7 +18028,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpotrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpotrf(uplo,n,a,lda,info)
+               pure subroutine zpotrf(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17987,7 +18056,7 @@ module stdlib_linalg_lapack
           ! or A12, update A22 then calls itself to factor A22.
           interface potrf2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine cpotrf2(uplo,n,a,lda,info)
+               pure recursive subroutine cpotrf2(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -17999,7 +18068,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpotrf2
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine dpotrf2(uplo,n,a,lda,info)
+               pure recursive subroutine dpotrf2(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18012,7 +18081,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpotrf2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine spotrf2(uplo,n,a,lda,info)
+               pure recursive subroutine spotrf2(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18025,7 +18094,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpotrf2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               recursive subroutine zpotrf2(uplo,n,a,lda,info)
+               pure recursive subroutine zpotrf2(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18043,7 +18112,7 @@ module stdlib_linalg_lapack
           ! computed by CPOTRF.
           interface potri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpotri(uplo,n,a,lda,info)
+               pure subroutine cpotri(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18055,7 +18124,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpotri
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpotri(uplo,n,a,lda,info)
+               pure subroutine dpotri(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18068,7 +18137,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpotri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spotri(uplo,n,a,lda,info)
+               pure subroutine spotri(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18081,7 +18150,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpotri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpotri(uplo,n,a,lda,info)
+               pure subroutine zpotri(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18099,7 +18168,7 @@ module stdlib_linalg_lapack
           ! A = U**H*U or A = L*L**H computed by CPOTRF.
           interface potrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpotrs(uplo,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine cpotrs(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18112,7 +18181,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpotrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpotrs(uplo,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine dpotrs(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18126,7 +18195,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpotrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spotrs(uplo,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine spotrs(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18140,7 +18209,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpotrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpotrs(uplo,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine zpotrs(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18162,7 +18231,7 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface ppcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cppcon(uplo,n,ap,anorm,rcond,work,rwork,info)
+               pure subroutine cppcon(uplo,n,ap,anorm,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18177,7 +18246,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cppcon
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dppcon(uplo,n,ap,anorm,rcond,work,iwork,info)
+               pure subroutine dppcon(uplo,n,ap,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18191,7 +18260,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qppcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sppcon(uplo,n,ap,anorm,rcond,work,iwork,info)
+               pure subroutine sppcon(uplo,n,ap,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18205,7 +18274,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wppcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zppcon(uplo,n,ap,anorm,rcond,work,rwork,info)
+               pure subroutine zppcon(uplo,n,ap,anorm,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18231,7 +18300,7 @@ module stdlib_linalg_lapack
           ! scalings.
           interface ppequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cppequ(uplo,n,ap,s,scond,amax,info)
+               pure subroutine cppequ(uplo,n,ap,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18244,7 +18313,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cppequ
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dppequ(uplo,n,ap,s,scond,amax,info)
+               pure subroutine dppequ(uplo,n,ap,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18258,7 +18327,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qppequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sppequ(uplo,n,ap,s,scond,amax,info)
+               pure subroutine sppequ(uplo,n,ap,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18272,7 +18341,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wppequ
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zppequ(uplo,n,ap,s,scond,amax,info)
+               pure subroutine zppequ(uplo,n,ap,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18292,8 +18361,8 @@ module stdlib_linalg_lapack
           ! for the solution.
           interface pprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work,rwork, &
-                         info)
+               pure subroutine cpprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work, &
+                         rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18308,8 +18377,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpprfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work,iwork, &
-                         info)
+               pure subroutine dpprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work, &
+                         iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18324,8 +18393,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work,iwork, &
-                         info)
+               pure subroutine spprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work, &
+                         iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18340,8 +18409,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work,rwork, &
-                         info)
+               pure subroutine zpprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work, &
+                         rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18369,7 +18438,7 @@ module stdlib_linalg_lapack
           ! equations A * X = B.
           interface ppsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cppsv(uplo,n,nrhs,ap,b,ldb,info)
+               pure subroutine cppsv(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18381,7 +18450,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cppsv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dppsv(uplo,n,nrhs,ap,b,ldb,info)
+               pure subroutine dppsv(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18394,7 +18463,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qppsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sppsv(uplo,n,nrhs,ap,b,ldb,info)
+               pure subroutine sppsv(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18407,7 +18476,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wppsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zppsv(uplo,n,nrhs,ap,b,ldb,info)
+               pure subroutine zppsv(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18428,7 +18497,7 @@ module stdlib_linalg_lapack
           ! where U is an upper triangular matrix and L is lower triangular.
           interface pptrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpptrf(uplo,n,ap,info)
+               pure subroutine cpptrf(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18440,7 +18509,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpptrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpptrf(uplo,n,ap,info)
+               pure subroutine dpptrf(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18453,7 +18522,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpptrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spptrf(uplo,n,ap,info)
+               pure subroutine spptrf(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18466,7 +18535,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpptrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpptrf(uplo,n,ap,info)
+               pure subroutine zpptrf(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18484,7 +18553,7 @@ module stdlib_linalg_lapack
           ! computed by CPPTRF.
           interface pptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpptri(uplo,n,ap,info)
+               pure subroutine cpptri(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18496,7 +18565,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpptri
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpptri(uplo,n,ap,info)
+               pure subroutine dpptri(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18509,7 +18578,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spptri(uplo,n,ap,info)
+               pure subroutine spptri(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18522,7 +18591,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpptri(uplo,n,ap,info)
+               pure subroutine zpptri(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18540,7 +18609,7 @@ module stdlib_linalg_lapack
           ! factorization A = U**H*U or A = L*L**H computed by CPPTRF.
           interface pptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpptrs(uplo,n,nrhs,ap,b,ldb,info)
+               pure subroutine cpptrs(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18553,7 +18622,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpptrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpptrs(uplo,n,nrhs,ap,b,ldb,info)
+               pure subroutine dpptrs(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18567,7 +18636,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spptrs(uplo,n,nrhs,ap,b,ldb,info)
+               pure subroutine spptrs(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18581,7 +18650,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpptrs(uplo,n,nrhs,ap,b,ldb,info)
+               pure subroutine zpptrs(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18606,7 +18675,7 @@ module stdlib_linalg_lapack
           ! semidefinite. This version of the algorithm calls level 3 BLAS.
           interface pstrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
+               pure subroutine cpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: tol
@@ -18620,7 +18689,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpstrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
+               pure subroutine dpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: tol
@@ -18635,7 +18704,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpstrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spstrf(uplo,n,a,lda,piv,rank,tol,work,info)
+               pure subroutine spstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: tol
@@ -18650,7 +18719,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpstrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
+               pure subroutine zpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: tol
@@ -18674,7 +18743,7 @@ module stdlib_linalg_lapack
           ! RCOND = 1 / (ANORM * norm(inv(A))).
           interface ptcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cptcon(n,d,e,anorm,rcond,rwork,info)
+               pure subroutine cptcon(n,d,e,anorm,rcond,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18687,7 +18756,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cptcon
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dptcon(n,d,e,anorm,rcond,work,info)
+               pure subroutine dptcon(n,d,e,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18700,7 +18769,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qptcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sptcon(n,d,e,anorm,rcond,work,info)
+               pure subroutine sptcon(n,d,e,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18713,7 +18782,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wptcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zptcon(n,d,e,anorm,rcond,rwork,info)
+               pure subroutine zptcon(n,d,e,anorm,rcond,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18744,7 +18813,7 @@ module stdlib_linalg_lapack
           ! matrix, if these eigenvalues range over many orders of magnitude.)
           interface pteqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpteqr(compz,n,d,e,z,ldz,work,info)
+               pure subroutine cpteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compz
@@ -18758,7 +18827,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpteqr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpteqr(compz,n,d,e,z,ldz,work,info)
+               pure subroutine dpteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compz
@@ -18772,7 +18841,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpteqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spteqr(compz,n,d,e,z,ldz,work,info)
+               pure subroutine spteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compz
@@ -18786,7 +18855,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpteqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpteqr(compz,n,d,e,z,ldz,work,info)
+               pure subroutine zpteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compz
@@ -18807,8 +18876,8 @@ module stdlib_linalg_lapack
           ! estimates for the solution.
           interface ptrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cptrfs(uplo,n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work, &
-                         rwork,info)
+               pure subroutine cptrfs(uplo,n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18824,8 +18893,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cptrfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dptrfs(n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work,info)
-                         
+               pure subroutine dptrfs(n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18839,8 +18908,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qptrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sptrfs(n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work,info)
-                         
+               pure subroutine sptrfs(n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18854,8 +18923,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wptrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zptrfs(uplo,n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work, &
-                         rwork,info)
+               pure subroutine zptrfs(uplo,n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -18879,7 +18948,7 @@ module stdlib_linalg_lapack
           ! used to solve the system of equations.
           interface ptsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cptsv(n,nrhs,d,e,b,ldb,info)
+               pure subroutine cptsv(n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18891,7 +18960,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cptsv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dptsv(n,nrhs,d,e,b,ldb,info)
+               pure subroutine dptsv(n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18903,7 +18972,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qptsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sptsv(n,nrhs,d,e,b,ldb,info)
+               pure subroutine sptsv(n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18915,7 +18984,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wptsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zptsv(n,nrhs,d,e,b,ldb,info)
+               pure subroutine zptsv(n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18933,7 +19002,7 @@ module stdlib_linalg_lapack
           ! be regarded as having the form A = U**H *D*U.
           interface pttrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpttrf(n,d,e,info)
+               pure subroutine cpttrf(n,d,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18945,7 +19014,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpttrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpttrf(n,d,e,info)
+               pure subroutine dpttrf(n,d,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18957,7 +19026,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpttrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spttrf(n,d,e,info)
+               pure subroutine spttrf(n,d,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18969,7 +19038,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpttrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpttrf(n,d,e,info)
+               pure subroutine zpttrf(n,d,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -18990,7 +19059,7 @@ module stdlib_linalg_lapack
           ! the vector E, and X and B are N by NRHS matrices.
           interface pttrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cpttrs(uplo,n,nrhs,d,e,b,ldb,info)
+               pure subroutine cpttrs(uplo,n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19004,7 +19073,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cpttrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dpttrs(n,nrhs,d,e,b,ldb,info)
+               pure subroutine dpttrs(n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -19017,7 +19086,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qpttrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine spttrs(n,nrhs,d,e,b,ldb,info)
+               pure subroutine spttrs(n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -19030,7 +19099,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wpttrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zpttrs(uplo,n,nrhs,d,e,b,ldb,info)
+               pure subroutine zpttrs(uplo,n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19049,7 +19118,7 @@ module stdlib_linalg_lapack
           ! sin (S) is complex, and the vectors CX and CY are complex.
           interface rot
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine crot(n,cx,incx,cy,incy,c,s)
+               pure subroutine crot(n,cx,incx,cy,incy,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,incy,n
@@ -19062,7 +19131,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wrot
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zrot(n,cx,incx,cy,incy,c,s)
+               pure subroutine zrot(n,cx,incx,cy,incy,c,s)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,incy,n
@@ -19080,7 +19149,7 @@ module stdlib_linalg_lapack
           ! the final result x/a does not overflow or underflow.
           interface rscl
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine drscl(n,sa,sx,incx)
+               pure subroutine drscl(n,sa,sx,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -19092,7 +19161,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qrscl
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine srscl(n,sa,sx,incx)
+               pure subroutine srscl(n,sa,sx,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -19108,8 +19177,8 @@ module stdlib_linalg_lapack
           ! subroutine.
           interface sb2st_kernels
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda,v, &
-                         tau,ldvt,work)
+               pure subroutine dsb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a, &
+                         lda,v,tau,ldvt,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19123,8 +19192,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsb2st_kernels
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda,v, &
-                         tau,ldvt,work)
+               pure subroutine ssb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a, &
+                         lda,v,tau,ldvt,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19220,8 +19289,8 @@ module stdlib_linalg_lapack
           ! bandwidth of A.
           interface sbgst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work,info)
-                         
+               pure subroutine dsbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,vect
@@ -19236,8 +19305,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsbgst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work,info)
-                         
+               pure subroutine ssbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,vect
@@ -19258,8 +19327,8 @@ module stdlib_linalg_lapack
           ! and banded, and B is also positive definite.
           interface sbgv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work,info)
-                         
+               pure subroutine dsbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -19273,8 +19342,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsbgv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work,info)
-                         
+               pure subroutine ssbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -19301,7 +19370,7 @@ module stdlib_linalg_lapack
           ! without guard digits, but we know of none.
           interface sbgvd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               pure subroutine dsbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
                          lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -19316,7 +19385,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsbgvd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               pure subroutine ssbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
                          lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -19336,7 +19405,8 @@ module stdlib_linalg_lapack
           ! Q**T * A * Q = T.
           interface sbtrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
+               pure subroutine dsbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,vect
@@ -19350,7 +19420,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsbtrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
+               pure subroutine ssbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,vect
@@ -19374,7 +19445,7 @@ module stdlib_linalg_lapack
           ! matrix in the second case.
           interface sfrk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
+               pure subroutine dsfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta,a(lda,*)
@@ -19387,7 +19458,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsfrk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
+               pure subroutine ssfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta,a(lda,*)
@@ -19407,7 +19478,7 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface spcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cspcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
+               pure subroutine cspcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19422,7 +19493,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cspcon
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dspcon(uplo,n,ap,ipiv,anorm,rcond,work,iwork,info)
+               pure subroutine dspcon(uplo,n,ap,ipiv,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19436,7 +19507,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qspcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sspcon(uplo,n,ap,ipiv,anorm,rcond,work,iwork,info)
+               pure subroutine sspcon(uplo,n,ap,ipiv,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19450,7 +19521,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wspcon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zspcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
+               pure subroutine zspcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19548,7 +19619,7 @@ module stdlib_linalg_lapack
           ! B must have been previously factorized as U**T*U or L*L**T by DPPTRF.
           interface spgst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dspgst(itype,uplo,n,ap,bp,info)
+               pure subroutine dspgst(itype,uplo,n,ap,bp,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19562,7 +19633,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qspgst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sspgst(itype,uplo,n,ap,bp,info)
+               pure subroutine sspgst(itype,uplo,n,ap,bp,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19661,7 +19732,7 @@ module stdlib_linalg_lapack
           ! A is an n by n symmetric matrix, supplied in packed form.
           interface spmv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+               pure subroutine cspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19674,7 +19745,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wspmv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+               pure subroutine zspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19693,7 +19764,7 @@ module stdlib_linalg_lapack
           ! n by n symmetric matrix, supplied in packed form.
           interface spr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cspr(uplo,n,alpha,x,incx,ap)
+               pure subroutine cspr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19706,7 +19777,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wspr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zspr(uplo,n,alpha,x,incx,ap)
+               pure subroutine zspr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19725,8 +19796,8 @@ module stdlib_linalg_lapack
           ! for the solution.
           interface sprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
-                         rwork,info)
+               pure subroutine csprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19741,8 +19812,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_csprfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
-                         iwork,info)
+               pure subroutine dsprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr, &
+                         work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19757,8 +19828,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
-                         iwork,info)
+               pure subroutine ssprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr, &
+                         work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19773,8 +19844,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
-                         rwork,info)
+               pure subroutine zsprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19803,7 +19874,7 @@ module stdlib_linalg_lapack
           ! solve the system of equations A * X = B.
           interface spsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine cspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19815,7 +19886,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cspsv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine dspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19828,7 +19899,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qspsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine sspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19841,7 +19912,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wspsv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine zspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19859,7 +19930,7 @@ module stdlib_linalg_lapack
           ! transformation: Q**T * A * Q = T.
           interface sptrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsptrd(uplo,n,ap,d,e,tau,info)
+               pure subroutine dsptrd(uplo,n,ap,d,e,tau,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19873,7 +19944,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsptrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssptrd(uplo,n,ap,d,e,tau,info)
+               pure subroutine ssptrd(uplo,n,ap,d,e,tau,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19896,7 +19967,7 @@ module stdlib_linalg_lapack
           ! 1-by-1 and 2-by-2 diagonal blocks.
           interface sptrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csptrf(uplo,n,ap,ipiv,info)
+               pure subroutine csptrf(uplo,n,ap,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19908,7 +19979,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csptrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsptrf(uplo,n,ap,ipiv,info)
+               pure subroutine dsptrf(uplo,n,ap,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19921,7 +19992,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsptrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssptrf(uplo,n,ap,ipiv,info)
+               pure subroutine ssptrf(uplo,n,ap,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19934,7 +20005,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsptrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsptrf(uplo,n,ap,ipiv,info)
+               pure subroutine zsptrf(uplo,n,ap,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19952,7 +20023,7 @@ module stdlib_linalg_lapack
           ! A = L*D*L**T computed by CSPTRF.
           interface sptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csptri(uplo,n,ap,ipiv,work,info)
+               pure subroutine csptri(uplo,n,ap,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19965,7 +20036,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csptri
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsptri(uplo,n,ap,ipiv,work,info)
+               pure subroutine dsptri(uplo,n,ap,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19979,7 +20050,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssptri(uplo,n,ap,ipiv,work,info)
+               pure subroutine ssptri(uplo,n,ap,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -19993,7 +20064,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsptri(uplo,n,ap,ipiv,work,info)
+               pure subroutine zsptri(uplo,n,ap,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20012,7 +20083,7 @@ module stdlib_linalg_lapack
           ! A = U*D*U**T or A = L*D*L**T computed by CSPTRF.
           interface sptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine csptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20025,7 +20096,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csptrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine dsptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20039,7 +20110,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine ssptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20053,7 +20124,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+               pure subroutine zsptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20079,8 +20150,8 @@ module stdlib_linalg_lapack
           ! University, July 21, 1966.
           interface stebz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dstebz(range,order,n,vl,vu,il,iu,abstol,d,e,m,nsplit,w, &
-                         iblock,isplit,work,iwork,info)
+               pure subroutine dstebz(range,order,n,vl,vu,il,iu,abstol,d,e,m,nsplit,w, &
+                          iblock,isplit,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: order,range
@@ -20095,8 +20166,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qstebz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sstebz(range,order,n,vl,vu,il,iu,abstol,d,e,m,nsplit,w, &
-                         iblock,isplit,work,iwork,info)
+               pure subroutine sstebz(range,order,n,vl,vu,il,iu,abstol,d,e,m,nsplit,w, &
+                          iblock,isplit,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: order,range
@@ -20124,7 +20195,7 @@ module stdlib_linalg_lapack
           ! without guard digits, but we know of none.  See SLAED3 for details.
           interface stedc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cstedc(compz,n,d,e,z,ldz,work,lwork,rwork,lrwork,iwork, &
+               pure subroutine cstedc(compz,n,d,e,z,ldz,work,lwork,rwork,lrwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20140,7 +20211,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cstedc
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dstedc(compz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
+               pure subroutine dstedc(compz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20155,7 +20226,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qstedc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sstedc(compz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
+               pure subroutine sstedc(compz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20170,7 +20241,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wstedc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zstedc(compz,n,d,e,z,ldz,work,lwork,rwork,lrwork,iwork, &
+               pure subroutine zstedc(compz,n,d,e,z,ldz,work,lwork,rwork,lrwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20205,7 +20276,7 @@ module stdlib_linalg_lapack
           ! do not conform to the IEEE-754 standard.
           interface stegr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               pure subroutine cstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
                          isuppz,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20221,7 +20292,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_cstegr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               pure subroutine dstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
                          isuppz,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20237,7 +20308,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qstegr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               pure subroutine sstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
                          isuppz,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20253,7 +20324,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wstegr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               pure subroutine zstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
                          isuppz,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20281,8 +20352,8 @@ module stdlib_linalg_lapack
           ! which was reduced to tridiagonal form.
           interface stein
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail,info)
-                         
+               pure subroutine cstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ifail(*),iwork(*)
@@ -20295,8 +20366,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cstein
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail,info)
-                         
+               pure subroutine dstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ifail(*),iwork(*)
@@ -20309,8 +20380,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qstein
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail,info)
-                         
+               pure subroutine sstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ifail(*),iwork(*)
@@ -20323,8 +20394,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wstein
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail,info)
-                         
+               pure subroutine zstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info,ifail(*),iwork(*)
@@ -20399,8 +20470,8 @@ module stdlib_linalg_lapack
           ! with CUNMTR or CUPMTR.
           interface stemr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc,isuppz, &
-                         tryrac,work,lwork,iwork,liwork,info)
+               pure subroutine cstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc, &
+                         isuppz,tryrac,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,range
@@ -20416,8 +20487,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_cstemr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc,isuppz, &
-                         tryrac,work,lwork,iwork,liwork,info)
+               pure subroutine dstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc, &
+                         isuppz,tryrac,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,range
@@ -20433,8 +20504,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qstemr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc,isuppz, &
-                         tryrac,work,lwork,iwork,liwork,info)
+               pure subroutine sstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc, &
+                         isuppz,tryrac,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,range
@@ -20450,8 +20521,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wstemr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc,isuppz, &
-                         tryrac,work,lwork,iwork,liwork,info)
+               pure subroutine zstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc, &
+                         isuppz,tryrac,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,range
@@ -20475,7 +20546,7 @@ module stdlib_linalg_lapack
           ! matrix to tridiagonal form.
           interface steqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csteqr(compz,n,d,e,z,ldz,work,info)
+               pure subroutine csteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compz
@@ -20489,7 +20560,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csteqr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsteqr(compz,n,d,e,z,ldz,work,info)
+               pure subroutine dsteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compz
@@ -20503,7 +20574,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsteqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssteqr(compz,n,d,e,z,ldz,work,info)
+               pure subroutine ssteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compz
@@ -20517,7 +20588,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsteqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsteqr(compz,n,d,e,z,ldz,work,info)
+               pure subroutine zsteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compz
@@ -20536,7 +20607,7 @@ module stdlib_linalg_lapack
           ! using the Pal-Walker-Kahan variant of the QL or QR algorithm.
           interface sterf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsterf(n,d,e,info)
+               pure subroutine dsterf(n,d,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -20548,7 +20619,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsterf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssterf(n,d,e,info)
+               pure subroutine ssterf(n,d,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -20564,7 +20635,7 @@ module stdlib_linalg_lapack
           ! real symmetric tridiagonal matrix A.
           interface stev
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dstev(jobz,n,d,e,z,ldz,work,info)
+               pure subroutine dstev(jobz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz
@@ -20578,7 +20649,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qstev
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sstev(jobz,n,d,e,z,ldz,work,info)
+               pure subroutine sstev(jobz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz
@@ -20603,7 +20674,8 @@ module stdlib_linalg_lapack
           ! without guard digits, but we know of none.
           interface stevd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dstevd(jobz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
+               pure subroutine dstevd(jobz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz
@@ -20617,7 +20689,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qstevd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sstevd(jobz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
+               pure subroutine sstevd(jobz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz
@@ -20668,7 +20741,7 @@ module stdlib_linalg_lapack
           ! manner.
           interface stevr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dstevr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               pure subroutine dstevr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
                          isuppz,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20684,7 +20757,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qstevr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine sstevr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               pure subroutine sstevr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
                          isuppz,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -20707,7 +20780,7 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface sycon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csycon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+               pure subroutine csycon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20722,7 +20795,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_csycon
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsycon(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info)
+               pure subroutine dsycon(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20736,7 +20810,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsycon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssycon(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info)
+               pure subroutine ssycon(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20750,7 +20825,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsycon
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsycon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+               pure subroutine zsycon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20773,7 +20848,8 @@ module stdlib_linalg_lapack
           ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
           interface sycon_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+               pure subroutine csycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20788,8 +20864,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_csycon_rook
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info)
-                         
+               pure subroutine dsycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20803,8 +20879,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsycon_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info)
-                         
+               pure subroutine ssycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20818,7 +20894,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsycon_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+               pure subroutine zsycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -20839,7 +20916,7 @@ module stdlib_linalg_lapack
           ! apply or reverse permutation done in TRF.
           interface syconv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csyconv(uplo,way,n,a,lda,ipiv,e,info)
+               pure subroutine csyconv(uplo,way,n,a,lda,ipiv,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -20852,7 +20929,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csyconv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsyconv(uplo,way,n,a,lda,ipiv,e,info)
+               pure subroutine dsyconv(uplo,way,n,a,lda,ipiv,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -20866,7 +20943,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsyconv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssyconv(uplo,way,n,a,lda,ipiv,e,info)
+               pure subroutine ssyconv(uplo,way,n,a,lda,ipiv,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -20880,7 +20957,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsyconv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsyconv(uplo,way,n,a,lda,ipiv,e,info)
+               pure subroutine zsyconv(uplo,way,n,a,lda,ipiv,e,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -20913,7 +20990,7 @@ module stdlib_linalg_lapack
           ! formats used in CHETRF and CHETRF_RK (or CHETRF_BK).
           interface syconvf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csyconvf(uplo,way,n,a,lda,e,ipiv,info)
+               pure subroutine csyconvf(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -20926,7 +21003,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csyconvf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsyconvf(uplo,way,n,a,lda,e,ipiv,info)
+               pure subroutine dsyconvf(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -20940,7 +21017,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsyconvf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssyconvf(uplo,way,n,a,lda,e,ipiv,info)
+               pure subroutine ssyconvf(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -20954,7 +21031,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsyconvf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsyconvf(uplo,way,n,a,lda,e,ipiv,info)
+               pure subroutine zsyconvf(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -20985,7 +21062,7 @@ module stdlib_linalg_lapack
           ! formats used in CHETRF_ROOK and CHETRF_RK (or CHETRF_BK).
           interface syconvf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
+               pure subroutine csyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -20997,7 +21074,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csyconvf_rook
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
+               pure subroutine dsyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -21010,7 +21087,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsyconvf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
+               pure subroutine ssyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -21023,7 +21100,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsyconvf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
+               pure subroutine zsyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo,way
@@ -21045,7 +21122,7 @@ module stdlib_linalg_lapack
           ! scalings.
           interface syequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csyequb(uplo,n,a,lda,s,scond,amax,work,info)
+               pure subroutine csyequb(uplo,n,a,lda,s,scond,amax,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -21059,7 +21136,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csyequb
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsyequb(uplo,n,a,lda,s,scond,amax,work,info)
+               pure subroutine dsyequb(uplo,n,a,lda,s,scond,amax,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -21073,7 +21150,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsyequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssyequb(uplo,n,a,lda,s,scond,amax,work,info)
+               pure subroutine ssyequb(uplo,n,a,lda,s,scond,amax,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -21087,7 +21164,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsyequb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsyequb(uplo,n,a,lda,s,scond,amax,work,info)
+               pure subroutine zsyequb(uplo,n,a,lda,s,scond,amax,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -21270,7 +21347,7 @@ module stdlib_linalg_lapack
           ! B must have been previously factorized as U**T*U or L*L**T by DPOTRF.
           interface sygst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsygst(itype,uplo,n,a,lda,b,ldb,info)
+               pure subroutine dsygst(itype,uplo,n,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21284,7 +21361,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsygst
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssygst(itype,uplo,n,a,lda,b,ldb,info)
+               pure subroutine ssygst(itype,uplo,n,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21384,7 +21461,7 @@ module stdlib_linalg_lapack
           ! A is an n by n symmetric matrix.
           interface symv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine csymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21397,7 +21474,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsymv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine zsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21416,7 +21493,7 @@ module stdlib_linalg_lapack
           ! n by n symmetric matrix.
           interface syr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csyr(uplo,n,alpha,x,incx,a,lda)
+               pure subroutine csyr(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21429,7 +21506,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsyr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsyr(uplo,n,alpha,x,incx,a,lda)
+               pure subroutine zsyr(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21447,8 +21524,8 @@ module stdlib_linalg_lapack
           ! provides error bounds and backward error estimates for the solution.
           interface syrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine csyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
+                          berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21463,8 +21540,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_csyrfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,iwork,info)
+               pure subroutine dsyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
+                          berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21479,8 +21556,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsyrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,iwork,info)
+               pure subroutine ssyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
+                          berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21495,8 +21572,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsyrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine zsyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
+                          berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21525,7 +21602,8 @@ module stdlib_linalg_lapack
           ! used to solve the system of equations A * X = B.
           interface sysv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine csysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21538,7 +21616,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_csysv
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine dsysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21552,7 +21631,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsysv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine ssysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21566,7 +21646,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsysv
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine zsysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21592,7 +21673,7 @@ module stdlib_linalg_lapack
           ! form of A is then used to solve the system of equations A * X = B.
           interface sysv_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine csysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21606,7 +21687,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csysv_aa
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine dsysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21621,7 +21702,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsysv_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine ssysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21636,7 +21717,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsysv_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine zsysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21667,8 +21748,8 @@ module stdlib_linalg_lapack
           ! the system of equations A * X = B by calling BLAS3 routine CSYTRS_3.
           interface sysv_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-                         
+               pure subroutine csysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21681,8 +21762,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_csysv_rk
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-                         
+               pure subroutine dsysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21696,8 +21777,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsysv_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-                         
+               pure subroutine ssysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21711,8 +21792,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsysv_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-                         
+               pure subroutine zsysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21744,7 +21825,7 @@ module stdlib_linalg_lapack
           ! of equations A * X = B by calling CSYTRS_ROOK.
           interface sysv_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine csysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21758,7 +21839,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csysv_rook
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine dsysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21773,7 +21854,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsysv_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine ssysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21788,7 +21869,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsysv_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine zsysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21807,7 +21888,7 @@ module stdlib_linalg_lapack
           ! a symmetric matrix.
           interface syswapr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csyswapr(uplo,n,a,lda,i1,i2)
+               pure subroutine csyswapr(uplo,n,a,lda,i1,i2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21818,7 +21899,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csyswapr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsyswapr(uplo,n,a,lda,i1,i2)
+               pure subroutine dsyswapr(uplo,n,a,lda,i1,i2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21830,7 +21911,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsyswapr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssyswapr(uplo,n,a,lda,i1,i2)
+               pure subroutine ssyswapr(uplo,n,a,lda,i1,i2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21842,7 +21923,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsyswapr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsyswapr(uplo,n,a,lda,i1,i2)
+               pure subroutine zsyswapr(uplo,n,a,lda,i1,i2)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21865,7 +21946,7 @@ module stdlib_linalg_lapack
           ! For more information see Further Details section.
           interface sytf2_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytf2_rk(uplo,n,a,lda,e,ipiv,info)
+               pure subroutine csytf2_rk(uplo,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21878,7 +21959,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytf2_rk
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytf2_rk(uplo,n,a,lda,e,ipiv,info)
+               pure subroutine dsytf2_rk(uplo,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21892,7 +21973,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytf2_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytf2_rk(uplo,n,a,lda,e,ipiv,info)
+               pure subroutine ssytf2_rk(uplo,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21906,7 +21987,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytf2_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytf2_rk(uplo,n,a,lda,e,ipiv,info)
+               pure subroutine zsytf2_rk(uplo,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21929,7 +22010,7 @@ module stdlib_linalg_lapack
           ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
           interface sytf2_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytf2_rook(uplo,n,a,lda,ipiv,info)
+               pure subroutine csytf2_rook(uplo,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21941,7 +22022,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytf2_rook
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytf2_rook(uplo,n,a,lda,ipiv,info)
+               pure subroutine dsytf2_rook(uplo,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21954,7 +22035,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytf2_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytf2_rook(uplo,n,a,lda,ipiv,info)
+               pure subroutine ssytf2_rook(uplo,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21967,7 +22048,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytf2_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytf2_rook(uplo,n,a,lda,ipiv,info)
+               pure subroutine zsytf2_rook(uplo,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21985,7 +22066,7 @@ module stdlib_linalg_lapack
           ! Q**T * A * Q = T.
           interface sytrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+               pure subroutine dsytrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -21999,7 +22080,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrd
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+               pure subroutine ssytrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22018,8 +22099,8 @@ module stdlib_linalg_lapack
           ! Q**T * A * Q = T.
           interface sytrd_sb2st
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrd_sb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
-                         work,lwork,info)
+               pure subroutine dsytrd_sb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous, &
+                         lhous,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: stage1,uplo,vect
@@ -22033,8 +22114,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrd_sb2st
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrd_sb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
-                         work,lwork,info)
+               pure subroutine ssytrd_sb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous, &
+                         lhous,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: stage1,uplo,vect
@@ -22053,8 +22134,8 @@ module stdlib_linalg_lapack
           ! Q**T * A * Q = AB.
           interface sytrd_sy2sb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrd_sy2sb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
-                         
+               pure subroutine dsytrd_sy2sb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22068,8 +22149,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrd_sy2sb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrd_sy2sb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
-                         
+               pure subroutine ssytrd_sy2sb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info &
+                         )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22093,7 +22174,7 @@ module stdlib_linalg_lapack
           ! This is the blocked version of the algorithm, calling Level 3 BLAS.
           interface sytrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytrf(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine csytrf(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22106,7 +22187,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytrf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrf(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine dsytrf(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22120,7 +22201,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrf(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine ssytrf(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22134,7 +22215,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytrf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytrf(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine zsytrf(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22156,7 +22237,7 @@ module stdlib_linalg_lapack
           ! This is the blocked version of the algorithm, calling Level 3 BLAS.
           interface sytrf_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine csytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22169,7 +22250,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytrf_aa
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine dsytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22183,7 +22264,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrf_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine ssytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22197,7 +22278,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytrf_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine zsytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22222,7 +22303,7 @@ module stdlib_linalg_lapack
           ! For more information see Further Details section.
           interface sytrf_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+               pure subroutine csytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22235,7 +22316,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytrf_rk
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+               pure subroutine dsytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22249,7 +22330,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrf_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+               pure subroutine ssytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22263,7 +22344,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytrf_rk
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+               pure subroutine zsytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22287,7 +22368,7 @@ module stdlib_linalg_lapack
           ! This is the blocked version of the algorithm, calling Level 3 BLAS.
           interface sytrf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine csytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22300,7 +22381,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytrf_rook
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine dsytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22314,7 +22395,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine ssytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22328,7 +22409,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytrf_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+               pure subroutine zsytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22347,7 +22428,7 @@ module stdlib_linalg_lapack
           ! CSYTRF.
           interface sytri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytri(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine csytri(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22360,7 +22441,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytri
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytri(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine dsytri(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22374,7 +22455,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytri(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine ssytri(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22388,7 +22469,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytri(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine zsytri(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22407,7 +22488,7 @@ module stdlib_linalg_lapack
           ! computed by CSYTRF_ROOK.
           interface sytri_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytri_rook(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine csytri_rook(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22420,7 +22501,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytri_rook
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytri_rook(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine dsytri_rook(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22434,7 +22515,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytri_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytri_rook(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine ssytri_rook(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22448,7 +22529,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytri_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytri_rook(uplo,n,a,lda,ipiv,work,info)
+               pure subroutine zsytri_rook(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22467,7 +22548,7 @@ module stdlib_linalg_lapack
           ! A = L*D*L**T computed by CSYTRF.
           interface sytrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine csytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22480,7 +22561,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine dsytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22494,7 +22575,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine ssytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22508,7 +22589,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine zsytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22527,7 +22608,7 @@ module stdlib_linalg_lapack
           ! A = L*D*L**T computed by CSYTRF and converted by CSYCONV.
           interface sytrs2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+               pure subroutine csytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22540,7 +22621,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytrs2
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+               pure subroutine dsytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22554,7 +22635,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrs2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+               pure subroutine ssytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22568,7 +22649,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytrs2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+               pure subroutine zsytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22593,7 +22674,7 @@ module stdlib_linalg_lapack
           ! This algorithm is using Level 3 BLAS.
           interface sytrs_3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+               pure subroutine csytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22606,7 +22687,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytrs_3
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+               pure subroutine dsytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22620,7 +22701,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrs_3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+               pure subroutine ssytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22634,7 +22715,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytrs_3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+               pure subroutine zsytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22653,7 +22734,7 @@ module stdlib_linalg_lapack
           ! A = L*T*L**T computed by CSYTRF_AA.
           interface sytrs_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine csytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -22668,7 +22749,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytrs_aa
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine dsytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -22684,7 +22765,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrs_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine ssytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -22700,7 +22781,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytrs_aa
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               pure subroutine zsytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -22721,7 +22802,7 @@ module stdlib_linalg_lapack
           ! A = L*D*L**T computed by CSYTRF_ROOK.
           interface sytrs_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine csytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine csytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22734,7 +22815,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_csytrs_rook
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dsytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine dsytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22748,7 +22829,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qsytrs_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ssytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine ssytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22762,7 +22843,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wsytrs_rook
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zsytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+               pure subroutine zsytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -22853,8 +22934,8 @@ module stdlib_linalg_lapack
           ! refinement because doing so cannot improve the backward error.
           interface tbrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine ctbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx, &
+                         ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -22868,8 +22949,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctbrfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx,ferr, &
-                         berr,work,iwork,info)
+               pure subroutine dtbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx, &
+                         ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -22883,8 +22964,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtbrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx,ferr, &
-                         berr,work,iwork,info)
+               pure subroutine stbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx, &
+                         ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -22898,8 +22979,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtbrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx,ferr, &
-                         berr,work,rwork,info)
+               pure subroutine ztbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx, &
+                         ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -22920,7 +23001,8 @@ module stdlib_linalg_lapack
           ! N-by-NRHS matrix.  A check is made to verify that A is nonsingular.
           interface tbtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine ctbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -22933,7 +23015,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctbtrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine dtbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -22947,7 +23030,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtbtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine stbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -22961,7 +23045,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtbtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+               pure subroutine ztbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -22985,7 +23070,8 @@ module stdlib_linalg_lapack
           ! The matrix X is overwritten on B.
           interface tfsm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+               pure subroutine ctfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,diag,side,trans,uplo
@@ -22997,7 +23083,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctfsm
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+               pure subroutine dtfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,diag,side,trans,uplo
@@ -23010,7 +23097,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtfsm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+               pure subroutine stfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,diag,side,trans,uplo
@@ -23023,7 +23111,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtfsm
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+               pure subroutine ztfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,diag,side,trans,uplo
@@ -23041,7 +23130,7 @@ module stdlib_linalg_lapack
           ! This is a Level 3 BLAS version of the algorithm.
           interface tftri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctftri(transr,uplo,diag,n,a,info)
+               pure subroutine ctftri(transr,uplo,diag,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo,diag
@@ -23053,7 +23142,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctftri
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtftri(transr,uplo,diag,n,a,info)
+               pure subroutine dtftri(transr,uplo,diag,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo,diag
@@ -23066,7 +23155,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtftri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stftri(transr,uplo,diag,n,a,info)
+               pure subroutine stftri(transr,uplo,diag,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo,diag
@@ -23079,7 +23168,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtftri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztftri(transr,uplo,diag,n,a,info)
+               pure subroutine ztftri(transr,uplo,diag,n,a,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo,diag
@@ -23096,7 +23185,7 @@ module stdlib_linalg_lapack
           ! format (TF) to standard packed format (TP).
           interface tfttp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctfttp(transr,uplo,n,arf,ap,info)
+               pure subroutine ctfttp(transr,uplo,n,arf,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -23109,7 +23198,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctfttp
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtfttp(transr,uplo,n,arf,ap,info)
+               pure subroutine dtfttp(transr,uplo,n,arf,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -23123,7 +23212,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtfttp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stfttp(transr,uplo,n,arf,ap,info)
+               pure subroutine stfttp(transr,uplo,n,arf,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -23137,7 +23226,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtfttp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztfttp(transr,uplo,n,arf,ap,info)
+               pure subroutine ztfttp(transr,uplo,n,arf,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -23155,7 +23244,7 @@ module stdlib_linalg_lapack
           ! format (TF) to standard full format (TR).
           interface tfttr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctfttr(transr,uplo,n,arf,a,lda,info)
+               pure subroutine ctfttr(transr,uplo,n,arf,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -23168,7 +23257,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctfttr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtfttr(transr,uplo,n,arf,a,lda,info)
+               pure subroutine dtfttr(transr,uplo,n,arf,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -23182,7 +23271,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtfttr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stfttr(transr,uplo,n,arf,a,lda,info)
+               pure subroutine stfttr(transr,uplo,n,arf,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -23196,7 +23285,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtfttr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztfttr(transr,uplo,n,arf,a,lda,info)
+               pure subroutine ztfttr(transr,uplo,n,arf,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -23230,8 +23319,8 @@ module stdlib_linalg_lapack
           ! are the matrices of right and left eigenvectors of (A,B).
           interface tgevc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr,mm, &
-                         m,work,rwork,info)
+               pure subroutine ctgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr, &
+                          mm,m,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -23247,8 +23336,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctgevc
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr,mm, &
-                         m,work,info)
+               pure subroutine dtgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr, &
+                          mm,m,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -23264,8 +23353,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtgevc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr,mm, &
-                         m,work,info)
+               pure subroutine stgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr, &
+                          mm,m,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -23281,8 +23370,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtgevc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr,mm, &
-                         m,work,rwork,info)
+               pure subroutine ztgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr, &
+                          mm,m,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -23311,8 +23400,8 @@ module stdlib_linalg_lapack
           ! Q(in) * B(in) * Z(in)**H = Q(out) * B(out) * Z(out)**H
           interface tgexc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
-                         info)
+               pure subroutine ctgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq,wantz
@@ -23325,8 +23414,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctgexc
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
-                         work,lwork,info)
+               pure subroutine dtgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
+                          work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq,wantz
@@ -23341,8 +23430,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtgexc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
-                         work,lwork,info)
+               pure subroutine stgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
+                          work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq,wantz
@@ -23357,8 +23446,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtgexc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
-                         info)
+               pure subroutine ztgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
+                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq,wantz
@@ -23392,8 +23481,8 @@ module stdlib_linalg_lapack
           ! the selected cluster in the (1,1)-block.
           interface tgsen
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alpha,beta,q, &
-                         ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
+               pure subroutine ctgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alpha,beta, &
+                         q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq,wantz,select(*)
@@ -23407,8 +23496,9 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctgsen
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alphar,alphai, &
-                         beta,q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
+               pure subroutine dtgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alphar, &
+               alphai,beta,q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq,wantz,select(*)
@@ -23423,8 +23513,9 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtgsen
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alphar,alphai, &
-                         beta,q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
+               pure subroutine stgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alphar, &
+               alphai,beta,q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq,wantz,select(*)
@@ -23439,8 +23530,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtgsen
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alpha,beta,q, &
-                         ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
+               pure subroutine ztgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alpha,beta, &
+                         q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq,wantz,select(*)
@@ -23519,8 +23610,8 @@ module stdlib_linalg_lapack
           ! may be postmultiplied into input matrices U1, V1, or Q1.
           interface tgsja
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
-                         alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
+               pure subroutine ctgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
+                          alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobq,jobu,jobv
@@ -23536,8 +23627,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctgsja
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
-                         alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
+               pure subroutine dtgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
+                          alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobq,jobu,jobv
@@ -23553,8 +23644,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtgsja
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
-                         alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
+               pure subroutine stgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
+                          alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobq,jobu,jobv
@@ -23570,8 +23661,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtgsja
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
-                         alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
+               pure subroutine ztgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
+                          alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobq,jobu,jobv
@@ -23594,8 +23685,8 @@ module stdlib_linalg_lapack
           ! B are both upper triangular.
           interface tgsna
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr,s, &
-                         dif,mm,m,work,lwork,iwork,info)
+               pure subroutine ctgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr, &
+                         s,dif,mm,m,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,job
@@ -23610,8 +23701,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctgsna
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr,s, &
-                         dif,mm,m,work,lwork,iwork,info)
+               pure subroutine dtgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr, &
+                         s,dif,mm,m,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,job
@@ -23626,8 +23717,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtgsna
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr,s, &
-                         dif,mm,m,work,lwork,iwork,info)
+               pure subroutine stgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr, &
+                         s,dif,mm,m,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,job
@@ -23642,8 +23733,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtgsna
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr,s, &
-                         dif,mm,m,work,lwork,iwork,info)
+               pure subroutine ztgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr, &
+                         s,dif,mm,m,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,job
@@ -23688,8 +23779,8 @@ module stdlib_linalg_lapack
           ! This is a level-3 BLAS algorithm.
           interface tgsyl
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f, &
-                         ldf,scale,dif,work,lwork,iwork,info)
+               pure subroutine ctgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde, &
+                         f,ldf,scale,dif,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -23704,8 +23795,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctgsyl
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f, &
-                         ldf,scale,dif,work,lwork,iwork,info)
+               pure subroutine dtgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde, &
+                         f,ldf,scale,dif,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -23720,8 +23811,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtgsyl
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f, &
-                         ldf,scale,dif,work,lwork,iwork,info)
+               pure subroutine stgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde, &
+                         f,ldf,scale,dif,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -23736,8 +23827,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtgsyl
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f, &
-                         ldf,scale,dif,work,lwork,iwork,info)
+               pure subroutine ztgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde, &
+                         f,ldf,scale,dif,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -23824,7 +23915,7 @@ module stdlib_linalg_lapack
           ! WY representation for Q.
           interface tplqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
+               pure subroutine ctplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -23836,7 +23927,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctplqt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
+               pure subroutine dtplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -23849,7 +23940,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtplqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
+               pure subroutine stplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -23862,7 +23953,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtplqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
+               pure subroutine ztplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -23880,7 +23971,7 @@ module stdlib_linalg_lapack
           ! using the compact WY representation for Q.
           interface tplqt2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+               pure subroutine ctplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -23892,7 +23983,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctplqt2
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+               pure subroutine dtplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -23905,7 +23996,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtplqt2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+               pure subroutine stplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -23918,7 +24009,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtplqt2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+               pure subroutine ztplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -23936,8 +24027,8 @@ module stdlib_linalg_lapack
           ! complex matrix C, which consists of two blocks A and B.
           interface tpmlqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b,ldb, &
-                         work,info)
+               pure subroutine ctpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b, &
+                         ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -23951,8 +24042,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctpmlqt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b,ldb, &
-                         work,info)
+               pure subroutine dtpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b, &
+                         ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -23967,8 +24058,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtpmlqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b,ldb, &
-                         work,info)
+               pure subroutine stpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b, &
+                         ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -23983,8 +24074,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtpmlqt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b,ldb, &
-                         work,info)
+               pure subroutine ztpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b, &
+                         ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -24004,8 +24095,8 @@ module stdlib_linalg_lapack
           ! complex matrix C, which consists of two blocks A and B.
           interface tpmqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b,ldb, &
-                         work,info)
+               pure subroutine ctpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b, &
+                         ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -24019,8 +24110,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctpmqrt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b,ldb, &
-                         work,info)
+               pure subroutine dtpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b, &
+                         ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -24035,8 +24126,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtpmqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b,ldb, &
-                         work,info)
+               pure subroutine stpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b, &
+                         ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -24051,8 +24142,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtpmqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b,ldb, &
-                         work,info)
+               pure subroutine ztpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b, &
+                         ldb,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -24073,7 +24164,7 @@ module stdlib_linalg_lapack
           ! WY representation for Q.
           interface tpqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
+               pure subroutine ctpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -24085,7 +24176,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctpqrt
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
+               pure subroutine dtpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -24098,7 +24189,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtpqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
+               pure subroutine stpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -24111,7 +24202,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtpqrt
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
+               pure subroutine ztpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -24129,7 +24220,7 @@ module stdlib_linalg_lapack
           ! using the compact WY representation for Q.
           interface tpqrt2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+               pure subroutine ctpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -24141,7 +24232,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctpqrt2
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+               pure subroutine dtpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -24154,7 +24245,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtpqrt2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+               pure subroutine stpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -24167,7 +24258,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtpqrt2
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+               pure subroutine ztpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -24185,8 +24276,8 @@ module stdlib_linalg_lapack
           ! blocks A and B, either from the left or right.
           interface tprfb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a,lda, &
-                         b,ldb,work,ldwork)
+               pure subroutine ctprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a, &
+                         lda,b,ldb,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -24199,8 +24290,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctprfb
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a,lda, &
-                         b,ldb,work,ldwork)
+               pure subroutine dtprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a, &
+                         lda,b,ldb,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -24214,8 +24305,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtprfb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a,lda, &
-                         b,ldb,work,ldwork)
+               pure subroutine stprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a, &
+                         lda,b,ldb,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -24229,8 +24320,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtprfb
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a,lda, &
-                         b,ldb,work,ldwork)
+               pure subroutine ztprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a, &
+                         lda,b,ldb,work,ldwork)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: direct,side,storev,trans
@@ -24252,8 +24343,8 @@ module stdlib_linalg_lapack
           ! refinement because doing so cannot improve the backward error.
           interface tprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr,work, &
-                          rwork,info)
+               pure subroutine ctprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24267,8 +24358,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctprfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr,work, &
-                          iwork,info)
+               pure subroutine dtprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr, &
+                         work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24282,8 +24373,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr,work, &
-                          iwork,info)
+               pure subroutine stprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr, &
+                         work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24297,8 +24388,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtprfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr,work, &
-                          rwork,info)
+               pure subroutine ztprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24317,7 +24408,7 @@ module stdlib_linalg_lapack
           ! matrix A stored in packed format.
           interface tptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctptri(uplo,diag,n,ap,info)
+               pure subroutine ctptri(uplo,diag,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,uplo
@@ -24329,7 +24420,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctptri
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtptri(uplo,diag,n,ap,info)
+               pure subroutine dtptri(uplo,diag,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,uplo
@@ -24342,7 +24433,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stptri(uplo,diag,n,ap,info)
+               pure subroutine stptri(uplo,diag,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,uplo
@@ -24355,7 +24446,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtptri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztptri(uplo,diag,n,ap,info)
+               pure subroutine ztptri(uplo,diag,n,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,uplo
@@ -24375,7 +24466,7 @@ module stdlib_linalg_lapack
           ! nonsingular.
           interface tptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
+               pure subroutine ctptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24388,7 +24479,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctptrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
+               pure subroutine dtptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24402,7 +24493,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
+               pure subroutine stptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24416,7 +24507,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtptrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
+               pure subroutine ztptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24434,7 +24525,7 @@ module stdlib_linalg_lapack
           ! to rectangular full packed format (TF).
           interface tpttf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctpttf(transr,uplo,n,ap,arf,info)
+               pure subroutine ctpttf(transr,uplo,n,ap,arf,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -24447,7 +24538,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctpttf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtpttf(transr,uplo,n,ap,arf,info)
+               pure subroutine dtpttf(transr,uplo,n,ap,arf,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -24461,7 +24552,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtpttf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stpttf(transr,uplo,n,ap,arf,info)
+               pure subroutine stpttf(transr,uplo,n,ap,arf,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -24475,7 +24566,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtpttf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztpttf(transr,uplo,n,ap,arf,info)
+               pure subroutine ztpttf(transr,uplo,n,ap,arf,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -24493,7 +24584,7 @@ module stdlib_linalg_lapack
           ! to standard full format (TR).
           interface tpttr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctpttr(uplo,n,ap,a,lda,info)
+               pure subroutine ctpttr(uplo,n,ap,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -24506,7 +24597,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctpttr
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtpttr(uplo,n,ap,a,lda,info)
+               pure subroutine dtpttr(uplo,n,ap,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -24520,7 +24611,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtpttr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stpttr(uplo,n,ap,a,lda,info)
+               pure subroutine stpttr(uplo,n,ap,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -24534,7 +24625,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtpttr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztpttr(uplo,n,ap,a,lda,info)
+               pure subroutine ztpttr(uplo,n,ap,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -24630,8 +24721,8 @@ module stdlib_linalg_lapack
           ! eigenvectors of A.
           interface trevc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctrevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m,work, &
-                          rwork,info)
+               pure subroutine ctrevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -24646,8 +24737,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctrevc
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtrevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m,work, &
-                          info)
+               pure subroutine dtrevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+                         work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -24663,8 +24754,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtrevc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine strevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m,work, &
-                          info)
+               pure subroutine strevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+                         work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -24680,8 +24771,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtrevc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztrevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m,work, &
-                          rwork,info)
+               pure subroutine ztrevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+                         work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -24715,8 +24806,8 @@ module stdlib_linalg_lapack
           ! This uses a Level 3 BLAS version of the back transformation.
           interface trevc3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctrevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
-                         work,lwork,rwork,lrwork,info)
+               pure subroutine ctrevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+                          work,lwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -24731,8 +24822,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctrevc3
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtrevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
-                         work,lwork,info)
+               pure subroutine dtrevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+                          work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -24748,8 +24839,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtrevc3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine strevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
-                         work,lwork,info)
+               pure subroutine strevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+                          work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -24765,8 +24856,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtrevc3
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztrevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
-                         work,lwork,rwork,lrwork,info)
+               pure subroutine ztrevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+                          work,lwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,side
@@ -24790,7 +24881,7 @@ module stdlib_linalg_lapack
           ! postmultplying it with Z.
           interface trexc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctrexc(compq,n,t,ldt,q,ldq,ifst,ilst,info)
+               pure subroutine ctrexc(compq,n,t,ldt,q,ldq,ifst,ilst,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq
@@ -24832,7 +24923,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtrexc
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztrexc(compq,n,t,ldt,q,ldq,ifst,ilst,info)
+               pure subroutine ztrexc(compq,n,t,ldt,q,ldq,ifst,ilst,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq
@@ -24853,8 +24944,8 @@ module stdlib_linalg_lapack
           ! refinement because doing so cannot improve the backward error.
           interface trrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctrrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr,berr, &
-                         work,rwork,info)
+               pure subroutine ctrrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr, &
+                         berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24868,8 +24959,8 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctrrfs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtrrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr,berr, &
-                         work,iwork,info)
+               pure subroutine dtrrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr, &
+                         berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24883,8 +24974,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtrrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine strrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr,berr, &
-                         work,iwork,info)
+               pure subroutine strrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr, &
+                         berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24898,8 +24989,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtrrfs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztrrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr,berr, &
-                         work,rwork,info)
+               pure subroutine ztrrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr, &
+                         berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -24993,8 +25084,8 @@ module stdlib_linalg_lapack
           ! matrix T (or of any matrix Q*T*Q**H with Q unitary).
           interface trsna
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
-                         m,work,ldwork,rwork,info)
+               pure subroutine ctrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep, &
+                         mm,m,work,ldwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,job
@@ -25041,8 +25132,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtrsna
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
-                         m,work,ldwork,rwork,info)
+               pure subroutine ztrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep, &
+                         mm,m,work,ldwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: howmny,job
@@ -25135,7 +25226,7 @@ module stdlib_linalg_lapack
           ! This is the Level 3 BLAS version of the algorithm.
           interface trtri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctrtri(uplo,diag,n,a,lda,info)
+               pure subroutine ctrtri(uplo,diag,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,uplo
@@ -25147,7 +25238,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctrtri
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtrtri(uplo,diag,n,a,lda,info)
+               pure subroutine dtrtri(uplo,diag,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,uplo
@@ -25160,7 +25251,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtrtri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine strtri(uplo,diag,n,a,lda,info)
+               pure subroutine strtri(uplo,diag,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,uplo
@@ -25173,7 +25264,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtrtri
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztrtri(uplo,diag,n,a,lda,info)
+               pure subroutine ztrtri(uplo,diag,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,uplo
@@ -25192,7 +25283,7 @@ module stdlib_linalg_lapack
           ! matrix.  A check is made to verify that A is nonsingular.
           interface trtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctrtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine ctrtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -25205,7 +25296,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctrtrs
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtrtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine dtrtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -25219,7 +25310,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtrtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine strtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine strtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -25233,7 +25324,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtrtrs
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztrtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
+               pure subroutine ztrtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,trans,uplo
@@ -25251,7 +25342,7 @@ module stdlib_linalg_lapack
           ! to rectangular full packed format (TF) .
           interface trttf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctrttf(transr,uplo,n,a,lda,arf,info)
+               pure subroutine ctrttf(transr,uplo,n,a,lda,arf,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -25264,7 +25355,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctrttf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtrttf(transr,uplo,n,a,lda,arf,info)
+               pure subroutine dtrttf(transr,uplo,n,a,lda,arf,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -25278,7 +25369,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtrttf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine strttf(transr,uplo,n,a,lda,arf,info)
+               pure subroutine strttf(transr,uplo,n,a,lda,arf,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -25292,7 +25383,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtrttf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztrttf(transr,uplo,n,a,lda,arf,info)
+               pure subroutine ztrttf(transr,uplo,n,a,lda,arf,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: transr,uplo
@@ -25310,7 +25401,7 @@ module stdlib_linalg_lapack
           ! packed format (TP).
           interface trttp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctrttp(uplo,n,a,lda,ap,info)
+               pure subroutine ctrttp(uplo,n,a,lda,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -25323,7 +25414,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctrttp
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtrttp(uplo,n,a,lda,ap,info)
+               pure subroutine dtrttp(uplo,n,a,lda,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -25337,7 +25428,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtrttp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine strttp(uplo,n,a,lda,ap,info)
+               pure subroutine strttp(uplo,n,a,lda,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -25351,7 +25442,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtrttp
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztrttp(uplo,n,a,lda,ap,info)
+               pure subroutine ztrttp(uplo,n,a,lda,ap,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -25373,7 +25464,7 @@ module stdlib_linalg_lapack
           ! triangular matrix.
           interface tzrzf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ctzrzf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine ctzrzf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -25385,7 +25476,7 @@ module stdlib_linalg_lapack
                module procedure stdlib_ctzrzf
 #endif
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine dtzrzf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine dtzrzf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -25398,7 +25489,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_qtzrzf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine stzrzf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine stzrzf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -25411,7 +25502,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wtzrzf
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine ztzrzf(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine ztzrzf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -25681,7 +25772,7 @@ module stdlib_linalg_lapack
           ! way.
           interface unbdb5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               pure subroutine cunbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25696,7 +25787,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunbdb5
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               pure subroutine zunbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25722,7 +25813,7 @@ module stdlib_linalg_lapack
           ! criterion, then the zero vector is returned.
           interface unbdb6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               pure subroutine cunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25737,7 +25828,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunbdb6
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               pure subroutine zunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25865,7 +25956,7 @@ module stdlib_linalg_lapack
           ! as returned by CGEQLF.
           interface ung2l
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cung2l(m,n,k,a,lda,tau,work,info)
+               pure subroutine cung2l(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -25879,7 +25970,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wung2l
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zung2l(m,n,k,a,lda,tau,work,info)
+               pure subroutine zung2l(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -25900,7 +25991,7 @@ module stdlib_linalg_lapack
           ! as returned by CGEQRF.
           interface ung2r
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cung2r(m,n,k,a,lda,tau,work,info)
+               pure subroutine cung2r(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -25914,7 +26005,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wung2r
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zung2r(m,n,k,a,lda,tau,work,info)
+               pure subroutine zung2r(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -25946,7 +26037,7 @@ module stdlib_linalg_lapack
           ! an N-by-N matrix.
           interface ungbr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cungbr(vect,m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine cungbr(vect,m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: vect
@@ -25961,7 +26052,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wungbr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zungbr(vect,m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine zungbr(vect,m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: vect
@@ -25982,7 +26073,7 @@ module stdlib_linalg_lapack
           ! Q = H(ilo) H(ilo+1) . . . H(ihi-1).
           interface unghr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
+               pure subroutine cunghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
@@ -25996,7 +26087,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunghr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
+               pure subroutine zunghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
@@ -26017,7 +26108,7 @@ module stdlib_linalg_lapack
           ! as returned by CGELQF.
           interface unglq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunglq(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine cunglq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26031,7 +26122,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunglq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunglq(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine zunglq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26052,7 +26143,7 @@ module stdlib_linalg_lapack
           ! as returned by CGEQLF.
           interface ungql
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cungql(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine cungql(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26066,7 +26157,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wungql
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zungql(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine zungql(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26087,7 +26178,7 @@ module stdlib_linalg_lapack
           ! as returned by CGEQRF.
           interface ungqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cungqr(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine cungqr(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26101,7 +26192,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wungqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zungqr(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine zungqr(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26122,7 +26213,7 @@ module stdlib_linalg_lapack
           ! as returned by CGERQF.
           interface ungrq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cungrq(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine cungrq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26136,7 +26227,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wungrq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zungrq(m,n,k,a,lda,tau,work,lwork,info)
+               pure subroutine zungrq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26157,7 +26248,7 @@ module stdlib_linalg_lapack
           ! if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
           interface ungtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cungtr(uplo,n,a,lda,tau,work,lwork,info)
+               pure subroutine cungtr(uplo,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -26172,7 +26263,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wungtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zungtr(uplo,n,a,lda,tau,work,lwork,info)
+               pure subroutine zungtr(uplo,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -26194,7 +26285,7 @@ module stdlib_linalg_lapack
           ! See the documentation for CLATSQR.
           interface ungtsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cungtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine cungtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26208,7 +26299,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wungtsqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zungtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine zungtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26239,7 +26330,8 @@ module stdlib_linalg_lapack
           ! the order in which CLATSQR generates the output blocks.
           interface ungtsqr_row
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cungtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine cungtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26253,7 +26345,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wungtsqr_row
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zungtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+               pure subroutine zungtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26278,7 +26371,7 @@ module stdlib_linalg_lapack
           ! (same output format as CGEQRT).
           interface unhr_col
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunhr_col(m,n,nb,a,lda,t,ldt,d,info)
+               pure subroutine cunhr_col(m,n,nb,a,lda,t,ldt,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26291,7 +26384,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunhr_col
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunhr_col(m,n,nb,a,lda,t,ldt,d,info)
+               pure subroutine zunhr_col(m,n,nb,a,lda,t,ldt,d,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -26316,7 +26409,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface unm2l
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+               pure subroutine cunm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26331,7 +26425,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunm2l
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+               pure subroutine zunm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26358,7 +26453,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface unm2r
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+               pure subroutine cunm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26373,7 +26469,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunm2r
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+               pure subroutine zunm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26412,8 +26509,8 @@ module stdlib_linalg_lapack
           ! if k >= nq, P = G(1) G(2) . . . G(nq-1).
           interface unmbr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunmbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
-                         info)
+               pure subroutine cunmbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,vect
@@ -26428,8 +26525,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunmbr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunmbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
-                         info)
+               pure subroutine zunmbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,vect
@@ -26454,8 +26551,8 @@ module stdlib_linalg_lapack
           ! Q = H(ilo) H(ilo+1) . . . H(ihi-1).
           interface unmhr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunmhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work,lwork, &
-                         info)
+               pure subroutine cunmhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26470,8 +26567,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunmhr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunmhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work,lwork, &
-                         info)
+               pure subroutine zunmhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work, &
+                         lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26497,8 +26594,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface unmlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunmlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine cunmlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26513,8 +26610,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunmlq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunmlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine zunmlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26540,8 +26637,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface unmql
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunmql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine cunmql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26556,8 +26653,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunmql
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunmql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine zunmql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26583,8 +26680,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface unmqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunmqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine cunmqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26599,8 +26696,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunmqr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunmqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine zunmqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26626,8 +26723,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface unmrq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunmrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine cunmrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26642,8 +26739,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunmrq
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunmrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine zunmrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26669,8 +26766,8 @@ module stdlib_linalg_lapack
           ! if SIDE = 'R'.
           interface unmrz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunmrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine cunmrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26685,8 +26782,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunmrz
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunmrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine zunmrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans
@@ -26712,8 +26809,8 @@ module stdlib_linalg_lapack
           ! if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
           interface unmtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine cunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,uplo
@@ -26728,8 +26825,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wunmtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork,info)
-                         
+               pure subroutine zunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+                         info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,uplo
@@ -26751,7 +26848,7 @@ module stdlib_linalg_lapack
           ! if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
           interface upgtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cupgtr(uplo,n,ap,tau,q,ldq,work,info)
+               pure subroutine cupgtr(uplo,n,ap,tau,q,ldq,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -26765,7 +26862,7 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wupgtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zupgtr(uplo,n,ap,tau,q,ldq,work,info)
+               pure subroutine zupgtr(uplo,n,ap,tau,q,ldq,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: uplo
@@ -26791,7 +26888,8 @@ module stdlib_linalg_lapack
           ! if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
           interface upmtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine cupmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
+               pure subroutine cupmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,uplo
@@ -26806,7 +26904,8 @@ module stdlib_linalg_lapack
 #endif
                module procedure stdlib_wupmtr
 #ifdef STDLIB_EXTERNAL_LAPACK
-               subroutine zupmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
+               pure subroutine zupmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
+                         
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: side,trans,uplo

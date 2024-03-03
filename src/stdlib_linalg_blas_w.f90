@@ -87,7 +87,7 @@ module stdlib_linalg_blas_w
 
      ! WAXPY constant times a vector plus a vector.
 
-     subroutine stdlib_waxpy(n,za,zx,incx,zy,incy)
+     pure subroutine stdlib_waxpy(n,za,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -125,7 +125,7 @@ module stdlib_linalg_blas_w
 
      ! WCOPY copies a vector, x, to a vector, y.
 
-     subroutine stdlib_wcopy(n,zx,incx,zy,incy)
+     pure subroutine stdlib_wcopy(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -162,7 +162,7 @@ module stdlib_linalg_blas_w
      ! WDOTC forms the dot product of two complex vectors
      ! WDOTC = X^H * Y
 
-     complex(qp) function stdlib_wdotc(n,zx,incx,zy,incy)
+     pure complex(qp) function stdlib_wdotc(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -204,7 +204,7 @@ module stdlib_linalg_blas_w
      ! WDOTU forms the dot product of two complex vectors
      ! WDOTU = X^T * Y
 
-     complex(qp) function stdlib_wdotu(n,zx,incx,zy,incy)
+     pure complex(qp) function stdlib_wdotu(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -245,7 +245,7 @@ module stdlib_linalg_blas_w
      ! and the vectors cx and cy are complex.
      ! jack dongarra, linpack, 3/11/78.
 
-     subroutine stdlib_wdrot(n,zx,incx,zy,incy,c,s)
+     pure subroutine stdlib_wdrot(n,zx,incx,zy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -287,7 +287,7 @@ module stdlib_linalg_blas_w
 
      ! WDSCAL scales a vector by a constant.
 
-     subroutine stdlib_wdscal(n,da,zx,incx)
+     pure subroutine stdlib_wdscal(n,da,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -323,7 +323,7 @@ module stdlib_linalg_blas_w
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
-     subroutine stdlib_wgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_wgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -495,7 +495,7 @@ module stdlib_linalg_blas_w
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
-     subroutine stdlib_wgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_wgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -742,7 +742,7 @@ module stdlib_linalg_blas_w
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
 
-     subroutine stdlib_wgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_wgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -901,7 +901,7 @@ module stdlib_linalg_blas_w
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_wgerc(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_wgerc(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -980,7 +980,7 @@ module stdlib_linalg_blas_w
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_wgeru(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_wgeru(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1059,7 +1059,7 @@ module stdlib_linalg_blas_w
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian band matrix, with k super-diagonals.
 
-     subroutine stdlib_whbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_whbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1223,7 +1223,7 @@ module stdlib_linalg_blas_w
      ! where alpha and beta are scalars, A is an hermitian matrix and  B and
      ! C are m by n matrices.
 
-     subroutine stdlib_whemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_whemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1370,7 +1370,7 @@ module stdlib_linalg_blas_w
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix.
 
-     subroutine stdlib_whemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_whemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1522,7 +1522,7 @@ module stdlib_linalg_blas_w
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix.
 
-     subroutine stdlib_wher(uplo,n,alpha,x,incx,a,lda)
+     pure subroutine stdlib_wher(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1637,7 +1637,7 @@ module stdlib_linalg_blas_w
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n hermitian matrix.
 
-     subroutine stdlib_wher2(uplo,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_wher2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1779,7 +1779,7 @@ module stdlib_linalg_blas_w
      ! hermitian matrix and  A and B  are  n by k matrices in the first case
      ! and  k by n  matrices in the second case.
 
-     subroutine stdlib_wher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_wher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1987,7 +1987,7 @@ module stdlib_linalg_blas_w
      ! matrix and  A  is an  n by k  matrix in the  first case and a  k by n
      ! matrix in the second case.
 
-     subroutine stdlib_wherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine stdlib_wherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2180,7 +2180,7 @@ module stdlib_linalg_blas_w
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_whpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     pure subroutine stdlib_whpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2338,7 +2338,7 @@ module stdlib_linalg_blas_w
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_whpr(uplo,n,alpha,x,incx,ap)
+     pure subroutine stdlib_whpr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2460,7 +2460,7 @@ module stdlib_linalg_blas_w
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_whpr2(uplo,n,alpha,x,incx,y,incy,ap)
+     pure subroutine stdlib_whpr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2615,27 +2615,18 @@ module stdlib_linalg_blas_w
      ! sign of c and s will be different from those computed by DROTG
      ! if the signs of a and b are not the same.
 
-     subroutine stdlib_wrotg(a,b,c,s)
-        integer,parameter :: wp = kind(1._qp)
+     pure subroutine stdlib_wrotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        real(qp),parameter :: zero = 0.0_qp
-        real(qp),parameter :: one = 1.0_qp
-        complex(qp),parameter :: czero = 0.0_qp
+        integer,parameter :: wp = kind(1._qp)
         ! .. scaling constants ..
-     real(qp),parameter :: safmin = real(radix(0._qp),wp)**max(minexponent(0._qp) - 1,1 - &
-               maxexponent(0._qp))
-     real(qp),parameter :: safmax = real(radix(0._qp),wp)**max(1 - minexponent(0._qp),maxexponent( &
-               0._qp) - 1)
-     real(qp),parameter :: rtmin = sqrt(real(radix(0._qp),wp)**max(minexponent(0._qp) - 1,1 - &
-               maxexponent(0._qp))/epsilon(0._qp))
-     real(qp),parameter :: rtmax = sqrt(real(radix(0._qp),wp)**max(1 - minexponent(0._qp), &
-               maxexponent(0._qp) - 1)*epsilon(0._qp))
         ! .. scalar arguments ..
-        real(qp) :: c
-        complex(qp) :: a,b,s
+        real(qp),intent(out) :: c
+        complex(qp),intent(inout) :: a
+        complex(qp),intent(in) :: b
+        complex(qp),intent(out) :: s
         ! .. local scalars ..
         real(qp) :: d,f1,f2,g1,g2,h2,p,u,uu,v,vv,w
         complex(qp) :: f,fs,g,gs,r,t
@@ -2727,7 +2718,7 @@ module stdlib_linalg_blas_w
 
      ! WSCAL scales a vector by a constant.
 
-     subroutine stdlib_wscal(n,za,zx,incx)
+     pure subroutine stdlib_wscal(n,za,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2757,7 +2748,7 @@ module stdlib_linalg_blas_w
 
      ! WSWAP interchanges two vectors.
 
-     subroutine stdlib_wswap(n,zx,incx,zy,incy)
+     pure subroutine stdlib_wswap(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2802,7 +2793,7 @@ module stdlib_linalg_blas_w
      ! where  alpha and beta are scalars, A is a symmetric matrix and  B and
      ! C are m by n matrices.
 
-     subroutine stdlib_wsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_wsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2950,7 +2941,7 @@ module stdlib_linalg_blas_w
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
 
-     subroutine stdlib_wsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_wsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3125,7 +3116,7 @@ module stdlib_linalg_blas_w
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
 
-     subroutine stdlib_wsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine stdlib_wsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3289,7 +3280,7 @@ module stdlib_linalg_blas_w
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
-     subroutine stdlib_wtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_wtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3506,7 +3497,7 @@ module stdlib_linalg_blas_w
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_wtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_wtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3720,7 +3711,7 @@ module stdlib_linalg_blas_w
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
 
-     subroutine stdlib_wtpmv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_wtpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3939,7 +3930,7 @@ module stdlib_linalg_blas_w
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_wtpsv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_wtpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4157,7 +4148,7 @@ module stdlib_linalg_blas_w
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
 
-     subroutine stdlib_wtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_wtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4397,7 +4388,7 @@ module stdlib_linalg_blas_w
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
 
-     subroutine stdlib_wtrmv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_wtrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4596,7 +4587,7 @@ module stdlib_linalg_blas_w
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
      ! The matrix X is overwritten on B.
 
-     subroutine stdlib_wtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_wtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4860,7 +4851,7 @@ module stdlib_linalg_blas_w
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_wtrsv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_wtrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--

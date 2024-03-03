@@ -115,7 +115,7 @@ module stdlib_linalg_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_sdeterminant
 
@@ -207,7 +207,7 @@ module stdlib_linalg_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_ddeterminant
 
@@ -299,7 +299,7 @@ module stdlib_linalg_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_qdeterminant
 
@@ -391,7 +391,7 @@ module stdlib_linalg_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_cdeterminant
 
@@ -483,7 +483,7 @@ module stdlib_linalg_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_zdeterminant
 
@@ -575,7 +575,7 @@ module stdlib_linalg_determinant
          end select
 
          ! Process output and return
-1        call linalg_error_handling(err0,err)
+1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_wdeterminant
 

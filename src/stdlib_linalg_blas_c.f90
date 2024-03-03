@@ -83,7 +83,7 @@ module stdlib_linalg_blas_c
 
      ! CAXPY constant times a vector plus a vector.
 
-     subroutine stdlib_caxpy(n,ca,cx,incx,cy,incy)
+     pure subroutine stdlib_caxpy(n,ca,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -121,7 +121,7 @@ module stdlib_linalg_blas_c
 
      ! CCOPY copies a vector x to a vector y.
 
-     subroutine stdlib_ccopy(n,cx,incx,cy,incy)
+     pure subroutine stdlib_ccopy(n,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -158,7 +158,7 @@ module stdlib_linalg_blas_c
      ! CDOTC forms the dot product of two complex vectors
      ! CDOTC = X^H * Y
 
-     complex(sp) function stdlib_cdotc(n,cx,incx,cy,incy)
+     pure complex(sp) function stdlib_cdotc(n,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -200,7 +200,7 @@ module stdlib_linalg_blas_c
      ! CDOTU forms the dot product of two complex vectors
      ! CDOTU = X^T * Y
 
-     complex(sp) function stdlib_cdotu(n,cx,incx,cy,incy)
+     pure complex(sp) function stdlib_cdotu(n,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -243,7 +243,7 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
-     subroutine stdlib_cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_cgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -415,7 +415,7 @@ module stdlib_linalg_blas_c
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
-     subroutine stdlib_cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_cgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -662,7 +662,7 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
 
-     subroutine stdlib_cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_cgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -821,7 +821,7 @@ module stdlib_linalg_blas_c
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_cgerc(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_cgerc(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -900,7 +900,7 @@ module stdlib_linalg_blas_c
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_cgeru(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_cgeru(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -979,7 +979,7 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian band matrix, with k super-diagonals.
 
-     subroutine stdlib_chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_chbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1143,7 +1143,7 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, A is an hermitian matrix and  B and
      ! C are m by n matrices.
 
-     subroutine stdlib_chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_chemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1290,7 +1290,7 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix.
 
-     subroutine stdlib_chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_chemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1442,7 +1442,7 @@ module stdlib_linalg_blas_c
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix.
 
-     subroutine stdlib_cher(uplo,n,alpha,x,incx,a,lda)
+     pure subroutine stdlib_cher(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1557,7 +1557,7 @@ module stdlib_linalg_blas_c
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n hermitian matrix.
 
-     subroutine stdlib_cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_cher2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1699,7 +1699,7 @@ module stdlib_linalg_blas_c
      ! hermitian matrix and  A and B  are  n by k matrices in the first case
      ! and  k by n  matrices in the second case.
 
-     subroutine stdlib_cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_cher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1907,7 +1907,7 @@ module stdlib_linalg_blas_c
      ! matrix and  A  is an  n by k  matrix in the  first case and a  k by n
      ! matrix in the second case.
 
-     subroutine stdlib_cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine stdlib_cherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2100,7 +2100,7 @@ module stdlib_linalg_blas_c
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     pure subroutine stdlib_chpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2258,7 +2258,7 @@ module stdlib_linalg_blas_c
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_chpr(uplo,n,alpha,x,incx,ap)
+     pure subroutine stdlib_chpr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2380,7 +2380,7 @@ module stdlib_linalg_blas_c
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n hermitian matrix, supplied in packed form.
 
-     subroutine stdlib_chpr2(uplo,n,alpha,x,incx,y,incy,ap)
+     pure subroutine stdlib_chpr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2535,27 +2535,18 @@ module stdlib_linalg_blas_c
      ! sign of c and s will be different from those computed by SROTG
      ! if the signs of a and b are not the same.
 
-     subroutine stdlib_crotg(a,b,c,s)
-        integer,parameter :: wp = kind(1._sp)
+     pure subroutine stdlib_crotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        real(sp),parameter :: zero = 0.0_sp
-        real(sp),parameter :: one = 1.0_sp
-        complex(sp),parameter :: czero = 0.0_sp
+        integer,parameter :: wp = kind(1._sp)
         ! .. scaling constants ..
-     real(sp),parameter :: safmin = real(radix(0._sp),wp)**max(minexponent(0._sp) - 1,1 - &
-               maxexponent(0._sp))
-     real(sp),parameter :: safmax = real(radix(0._sp),wp)**max(1 - minexponent(0._sp),maxexponent( &
-               0._sp) - 1)
-     real(sp),parameter :: rtmin = sqrt(real(radix(0._sp),wp)**max(minexponent(0._sp) - 1,1 - &
-               maxexponent(0._sp))/epsilon(0._sp))
-     real(sp),parameter :: rtmax = sqrt(real(radix(0._sp),wp)**max(1 - minexponent(0._sp), &
-               maxexponent(0._sp) - 1)*epsilon(0._sp))
         ! .. scalar arguments ..
-        real(sp) :: c
-        complex(sp) :: a,b,s
+        real(sp),intent(out) :: c
+        complex(sp),intent(inout) :: a
+        complex(sp),intent(in) :: b
+        complex(sp),intent(out) :: s
         ! .. local scalars ..
         real(sp) :: d,f1,f2,g1,g2,h2,p,u,uu,v,vv,w
         complex(sp) :: f,fs,g,gs,r,t
@@ -2647,7 +2638,7 @@ module stdlib_linalg_blas_c
 
      ! CSCAL scales a vector by a constant.
 
-     subroutine stdlib_cscal(n,ca,cx,incx)
+     pure subroutine stdlib_cscal(n,ca,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2679,7 +2670,7 @@ module stdlib_linalg_blas_c
      ! and the vectors cx and cy are complex.
      ! jack dongarra, linpack, 3/11/78.
 
-     subroutine stdlib_csrot(n,cx,incx,cy,incy,c,s)
+     pure subroutine stdlib_csrot(n,cx,incx,cy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2721,7 +2712,7 @@ module stdlib_linalg_blas_c
 
      ! CSSCAL scales a complex vector by a real constant.
 
-     subroutine stdlib_csscal(n,sa,cx,incx)
+     pure subroutine stdlib_csscal(n,sa,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2753,7 +2744,7 @@ module stdlib_linalg_blas_c
 
      ! CSWAP interchanges two vectors.
 
-     subroutine stdlib_cswap(n,cx,incx,cy,incy)
+     pure subroutine stdlib_cswap(n,cx,incx,cy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2798,7 +2789,7 @@ module stdlib_linalg_blas_c
      ! where  alpha and beta are scalars, A is a symmetric matrix and  B and
      ! C are m by n matrices.
 
-     subroutine stdlib_csymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_csymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2946,7 +2937,7 @@ module stdlib_linalg_blas_c
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
 
-     subroutine stdlib_csyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_csyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3121,7 +3112,7 @@ module stdlib_linalg_blas_c
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
 
-     subroutine stdlib_csyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine stdlib_csyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3285,7 +3276,7 @@ module stdlib_linalg_blas_c
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
-     subroutine stdlib_ctbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_ctbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3502,7 +3493,7 @@ module stdlib_linalg_blas_c
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_ctbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_ctbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3716,7 +3707,7 @@ module stdlib_linalg_blas_c
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
 
-     subroutine stdlib_ctpmv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_ctpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3935,7 +3926,7 @@ module stdlib_linalg_blas_c
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_ctpsv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_ctpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4153,7 +4144,7 @@ module stdlib_linalg_blas_c
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
 
-     subroutine stdlib_ctrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_ctrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4393,7 +4384,7 @@ module stdlib_linalg_blas_c
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
 
-     subroutine stdlib_ctrmv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_ctrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4592,7 +4583,7 @@ module stdlib_linalg_blas_c
      ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
      ! The matrix X is overwritten on B.
 
-     subroutine stdlib_ctrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_ctrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4856,7 +4847,7 @@ module stdlib_linalg_blas_c
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_ctrsv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_ctrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--

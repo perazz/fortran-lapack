@@ -84,7 +84,7 @@ module stdlib_linalg_blas_s
      ! SASUM takes the sum of the absolute values.
      ! uses unrolled loops for increment equal to one.
 
-     real(sp) function stdlib_sasum(n,sx,incx)
+     pure real(sp) function stdlib_sasum(n,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -133,7 +133,7 @@ module stdlib_linalg_blas_s
      ! SAXPY constant times a vector plus a vector.
      ! uses unrolled loops for increments equal to one.
 
-     subroutine stdlib_saxpy(n,sa,sx,incx,sy,incy)
+     pure subroutine stdlib_saxpy(n,sa,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -186,7 +186,7 @@ module stdlib_linalg_blas_s
      ! SCASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
      ! returns a single precision result.
 
-     real(sp) function stdlib_scasum(n,cx,incx)
+     pure real(sp) function stdlib_scasum(n,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -224,30 +224,20 @@ module stdlib_linalg_blas_s
      ! name, so that
      ! SCNRM2 := sqrt( x**H*x )
 
-     function stdlib_scnrm2(n,x,incx)
-        integer,parameter :: wp = kind(1._sp)
+     pure function stdlib_scnrm2(n,x,incx)
         real(sp) :: stdlib_scnrm2
         ! -- reference blas level1 routine (version 3.9.1_sp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        real(sp),parameter :: zero = 0.0_sp
-        real(sp),parameter :: one = 1.0_sp
+        integer,parameter :: wp = kind(1._sp)
         real(sp),parameter :: maxn = huge(0.0_sp)
         ! .. blue's scaling constants ..
-     real(sp),parameter :: tsml = real(radix(0._sp),wp)**ceiling((minexponent(0._sp) - 1) &
-                *0.5_sp)
-     real(sp),parameter :: tbig = real(radix(0._sp),wp)**floor((maxexponent(0._sp) - &
-               digits(0._sp) + 1)*0.5_sp)
-     real(sp),parameter :: ssml = real(radix(0._sp),wp)**(-floor((minexponent(0._sp) - &
-               digits(0._sp))*0.5_sp))
-     real(sp),parameter :: sbig = real(radix(0._sp),wp)**(-ceiling((maxexponent(0._sp) &
-               + digits(0._sp) - 1)*0.5_sp))
         ! .. scalar arguments ..
-     integer(ilp) :: incx,n
+     integer(ilp),intent(in) :: incx,n
         ! .. array arguments ..
-        complex(sp) :: x(*)
+        complex(sp),intent(in) :: x(*)
         ! .. local scalars ..
      integer(ilp) :: i,ix
      logical(lk) :: notbig
@@ -330,7 +320,7 @@ module stdlib_linalg_blas_s
      ! SCOPY copies a vector, x, to a vector, y.
      ! uses unrolled loops for increments equal to 1.
 
-     subroutine stdlib_scopy(n,sx,incx,sy,incy)
+     pure subroutine stdlib_scopy(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -384,7 +374,7 @@ module stdlib_linalg_blas_s
      ! SDOT forms the dot product of two vectors.
      ! uses unrolled loops for increments equal to one.
 
-     real(sp) function stdlib_sdot(n,sx,incx,sy,incy)
+     pure real(sp) function stdlib_sdot(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -443,7 +433,7 @@ module stdlib_linalg_blas_s
      ! where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
      ! defined in a similar way using INCY.
 
-     real(sp) function stdlib_sdsdot(n,sb,sx,incx,sy,incy)
+     pure real(sp) function stdlib_sdsdot(n,sb,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -489,7 +479,7 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
-     subroutine stdlib_sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -646,7 +636,7 @@ module stdlib_linalg_blas_s
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
-     subroutine stdlib_sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -807,7 +797,7 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
 
-     subroutine stdlib_sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -951,7 +941,7 @@ module stdlib_linalg_blas_s
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_sger(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_sger(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1030,30 +1020,20 @@ module stdlib_linalg_blas_s
      ! name, so that
      ! SNRM2 := sqrt( x'*x ).
 
-     function stdlib_snrm2(n,x,incx)
-        integer,parameter :: wp = kind(1._sp)
+     pure function stdlib_snrm2(n,x,incx)
         real(sp) :: stdlib_snrm2
         ! -- reference blas level1 routine (version 3.9.1_sp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        real(sp),parameter :: zero = 0.0_sp
-        real(sp),parameter :: one = 1.0_sp
+        integer,parameter :: wp = kind(1._sp)
         real(sp),parameter :: maxn = huge(0.0_sp)
         ! .. blue's scaling constants ..
-     real(sp),parameter :: tsml = real(radix(0._sp),wp)**ceiling((minexponent(0._sp) - 1) &
-                *0.5_sp)
-     real(sp),parameter :: tbig = real(radix(0._sp),wp)**floor((maxexponent(0._sp) - &
-               digits(0._sp) + 1)*0.5_sp)
-     real(sp),parameter :: ssml = real(radix(0._sp),wp)**(-floor((minexponent(0._sp) - &
-               digits(0._sp))*0.5_sp))
-     real(sp),parameter :: sbig = real(radix(0._sp),wp)**(-ceiling((maxexponent(0._sp) &
-               + digits(0._sp) - 1)*0.5_sp))
         ! .. scalar arguments ..
-     integer(ilp) :: incx,n
+     integer(ilp),intent(in) :: incx,n
         ! .. array arguments ..
-        real(sp) :: x(*)
+        real(sp),intent(in) :: x(*)
         ! .. local scalars ..
      integer(ilp) :: i,ix
      logical(lk) :: notbig
@@ -1126,7 +1106,7 @@ module stdlib_linalg_blas_s
 
      ! applies a plane rotation.
 
-     subroutine stdlib_srot(n,sx,incx,sy,incy,c,s)
+     pure subroutine stdlib_srot(n,sx,incx,sy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1181,21 +1161,16 @@ module stdlib_linalg_blas_s
      ! If |z| < 1, set c = sqrt(1 - z**2) and s = z.
      ! If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
 
-     subroutine stdlib_srotg(a,b,c,s)
-        integer,parameter :: wp = kind(1._sp)
+     pure subroutine stdlib_srotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        real(sp),parameter :: zero = 0.0_sp
-        real(sp),parameter :: one = 1.0_sp
+        integer,parameter :: wp = kind(1._sp)
         ! .. scaling constants ..
-     real(sp),parameter :: safmin = real(radix(0._sp),wp)**max(minexponent(0._sp) - 1,1 - &
-               maxexponent(0._sp))
-     real(sp),parameter :: safmax = real(radix(0._sp),wp)**max(1 - minexponent(0._sp),maxexponent( &
-               0._sp) - 1)
         ! .. scalar arguments ..
-        real(sp) :: a,b,c,s
+        real(sp),intent(inout) :: a,b
+        real(sp),intent(out) :: c,s
         ! .. local scalars ..
         real(sp) :: anorm,bnorm,scl,sigma,r,z
         anorm = abs(a)
@@ -1244,7 +1219,7 @@ module stdlib_linalg_blas_s
      ! (SH21  SH22),   (SH21  1._sp),   (-1._sp SH22),   (0._sp  1._sp).
      ! SEE  SROTMG FOR A DESCRIPTION OF DATA STORAGE IN SPARAM.
 
-     subroutine stdlib_srotm(n,sx,incx,sy,incy,sparam)
+     pure subroutine stdlib_srotm(n,sx,incx,sy,incy,sparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1258,7 +1233,8 @@ module stdlib_linalg_blas_s
            real(sp) :: sflag,sh11,sh12,sh21,sh22,two,w,z,zero
            integer(ilp) :: i,kx,ky,nsteps
            ! .. data statements ..
-           data zero,two/0._sp,2._sp/
+           zero = 0.0_sp
+           two = 2.0_sp
            sflag = sparam(1)
            if (n <= 0 .or. (sflag + two == zero)) return
            if (incx == incy .and. incx > 0) then
@@ -1352,7 +1328,7 @@ module stdlib_linalg_blas_s
      ! INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
      ! OF SD1 AND SD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
 
-     subroutine stdlib_srotmg(sd1,sd2,sx1,sy1,sparam)
+     pure subroutine stdlib_srotmg(sd1,sd2,sx1,sy1,sparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1368,8 +1344,12 @@ module stdlib_linalg_blas_s
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. data statements ..
-           data zero,one,two/0._sp,1._sp,2._sp/
-           data gam,gamsq,rgamsq/4096._sp,1.67772e7_sp,5.96046e-8_sp/
+           zero = 0.0_sp
+           one = 1.0_sp
+           two = 2.0_sp
+           gam = 4096.0_sp
+           gamsq = 1.67772e7_sp
+           rgamsq = 5.96046e-8_sp
            if (sd1 < zero) then
               ! go zero-h-d-and-sx1..
               sflag = -one
@@ -1505,7 +1485,7 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric band matrix, with k super-diagonals.
 
-     subroutine stdlib_ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1665,7 +1645,7 @@ module stdlib_linalg_blas_s
      ! SSCAL scales a vector by a constant.
      ! uses unrolled loops for increment equal to 1.
 
-     subroutine stdlib_sscal(n,sa,sx,incx)
+     pure subroutine stdlib_sscal(n,sa,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1713,7 +1693,7 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     pure subroutine stdlib_sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1869,7 +1849,7 @@ module stdlib_linalg_blas_s
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_sspr(uplo,n,alpha,x,incx,ap)
+     pure subroutine stdlib_sspr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1976,7 +1956,7 @@ module stdlib_linalg_blas_s
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_sspr2(uplo,n,alpha,x,incx,y,incy,ap)
+     pure subroutine stdlib_sspr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2101,7 +2081,7 @@ module stdlib_linalg_blas_s
      ! SSWAP interchanges two vectors.
      ! uses unrolled loops for increments equal to 1.
 
-     subroutine stdlib_sswap(n,sx,incx,sy,incy)
+     pure subroutine stdlib_sswap(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2165,7 +2145,7 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars,  A is a symmetric matrix and  B and
      ! C are  m by n matrices.
 
-     subroutine stdlib_ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2310,7 +2290,7 @@ module stdlib_linalg_blas_s
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix.
 
-     subroutine stdlib_ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2462,7 +2442,7 @@ module stdlib_linalg_blas_s
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix.
 
-     subroutine stdlib_ssyr(uplo,n,alpha,x,incx,a,lda)
+     pure subroutine stdlib_ssyr(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2565,7 +2545,7 @@ module stdlib_linalg_blas_s
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n symmetric matrix.
 
-     subroutine stdlib_ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2691,7 +2671,7 @@ module stdlib_linalg_blas_s
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
 
-     subroutine stdlib_ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2866,7 +2846,7 @@ module stdlib_linalg_blas_s
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
 
-     subroutine stdlib_ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine stdlib_ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3030,7 +3010,7 @@ module stdlib_linalg_blas_s
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
-     subroutine stdlib_stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3216,7 +3196,7 @@ module stdlib_linalg_blas_s
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3399,7 +3379,7 @@ module stdlib_linalg_blas_s
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
 
-     subroutine stdlib_stpmv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_stpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3583,7 +3563,7 @@ module stdlib_linalg_blas_s
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_stpsv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_stpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3766,7 +3746,7 @@ module stdlib_linalg_blas_s
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T.
 
-     subroutine stdlib_strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3971,7 +3951,7 @@ module stdlib_linalg_blas_s
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
 
-     subroutine stdlib_strmv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_strmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4139,7 +4119,7 @@ module stdlib_linalg_blas_s
      ! op( A ) = A   or   op( A ) = A**T.
      ! The matrix X is overwritten on B.
 
-     subroutine stdlib_strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4370,7 +4350,7 @@ module stdlib_linalg_blas_s
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_strsv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_strsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--

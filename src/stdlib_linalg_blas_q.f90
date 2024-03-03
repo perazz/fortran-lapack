@@ -87,7 +87,7 @@ module stdlib_linalg_blas_q
 
      ! QASUM takes the sum of the absolute values.
 
-     real(qp) function stdlib_qasum(n,dx,incx)
+     pure real(qp) function stdlib_qasum(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -136,7 +136,7 @@ module stdlib_linalg_blas_q
      ! QAXPY constant times a vector plus a vector.
      ! uses unrolled loops for increments equal to one.
 
-     subroutine stdlib_qaxpy(n,da,dx,incx,dy,incy)
+     pure subroutine stdlib_qaxpy(n,da,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -189,7 +189,7 @@ module stdlib_linalg_blas_q
      ! QCOPY copies a vector, x, to a vector, y.
      ! uses unrolled loops for increments equal to 1.
 
-     subroutine stdlib_qcopy(n,dx,incx,dy,incy)
+     pure subroutine stdlib_qcopy(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -243,7 +243,7 @@ module stdlib_linalg_blas_q
      ! QDOT forms the dot product of two vectors.
      ! uses unrolled loops for increments equal to one.
 
-     real(qp) function stdlib_qdot(n,dx,incx,dy,incy)
+     pure real(qp) function stdlib_qdot(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -300,7 +300,7 @@ module stdlib_linalg_blas_q
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
-     subroutine stdlib_qgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_qgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -457,7 +457,7 @@ module stdlib_linalg_blas_q
      ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
      ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
-     subroutine stdlib_qgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_qgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -618,7 +618,7 @@ module stdlib_linalg_blas_q
      ! where alpha and beta are scalars, x and y are vectors and A is an
      ! m by n matrix.
 
-     subroutine stdlib_qgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_qgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -762,7 +762,7 @@ module stdlib_linalg_blas_q
      ! where alpha is a scalar, x is an m element vector, y is an n element
      ! vector and A is an m by n matrix.
 
-     subroutine stdlib_qger(m,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_qger(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -841,30 +841,20 @@ module stdlib_linalg_blas_q
      ! name, so that
      ! QNRM2 := sqrt( x'*x )
 
-     function stdlib_qnrm2(n,x,incx)
-        integer,parameter :: wp = kind(1._qp)
+     pure function stdlib_qnrm2(n,x,incx)
         real(qp) :: stdlib_qnrm2
         ! -- reference blas level1 routine (version 3.9.1_qp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        real(qp),parameter :: zero = 0.0_qp
-        real(qp),parameter :: one = 1.0_qp
+        integer,parameter :: wp = kind(1._qp)
         real(qp),parameter :: maxn = huge(0.0_qp)
         ! .. blue's scaling constants ..
-     real(qp),parameter :: tsml = real(radix(0._qp),wp)**ceiling((minexponent(0._qp) - 1) &
-                *0.5_qp)
-     real(qp),parameter :: tbig = real(radix(0._qp),wp)**floor((maxexponent(0._qp) - &
-               digits(0._qp) + 1)*0.5_qp)
-     real(qp),parameter :: ssml = real(radix(0._qp),wp)**(-floor((minexponent(0._qp) - &
-               digits(0._qp))*0.5_qp))
-     real(qp),parameter :: sbig = real(radix(0._qp),wp)**(-ceiling((maxexponent(0._qp) &
-               + digits(0._qp) - 1)*0.5_qp))
         ! .. scalar arguments ..
-     integer(ilp) :: incx,n
+     integer(ilp),intent(in) :: incx,n
         ! .. array arguments ..
-        real(qp) :: x(*)
+        real(qp),intent(in) :: x(*)
         ! .. local scalars ..
      integer(ilp) :: i,ix
      logical(lk) :: notbig
@@ -937,7 +927,7 @@ module stdlib_linalg_blas_q
 
      ! QROT applies a plane rotation.
 
-     subroutine stdlib_qrot(n,dx,incx,dy,incy,c,s)
+     pure subroutine stdlib_qrot(n,dx,incx,dy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -992,21 +982,16 @@ module stdlib_linalg_blas_q
      ! If |z| < 1, set c = sqrt(1 - z**2) and s = z.
      ! If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
 
-     subroutine stdlib_qrotg(a,b,c,s)
-        integer,parameter :: wp = kind(1._qp)
+     pure subroutine stdlib_qrotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. constants ..
-        real(qp),parameter :: zero = 0.0_qp
-        real(qp),parameter :: one = 1.0_qp
+        integer,parameter :: wp = kind(1._qp)
         ! .. scaling constants ..
-     real(qp),parameter :: safmin = real(radix(0._qp),wp)**max(minexponent(0._qp) - 1,1 - &
-               maxexponent(0._qp))
-     real(qp),parameter :: safmax = real(radix(0._qp),wp)**max(1 - minexponent(0._qp),maxexponent( &
-               0._qp) - 1)
         ! .. scalar arguments ..
-        real(qp) :: a,b,c,s
+        real(qp),intent(inout) :: a,b
+        real(qp),intent(out) :: c,s
         ! .. local scalars ..
         real(qp) :: anorm,bnorm,scl,sigma,r,z
         anorm = abs(a)
@@ -1055,7 +1040,7 @@ module stdlib_linalg_blas_q
      ! (DH21  DH22),   (DH21  1._qp),   (-1._qp DH22),   (0._qp  1._qp).
      ! SEE DROTMG FOR A DESCRIPTION OF DATA STORAGE IN DPARAM.
 
-     subroutine stdlib_qrotm(n,dx,incx,dy,incy,dparam)
+     pure subroutine stdlib_qrotm(n,dx,incx,dy,incy,dparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1069,7 +1054,8 @@ module stdlib_linalg_blas_q
            real(qp) :: dflag,dh11,dh12,dh21,dh22,two,w,z,zero
            integer(ilp) :: i,kx,ky,nsteps
            ! .. data statements ..
-           data zero,two/0._qp,2._qp/
+           zero = 0.0_qp
+           two = 2.0_qp
            dflag = dparam(1)
            if (n <= 0 .or. (dflag + two == zero)) return
            if (incx == incy .and. incx > 0) then
@@ -1163,7 +1149,7 @@ module stdlib_linalg_blas_q
      ! INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
      ! OF DD1 AND DD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
 
-     subroutine stdlib_qrotmg(dd1,dd2,dx1,dy1,dparam)
+     pure subroutine stdlib_qrotmg(dd1,dd2,dx1,dy1,dparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1179,8 +1165,12 @@ module stdlib_linalg_blas_q
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. data statements ..
-           data zero,one,two/0._qp,1._qp,2._qp/
-           data gam,gamsq,rgamsq/4096._qp,16777216._qp,5.9604645e-8_qp/
+           zero = 0.0_qp
+           one = 1.0_qp
+           two = 2.0_qp
+           gam = 4096.0_qp
+           gamsq = 16777216.0_qp
+           rgamsq = 5.9604645e-8_qp
            if (dd1 < zero) then
               ! go zero-h-d-and-dx1..
               dflag = -one
@@ -1316,7 +1306,7 @@ module stdlib_linalg_blas_q
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric band matrix, with k super-diagonals.
 
-     subroutine stdlib_qsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_qsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1476,7 +1466,7 @@ module stdlib_linalg_blas_q
      ! QSCAL scales a vector by a constant.
      ! uses unrolled loops for increment equal to 1.
 
-     subroutine stdlib_qscal(n,da,dx,incx)
+     pure subroutine stdlib_qscal(n,da,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1526,7 +1516,7 @@ module stdlib_linalg_blas_q
      ! where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
      ! defined in a similar way using INCY.
 
-     real(qp) function stdlib_qsdot(n,sx,incx,sy,incy)
+     pure real(qp) function stdlib_qsdot(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1571,7 +1561,7 @@ module stdlib_linalg_blas_q
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_qspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     pure subroutine stdlib_qspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1727,7 +1717,7 @@ module stdlib_linalg_blas_q
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_qspr(uplo,n,alpha,x,incx,ap)
+     pure subroutine stdlib_qspr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1834,7 +1824,7 @@ module stdlib_linalg_blas_q
      ! where alpha is a scalar, x and y are n element vectors and A is an
      ! n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_qspr2(uplo,n,alpha,x,incx,y,incy,ap)
+     pure subroutine stdlib_qspr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1959,7 +1949,7 @@ module stdlib_linalg_blas_q
      ! QSWAP interchanges two vectors.
      ! uses unrolled loops for increments equal to 1.
 
-     subroutine stdlib_qswap(n,dx,incx,dy,incy)
+     pure subroutine stdlib_qswap(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2023,7 +2013,7 @@ module stdlib_linalg_blas_q
      ! where alpha and beta are scalars,  A is a symmetric matrix and  B and
      ! C are  m by n matrices.
 
-     subroutine stdlib_qsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_qsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2168,7 +2158,7 @@ module stdlib_linalg_blas_q
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix.
 
-     subroutine stdlib_qsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_qsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2320,7 +2310,7 @@ module stdlib_linalg_blas_q
      ! where alpha is a real scalar, x is an n element vector and A is an
      ! n by n symmetric matrix.
 
-     subroutine stdlib_qsyr(uplo,n,alpha,x,incx,a,lda)
+     pure subroutine stdlib_qsyr(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2423,7 +2413,7 @@ module stdlib_linalg_blas_q
      ! where alpha is a scalar, x and y are n element vectors and A is an n
      ! by n symmetric matrix.
 
-     subroutine stdlib_qsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
+     pure subroutine stdlib_qsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2549,7 +2539,7 @@ module stdlib_linalg_blas_q
      ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
      ! matrices in the second case.
 
-     subroutine stdlib_qsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
+     pure subroutine stdlib_qsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2724,7 +2714,7 @@ module stdlib_linalg_blas_q
      ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
      ! in the second case.
 
-     subroutine stdlib_qsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
+     pure subroutine stdlib_qsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2888,7 +2878,7 @@ module stdlib_linalg_blas_q
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
-     subroutine stdlib_qtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_qtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3074,7 +3064,7 @@ module stdlib_linalg_blas_q
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_qtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
+     pure subroutine stdlib_qtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3257,7 +3247,7 @@ module stdlib_linalg_blas_q
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix, supplied in packed form.
 
-     subroutine stdlib_qtpmv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_qtpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3441,7 +3431,7 @@ module stdlib_linalg_blas_q
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_qtpsv(uplo,trans,diag,n,ap,x,incx)
+     pure subroutine stdlib_qtpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3624,7 +3614,7 @@ module stdlib_linalg_blas_q
      ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
      ! op( A ) = A   or   op( A ) = A**T.
 
-     subroutine stdlib_qtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_qtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3829,7 +3819,7 @@ module stdlib_linalg_blas_q
      ! where x is an n element vector and  A is an n by n unit, or non-unit,
      ! upper or lower triangular matrix.
 
-     subroutine stdlib_qtrmv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_qtrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3997,7 +3987,7 @@ module stdlib_linalg_blas_q
      ! op( A ) = A   or   op( A ) = A**T.
      ! The matrix X is overwritten on B.
 
-     subroutine stdlib_qtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
+     pure subroutine stdlib_qtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4228,7 +4218,7 @@ module stdlib_linalg_blas_q
      ! No test for singularity or near-singularity is included in this
      ! routine. Such tests must be performed before calling this routine.
 
-     subroutine stdlib_qtrsv(uplo,trans,diag,n,a,lda,x,incx)
+     pure subroutine stdlib_qtrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4392,7 +4382,7 @@ module stdlib_linalg_blas_q
      ! QZASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
      ! returns a quad precision result.
 
-     real(qp) function stdlib_qzasum(n,zx,incx)
+     pure real(qp) function stdlib_qzasum(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4428,30 +4418,20 @@ module stdlib_linalg_blas_q
      ! name, so that
      ! QZNRM2 := sqrt( x**H*x )
 
-     function stdlib_qznrm2(n,x,incx)
-        integer,parameter :: wp = kind(1._qp)
+     pure function stdlib_qznrm2(n,x,incx)
         real(qp) :: stdlib_qznrm2
         ! -- reference blas level1 routine (version 3.9.1_qp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
         ! .. constants ..
-        real(qp),parameter :: zero = 0.0_qp
-        real(qp),parameter :: one = 1.0_qp
+        integer,parameter :: wp = kind(1._qp)
         real(qp),parameter :: maxn = huge(0.0_qp)
         ! .. blue's scaling constants ..
-     real(qp),parameter :: tsml = real(radix(0._qp),wp)**ceiling((minexponent(0._qp) - 1) &
-                *0.5_qp)
-     real(qp),parameter :: tbig = real(radix(0._qp),wp)**floor((maxexponent(0._qp) - &
-               digits(0._qp) + 1)*0.5_qp)
-     real(qp),parameter :: ssml = real(radix(0._qp),wp)**(-floor((minexponent(0._qp) - &
-               digits(0._qp))*0.5_qp))
-     real(qp),parameter :: sbig = real(radix(0._qp),wp)**(-ceiling((maxexponent(0._qp) &
-               + digits(0._qp) - 1)*0.5_qp))
         ! .. scalar arguments ..
-     integer(ilp) :: incx,n
+     integer(ilp),intent(in) :: incx,n
         ! .. array arguments ..
-        complex(qp) :: x(*)
+        complex(qp),intent(in) :: x(*)
         ! .. local scalars ..
      integer(ilp) :: i,ix
      logical(lk) :: notbig
