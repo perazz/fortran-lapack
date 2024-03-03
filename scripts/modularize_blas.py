@@ -194,7 +194,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         for k in range(len(old_names)):
             print(module_name+"_"+initials[m]+": function "+old_names[k])
 
-        print_function_tree(fortran_functions,old_names,fid,INDENT,MAX_LINE_LENGTH,initials[m])
+        print_function_tree(fortran_functions,old_names,ext_functions,fid,INDENT,MAX_LINE_LENGTH,initials[m])
 
         # Close module
         fid.write("\n\n\nend module {}\n".format(this_module))
@@ -204,7 +204,7 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
     if split_by_initial: write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix)
 
     # Return list of all functions defined in this module, including the external ones
-    return old_names
+    return fortran_functions
 
 # Write interface module wrapping the whole library
 def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix):
@@ -731,17 +731,55 @@ def print_module_constants(fid,prefix,INDENT):
 
     return const_names,const_types,rk
 
-# Print function tree in a dependency-suitable way
-def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
+# Check if a function has non-pure dependencies
+def has_nonpure_deps(function,functions=None):
 
-    ext_funs = fun_names[len(functions):]
+    DEBUG = False # function.old_name=='strsyl'
+
+    np_deps = False
+
+    # This function is itself non-pure
+    if DEBUG: print("function "+function.old_name+"is pure: "+str(function.is_pure()))
+    if not function.is_pure(): return True
+
+    # No list of functions
+    if functions is None: return np_deps
+
+    # Number of functions in the current module
+    nlocal = len(functions)
+
+    for i in range(len(function.ideps)):
+        dep  = function.deps[i]
+
+        idep = function.ideps[i]
+
+        if DEBUG: print("function "+function.old_name+"has dep "+functions[idep].old_name)
+
+        # External function, assume pure (cannot guess)
+        if idep<nlocal:
+           np_deps = not functions[idep].is_pure()
+           if np_deps:
+               return True
+           np_deps = has_nonpure_deps(functions[idep],functions)
+           if DEBUG: print("function dep "+functions[idep].old_name+" has nonpure deps "+str(np_deps))
+           if np_deps:
+               return True
+
+    return has_nonpure_deps
+
+# Print function tree in a dependency-suitable way
+def print_function_tree(functions,fun_names,ext_funs,fid,INDENT,MAX_LINE_LENGTH,initial):
+
+    ext_fun_names = fun_names[len(functions):]
+
+    # Full list of names, including external functions
 
     # Cleanup first. Mark all functions that will go into another module as "printed",
     # so they won't be checked as dependencies
     for i in range(len(functions)):
         functions[i].ideps   = []
-        if ext_funs is not None:
-           functions[i].printed = functions[i].old_name in ext_funs
+        if ext_fun_names is not None:
+           functions[i].printed = functions[i].old_name in ext_fun_names
         else:
            functions[i].printed = False
 
@@ -757,6 +795,10 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
            else:
                print('initial = '+initial)
                print("warning! dependency "+thisdep+" in function "+functions[i].old_name+" is not in list. ")
+
+
+    # Check pure/nonpure functions based on the dependency tree
+    set_pure_functions(functions,fun_names,ext_funs)
 
     attempt = 0
     MAXIT   = 50*len(functions)
@@ -797,6 +839,34 @@ def print_function_tree(functions,fun_names,fid,INDENT,MAX_LINE_LENGTH,initial):
     if not_printed>0:
         print("***ERROR*** there are non printed functions")
         exit(1)
+
+# Given a list of functions, set the pure ones
+def set_pure_functions(functions,fun_names,ext_funs):
+
+   is_pure = [False for i in range(len(functions))]
+
+   # First of all, see if the function has a PURE interface/body
+   for i in range(len(functions)):
+       is_pure[i] = functions[i].is_pure()
+
+   # Second, look up for non-pure dependencies
+   old_pure = -99999
+   new_pure = is_pure.count(True)
+
+   while new_pure!=old_pure:
+       # Update the first-level dependencies
+       for i in range(len(functions)):
+           for j in range(len(functions[i].ideps)):
+              if not is_pure[j]:
+                  is_pure[i] = False
+                  break
+
+       old_pure = new_pure
+       new_pure = is_pure.count(True)
+
+   # Add PURE classifiers to all pure functions
+   for i in range(len(functions)):
+       if is_pure[i]: functions[i].add_classifiers()
 
 # Check if line is directive
 def is_directive_line(line):
@@ -1163,10 +1233,12 @@ def write_with_continuation(line,fid,INDENT,MAX_LENGTH):
 # Extract list of arguments out of a subroutine/function header
 def extract_arguments(header_line,is_function):
 
-    DEBUG = False
 
     # Strip, lower
     head = header_line.lower().strip()
+
+    DEBUG = False # 'sisnan' in head
+
     if DEBUG: print("DECLARATION:: HEAD "+head)
 
     # extract arguments
@@ -1209,8 +1281,8 @@ def extract_arguments(header_line,is_function):
         for a in range(len(args)):
             args[a] = args[a].strip()
     else:
-        if isinstance(args, type([])): args = args[0]
-        args = args.strip()
+        # if isinstance(args, type([])): args = args[0]
+        args[0] = args[0].strip()
 
     return args
 
@@ -1231,6 +1303,8 @@ class Fortran_Source:
         self.ideps         = []
         self.decl          = []
         self.printed       = False
+        # Are there SAVE statements
+        self.save_stmt     = False
         self.pname = []
         self.ptype = []
         self.pvalue = []
@@ -1343,6 +1417,8 @@ class Fortran_Source:
             intent = "out"
         elif self.old_name.endswith('lassq') and arg_name=='scl':
             intent = "inout"
+        elif self.old_name.endswith('roundup_lwork') and arg_name=='lwork':
+            intent = "in"
         # Add to list if this is an argument
         elif self.is_argument(arg_name):
 
@@ -1419,31 +1495,42 @@ class Fortran_Source:
         return q
 
     # Add classifiers (pure, recursive, etc.)
-    def add_classifiers(self):
+    def add_classifiers(self,functions=None):
 
-        if self.is_pure():
+        DEBUG = False # self.old_name=='sisnan'
 
-            # print("Function "+self.old_name+" IS PURE ")
+        if DEBUG: print(" "+self.old_name+" is pure?   "+str(self.is_pure()))
+        if DEBUG: print(" "+self.old_name+" has_nonpure_deps?   "+str(has_nonpure_deps(self,functions)))
 
+        if not has_nonpure_deps(self,functions):
+            if DEBUG: print("Function "+self.old_name+" IS PURE ")
             for i in range(len(self.body)):
                 lsl = self.body[i].lower()
-                if self.is_function and 'function' in lsl:
-                    nspaces = len(lsl)-len(lsl.lstrip())
-                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
-                    return
-                elif 'subroutine' in lsl:
-                    nspaces = len(lsl)-len(lsl.lstrip())
-                    self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
-                    return
-
-
+                stripped = lsl.lstrip()
+                if not (stripped.startswith('!') or stripped.startswith('end')):
+                    if DEBUG: print(" function "+self.old_name+": search string header "+lsl)
+                    if self.is_function and ('function' in lsl) and (not 'pure' in lsl):
+                        nspaces = len(lsl)-len(stripped)
+                        self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+                        if DEBUG: (" header replaced: "+self.body[i])
+                        if DEBUG: exit(1)
+                        return
+                    elif ('subroutine' in lsl) and (not 'pure' in lsl):
+                        nspaces = len(lsl)-len(stripped)
+                        self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+                        if DEBUG: (" header replaced: "+self.body[i])
+                        if DEBUG: exit(1)
+                        return
 
     # Check if a procedure is pure
     def is_pure(self):
 
-        DEBUG = self.old_name=='ilaenv'
+        DEBUG = False # self.old_name=='sisnan'
 
-        io = 'stop' in self.body or 'write' in self.body;
+        io = 'stop' in self.body or \
+             'write' in self.body or \
+             self.save_stmt;
+
         if DEBUG: print(self.old_name+" is pure? io = "+str(bool(io)))
         if io:
             return False
@@ -1572,6 +1659,7 @@ class Fortran_Line:
         self.will_continue = False
         self.directive     = False
         self.data          = False
+        self.save_stmt     = False
 
 # From a list of variables, extract their individual names and array declarations (does not support
 # DIMENSION attribute)
@@ -1649,6 +1737,8 @@ def line_read_and_preprocess(line,is_free_form,file_name,old_name):
 
     is_data = bool(re.match(r'^\s*data', processed)) or bool(re.match(r'^\s*DATA',processed))
 
+    is_save = bool(re.match(r'^\s*save', processed)) or bool(re.match(r'^\s*SAVE',processed))
+
     will_continue = will_continue and not is_comment_line
 
     Line = Fortran_Line()
@@ -1659,6 +1749,7 @@ def line_read_and_preprocess(line,is_free_form,file_name,old_name):
     Line.will_continue = will_continue
     Line.directive = is_dir
     Line.data = is_data
+    Line.save_stmt = is_save
 
     return Line
 
@@ -1872,8 +1963,8 @@ def function_namelists(Sources,external_funs,prefix):
     if external_funs is not None:
         for ext in external_funs:
             #print("append external "+ext.lower())
-            old_names.append(ext.lower().strip())
-            new_names.append(prefix+ext.lower().strip())
+            old_names.append(ext.old_name.lower().strip())
+            new_names.append(prefix+ext.old_name.lower().strip())
 
     return old_names,new_names
 
@@ -2095,7 +2186,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
 
     import re
 
-    DEBUG = False # Source.old_name.lower()=='clartg'
+    DEBUG = Source.old_name.lower()=='strsyl'
 
     name  = Source.old_name
     lines = Source.body
@@ -2119,7 +2210,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     la_names.append('la_isnan')
     la_repl .append('ieee_is_nan')
 
-    print("Renaming procedure body <"+name+">")
+    if DEBUG: print("Renaming procedure body <"+name+">")
 
     body = []
 
@@ -2136,7 +2227,9 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     for j in range(len(old_names)):
         pattern = r"(?<!')(\b"+old_names[j]+r"\b)(?!\s*')"
         if bool(re.search(pattern,whole_decl)) \
-           and not old_names[j]==Source.old_name: is_declared[j] = True
+           and not old_names[j]==Source.old_name:
+               is_declared[j] = True
+               if DEBUG: print("...name "+old_names[j]+" is found as declared variables: do not use as dependency")
         if "la_constants" in whole_decl: la_const = True
 
     replacement = prefix+r'\g<0>'
@@ -2153,7 +2246,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
 
         whole = re.sub(pattern,replacement,whole)
         if len(whole)>old:
-            print("***match***" + old_names[j])
+            print("***match*** procedure " + old_names[j])
             is_found[j] = True
 
     # Replace la_* constants
@@ -2184,6 +2277,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
     dependency_list = []
     for j in range(len(old_names)):
         if is_found[j]:
+            if DEBUG: print("...name "+old_names[j]+": add to dependency list")
             dependency_list.append(old_names[j])
 
     # Add parameters
@@ -2531,7 +2625,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False # file_name.startswith("sladiv")
+    DEBUG  = False # file_name.startswith("sisnan")
 
     Procedures = []
 
@@ -2602,6 +2696,9 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
 
             # Remove the newline character at the end of the line
             Line = line_read_and_preprocess(line,Source.is_free_form,file_name,Source.old_name)
+
+            # Check SAVE statement
+            if Line.save_stmt: Source.save_stmt = True
 
             # Append the line to the list
             if Line.directive:
@@ -2891,11 +2988,10 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
             # On function end
             if whereAt==Section.END:
 
-                  # Now that the function is over, make it pure if possible
-                  Source.add_classifiers()
-
                   # Data statements
                   Source.body = replace_data_statements(Source,prefix,Source.body)
+
+                  if DEBUG: print("function "+Source.old_name+" is pure: "+str(Source.is_pure()))
 
                   # Save source
                   Procedures.append(Source)
@@ -2908,6 +3004,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   loop_lines      = []
                   loop_spaces     = []
                   loop_statements = []
+
+
 
     if whereAt!=Section.END and whereAt!=Section.HEADER:
         print("WRONG SECTION REACHED!!! " + str(whereAt) + " in procedure " + Source.old_name.upper() + " file " + file_name)
