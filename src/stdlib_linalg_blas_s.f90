@@ -224,7 +224,7 @@ module stdlib_linalg_blas_s
      ! name, so that
      ! SCNRM2 := sqrt( x**H*x )
 
-     function stdlib_scnrm2(n,x,incx)
+     pure function stdlib_scnrm2(n,x,incx)
         real(sp) :: stdlib_scnrm2
         ! -- reference blas level1 routine (version 3.9.1_sp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1020,7 +1020,7 @@ module stdlib_linalg_blas_s
      ! name, so that
      ! SNRM2 := sqrt( x'*x ).
 
-     function stdlib_snrm2(n,x,incx)
+     pure function stdlib_snrm2(n,x,incx)
         real(sp) :: stdlib_snrm2
         ! -- reference blas level1 routine (version 3.9.1_sp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1233,8 +1233,8 @@ module stdlib_linalg_blas_s
            real(sp) :: sflag,sh11,sh12,sh21,sh22,two,w,z,zero
            integer(ilp) :: i,kx,ky,nsteps
            ! .. data statements ..
-           zero = 0._sp
-           two = 2._sp
+           zero = 0.0_sp
+           two = 2.0_sp
            sflag = sparam(1)
            if (n <= 0 .or. (sflag + two == zero)) return
            if (incx == incy .and. incx > 0) then
@@ -1344,10 +1344,10 @@ module stdlib_linalg_blas_s
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. data statements ..
-           zero = 0._sp
-           one = 1._sp
-           two = 2._sp
-           gam = 4096._sp
+           zero = 0.0_sp
+           one = 1.0_sp
+           two = 2.0_sp
+           gam = 4096.0_sp
            gamsq = 1.67772e7_sp
            rgamsq = 5.96046e-8_sp
            if (sd1 < zero) then

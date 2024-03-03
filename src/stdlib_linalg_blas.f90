@@ -795,10 +795,9 @@ module stdlib_linalg_blas
           ! NRM2 := sqrt( x'*x )
           interface nrm2
 #ifdef STDLIB_EXTERNAL_BLAS
-               function dnrm2(n,x,incx)
+               pure real(dp) function dnrm2(n,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(dp) :: dnrm2
                     integer(ilp),intent(in) :: incx,n
                     real(dp),intent(in) :: x(*)
                end function dnrm2
@@ -807,10 +806,9 @@ module stdlib_linalg_blas
 #endif
                module procedure stdlib_qnrm2
 #ifdef STDLIB_EXTERNAL_BLAS
-               function snrm2(n,x,incx)
+               pure real(sp) function snrm2(n,x,incx)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
-                    real(sp) :: snrm2
                     integer(ilp),intent(in) :: incx,n
                     real(sp),intent(in) :: x(*)
                end function snrm2

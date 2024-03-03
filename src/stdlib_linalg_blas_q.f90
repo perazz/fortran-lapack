@@ -841,7 +841,7 @@ module stdlib_linalg_blas_q
      ! name, so that
      ! QNRM2 := sqrt( x'*x )
 
-     function stdlib_qnrm2(n,x,incx)
+     pure function stdlib_qnrm2(n,x,incx)
         real(qp) :: stdlib_qnrm2
         ! -- reference blas level1 routine (version 3.9.1_qp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1054,8 +1054,8 @@ module stdlib_linalg_blas_q
            real(qp) :: dflag,dh11,dh12,dh21,dh22,two,w,z,zero
            integer(ilp) :: i,kx,ky,nsteps
            ! .. data statements ..
-           zero = 0._qp
-           two = 2._qp
+           zero = 0.0_qp
+           two = 2.0_qp
            dflag = dparam(1)
            if (n <= 0 .or. (dflag + two == zero)) return
            if (incx == incy .and. incx > 0) then
@@ -1165,11 +1165,11 @@ module stdlib_linalg_blas_q
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. data statements ..
-           zero = 0._qp
-           one = 1._qp
-           two = 2._qp
-           gam = 4096._qp
-           gamsq = 16777216._qp
+           zero = 0.0_qp
+           one = 1.0_qp
+           two = 2.0_qp
+           gam = 4096.0_qp
+           gamsq = 16777216.0_qp
            rgamsq = 5.9604645e-8_qp
            if (dd1 < zero) then
               ! go zero-h-d-and-dx1..
@@ -4418,7 +4418,7 @@ module stdlib_linalg_blas_q
      ! name, so that
      ! QZNRM2 := sqrt( x**H*x )
 
-     function stdlib_qznrm2(n,x,incx)
+     pure function stdlib_qznrm2(n,x,incx)
         real(qp) :: stdlib_qznrm2
         ! -- reference blas level1 routine (version 3.9.1_qp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --

@@ -504,7 +504,8 @@ module stdlib_linalg_lapack_c
      ! factors is not guaranteed to reduce the condition number of A but
      ! works well in practice.
 
-     subroutine stdlib_cgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+     pure subroutine stdlib_cgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -644,7 +645,8 @@ module stdlib_linalg_lapack_c
      ! scaled entries' magnitudes are no longer approximately 1 but lie
      ! between sqrt(radix) and 1/sqrt(radix).
 
-     subroutine stdlib_cgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+     pure subroutine stdlib_cgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -781,7 +783,7 @@ module stdlib_linalg_lapack_c
      ! A using partial pivoting with row interchanges.
      ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
 
-     subroutine stdlib_cgbtf2(m,n,kl,ku,ab,ldab,ipiv,info)
+     pure subroutine stdlib_cgbtf2(m,n,kl,ku,ab,ldab,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -867,7 +869,7 @@ module stdlib_linalg_lapack_c
      ! matrix by backward transformation on the computed eigenvectors of the
      ! balanced matrix output by CGEBAL.
 
-     subroutine stdlib_cgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
+     pure subroutine stdlib_cgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -969,7 +971,7 @@ module stdlib_linalg_lapack_c
      ! Balancing may reduce the 1-norm of the matrix, and improve the
      ! accuracy of the computed eigenvalues and/or eigenvectors.
 
-     subroutine stdlib_cgebal(job,n,a,lda,ilo,ihi,scale,info)
+     pure subroutine stdlib_cgebal(job,n,a,lda,ilo,ihi,scale,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1138,7 +1140,7 @@ module stdlib_linalg_lapack_c
      ! factors is not guaranteed to reduce the condition number of A but
      ! works well in practice.
 
-     subroutine stdlib_cgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+     pure subroutine stdlib_cgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1272,7 +1274,7 @@ module stdlib_linalg_lapack_c
      ! scaled entries' magnitudes are no longer approximately 1 but lie
      ! between sqrt(radix) and 1/sqrt(radix).
 
-     subroutine stdlib_cgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
+     pure subroutine stdlib_cgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1406,7 +1408,7 @@ module stdlib_linalg_lapack_c
      ! unit diagonal elements and U is upper triangular.
      ! This is a level 1 BLAS version of the algorithm.
 
-     subroutine stdlib_cgetc2(n,a,lda,ipiv,jpiv,info)
+     pure subroutine stdlib_cgetc2(n,a,lda,ipiv,jpiv,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1493,7 +1495,7 @@ module stdlib_linalg_lapack_c
      ! triangular (upper trapezoidal if m < n).
      ! This is the right-looking Level 2 BLAS version of the algorithm.
 
-     subroutine stdlib_cgetf2(m,n,a,lda,ipiv,info)
+     pure subroutine stdlib_cgetf2(m,n,a,lda,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1562,7 +1564,8 @@ module stdlib_linalg_lapack_c
      ! the computed eigenvectors of the balanced pair of matrices output by
      ! CGGBAL.
 
-     subroutine stdlib_cggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+     pure subroutine stdlib_cggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1679,7 +1682,7 @@ module stdlib_linalg_lapack_c
      ! accuracy of the computed eigenvalues and/or eigenvectors in the
      ! generalized eigenvalue problem A*x = lambda*B*x.
 
-     subroutine stdlib_cggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work,info)
+     pure subroutine stdlib_cggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1978,7 +1981,7 @@ module stdlib_linalg_lapack_c
      ! Note that the equation  A**T *X = B  may be solved by interchanging the
      ! order of the arguments DU and DL.
 
-     subroutine stdlib_cgtsv(n,nrhs,dl,d,du,b,ldb,info)
+     pure subroutine stdlib_cgtsv(n,nrhs,dl,d,du,b,ldb,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2071,7 +2074,7 @@ module stdlib_linalg_lapack_c
      ! matrices and U is upper triangular with nonzeros in only the main
      ! diagonal and first two superdiagonals.
 
-     subroutine stdlib_cgttrf(n,dl,d,du,du2,ipiv,info)
+     pure subroutine stdlib_cgttrf(n,dl,d,du,du2,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2164,7 +2167,7 @@ module stdlib_linalg_lapack_c
      ! with a tridiagonal matrix A using the LU factorization computed
      ! by CGTTRF.
 
-     subroutine stdlib_cgtts2(itrans,n,nrhs,dl,d,du,du2,ipiv,b,ldb)
+     pure subroutine stdlib_cgtts2(itrans,n,nrhs,dl,d,du,du2,ipiv,b,ldb)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2333,7 +2336,7 @@ module stdlib_linalg_lapack_c
      ! CHESWAPR applies an elementary permutation on the rows and the columns of
      ! a hermitian matrix.
 
-     subroutine stdlib_cheswapr(uplo,n,a,lda,i1,i2)
+     pure subroutine stdlib_cheswapr(uplo,n,a,lda,i1,i2)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2410,7 +2413,7 @@ module stdlib_linalg_lapack_c
      ! Hermitian and block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
      ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
 
-     subroutine stdlib_chetf2(uplo,n,a,lda,ipiv,info)
+     pure subroutine stdlib_chetf2(uplo,n,a,lda,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2729,7 +2732,7 @@ module stdlib_linalg_lapack_c
      ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
      ! For more information see Further Details section.
 
-     subroutine stdlib_chetf2_rk(uplo,n,a,lda,e,ipiv,info)
+     pure subroutine stdlib_chetf2_rk(uplo,n,a,lda,e,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3256,7 +3259,7 @@ module stdlib_linalg_lapack_c
      ! Hermitian and block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
      ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
 
-     subroutine stdlib_chetf2_rook(uplo,n,a,lda,ipiv,info)
+     pure subroutine stdlib_chetf2_rook(uplo,n,a,lda,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3740,7 +3743,7 @@ module stdlib_linalg_lapack_c
      ! A using the factorization A = U*D*U**H or A = L*D*L**H computed by
      ! CHETRF.
 
-     subroutine stdlib_chetri(uplo,n,a,lda,ipiv,work,info)
+     pure subroutine stdlib_chetri(uplo,n,a,lda,ipiv,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -3943,7 +3946,7 @@ module stdlib_linalg_lapack_c
      ! A using the factorization A = U*D*U**H or A = L*D*L**H computed by
      ! CHETRF_ROOK.
 
-     subroutine stdlib_chetri_rook(uplo,n,a,lda,ipiv,work,info)
+     pure subroutine stdlib_chetri_rook(uplo,n,a,lda,ipiv,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4216,7 +4219,7 @@ module stdlib_linalg_lapack_c
      ! diagonal with 1-by-1 and 2-by-2 diagonal blocks.
      ! This algorithm is using Level 3 BLAS.
 
-     subroutine stdlib_chetrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+     pure subroutine stdlib_chetrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4375,7 +4378,7 @@ module stdlib_linalg_lapack_c
      ! matrix and A is an n--by--k matrix in the first case and a k--by--n
      ! matrix in the second case.
 
-     subroutine stdlib_chfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
+     pure subroutine stdlib_chfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4633,7 +4636,7 @@ module stdlib_linalg_lapack_c
      ! B*A*x = lambda*x, and A is overwritten by U*A*U**H or L**H*A*L.
      ! B must have been previously factorized as U**H*U or L*L**H by CPPTRF.
 
-     subroutine stdlib_chpgst(itype,uplo,n,ap,bp,info)
+     pure subroutine stdlib_chpgst(itype,uplo,n,ap,bp,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4760,7 +4763,7 @@ module stdlib_linalg_lapack_c
      ! triangular matrices, and D is Hermitian and block diagonal with
      ! 1-by-1 and 2-by-2 diagonal blocks.
 
-     subroutine stdlib_chptrf(uplo,n,ap,ipiv,info)
+     pure subroutine stdlib_chptrf(uplo,n,ap,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -5106,7 +5109,7 @@ module stdlib_linalg_lapack_c
      ! A in packed storage using the factorization A = U*D*U**H or
      ! A = L*D*L**H computed by CHPTRF.
 
-     subroutine stdlib_chptri(uplo,n,ap,ipiv,work,info)
+     pure subroutine stdlib_chptri(uplo,n,ap,ipiv,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -5522,7 +5525,7 @@ module stdlib_linalg_lapack_c
      ! solution X, estimated condition numbers, and error bounds could be
      ! unreliable.
 
-     real(sp) function stdlib_cla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
+     pure real(sp) function stdlib_cla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -5756,7 +5759,7 @@ module stdlib_linalg_lapack_c
      ! solution X, estimated condition numbers, and error bounds could be
      ! unreliable.
 
-     real(sp) function stdlib_cla_gerpvgrw(n,ncols,a,lda,af,ldaf)
+     pure real(sp) function stdlib_cla_gerpvgrw(n,ncols,a,lda,af,ldaf)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -5993,7 +5996,7 @@ module stdlib_linalg_lapack_c
      ! where abs(Z) is the componentwise absolute value of the matrix
      ! or vector Z.
 
-     subroutine stdlib_cla_lin_berr(n,nz,nrhs,res,ayb,berr)
+     pure subroutine stdlib_cla_lin_berr(n,nz,nrhs,res,ayb,berr)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6325,7 +6328,7 @@ module stdlib_linalg_lapack_c
      ! This works for all extant IBM's hex and binary floating point
      ! arithmetic, but not for decimal.
 
-     subroutine stdlib_cla_wwaddw(n,x,y,w)
+     pure subroutine stdlib_cla_wwaddw(n,x,y,w)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6350,7 +6353,7 @@ module stdlib_linalg_lapack_c
 
      ! CLACGV conjugates a complex vector of length N.
 
-     subroutine stdlib_clacgv(n,x,incx)
+     pure subroutine stdlib_clacgv(n,x,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6382,7 +6385,7 @@ module stdlib_linalg_lapack_c
      ! CLACN2 estimates the 1-norm of a square, complex matrix A.
      ! Reverse communication is used for evaluating matrix-vector products.
 
-     subroutine stdlib_clacn2(n,v,x,est,kase,isave)
+     pure subroutine stdlib_clacn2(n,v,x,est,kase,isave)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6632,7 +6635,7 @@ module stdlib_linalg_lapack_c
      ! CLACP2 copies all or part of a real two-dimensional matrix A to a
      ! complex matrix B.
 
-     subroutine stdlib_clacp2(uplo,m,n,a,lda,b,ldb)
+     pure subroutine stdlib_clacp2(uplo,m,n,a,lda,b,ldb)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6673,7 +6676,7 @@ module stdlib_linalg_lapack_c
      ! CLACPY copies all or part of a two-dimensional matrix A to another
      ! matrix B.
 
-     subroutine stdlib_clacpy(uplo,m,n,a,lda,b,ldb)
+     pure subroutine stdlib_clacpy(uplo,m,n,a,lda,b,ldb)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6716,7 +6719,7 @@ module stdlib_linalg_lapack_c
      ! where A is M by N and complex; B is N by N and real;
      ! C is M by N and complex.
 
-     subroutine stdlib_clacrm(m,n,a,lda,b,ldb,c,ldc,rwork)
+     pure subroutine stdlib_clacrm(m,n,a,lda,b,ldb,c,ldc,rwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6770,7 +6773,7 @@ module stdlib_linalg_lapack_c
      ! ( -s  c )( y )      ( y )
      ! where c and s are complex and the vectors x and y are complex.
 
-     subroutine stdlib_clacrt(n,cx,incx,cy,incy,c,s)
+     pure subroutine stdlib_clacrt(n,cx,incx,cy,incy,c,s)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6813,7 +6816,7 @@ module stdlib_linalg_lapack_c
      ! will not overflow on an intermediary step unless the results
      ! overflows.
 
-     complex(sp) function stdlib_cladiv(x,y)
+     pure complex(sp) function stdlib_cladiv(x,y)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6838,8 +6841,8 @@ module stdlib_linalg_lapack_c
      ! Z vector.  For each such occurrence the order of the related secular
      ! equation problem is reduced by one.
 
-     subroutine stdlib_claed8(k,n,qsiz,q,ldq,d,rho,cutpnt,z,dlamda,q2,ldq2,w,indxp, &
-               indx,indxq,perm,givptr,givcol,givnum,info)
+     pure subroutine stdlib_claed8(k,n,qsiz,q,ldq,d,rho,cutpnt,z,dlamda,q2,ldq2,w, &
+               indxp,indx,indxq,perm,givptr,givcol,givnum,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -7044,7 +7047,7 @@ module stdlib_linalg_lapack_c
      ! [  CS1     SN1   ] . [ A  B ] . [ CS1    -SN1   ] = [ RT1  0  ]
      ! [ -SN1     CS1   ]   [ B  C ]   [ SN1     CS1   ]   [  0  RT2 ]
 
-     subroutine stdlib_claesy(a,b,c,rt1,rt2,evscal,cs1,sn1)
+     pure subroutine stdlib_claesy(a,b,c,rt1,rt2,evscal,cs1,sn1)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -7129,7 +7132,7 @@ module stdlib_linalg_lapack_c
      ! [ CS1  CONJG(SN1) ] [    A     B ] [ CS1 -CONJG(SN1) ] = [ RT1  0  ]
      ! [-SN1     CS1     ] [ CONJG(B) C ] [ SN1     CS1     ]   [  0  RT2 ].
 
-     subroutine stdlib_claev2(a,b,c,rt1,rt2,cs1,sn1)
+     pure subroutine stdlib_claev2(a,b,c,rt1,rt2,cs1,sn1)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -7162,7 +7165,7 @@ module stdlib_linalg_lapack_c
      ! converting from single to double.
      ! This is an auxiliary routine so there is no argument checking.
 
-     subroutine stdlib_clag2z(m,n,sa,ldsa,a,lda,info)
+     pure subroutine stdlib_clag2z(m,n,sa,ldsa,a,lda,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -7191,7 +7194,8 @@ module stdlib_linalg_lapack_c
      ! matrices, and alpha and beta are real scalars, each of which may be
      ! 0., 1., or -1.
 
-     subroutine stdlib_clagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+     pure subroutine stdlib_clagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -7334,7 +7338,7 @@ module stdlib_linalg_lapack_c
      ! (calling Level 3 BLAS) to update the submatrix A11 (if UPLO = 'U') or
      ! A22 (if UPLO = 'L').
 
-     subroutine stdlib_clahef(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+     pure subroutine stdlib_clahef(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -7870,7 +7874,7 @@ module stdlib_linalg_lapack_c
      ! blocked code (calling Level 3 BLAS) to update the submatrix
      ! A11 (if UPLO = 'U') or A22 (if UPLO = 'L').
 
-     subroutine stdlib_clahef_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
+     pure subroutine stdlib_clahef_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -8508,7 +8512,7 @@ module stdlib_linalg_lapack_c
      ! blocked code (calling Level 3 BLAS) to update the submatrix
      ! A11 (if UPLO = 'U') or A22 (if UPLO = 'L').
 
-     subroutine stdlib_clahef_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+     pure subroutine stdlib_clahef_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9185,7 +9189,7 @@ module stdlib_linalg_lapack_c
      ! [ conjg(gamma) ]
      ! where  alpha =  x**H*w.
 
-     subroutine stdlib_claic1(job,j,x,sest,w,gamma,sestpr,s,c)
+     pure subroutine stdlib_claic1(job,j,x,sest,w,gamma,sestpr,s,c)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9386,7 +9390,7 @@ module stdlib_linalg_lapack_c
      ! If FORWRD = .FALSE., backward permutation:
      ! X(I,*) is moved to X(K(I),*) for I = 1,2,...,M.
 
-     subroutine stdlib_clapmr(forwrd,m,n,x,ldx,k)
+     pure subroutine stdlib_clapmr(forwrd,m,n,x,ldx,k)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9454,7 +9458,7 @@ module stdlib_linalg_lapack_c
      ! If FORWRD = .FALSE., backward permutation:
      ! X(*,J) is moved to X(*,K(J)) for J = 1,2,...,N.
 
-     subroutine stdlib_clapmt(forwrd,m,n,x,ldx,k)
+     pure subroutine stdlib_clapmt(forwrd,m,n,x,ldx,k)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9519,7 +9523,8 @@ module stdlib_linalg_lapack_c
      ! subdiagonals and KU superdiagonals using the row and scaling factors
      ! in the vectors R and C.
 
-     subroutine stdlib_claqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
+     pure subroutine stdlib_claqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9587,7 +9592,7 @@ module stdlib_linalg_lapack_c
      ! CLAQGE equilibrates a general M by N matrix A using the row and
      ! column scaling factors in the vectors R and C.
 
-     subroutine stdlib_claqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
+     pure subroutine stdlib_claqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9653,7 +9658,7 @@ module stdlib_linalg_lapack_c
      ! CLAQHB equilibrates an Hermitian band matrix A using the scaling
      ! factors in the vector S.
 
-     subroutine stdlib_claqhb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+     pure subroutine stdlib_claqhb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9715,7 +9720,7 @@ module stdlib_linalg_lapack_c
      ! CLAQHE equilibrates a Hermitian matrix A using the scaling factors
      ! in the vector S.
 
-     subroutine stdlib_claqhe(uplo,n,a,lda,s,scond,amax,equed)
+     pure subroutine stdlib_claqhe(uplo,n,a,lda,s,scond,amax,equed)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9777,7 +9782,7 @@ module stdlib_linalg_lapack_c
      ! CLAQHP equilibrates a Hermitian matrix A using the scaling factors
      ! in the vector S.
 
-     subroutine stdlib_claqhp(uplo,n,ap,s,scond,amax,equed)
+     pure subroutine stdlib_claqhp(uplo,n,ap,s,scond,amax,equed)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9847,7 +9852,7 @@ module stdlib_linalg_lapack_c
      ! This is useful for starting double implicit shift bulges
      ! in the QR algorithm.
 
-     subroutine stdlib_claqr1(n,h,ldh,s1,s2,v)
+     pure subroutine stdlib_claqr1(n,h,ldh,s1,s2,v)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9905,7 +9910,7 @@ module stdlib_linalg_lapack_c
      ! CLAQSB equilibrates a symmetric band matrix A using the scaling
      ! factors in the vector S.
 
-     subroutine stdlib_claqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
+     pure subroutine stdlib_claqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9965,7 +9970,7 @@ module stdlib_linalg_lapack_c
      ! CLAQSP equilibrates a symmetric matrix A using the scaling factors
      ! in the vector S.
 
-     subroutine stdlib_claqsp(uplo,n,ap,s,scond,amax,equed)
+     pure subroutine stdlib_claqsp(uplo,n,ap,s,scond,amax,equed)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10027,7 +10032,7 @@ module stdlib_linalg_lapack_c
      ! CLAQSY equilibrates a symmetric matrix A using the scaling factors
      ! in the vector S.
 
-     subroutine stdlib_claqsy(uplo,n,a,lda,s,scond,amax,equed)
+     pure subroutine stdlib_claqsy(uplo,n,a,lda,s,scond,amax,equed)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10098,8 +10103,8 @@ module stdlib_linalg_lapack_c
      ! twisted factorization obtained by combining the top part of the
      ! the stationary and the bottom part of the progressive transform.
 
-     subroutine stdlib_clar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc,negcnt, &
-                ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
+     pure subroutine stdlib_clar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
+               negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10312,7 +10317,7 @@ module stdlib_linalg_lapack_c
      ! (  c(i) conjg(s(i)) ) (       x(i)  z(i) ) ( c(i) -conjg(s(i)) )
      ! ( -s(i)       c(i)  ) ( conjg(z(i)) y(i) ) ( s(i)        c(i)  )
 
-     subroutine stdlib_clar2v(n,x,y,z,incx,c,s,incc)
+     pure subroutine stdlib_clar2v(n,x,y,z,incx,c,s,incc)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10363,7 +10368,7 @@ module stdlib_linalg_lapack_c
      ! where A is M by M and real; B is M by N and complex;
      ! C is M by N and complex.
 
-     subroutine stdlib_clarcm(m,n,a,lda,b,ldb,c,ldc,rwork)
+     pure subroutine stdlib_clarcm(m,n,a,lda,b,ldb,c,ldc,rwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10421,7 +10426,7 @@ module stdlib_linalg_lapack_c
      ! To apply H**H (the conjugate transpose of H), supply conjg(tau) instead
      ! tau.
 
-     subroutine stdlib_clarf(side,m,n,v,incv,tau,c,ldc,work)
+     pure subroutine stdlib_clarf(side,m,n,v,incv,tau,c,ldc,work)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10495,8 +10500,8 @@ module stdlib_linalg_lapack_c
      ! CLARFB applies a complex block reflector H or its transpose H**H to a
      ! complex M-by-N matrix C, from either the left or the right.
 
-     subroutine stdlib_clarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c,ldc,work, &
-               ldwork)
+     pure subroutine stdlib_clarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c,ldc, &
+               work,ldwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10828,7 +10833,8 @@ module stdlib_linalg_lapack_c
      ! WY-representation, where the elementary reflectors are in the
      ! arrays A, B and T. See Further Details section.
 
-     subroutine stdlib_clarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
+     pure subroutine stdlib_clarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10972,7 +10978,7 @@ module stdlib_linalg_lapack_c
      ! and H is taken to be the unit matrix.
      ! Otherwise  1 <= real(tau) <= 2  and  abs(tau-1) <= 1 .
 
-     subroutine stdlib_clarfg(n,alpha,x,incx,tau)
+     pure subroutine stdlib_clarfg(n,alpha,x,incx,tau)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -11179,7 +11185,7 @@ module stdlib_linalg_lapack_c
      ! H(i) is stored in the i-th row of the array V, and
      ! H  =  I - V**H * T * V
 
-     subroutine stdlib_clarft(direct,storev,n,k,v,ldv,tau,t,ldt)
+     pure subroutine stdlib_clarft(direct,storev,n,k,v,ldv,tau,t,ldt)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -11303,7 +11309,7 @@ module stdlib_linalg_lapack_c
      ! If tau = 0, then H is taken to be the unit matrix
      ! This version uses inline code if H has order < 11.
 
-     subroutine stdlib_clarfx(side,m,n,v,tau,c,ldc,work)
+     pure subroutine stdlib_clarfx(side,m,n,v,tau,c,ldc,work)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -11806,7 +11812,7 @@ module stdlib_linalg_lapack_c
      ! where  tau  is a scalar and  v  is a vector.
      ! If  tau  is  zero, then  H  is taken to be the unit matrix.
 
-     subroutine stdlib_clarfy(uplo,n,v,incv,tau,c,ldc,work)
+     pure subroutine stdlib_clarfy(uplo,n,v,incv,tau,c,ldc,work)
         ! -- lapack test routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -11836,7 +11842,7 @@ module stdlib_linalg_lapack_c
      ! CLARNV returns a vector of n random complex numbers from a uniform or
      ! normal distribution.
 
-     subroutine stdlib_clarnv(idist,iseed,n,x)
+     pure subroutine stdlib_clarnv(idist,iseed,n,x)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -11920,7 +11926,7 @@ module stdlib_linalg_lapack_c
      ! If F=0, then C=0 and S is chosen so that R is real.
      ! Below, wp=>sp stands for single precision from LA_CONSTANTS module.
 
-     subroutine stdlib_clartg(f,g,c,s,r)
+     pure subroutine stdlib_clartg(f,g,c,s,r)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12020,7 +12026,7 @@ module stdlib_linalg_lapack_c
      ! ( x(i) ) := (        c(i)   s(i) ) ( x(i) )
      ! ( y(i) )    ( -conjg(s(i))  c(i) ) ( y(i) )
 
-     subroutine stdlib_clartv(n,x,incx,y,incy,c,s,incc)
+     pure subroutine stdlib_clartv(n,x,incx,y,incy,c,s,incc)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12062,7 +12068,7 @@ module stdlib_linalg_lapack_c
      ! tau.
      ! H is a product of k elementary reflectors as returned by CTZRZF.
 
-     subroutine stdlib_clarz(side,m,n,l,v,incv,tau,c,ldc,work)
+     pure subroutine stdlib_clarz(side,m,n,l,v,incv,tau,c,ldc,work)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12115,8 +12121,8 @@ module stdlib_linalg_lapack_c
      ! to a complex distributed M-by-N  C from the left or the right.
      ! Currently, only STOREV = 'R' and DIRECT = 'B' are supported.
 
-     subroutine stdlib_clarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c,ldc, &
-               work,ldwork)
+     pure subroutine stdlib_clarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c, &
+               ldc,work,ldwork)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12226,7 +12232,7 @@ module stdlib_linalg_lapack_c
      ! H  =  I - V**H * T * V
      ! Currently, only STOREV = 'R' and DIRECT = 'B' are supported.
 
-     subroutine stdlib_clarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
+     pure subroutine stdlib_clarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12283,7 +12289,7 @@ module stdlib_linalg_lapack_c
      ! A may be full, upper triangular, lower triangular, upper Hessenberg,
      ! or banded.
 
-     subroutine stdlib_clascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
+     pure subroutine stdlib_clascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12450,7 +12456,7 @@ module stdlib_linalg_lapack_c
      ! CLASET initializes a 2-D array A to BETA on the diagonal and
      ! ALPHA on the offdiagonals.
 
-     subroutine stdlib_claset(uplo,m,n,alpha,beta,a,lda)
+     pure subroutine stdlib_claset(uplo,m,n,alpha,beta,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12555,7 +12561,7 @@ module stdlib_linalg_lapack_c
      ! where R(k) appears in rows and columns k and z.  The rotations are
      ! performed without ever forming P(k) explicitly.
 
-     subroutine stdlib_clasr(side,pivot,direct,m,n,c,s,a,lda)
+     pure subroutine stdlib_clasr(side,pivot,direct,m,n,c,s,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12783,15 +12789,15 @@ module stdlib_linalg_lapack_c
      ! TINY*EPS -- tiniest representable number;
      ! HUGE     -- biggest representable number.
 
-     subroutine stdlib_classq(n,x,incx,scl,sumsq)
+     pure subroutine stdlib_classq(n,x,incx,scl,sumsq)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
         ! .. scalar arguments ..
-     integer(ilp) :: incx,n
-        real(sp) :: scl,sumsq
+     integer(ilp),intent(in) :: incx,n
+        real(sp),intent(inout) :: scl,sumsq
         ! .. array arguments ..
-        complex(sp) :: x(*)
+        complex(sp),intent(in) :: x(*)
         ! .. local scalars ..
      integer(ilp) :: i,ix
      logical(lk) :: notbig
@@ -12891,7 +12897,7 @@ module stdlib_linalg_lapack_c
      ! CLASWP performs a series of row interchanges on the matrix A.
      ! One row interchange is initiated for each of rows K1 through K2 of A.
 
-     subroutine stdlib_claswp(n,a,lda,k1,k2,ipiv,incx)
+     pure subroutine stdlib_claswp(n,a,lda,k1,k2,ipiv,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -12969,7 +12975,7 @@ module stdlib_linalg_lapack_c
      ! (calling Level 3 BLAS) to update the submatrix A11 (if UPLO = 'U') or
      ! A22 (if UPLO = 'L').
 
-     subroutine stdlib_clasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+     pure subroutine stdlib_clasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -13410,7 +13416,7 @@ module stdlib_linalg_lapack_c
      ! blocked code (calling Level 3 BLAS) to update the submatrix
      ! A11 (if UPLO = 'U') or A22 (if UPLO = 'L').
 
-     subroutine stdlib_clasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
+     pure subroutine stdlib_clasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -13854,7 +13860,7 @@ module stdlib_linalg_lapack_c
      ! blocked code (calling Level 3 BLAS) to update the submatrix
      ! A11 (if UPLO = 'U') or A22 (if UPLO = 'L').
 
-     subroutine stdlib_clasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
+     pure subroutine stdlib_clasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -14316,8 +14322,8 @@ module stdlib_linalg_lapack_c
      ! is singular (A(j,j) = 0 for some j), then s is set to 0 and a
      ! non-trivial solution to A*x = 0 is returned.
 
-     subroutine stdlib_clatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm,info)
-               
+     pure subroutine stdlib_clatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
+               info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -14872,7 +14878,8 @@ module stdlib_linalg_lapack_c
      ! is singular (A(j,j) = 0 for some j), then s is set to 0 and a
      ! non-trivial solution to A*x = 0 is returned.
 
-     subroutine stdlib_clatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+     pure subroutine stdlib_clatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -15419,7 +15426,7 @@ module stdlib_linalg_lapack_c
      ! matrix, of which the lower triangle is supplied.
      ! This is an auxiliary routine called by CHETRD.
 
-     subroutine stdlib_clatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
+     pure subroutine stdlib_clatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -15536,7 +15543,7 @@ module stdlib_linalg_lapack_c
      ! CTRSV is called. If the matrix A is singular (A(j,j) = 0 for some j),
      ! then s is set to 0 and a non-trivial solution to A*x = 0 is returned.
 
-     subroutine stdlib_clatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info)
+     pure subroutine stdlib_clatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info)
                
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -16058,7 +16065,7 @@ module stdlib_linalg_lapack_c
      ! of unitary transformations, where  Z is an (M+L)-by-(M+L) unitary
      ! matrix and, R and A1 are M-by-M upper triangular matrices.
 
-     subroutine stdlib_clatrz(m,n,l,a,lda,tau,work)
+     pure subroutine stdlib_clatrz(m,n,l,a,lda,tau,work)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16148,7 +16155,7 @@ module stdlib_linalg_lapack_c
      ! algebra algorithms", F. Gustavson, IBM J. of Res. and Dev.,
      ! vol. 41, no. 6, pp. 737-755, 1997.
 
-     recursive subroutine stdlib_claunhr_col_getrfnp2(m,n,a,lda,d,info)
+     pure recursive subroutine stdlib_claunhr_col_getrfnp2(m,n,a,lda,d,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16243,7 +16250,7 @@ module stdlib_linalg_lapack_c
      ! overwriting the factor L in A.
      ! This is the unblocked form of the algorithm, calling Level 2 BLAS.
 
-     subroutine stdlib_clauu2(uplo,n,a,lda,info)
+     pure subroutine stdlib_clauu2(uplo,n,a,lda,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16321,7 +16328,7 @@ module stdlib_linalg_lapack_c
      ! overwriting the factor L in A.
      ! This is the blocked form of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_clauum(uplo,n,a,lda,info)
+     pure subroutine stdlib_clauum(uplo,n,a,lda,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16404,7 +16411,7 @@ module stdlib_linalg_lapack_c
      ! smallest possible condition number over all possible diagonal
      ! scalings.
 
-     subroutine stdlib_cpbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
+     pure subroutine stdlib_cpbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16492,7 +16499,7 @@ module stdlib_linalg_lapack_c
      ! where U is upper triangular of order m = (n+kd)/2, and L is lower
      ! triangular of order n-m.
 
-     subroutine stdlib_cpbstf(uplo,n,kd,ab,ldab,info)
+     pure subroutine stdlib_cpbstf(uplo,n,kd,ab,ldab,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16625,7 +16632,7 @@ module stdlib_linalg_lapack_c
      ! of U, and L is lower triangular.
      ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
 
-     subroutine stdlib_cpbtf2(uplo,n,kd,ab,ldab,info)
+     pure subroutine stdlib_cpbtf2(uplo,n,kd,ab,ldab,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16715,7 +16722,7 @@ module stdlib_linalg_lapack_c
      ! positive definite band matrix A using the Cholesky factorization
      ! A = U**H*U or A = L*L**H computed by CPBTRF.
 
-     subroutine stdlib_cpbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+     pure subroutine stdlib_cpbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16788,7 +16795,7 @@ module stdlib_linalg_lapack_c
      ! smallest possible condition number over all possible diagonal
      ! scalings.
 
-     subroutine stdlib_cpoequ(n,a,lda,s,scond,amax,info)
+     pure subroutine stdlib_cpoequ(n,a,lda,s,scond,amax,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16867,7 +16874,7 @@ module stdlib_linalg_lapack_c
      ! scaled diagonal entries are no longer approximately 1 but lie
      ! between sqrt(radix) and 1/sqrt(radix).
 
-     subroutine stdlib_cpoequb(n,a,lda,s,scond,amax,info)
+     pure subroutine stdlib_cpoequb(n,a,lda,s,scond,amax,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -16943,7 +16950,7 @@ module stdlib_linalg_lapack_c
      ! where U is an upper triangular matrix and L is lower triangular.
      ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
 
-     subroutine stdlib_cpotf2(uplo,n,a,lda,info)
+     pure subroutine stdlib_cpotf2(uplo,n,a,lda,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17042,7 +17049,7 @@ module stdlib_linalg_lapack_c
      ! The subroutine calls itself to factor A11. Update and scale A21
      ! or A12, update A22 then calls itself to factor A22.
 
-     recursive subroutine stdlib_cpotrf2(uplo,n,a,lda,info)
+     pure recursive subroutine stdlib_cpotrf2(uplo,n,a,lda,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17132,7 +17139,7 @@ module stdlib_linalg_lapack_c
      ! positive definite matrix A using the Cholesky factorization
      ! A = U**H*U or A = L*L**H computed by CPOTRF.
 
-     subroutine stdlib_cpotrs(uplo,n,nrhs,a,lda,b,ldb,info)
+     pure subroutine stdlib_cpotrs(uplo,n,nrhs,a,lda,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17199,7 +17206,7 @@ module stdlib_linalg_lapack_c
      ! the smallest possible condition number over all possible diagonal
      ! scalings.
 
-     subroutine stdlib_cppequ(uplo,n,ap,s,scond,amax,info)
+     pure subroutine stdlib_cppequ(uplo,n,ap,s,scond,amax,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17290,7 +17297,7 @@ module stdlib_linalg_lapack_c
      ! A = L  * L**H,  if UPLO = 'L',
      ! where U is an upper triangular matrix and L is lower triangular.
 
-     subroutine stdlib_cpptrf(uplo,n,ap,info)
+     pure subroutine stdlib_cpptrf(uplo,n,ap,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17373,7 +17380,7 @@ module stdlib_linalg_lapack_c
      ! positive definite matrix A in packed storage using the Cholesky
      ! factorization A = U**H*U or A = L*L**H computed by CPPTRF.
 
-     subroutine stdlib_cpptrs(uplo,n,nrhs,ap,b,ldb,info)
+     pure subroutine stdlib_cpptrs(uplo,n,nrhs,ap,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17443,7 +17450,7 @@ module stdlib_linalg_lapack_c
      ! This algorithm does not attempt to check that A is positive
      ! semidefinite. This version of the algorithm calls level 2 BLAS.
 
-     subroutine stdlib_cpstf2(uplo,n,a,lda,piv,rank,tol,work,info)
+     pure subroutine stdlib_cpstf2(uplo,n,a,lda,piv,rank,tol,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17636,7 +17643,7 @@ module stdlib_linalg_lapack_c
      ! This algorithm does not attempt to check that A is positive
      ! semidefinite. This version of the algorithm calls level 3 BLAS.
 
-     subroutine stdlib_cpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
+     pure subroutine stdlib_cpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17859,7 +17866,7 @@ module stdlib_linalg_lapack_c
      ! the condition number is computed as
      ! RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_cptcon(n,d,e,anorm,rcond,rwork,info)
+     pure subroutine stdlib_cptcon(n,d,e,anorm,rcond,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17929,7 +17936,7 @@ module stdlib_linalg_lapack_c
      ! positive definite tridiagonal matrix A.  The factorization may also
      ! be regarded as having the form A = U**H *D*U.
 
-     subroutine stdlib_cpttrf(n,d,e,info)
+     pure subroutine stdlib_cpttrf(n,d,e,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18031,7 +18038,7 @@ module stdlib_linalg_lapack_c
      ! bidiagonal matrix whose superdiagonal (subdiagonal) is specified in
      ! the vector E, and X and B are N by NRHS matrices.
 
-     subroutine stdlib_cptts2(iuplo,n,nrhs,d,e,b,ldb)
+     pure subroutine stdlib_cptts2(iuplo,n,nrhs,d,e,b,ldb)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18127,7 +18134,7 @@ module stdlib_linalg_lapack_c
      ! CROT   applies a plane rotation, where the cos (C) is real and the
      ! sin (S) is complex, and the vectors CX and CY are complex.
 
-     subroutine stdlib_crot(n,cx,incx,cy,incy,c,s)
+     pure subroutine stdlib_crot(n,cx,incx,cy,incy,c,s)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18174,7 +18181,7 @@ module stdlib_linalg_lapack_c
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_cspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
+     pure subroutine stdlib_cspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18331,7 +18338,7 @@ module stdlib_linalg_lapack_c
      ! where alpha is a complex scalar, x is an n element vector and A is an
      ! n by n symmetric matrix, supplied in packed form.
 
-     subroutine stdlib_cspr(uplo,n,alpha,x,incx,ap)
+     pure subroutine stdlib_cspr(uplo,n,alpha,x,incx,ap)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18454,7 +18461,7 @@ module stdlib_linalg_lapack_c
      ! triangular matrices, and D is symmetric and block diagonal with
      ! 1-by-1 and 2-by-2 diagonal blocks.
 
-     subroutine stdlib_csptrf(uplo,n,ap,ipiv,info)
+     pure subroutine stdlib_csptrf(uplo,n,ap,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18777,7 +18784,7 @@ module stdlib_linalg_lapack_c
      ! A in packed storage using the factorization A = U*D*U**T or
      ! A = L*D*L**T computed by CSPTRF.
 
-     subroutine stdlib_csptri(uplo,n,ap,ipiv,work,info)
+     pure subroutine stdlib_csptri(uplo,n,ap,ipiv,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18988,7 +18995,7 @@ module stdlib_linalg_lapack_c
      ! symmetric matrix A stored in packed format using the factorization
      ! A = U*D*U**T or A = L*D*L**T computed by CSPTRF.
 
-     subroutine stdlib_csptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+     pure subroutine stdlib_csptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -19208,7 +19215,7 @@ module stdlib_linalg_lapack_c
      ! 1/a.  This is done without overflow or underflow as long as
      ! the final result x/a does not overflow or underflow.
 
-     subroutine stdlib_csrscl(n,sa,sx,incx)
+     pure subroutine stdlib_csrscl(n,sa,sx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -19268,8 +19275,8 @@ module stdlib_linalg_lapack_c
      ! transformation to the eigenvectors of a complex Hermitian matrix
      ! which was reduced to tridiagonal form.
 
-     subroutine stdlib_cstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail,info)
-               
+     pure subroutine stdlib_cstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -19472,7 +19479,7 @@ module stdlib_linalg_lapack_c
      ! be found if CHETRD or CHPTRD or CHBTRD has been used to reduce this
      ! matrix to tridiagonal form.
 
-     subroutine stdlib_csteqr(compz,n,d,e,z,ldz,work,info)
+     pure subroutine stdlib_csteqr(compz,n,d,e,z,ldz,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -19788,7 +19795,7 @@ module stdlib_linalg_lapack_c
      ! Get Non-diag elements of D (returned in workspace) and
      ! apply or reverse permutation done in TRF.
 
-     subroutine stdlib_csyconv(uplo,way,n,a,lda,ipiv,e,info)
+     pure subroutine stdlib_csyconv(uplo,way,n,a,lda,ipiv,e,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -20007,7 +20014,7 @@ module stdlib_linalg_lapack_c
      ! CSYCONVF can also convert in Hermitian matrix case, i.e. between
      ! formats used in CHETRF and CHETRF_RK (or CHETRF_BK).
 
-     subroutine stdlib_csyconvf(uplo,way,n,a,lda,e,ipiv,info)
+     pure subroutine stdlib_csyconvf(uplo,way,n,a,lda,e,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -20262,7 +20269,7 @@ module stdlib_linalg_lapack_c
      ! CSYCONVF_ROOK can also convert in Hermitian matrix case, i.e. between
      ! formats used in CHETRF_ROOK and CHETRF_RK (or CHETRF_BK).
 
-     subroutine stdlib_csyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
+     pure subroutine stdlib_csyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -20509,7 +20516,7 @@ module stdlib_linalg_lapack_c
      ! the smallest possible condition number over all possible diagonal
      ! scalings.
 
-     subroutine stdlib_csyequb(uplo,n,a,lda,s,scond,amax,work,info)
+     pure subroutine stdlib_csyequb(uplo,n,a,lda,s,scond,amax,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -20687,7 +20694,7 @@ module stdlib_linalg_lapack_c
      ! where alpha and beta are scalars, x and y are n element vectors and
      ! A is an n by n symmetric matrix.
 
-     subroutine stdlib_csymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine stdlib_csymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -20840,7 +20847,7 @@ module stdlib_linalg_lapack_c
      ! where alpha is a complex scalar, x is an n element vector and A is an
      ! n by n symmetric matrix.
 
-     subroutine stdlib_csyr(uplo,n,alpha,x,incx,a,lda)
+     pure subroutine stdlib_csyr(uplo,n,alpha,x,incx,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -20942,7 +20949,7 @@ module stdlib_linalg_lapack_c
      ! CSYSWAPR applies an elementary permutation on the rows and the columns of
      ! a symmetric matrix.
 
-     subroutine stdlib_csyswapr(uplo,n,a,lda,i1,i2)
+     pure subroutine stdlib_csyswapr(uplo,n,a,lda,i1,i2)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -21015,7 +21022,7 @@ module stdlib_linalg_lapack_c
      ! block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
      ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
 
-     subroutine stdlib_csytf2(uplo,n,a,lda,ipiv,info)
+     pure subroutine stdlib_csytf2(uplo,n,a,lda,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -21306,7 +21313,7 @@ module stdlib_linalg_lapack_c
      ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
      ! For more information see Further Details section.
 
-     subroutine stdlib_csytf2_rk(uplo,n,a,lda,e,ipiv,info)
+     pure subroutine stdlib_csytf2_rk(uplo,n,a,lda,e,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -21759,7 +21766,7 @@ module stdlib_linalg_lapack_c
      ! block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
      ! This is the unblocked version of the algorithm, calling Level 2 BLAS.
 
-     subroutine stdlib_csytf2_rook(uplo,n,a,lda,ipiv,info)
+     pure subroutine stdlib_csytf2_rook(uplo,n,a,lda,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -22174,7 +22181,7 @@ module stdlib_linalg_lapack_c
      ! 1-by-1 and 2-by-2 diagonal blocks.
      ! This is the blocked version of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_csytrf(uplo,n,a,lda,ipiv,work,lwork,info)
+     pure subroutine stdlib_csytrf(uplo,n,a,lda,ipiv,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -22301,7 +22308,7 @@ module stdlib_linalg_lapack_c
      ! This is the blocked version of the algorithm, calling Level 3 BLAS.
      ! For more information see Further Details section.
 
-     subroutine stdlib_csytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+     pure subroutine stdlib_csytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -22466,7 +22473,7 @@ module stdlib_linalg_lapack_c
      ! 1-by-1 and 2-by-2 diagonal blocks.
      ! This is the blocked version of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_csytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+     pure subroutine stdlib_csytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -22589,7 +22596,7 @@ module stdlib_linalg_lapack_c
      ! A using the factorization A = U*D*U**T or A = L*D*L**T computed by
      ! CSYTRF.
 
-     subroutine stdlib_csytri(uplo,n,a,lda,ipiv,work,info)
+     pure subroutine stdlib_csytri(uplo,n,a,lda,ipiv,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -22777,7 +22784,7 @@ module stdlib_linalg_lapack_c
      ! matrix A using the factorization A = U*D*U**T or A = L*D*L**T
      ! computed by CSYTRF_ROOK.
 
-     subroutine stdlib_csytri_rook(uplo,n,a,lda,ipiv,work,info)
+     pure subroutine stdlib_csytri_rook(uplo,n,a,lda,ipiv,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -23005,7 +23012,7 @@ module stdlib_linalg_lapack_c
      ! symmetric matrix A using the factorization A = U*D*U**T or
      ! A = L*D*L**T computed by CSYTRF.
 
-     subroutine stdlib_csytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+     pure subroutine stdlib_csytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -23215,7 +23222,7 @@ module stdlib_linalg_lapack_c
      ! symmetric matrix A using the factorization A = U*D*U**T or
      ! A = L*D*L**T computed by CSYTRF and converted by CSYCONV.
 
-     subroutine stdlib_csytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+     pure subroutine stdlib_csytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -23399,7 +23406,7 @@ module stdlib_linalg_lapack_c
      ! diagonal with 1-by-1 and 2-by-2 diagonal blocks.
      ! This algorithm is using Level 3 BLAS.
 
-     subroutine stdlib_csytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+     pure subroutine stdlib_csytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -23550,7 +23557,8 @@ module stdlib_linalg_lapack_c
      ! symmetric matrix A using the factorization A = U**T*T*U or
      ! A = L*T*L**T computed by CSYTRF_AA.
 
-     subroutine stdlib_csytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_csytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -23668,7 +23676,7 @@ module stdlib_linalg_lapack_c
      ! a complex symmetric matrix A using the factorization A = U*D*U**T or
      ! A = L*D*L**T computed by CSYTRF_ROOK.
 
-     subroutine stdlib_csytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+     pure subroutine stdlib_csytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -23893,8 +23901,8 @@ module stdlib_linalg_lapack_c
      ! means before entering this routine.  CTBRFS does not do iterative
      ! refinement because doing so cannot improve the backward error.
 
-     subroutine stdlib_ctbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx,ferr, &
-               berr,work,rwork,info)
+     pure subroutine stdlib_ctbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx,ferr, &
+                berr,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -24133,7 +24141,8 @@ module stdlib_linalg_lapack_c
      ! where A is a triangular band matrix of order N, and B is an
      ! N-by-NRHS matrix.  A check is made to verify that A is nonsingular.
 
-     subroutine stdlib_ctbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+     pure subroutine stdlib_ctbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -24209,7 +24218,8 @@ module stdlib_linalg_lapack_c
      ! A is in Rectangular Full Packed (RFP) Format.
      ! The matrix X is overwritten on B.
 
-     subroutine stdlib_ctfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+     pure subroutine stdlib_ctfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -24704,7 +24714,7 @@ module stdlib_linalg_lapack_c
      ! CTFTTP copies a triangular matrix A from rectangular full packed
      ! format (TF) to standard packed format (TP).
 
-     subroutine stdlib_ctfttp(transr,uplo,n,arf,ap,info)
+     pure subroutine stdlib_ctfttp(transr,uplo,n,arf,ap,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -24963,7 +24973,7 @@ module stdlib_linalg_lapack_c
      ! CTFTTR copies a triangular matrix A from rectangular full packed
      ! format (TF) to standard full format (TR).
 
-     subroutine stdlib_ctfttr(transr,uplo,n,arf,a,lda,info)
+     pure subroutine stdlib_ctfttr(transr,uplo,n,arf,a,lda,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -25229,8 +25239,8 @@ module stdlib_linalg_lapack_c
      ! factorization of a matrix pair (A,B), then Z*X and Q*Y
      ! are the matrices of right and left eigenvectors of (A,B).
 
-     subroutine stdlib_ctgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr,mm,m, &
-               work,rwork,info)
+     pure subroutine stdlib_ctgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr, &
+               mm,m,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -25632,7 +25642,8 @@ module stdlib_linalg_lapack_c
      ! Q(in) * A(in) * Z(in)**H = Q(out) * A(out) * Z(out)**H
      ! Q(in) * B(in) * Z(in)**H = Q(out) * B(out) * Z(out)**H
 
-     subroutine stdlib_ctgex2(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,j1,info)
+     pure subroutine stdlib_ctgex2(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,j1,info)
+               
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -25769,8 +25780,8 @@ module stdlib_linalg_lapack_c
      ! Q(in) * A(in) * Z(in)**H = Q(out) * A(out) * Z(out)**H
      ! Q(in) * B(in) * Z(in)**H = Q(out) * B(out) * Z(out)**H
 
-     subroutine stdlib_ctgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst,info)
-               
+     pure subroutine stdlib_ctgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -25846,7 +25857,7 @@ module stdlib_linalg_lapack_c
      ! matrix C, which is composed of a triangular block A and pentagonal block B,
      ! using the compact WY representation for Q.
 
-     subroutine stdlib_ctplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+     pure subroutine stdlib_ctplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -25962,7 +25973,7 @@ module stdlib_linalg_lapack_c
      ! matrix C, which is composed of a triangular block A and pentagonal block B,
      ! using the compact WY representation for Q.
 
-     subroutine stdlib_ctpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
+     pure subroutine stdlib_ctpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -26053,8 +26064,8 @@ module stdlib_linalg_lapack_c
      ! conjugate transpose H**H to a complex matrix C, which is composed of two
      ! blocks A and B, either from the left or right.
 
-     subroutine stdlib_ctprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a,lda,b, &
-               ldb,work,ldwork)
+     pure subroutine stdlib_ctprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a, &
+               lda,b,ldb,work,ldwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -26476,8 +26487,8 @@ module stdlib_linalg_lapack_c
      ! means before entering this routine.  CTPRFS does not do iterative
      ! refinement because doing so cannot improve the backward error.
 
-     subroutine stdlib_ctprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr,work, &
-               rwork,info)
+     pure subroutine stdlib_ctprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr, &
+               work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -26722,7 +26733,7 @@ module stdlib_linalg_lapack_c
      ! CTPTRI computes the inverse of a complex upper or lower triangular
      ! matrix A stored in packed format.
 
-     subroutine stdlib_ctptri(uplo,diag,n,ap,info)
+     pure subroutine stdlib_ctptri(uplo,diag,n,ap,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -26815,7 +26826,7 @@ module stdlib_linalg_lapack_c
      ! and B is an N-by-NRHS matrix.  A check is made to verify that A is
      ! nonsingular.
 
-     subroutine stdlib_ctptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
+     pure subroutine stdlib_ctptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -26885,7 +26896,7 @@ module stdlib_linalg_lapack_c
      ! CTPTTF copies a triangular matrix A from standard packed format (TP)
      ! to rectangular full packed format (TF).
 
-     subroutine stdlib_ctpttf(transr,uplo,n,ap,arf,info)
+     pure subroutine stdlib_ctpttf(transr,uplo,n,ap,arf,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -27143,7 +27154,7 @@ module stdlib_linalg_lapack_c
      ! CTPTTR copies a triangular matrix A from standard packed format (TP)
      ! to standard full format (TR).
 
-     subroutine stdlib_ctpttr(uplo,n,ap,a,lda,info)
+     pure subroutine stdlib_ctpttr(uplo,n,ap,a,lda,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -27210,8 +27221,8 @@ module stdlib_linalg_lapack_c
      ! Schur form T, then Q*X and Q*Y are the matrices of right and left
      ! eigenvectors of A.
 
-     subroutine stdlib_ctrevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m,work, &
-               rwork,info)
+     pure subroutine stdlib_ctrevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+               work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -27410,8 +27421,8 @@ module stdlib_linalg_lapack_c
      ! eigenvectors of A.
      ! This uses a Level 3 BLAS version of the back transformation.
 
-     subroutine stdlib_ctrevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m,work, &
-               lwork,rwork,lrwork,info)
+     pure subroutine stdlib_ctrevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
+               work,lwork,rwork,lrwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -27695,7 +27706,7 @@ module stdlib_linalg_lapack_c
      ! Z**H*T*Z, and optionally the matrix Q of Schur vectors is updated by
      ! postmultplying it with Z.
 
-     subroutine stdlib_ctrexc(compq,n,t,ldt,q,ldq,ifst,ilst,info)
+     pure subroutine stdlib_ctrexc(compq,n,t,ldt,q,ldq,ifst,ilst,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -27774,8 +27785,8 @@ module stdlib_linalg_lapack_c
      ! means before entering this routine.  CTRRFS does not do iterative
      ! refinement because doing so cannot improve the backward error.
 
-     subroutine stdlib_ctrrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr,berr, &
-               work,rwork,info)
+     pure subroutine stdlib_ctrrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr,berr, &
+                work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -28011,8 +28022,8 @@ module stdlib_linalg_lapack_c
      ! eigenvalues and/or right eigenvectors of a complex upper triangular
      ! matrix T (or of any matrix Q*T*Q**H with Q unitary).
 
-     subroutine stdlib_ctrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
-               work,ldwork,rwork,info)
+     pure subroutine stdlib_ctrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
+                m,work,ldwork,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -28160,7 +28171,7 @@ module stdlib_linalg_lapack_c
      ! matrix.
      ! This is the Level 2 BLAS version of the algorithm.
 
-     subroutine stdlib_ctrti2(uplo,diag,n,a,lda,info)
+     pure subroutine stdlib_ctrti2(uplo,diag,n,a,lda,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -28234,7 +28245,7 @@ module stdlib_linalg_lapack_c
      ! matrix A.
      ! This is the Level 3 BLAS version of the algorithm.
 
-     subroutine stdlib_ctrtri(uplo,diag,n,a,lda,info)
+     pure subroutine stdlib_ctrtri(uplo,diag,n,a,lda,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -28322,7 +28333,7 @@ module stdlib_linalg_lapack_c
      ! where A is a triangular matrix of order N, and B is an N-by-NRHS
      ! matrix.  A check is made to verify that A is nonsingular.
 
-     subroutine stdlib_ctrtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
+     pure subroutine stdlib_ctrtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -28380,7 +28391,7 @@ module stdlib_linalg_lapack_c
      ! CTRTTF copies a triangular matrix A from standard full format (TR)
      ! to rectangular full packed format (TF) .
 
-     subroutine stdlib_ctrttf(transr,uplo,n,a,lda,arf,info)
+     pure subroutine stdlib_ctrttf(transr,uplo,n,a,lda,arf,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -28629,7 +28640,7 @@ module stdlib_linalg_lapack_c
      ! CTRTTP copies a triangular matrix A from full format (TR) to standard
      ! packed format (TP).
 
-     subroutine stdlib_ctrttp(uplo,n,a,lda,ap,info)
+     pure subroutine stdlib_ctrttp(uplo,n,a,lda,ap,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -28687,7 +28698,7 @@ module stdlib_linalg_lapack_c
      ! where Z is an N-by-N unitary matrix and R is an M-by-M upper
      ! triangular matrix.
 
-     subroutine stdlib_ctzrzf(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_ctzrzf(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29128,8 +29139,8 @@ module stdlib_linalg_lapack_c
      ! If the projection is zero according to Kahan's "twice is enough"
      ! criterion, then the zero vector is returned.
 
-     subroutine stdlib_cunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
-               info)
+     pure subroutine stdlib_cunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29251,7 +29262,7 @@ module stdlib_linalg_lapack_c
      ! Q  =  H(k) . . . H(2) H(1)
      ! as returned by CGEQLF.
 
-     subroutine stdlib_cung2l(m,n,k,a,lda,tau,work,info)
+     pure subroutine stdlib_cung2l(m,n,k,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29315,7 +29326,7 @@ module stdlib_linalg_lapack_c
      ! Q  =  H(1) H(2) . . . H(k)
      ! as returned by CGEQRF.
 
-     subroutine stdlib_cung2r(m,n,k,a,lda,tau,work,info)
+     pure subroutine stdlib_cung2r(m,n,k,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29380,7 +29391,7 @@ module stdlib_linalg_lapack_c
      ! Q  =  H(k)**H . . . H(2)**H H(1)**H
      ! as returned by CGELQF.
 
-     subroutine stdlib_cungl2(m,n,k,a,lda,tau,work,info)
+     pure subroutine stdlib_cungl2(m,n,k,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29451,7 +29462,7 @@ module stdlib_linalg_lapack_c
      ! Q  =  H(k)**H . . . H(2)**H H(1)**H
      ! as returned by CGELQF.
 
-     subroutine stdlib_cunglq(m,n,k,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cunglq(m,n,k,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29567,7 +29578,7 @@ module stdlib_linalg_lapack_c
      ! Q  =  H(k) . . . H(2) H(1)
      ! as returned by CGEQLF.
 
-     subroutine stdlib_cungql(m,n,k,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cungql(m,n,k,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29688,7 +29699,7 @@ module stdlib_linalg_lapack_c
      ! Q  =  H(1) H(2) . . . H(k)
      ! as returned by CGEQRF.
 
-     subroutine stdlib_cungqr(m,n,k,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cungqr(m,n,k,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29804,7 +29815,7 @@ module stdlib_linalg_lapack_c
      ! Q  =  H(1)**H H(2)**H . . . H(k)**H
      ! as returned by CGERQF.
 
-     subroutine stdlib_cungr2(m,n,k,a,lda,tau,work,info)
+     pure subroutine stdlib_cungr2(m,n,k,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29872,7 +29883,7 @@ module stdlib_linalg_lapack_c
      ! Q  =  H(1)**H H(2)**H . . . H(k)**H
      ! as returned by CGERQF.
 
-     subroutine stdlib_cungrq(m,n,k,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cungrq(m,n,k,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -30004,7 +30015,7 @@ module stdlib_linalg_lapack_c
      ! (hence _ROW in the routine name). This sweep is in reverse order of
      ! the order in which CLATSQR generates the output blocks.
 
-     subroutine stdlib_cungtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+     pure subroutine stdlib_cungtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -30131,7 +30142,7 @@ module stdlib_linalg_lapack_c
            return
      end subroutine stdlib_cungtsqr_row
 
-     subroutine stdlib_cunm22(side,trans,m,n,n1,n2,q,ldq,c,ldc,work,lwork,info)
+     pure subroutine stdlib_cunm22(side,trans,m,n,n1,n2,q,ldq,c,ldc,work,lwork,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -30323,7 +30334,7 @@ module stdlib_linalg_lapack_c
      ! as returned by CGEQLF. Q is of order m if SIDE = 'L' and of order n
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+     pure subroutine stdlib_cunm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -30422,7 +30433,7 @@ module stdlib_linalg_lapack_c
      ! as returned by CGEQRF. Q is of order m if SIDE = 'L' and of order n
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+     pure subroutine stdlib_cunm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -30525,7 +30536,7 @@ module stdlib_linalg_lapack_c
      ! as returned by CGELQF. Q is of order m if SIDE = 'L' and of order n
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunml2(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+     pure subroutine stdlib_cunml2(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -30630,7 +30641,7 @@ module stdlib_linalg_lapack_c
      ! as returned by CGELQF. Q is of order M if SIDE = 'L' and of order N
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunmlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
+     pure subroutine stdlib_cunmlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -30778,7 +30789,7 @@ module stdlib_linalg_lapack_c
      ! as returned by CGEQLF. Q is of order M if SIDE = 'L' and of order N
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunmql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
+     pure subroutine stdlib_cunmql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -30916,7 +30927,7 @@ module stdlib_linalg_lapack_c
      ! as returned by CGEQRF. Q is of order M if SIDE = 'L' and of order N
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunmqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
+     pure subroutine stdlib_cunmqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -31054,7 +31065,7 @@ module stdlib_linalg_lapack_c
      ! as returned by CGERQF. Q is of order m if SIDE = 'L' and of order n
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunmr2(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
+     pure subroutine stdlib_cunmr2(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -31155,7 +31166,8 @@ module stdlib_linalg_lapack_c
      ! as returned by CTZRZF. Q is of order m if SIDE = 'L' and of order n
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunmr3(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,info)
+     pure subroutine stdlib_cunmr3(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -31258,7 +31270,7 @@ module stdlib_linalg_lapack_c
      ! as returned by CGERQF. Q is of order M if SIDE = 'L' and of order N
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunmrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
+     pure subroutine stdlib_cunmrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -31401,8 +31413,8 @@ module stdlib_linalg_lapack_c
      ! as returned by CTZRZF. Q is of order M if SIDE = 'L' and of order N
      ! if SIDE = 'R'.
 
-     subroutine stdlib_cunmrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork,info)
-               
+     pure subroutine stdlib_cunmrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -31567,8 +31579,8 @@ module stdlib_linalg_lapack_c
      ! The input matrices are pre- or post-multiplied by the appropriate
      ! singular vector matrices.
 
-     subroutine stdlib_cbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi,u1,ldu1, &
-     u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d,b22e,rwork, &
+     pure subroutine stdlib_cbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi,u1, &
+     ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d,b22e,rwork, &
                lrwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -32180,8 +32192,8 @@ module stdlib_linalg_lapack_c
      ! Department, University of California at Berkeley, July 1992
      ! for a detailed description of the algorithm.
 
-     subroutine stdlib_cbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc,rwork, &
-               info)
+     pure subroutine stdlib_cbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc,rwork, &
+                info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -32618,8 +32630,8 @@ module stdlib_linalg_lapack_c
      ! condition number is computed as
      ! RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine stdlib_cgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,rwork,info)
-               
+     pure subroutine stdlib_cgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,rwork, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -32749,7 +32761,7 @@ module stdlib_linalg_lapack_c
      ! using partial pivoting with row interchanges.
      ! This is the blocked version of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_cgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
+     pure subroutine stdlib_cgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -32999,7 +33011,7 @@ module stdlib_linalg_lapack_c
      ! with a general band matrix A using the LU factorization computed
      ! by CGBTRF.
 
-     subroutine stdlib_cgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+     pure subroutine stdlib_cgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -33111,7 +33123,7 @@ module stdlib_linalg_lapack_c
      ! real bidiagonal form B by a unitary transformation: Q**H * A * P = B.
      ! If m >= n, B is upper bidiagonal; if m < n, B is lower bidiagonal.
 
-     subroutine stdlib_cgebd2(m,n,a,lda,d,e,tauq,taup,work,info)
+     pure subroutine stdlib_cgebd2(m,n,a,lda,d,e,tauq,taup,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -33212,7 +33224,7 @@ module stdlib_linalg_lapack_c
      ! condition number is computed as
      ! RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine stdlib_cgecon(norm,n,a,lda,anorm,rcond,work,rwork,info)
+     pure subroutine stdlib_cgecon(norm,n,a,lda,anorm,rcond,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -33314,7 +33326,7 @@ module stdlib_linalg_lapack_c
      ! CGEHD2 reduces a complex general matrix A to upper Hessenberg form H
      ! by a unitary similarity transformation:  Q**H * A * Q = H .
 
-     subroutine stdlib_cgehd2(n,ilo,ihi,a,lda,tau,work,info)
+     pure subroutine stdlib_cgehd2(n,ilo,ihi,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -33370,7 +33382,7 @@ module stdlib_linalg_lapack_c
      ! L is a lower-triangular m-by-m matrix;
      ! 0 is a m-by-(n-m) zero matrix, if m < n.
 
-     subroutine stdlib_cgelq2(m,n,a,lda,tau,work,info)
+     pure subroutine stdlib_cgelq2(m,n,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -33426,7 +33438,7 @@ module stdlib_linalg_lapack_c
      ! L is a lower-triangular M-by-M matrix;
      ! 0 is a M-by-(N-M) zero matrix, if M < N.
 
-     subroutine stdlib_cgelqf(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cgelqf(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -33521,7 +33533,7 @@ module stdlib_linalg_lapack_c
      ! Based on the algorithm of Elmroth and Gustavson,
      ! IBM J. Res. Develop. Vol 44 No. 4 July 2000.
 
-     recursive subroutine stdlib_cgelqt3(m,n,a,lda,t,ldt,info)
+     pure recursive subroutine stdlib_cgelqt3(m,n,a,lda,t,ldt,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -33616,7 +33628,7 @@ module stdlib_linalg_lapack_c
      ! generated using the compact WY representation as returned by CGELQT.
      ! Q is of order M if SIDE = 'L' and of order N  if SIDE = 'R'.
 
-     subroutine stdlib_cgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work,info)
+     pure subroutine stdlib_cgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -33714,7 +33726,7 @@ module stdlib_linalg_lapack_c
      ! generated using the compact WY representation as returned by CGEQRT.
      ! Q is of order M if SIDE = 'L' and of order N  if SIDE = 'R'.
 
-     subroutine stdlib_cgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work,info)
+     pure subroutine stdlib_cgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -33805,7 +33817,7 @@ module stdlib_linalg_lapack_c
      ! CGEQL2 computes a QL factorization of a complex m by n matrix A:
      ! A = Q * L.
 
-     subroutine stdlib_cgeql2(m,n,a,lda,tau,work,info)
+     pure subroutine stdlib_cgeql2(m,n,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -33854,7 +33866,7 @@ module stdlib_linalg_lapack_c
      ! CGEQLF computes a QL factorization of a complex M-by-N matrix A:
      ! A = Q * L.
 
-     subroutine stdlib_cgeqlf(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cgeqlf(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -33965,7 +33977,7 @@ module stdlib_linalg_lapack_c
      ! R is an upper-triangular n-by-n matrix;
      ! 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine stdlib_cgeqr2(m,n,a,lda,tau,work,info)
+     pure subroutine stdlib_cgeqr2(m,n,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34076,7 +34088,7 @@ module stdlib_linalg_lapack_c
      ! R is an upper-triangular N-by-N matrix;
      ! 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine stdlib_cgeqrf(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cgeqrf(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34272,7 +34284,7 @@ module stdlib_linalg_lapack_c
      ! CGEQRT2 computes a QR factorization of a complex M-by-N matrix A,
      ! using the compact WY representation of Q.
 
-     subroutine stdlib_cgeqrt2(m,n,a,lda,t,ldt,info)
+     pure subroutine stdlib_cgeqrt2(m,n,a,lda,t,ldt,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34342,7 +34354,7 @@ module stdlib_linalg_lapack_c
      ! Based on the algorithm of Elmroth and Gustavson,
      ! IBM J. Res. Develop. Vol 44 No. 4 July 2000.
 
-     recursive subroutine stdlib_cgeqrt3(m,n,a,lda,t,ldt,info)
+     pure recursive subroutine stdlib_cgeqrt3(m,n,a,lda,t,ldt,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34428,7 +34440,7 @@ module stdlib_linalg_lapack_c
      ! CGERQ2 computes an RQ factorization of a complex m by n matrix A:
      ! A = R * Q.
 
-     subroutine stdlib_cgerq2(m,n,a,lda,tau,work,info)
+     pure subroutine stdlib_cgerq2(m,n,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34479,7 +34491,7 @@ module stdlib_linalg_lapack_c
      ! CGERQF computes an RQ factorization of a complex M-by-N matrix A:
      ! A = R * Q.
 
-     subroutine stdlib_cgerqf(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cgerqf(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34587,7 +34599,7 @@ module stdlib_linalg_lapack_c
      ! with a general N-by-N matrix A using the LU factorization with
      ! complete pivoting computed by CGETC2.
 
-     subroutine stdlib_cgesc2(n,a,lda,rhs,ipiv,jpiv,scale)
+     pure subroutine stdlib_cgesc2(n,a,lda,rhs,ipiv,jpiv,scale)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34661,7 +34673,7 @@ module stdlib_linalg_lapack_c
      ! [ A22 ]
      ! then calls itself to factor A22 and do the swaps on A21.
 
-     recursive subroutine stdlib_cgetrf2(m,n,a,lda,ipiv,info)
+     pure recursive subroutine stdlib_cgetrf2(m,n,a,lda,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34762,7 +34774,7 @@ module stdlib_linalg_lapack_c
      ! This method inverts U and then computes inv(A) by solving the system
      ! inv(A)*L = inv(U) for inv(A).
 
-     subroutine stdlib_cgetri(n,a,lda,ipiv,work,lwork,info)
+     pure subroutine stdlib_cgetri(n,a,lda,ipiv,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34864,7 +34876,7 @@ module stdlib_linalg_lapack_c
      ! with a general N-by-N matrix A using the LU factorization computed
      ! by CGETRF.
 
-     subroutine stdlib_cgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+     pure subroutine stdlib_cgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34952,8 +34964,8 @@ module stdlib_linalg_lapack_c
      ! original equation A*x = lambda*B*x, then CGGHRD reduces the original
      ! problem to generalized Hessenberg form.
 
-     subroutine stdlib_cgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,info)
-               
+     pure subroutine stdlib_cgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35079,7 +35091,8 @@ module stdlib_linalg_lapack_c
      ! where inv(B) denotes the inverse of the matrix B, and Z' denotes the
      ! conjugate transpose of matrix Z.
 
-     subroutine stdlib_cggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+     pure subroutine stdlib_cggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35156,7 +35169,8 @@ module stdlib_linalg_lapack_c
      ! where inv(B) denotes the inverse of the matrix B, and Z**H denotes the
      ! conjugate transpose of the matrix Z.
 
-     subroutine stdlib_cggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+     pure subroutine stdlib_cggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35219,7 +35233,7 @@ module stdlib_linalg_lapack_c
      ! with a tridiagonal matrix A using the LU factorization computed
      ! by CGTTRF.
 
-     subroutine stdlib_cgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
+     pure subroutine stdlib_cgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35283,8 +35297,8 @@ module stdlib_linalg_lapack_c
      ! CHB2ST_KERNELS is an internal routine used by the CHETRD_HB2ST
      ! subroutine.
 
-     subroutine stdlib_chb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda,v, &
-               tau,ldvt,work)
+     pure subroutine stdlib_chb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a,lda, &
+               v,tau,ldvt,work)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35433,7 +35447,7 @@ module stdlib_linalg_lapack_c
      ! the smallest possible condition number over all possible diagonal
      ! scalings.
 
-     subroutine stdlib_cheequb(uplo,n,a,lda,s,scond,amax,work,info)
+     pure subroutine stdlib_cheequb(uplo,n,a,lda,s,scond,amax,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35614,7 +35628,7 @@ module stdlib_linalg_lapack_c
      ! B*A*x = lambda*x, and A is overwritten by U*A*U**H or L**H *A*L.
      ! B must have been previously factorized as U**H *U or L*L**H by ZPOTRF.
 
-     subroutine stdlib_chegs2(itype,uplo,n,a,lda,b,ldb,info)
+     pure subroutine stdlib_chegs2(itype,uplo,n,a,lda,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35746,7 +35760,7 @@ module stdlib_linalg_lapack_c
      ! B*A*x = lambda*x, and A is overwritten by U*A*U**H or L**H*A*L.
      ! B must have been previously factorized as U**H*U or L*L**H by CPOTRF.
 
-     subroutine stdlib_chegst(itype,uplo,n,a,lda,b,ldb,info)
+     pure subroutine stdlib_chegst(itype,uplo,n,a,lda,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35880,7 +35894,7 @@ module stdlib_linalg_lapack_c
      ! tridiagonal form T by a unitary similarity transformation:
      ! Q**H * A * Q = T.
 
-     subroutine stdlib_chetd2(uplo,n,a,lda,d,e,tau,info)
+     pure subroutine stdlib_chetd2(uplo,n,a,lda,d,e,tau,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35984,7 +35998,7 @@ module stdlib_linalg_lapack_c
      ! tridiagonal form T by a unitary similarity transformation:
      ! Q**H * A * Q = T.
 
-     subroutine stdlib_chetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
+     pure subroutine stdlib_chetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -36111,8 +36125,8 @@ module stdlib_linalg_lapack_c
      ! tridiagonal form T by a unitary similarity transformation:
      ! Q**H * A * Q = T.
 
-     subroutine stdlib_chetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous,work, &
-               lwork,info)
+     pure subroutine stdlib_chetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous,lhous, &
+               work,lwork,info)
 #if defined(_OPENMP)
 #endif
         ! -- lapack computational routine --
@@ -36395,7 +36409,7 @@ module stdlib_linalg_lapack_c
      ! band-diagonal form AB by a unitary similarity transformation:
      ! Q**H * A * Q = AB.
 
-     subroutine stdlib_chetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
+     pure subroutine stdlib_chetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -36575,7 +36589,7 @@ module stdlib_linalg_lapack_c
      ! 1-by-1 and 2-by-2 diagonal blocks.
      ! This is the blocked version of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_chetrf(uplo,n,a,lda,ipiv,work,lwork,info)
+     pure subroutine stdlib_chetrf(uplo,n,a,lda,ipiv,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -36702,7 +36716,7 @@ module stdlib_linalg_lapack_c
      ! This is the blocked version of the algorithm, calling Level 3 BLAS.
      ! For more information see Further Details section.
 
-     subroutine stdlib_chetrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+     pure subroutine stdlib_chetrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -36867,7 +36881,7 @@ module stdlib_linalg_lapack_c
      ! 1-by-1 and 2-by-2 diagonal blocks.
      ! This is the blocked version of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_chetrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+     pure subroutine stdlib_chetrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -36990,7 +37004,7 @@ module stdlib_linalg_lapack_c
      ! Hermitian matrix A using the factorization A = U*D*U**H or
      ! A = L*D*L**H computed by CHETRF.
 
-     subroutine stdlib_chetrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+     pure subroutine stdlib_chetrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -37221,7 +37235,7 @@ module stdlib_linalg_lapack_c
      ! Hermitian matrix A using the factorization A = U*D*U**H or
      ! A = L*D*L**H computed by CHETRF and converted by CSYCONV.
 
-     subroutine stdlib_chetrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+     pure subroutine stdlib_chetrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -37402,7 +37416,8 @@ module stdlib_linalg_lapack_c
      ! hermitian matrix A using the factorization A = U**H*T*U or
      ! A = L*T*L**H computed by CHETRF_AA.
 
-     subroutine stdlib_chetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_chetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -37530,7 +37545,7 @@ module stdlib_linalg_lapack_c
      ! Hermitian matrix A using the factorization A = U*D*U**H or
      ! A = L*D*L**H computed by CHETRF_ROOK.
 
-     subroutine stdlib_chetrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+     pure subroutine stdlib_chetrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -37769,7 +37784,7 @@ module stdlib_linalg_lapack_c
      ! real symmetric tridiagonal form T by a unitary similarity
      ! transformation: Q**H * A * Q = T.
 
-     subroutine stdlib_chptrd(uplo,n,ap,d,e,tau,info)
+     pure subroutine stdlib_chptrd(uplo,n,ap,d,e,tau,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -37873,7 +37888,7 @@ module stdlib_linalg_lapack_c
      ! Hermitian matrix A stored in packed format using the factorization
      ! A = U*D*U**H or A = L*D*L**H computed by CHPTRF.
 
-     subroutine stdlib_chptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+     pure subroutine stdlib_chptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -39236,7 +39251,7 @@ module stdlib_linalg_lapack_c
      ! bidiagonal form.
      ! This is an auxiliary routine called by CGEBRD
 
-     subroutine stdlib_clabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
+     pure subroutine stdlib_clabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -39403,7 +39418,7 @@ module stdlib_linalg_lapack_c
      ! the current problem are multiplied with the eigenvectors from
      ! the overall problem.
 
-     subroutine stdlib_claed7(n,cutpnt,qsiz,tlvls,curlvl,curpbm,d,q,ldq,rho,indxq, &
+     pure subroutine stdlib_claed7(n,cutpnt,qsiz,tlvls,curlvl,curpbm,d,q,ldq,rho,indxq, &
                qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,rwork,iwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -39509,8 +39524,8 @@ module stdlib_linalg_lapack_c
      ! corresponding to the eigenvalue W of a complex upper Hessenberg
      ! matrix H.
 
-     subroutine stdlib_claein(rightv,noinit,n,h,ldh,w,v,b,ldb,rwork,eps3,smlnum,info)
-               
+     pure subroutine stdlib_claein(rightv,noinit,n,h,ldh,w,v,b,ldb,rwork,eps3,smlnum, &
+               info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -39673,7 +39688,7 @@ module stdlib_linalg_lapack_c
      ! first rows of input A and B are parallel and the second rows are
      ! zero.
 
-     subroutine stdlib_clags2(upper,a1,a2,a3,b1,b2,b3,csu,snu,csv,snv,csq,snq)
+     pure subroutine stdlib_clags2(upper,a1,a2,a3,b1,b2,b3,csu,snu,csv,snv,csq,snq)
                
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -39840,8 +39855,8 @@ module stdlib_linalg_lapack_c
      ! dealing with the Hessenberg submatrix in rows and columns ILO to
      ! IHI.
 
-     subroutine stdlib_clahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,info)
-               
+     pure subroutine stdlib_clahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,info &
+               )
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -40125,7 +40140,7 @@ module stdlib_linalg_lapack_c
      ! Q as a block reflector I - V*T*v**H, and also the matrix Y = A * V * T.
      ! This is an auxiliary routine called by CGEHRD.
 
-     subroutine stdlib_clahr2(n,k,nb,a,lda,tau,t,ldt,y,ldy)
+     pure subroutine stdlib_clahr2(n,k,nb,a,lda,tau,t,ldt,y,ldy)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -40229,8 +40244,8 @@ module stdlib_linalg_lapack_c
      ! (3R) The inverse transformation of (2L).
      ! (4R) The inverse transformation of (1L).
 
-     subroutine stdlib_clals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr,givcol, &
-               ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,rwork,info)
+     pure subroutine stdlib_clals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
+               givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -40463,8 +40478,8 @@ module stdlib_linalg_lapack_c
      ! right hand side. The singular vector matrices were generated in
      ! compact form by CLALSA.
 
-     subroutine stdlib_clalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k,difl, &
-               difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,rwork,iwork,info)
+     pure subroutine stdlib_clalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k,difl, &
+                difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,rwork,iwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -40771,7 +40786,7 @@ module stdlib_linalg_lapack_c
      ! It could conceivably fail on hexadecimal or decimal machines
      ! without guard digits, but we know of none.
 
-     subroutine stdlib_clalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work,rwork, &
+     pure subroutine stdlib_clalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work,rwork, &
                iwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -41317,7 +41332,7 @@ module stdlib_linalg_lapack_c
      ! the  infinity norm,  or the  element of  largest absolute value  of a
      ! complex tridiagonal matrix A.
 
-     real(sp) function stdlib_clangt(norm,n,dl,d,du)
+     pure real(sp) function stdlib_clangt(norm,n,dl,d,du)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -43042,7 +43057,7 @@ module stdlib_linalg_lapack_c
      ! the  infinity norm,  or the  element of  largest absolute value  of a
      ! complex Hermitian tridiagonal matrix A.
 
-     real(sp) function stdlib_clanht(norm,n,d,e)
+     pure real(sp) function stdlib_clanht(norm,n,d,e)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -44027,7 +44042,7 @@ module stdlib_linalg_lapack_c
      ! The smaller singular value of R is returned in SSMIN, which is used
      ! as the measurement of the linear dependency of the vectors X and Y.
 
-     subroutine stdlib_clapll(n,x,incx,y,incy,ssmin)
+     pure subroutine stdlib_clapll(n,x,incx,y,incy,ssmin)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -44067,7 +44082,7 @@ module stdlib_linalg_lapack_c
      ! the block A(OFFSET+1:M,1:N).
      ! The block A(1:OFFSET,1:N) is accordingly pivoted, but not factorized.
 
-     subroutine stdlib_claqp2(m,n,offset,a,lda,jpvt,tau,vn1,vn2,work)
+     pure subroutine stdlib_claqp2(m,n,offset,a,lda,jpvt,tau,vn1,vn2,work)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -44151,8 +44166,8 @@ module stdlib_linalg_lapack_c
      ! columns is returned in KB.
      ! Block A(1:OFFSET,1:N) is accordingly pivoted, but not factorized.
 
-     subroutine stdlib_claqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f,ldf)
-               
+     pure subroutine stdlib_claqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f, &
+               ldf)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -44287,8 +44302,8 @@ module stdlib_linalg_lapack_c
      ! CLAQR5 called by CLAQR0 performs a
      ! single small-bulge multi-shift QR sweep.
 
-     subroutine stdlib_claqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,s,h,ldh,iloz,ihiz, &
-               z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
+     pure subroutine stdlib_claqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,s,h,ldh,iloz, &
+               ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -44683,13 +44698,13 @@ module stdlib_linalg_lapack_c
 
      ! CLAQZ1 chases a 1x1 shift bulge in a matrix pencil down a single position
 
-     subroutine stdlib_claqz1(ilq,ilz,k,istartm,istopm,ihi,a,lda,b,ldb,nq,qstart,q, &
-               ldq,nz,zstart,z,ldz)
+     pure subroutine stdlib_claqz1(ilq,ilz,k,istartm,istopm,ihi,a,lda,b,ldb,nq,qstart, &
+               q,ldq,nz,zstart,z,ldz)
            ! arguments
            logical(lk),intent(in) :: ilq,ilz
            integer(ilp),intent(in) :: k,lda,ldb,ldq,ldz,istartm,istopm,nq,nz,qstart, &
                      zstart,ihi
-           complex(sp) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
+           complex(sp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
            
            ! local variables
            real(sp) :: c
@@ -44736,8 +44751,8 @@ module stdlib_linalg_lapack_c
 
      ! CLAQZ3 Executes a single multishift QZ sweep
 
-     subroutine stdlib_claqz3(ilschur,ilq,ilz,n,ilo,ihi,nshifts,nblock_desired,alpha, &
-               beta,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,lwork,info)
+     pure subroutine stdlib_claqz3(ilschur,ilq,ilz,n,ilo,ihi,nshifts,nblock_desired,alpha, &
+                beta,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,lwork,info)
            ! function arguments
            logical(lk),intent(in) :: ilschur,ilq,ilz
            integer(ilp),intent(in) :: n,ilo,ihi,lda,ldb,ldq,ldz,lwork,nshifts, &
@@ -44984,7 +44999,7 @@ module stdlib_linalg_lapack_c
      ! If y(i)=0, then c(i)=1 and s(i)=0.
      ! If x(i)=0, then c(i)=0 and s(i) is chosen so that r(i) is real.
 
-     subroutine stdlib_clargv(n,x,incx,y,incy,c,incc)
+     pure subroutine stdlib_clargv(n,x,incx,y,incy,c,incc)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -45130,8 +45145,8 @@ module stdlib_linalg_lapack_c
      ! T = L D L**T given L, D and APPROXIMATIONS to the eigenvalues of L D L**T.
      ! The input eigenvalues should have been computed by SLARRE.
 
-     subroutine stdlib_clarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1,rtol2, &
-               w,werr,wgap,iblock,indexw,gers,z,ldz,isuppz,work,iwork,info)
+     pure subroutine stdlib_clarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
+               rtol2,w,werr,wgap,iblock,indexw,gers,z,ldz,isuppz,work,iwork,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -45783,7 +45798,7 @@ module stdlib_linalg_lapack_c
      ! Z = P * L * U * Q, where P and Q are permutation matrices. L is lower
      ! triangular with unit diagonal elements and U is upper triangular.
 
-     subroutine stdlib_clatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
+     pure subroutine stdlib_clatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -45920,7 +45935,7 @@ module stdlib_linalg_lapack_c
      ! E. Solomonik, J. Parallel Distrib. Comput.,
      ! vol. 85, pp. 3-31, 2015.
 
-     subroutine stdlib_claunhr_col_getrfnp(m,n,a,lda,d,info)
+     pure subroutine stdlib_claunhr_col_getrfnp(m,n,a,lda,d,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -45987,7 +46002,8 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_cpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,rwork,info)
+     pure subroutine stdlib_cpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,rwork,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -46088,8 +46104,8 @@ module stdlib_linalg_lapack_c
      ! and banded, and provides error bounds and backward error estimates
      ! for the solution.
 
-     subroutine stdlib_cpbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx,ferr,berr, &
-                work,rwork,info)
+     pure subroutine stdlib_cpbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx,ferr, &
+               berr,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -46284,7 +46300,7 @@ module stdlib_linalg_lapack_c
      ! A = L  * L**H,  if UPLO = 'L',
      ! where U is an upper triangular matrix and L is lower triangular.
 
-     subroutine stdlib_cpbtrf(uplo,n,kd,ab,ldab,info)
+     pure subroutine stdlib_cpbtrf(uplo,n,kd,ab,ldab,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -46479,7 +46495,7 @@ module stdlib_linalg_lapack_c
      ! positive definite matrix A using the Cholesky factorization
      ! A = U**H*U or A = L*L**H computed by CPFTRF.
 
-     subroutine stdlib_cpftrs(transr,uplo,n,nrhs,a,b,ldb,info)
+     pure subroutine stdlib_cpftrs(transr,uplo,n,nrhs,a,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -46535,7 +46551,7 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_cpocon(uplo,n,a,lda,anorm,rcond,work,rwork,info)
+     pure subroutine stdlib_cpocon(uplo,n,a,lda,anorm,rcond,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -46634,8 +46650,8 @@ module stdlib_linalg_lapack_c
      ! and provides error bounds and backward error estimates for the
      ! solution.
 
-     subroutine stdlib_cporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr,work, &
-               rwork,info)
+     pure subroutine stdlib_cporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
+               work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -46826,7 +46842,7 @@ module stdlib_linalg_lapack_c
      ! where U is an upper triangular matrix and L is lower triangular.
      ! This is the block version of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_cpotrf(uplo,n,a,lda,info)
+     pure subroutine stdlib_cpotrf(uplo,n,a,lda,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -46916,7 +46932,7 @@ module stdlib_linalg_lapack_c
      ! matrix A using the Cholesky factorization A = U**H*U or A = L*L**H
      ! computed by CPOTRF.
 
-     subroutine stdlib_cpotri(uplo,n,a,lda,info)
+     pure subroutine stdlib_cpotri(uplo,n,a,lda,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -46960,7 +46976,7 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_cppcon(uplo,n,ap,anorm,rcond,work,rwork,info)
+     pure subroutine stdlib_cppcon(uplo,n,ap,anorm,rcond,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -47057,8 +47073,8 @@ module stdlib_linalg_lapack_c
      ! and packed, and provides error bounds and backward error estimates
      ! for the solution.
 
-     subroutine stdlib_cpprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work,rwork, &
-               info)
+     pure subroutine stdlib_cpprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work, &
+               rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -47255,7 +47271,7 @@ module stdlib_linalg_lapack_c
      ! matrix.  The factored form of A is then used to solve the system of
      ! equations A * X = B.
 
-     subroutine stdlib_cppsv(uplo,n,nrhs,ap,b,ldb,info)
+     pure subroutine stdlib_cppsv(uplo,n,nrhs,ap,b,ldb,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -47437,7 +47453,7 @@ module stdlib_linalg_lapack_c
      ! matrix A using the Cholesky factorization A = U**H*U or A = L*L**H
      ! computed by CPPTRF.
 
-     subroutine stdlib_cpptri(uplo,n,ap,info)
+     pure subroutine stdlib_cpptri(uplo,n,ap,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -47513,7 +47529,7 @@ module stdlib_linalg_lapack_c
      ! high relative accuracy in the small eigenvalues of the original
      ! matrix, if these eigenvalues range over many orders of magnitude.)
 
-     subroutine stdlib_cpteqr(compz,n,d,e,z,ldz,work,info)
+     pure subroutine stdlib_cpteqr(compz,n,d,e,z,ldz,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -47599,7 +47615,7 @@ module stdlib_linalg_lapack_c
      ! bidiagonal matrix whose superdiagonal (subdiagonal) is specified in
      ! the vector E, and X and B are N by NRHS matrices.
 
-     subroutine stdlib_cpttrs(uplo,n,nrhs,d,e,b,ldb,info)
+     pure subroutine stdlib_cpttrs(uplo,n,nrhs,d,e,b,ldb,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -47665,7 +47681,7 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_cspcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
+     pure subroutine stdlib_cspcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -47745,8 +47761,8 @@ module stdlib_linalg_lapack_c
      ! and packed, and provides error bounds and backward error estimates
      ! for the solution.
 
-     subroutine stdlib_csprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
-               rwork,info)
+     pure subroutine stdlib_csprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
+                rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -47945,7 +47961,7 @@ module stdlib_linalg_lapack_c
      ! and 2-by-2 diagonal blocks.  The factored form of A is then used to
      ! solve the system of equations A * X = B.
 
-     subroutine stdlib_cspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+     pure subroutine stdlib_cspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -48122,8 +48138,8 @@ module stdlib_linalg_lapack_c
      ! CSTEMR accepts complex workspace to facilitate interoperability
      ! with CUNMTR or CUPMTR.
 
-     subroutine stdlib_cstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc,isuppz, &
-               tryrac,work,lwork,iwork,liwork,info)
+     pure subroutine stdlib_cstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc, &
+               isuppz,tryrac,work,lwork,iwork,liwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -48502,7 +48518,7 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_csycon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+     pure subroutine stdlib_csycon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -48583,7 +48599,7 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_csycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+     pure subroutine stdlib_csycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -48662,8 +48678,8 @@ module stdlib_linalg_lapack_c
      ! equations when the coefficient matrix is symmetric indefinite, and
      ! provides error bounds and backward error estimates for the solution.
 
-     subroutine stdlib_csyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr,berr, &
-               work,rwork,info)
+     pure subroutine stdlib_csyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
+               berr,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -48859,7 +48875,7 @@ module stdlib_linalg_lapack_c
      ! 1-by-1 and 2-by-2 diagonal blocks.  The factored form of A is then
      ! used to solve the system of equations A * X = B.
 
-     subroutine stdlib_csysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_csysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -48940,7 +48956,7 @@ module stdlib_linalg_lapack_c
      ! symmetric matrix.  The factored form of A is then used to solve
      ! the system of equations A * X = B by calling BLAS3 routine CSYTRS_3.
 
-     subroutine stdlib_csysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_csysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
                
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -49018,7 +49034,8 @@ module stdlib_linalg_lapack_c
      ! The factored form of A is then used to solve the system
      ! of equations A * X = B by calling CSYTRS_ROOK.
 
-     subroutine stdlib_csysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_csysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -49289,7 +49306,7 @@ module stdlib_linalg_lapack_c
      ! format.
      ! This is a Level 3 BLAS version of the algorithm.
 
-     subroutine stdlib_ctftri(transr,uplo,diag,n,a,info)
+     pure subroutine stdlib_ctftri(transr,uplo,diag,n,a,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -49531,8 +49548,8 @@ module stdlib_linalg_lapack_c
      ! is optional.  These matrices may either be formed explicitly, or they
      ! may be postmultiplied into input matrices U1, V1, or Q1.
 
-     subroutine stdlib_ctgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb,alpha, &
-               beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
+     pure subroutine stdlib_ctgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
+               alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -49741,8 +49758,8 @@ module stdlib_linalg_lapack_c
      ! the input (A, D), (B, E) are sub-pencils of two matrix pairs in
      ! CTGSYL.
 
-     subroutine stdlib_ctgsy2(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f,ldf, &
-               scale,rdsum,rdscal,info)
+     pure subroutine stdlib_ctgsy2(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f, &
+               ldf,scale,rdsum,rdscal,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -49932,8 +49949,8 @@ module stdlib_linalg_lapack_c
      ! reciprocal of the smallest singular value of Z.
      ! This is a level-3 BLAS algorithm.
 
-     subroutine stdlib_ctgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f,ldf, &
-               scale,dif,work,lwork,iwork,info)
+     pure subroutine stdlib_ctgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde,f, &
+               ldf,scale,dif,work,lwork,iwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -50362,7 +50379,7 @@ module stdlib_linalg_lapack_c
      ! triangular block A and pentagonal block B, using the compact
      ! WY representation for Q.
 
-     subroutine stdlib_ctplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
+     pure subroutine stdlib_ctplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -50423,8 +50440,8 @@ module stdlib_linalg_lapack_c
      ! "triangular-pentagonal" complex block reflector H to a general
      ! complex matrix C, which consists of two blocks A and B.
 
-     subroutine stdlib_ctpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b,ldb,work, &
-               info)
+     pure subroutine stdlib_ctpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b,ldb, &
+               work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -50541,8 +50558,8 @@ module stdlib_linalg_lapack_c
      ! "triangular-pentagonal" complex block reflector H to a general
      ! complex matrix C, which consists of two blocks A and B.
 
-     subroutine stdlib_ctpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b,ldb,work, &
-               info)
+     pure subroutine stdlib_ctpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b,ldb, &
+               work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -50662,7 +50679,7 @@ module stdlib_linalg_lapack_c
      ! triangular block A and pentagonal block B, using the compact
      ! WY representation for Q.
 
-     subroutine stdlib_ctpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
+     pure subroutine stdlib_ctpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51063,8 +51080,8 @@ module stdlib_linalg_lapack_c
      ! is returned. This vector is chosen in an arbitrary but deterministic
      ! way.
 
-     subroutine stdlib_cunbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
-               info)
+     pure subroutine stdlib_cunbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
+               lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51445,7 +51462,7 @@ module stdlib_linalg_lapack_c
      ! CGEHRD:
      ! Q = H(ilo) H(ilo+1) . . . H(ihi-1).
 
-     subroutine stdlib_cunghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cunghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51536,7 +51553,7 @@ module stdlib_linalg_lapack_c
      ! if UPLO = 'U', Q = H(n-1) . . . H(2) H(1),
      ! if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
 
-     subroutine stdlib_cungtr(uplo,n,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cungtr(uplo,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51641,7 +51658,7 @@ module stdlib_linalg_lapack_c
      ! Block reflectors are also returned in T
      ! (same output format as CGEQRT).
 
-     subroutine stdlib_cunhr_col(m,n,nb,a,lda,t,ldt,d,info)
+     pure subroutine stdlib_cunhr_col(m,n,nb,a,lda,t,ldt,d,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51777,8 +51794,8 @@ module stdlib_linalg_lapack_c
      ! IHI-ILO elementary reflectors, as returned by CGEHRD:
      ! Q = H(ilo) H(ilo+1) . . . H(ihi-1).
 
-     subroutine stdlib_cunmhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work,lwork,info &
-               )
+     pure subroutine stdlib_cunmhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work,lwork, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51877,8 +51894,8 @@ module stdlib_linalg_lapack_c
      ! if UPLO = 'U', Q = H(nq-1) . . . H(2) H(1);
      ! if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
 
-     subroutine stdlib_cunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork,info)
-               
+     pure subroutine stdlib_cunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51989,7 +52006,7 @@ module stdlib_linalg_lapack_c
      ! if UPLO = 'U', Q = H(n-1) . . . H(2) H(1),
      ! if UPLO = 'L', Q = H(1) H(2) . . . H(n-1).
 
-     subroutine stdlib_cupgtr(uplo,n,ap,tau,q,ldq,work,info)
+     pure subroutine stdlib_cupgtr(uplo,n,ap,tau,q,ldq,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -52081,7 +52098,7 @@ module stdlib_linalg_lapack_c
      ! if UPLO = 'U', Q = H(nq-1) . . . H(2) H(1);
      ! if UPLO = 'L', Q = H(1) H(2) . . . H(nq-1).
 
-     subroutine stdlib_cupmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
+     pure subroutine stdlib_cupmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -52232,8 +52249,8 @@ module stdlib_linalg_lapack_c
      ! The routine computes B, and optionally forms Q or P**H, or computes
      ! Q**H*C for a given matrix C.
 
-     subroutine stdlib_cgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt,c,ldc, &
-               work,rwork,info)
+     pure subroutine stdlib_cgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt,c, &
+               ldc,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -52507,8 +52524,8 @@ module stdlib_linalg_lapack_c
      ! equations when the coefficient matrix is banded, and provides
      ! error bounds and backward error estimates for the solution.
 
-     subroutine stdlib_cgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb,x,ldx, &
-               ferr,berr,work,rwork,info)
+     pure subroutine stdlib_cgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb,x, &
+               ldx,ferr,berr,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -52714,7 +52731,7 @@ module stdlib_linalg_lapack_c
      ! upper triangular with KL+KU superdiagonals.  The factored form of A
      ! is then used to solve the system of equations A * X = B.
 
-     subroutine stdlib_cgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
+     pure subroutine stdlib_cgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -52988,7 +53005,7 @@ module stdlib_linalg_lapack_c
      ! bidiagonal form B by a unitary transformation: Q**H * A * P = B.
      ! If m >= n, B is upper bidiagonal; if m < n, B is lower bidiagonal.
 
-     subroutine stdlib_cgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
+     pure subroutine stdlib_cgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -53094,7 +53111,7 @@ module stdlib_linalg_lapack_c
      ! CGEHRD reduces a complex general matrix A to upper Hessenberg form H by
      ! an unitary similarity transformation:  Q**H * A * Q = H .
 
-     subroutine stdlib_cgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -53223,7 +53240,7 @@ module stdlib_linalg_lapack_c
      ! CGELQT computes a blocked LQ factorization of a complex M-by-N matrix A
      ! using the compact WY representation of Q.
 
-     subroutine stdlib_cgelqt(m,n,mb,a,lda,t,ldt,work,info)
+     pure subroutine stdlib_cgelqt(m,n,mb,a,lda,t,ldt,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -53491,7 +53508,7 @@ module stdlib_linalg_lapack_c
      ! CGEQP3 computes a QR factorization with column pivoting of a
      ! matrix A:  A*P = Q*R  using Level 3 BLAS.
 
-     subroutine stdlib_cgeqp3(m,n,a,lda,jpvt,tau,work,lwork,rwork,info)
+     pure subroutine stdlib_cgeqp3(m,n,a,lda,jpvt,tau,work,lwork,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -53643,7 +53660,7 @@ module stdlib_linalg_lapack_c
      ! CGEQRT computes a blocked QR factorization of a complex M-by-N matrix A
      ! using the compact WY representation of Q.
 
-     subroutine stdlib_cgeqrt(m,n,nb,a,lda,t,ldt,work,info)
+     pure subroutine stdlib_cgeqrt(m,n,nb,a,lda,t,ldt,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -53701,8 +53718,8 @@ module stdlib_linalg_lapack_c
      ! equations and provides error bounds and backward error estimates for
      ! the solution.
 
-     subroutine stdlib_cgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr,berr, &
-               work,rwork,info)
+     pure subroutine stdlib_cgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
+               berr,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -53899,7 +53916,7 @@ module stdlib_linalg_lapack_c
      ! triangular (upper trapezoidal if m < n).
      ! This is the right-looking Level 3 BLAS version of the algorithm.
 
-     subroutine stdlib_cgetrf(m,n,a,lda,ipiv,info)
+     pure subroutine stdlib_cgetrf(m,n,a,lda,ipiv,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -53987,7 +54004,7 @@ module stdlib_linalg_lapack_c
      ! x
      ! where inv(B) denotes the inverse of B.
 
-     subroutine stdlib_cggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
+     pure subroutine stdlib_cggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -54130,8 +54147,8 @@ module stdlib_linalg_lapack_c
      ! This is a blocked variant of CGGHRD, using matrix-matrix
      ! multiplications for parts of the computation to enhance performance.
 
-     subroutine stdlib_cgghd3(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,work, &
-               lwork,info)
+     pure subroutine stdlib_cgghd3(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz, &
+               work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -54647,7 +54664,7 @@ module stdlib_linalg_lapack_c
      ! matrices (B, A) given by
      ! B = (0 R)*Q,   A = Z*T*Q.
 
-     subroutine stdlib_cgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
+     pure subroutine stdlib_cgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -54772,7 +54789,8 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_cgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,info)
+     pure subroutine stdlib_cgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -54853,8 +54871,8 @@ module stdlib_linalg_lapack_c
      ! equations when the coefficient matrix is tridiagonal, and provides
      ! error bounds and backward error estimates for the solution.
 
-     subroutine stdlib_cgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb,x,ldx, &
-               ferr,berr,work,rwork,info)
+     pure subroutine stdlib_cgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb,x, &
+               ldx,ferr,berr,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -55060,8 +55078,8 @@ module stdlib_linalg_lapack_c
      ! Error bounds on the solution and a condition estimate are also
      ! provided.
 
-     subroutine stdlib_cgtsvx(fact,trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb,x, &
-                ldx,rcond,ferr,berr,work,rwork,info)
+     pure subroutine stdlib_cgtsvx(fact,trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b, &
+               ldb,x,ldx,rcond,ferr,berr,work,rwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -55149,8 +55167,8 @@ module stdlib_linalg_lapack_c
      ! X = S**(-1)*Q and Q is a unitary matrix chosen to preserve the
      ! bandwidth of A.
 
-     subroutine stdlib_chbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work,rwork, &
-               info)
+     pure subroutine stdlib_chbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work,rwork, &
+                info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -56076,7 +56094,7 @@ module stdlib_linalg_lapack_c
      ! tridiagonal form T by a unitary similarity transformation:
      ! Q**H * A * Q = T.
 
-     subroutine stdlib_chbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
+     pure subroutine stdlib_chbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -56441,7 +56459,7 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_checon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+     pure subroutine stdlib_checon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -56522,7 +56540,7 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_checon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
+     pure subroutine stdlib_checon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -57525,8 +57543,8 @@ module stdlib_linalg_lapack_c
      ! equations when the coefficient matrix is Hermitian indefinite, and
      ! provides error bounds and backward error estimates for the solution.
 
-     subroutine stdlib_cherfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr,berr, &
-               work,rwork,info)
+     pure subroutine stdlib_cherfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
+               berr,work,rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -57722,7 +57740,7 @@ module stdlib_linalg_lapack_c
      ! 1-by-1 and 2-by-2 diagonal blocks.  The factored form of A is then
      ! used to solve the system of equations A * X = B.
 
-     subroutine stdlib_chesv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_chesv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -57803,7 +57821,7 @@ module stdlib_linalg_lapack_c
      ! Hermitian matrix.  The factored form of A is then used to solve
      ! the system of equations A * X = B by calling BLAS3 routine CHETRS_3.
 
-     subroutine stdlib_chesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_chesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
                
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -57881,7 +57899,8 @@ module stdlib_linalg_lapack_c
      ! The factored form of A is then used to solve the system
      ! of equations A * X = B by calling CHETRS_ROOK (uses BLAS 2).
 
-     subroutine stdlib_chesv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_chesv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -58543,7 +58562,7 @@ module stdlib_linalg_lapack_c
      ! An estimate is obtained for norm(inv(A)), and the reciprocal of the
      ! condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
-     subroutine stdlib_chpcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
+     pure subroutine stdlib_chpcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -59133,8 +59152,8 @@ module stdlib_linalg_lapack_c
      ! and packed, and provides error bounds and backward error estimates
      ! for the solution.
 
-     subroutine stdlib_chprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
-               rwork,info)
+     pure subroutine stdlib_chprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
+                rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -59333,7 +59352,7 @@ module stdlib_linalg_lapack_c
      ! and 2-by-2 diagonal blocks.  The factored form of A is then used to
      ! solve the system of equations A * X = B.
 
-     subroutine stdlib_chpsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+     pure subroutine stdlib_chpsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -59628,7 +59647,8 @@ module stdlib_linalg_lapack_c
      ! those from reducing a dense or band Hermitian matrix and
      ! corresponding eigenvectors of the dense or band matrix.
 
-     subroutine stdlib_claed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
+     pure subroutine stdlib_claed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -59808,8 +59828,8 @@ module stdlib_linalg_lapack_c
      ! elementary reflectors computed by short wide LQ
      ! factorization (CLASWLQ)
 
-     subroutine stdlib_clamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work,lwork, &
-                info)
+     pure subroutine stdlib_clamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
+               lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -59966,8 +59986,8 @@ module stdlib_linalg_lapack_c
      ! of blocked elementary reflectors computed by tall skinny
      ! QR factorization (CLATSQR)
 
-     subroutine stdlib_clamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work,lwork, &
-                info)
+     pure subroutine stdlib_clamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc,work, &
+               lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -60132,8 +60152,8 @@ module stdlib_linalg_lapack_c
      ! hoped that the final version of H has many zero subdiagonal
      ! entries.
 
-     subroutine stdlib_claqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
-                sh,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
+     pure subroutine stdlib_claqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz, &
+               ns,nd,sh,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -60344,7 +60364,7 @@ module stdlib_linalg_lapack_c
      ! the elements on and below the diagonal of the array A.
      ! 0 is a M-by-(N-M) zero matrix, if M < N, and is not stored.
 
-     subroutine stdlib_claswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+     pure subroutine stdlib_claswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
@@ -60429,7 +60449,7 @@ module stdlib_linalg_lapack_c
      ! the elements on and above the diagonal of the array A.
      ! 0 is a (M-N)-by-N zero matrix, and is not stored.
 
-     subroutine stdlib_clatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+     pure subroutine stdlib_clatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
@@ -60514,7 +60534,7 @@ module stdlib_linalg_lapack_c
      ! subdiagonals as A.  The factored form of A is then used to solve the
      ! system of equations A * X = B.
 
-     subroutine stdlib_cpbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
+     pure subroutine stdlib_cpbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -60721,7 +60741,7 @@ module stdlib_linalg_lapack_c
      ! where U is an upper triangular matrix and L is lower triangular.
      ! This is the block version of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_cpftrf(transr,uplo,n,a,info)
+     pure subroutine stdlib_cpftrf(transr,uplo,n,a,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -60892,7 +60912,7 @@ module stdlib_linalg_lapack_c
      ! matrix A using the Cholesky factorization A = U**H*U or A = L*L**H
      ! computed by CPFTRF.
 
-     subroutine stdlib_cpftri(transr,uplo,n,a,info)
+     pure subroutine stdlib_cpftri(transr,uplo,n,a,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -61057,7 +61077,7 @@ module stdlib_linalg_lapack_c
      ! matrix.  The factored form of A is then used to solve the system of
      ! equations A * X = B.
 
-     subroutine stdlib_cposv(uplo,n,nrhs,a,lda,b,ldb,info)
+     pure subroutine stdlib_cposv(uplo,n,nrhs,a,lda,b,ldb,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -61246,7 +61266,7 @@ module stdlib_linalg_lapack_c
      ! and tridiagonal, and provides error bounds and backward error
      ! estimates for the solution.
 
-     subroutine stdlib_cptrfs(uplo,n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work, &
+     pure subroutine stdlib_cptrfs(uplo,n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work, &
                rwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -61461,7 +61481,7 @@ module stdlib_linalg_lapack_c
      ! A is factored as A = L*D*L**H, and the factored form of A is then
      ! used to solve the system of equations.
 
-     subroutine stdlib_cptsv(n,nrhs,d,e,b,ldb,info)
+     pure subroutine stdlib_cptsv(n,nrhs,d,e,b,ldb,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -61504,8 +61524,8 @@ module stdlib_linalg_lapack_c
      ! Error bounds on the solution and a condition estimate are also
      ! provided.
 
-     subroutine stdlib_cptsvx(fact,n,nrhs,d,e,df,ef,b,ldb,x,ldx,rcond,ferr,berr, &
-               work,rwork,info)
+     pure subroutine stdlib_cptsvx(fact,n,nrhs,d,e,df,ef,b,ldb,x,ldx,rcond,ferr,berr, &
+                work,rwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -61586,8 +61606,8 @@ module stdlib_linalg_lapack_c
      ! It could conceivably fail on hexadecimal or decimal machines
      ! without guard digits, but we know of none.  See SLAED3 for details.
 
-     subroutine stdlib_cstedc(compz,n,d,e,z,ldz,work,lwork,rwork,lrwork,iwork,liwork, &
-               info)
+     pure subroutine stdlib_cstedc(compz,n,d,e,z,ldz,work,lwork,rwork,lrwork,iwork, &
+               liwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -61805,8 +61825,8 @@ module stdlib_linalg_lapack_c
      ! may abort due to a floating point exception in environments which
      ! do not conform to the IEEE-754 standard.
 
-     subroutine stdlib_cstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz,isuppz, &
-               work,lwork,iwork,liwork,info)
+     pure subroutine stdlib_cstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
+               isuppz,work,lwork,iwork,liwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -61849,8 +61869,8 @@ module stdlib_linalg_lapack_c
      ! and norms of "projections" onto left and right eigenspaces w.r.t.
      ! the selected cluster in the (1,1)-block.
 
-     subroutine stdlib_ctgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alpha,beta,q,ldq, &
-               z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
+     pure subroutine stdlib_ctgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alpha,beta,q, &
+               ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -62113,8 +62133,8 @@ module stdlib_linalg_lapack_c
      ! (A, B) must be in generalized Schur canonical form, that is, A and
      ! B are both upper triangular.
 
-     subroutine stdlib_ctgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr,s,dif, &
-               mm,m,work,lwork,iwork,info)
+     pure subroutine stdlib_ctgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr,s, &
+               dif,mm,m,work,lwork,iwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -63338,7 +63358,7 @@ module stdlib_linalg_lapack_c
      ! if k >= n, P**H = G(n-1) . . . G(2) G(1) and CUNGBR returns P**H as
      ! an N-by-N matrix.
 
-     subroutine stdlib_cungbr(vect,m,n,k,a,lda,tau,work,lwork,info)
+     pure subroutine stdlib_cungbr(vect,m,n,k,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -63476,7 +63496,7 @@ module stdlib_linalg_lapack_c
      ! Q_out = first_N_columns_of( Q(1)_in * Q(2)_in * ... * Q(k)_in ).
      ! See the documentation for CLATSQR.
 
-     subroutine stdlib_cungtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
+     pure subroutine stdlib_cungtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -63591,8 +63611,8 @@ module stdlib_linalg_lapack_c
      ! if k < nq, P = G(1) G(2) . . . G(k);
      ! if k >= nq, P = G(1) G(2) . . . G(nq-1).
 
-     subroutine stdlib_cunmbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-               
+     pure subroutine stdlib_cunmbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -63736,7 +63756,7 @@ module stdlib_linalg_lapack_c
      ! L is a lower-triangular M-by-M matrix;
      ! 0 is a M-by-(N-M) zero matrix, if M < N.
 
-     subroutine stdlib_cgelq(m,n,a,lda,t,tsize,work,lwork,info)
+     pure subroutine stdlib_cgelq(m,n,a,lda,t,tsize,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
@@ -64879,8 +64899,8 @@ module stdlib_linalg_lapack_c
      ! of blocked elementary reflectors computed by short wide
      ! LQ factorization (CGELQ)
 
-     subroutine stdlib_cgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork,info)
-               
+     pure subroutine stdlib_cgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -64976,8 +64996,8 @@ module stdlib_linalg_lapack_c
      ! of blocked elementary reflectors computed by tall skinny
      ! QR factorization (CGEQR)
 
-     subroutine stdlib_cgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork,info)
-               
+     pure subroutine stdlib_cgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
+               info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -65073,7 +65093,7 @@ module stdlib_linalg_lapack_c
      ! R is an upper-triangular N-by-N matrix;
      ! 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine stdlib_cgeqr(m,n,a,lda,t,tsize,work,lwork,info)
+     pure subroutine stdlib_cgeqr(m,n,a,lda,t,tsize,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd. --
@@ -66684,7 +66704,7 @@ module stdlib_linalg_lapack_c
      ! upper triangular.  The factored form of A is then used to solve the
      ! system of equations A * X = B.
 
-     subroutine stdlib_cgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
+     pure subroutine stdlib_cgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -70500,7 +70520,8 @@ module stdlib_linalg_lapack_c
      ! (Q is in blocked compact WY-representation). See the documentation
      ! of CGEQRT for more details on the format.
 
-     subroutine stdlib_cgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
+     pure subroutine stdlib_cgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
+               
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -72283,8 +72304,8 @@ module stdlib_linalg_lapack_c
      ! the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
      ! and banded, and B is also positive definite.
 
-     subroutine stdlib_chbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work,rwork, &
-               info)
+     pure subroutine stdlib_chbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               rwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -72370,8 +72391,8 @@ module stdlib_linalg_lapack_c
      ! Cray-2. It could conceivably fail on hexadecimal or decimal machines
      ! without guard digits, but we know of none.
 
-     subroutine stdlib_chbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work,lwork, &
-               rwork,lrwork,iwork,liwork,info)
+     pure subroutine stdlib_chbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
+               lwork,rwork,lrwork,iwork,liwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -72492,8 +72513,8 @@ module stdlib_linalg_lapack_c
      ! eigenvectors can be selected by specifying either all eigenvalues,
      ! a range of values or a range of indices for the desired eigenvalues.
 
-     subroutine stdlib_chbgvx(jobz,range,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,vl,vu, &
-               il,iu,abstol,m,w,z,ldz,work,rwork,iwork,ifail,info)
+     pure subroutine stdlib_chbgvx(jobz,range,uplo,n,ka,kb,ab,ldab,bb,ldbb,q,ldq,vl, &
+               vu,il,iu,abstol,m,w,z,ldz,work,rwork,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -74166,8 +74187,8 @@ module stdlib_linalg_lapack_c
      ! are computed and stored in the arrays U and V, respectively. The diagonal
      ! of [SIGMA] is computed and stored in the array SVA.
 
-     subroutine stdlib_cgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u,ldu,v, &
-               ldv,cwork,lwork,rwork,lrwork,iwork,info)
+     pure subroutine stdlib_cgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u,ldu, &
+               v,ldv,cwork,lwork,rwork,lrwork,iwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -75571,7 +75592,7 @@ module stdlib_linalg_lapack_c
      ! of SIGMA are the singular values of A. The columns of U and V are the
      ! left and the right singular vectors of A, respectively.
 
-     subroutine stdlib_cgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,cwork,lwork, &
+     pure subroutine stdlib_cgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,cwork,lwork, &
                rwork,lrwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -76937,8 +76958,8 @@ module stdlib_linalg_lapack_c
      ! it does not check convergence (stopping criterion). Few tuning
      ! parameters (marked by [TP]) are available for the implementer.
 
-     subroutine stdlib_cgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol,nsweep, &
-               work,lwork,info)
+     pure subroutine stdlib_cgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+               nsweep,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -77497,8 +77518,8 @@ module stdlib_linalg_lapack_c
      ! The number of sweeps is given in NSWEEP and the orthogonality threshold
      ! is given in TOL.
 
-     subroutine stdlib_cgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol,nsweep, &
-                work,lwork,info)
+     pure subroutine stdlib_cgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
+               nsweep,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -77856,7 +77877,8 @@ module stdlib_linalg_lapack_c
      ! triangular matrices, and T is Hermitian and tridiagonal. The factored form
      ! of A is then used to solve the system of equations A * X = B.
 
-     subroutine stdlib_chesv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_chesv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -77923,7 +77945,7 @@ module stdlib_linalg_lapack_c
      ! triangular matrices, and T is a hermitian tridiagonal matrix.
      ! This is the blocked version of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_chetrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+     pure subroutine stdlib_chetrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -78154,7 +78176,7 @@ module stdlib_linalg_lapack_c
      ! of a matrix A which has been reduced to the Hessenberg form H
      ! by the unitary matrix Q:  A = Q*H*Q**H = (QZ)*T*(QZ)**H.
 
-     subroutine stdlib_chseqr(job,compz,n,ilo,ihi,h,ldh,w,z,ldz,work,lwork,info)
+     pure subroutine stdlib_chseqr(job,compz,n,ilo,ihi,h,ldh,w,z,ldz,work,lwork,info)
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -78299,7 +78321,7 @@ module stdlib_linalg_lapack_c
      ! (J-1)-th row, or column, of A (without the unit diagonals), while
      ! the diagonal and subdiagonal of A are overwritten by those of T.
 
-     subroutine stdlib_clahef_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
+     pure subroutine stdlib_clahef_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -78541,8 +78563,8 @@ module stdlib_linalg_lapack_c
      ! of a matrix A which has been reduced to the Hessenberg form H
      ! by the unitary matrix Q:  A = Q*H*Q**H = (QZ)*H*(QZ)**H.
 
-     subroutine stdlib_claqr0(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,work, &
-               lwork,info)
+     pure subroutine stdlib_claqr0(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,work, &
+                lwork,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -78887,8 +78909,8 @@ module stdlib_linalg_lapack_c
      ! hoped that the final version of H has many zero subdiagonal
      ! entries.
 
-     subroutine stdlib_claqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
-                sh,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
+     pure subroutine stdlib_claqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz, &
+               ns,nd,sh,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -79113,8 +79135,8 @@ module stdlib_linalg_lapack_c
      ! of a matrix A which has been reduced to the Hessenberg form H
      ! by the unitary matrix Q:  A = Q*H*Q**H = (QZ)*H*(QZ)**H.
 
-     subroutine stdlib_claqr4(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,work, &
-               lwork,info)
+     pure subroutine stdlib_claqr4(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz,work, &
+                lwork,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -79499,9 +79521,9 @@ module stdlib_linalg_lapack_c
            real(sp) :: smlnum,ulp,safmin,safmax,c1,tempr
            complex(sp) :: eshift,s1,temp
            integer(ilp) :: istart,istop,iiter,maxit,istart2,k,ld,nshifts,nblock,nw,nmin, &
-           nibble,n_undeflated,n_deflated,ns,sweep_info,shiftpos,lworkreq,k2,istartm, &
-           istopm,iwants,iwantq,iwantz,norm_info,aed_info,nwr,nbr,nsr,itemp1,itemp2, &
-                     rcost
+            nibble,n_undeflated,n_deflated,ns,sweep_info,shiftpos,lworkreq,k2,istartm, &
+            istopm,iwants,iwantq,iwantz,norm_info,aed_info,nwr,nbr,nsr,itemp1,itemp2, &
+                      rcost
            logical(lk) :: ilschur,ilq,ilz
            character :: jbcmpz*3
            if (stdlib_lsame(wants,'E')) then
@@ -79807,8 +79829,9 @@ module stdlib_linalg_lapack_c
            complex(sp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*), &
                      alpha(*),beta(*)
            integer(ilp),intent(out) :: ns,nd,info
-           complex(sp) :: qc(ldqc,*),zc(ldzc,*),work(*)
-           real(sp) :: rwork(*)
+           complex(sp),intent(inout) :: qc(ldqc,*),zc(ldzc,*)
+           complex(sp),intent(out) :: work(*)
+           real(sp),intent(out) :: rwork(*)
            
            ! local scalars
            integer(ilp) :: jw,kwtop,kwbot,istopm,istartm,k,k2,ctgexc_info,ifst,ilst, &
@@ -79994,7 +80017,7 @@ module stdlib_linalg_lapack_c
      ! (J-1)-th row, or column, of A (without the unit diagonals), while
      ! the diagonal and subdiagonal of A are overwritten by those of T.
 
-     subroutine stdlib_clasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
+     pure subroutine stdlib_clasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -80230,7 +80253,8 @@ module stdlib_linalg_lapack_c
      ! triangular matrices, and T is symmetric tridiagonal. The factored
      ! form of A is then used to solve the system of equations A * X = B.
 
-     subroutine stdlib_csysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+     pure subroutine stdlib_csysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+               
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -80297,7 +80321,7 @@ module stdlib_linalg_lapack_c
      ! triangular matrices, and T is a complex symmetric tridiagonal matrix.
      ! This is the blocked version of the algorithm, calling Level 3 BLAS.
 
-     subroutine stdlib_csytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+     pure subroutine stdlib_csytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--

@@ -839,7 +839,7 @@ module stdlib_linalg_blas_d
      ! name, so that
      ! DNRM2 := sqrt( x'*x )
 
-     function stdlib_dnrm2(n,x,incx)
+     pure function stdlib_dnrm2(n,x,incx)
         real(dp) :: stdlib_dnrm2
         ! -- reference blas level1 routine (version 3.9.1_dp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
@@ -1052,8 +1052,8 @@ module stdlib_linalg_blas_d
            real(dp) :: dflag,dh11,dh12,dh21,dh22,two,w,z,zero
            integer(ilp) :: i,kx,ky,nsteps
            ! .. data statements ..
-           zero = 0._dp
-           two = 2._dp
+           zero = 0.0_dp
+           two = 2.0_dp
            dflag = dparam(1)
            if (n <= 0 .or. (dflag + two == zero)) return
            if (incx == incy .and. incx > 0) then
@@ -1163,11 +1163,11 @@ module stdlib_linalg_blas_d
            ! .. intrinsic functions ..
            intrinsic :: abs
            ! .. data statements ..
-           zero = 0._dp
-           one = 1._dp
-           two = 2._dp
-           gam = 4096._dp
-           gamsq = 16777216._dp
+           zero = 0.0_dp
+           one = 1.0_dp
+           two = 2.0_dp
+           gam = 4096.0_dp
+           gamsq = 16777216.0_dp
            rgamsq = 5.9604645e-8_dp
            if (dd1 < zero) then
               ! go zero-h-d-and-dx1..
@@ -4416,7 +4416,7 @@ module stdlib_linalg_blas_d
      ! name, so that
      ! DZNRM2 := sqrt( x**H*x )
 
-     function stdlib_dznrm2(n,x,incx)
+     pure function stdlib_dznrm2(n,x,incx)
         real(dp) :: stdlib_dznrm2
         ! -- reference blas level1 routine (version 3.9.1_dp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
