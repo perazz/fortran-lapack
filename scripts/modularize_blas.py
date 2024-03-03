@@ -3034,8 +3034,15 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
            double_procedure = Procedures[i].to_quad_precision()
            double_procedure.old_name = single_to_doublen[kk]
            double_procedure.new_name = prefix+double_procedure.old_name
-           double_procedure.body   = double_procedure.body.replace(prefix+single_to_double[kk],prefix+single_to_doublen[kk])
-           double_procedure.header = double_procedure.header.replace(prefix+single_to_double[kk],prefix+single_to_doublen[kk])
+
+           whole = '\n'.join(double_procedure.body)
+           whole = whole.replace(prefix+single_to_double[kk],prefix+single_to_doublen[kk])
+           double_procedure.body = whole.splitlines()
+
+           whole = '\n'.join(double_procedure.header)
+           whole = whole.replace(prefix+single_to_double[kk],prefix+single_to_doublen[kk])
+           double_procedure.header = whole.splitlines()
+
            Procedures.append(double_procedure)
 
     if DEBUG:
@@ -3150,12 +3157,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
