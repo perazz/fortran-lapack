@@ -324,7 +324,7 @@ def write_interface(fid,name,functions,INDENT,prefix,module_name):
 def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
 
     double_initials = ['d','z']
-    quad_initials = ['q','w']
+    quad_initials   = ['q','w']
 
     if blas:
         # Blas patches
@@ -350,8 +350,6 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
     for ff in range(len(fortran_functions)):
         if fortran_functions[ff].old_name=='dcabs1': index = ff
 
-    if index>=0: print("before loop, dcabs1 = "+fortran_functions[index].old_name)
-
     for ff in range(len(fortran_functions)):
 
         f = copy.copy(fortran_functions[ff])
@@ -376,7 +374,6 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
                 fid.write(INDENT + "public :: " + f.new_name + "\n")
 
             if f.old_name=='xerbla':
-                print("xerbla found")
 
                 # Xerbla and xerbla_array are the only non-pure functions that include
                 # stop and writing to disk.
@@ -385,8 +382,6 @@ def patch_blas_aux(fid,fortran_functions,prefix,INDENT,blas):
                     if lsl.startswith('stop') or\
                        lsl.startswith('write'):
                        f.body[line] = ""
-
-        print("at end of "+fortran_functions[ff].old_name+", dcabs1 = "+fortran_functions[index].old_name)
 
 
     # Return new list of functions
@@ -843,11 +838,14 @@ def print_function_tree(functions,fun_names,ext_funs,fid,INDENT,MAX_LINE_LENGTH,
 # Given a list of functions, set the pure ones
 def set_pure_functions(functions,fun_names,ext_funs):
 
+   debug_name = 'dnrm2'
+
    is_pure = [False for i in range(len(functions))]
 
    # First of all, see if the function has a PURE interface/body
    for i in range(len(functions)):
        is_pure[i] = functions[i].is_pure()
+       if functions[i].old_name==debug_name: print("function "+functions[i].old_name+" pure? ",str(is_pure[i]))
 
    # Second, look up for non-pure dependencies
    old_pure = -99999
@@ -856,10 +854,17 @@ def set_pure_functions(functions,fun_names,ext_funs):
    while new_pure!=old_pure:
        # Update the first-level dependencies
        for i in range(len(functions)):
-           for j in range(len(functions[i].ideps)):
-              if not is_pure[j]:
-                  is_pure[i] = False
-                  break
+           for j in range(len(functions[i].deps)):
+              dep_name = functions[i].deps[j]
+              if dep_name in fun_names:
+                  idep = fun_names.index(dep_name)
+              else:
+                  idep = 9999999
+              if idep<len(functions):
+                  if functions[i].old_name==debug_name:
+                      print("function "+functions[i].old_name+" dependency ",functions[idep].old_name+" pure? "+str(is_pure[idep]))
+                  if not is_pure[idep]:
+                      is_pure[i] = False
 
        old_pure = new_pure
        new_pure = is_pure.count(True)
@@ -867,6 +872,9 @@ def set_pure_functions(functions,fun_names,ext_funs):
    # Add PURE classifiers to all pure functions
    for i in range(len(functions)):
        if is_pure[i]: functions[i].add_classifiers()
+
+   if functions[i].old_name==debug_name: exit(1)
+
 
 # Check if line is directive
 def is_directive_line(line):
@@ -1411,8 +1419,10 @@ class Fortran_Source:
             intent = "in"
         elif self.old_name.endswith('ladiv2') and arg_name in ['a','b','c','d','r','t']:
             intent = "in"
-        elif self.old_name.endswith('ladiv1') and arg_name in ['a','b','c','d']:
+        elif self.old_name.endswith('ladiv1') and arg_name in ['b','c','d']:
             intent = "in"
+        elif self.old_name.endswith('ladiv1') and arg_name in ['a']:
+            intent = "inout"
         elif self.old_name.endswith('ladiv1') and arg_name in ['p','q']:
             intent = "out"
         elif self.old_name.endswith('lassq') and arg_name=='scl':
@@ -1470,6 +1480,8 @@ class Fortran_Source:
         prefix     = self.new_name[:i]
         q.new_name = prefix + q.old_name
 
+        #print("double->quad "+q.old_name+" "+q.new_name)
+
         # Body, header
         q.header   = double_to_quad(q.header,initial,newi,prefix,[self.old_name,q.old_name])
         q.body     = double_to_quad(q.body,initial,newi,prefix)
@@ -1480,17 +1492,19 @@ class Fortran_Source:
         q.pvalue   = double_to_quad(q.pvalue,initial,newi,prefix)
 
         # Dependencies: need to rename all initials
+        # print("there are "+str(len(self.deps))+" deps ")
         for i in range(len(self.deps)):
             for j in range(len(dble_prefixes)):
                 this = self.deps[i]
                 if this.startswith(dble_prefixes[j]):
-                    self.deps[i] = quad_prefixes[j]+this[len(dble_prefixes[j]):]
+                    q.deps[i] = quad_prefixes[j]+this[len(dble_prefixes[j]):]
                 elif this.startswith(sing_prefixes[j]):
-                    self.deps[i] = dble_prefixes[j]+this[len(dble_prefixes[j]):]
+                    q.deps[i] = dble_prefixes[j]+this[len(dble_prefixes[j]):]
+                break
 
             # Patch for precision conversion functions
-            if self.deps[i]=='zlag2z': self.deps[i]='zlag2w'
-            if self.deps[i]=='dlag2d': self.deps[i]='dlag2q'
+            if self.deps[i]=='zlag2z': q.deps[i]='zlag2w'
+            if self.deps[i]=='dlag2d': q.deps[i]='dlag2q'
 
         return q
 
@@ -1511,13 +1525,13 @@ class Fortran_Source:
                     if DEBUG: print(" function "+self.old_name+": search string header "+lsl)
                     if self.is_function and ('function' in lsl) and (not 'pure' in lsl):
                         nspaces = len(lsl)-len(stripped)
-                        self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+                        self.body[i] = " "*nspaces + "pure " + self.body[i][nspaces:]
                         if DEBUG: (" header replaced: "+self.body[i])
                         if DEBUG: exit(1)
                         return
                     elif ('subroutine' in lsl) and (not 'pure' in lsl):
                         nspaces = len(lsl)-len(stripped)
-                        self.body[i] = " "*nspaces + "PURE " + self.body[i][nspaces:]
+                        self.body[i] = " "*nspaces + "pure " + self.body[i][nspaces:]
                         if DEBUG: (" header replaced: "+self.body[i])
                         if DEBUG: exit(1)
                         return
@@ -2186,7 +2200,7 @@ def rename_source_body(Source,Sources,external_funs,prefix):
 
     import re
 
-    DEBUG = Source.old_name.lower()=='strsyl'
+    DEBUG = Source.old_name.lower()=='dnrm2'
 
     name  = Source.old_name
     lines = Source.body
@@ -3020,6 +3034,8 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
            double_procedure = Procedures[i].to_quad_precision()
            double_procedure.old_name = single_to_doublen[kk]
            double_procedure.new_name = prefix+double_procedure.old_name
+           double_procedure.body   = double_procedure.body.replace(prefix+single_to_double[kk],prefix+single_to_doublen[kk])
+           double_procedure.header = double_procedure.header.replace(prefix+single_to_double[kk],prefix+single_to_doublen[kk])
            Procedures.append(double_procedure)
 
     if DEBUG:
@@ -3134,12 +3150,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
