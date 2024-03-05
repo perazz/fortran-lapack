@@ -85,21 +85,21 @@ module stdlib_linalg_blas_q
 
      contains
 
-     ! QASUM takes the sum of the absolute values.
+     !> DASUM: takes the sum of the absolute values.
 
      pure real(qp) function stdlib_qasum(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: dx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: dtemp
            integer(ilp) :: i,m,mp1,nincx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs,mod
            stdlib_qasum = zero
            dtemp = zero
@@ -133,23 +133,23 @@ module stdlib_linalg_blas_q
            return
      end function stdlib_qasum
 
-     ! QAXPY constant times a vector plus a vector.
-     ! uses unrolled loops for increments equal to one.
+     !> DAXPY: constant times a vector plus a vector.
+     !> uses unrolled loops for increments equal to one.
 
      pure subroutine stdlib_qaxpy(n,da,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: da
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: dx(*)
            real(qp),intent(inout) :: dy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,ix,iy,m,mp1
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            if (n <= 0) return
            if (da == 0.0_qp) return
@@ -186,22 +186,22 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qaxpy
 
-     ! QCOPY copies a vector, x, to a vector, y.
-     ! uses unrolled loops for increments equal to 1.
+     !> DCOPY: copies a vector, x, to a vector, y.
+     !> uses unrolled loops for increments equal to 1.
 
      pure subroutine stdlib_qcopy(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: dx(*)
            real(qp),intent(out) :: dy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,ix,iy,m,mp1
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
@@ -240,22 +240,22 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qcopy
 
-     ! QDOT forms the dot product of two vectors.
-     ! uses unrolled loops for increments equal to one.
+     !> DDOT: forms the dot product of two vectors.
+     !> uses unrolled loops for increments equal to one.
 
      pure real(qp) function stdlib_qdot(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: dx(*),dy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: dtemp
            integer(ilp) :: i,ix,iy,m,mp1
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            stdlib_qdot = zero
            dtemp = zero
@@ -295,28 +295,28 @@ module stdlib_linalg_blas_q
            return
      end function stdlib_qdot
 
-     ! QGBMV  performs one of the matrix-vector operations
-     ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
-     ! where alpha and beta are scalars, x and y are vectors and A is an
-     ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
+     !> DGBMV:  performs one of the matrix-vector operations
+     !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
+     !> where alpha and beta are scalars, x and y are vectors and A is an
+     !> m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
      pure subroutine stdlib_qgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,kl,ku,lda,m,n
            character,intent(in) :: trans
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*),x(*)
            real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
@@ -450,28 +450,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qgbmv
 
-     ! QGEMM  performs one of the matrix-matrix operations
-     ! C := alpha*op( A )*op( B ) + beta*C,
-     ! where  op( X ) is one of
-     ! op( X ) = X   or   op( X ) = X**T,
-     ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
-     ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
+     !> DGEMM:  performs one of the matrix-matrix operations
+     !> C := alpha*op( A )*op( B ) + beta*C,
+     !> where  op( X ) is one of
+     !> op( X ) = X   or   op( X ) = X**T,
+     !> alpha and beta are scalars, and A, B and C are matrices, with op( A )
+     !> an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
      pure subroutine stdlib_qgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldb,ldc,m,n
            character,intent(in) :: transa,transb
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*),b(ldb,*)
            real(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,j,l,nrowa,nrowb
            logical(lk) :: nota,notb
@@ -613,28 +613,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qgemm
 
-     ! QGEMV  performs one of the matrix-vector operations
-     ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
-     ! where alpha and beta are scalars, x and y are vectors and A is an
-     ! m by n matrix.
+     !> DGEMV:  performs one of the matrix-vector operations
+     !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
+     !> where alpha and beta are scalars, x and y are vectors and A is an
+     !> m by n matrix.
 
      pure subroutine stdlib_qgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,lda,m,n
            character,intent(in) :: trans
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*),x(*)
            real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -757,27 +757,27 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qgemv
 
-     ! QGER   performs the rank 1 operation
-     ! A := alpha*x*y**T + A,
-     ! where alpha is a scalar, x is an m element vector, y is an n element
-     ! vector and A is an m by n matrix.
+     !> DGER:   performs the rank 1 operation
+     !> A := alpha*x*y**T + A,
+     !> where alpha is a scalar, x is an m element vector, y is an n element
+     !> vector and A is an m by n matrix.
 
      pure subroutine stdlib_qger(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,lda,m,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(inout) :: a(lda,*)
            real(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,j,jy,kx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -836,26 +836,26 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qger
 
-     ! !
-     ! QNRM2 returns the euclidean norm of a vector via the function
-     ! name, so that
-     ! QNRM2 := sqrt( x'*x )
+     !> !
+     !>
+     !> DNRM2: returns the euclidean norm of a vector via the function
+     !> name, so that
+     !> DNRM2 := sqrt( x'*x )
 
-     pure function stdlib_qnrm2(n,x,incx)
-        real(qp) :: stdlib_qnrm2
+     pure real(qp) function stdlib_qnrm2(n,x,incx)
         ! -- reference blas level1 routine (version 3.9.1_qp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
-        ! .. constants ..
+        ! Constants
         integer,parameter :: wp = kind(1._qp)
         real(qp),parameter :: maxn = huge(0.0_qp)
         ! .. blue's scaling constants ..
-        ! .. scalar arguments ..
+        ! Scalar Arguments
      integer(ilp),intent(in) :: incx,n
-        ! .. array arguments ..
+        ! Array Arguments
         real(qp),intent(in) :: x(*)
-        ! .. local scalars ..
+        ! Local Scalars
      integer(ilp) :: i,ix
      logical(lk) :: notbig
         real(qp) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin
@@ -925,19 +925,19 @@ module stdlib_linalg_blas_q
         return
      end function stdlib_qnrm2
 
-     ! QROT applies a plane rotation.
+     !> DROT: applies a plane rotation.
 
      pure subroutine stdlib_qrot(n,dx,incx,dy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: c,s
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(inout) :: dx(*),dy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: dtemp
            integer(ilp) :: i,ix,iy
            if (n <= 0) return
@@ -966,33 +966,34 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qrot
 
-     ! !
-     ! The computation uses the formulas
-     ! sigma = sgn(a)    if |a| >  |b|
-     ! = sgn(b)    if |b| >= |a|
-     ! r = sigma*sqrt( a**2 + b**2 )
-     ! c = 1; s = 0      if r = 0
-     ! c = a/r; s = b/r  if r != 0
-     ! The subroutine also computes
-     ! z = s    if |a| > |b|,
-     ! = 1/c  if |b| >= |a| and c != 0
-     ! = 1    if c = 0
-     ! This allows c and s to be reconstructed from z as follows:
-     ! If z = 1, set c = 0, s = 1.
-     ! If |z| < 1, set c = sqrt(1 - z**2) and s = z.
-     ! If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
+     !> !
+     !>
+     !> The computation uses the formulas
+     !> sigma = sgn(a)    if |a| >  |b|
+     !> = sgn(b)    if |b| >= |a|
+     !> r = sigma*sqrt( a**2 + b**2 )
+     !> c = 1; s = 0      if r = 0
+     !> c = a/r; s = b/r  if r != 0
+     !> The subroutine also computes
+     !> z = s    if |a| > |b|,
+     !> = 1/c  if |b| >= |a| and c != 0
+     !> = 1    if c = 0
+     !> This allows c and s to be reconstructed from z as follows:
+     !> If z = 1, set c = 0, s = 1.
+     !> If |z| < 1, set c = sqrt(1 - z**2) and s = z.
+     !> If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
 
      pure subroutine stdlib_qrotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-        ! .. constants ..
+        ! Constants
         integer,parameter :: wp = kind(1._qp)
-        ! .. scaling constants ..
-        ! .. scalar arguments ..
+        ! Scaling Constants
+        ! Scalar Arguments
         real(qp),intent(inout) :: a,b
         real(qp),intent(out) :: c,s
-        ! .. local scalars ..
+        ! Local Scalars
         real(qp) :: anorm,bnorm,scl,sigma,r,z
         anorm = abs(a)
         bnorm = abs(b)
@@ -1028,32 +1029,32 @@ module stdlib_linalg_blas_q
         return
      end subroutine stdlib_qrotg
 
-     ! APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
-     ! (DX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF DX ARE IN
-     ! (DY**T)
-     ! DX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX >= 0, ELSE
-     ! LX = (-INCX)*N, AND SIMILARLY FOR SY USING LY AND INCY.
-     ! WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
-     ! DFLAG=-1._qp     DFLAG=0._qp        DFLAG=1._qp     DFLAG=-2.D0
-     ! (DH11  DH12)    (1._qp  DH12)    (DH11  1._qp)    (1._qp  0._qp)
-     ! H=(          )    (          )    (          )    (          )
-     ! (DH21  DH22),   (DH21  1._qp),   (-1._qp DH22),   (0._qp  1._qp).
-     ! SEE DROTMG FOR A DESCRIPTION OF DATA STORAGE IN DPARAM.
+     !> APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
+     !> (DX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF DX ARE IN
+     !> (DY**T)
+     !> DX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX >= 0, ELSE
+     !> LX = (-INCX)*N, AND SIMILARLY FOR SY USING LY AND INCY.
+     !> WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
+     !> DFLAG=-1._qp     DFLAG=0._qp        DFLAG=1._qp     DFLAG=-2.D0
+     !> (DH11  DH12)    (1._qp  DH12)    (DH11  1._qp)    (1._qp  0._qp)
+     !> H=(          )    (          )    (          )    (          )
+     !> (DH21  DH22),   (DH21  1._qp),   (-1._qp DH22),   (0._qp  1._qp).
+     !> SEE DROTMG FOR A DESCRIPTION OF DATA STORAGE IN DPARAM.
 
      pure subroutine stdlib_qrotm(n,dx,incx,dy,incy,dparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: dparam(5)
            real(qp),intent(inout) :: dx(*),dy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: dflag,dh11,dh12,dh21,dh22,two,w,z,zero
            integer(ilp) :: i,kx,ky,nsteps
-           ! .. data statements ..
+           ! Data Statements
            zero = 0.0_qp
            two = 2.0_qp
            dflag = dparam(1)
@@ -1135,36 +1136,36 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qrotm
 
-     ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
-     ! THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(DD1)*DX1,SQRT(DD2)    DY2)**T.
-     ! WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
-     ! DFLAG=-1._qp     DFLAG=0._qp        DFLAG=1._qp     DFLAG=-2.D0
-     ! (DH11  DH12)    (1._qp  DH12)    (DH11  1._qp)    (1._qp  0._qp)
-     ! H=(          )    (          )    (          )    (          )
-     ! (DH21  DH22),   (DH21  1._qp),   (-1._qp DH22),   (0._qp  1._qp).
-     ! LOCATIONS 2-4 OF DPARAM CONTAIN DH11, DH21, DH12, AND DH22
-     ! RESPECTIVELY. (VALUES OF 1._qp, -1._qp, OR 0._qp IMPLIED BY THE
-     ! VALUE OF DPARAM(1) ARE NOT STORED IN DPARAM.)
-     ! THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE
-     ! INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
-     ! OF DD1 AND DD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
+     !> CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
+     !> THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(DD1)*DX1,SQRT(DD2)    DY2)**T.
+     !> WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS..
+     !> DFLAG=-1._qp     DFLAG=0._qp        DFLAG=1._qp     DFLAG=-2.D0
+     !> (DH11  DH12)    (1._qp  DH12)    (DH11  1._qp)    (1._qp  0._qp)
+     !> H=(          )    (          )    (          )    (          )
+     !> (DH21  DH22),   (DH21  1._qp),   (-1._qp DH22),   (0._qp  1._qp).
+     !> LOCATIONS 2-4 OF DPARAM CONTAIN DH11, DH21, DH12, AND DH22
+     !> RESPECTIVELY. (VALUES OF 1._qp, -1._qp, OR 0._qp IMPLIED BY THE
+     !> VALUE OF DPARAM(1) ARE NOT STORED IN DPARAM.)
+     !> THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE
+     !> INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
+     !> OF DD1 AND DD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
 
      pure subroutine stdlib_qrotmg(dd1,dd2,dx1,dy1,dparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(inout) :: dd1,dd2,dx1
            real(qp),intent(in) :: dy1
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(out) :: dparam(5)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: dflag,dh11,dh12,dh21,dh22,dp1,dp2,dq1,dq2,dtemp,du,gam,gamsq, &
                      one,rgamsq,two,zero
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs
-           ! .. data statements ..
+           ! Data Statements
            zero = 0.0_qp
            one = 1.0_qp
            two = 2.0_qp
@@ -1301,28 +1302,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qrotmg
 
-     ! QSBMV  performs the matrix-vector  operation
-     ! y := alpha*A*x + beta*y,
-     ! where alpha and beta are scalars, x and y are n element vectors and
-     ! A is an n by n symmetric band matrix, with k super-diagonals.
+     !> DSBMV:  performs the matrix-vector  operation
+     !> y := alpha*A*x + beta*y,
+     !> where alpha and beta are scalars, x and y are n element vectors and
+     !> A is an n by n symmetric band matrix, with k super-diagonals.
 
      pure subroutine stdlib_qsbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,k,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*),x(*)
            real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
@@ -1463,22 +1464,22 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qsbmv
 
-     ! QSCAL scales a vector by a constant.
-     ! uses unrolled loops for increment equal to 1.
+     !> DSCAL: scales a vector by a constant.
+     !> uses unrolled loops for increment equal to 1.
 
      pure subroutine stdlib_qscal(n,da,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: da
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(inout) :: dx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,m,mp1,nincx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            if (n <= 0 .or. incx <= 0) return
            if (incx == 1) then
@@ -1509,29 +1510,29 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qscal
 
-     ! Compute the inner product of two vectors with extended
-     ! precision accumulation and result.
-     ! Returns D.P. dot product accumulated in D.P., for S.P. SX and SY
-     ! QSDOT = sum for I = 0 to N-1 of  SX(LX+I*INCX) * SY(LY+I*INCY),
-     ! where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
-     ! defined in a similar way using INCY.
+     !> Compute the inner product of two vectors with extended
+     !> precision accumulation and result.
+     !> Returns D.P. dot product accumulated in D.P., for S.P. SX and SY
+     !> DSDOT: = sum for I = 0 to N-1 of  SX(LX+I*INCX) * SY(LY+I*INCY),
+     !> where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
+     !> defined in a similar way using INCY.
 
      pure real(qp) function stdlib_qsdot(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(dp),intent(in) :: sx(*),sy(*)
         ! authors:
         ! ========
         ! lawson, c. l., (jpl), hanson, r. j., (snla),
         ! kincaid, d. r., (u. of texas), krogh, f. t., (jpl)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,kx,ky,ns
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real
            stdlib_qsdot = zero
            if (n <= 0) return
@@ -1556,25 +1557,25 @@ module stdlib_linalg_blas_q
            return
      end function stdlib_qsdot
 
-     ! QSPMV  performs the matrix-vector operation
-     ! y := alpha*A*x + beta*y,
-     ! where alpha and beta are scalars, x and y are n element vectors and
-     ! A is an n by n symmetric matrix, supplied in packed form.
+     !> DSPMV:  performs the matrix-vector operation
+     !> y := alpha*A*x + beta*y,
+     !> where alpha and beta are scalars, x and y are n element vectors and
+     !> A is an n by n symmetric matrix, supplied in packed form.
 
      pure subroutine stdlib_qspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: ap(*),x(*)
            real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! test the input parameters.
@@ -1712,25 +1713,25 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qspmv
 
-     ! QSPR    performs the symmetric rank 1 operation
-     ! A := alpha*x*x**T + A,
-     ! where alpha is a real scalar, x is an n element vector and A is an
-     ! n by n symmetric matrix, supplied in packed form.
+     !> DSPR:    performs the symmetric rank 1 operation
+     !> A := alpha*x*x**T + A,
+     !> where alpha is a real scalar, x is an n element vector and A is an
+     !> n by n symmetric matrix, supplied in packed form.
 
      pure subroutine stdlib_qspr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(inout) :: ap(*)
            real(qp),intent(in) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            ! test the input parameters.
@@ -1819,25 +1820,25 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qspr
 
-     ! QSPR2  performs the symmetric rank 2 operation
-     ! A := alpha*x*y**T + alpha*y*x**T + A,
-     ! where alpha is a scalar, x and y are n element vectors and A is an
-     ! n by n symmetric matrix, supplied in packed form.
+     !> DSPR2:  performs the symmetric rank 2 operation
+     !> A := alpha*x*y**T + alpha*y*x**T + A,
+     !> where alpha is a scalar, x and y are n element vectors and A is an
+     !> n by n symmetric matrix, supplied in packed form.
 
      pure subroutine stdlib_qspr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(inout) :: ap(*)
            real(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! test the input parameters.
@@ -1946,22 +1947,22 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qspr2
 
-     ! QSWAP interchanges two vectors.
-     ! uses unrolled loops for increments equal to 1.
+     !> DSWAP: interchanges two vectors.
+     !> uses unrolled loops for increments equal to 1.
 
      pure subroutine stdlib_qswap(n,dx,incx,dy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(inout) :: dx(*),dy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: dtemp
            integer(ilp) :: i,ix,iy,m,mp1
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
@@ -2006,28 +2007,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qswap
 
-     ! QSYMM  performs one of the matrix-matrix operations
-     ! C := alpha*A*B + beta*C,
-     ! or
-     ! C := alpha*B*A + beta*C,
-     ! where alpha and beta are scalars,  A is a symmetric matrix and  B and
-     ! C are  m by n matrices.
+     !> DSYMM:  performs one of the matrix-matrix operations
+     !> C := alpha*A*B + beta*C,
+     !> or
+     !> C := alpha*B*A + beta*C,
+     !> where alpha and beta are scalars,  A is a symmetric matrix and  B and
+     !> C are  m by n matrices.
 
      pure subroutine stdlib_qsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: lda,ldb,ldc,m,n
            character,intent(in) :: side,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*),b(ldb,*)
            real(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp1,temp2
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: upper
@@ -2153,28 +2154,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qsymm
 
-     ! QSYMV  performs the matrix-vector  operation
-     ! y := alpha*A*x + beta*y,
-     ! where alpha and beta are scalars, x and y are n element vectors and
-     ! A is an n by n symmetric matrix.
+     !> DSYMV:  performs the matrix-vector  operation
+     !> y := alpha*A*x + beta*y,
+     !> where alpha and beta are scalars, x and y are n element vectors and
+     !> A is an n by n symmetric matrix.
 
      pure subroutine stdlib_qsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*),x(*)
            real(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -2305,28 +2306,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qsymv
 
-     ! QSYR   performs the symmetric rank 1 operation
-     ! A := alpha*x*x**T + A,
-     ! where alpha is a real scalar, x is an n element vector and A is an
-     ! n by n symmetric matrix.
+     !> DSYR:   performs the symmetric rank 1 operation
+     !> A := alpha*x*x**T + A,
+     !> where alpha is a real scalar, x is an n element vector and A is an
+     !> n by n symmetric matrix.
 
      pure subroutine stdlib_qsyr(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(inout) :: a(lda,*)
            real(qp),intent(in) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -2408,28 +2409,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qsyr
 
-     ! QSYR2  performs the symmetric rank 2 operation
-     ! A := alpha*x*y**T + alpha*y*x**T + A,
-     ! where alpha is a scalar, x and y are n element vectors and A is an n
-     ! by n symmetric matrix.
+     !> DSYR2:  performs the symmetric rank 2 operation
+     !> A := alpha*x*y**T + alpha*y*x**T + A,
+     !> where alpha is a scalar, x and y are n element vectors and A is an n
+     !> by n symmetric matrix.
 
      pure subroutine stdlib_qsyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(inout) :: a(lda,*)
            real(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -2531,29 +2532,29 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qsyr2
 
-     ! QSYR2K  performs one of the symmetric rank 2k operations
-     ! C := alpha*A*B**T + alpha*B*A**T + beta*C,
-     ! or
-     ! C := alpha*A**T*B + alpha*B**T*A + beta*C,
-     ! where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
-     ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
-     ! matrices in the second case.
+     !> DSYR2K:  performs one of the symmetric rank 2k operations
+     !> C := alpha*A*B**T + alpha*B*A**T + beta*C,
+     !> or
+     !> C := alpha*A**T*B + alpha*B**T*A + beta*C,
+     !> where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+     !> and  A and B  are  n by k  matrices  in the  first  case  and  k by n
+     !> matrices in the second case.
 
      pure subroutine stdlib_qsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldb,ldc,n
            character,intent(in) :: trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*),b(ldb,*)
            real(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp1,temp2
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
@@ -2706,29 +2707,29 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qsyr2k
 
-     ! QSYRK  performs one of the symmetric rank k operations
-     ! C := alpha*A*A**T + beta*C,
-     ! or
-     ! C := alpha*A**T*A + beta*C,
-     ! where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
-     ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
-     ! in the second case.
+     !> DSYRK:  performs one of the symmetric rank k operations
+     !> C := alpha*A*A**T + beta*C,
+     !> or
+     !> C := alpha*A**T*A + beta*C,
+     !> where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+     !> and  A  is an  n by k  matrix in the first case and a  k by n  matrix
+     !> in the second case.
 
      pure subroutine stdlib_qsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldc,n
            character,intent(in) :: trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
@@ -2873,28 +2874,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qsyrk
 
-     ! QTBMV  performs one of the matrix-vector operations
-     ! x := A*x,   or   x := A**T*x,
-     ! where x is an n element vector and  A is an n by n unit, or non-unit,
-     ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
+     !> DTBMV:  performs one of the matrix-vector operations
+     !> x := A*x,   or   x := A**T*x,
+     !> where x is an n element vector and  A is an n by n unit, or non-unit,
+     !> upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
      pure subroutine stdlib_qtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,k,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
            logical(lk) :: nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
@@ -3056,31 +3057,31 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qtbmv
 
-     ! QTBSV  solves one of the systems of equations
-     ! A*x = b,   or   A**T*x = b,
-     ! where b and x are n element vectors and A is an n by n unit, or
-     ! non-unit, upper or lower triangular band matrix, with ( k + 1 )
-     ! diagonals.
-     ! No test for singularity or near-singularity is included in this
-     ! routine. Such tests must be performed before calling this routine.
+     !> DTBSV:  solves one of the systems of equations
+     !> A*x = b,   or   A**T*x = b,
+     !> where b and x are n element vectors and A is an n by n unit, or
+     !> non-unit, upper or lower triangular band matrix, with ( k + 1 )
+     !> diagonals.
+     !> No test for singularity or near-singularity is included in this
+     !> routine. Such tests must be performed before calling this routine.
 
      pure subroutine stdlib_qtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,k,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
            logical(lk) :: nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
@@ -3242,24 +3243,24 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qtbsv
 
-     ! QTPMV  performs one of the matrix-vector operations
-     ! x := A*x,   or   x := A**T*x,
-     ! where x is an n element vector and  A is an n by n unit, or non-unit,
-     ! upper or lower triangular matrix, supplied in packed form.
+     !> DTPMV:  performs one of the matrix-vector operations
+     !> x := A*x,   or   x := A**T*x,
+     !> where x is an n element vector and  A is an n by n unit, or non-unit,
+     !> upper or lower triangular matrix, supplied in packed form.
 
      pure subroutine stdlib_qtpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: ap(*)
            real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            logical(lk) :: nounit
@@ -3424,26 +3425,26 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qtpmv
 
-     ! QTPSV  solves one of the systems of equations
-     ! A*x = b,   or   A**T*x = b,
-     ! where b and x are n element vectors and A is an n by n unit, or
-     ! non-unit, upper or lower triangular matrix, supplied in packed form.
-     ! No test for singularity or near-singularity is included in this
-     ! routine. Such tests must be performed before calling this routine.
+     !> DTPSV:  solves one of the systems of equations
+     !> A*x = b,   or   A**T*x = b,
+     !> where b and x are n element vectors and A is an n by n unit, or
+     !> non-unit, upper or lower triangular matrix, supplied in packed form.
+     !> No test for singularity or near-singularity is included in this
+     !> routine. Such tests must be performed before calling this routine.
 
      pure subroutine stdlib_qtpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: ap(*)
            real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            logical(lk) :: nounit
@@ -3608,27 +3609,27 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qtpsv
 
-     ! QTRMM  performs one of the matrix-matrix operations
-     ! B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
-     ! where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
-     ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
-     ! op( A ) = A   or   op( A ) = A**T.
+     !> DTRMM:  performs one of the matrix-matrix operations
+     !> B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
+     !> where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
+     !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+     !> op( A ) = A   or   op( A ) = A**T.
 
      pure subroutine stdlib_qtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: lda,ldb,m,n
            character,intent(in) :: diag,side,transa,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: lside,nounit,upper
@@ -3814,28 +3815,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qtrmm
 
-     ! QTRMV  performs one of the matrix-vector operations
-     ! x := A*x,   or   x := A**T*x,
-     ! where x is an n element vector and  A is an n by n unit, or non-unit,
-     ! upper or lower triangular matrix.
+     !> DTRMV:  performs one of the matrix-vector operations
+     !> x := A*x,   or   x := A**T*x,
+     !> where x is an n element vector and  A is an n by n unit, or non-unit,
+     !> upper or lower triangular matrix.
 
      pure subroutine stdlib_qtrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
            logical(lk) :: nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -3980,28 +3981,28 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qtrmv
 
-     ! QTRSM  solves one of the matrix equations
-     ! op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
-     ! where alpha is a scalar, X and B are m by n matrices, A is a unit, or
-     ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
-     ! op( A ) = A   or   op( A ) = A**T.
-     ! The matrix X is overwritten on B.
+     !> DTRSM:  solves one of the matrix equations
+     !> op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
+     !> where alpha is a scalar, X and B are m by n matrices, A is a unit, or
+     !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+     !> op( A ) = A   or   op( A ) = A**T.
+     !> The matrix X is overwritten on B.
 
      pure subroutine stdlib_qtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: lda,ldb,m,n
            character,intent(in) :: diag,side,transa,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: lside,nounit,upper
@@ -4211,30 +4212,30 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qtrsm
 
-     ! QTRSV  solves one of the systems of equations
-     ! A*x = b,   or   A**T*x = b,
-     ! where b and x are n element vectors and A is an n by n unit, or
-     ! non-unit, upper or lower triangular matrix.
-     ! No test for singularity or near-singularity is included in this
-     ! routine. Such tests must be performed before calling this routine.
+     !> DTRSV:  solves one of the systems of equations
+     !> A*x = b,   or   A**T*x = b,
+     !> where b and x are n element vectors and A is an n by n unit, or
+     !> non-unit, upper or lower triangular matrix.
+     !> No test for singularity or near-singularity is included in this
+     !> routine. Such tests must be performed before calling this routine.
 
      pure subroutine stdlib_qtrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
            logical(lk) :: nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -4379,19 +4380,19 @@ module stdlib_linalg_blas_q
            return
      end subroutine stdlib_qtrsv
 
-     ! QZASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
-     ! returns a quad precision result.
+     !> DZASUM: takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
+     !> returns a quad precision result.
 
      pure real(qp) function stdlib_qzasum(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: zx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: stemp
            integer(ilp) :: i,nincx
            stdlib_qzasum = zero
@@ -4413,10 +4414,9 @@ module stdlib_linalg_blas_q
            return
      end function stdlib_qzasum
 
-     ! !
-     ! QZNRM2 returns the euclidean norm of a vector via the function
-     ! name, so that
-     ! QZNRM2 := sqrt( x**H*x )
+     !> DZNRM2: returns the euclidean norm of a vector via the function
+     !> name, so that
+     !> DZNRM2 := sqrt( x**H*x )
 
      pure function stdlib_qznrm2(n,x,incx)
         real(qp) :: stdlib_qznrm2
@@ -4424,15 +4424,15 @@ module stdlib_linalg_blas_q
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
-        ! .. constants ..
+        ! Constants
         integer,parameter :: wp = kind(1._qp)
         real(qp),parameter :: maxn = huge(0.0_qp)
         ! .. blue's scaling constants ..
-        ! .. scalar arguments ..
+        ! Scalar Arguments
      integer(ilp),intent(in) :: incx,n
-        ! .. array arguments ..
+        ! Array Arguments
         complex(qp),intent(in) :: x(*)
-        ! .. local scalars ..
+        ! Local Scalars
      integer(ilp) :: i,ix
      logical(lk) :: notbig
         real(qp) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin

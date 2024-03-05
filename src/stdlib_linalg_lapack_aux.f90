@@ -118,26 +118,26 @@ module stdlib_linalg_lapack_aux
 
      contains
 
-     ! This subroutine translates from a BLAST-specified integer constant to
-     ! the character string specifying a transposition operation.
-     ! CHLA_TRANSTYPE returns an CHARACTER*1.  If CHLA_TRANSTYPE is 'X',
-     ! then input is not an integer indicating a transposition operator.
-     ! Otherwise CHLA_TRANSTYPE returns the constant value corresponding to
-     ! TRANS.
+     !> This subroutine translates from a BLAST-specified integer constant to
+     !> the character string specifying a transposition operation.
+     !> CHLA_TRANSTYPE: returns an CHARACTER*1.  If CHLA_TRANSTYPE: is 'X',
+     !> then input is not an integer indicating a transposition operator.
+     !> Otherwise CHLA_TRANSTYPE returns the constant value corresponding to
+     !> TRANS.
 
      pure character function stdlib_chla_transtype(trans)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: trans
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            integer(ilp),parameter :: blas_no_trans = 111
            integer(ilp),parameter :: blas_trans = 112
            integer(ilp),parameter :: blas_conj_trans = 113
            
-           ! .. executable statements ..
+           ! Executable Statements
            if (trans == blas_no_trans) then
               stdlib_chla_transtype = 'N'
            else if (trans == blas_trans) then
@@ -150,26 +150,27 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_chla_transtype
 
-     ! DROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
-     ! This routine guarantees it is rounded up instead of down by
-     ! multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
-     ! E.g.,
-     ! float( 9007199254740993            ) == 9007199254740992
-     ! float( 9007199254740993 ) * (1.+eps) == 9007199254740994
-     ! \return DROUNDUP_LWORK
-     ! DROUNDUP_LWORK >= LWORK.
-     ! DROUNDUP_LWORK is guaranteed to have zero decimal part.
+     !> DROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
+     !> This routine guarantees it is rounded up instead of down by
+     !> multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
+     !> E.g.,
+     !> float( 9007199254740993            ) == 9007199254740992
+     !> float( 9007199254740993 ) * (1.+eps) == 9007199254740994
+     !> \return DROUNDUP_LWORK
+     !>
+     !> DROUNDUP_LWORK >= LWORK.
+     !> DROUNDUP_LWORK is guaranteed to have zero decimal part.
 
      pure real(dp) function stdlib_droundup_lwork(lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: lwork
        ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: epsilon,real,int
-           ! .. executable statements ..
+           ! Executable Statements
            stdlib_droundup_lwork = real(lwork,KIND=dp)
            if (int(stdlib_droundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
@@ -179,25 +180,25 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_droundup_lwork
 
-     ! ICMAX1 finds the index of the first vector element of maximum absolute value.
-     ! Based on ICAMAX from Level 1 BLAS.
-     ! The change is to use the 'genuine' absolute value.
+     !> ICMAX1: finds the index of the first vector element of maximum absolute value.
+     !> Based on ICAMAX from Level 1 BLAS.
+     !> The change is to use the 'genuine' absolute value.
 
      pure integer(ilp) function stdlib_icmax1(n,cx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(sp),intent(in) :: cx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: smax
            integer(ilp) :: i,ix
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs
-           ! .. executable statements ..
+           ! Executable Statements
            stdlib_icmax1 = 0
            if (n < 1 .or. incx <= 0) return
            stdlib_icmax1 = 1
@@ -227,20 +228,20 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_icmax1
 
-     ! IEEECK is called from the ILAENV to verify that Infinity and
-     ! possibly NaN arithmetic is safe (i.e. will not trap).
+     !> IEEECK: is called from the ILAENV to verify that Infinity and
+     !> possibly NaN arithmetic is safe (i.e. will not trap).
 
      pure integer(ilp) function stdlib_ieeeck(ispec,zero,one)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: ispec
            real(sp),intent(in) :: one,zero
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: nan1,nan2,nan3,nan4,nan5,nan6,neginf,negzro,newzro,posinf
-           ! .. executable statements ..
+           ! Executable Statements
            stdlib_ieeeck = 1
            posinf = one/zero
            if (posinf <= one) then
@@ -317,23 +318,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ieeeck
 
-     ! ILACLC scans A for its last non-zero column.
+     !> ILACLC: scans A for its last non-zero column.
 
      pure integer(ilp) function stdlib_ilaclc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            complex(sp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            complex(sp),parameter :: zero = (0.0e+0,0.0e+0)
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilaclc = n
@@ -350,23 +351,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaclc
 
-     ! ILACLR scans A for its last non-zero row.
+     !> ILACLR: scans A for its last non-zero row.
 
      pure integer(ilp) function stdlib_ilaclr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            complex(sp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            complex(sp),parameter :: zero = (0.0e+0,0.0e+0)
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,j
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilaclr = m
@@ -386,25 +387,25 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaclr
 
-     ! This subroutine translated from a character string specifying if a
-     ! matrix has unit diagonal or not to the relevant BLAST-specified
-     ! integer constant.
-     ! ILADIAG returns an INTEGER.  If ILADIAG < 0, then the input is not a
-     ! character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
-     ! returns the constant value corresponding to DIAG.
+     !> This subroutine translated from a character string specifying if a
+     !> matrix has unit diagonal or not to the relevant BLAST-specified
+     !> integer constant.
+     !> ILADIAG: returns an INTEGER.  If ILADIAG: < 0, then the input is not a
+     !> character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
+     !> returns the constant value corresponding to DIAG.
 
      integer(ilp) function stdlib_iladiag(diag)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character :: diag
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            integer(ilp),parameter :: blas_non_unit_diag = 131
            integer(ilp),parameter :: blas_unit_diag = 132
            
-           ! .. executable statements ..
+           ! Executable Statements
            if (stdlib_lsame(diag,'N')) then
               stdlib_iladiag = blas_non_unit_diag
            else if (stdlib_lsame(diag,'U')) then
@@ -415,23 +416,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_iladiag
 
-     ! ILADLC scans A for its last non-zero column.
+     !> ILADLC: scans A for its last non-zero column.
 
      pure integer(ilp) function stdlib_iladlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            real(dp),parameter :: zero = 0.0d+0
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_iladlc = n
@@ -448,23 +449,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_iladlc
 
-     ! ILADLR scans A for its last non-zero row.
+     !> ILADLR: scans A for its last non-zero row.
 
      pure integer(ilp) function stdlib_iladlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            real(dp),parameter :: zero = 0.0d+0
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,j
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_iladlr = m
@@ -484,27 +485,27 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_iladlr
 
-     ! This subroutine translated from a character string specifying an
-     ! intermediate precision to the relevant BLAST-specified integer
-     ! constant.
-     ! ILAPREC returns an INTEGER.  If ILAPREC < 0, then the input is not a
-     ! character indicating a supported intermediate precision.  Otherwise
-     ! ILAPREC returns the constant value corresponding to PREC.
+     !> This subroutine translated from a character string specifying an
+     !> intermediate precision to the relevant BLAST-specified integer
+     !> constant.
+     !> ILAPREC: returns an INTEGER.  If ILAPREC: < 0, then the input is not a
+     !> character indicating a supported intermediate precision.  Otherwise
+     !> ILAPREC returns the constant value corresponding to PREC.
 
      integer(ilp) function stdlib_ilaprec(prec)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character :: prec
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            integer(ilp),parameter :: blas_prec_single = 211
            integer(ilp),parameter :: blas_prec_double = 212
            integer(ilp),parameter :: blas_prec_indigenous = 213
            integer(ilp),parameter :: blas_prec_extra = 214
            
-           ! .. executable statements ..
+           ! Executable Statements
            if (stdlib_lsame(prec,'S')) then
               stdlib_ilaprec = blas_prec_single
            else if (stdlib_lsame(prec,'D')) then
@@ -519,23 +520,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaprec
 
-     ! ILASLC scans A for its last non-zero column.
+     !> ILASLC: scans A for its last non-zero column.
 
      pure integer(ilp) function stdlib_ilaslc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            real(sp),parameter :: zero = 0.0e+0
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilaslc = n
@@ -552,23 +553,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaslc
 
-     ! ILASLR scans A for its last non-zero row.
+     !> ILASLR: scans A for its last non-zero row.
 
      pure integer(ilp) function stdlib_ilaslr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            real(sp),parameter :: zero = 0.0e+0
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,j
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilaslr = m
@@ -588,26 +589,26 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaslr
 
-     ! This subroutine translates from a character string specifying a
-     ! transposition operation to the relevant BLAST-specified integer
-     ! constant.
-     ! ILATRANS returns an INTEGER.  If ILATRANS < 0, then the input is not
-     ! a character indicating a transposition operator.  Otherwise ILATRANS
-     ! returns the constant value corresponding to TRANS.
+     !> This subroutine translates from a character string specifying a
+     !> transposition operation to the relevant BLAST-specified integer
+     !> constant.
+     !> ILATRANS: returns an INTEGER.  If ILATRANS: < 0, then the input is not
+     !> a character indicating a transposition operator.  Otherwise ILATRANS
+     !> returns the constant value corresponding to TRANS.
 
      integer(ilp) function stdlib_ilatrans(trans)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character :: trans
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            integer(ilp),parameter :: blas_no_trans = 111
            integer(ilp),parameter :: blas_trans = 112
            integer(ilp),parameter :: blas_conj_trans = 113
            
-           ! .. executable statements ..
+           ! Executable Statements
            if (stdlib_lsame(trans,'N')) then
               stdlib_ilatrans = blas_no_trans
            else if (stdlib_lsame(trans,'T')) then
@@ -620,25 +621,25 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilatrans
 
-     ! This subroutine translated from a character string specifying a
-     ! upper- or lower-triangular matrix to the relevant BLAST-specified
-     ! integer constant.
-     ! ILAUPLO returns an INTEGER.  If ILAUPLO < 0, then the input is not
-     ! a character indicating an upper- or lower-triangular matrix.
-     ! Otherwise ILAUPLO returns the constant value corresponding to UPLO.
+     !> This subroutine translated from a character string specifying a
+     !> upper- or lower-triangular matrix to the relevant BLAST-specified
+     !> integer constant.
+     !> ILAUPLO: returns an INTEGER.  If ILAUPLO: < 0, then the input is not
+     !> a character indicating an upper- or lower-triangular matrix.
+     !> Otherwise ILAUPLO returns the constant value corresponding to UPLO.
 
      integer(ilp) function stdlib_ilauplo(uplo)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character :: uplo
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            integer(ilp),parameter :: blas_upper = 121
            integer(ilp),parameter :: blas_lower = 122
            
-           ! .. executable statements ..
+           ! Executable Statements
            if (stdlib_lsame(uplo,'U')) then
               stdlib_ilauplo = blas_upper
            else if (stdlib_lsame(uplo,'L')) then
@@ -649,23 +650,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilauplo
 
-     ! ILAZLC scans A for its last non-zero column.
+     !> ILAZLC: scans A for its last non-zero column.
 
      pure integer(ilp) function stdlib_ilazlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            complex(dp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            complex(dp),parameter :: zero = (0.0d+0,0.0d+0)
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilazlc = n
@@ -682,23 +683,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilazlc
 
-     ! ILAZLR scans A for its last non-zero row.
+     !> ILAZLR: scans A for its last non-zero row.
 
      pure integer(ilp) function stdlib_ilazlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            complex(dp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            complex(dp),parameter :: zero = (0.0d+0,0.0d+0)
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,j
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilazlr = m
@@ -718,20 +719,20 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilazlr
 
-     ! This program sets problem and machine dependent parameters
-     ! useful for xHSEQR and related subroutines for eigenvalue
-     ! problems. It is called whenever
-     ! IPARMQ is called with 12 <= ISPEC <= 16
+     !> This program sets problem and machine dependent parameters
+     !> useful for xHSEQR and related subroutines for eigenvalue
+     !> problems. It is called whenever
+     !> IPARMQ: is called with 12 <= ISPEC <= 16
 
      pure integer(ilp) function stdlib_iparmq(ispec,name,opts,n,ilo,ihi,lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: ihi,ilo,ispec,lwork,n
            character,intent(in) :: name*(*),opts*(*)
         ! ================================================================
-           ! .. parameters ..
+           ! Parameters
            integer(ilp),parameter :: inmin = 12
            integer(ilp),parameter :: inwin = 13
            integer(ilp),parameter :: inibl = 14
@@ -746,13 +747,13 @@ module stdlib_linalg_lapack_aux
            integer(ilp),parameter :: rcost = 10
            real(sp),parameter :: two = 2.0
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: nh,ns
            integer(ilp) :: i,ic,iz
            character :: subnam*6
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: log,max,mod,nint,real
-           ! .. executable statements ..
+           ! Executable Statements
            if ((ispec == ishfts) .or. (ispec == inwin) .or. (ispec == iacc22)) then
               ! ==== set the number simultaneous shifts ====
               nh = ihi - ilo + 1
@@ -848,25 +849,25 @@ module stdlib_linalg_lapack_aux
            end if
      end function stdlib_iparmq
 
-     ! IZMAX1 finds the index of the first vector element of maximum absolute value.
-     ! Based on IZAMAX from Level 1 BLAS.
-     ! The change is to use the 'genuine' absolute value.
+     !> IZMAX1: finds the index of the first vector element of maximum absolute value.
+     !> Based on IZAMAX from Level 1 BLAS.
+     !> The change is to use the 'genuine' absolute value.
 
      pure integer(ilp) function stdlib_izmax1(n,zx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(dp),intent(in) :: zx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(dp) :: dmax
            integer(ilp) :: i,ix
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs
-           ! .. executable statements ..
+           ! Executable Statements
            stdlib_izmax1 = 0
            if (n < 1 .or. incx <= 0) return
            stdlib_izmax1 = 1
@@ -896,25 +897,25 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_izmax1
 
-     ! LSAMEN  tests if the first N letters of CA are the same as the
-     ! first N letters of CB, regardless of case.
-     ! LSAMEN returns .TRUE. if CA and CB are equivalent except for case
-     ! and .FALSE. otherwise.  LSAMEN also returns .FALSE. if LEN( CA )
-     ! or LEN( CB ) is less than N.
+     !> LSAMEN:  tests if the first N letters of CA are the same as the
+     !> first N letters of CB, regardless of case.
+     !> LSAMEN returns .TRUE. if CA and CB are equivalent except for case
+     !> and .FALSE. otherwise.  LSAMEN also returns .FALSE. if LEN( CA )
+     !> or LEN( CB ) is less than N.
 
      pure logical(lk) function stdlib_lsamen(n,ca,cb)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character(len=*),intent(in) :: ca,cb
            integer(ilp),intent(in) :: n
        ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: len
-           ! .. executable statements ..
+           ! Executable Statements
            stdlib_lsamen = .false.
            if (len(ca) < n .or. len(cb) < n) go to 20
            ! do for each character in the two strings.
@@ -927,26 +928,27 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_lsamen
 
-     ! SROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
-     ! This routine guarantees it is rounded up instead of down by
-     ! multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
-     ! E.g.,
-     ! float( 16777217            ) == 16777216
-     ! float( 16777217 ) * (1.+eps) == 16777218
-     ! \return SROUNDUP_LWORK
-     ! SROUNDUP_LWORK >= LWORK.
-     ! SROUNDUP_LWORK is guaranteed to have zero decimal part.
+     !> SROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
+     !> This routine guarantees it is rounded up instead of down by
+     !> multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
+     !> E.g.,
+     !> float( 16777217            ) == 16777216
+     !> float( 16777217 ) * (1.+eps) == 16777218
+     !> \return SROUNDUP_LWORK
+     !>
+     !> SROUNDUP_LWORK >= LWORK.
+     !> SROUNDUP_LWORK is guaranteed to have zero decimal part.
 
      pure real(sp) function stdlib_sroundup_lwork(lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: lwork
        ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: epsilon,real,int
-           ! .. executable statements ..
+           ! Executable Statements
            stdlib_sroundup_lwork = real(lwork,KIND=sp)
            if (int(stdlib_sroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
@@ -956,26 +958,27 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_sroundup_lwork
 
-     ! QROUNDUP_LWORK deals with a subtle bug with returning LWORK as a Float.
-     ! This routine guarantees it is rounded up instead of down by
-     ! multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
-     ! E.g.,
-     ! float( 9007199254740993            ) == 9007199254740992
-     ! float( 9007199254740993 ) * (1.+eps) == 9007199254740994
-     ! \return DROUNDUP_LWORK
-     ! QROUNDUP_LWORK >= LWORK.
-     ! QROUNDUP_LWORK is guaranteed to have zero decimal part.
+     !> DROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
+     !> This routine guarantees it is rounded up instead of down by
+     !> multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
+     !> E.g.,
+     !> float( 9007199254740993            ) == 9007199254740992
+     !> float( 9007199254740993 ) * (1.+eps) == 9007199254740994
+     !> \return DROUNDUP_LWORK
+     !>
+     !> DROUNDUP_LWORK >= LWORK.
+     !> DROUNDUP_LWORK is guaranteed to have zero decimal part.
 
      pure real(qp) function stdlib_qroundup_lwork(lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: lwork
        ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: epsilon,real,int
-           ! .. executable statements ..
+           ! Executable Statements
            stdlib_qroundup_lwork = real(lwork,KIND=qp)
            if (int(stdlib_qroundup_lwork,KIND=ilp) < lwork) then
                ! force round up of lwork
@@ -985,25 +988,25 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_qroundup_lwork
 
-     ! This subroutine translated from a character string specifying if a
-     ! matrix has unit diagonal or not to the relevant BLAST-specified
-     ! integer constant.
-     ! ILAQIAG returns an INTEGER.  If ILADIAG < 0, then the input is not a
-     ! character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
-     ! returns the constant value corresponding to DIAG.
+     !> This subroutine translated from a character string specifying if a
+     !> matrix has unit diagonal or not to the relevant BLAST-specified
+     !> integer constant.
+     !> ILADIAG: returns an INTEGER.  If ILADIAG: < 0, then the input is not a
+     !> character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
+     !> returns the constant value corresponding to DIAG.
 
      integer(ilp) function stdlib_ilaqiag(diag)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character :: diag
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            integer(ilp),parameter :: blas_non_unit_qiag = 131
            integer(ilp),parameter :: blas_unit_qiag = 132
            
-           ! .. executable statements ..
+           ! Executable Statements
            if (stdlib_lsame(diag,'N')) then
               stdlib_ilaqiag = blas_non_unit_qiag
            else if (stdlib_lsame(diag,'U')) then
@@ -1014,23 +1017,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaqiag
 
-     ! ILAQLC scans A for its last non-zero column.
+     !> ILADLC: scans A for its last non-zero column.
 
      pure integer(ilp) function stdlib_ilaqlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            real(qp),parameter :: zero = 0.0d+0
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilaqlc = n
@@ -1047,23 +1050,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaqlc
 
-     ! ILAQLR scans A for its last non-zero row.
+     !> ILADLR: scans A for its last non-zero row.
 
      pure integer(ilp) function stdlib_ilaqlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            real(qp),parameter :: zero = 0.0d+0
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,j
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilaqlr = m
@@ -1083,23 +1086,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaqlr
 
-     ! ILAWLC scans A for its last non-zero column.
+     !> ILAZLC: scans A for its last non-zero column.
 
      pure integer(ilp) function stdlib_ilawlc(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            complex(qp),parameter :: zero = (0.0d+0,0.0d+0)
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (n == 0) then
               stdlib_ilawlc = n
@@ -1116,23 +1119,23 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilawlc
 
-     ! ILAWLR scans A for its last non-zero row.
+     !> ILAZLR: scans A for its last non-zero row.
 
      pure integer(ilp) function stdlib_ilawlr(m,n,a,lda)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: m,n,lda
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
-           ! .. parameters ..
+           ! Parameters
            complex(qp),parameter :: zero = (0.0d+0,0.0d+0)
            
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,j
-           ! .. executable statements ..
+           ! Executable Statements
            ! quick test for the common case where one corner is non-zero.
            if (m == 0) then
               stdlib_ilawlr = m
@@ -1152,25 +1155,25 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilawlr
 
-     ! IWMAX1 finds the index of the first vector element of maximum absolute value.
-     ! Based on IZAMAX from Level 1 BLAS.
-     ! The change is to use the 'genuine' absolute value.
+     !> IZMAX1: finds the index of the first vector element of maximum absolute value.
+     !> Based on IZAMAX from Level 1 BLAS.
+     !> The change is to use the 'genuine' absolute value.
 
      pure integer(ilp) function stdlib_iwmax1(n,zx,incx)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: zx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: dmax
            integer(ilp) :: i,ix
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs
-           ! .. executable statements ..
+           ! Executable Statements
            stdlib_iwmax1 = 0
            if (n < 1 .or. incx <= 0) return
            stdlib_iwmax1 = 1
@@ -1200,35 +1203,35 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_iwmax1
 
-     ! ILAENV is called from the LAPACK routines to choose problem-dependent
-     ! parameters for the local environment.  See ISPEC for a description of
-     ! the parameters.
-     ! ILAENV returns an INTEGER
-     ! if ILAENV >= 0: ILAENV returns the value of the parameter specified by ISPEC
-     ! if ILAENV < 0:  if ILAENV = -k, the k-th argument had an illegal value.
-     ! This version provides a set of parameters which should give good,
-     ! but not optimal, performance on many of the currently available
-     ! computers.  Users are encouraged to modify this subroutine to set
-     ! the tuning parameters for their particular machine using the option
-     ! and problem size information in the arguments.
-     ! This routine will not function correctly if it is converted to all
-     ! lower case.  Converting it to all upper case is allowed.
+     !> ILAENV: is called from the LAPACK routines to choose problem-dependent
+     !> parameters for the local environment.  See ISPEC for a description of
+     !> the parameters.
+     !> ILAENV returns an INTEGER
+     !> if ILAENV >= 0: ILAENV returns the value of the parameter specified by ISPEC
+     !> if ILAENV < 0:  if ILAENV = -k, the k-th argument had an illegal value.
+     !> This version provides a set of parameters which should give good,
+     !> but not optimal, performance on many of the currently available
+     !> computers.  Users are encouraged to modify this subroutine to set
+     !> the tuning parameters for their particular machine using the option
+     !> and problem size information in the arguments.
+     !> This routine will not function correctly if it is converted to all
+     !> lower case.  Converting it to all upper case is allowed.
 
      pure integer(ilp) function stdlib_ilaenv(ispec,name,opts,n1,n2,n3,n4)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character(len=*),intent(in) :: name,opts
            integer(ilp),intent(in) :: ispec,n1,n2,n3,n4
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,ic,iz,nb,nbmin,nx
            logical(lk) :: cname,sname,twostage
            character :: c1*1,c2*2,c4*2,c3*3,subnam*16
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: char,ichar,int,min,real
-           ! .. executable statements ..
+           ! Executable Statements
            go to(10,10,10,80,90,100,110,120,130,140,150,160,160,160,160,160,160) &
                      ispec
            ! invalid value for ispec
@@ -1680,13 +1683,13 @@ module stdlib_linalg_lapack_aux
            return
      end function stdlib_ilaenv
 
-     ! This program sets problem and machine dependent parameters
-     ! useful for xHETRD_2STAGE, xHETRD_HE2HB, xHETRD_HB2ST,
-     ! xGEBRD_2STAGE, xGEBRD_GE2GB, xGEBRD_GB2BD
-     ! and related subroutines for eigenvalue problems.
-     ! It is called whenever ILAENV is called with 17 <= ISPEC <= 21.
-     ! It is called whenever ILAENV2STAGE is called with 1 <= ISPEC <= 5
-     ! with a direct conversion ISPEC + 16.
+     !> This program sets problem and machine dependent parameters
+     !> useful for xHETRD_2STAGE, xHETRD_HE2HB, xHETRD_HB2ST,
+     !> xGEBRD_2STAGE, xGEBRD_GE2GB, xGEBRD_GB2BD
+     !> and related subroutines for eigenvalue problems.
+     !> It is called whenever ILAENV is called with 17 <= ISPEC <= 21.
+     !> It is called whenever ILAENV2STAGE is called with 1 <= ISPEC <= 5
+     !> with a direct conversion ISPEC + 16.
 
      pure integer(ilp) function stdlib_iparam2stage(ispec,name,opts,ni,nbi,ibi,nxi)
 #if defined(_OPENMP)
@@ -1694,18 +1697,18 @@ module stdlib_linalg_lapack_aux
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character(len=*),intent(in) :: name,opts
            integer(ilp),intent(in) :: ispec,ni,nbi,ibi,nxi
         ! ================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,ic,iz,kd,ib,lhous,lwork,nthreads,factoptnb,qroptnb, &
                      lqoptnb
            logical(lk) :: rprec,cprec
            character :: prec*1,algo*3,stag*5,subnam*12,vect*1
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: char,ichar,max
-           ! .. executable statements ..
+           ! Executable Statements
            ! invalid value for ispec
            if ((ispec < 17) .or. (ispec > 21)) then
                stdlib_iparam2stage = -1
@@ -1869,36 +1872,36 @@ module stdlib_linalg_lapack_aux
            end if
      end function stdlib_iparam2stage
 
-     ! ILAENV2STAGE is called from the LAPACK routines to choose problem-dependent
-     ! parameters for the local environment.  See ISPEC for a description of
-     ! the parameters.
-     ! It sets problem and machine dependent parameters useful for *_2STAGE and
-     ! related subroutines.
-     ! ILAENV2STAGE returns an INTEGER
-     ! if ILAENV2STAGE >= 0: ILAENV2STAGE returns the value of the parameter
-     ! specified by ISPEC
-     ! if ILAENV2STAGE < 0:  if ILAENV2STAGE = -k, the k-th argument had an
-     ! illegal value.
-     ! This version provides a set of parameters which should give good,
-     ! but not optimal, performance on many of the currently available
-     ! computers for the 2-stage solvers. Users are encouraged to modify this
-     ! subroutine to set the tuning parameters for their particular machine using
-     ! the option and problem size information in the arguments.
-     ! This routine will not function correctly if it is converted to all
-     ! lower case.  Converting it to all upper case is allowed.
+     !> ILAENV2STAGE: is called from the LAPACK routines to choose problem-dependent
+     !> parameters for the local environment.  See ISPEC for a description of
+     !> the parameters.
+     !> It sets problem and machine dependent parameters useful for *_2STAGE and
+     !> related subroutines.
+     !> ILAENV2STAGE returns an INTEGER
+     !> if ILAENV2STAGE >= 0: ILAENV2STAGE returns the value of the parameter
+     !> specified by ISPEC
+     !> if ILAENV2STAGE < 0:  if ILAENV2STAGE = -k, the k-th argument had an
+     !> illegal value.
+     !> This version provides a set of parameters which should give good,
+     !> but not optimal, performance on many of the currently available
+     !> computers for the 2-stage solvers. Users are encouraged to modify this
+     !> subroutine to set the tuning parameters for their particular machine using
+     !> the option and problem size information in the arguments.
+     !> This routine will not function correctly if it is converted to all
+     !> lower case.  Converting it to all upper case is allowed.
 
      pure integer(ilp) function stdlib_ilaenv2stage(ispec,name,opts,n1,n2,n3,n4)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! july 2017
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character(len=*),intent(in) :: name,opts
            integer(ilp),intent(in) :: ispec,n1,n2,n3,n4
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: iispec
-           ! .. executable statements ..
+           ! Executable Statements
            go to(10,10,10,10,10) ispec
            ! invalid value for ispec
            stdlib_ilaenv2stage = -1

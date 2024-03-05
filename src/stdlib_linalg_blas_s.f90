@@ -81,22 +81,22 @@ module stdlib_linalg_blas_s
 
      contains
 
-     ! SASUM takes the sum of the absolute values.
-     ! uses unrolled loops for increment equal to one.
+     !> SASUM: takes the sum of the absolute values.
+     !> uses unrolled loops for increment equal to one.
 
      pure real(sp) function stdlib_sasum(n,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: sx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: stemp
            integer(ilp) :: i,m,mp1,nincx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs,mod
            stdlib_sasum = zero
            stemp = zero
@@ -130,23 +130,23 @@ module stdlib_linalg_blas_s
            return
      end function stdlib_sasum
 
-     ! SAXPY constant times a vector plus a vector.
-     ! uses unrolled loops for increments equal to one.
+     !> SAXPY: constant times a vector plus a vector.
+     !> uses unrolled loops for increments equal to one.
 
      pure subroutine stdlib_saxpy(n,sa,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: sa
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: sx(*)
            real(sp),intent(inout) :: sy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,ix,iy,m,mp1
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            if (n <= 0) return
            if (sa == 0.0_sp) return
@@ -183,22 +183,22 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_saxpy
 
-     ! SCASUM takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
-     ! returns a single precision result.
+     !> SCASUM: takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
+     !> returns a single precision result.
 
      pure real(sp) function stdlib_scasum(n,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(sp),intent(in) :: cx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: stemp
            integer(ilp) :: i,nincx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs,aimag,real
            stdlib_scasum = zero
            stemp = zero
@@ -219,10 +219,11 @@ module stdlib_linalg_blas_s
            return
      end function stdlib_scasum
 
-     ! !
-     ! SCNRM2 returns the euclidean norm of a vector via the function
-     ! name, so that
-     ! SCNRM2 := sqrt( x**H*x )
+     !> !
+     !>
+     !> SCNRM2: returns the euclidean norm of a vector via the function
+     !> name, so that
+     !> SCNRM2 := sqrt( x**H*x )
 
      pure function stdlib_scnrm2(n,x,incx)
         real(sp) :: stdlib_scnrm2
@@ -230,15 +231,15 @@ module stdlib_linalg_blas_s
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
-        ! .. constants ..
+        ! Constants
         integer,parameter :: wp = kind(1._sp)
         real(sp),parameter :: maxn = huge(0.0_sp)
         ! .. blue's scaling constants ..
-        ! .. scalar arguments ..
+        ! Scalar Arguments
      integer(ilp),intent(in) :: incx,n
-        ! .. array arguments ..
+        ! Array Arguments
         complex(sp),intent(in) :: x(*)
-        ! .. local scalars ..
+        ! Local Scalars
      integer(ilp) :: i,ix
      logical(lk) :: notbig
         real(sp) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin
@@ -317,22 +318,22 @@ module stdlib_linalg_blas_s
         return
      end function stdlib_scnrm2
 
-     ! SCOPY copies a vector, x, to a vector, y.
-     ! uses unrolled loops for increments equal to 1.
+     !> SCOPY: copies a vector, x, to a vector, y.
+     !> uses unrolled loops for increments equal to 1.
 
      pure subroutine stdlib_scopy(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: sx(*)
            real(sp),intent(out) :: sy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,ix,iy,m,mp1
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
@@ -371,22 +372,22 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_scopy
 
-     ! SDOT forms the dot product of two vectors.
-     ! uses unrolled loops for increments equal to one.
+     !> SDOT: forms the dot product of two vectors.
+     !> uses unrolled loops for increments equal to one.
 
      pure real(sp) function stdlib_sdot(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: sx(*),sy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: stemp
            integer(ilp) :: i,ix,iy,m,mp1
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            stemp = zero
            stdlib_sdot = zero
@@ -426,26 +427,26 @@ module stdlib_linalg_blas_s
            return
      end function stdlib_sdot
 
-     ! Compute the inner product of two vectors with extended
-     ! precision accumulation.
-     ! Returns S.P. result with dot product accumulated in D.P.
-     ! SDSDOT = SB + sum for I = 0 to N-1 of SX(LX+I*INCX)*SY(LY+I*INCY),
-     ! where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
-     ! defined in a similar way using INCY.
+     !> Compute the inner product of two vectors with extended
+     !> precision accumulation.
+     !> Returns S.P. result with dot product accumulated in D.P.
+     !> SDSDOT: = SB + sum for I = 0 to N-1 of SX(LX+I*INCX)*SY(LY+I*INCY),
+     !> where LX = 1 if INCX >= 0, else LX = 1+(1-N)*INCX, and LY is
+     !> defined in a similar way using INCY.
 
      pure real(sp) function stdlib_sdsdot(n,sb,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: sb
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: sx(*),sy(*)
-           ! .. local scalars ..
+           ! Local Scalars
            real(dp) :: dsdot
            integer(ilp) :: i,kx,ky,ns
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real
            dsdot = sb
            if (n <= 0) then
@@ -474,28 +475,28 @@ module stdlib_linalg_blas_s
            return
      end function stdlib_sdsdot
 
-     ! SGBMV  performs one of the matrix-vector operations
-     ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
-     ! where alpha and beta are scalars, x and y are vectors and A is an
-     ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
+     !> SGBMV:  performs one of the matrix-vector operations
+     !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
+     !> where alpha and beta are scalars, x and y are vectors and A is an
+     !> m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
      pure subroutine stdlib_sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,kl,ku,lda,m,n
            character,intent(in) :: trans
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*),x(*)
            real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
@@ -629,28 +630,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_sgbmv
 
-     ! SGEMM  performs one of the matrix-matrix operations
-     ! C := alpha*op( A )*op( B ) + beta*C,
-     ! where  op( X ) is one of
-     ! op( X ) = X   or   op( X ) = X**T,
-     ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
-     ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
+     !> SGEMM:  performs one of the matrix-matrix operations
+     !> C := alpha*op( A )*op( B ) + beta*C,
+     !> where  op( X ) is one of
+     !> op( X ) = X   or   op( X ) = X**T,
+     !> alpha and beta are scalars, and A, B and C are matrices, with op( A )
+     !> an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
      pure subroutine stdlib_sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldb,ldc,m,n
            character,intent(in) :: transa,transb
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*),b(ldb,*)
            real(sp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,j,l,nrowa,nrowb
            logical(lk) :: nota,notb
@@ -792,28 +793,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_sgemm
 
-     ! SGEMV  performs one of the matrix-vector operations
-     ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
-     ! where alpha and beta are scalars, x and y are vectors and A is an
-     ! m by n matrix.
+     !> SGEMV:  performs one of the matrix-vector operations
+     !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
+     !> where alpha and beta are scalars, x and y are vectors and A is an
+     !> m by n matrix.
 
      pure subroutine stdlib_sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,lda,m,n
            character,intent(in) :: trans
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*),x(*)
            real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -936,27 +937,27 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_sgemv
 
-     ! SGER   performs the rank 1 operation
-     ! A := alpha*x*y**T + A,
-     ! where alpha is a scalar, x is an m element vector, y is an n element
-     ! vector and A is an m by n matrix.
+     !> SGER:   performs the rank 1 operation
+     !> A := alpha*x*y**T + A,
+     !> where alpha is a scalar, x is an m element vector, y is an n element
+     !> vector and A is an m by n matrix.
 
      pure subroutine stdlib_sger(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,lda,m,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(inout) :: a(lda,*)
            real(sp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jy,kx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -1015,10 +1016,11 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_sger
 
-     ! !
-     ! SNRM2 returns the euclidean norm of a vector via the function
-     ! name, so that
-     ! SNRM2 := sqrt( x'*x ).
+     !> !
+     !>
+     !> SNRM2: returns the euclidean norm of a vector via the function
+     !> name, so that
+     !> SNRM2 := sqrt( x'*x ).
 
      pure function stdlib_snrm2(n,x,incx)
         real(sp) :: stdlib_snrm2
@@ -1026,15 +1028,15 @@ module stdlib_linalg_blas_s
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! march 2021
-        ! .. constants ..
+        ! Constants
         integer,parameter :: wp = kind(1._sp)
         real(sp),parameter :: maxn = huge(0.0_sp)
         ! .. blue's scaling constants ..
-        ! .. scalar arguments ..
+        ! Scalar Arguments
      integer(ilp),intent(in) :: incx,n
-        ! .. array arguments ..
+        ! Array Arguments
         real(sp),intent(in) :: x(*)
-        ! .. local scalars ..
+        ! Local Scalars
      integer(ilp) :: i,ix
      logical(lk) :: notbig
         real(sp) :: abig,amed,asml,ax,scl,sumsq,ymax,ymin
@@ -1104,19 +1106,19 @@ module stdlib_linalg_blas_s
         return
      end function stdlib_snrm2
 
-     ! applies a plane rotation.
+     !> applies a plane rotation.
 
      pure subroutine stdlib_srot(n,sx,incx,sy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: c,s
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(inout) :: sx(*),sy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: stemp
            integer(ilp) :: i,ix,iy
            if (n <= 0) return
@@ -1145,33 +1147,34 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_srot
 
-     ! !
-     ! The computation uses the formulas
-     ! sigma = sgn(a)    if |a| >  |b|
-     ! = sgn(b)    if |b| >= |a|
-     ! r = sigma*sqrt( a**2 + b**2 )
-     ! c = 1; s = 0      if r = 0
-     ! c = a/r; s = b/r  if r != 0
-     ! The subroutine also computes
-     ! z = s    if |a| > |b|,
-     ! = 1/c  if |b| >= |a| and c != 0
-     ! = 1    if c = 0
-     ! This allows c and s to be reconstructed from z as follows:
-     ! If z = 1, set c = 0, s = 1.
-     ! If |z| < 1, set c = sqrt(1 - z**2) and s = z.
-     ! If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
+     !> !
+     !>
+     !> The computation uses the formulas
+     !> sigma = sgn(a)    if |a| >  |b|
+     !> = sgn(b)    if |b| >= |a|
+     !> r = sigma*sqrt( a**2 + b**2 )
+     !> c = 1; s = 0      if r = 0
+     !> c = a/r; s = b/r  if r != 0
+     !> The subroutine also computes
+     !> z = s    if |a| > |b|,
+     !> = 1/c  if |b| >= |a| and c != 0
+     !> = 1    if c = 0
+     !> This allows c and s to be reconstructed from z as follows:
+     !> If z = 1, set c = 0, s = 1.
+     !> If |z| < 1, set c = sqrt(1 - z**2) and s = z.
+     !> If |z| > 1, set c = 1/z and s = sqrt( 1 - c**2).
 
      pure subroutine stdlib_srotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-        ! .. constants ..
+        ! Constants
         integer,parameter :: wp = kind(1._sp)
-        ! .. scaling constants ..
-        ! .. scalar arguments ..
+        ! Scaling Constants
+        ! Scalar Arguments
         real(sp),intent(inout) :: a,b
         real(sp),intent(out) :: c,s
-        ! .. local scalars ..
+        ! Local Scalars
         real(sp) :: anorm,bnorm,scl,sigma,r,z
         anorm = abs(a)
         bnorm = abs(b)
@@ -1207,32 +1210,32 @@ module stdlib_linalg_blas_s
         return
      end subroutine stdlib_srotg
 
-     ! APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
-     ! (SX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF SX ARE IN
-     ! (SX**T)
-     ! SX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX >= 0, ELSE
-     ! LX = (-INCX)*N, AND SIMILARLY FOR SY USING USING LY AND INCY.
-     ! WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
-     ! SFLAG=-1._sp     SFLAG=0._sp        SFLAG=1._sp     SFLAG=-2.E0
-     ! (SH11  SH12)    (1._sp  SH12)    (SH11  1._sp)    (1._sp  0._sp)
-     ! H=(          )    (          )    (          )    (          )
-     ! (SH21  SH22),   (SH21  1._sp),   (-1._sp SH22),   (0._sp  1._sp).
-     ! SEE  SROTMG FOR A DESCRIPTION OF DATA STORAGE IN SPARAM.
+     !> APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
+     !> (SX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF SX ARE IN
+     !> (SX**T)
+     !> SX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX >= 0, ELSE
+     !> LX = (-INCX)*N, AND SIMILARLY FOR SY USING USING LY AND INCY.
+     !> WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
+     !> SFLAG=-1._sp     SFLAG=0._sp        SFLAG=1._sp     SFLAG=-2.E0
+     !> (SH11  SH12)    (1._sp  SH12)    (SH11  1._sp)    (1._sp  0._sp)
+     !> H=(          )    (          )    (          )    (          )
+     !> (SH21  SH22),   (SH21  1._sp),   (-1._sp SH22),   (0._sp  1._sp).
+     !> SEE  SROTMG FOR A DESCRIPTION OF DATA STORAGE IN SPARAM.
 
      pure subroutine stdlib_srotm(n,sx,incx,sy,incy,sparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: sparam(5)
            real(sp),intent(inout) :: sx(*),sy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: sflag,sh11,sh12,sh21,sh22,two,w,z,zero
            integer(ilp) :: i,kx,ky,nsteps
-           ! .. data statements ..
+           ! Data Statements
            zero = 0.0_sp
            two = 2.0_sp
            sflag = sparam(1)
@@ -1314,36 +1317,36 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_srotm
 
-     ! CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
-     ! THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(SD1)*SX1,SQRT(SD2)    SY2)**T.
-     ! WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
-     ! SFLAG=-1._sp     SFLAG=0._sp        SFLAG=1._sp     SFLAG=-2.E0
-     ! (SH11  SH12)    (1._sp  SH12)    (SH11  1._sp)    (1._sp  0._sp)
-     ! H=(          )    (          )    (          )    (          )
-     ! (SH21  SH22),   (SH21  1._sp),   (-1._sp SH22),   (0._sp  1._sp).
-     ! LOCATIONS 2-4 OF SPARAM CONTAIN SH11,SH21,SH12, AND SH22
-     ! RESPECTIVELY. (VALUES OF 1._sp, -1._sp, OR 0._sp IMPLIED BY THE
-     ! VALUE OF SPARAM(1) ARE NOT STORED IN SPARAM.)
-     ! THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE
-     ! INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
-     ! OF SD1 AND SD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
+     !> CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
+     !> THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(SD1)*SX1,SQRT(SD2)    SY2)**T.
+     !> WITH SPARAM(1)=SFLAG, H HAS ONE OF THE FOLLOWING FORMS..
+     !> SFLAG=-1._sp     SFLAG=0._sp        SFLAG=1._sp     SFLAG=-2.E0
+     !> (SH11  SH12)    (1._sp  SH12)    (SH11  1._sp)    (1._sp  0._sp)
+     !> H=(          )    (          )    (          )    (          )
+     !> (SH21  SH22),   (SH21  1._sp),   (-1._sp SH22),   (0._sp  1._sp).
+     !> LOCATIONS 2-4 OF SPARAM CONTAIN SH11,SH21,SH12, AND SH22
+     !> RESPECTIVELY. (VALUES OF 1._sp, -1._sp, OR 0._sp IMPLIED BY THE
+     !> VALUE OF SPARAM(1) ARE NOT STORED IN SPARAM.)
+     !> THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE
+     !> INEXACT.  THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE
+     !> OF SD1 AND SD2.  ALL ACTUAL SCALING OF DATA IS DONE USING GAM.
 
      pure subroutine stdlib_srotmg(sd1,sd2,sx1,sy1,sparam)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(inout) :: sd1,sd2,sx1
            real(sp),intent(in) :: sy1
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(out) :: sparam(5)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: gam,gamsq,one,rgamsq,sflag,sh11,sh12,sh21,sh22,sp1,sp2,sq1,sq2, &
                       stemp,su,two,zero
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs
-           ! .. data statements ..
+           ! Data Statements
            zero = 0.0_sp
            one = 1.0_sp
            two = 2.0_sp
@@ -1480,28 +1483,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_srotmg
 
-     ! SSBMV  performs the matrix-vector  operation
-     ! y := alpha*A*x + beta*y,
-     ! where alpha and beta are scalars, x and y are n element vectors and
-     ! A is an n by n symmetric band matrix, with k super-diagonals.
+     !> SSBMV:  performs the matrix-vector  operation
+     !> y := alpha*A*x + beta*y,
+     !> where alpha and beta are scalars, x and y are n element vectors and
+     !> A is an n by n symmetric band matrix, with k super-diagonals.
 
      pure subroutine stdlib_ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,k,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*),x(*)
            real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
@@ -1642,22 +1645,22 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_ssbmv
 
-     ! SSCAL scales a vector by a constant.
-     ! uses unrolled loops for increment equal to 1.
+     !> SSCAL: scales a vector by a constant.
+     !> uses unrolled loops for increment equal to 1.
 
      pure subroutine stdlib_sscal(n,sa,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: sa
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(inout) :: sx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,m,mp1,nincx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            if (n <= 0 .or. incx <= 0) return
            if (incx == 1) then
@@ -1688,25 +1691,25 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_sscal
 
-     ! SSPMV  performs the matrix-vector operation
-     ! y := alpha*A*x + beta*y,
-     ! where alpha and beta are scalars, x and y are n element vectors and
-     ! A is an n by n symmetric matrix, supplied in packed form.
+     !> SSPMV:  performs the matrix-vector operation
+     !> y := alpha*A*x + beta*y,
+     !> where alpha and beta are scalars, x and y are n element vectors and
+     !> A is an n by n symmetric matrix, supplied in packed form.
 
      pure subroutine stdlib_sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: ap(*),x(*)
            real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! test the input parameters.
@@ -1844,25 +1847,25 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_sspmv
 
-     ! SSPR    performs the symmetric rank 1 operation
-     ! A := alpha*x*x**T + A,
-     ! where alpha is a real scalar, x is an n element vector and A is an
-     ! n by n symmetric matrix, supplied in packed form.
+     !> SSPR:    performs the symmetric rank 1 operation
+     !> A := alpha*x*x**T + A,
+     !> where alpha is a real scalar, x is an n element vector and A is an
+     !> n by n symmetric matrix, supplied in packed form.
 
      pure subroutine stdlib_sspr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(inout) :: ap(*)
            real(sp),intent(in) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            ! test the input parameters.
@@ -1951,25 +1954,25 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_sspr
 
-     ! SSPR2  performs the symmetric rank 2 operation
-     ! A := alpha*x*y**T + alpha*y*x**T + A,
-     ! where alpha is a scalar, x and y are n element vectors and A is an
-     ! n by n symmetric matrix, supplied in packed form.
+     !> SSPR2:  performs the symmetric rank 2 operation
+     !> A := alpha*x*y**T + alpha*y*x**T + A,
+     !> where alpha is a scalar, x and y are n element vectors and A is an
+     !> n by n symmetric matrix, supplied in packed form.
 
      pure subroutine stdlib_sspr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(inout) :: ap(*)
            real(sp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            ! test the input parameters.
@@ -2078,22 +2081,22 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_sspr2
 
-     ! SSWAP interchanges two vectors.
-     ! uses unrolled loops for increments equal to 1.
+     !> SSWAP: interchanges two vectors.
+     !> uses unrolled loops for increments equal to 1.
 
      pure subroutine stdlib_sswap(n,sx,incx,sy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(inout) :: sx(*),sy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: stemp
            integer(ilp) :: i,ix,iy,m,mp1
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: mod
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
@@ -2138,28 +2141,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_sswap
 
-     ! SSYMM  performs one of the matrix-matrix operations
-     ! C := alpha*A*B + beta*C,
-     ! or
-     ! C := alpha*B*A + beta*C,
-     ! where alpha and beta are scalars,  A is a symmetric matrix and  B and
-     ! C are  m by n matrices.
+     !> SSYMM:  performs one of the matrix-matrix operations
+     !> C := alpha*A*B + beta*C,
+     !> or
+     !> C := alpha*B*A + beta*C,
+     !> where alpha and beta are scalars,  A is a symmetric matrix and  B and
+     !> C are  m by n matrices.
 
      pure subroutine stdlib_ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: lda,ldb,ldc,m,n
            character,intent(in) :: side,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*),b(ldb,*)
            real(sp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: upper
@@ -2285,28 +2288,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_ssymm
 
-     ! SSYMV  performs the matrix-vector  operation
-     ! y := alpha*A*x + beta*y,
-     ! where alpha and beta are scalars, x and y are n element vectors and
-     ! A is an n by n symmetric matrix.
+     !> SSYMV:  performs the matrix-vector  operation
+     !> y := alpha*A*x + beta*y,
+     !> where alpha and beta are scalars, x and y are n element vectors and
+     !> A is an n by n symmetric matrix.
 
      pure subroutine stdlib_ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*),x(*)
            real(sp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -2437,28 +2440,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_ssymv
 
-     ! SSYR   performs the symmetric rank 1 operation
-     ! A := alpha*x*x**T + A,
-     ! where alpha is a real scalar, x is an n element vector and A is an
-     ! n by n symmetric matrix.
+     !> SSYR:   performs the symmetric rank 1 operation
+     !> A := alpha*x*x**T + A,
+     !> where alpha is a real scalar, x is an n element vector and A is an
+     !> n by n symmetric matrix.
 
      pure subroutine stdlib_ssyr(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(inout) :: a(lda,*)
            real(sp),intent(in) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -2540,28 +2543,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_ssyr
 
-     ! SSYR2  performs the symmetric rank 2 operation
-     ! A := alpha*x*y**T + alpha*y*x**T + A,
-     ! where alpha is a scalar, x and y are n element vectors and A is an n
-     ! by n symmetric matrix.
+     !> SSYR2:  performs the symmetric rank 2 operation
+     !> A := alpha*x*y**T + alpha*y*x**T + A,
+     !> where alpha is a scalar, x and y are n element vectors and A is an n
+     !> by n symmetric matrix.
 
      pure subroutine stdlib_ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(inout) :: a(lda,*)
            real(sp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -2663,29 +2666,29 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_ssyr2
 
-     ! SSYR2K  performs one of the symmetric rank 2k operations
-     ! C := alpha*A*B**T + alpha*B*A**T + beta*C,
-     ! or
-     ! C := alpha*A**T*B + alpha*B**T*A + beta*C,
-     ! where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
-     ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
-     ! matrices in the second case.
+     !> SSYR2K:  performs one of the symmetric rank 2k operations
+     !> C := alpha*A*B**T + alpha*B*A**T + beta*C,
+     !> or
+     !> C := alpha*A**T*B + alpha*B**T*A + beta*C,
+     !> where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+     !> and  A and B  are  n by k  matrices  in the  first  case  and  k by n
+     !> matrices in the second case.
 
      pure subroutine stdlib_ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldb,ldc,n
            character,intent(in) :: trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*),b(ldb,*)
            real(sp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp1,temp2
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
@@ -2838,29 +2841,29 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_ssyr2k
 
-     ! SSYRK  performs one of the symmetric rank k operations
-     ! C := alpha*A*A**T + beta*C,
-     ! or
-     ! C := alpha*A**T*A + beta*C,
-     ! where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
-     ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
-     ! in the second case.
+     !> SSYRK:  performs one of the symmetric rank k operations
+     !> C := alpha*A*A**T + beta*C,
+     !> or
+     !> C := alpha*A**T*A + beta*C,
+     !> where  alpha and beta  are scalars, C is an  n by n  symmetric matrix
+     !> and  A  is an  n by k  matrix in the first case and a  k by n  matrix
+     !> in the second case.
 
      pure subroutine stdlib_ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldc,n
            character,intent(in) :: trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
@@ -3005,28 +3008,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_ssyrk
 
-     ! STBMV  performs one of the matrix-vector operations
-     ! x := A*x,   or   x := A**T*x,
-     ! where x is an n element vector and  A is an n by n unit, or non-unit,
-     ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
+     !> STBMV:  performs one of the matrix-vector operations
+     !> x := A*x,   or   x := A**T*x,
+     !> where x is an n element vector and  A is an n by n unit, or non-unit,
+     !> upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
      pure subroutine stdlib_stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,k,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
            logical(lk) :: nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
@@ -3188,31 +3191,31 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_stbmv
 
-     ! STBSV  solves one of the systems of equations
-     ! A*x = b,   or   A**T*x = b,
-     ! where b and x are n element vectors and A is an n by n unit, or
-     ! non-unit, upper or lower triangular band matrix, with ( k + 1 )
-     ! diagonals.
-     ! No test for singularity or near-singularity is included in this
-     ! routine. Such tests must be performed before calling this routine.
+     !> STBSV:  solves one of the systems of equations
+     !> A*x = b,   or   A**T*x = b,
+     !> where b and x are n element vectors and A is an n by n unit, or
+     !> non-unit, upper or lower triangular band matrix, with ( k + 1 )
+     !> diagonals.
+     !> No test for singularity or near-singularity is included in this
+     !> routine. Such tests must be performed before calling this routine.
 
      pure subroutine stdlib_stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,k,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
            logical(lk) :: nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max,min
            ! test the input parameters.
            info = 0
@@ -3374,24 +3377,24 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_stbsv
 
-     ! STPMV  performs one of the matrix-vector operations
-     ! x := A*x,   or   x := A**T*x,
-     ! where x is an n element vector and  A is an n by n unit, or non-unit,
-     ! upper or lower triangular matrix, supplied in packed form.
+     !> STPMV:  performs one of the matrix-vector operations
+     !> x := A*x,   or   x := A**T*x,
+     !> where x is an n element vector and  A is an n by n unit, or non-unit,
+     !> upper or lower triangular matrix, supplied in packed form.
 
      pure subroutine stdlib_stpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: ap(*)
            real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            logical(lk) :: nounit
@@ -3556,26 +3559,26 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_stpmv
 
-     ! STPSV  solves one of the systems of equations
-     ! A*x = b,   or   A**T*x = b,
-     ! where b and x are n element vectors and A is an n by n unit, or
-     ! non-unit, upper or lower triangular matrix, supplied in packed form.
-     ! No test for singularity or near-singularity is included in this
-     ! routine. Such tests must be performed before calling this routine.
+     !> STPSV:  solves one of the systems of equations
+     !> A*x = b,   or   A**T*x = b,
+     !> where b and x are n element vectors and A is an n by n unit, or
+     !> non-unit, upper or lower triangular matrix, supplied in packed form.
+     !> No test for singularity or near-singularity is included in this
+     !> routine. Such tests must be performed before calling this routine.
 
      pure subroutine stdlib_stpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: ap(*)
            real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            logical(lk) :: nounit
@@ -3740,27 +3743,27 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_stpsv
 
-     ! STRMM  performs one of the matrix-matrix operations
-     ! B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
-     ! where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
-     ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
-     ! op( A ) = A   or   op( A ) = A**T.
+     !> STRMM:  performs one of the matrix-matrix operations
+     !> B := alpha*op( A )*B,   or   B := alpha*B*op( A ),
+     !> where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
+     !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+     !> op( A ) = A   or   op( A ) = A**T.
 
      pure subroutine stdlib_strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha
            integer(ilp),intent(in) :: lda,ldb,m,n
            character,intent(in) :: diag,side,transa,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: lside,nounit,upper
@@ -3946,28 +3949,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_strmm
 
-     ! STRMV  performs one of the matrix-vector operations
-     ! x := A*x,   or   x := A**T*x,
-     ! where x is an n element vector and  A is an n by n unit, or non-unit,
-     ! upper or lower triangular matrix.
+     !> STRMV:  performs one of the matrix-vector operations
+     !> x := A*x,   or   x := A**T*x,
+     !> where x is an n element vector and  A is an n by n unit, or non-unit,
+     !> upper or lower triangular matrix.
 
      pure subroutine stdlib_strmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
            logical(lk) :: nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -4112,28 +4115,28 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_strmv
 
-     ! STRSM  solves one of the matrix equations
-     ! op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
-     ! where alpha is a scalar, X and B are m by n matrices, A is a unit, or
-     ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
-     ! op( A ) = A   or   op( A ) = A**T.
-     ! The matrix X is overwritten on B.
+     !> STRSM:  solves one of the matrix equations
+     !> op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
+     !> where alpha is a scalar, X and B are m by n matrices, A is a unit, or
+     !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+     !> op( A ) = A   or   op( A ) = A**T.
+     !> The matrix X is overwritten on B.
 
      pure subroutine stdlib_strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(sp),intent(in) :: alpha
            integer(ilp),intent(in) :: lda,ldb,m,n
            character,intent(in) :: diag,side,transa,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: lside,nounit,upper
@@ -4343,30 +4346,30 @@ module stdlib_linalg_blas_s
            return
      end subroutine stdlib_strsm
 
-     ! STRSV  solves one of the systems of equations
-     ! A*x = b,   or   A**T*x = b,
-     ! where b and x are n element vectors and A is an n by n unit, or
-     ! non-unit, upper or lower triangular matrix.
-     ! No test for singularity or near-singularity is included in this
-     ! routine. Such tests must be performed before calling this routine.
+     !> STRSV:  solves one of the systems of equations
+     !> A*x = b,   or   A**T*x = b,
+     !> where b and x are n element vectors and A is an n by n unit, or
+     !> non-unit, upper or lower triangular matrix.
+     !> No test for singularity or near-singularity is included in this
+     !> routine. Such tests must be performed before calling this routine.
 
      pure subroutine stdlib_strsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
            logical(lk) :: nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0

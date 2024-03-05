@@ -19,36 +19,36 @@ module stdlib_linalg_blas_aux
 
      contains
 
-     ! DCABS1 computes |Re(.)| + |Im(.)| of a double complex number
+     !> DCABS1: computes |Re(.)| + |Im(.)| of a double complex number
 
      pure real(dp) function stdlib_dcabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(dp),intent(in) :: z
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs,real,aimag
            stdlib_dcabs1 = abs(real(z,KIND=dp)) + abs(aimag(z))
            return
      end function stdlib_dcabs1
 
-     ! ISAMAX finds the index of the first element having maximum absolute value.
+     !> ISAMAX: finds the index of the first element having maximum absolute value.
 
      pure integer(ilp) function stdlib_isamax(n,sx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(sp),intent(in) :: sx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: smax
            integer(ilp) :: i,ix
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs
            stdlib_isamax = 0
            if (n < 1 .or. incx <= 0) return
@@ -79,18 +79,18 @@ module stdlib_linalg_blas_aux
            return
      end function stdlib_isamax
 
-     ! IZAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
+     !> IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
      pure integer(ilp) function stdlib_izamax(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(dp),intent(in) :: zx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(dp) :: dmax
            integer(ilp) :: i,ix
            stdlib_izamax = 0
@@ -122,19 +122,19 @@ module stdlib_linalg_blas_aux
            return
      end function stdlib_izamax
 
-     ! LSAME returns .TRUE. if CA is the same letter as CB regardless of
-     ! case.
+     !> LSAME: returns .TRUE. if CA is the same letter as CB regardless of
+     !> case.
 
      pure logical(lk) function stdlib_lsame(ca,cb)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character,intent(in) :: ca,cb
        ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: ichar
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: inta,intb,zcode
            ! test if the characters are equal
            stdlib_lsame = ca == cb
@@ -169,75 +169,75 @@ module stdlib_linalg_blas_aux
            ! return
      end function stdlib_lsame
 
-     ! SCABS1 computes |Re(.)| + |Im(.)| of a complex number
+     !> SCABS1: computes |Re(.)| + |Im(.)| of a complex number
 
      pure real(sp) function stdlib_scabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(sp),intent(in) :: z
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs,aimag,real
            stdlib_scabs1 = abs(real(z,KIND=sp)) + abs(aimag(z))
            return
      end function stdlib_scabs1
 
-     ! XERBLA  is an error handler for the LAPACK routines.
-     ! It is called by an LAPACK routine if an input parameter has an
-     ! invalid value.  A message is printed and execution stops.
-     ! Installers may consider modifying the STOP statement in order to
-     ! call system-specific exception-handling facilities.
+     !> XERBLA:  is an error handler for the LAPACK routines.
+     !> It is called by an LAPACK routine if an input parameter has an
+     !> invalid value.  A message is printed and execution stops.
+     !> Installers may consider modifying the STOP statement in order to
+     !> call system-specific exception-handling facilities.
 
      pure subroutine stdlib_xerbla(srname,info)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            character(len=*),intent(in) :: srname
            integer(ilp),intent(in) :: info
        ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: len_trim
-           ! .. executable statements ..
+           ! Executable Statements
 9999  format(' ** ON ENTRY TO ',a,' PARAMETER NUMBER ',i2,' HAD ','AN ILLEGAL VALUE')
                 
      end subroutine stdlib_xerbla
 
-     ! XERBLA_ARRAY assists other languages in calling XERBLA, the LAPACK
-     ! and BLAS error handler.  Rather than taking a Fortran string argument
-     ! as the function's name, XERBLA_ARRAY takes an array of single
-     ! characters along with the array's length.  XERBLA_ARRAY then copies
-     ! up to 32 characters of that array into a Fortran string and passes
-     ! that to XERBLA.  If called with a non-positive SRNAME_LEN,
-     ! XERBLA_ARRAY will call XERBLA with a string of all blank characters.
-     ! Say some macro or other device makes XERBLA_ARRAY available to C99
-     ! by a name lapack_xerbla and with a common Fortran calling convention.
-     ! Then a C99 program could invoke XERBLA via:
-     ! {
-     ! int flen = strlen(__func__);
-     ! lapack_xerbla(__func__,
-     ! }
-     ! Providing XERBLA_ARRAY is not necessary for intercepting LAPACK
-     ! errors.  XERBLA_ARRAY calls XERBLA.
+     !> XERBLA_ARRAY: assists other languages in calling XERBLA, the LAPACK
+     !> and BLAS error handler.  Rather than taking a Fortran string argument
+     !> as the function's name, XERBLA_ARRAY takes an array of single
+     !> characters along with the array's length.  XERBLA_ARRAY then copies
+     !> up to 32 characters of that array into a Fortran string and passes
+     !> that to XERBLA.  If called with a non-positive SRNAME_LEN,
+     !> XERBLA_ARRAY will call XERBLA with a string of all blank characters.
+     !> Say some macro or other device makes XERBLA_ARRAY available to C99
+     !> by a name lapack_xerbla and with a common Fortran calling convention.
+     !> Then a C99 program could invoke XERBLA via:
+     !> {
+     !> int flen = strlen(__func__);
+     !> lapack_xerbla(__func__,
+     !> }
+     !> Providing XERBLA_ARRAY is not necessary for intercepting LAPACK
+     !> errors.  XERBLA_ARRAY calls XERBLA.
 
      pure subroutine stdlib_xerbla_array(srname_array,srname_len,info)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: srname_len,info
-           ! .. array arguments ..
+           ! Array Arguments
            character(1),intent(in) :: srname_array(srname_len)
        ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i
-           ! .. local arrays ..
+           ! Local Arrays
            character*32 srname
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: min,len
-           ! .. executable statements ..
+           ! Executable Statements
            srname = ''
            do i = 1,min(srname_len,len(srname))
               srname(i:i) = srname_array(i)
@@ -246,36 +246,36 @@ module stdlib_linalg_blas_aux
            return
      end subroutine stdlib_xerbla_array
 
-     ! QCABS1 computes |Re(.)| + |Im(.)| of a double complex number
+     !> DCABS1: computes |Re(.)| + |Im(.)| of a double complex number
 
      pure real(qp) function stdlib_qcabs1(z)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: z
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs,real,aimag
            stdlib_qcabs1 = abs(real(z,KIND=qp)) + abs(aimag(z))
            return
      end function stdlib_qcabs1
 
-     ! IQAMAX finds the index of the first element having maximum absolute value.
+     !> IDAMAX: finds the index of the first element having maximum absolute value.
 
      pure integer(ilp) function stdlib_iqamax(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(qp),intent(in) :: dx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: dmax
            integer(ilp) :: i,ix
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs
            stdlib_iqamax = 0
            if (n < 1 .or. incx <= 0) return
@@ -306,18 +306,18 @@ module stdlib_linalg_blas_aux
            return
      end function stdlib_iqamax
 
-     ! IWAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
+     !> IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
      pure integer(ilp) function stdlib_iwamax(n,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: zx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(qp) :: dmax
            integer(ilp) :: i,ix
            stdlib_iwamax = 0
@@ -349,18 +349,18 @@ module stdlib_linalg_blas_aux
            return
      end function stdlib_iwamax
 
-     ! ICAMAX finds the index of the first element having maximum |Re(.)| + |Im(.)|
+     !> ICAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
      pure integer(ilp) function stdlib_icamax(n,cx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(sp),intent(in) :: cx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(sp) :: smax
            integer(ilp) :: i,ix
            stdlib_icamax = 0
@@ -392,21 +392,21 @@ module stdlib_linalg_blas_aux
            return
      end function stdlib_icamax
 
-     ! IDAMAX finds the index of the first element having maximum absolute value.
+     !> IDAMAX: finds the index of the first element having maximum absolute value.
 
      pure integer(ilp) function stdlib_idamax(n,dx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            real(dp),intent(in) :: dx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            real(dp) :: dmax
            integer(ilp) :: i,ix
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: abs
            stdlib_idamax = 0
            if (n < 1 .or. incx <= 0) return
