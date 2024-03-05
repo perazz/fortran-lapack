@@ -840,8 +840,7 @@ module stdlib_linalg_blas_d
      !> name, so that
      !> DNRM2 := sqrt( x'*x )
 
-     pure function stdlib_dnrm2(n,x,incx)
-        real(dp) :: stdlib_dnrm2
+     pure real(dp) function stdlib_dnrm2(n,x,incx)
         ! -- reference blas level1 routine (version 3.9.1_dp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--

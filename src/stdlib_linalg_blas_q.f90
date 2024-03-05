@@ -842,8 +842,7 @@ module stdlib_linalg_blas_q
      !> name, so that
      !> DNRM2 := sqrt( x'*x )
 
-     function stdlib_qnrm2(n,x,incx)
-        real(qp) :: stdlib_qnrm2
+     pure real(qp) function stdlib_qnrm2(n,x,incx)
         ! -- reference blas level1 routine (version 3.9.1_qp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -4415,13 +4414,11 @@ module stdlib_linalg_blas_q
            return
      end function stdlib_qzasum
 
-     !> !
-     !>
      !> DZNRM2: returns the euclidean norm of a vector via the function
      !> name, so that
      !> DZNRM2 := sqrt( x**H*x )
 
-     function stdlib_qznrm2(n,x,incx)
+     pure function stdlib_qznrm2(n,x,incx)
         real(qp) :: stdlib_qznrm2
         ! -- reference blas level1 routine (version 3.9.1_qp) --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
