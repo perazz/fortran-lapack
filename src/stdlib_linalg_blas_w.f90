@@ -85,20 +85,20 @@ module stdlib_linalg_blas_w
 
      contains
 
-     ! WAXPY constant times a vector plus a vector.
+     !> ZAXPY: constant times a vector plus a vector.
 
      pure subroutine stdlib_waxpy(n,za,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: za
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: zx(*)
            complex(qp),intent(inout) :: zy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,ix,iy
            if (n <= 0) return
            if (stdlib_qcabs1(za) == 0.0_qp) return
@@ -123,19 +123,19 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_waxpy
 
-     ! WCOPY copies a vector, x, to a vector, y.
+     !> ZCOPY: copies a vector, x, to a vector, y.
 
      pure subroutine stdlib_wcopy(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: zx(*)
            complex(qp),intent(out) :: zy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,ix,iy
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
@@ -159,22 +159,22 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wcopy
 
-     ! WDOTC forms the dot product of two complex vectors
-     ! WDOTC = X^H * Y
+     !> ZDOTC: forms the dot product of two complex vectors
+     !> ZDOTC = X^H * Y
 
      pure complex(qp) function stdlib_wdotc(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: zx(*),zy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: ztemp
            integer(ilp) :: i,ix,iy
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg
            ztemp = (0.0_qp,0.0_qp)
            stdlib_wdotc = (0.0_qp,0.0_qp)
@@ -201,19 +201,19 @@ module stdlib_linalg_blas_w
            return
      end function stdlib_wdotc
 
-     ! WDOTU forms the dot product of two complex vectors
-     ! WDOTU = X^T * Y
+     !> ZDOTU: forms the dot product of two complex vectors
+     !> ZDOTU = X^T * Y
 
      pure complex(qp) function stdlib_wdotu(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: zx(*),zy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: ztemp
            integer(ilp) :: i,ix,iy
            ztemp = (0.0_qp,0.0_qp)
@@ -241,24 +241,24 @@ module stdlib_linalg_blas_w
            return
      end function stdlib_wdotu
 
-     ! Applies a plane rotation, where the cos and sin (c and s) are real
-     ! and the vectors cx and cy are complex.
-     ! jack dongarra, linpack, 3/11/78.
+     !> Applies a plane rotation, where the cos and sin (c and s) are real
+     !> and the vectors cx and cy are complex.
+     !> jack dongarra, linpack, 3/11/78.
 
      pure subroutine stdlib_wdrot(n,zx,incx,zy,incy,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
            real(qp),intent(in) :: c,s
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: zx(*),zy(*)
        ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,ix,iy
            complex(qp) :: ctemp
-           ! .. executable statements ..
+           ! Executable Statements
            if (n <= 0) return
            if (incx == 1 .and. incy == 1) then
               ! code for both increments equal to 1
@@ -285,21 +285,21 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wdrot
 
-     ! WDSCAL scales a vector by a constant.
+     !> ZDSCAL: scales a vector by a constant.
 
      pure subroutine stdlib_wdscal(n,da,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: da
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: zx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,nincx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: cmplx
            if (n <= 0 .or. incx <= 0) return
            if (incx == 1) then
@@ -317,30 +317,30 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wdscal
 
-     ! WGBMV  performs one of the matrix-vector operations
-     ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
-     ! y := alpha*A**H*x + beta*y,
-     ! where alpha and beta are scalars, x and y are vectors and A is an
-     ! m by n band matrix, with kl sub-diagonals and ku super-diagonals.
+     !> ZGBMV:  performs one of the matrix-vector operations
+     !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
+     !> y := alpha*A**H*x + beta*y,
+     !> where alpha and beta are scalars, x and y are vectors and A is an
+     !> m by n band matrix, with kl sub-diagonals and ku super-diagonals.
 
      pure subroutine stdlib_wgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,kl,ku,lda,m,n
            character,intent(in) :: trans
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),x(*)
            complex(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kup1,kx,ky,lenx,leny
            logical(lk) :: noconj
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max,min
            ! test the input parameters.
            info = 0
@@ -488,28 +488,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wgbmv
 
-     ! WGEMM  performs one of the matrix-matrix operations
-     ! C := alpha*op( A )*op( B ) + beta*C,
-     ! where  op( X ) is one of
-     ! op( X ) = X   or   op( X ) = X**T   or   op( X ) = X**H,
-     ! alpha and beta are scalars, and A, B and C are matrices, with op( A )
-     ! an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
+     !> ZGEMM:  performs one of the matrix-matrix operations
+     !> C := alpha*op( A )*op( B ) + beta*C,
+     !> where  op( X ) is one of
+     !> op( X ) = X   or   op( X ) = X**T   or   op( X ) = X**H,
+     !> alpha and beta are scalars, and A, B and C are matrices, with op( A )
+     !> an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.
 
      pure subroutine stdlib_wgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldb,ldc,m,n
            character,intent(in) :: transa,transb
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),b(ldb,*)
            complex(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,j,l,nrowa,nrowb
            logical(lk) :: conja,conjb,nota,notb
@@ -736,30 +736,30 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wgemm
 
-     ! WGEMV  performs one of the matrix-vector operations
-     ! y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
-     ! y := alpha*A**H*x + beta*y,
-     ! where alpha and beta are scalars, x and y are vectors and A is an
-     ! m by n matrix.
+     !> ZGEMV:  performs one of the matrix-vector operations
+     !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
+     !> y := alpha*A**H*x + beta*y,
+     !> where alpha and beta are scalars, x and y are vectors and A is an
+     !> m by n matrix.
 
      pure subroutine stdlib_wgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,lda,m,n
            character,intent(in) :: trans
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),x(*)
            complex(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky,lenx,leny
            logical(lk) :: noconj
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
@@ -896,27 +896,27 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wgemv
 
-     ! WGERC  performs the rank 1 operation
-     ! A := alpha*x*y**H + A,
-     ! where alpha is a scalar, x is an m element vector, y is an n element
-     ! vector and A is an m by n matrix.
+     !> ZGERC:  performs the rank 1 operation
+     !> A := alpha*x*y**H + A,
+     !> where alpha is a scalar, x is an m element vector, y is an n element
+     !> vector and A is an m by n matrix.
 
      pure subroutine stdlib_wgerc(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,lda,m,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jy,kx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
@@ -975,27 +975,27 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wgerc
 
-     ! WGERU  performs the rank 1 operation
-     ! A := alpha*x*y**T + A,
-     ! where alpha is a scalar, x is an m element vector, y is an n element
-     ! vector and A is an m by n matrix.
+     !> ZGERU:  performs the rank 1 operation
+     !> A := alpha*x*y**T + A,
+     !> where alpha is a scalar, x is an m element vector, y is an n element
+     !> vector and A is an m by n matrix.
 
      pure subroutine stdlib_wgeru(m,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,lda,m,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jy,kx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
            ! test the input parameters.
            info = 0
@@ -1054,28 +1054,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wgeru
 
-     ! WHBMV  performs the matrix-vector  operation
-     ! y := alpha*A*x + beta*y,
-     ! where alpha and beta are scalars, x and y are n element vectors and
-     ! A is an n by n hermitian band matrix, with k super-diagonals.
+     !> ZHBMV:  performs the matrix-vector  operation
+     !> y := alpha*A*x + beta*y,
+     !> where alpha and beta are scalars, x and y are n element vectors and
+     !> A is an n by n hermitian band matrix, with k super-diagonals.
 
      pure subroutine stdlib_whbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,k,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),x(*)
            complex(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kplus1,kx,ky,l
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,conjg,max,min
            ! test the input parameters.
            info = 0
@@ -1216,28 +1216,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_whbmv
 
-     ! WHEMM  performs one of the matrix-matrix operations
-     ! C := alpha*A*B + beta*C,
-     ! or
-     ! C := alpha*B*A + beta*C,
-     ! where alpha and beta are scalars, A is an hermitian matrix and  B and
-     ! C are m by n matrices.
+     !> ZHEMM:  performs one of the matrix-matrix operations
+     !> C := alpha*A*B + beta*C,
+     !> or
+     !> C := alpha*B*A + beta*C,
+     !> where alpha and beta are scalars, A is an hermitian matrix and  B and
+     !> C are m by n matrices.
 
      pure subroutine stdlib_whemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: lda,ldb,ldc,m,n
            character,intent(in) :: side,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),b(ldb,*)
            complex(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,conjg,max
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp1,temp2
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: upper
@@ -1365,28 +1365,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_whemm
 
-     ! WHEMV  performs the matrix-vector  operation
-     ! y := alpha*A*x + beta*y,
-     ! where alpha and beta are scalars, x and y are n element vectors and
-     ! A is an n by n hermitian matrix.
+     !> ZHEMV:  performs the matrix-vector  operation
+     !> y := alpha*A*x + beta*y,
+     !> where alpha and beta are scalars, x and y are n element vectors and
+     !> A is an n by n hermitian matrix.
 
      pure subroutine stdlib_whemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),x(*)
            complex(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,conjg,max
            ! test the input parameters.
            info = 0
@@ -1517,28 +1517,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_whemv
 
-     ! WHER   performs the hermitian rank 1 operation
-     ! A := alpha*x*x**H + A,
-     ! where alpha is a real scalar, x is an n element vector and A is an
-     ! n by n hermitian matrix.
+     !> ZHER:   performs the hermitian rank 1 operation
+     !> A := alpha*x*x**H + A,
+     !> where alpha is a real scalar, x is an n element vector and A is an
+     !> n by n hermitian matrix.
 
      pure subroutine stdlib_wher(uplo,n,alpha,x,incx,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(in) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,conjg,max
            ! test the input parameters.
            info = 0
@@ -1632,28 +1632,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wher
 
-     ! WHER2  performs the hermitian rank 2 operation
-     ! A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
-     ! where alpha is a scalar, x and y are n element vectors and A is an n
-     ! by n hermitian matrix.
+     !> ZHER2:  performs the hermitian rank 2 operation
+     !> A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
+     !> where alpha is a scalar, x and y are n element vectors and A is an n
+     !> by n hermitian matrix.
 
      pure subroutine stdlib_wher2(uplo,n,alpha,x,incx,y,incy,a,lda)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,lda,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,conjg,max
            ! test the input parameters.
            info = 0
@@ -1771,30 +1771,30 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wher2
 
-     ! WHER2K  performs one of the hermitian rank 2k operations
-     ! C := alpha*A*B**H + conjg( alpha )*B*A**H + beta*C,
-     ! or
-     ! C := alpha*A**H*B + conjg( alpha )*B**H*A + beta*C,
-     ! where  alpha and beta  are scalars with  beta  real,  C is an  n by n
-     ! hermitian matrix and  A and B  are  n by k matrices in the first case
-     ! and  k by n  matrices in the second case.
+     !> ZHER2K:  performs one of the hermitian rank 2k operations
+     !> C := alpha*A*B**H + conjg( alpha )*B*A**H + beta*C,
+     !> or
+     !> C := alpha*A**H*B + conjg( alpha )*B**H*A + beta*C,
+     !> where  alpha and beta  are scalars with  beta  real,  C is an  n by n
+     !> hermitian matrix and  A and B  are  n by k matrices in the first case
+     !> and  k by n  matrices in the second case.
 
      pure subroutine stdlib_wher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha
            real(qp),intent(in) :: beta
            integer(ilp),intent(in) :: k,lda,ldb,ldc,n
            character,intent(in) :: trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),b(ldb,*)
            complex(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,conjg,max
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp1,temp2
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
@@ -1979,29 +1979,29 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wher2k
 
-     ! WHERK  performs one of the hermitian rank k operations
-     ! C := alpha*A*A**H + beta*C,
-     ! or
-     ! C := alpha*A**H*A + beta*C,
-     ! where  alpha and beta  are  real scalars,  C is an  n by n  hermitian
-     ! matrix and  A  is an  n by k  matrix in the  first case and a  k by n
-     ! matrix in the second case.
+     !> ZHERK:  performs one of the hermitian rank k operations
+     !> C := alpha*A*A**H + beta*C,
+     !> or
+     !> C := alpha*A**H*A + beta*C,
+     !> where  alpha and beta  are  real scalars,  C is an  n by n  hermitian
+     !> matrix and  A  is an  n by k  matrix in the  first case and a  k by n
+     !> matrix in the second case.
 
      pure subroutine stdlib_wherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldc,n
            character,intent(in) :: trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,cmplx,conjg,max
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            real(qp) :: rtemp
            integer(ilp) :: i,info,j,l,nrowa
@@ -2175,28 +2175,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wherk
 
-     ! WHPMV  performs the matrix-vector operation
-     ! y := alpha*A*x + beta*y,
-     ! where alpha and beta are scalars, x and y are n element vectors and
-     ! A is an n by n hermitian matrix, supplied in packed form.
+     !> ZHPMV:  performs the matrix-vector operation
+     !> y := alpha*A*x + beta*y,
+     !> where alpha and beta are scalars, x and y are n element vectors and
+     !> A is an n by n hermitian matrix, supplied in packed form.
 
      pure subroutine stdlib_whpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: incx,incy,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: ap(*),x(*)
            complex(qp),intent(inout) :: y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,conjg
            ! test the input parameters.
            info = 0
@@ -2333,28 +2333,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_whpmv
 
-     ! WHPR    performs the hermitian rank 1 operation
-     ! A := alpha*x*x**H + A,
-     ! where alpha is a real scalar, x is an n element vector and A is an
-     ! n by n hermitian matrix, supplied in packed form.
+     !> ZHPR:    performs the hermitian rank 1 operation
+     !> A := alpha*x*x**H + A,
+     !> where alpha is a real scalar, x is an n element vector and A is an
+     !> n by n hermitian matrix, supplied in packed form.
 
      pure subroutine stdlib_whpr(uplo,n,alpha,x,incx,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            real(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(in) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,conjg
            ! test the input parameters.
            info = 0
@@ -2455,28 +2455,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_whpr
 
-     ! WHPR2  performs the hermitian rank 2 operation
-     ! A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
-     ! where alpha is a scalar, x and y are n element vectors and A is an
-     ! n by n hermitian matrix, supplied in packed form.
+     !> ZHPR2:  performs the hermitian rank 2 operation
+     !> A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
+     !> where alpha is a scalar, x and y are n element vectors and A is an
+     !> n by n hermitian matrix, supplied in packed form.
 
      pure subroutine stdlib_whpr2(uplo,n,alpha,x,incx,y,incy,ap)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: incx,incy,n
            character,intent(in) :: uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(in) :: x(*),y(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp1,temp2
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: real,conjg
            ! test the input parameters.
            info = 0
@@ -2600,43 +2600,44 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_whpr2
 
-     ! !
-     ! The computation uses the formulas
-     ! |x| = sqrt( Re(x)**2 + Im(x)**2 )
-     ! sgn(x) = x / |x|  if x /= 0
-     ! = 1        if x  = 0
-     ! c = |a| / sqrt(|a|**2 + |b|**2)
-     ! s = sgn(a) * conjg(b) / sqrt(|a|**2 + |b|**2)
-     ! When a and b are real and r /= 0, the formulas simplify to
-     ! r = sgn(a)*sqrt(|a|**2 + |b|**2)
-     ! c = a / r
-     ! s = b / r
-     ! the same as in DROTG when |a| > |b|.  When |b| >= |a|, the
-     ! sign of c and s will be different from those computed by DROTG
-     ! if the signs of a and b are not the same.
+     !> !
+     !>
+     !> The computation uses the formulas
+     !> |x| = sqrt( Re(x)**2 + Im(x)**2 )
+     !> sgn(x) = x / |x|  if x /= 0
+     !> = 1        if x  = 0
+     !> c = |a| / sqrt(|a|**2 + |b|**2)
+     !> s = sgn(a) * conjg(b) / sqrt(|a|**2 + |b|**2)
+     !> When a and b are real and r /= 0, the formulas simplify to
+     !> r = sgn(a)*sqrt(|a|**2 + |b|**2)
+     !> c = a / r
+     !> s = b / r
+     !> the same as in DROTG when |a| > |b|.  When |b| >= |a|, the
+     !> sign of c and s will be different from those computed by DROTG
+     !> if the signs of a and b are not the same.
 
      pure subroutine stdlib_wrotg(a,b,c,s)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-        ! .. constants ..
+        ! Constants
         integer,parameter :: wp = kind(1._qp)
-        ! .. scaling constants ..
-        ! .. scalar arguments ..
+        ! Scaling Constants
+        ! Scalar Arguments
         real(qp),intent(out) :: c
         complex(qp),intent(inout) :: a
         complex(qp),intent(in) :: b
         complex(qp),intent(out) :: s
-        ! .. local scalars ..
+        ! Local Scalars
         real(qp) :: d,f1,f2,g1,g2,h2,p,u,uu,v,vv,w
         complex(qp) :: f,fs,g,gs,r,t
-        ! .. intrinsic functions ..
+        ! Intrinsic Functions
         intrinsic :: abs,aimag,conjg,max,min,real,sqrt
-        ! .. statement functions ..
+        ! Statement Functions
         real(qp) :: abssq
-        ! .. statement function definitions ..
+        ! Statement Function Definitions
         abssq(t) = real(t,KIND=qp)**2 + aimag(t)**2
-        ! .. executable statements ..
+        ! Executable Statements
         f = a
         g = b
         if (g == czero) then
@@ -2716,19 +2717,19 @@ module stdlib_linalg_blas_w
         return
      end subroutine stdlib_wrotg
 
-     ! WSCAL scales a vector by a constant.
+     !> ZSCAL: scales a vector by a constant.
 
      pure subroutine stdlib_wscal(n,za,zx,incx)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: za
            integer(ilp),intent(in) :: incx,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: zx(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            integer(ilp) :: i,nincx
            if (n <= 0 .or. incx <= 0) return
            if (incx == 1) then
@@ -2746,18 +2747,18 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wscal
 
-     ! WSWAP interchanges two vectors.
+     !> ZSWAP: interchanges two vectors.
 
      pure subroutine stdlib_wswap(n,zx,incx,zy,incy)
         ! -- reference blas level1 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,incy,n
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(inout) :: zx(*),zy(*)
         ! =====================================================================
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: ztemp
            integer(ilp) :: i,ix,iy
            if (n <= 0) return
@@ -2786,28 +2787,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wswap
 
-     ! WSYMM  performs one of the matrix-matrix operations
-     ! C := alpha*A*B + beta*C,
-     ! or
-     ! C := alpha*B*A + beta*C,
-     ! where  alpha and beta are scalars, A is a symmetric matrix and  B and
-     ! C are m by n matrices.
+     !> ZSYMM:  performs one of the matrix-matrix operations
+     !> C := alpha*A*B + beta*C,
+     !> or
+     !> C := alpha*B*A + beta*C,
+     !> where  alpha and beta are scalars, A is a symmetric matrix and  B and
+     !> C are m by n matrices.
 
      pure subroutine stdlib_wsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: lda,ldb,ldc,m,n
            character,intent(in) :: side,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),b(ldb,*)
            complex(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp1,temp2
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: upper
@@ -2933,29 +2934,29 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wsymm
 
-     ! WSYR2K  performs one of the symmetric rank 2k operations
-     ! C := alpha*A*B**T + alpha*B*A**T + beta*C,
-     ! or
-     ! C := alpha*A**T*B + alpha*B**T*A + beta*C,
-     ! where  alpha and beta  are scalars,  C is an  n by n symmetric matrix
-     ! and  A and B  are  n by k  matrices  in the  first  case  and  k by n
-     ! matrices in the second case.
+     !> ZSYR2K:  performs one of the symmetric rank 2k operations
+     !> C := alpha*A*B**T + alpha*B*A**T + beta*C,
+     !> or
+     !> C := alpha*A**T*B + alpha*B**T*A + beta*C,
+     !> where  alpha and beta  are scalars,  C is an  n by n symmetric matrix
+     !> and  A and B  are  n by k  matrices  in the  first  case  and  k by n
+     !> matrices in the second case.
 
      pure subroutine stdlib_wsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldb,ldc,n
            character,intent(in) :: trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),b(ldb,*)
            complex(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp1,temp2
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
@@ -3108,29 +3109,29 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wsyr2k
 
-     ! WSYRK  performs one of the symmetric rank k operations
-     ! C := alpha*A*A**T + beta*C,
-     ! or
-     ! C := alpha*A**T*A + beta*C,
-     ! where  alpha and beta  are scalars,  C is an  n by n symmetric matrix
-     ! and  A  is an  n by k  matrix in the first case and a  k by n  matrix
-     ! in the second case.
+     !> ZSYRK:  performs one of the symmetric rank k operations
+     !> C := alpha*A*A**T + beta*C,
+     !> or
+     !> C := alpha*A**T*A + beta*C,
+     !> where  alpha and beta  are scalars,  C is an  n by n symmetric matrix
+     !> and  A  is an  n by k  matrix in the first case and a  k by n  matrix
+     !> in the second case.
 
      pure subroutine stdlib_wsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha,beta
            integer(ilp),intent(in) :: k,lda,ldc,n
            character,intent(in) :: trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: max
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,j,l,nrowa
            logical(lk) :: upper
@@ -3275,28 +3276,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wsyrk
 
-     ! WTBMV  performs one of the matrix-vector operations
-     ! x := A*x,   or   x := A**T*x,   or   x := A**H*x,
-     ! where x is an n element vector and  A is an n by n unit, or non-unit,
-     ! upper or lower triangular band matrix, with ( k + 1 ) diagonals.
+     !> ZTBMV:  performs one of the matrix-vector operations
+     !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
+     !> where x is an n element vector and  A is an n by n unit, or non-unit,
+     !> upper or lower triangular band matrix, with ( k + 1 ) diagonals.
 
      pure subroutine stdlib_wtbmv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,k,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
            logical(lk) :: noconj,nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max,min
            ! test the input parameters.
            info = 0
@@ -3489,31 +3490,31 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wtbmv
 
-     ! WTBSV  solves one of the systems of equations
-     ! A*x = b,   or   A**T*x = b,   or   A**H*x = b,
-     ! where b and x are n element vectors and A is an n by n unit, or
-     ! non-unit, upper or lower triangular band matrix, with ( k + 1 )
-     ! diagonals.
-     ! No test for singularity or near-singularity is included in this
-     ! routine. Such tests must be performed before calling this routine.
+     !> ZTBSV:  solves one of the systems of equations
+     !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
+     !> where b and x are n element vectors and A is an n by n unit, or
+     !> non-unit, upper or lower triangular band matrix, with ( k + 1 )
+     !> diagonals.
+     !> No test for singularity or near-singularity is included in this
+     !> routine. Such tests must be performed before calling this routine.
 
      pure subroutine stdlib_wtbsv(uplo,trans,diag,n,k,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,k,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kplus1,kx,l
            logical(lk) :: noconj,nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max,min
            ! test the input parameters.
            info = 0
@@ -3706,28 +3707,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wtbsv
 
-     ! WTPMV  performs one of the matrix-vector operations
-     ! x := A*x,   or   x := A**T*x,   or   x := A**H*x,
-     ! where x is an n element vector and  A is an n by n unit, or non-unit,
-     ! upper or lower triangular matrix, supplied in packed form.
+     !> ZTPMV:  performs one of the matrix-vector operations
+     !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
+     !> where x is an n element vector and  A is an n by n unit, or non-unit,
+     !> upper or lower triangular matrix, supplied in packed form.
 
      pure subroutine stdlib_wtpmv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            logical(lk) :: noconj,nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg
            ! test the input parameters.
            info = 0
@@ -3923,30 +3924,30 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wtpmv
 
-     ! WTPSV  solves one of the systems of equations
-     ! A*x = b,   or   A**T*x = b,   or   A**H*x = b,
-     ! where b and x are n element vectors and A is an n by n unit, or
-     ! non-unit, upper or lower triangular matrix, supplied in packed form.
-     ! No test for singularity or near-singularity is included in this
-     ! routine. Such tests must be performed before calling this routine.
+     !> ZTPSV:  solves one of the systems of equations
+     !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
+     !> where b and x are n element vectors and A is an n by n unit, or
+     !> non-unit, upper or lower triangular matrix, supplied in packed form.
+     !> No test for singularity or near-singularity is included in this
+     !> routine. Such tests must be performed before calling this routine.
 
      pure subroutine stdlib_wtpsv(uplo,trans,diag,n,ap,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            logical(lk) :: noconj,nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg
            ! test the input parameters.
            info = 0
@@ -4142,27 +4143,27 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wtpsv
 
-     ! WTRMM  performs one of the matrix-matrix operations
-     ! B := alpha*op( A )*B,   or   B := alpha*B*op( A )
-     ! where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
-     ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
-     ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
+     !> ZTRMM:  performs one of the matrix-matrix operations
+     !> B := alpha*op( A )*B,   or   B := alpha*B*op( A )
+     !> where  alpha  is a scalar,  B  is an m by n matrix,  A  is a unit, or
+     !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+     !> op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
 
      pure subroutine stdlib_wtrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: lda,ldb,m,n
            character,intent(in) :: diag,side,transa,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: lside,noconj,nounit,upper
@@ -4383,28 +4384,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wtrmm
 
-     ! WTRMV  performs one of the matrix-vector operations
-     ! x := A*x,   or   x := A**T*x,   or   x := A**H*x,
-     ! where x is an n element vector and  A is an n by n unit, or non-unit,
-     ! upper or lower triangular matrix.
+     !> ZTRMV:  performs one of the matrix-vector operations
+     !> x := A*x,   or   x := A**T*x,   or   x := A**H*x,
+     !> where x is an n element vector and  A is an n by n unit, or non-unit,
+     !> upper or lower triangular matrix.
 
      pure subroutine stdlib_wtrmv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
            logical(lk) :: noconj,nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
@@ -4580,28 +4581,28 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wtrmv
 
-     ! WTRSM  solves one of the matrix equations
-     ! op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
-     ! where alpha is a scalar, X and B are m by n matrices, A is a unit, or
-     ! non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
-     ! op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
-     ! The matrix X is overwritten on B.
+     !> ZTRSM:  solves one of the matrix equations
+     !> op( A )*X = alpha*B,   or   X*op( A ) = alpha*B,
+     !> where alpha is a scalar, X and B are m by n matrices, A is a unit, or
+     !> non-unit,  upper or lower triangular matrix  and  op( A )  is one  of
+     !> op( A ) = A   or   op( A ) = A**T   or   op( A ) = A**H.
+     !> The matrix X is overwritten on B.
 
      pure subroutine stdlib_wtrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
         ! -- reference blas level3 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            complex(qp),intent(in) :: alpha
            integer(ilp),intent(in) :: lda,ldb,m,n
            character,intent(in) :: diag,side,transa,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,j,k,nrowa
            logical(lk) :: lside,noconj,nounit,upper
@@ -4844,30 +4845,30 @@ module stdlib_linalg_blas_w
            return
      end subroutine stdlib_wtrsm
 
-     ! WTRSV  solves one of the systems of equations
-     ! A*x = b,   or   A**T*x = b,   or   A**H*x = b,
-     ! where b and x are n element vectors and A is an n by n unit, or
-     ! non-unit, upper or lower triangular matrix.
-     ! No test for singularity or near-singularity is included in this
-     ! routine. Such tests must be performed before calling this routine.
+     !> ZTRSV:  solves one of the systems of equations
+     !> A*x = b,   or   A**T*x = b,   or   A**H*x = b,
+     !> where b and x are n element vectors and A is an n by n unit, or
+     !> non-unit, upper or lower triangular matrix.
+     !> No test for singularity or near-singularity is included in this
+     !> routine. Such tests must be performed before calling this routine.
 
      pure subroutine stdlib_wtrsv(uplo,trans,diag,n,a,lda,x,incx)
         ! -- reference blas level2 routine --
         ! -- reference blas is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! .. scalar arguments ..
+           ! Scalar Arguments
            integer(ilp),intent(in) :: incx,lda,n
            character,intent(in) :: diag,trans,uplo
-           ! .. array arguments ..
+           ! Array Arguments
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
            
-           ! .. local scalars ..
+           ! Local Scalars
            complex(qp) :: temp
            integer(ilp) :: i,info,ix,j,jx,kx
            logical(lk) :: noconj,nounit
-           ! .. intrinsic functions ..
+           ! Intrinsic Functions
            intrinsic :: conjg,max
            ! test the input parameters.
            info = 0
