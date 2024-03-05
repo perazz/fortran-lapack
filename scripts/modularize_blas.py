@@ -1056,7 +1056,6 @@ def find_parameter_declaration(line,datatype):
     # Remove header and spaces
     if old_style:
         nospace = re.sub('\s','',ll)
-        print(nospace)
         nospace = nospace[10:len(nospace)-1]
         datatype = " "
 
@@ -1663,6 +1662,49 @@ class Fortran_Source:
         if DEBUG: exit(1)
 
         return head,var_decl
+
+    # Cleanup a function's header and comment section
+    def cleanup_comments(self):
+
+        # Header description
+        new_header = []
+        started = False
+        colonized = False
+        for h in range(len(self.header)):
+            l = self.header[h].rstrip()
+            ls = l.lstrip()
+            nspaces = len(l) - len(ls)
+
+            # Skip empty comment lines before start
+            if (not started) and (ls=='!' or ls==""):
+                continue
+            else:
+                started = True
+
+            # If the function name is contained, follow a colon
+            if self.old_name.upper() in ls and not colonized:
+                ls = re.sub(r'\b'+self.old_name.upper()+r'\b',self.old_name.upper()+":",ls)
+                colonized = True
+
+            # FORD-style comment
+            new_header.append(nspaces*" "+"!>"+ls[1:])
+
+        self.header = new_header
+
+# Cleanup a function's LAPACK-style .. comments ..
+def cleanup_double_dots(body):
+
+    # Comments: remove double-dot style
+    new_body = []
+    for b in range(len(body)):
+       new = re.sub(r'^(\s*\!\s*)\.{2}\s*([ \w]*)\s*\.{0,2}\s*$',r'\1\2',body[b])
+       if len(new)<len(body[b]) and len(new)>0:
+           new_body.append(new.title())
+       else:
+           new_body.append(new)
+
+    return new_body
+
 
 class Fortran_Line:
     def __init__(self):
@@ -2312,6 +2354,10 @@ def rename_source_body(Source,Sources,external_funs,prefix):
         for j in range(len(body)):
            body[j] = re.sub(r' lsame\(',r' stdlib_lsame(',body[j])
 
+    # Finally, adjust comment style
+    body = cleanup_double_dots(body)
+
+
     return body,dependency_list
 
 # Replace data statements with variable assignments.
@@ -2404,8 +2450,6 @@ def replace_data_statements(Source,prefix,body):
                m = re.match(r'data\(mm\((\d+),j\),j=(\d+),(\d+)\)/(.+)/',nosp)
 
                if (not m is None):
-                   print(m.group(1))
-                   print(m.group(4))
                    line = nspaces*" "+"mm("+m.group(1)+","+m.group(2)+":"+m.group(3)+")=["+m.group(4)+"]"
                    new_body.append(line)
 
@@ -2639,7 +2683,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     initial = 'a'
 
     INDENT = "     "
-    DEBUG  = False # file_name.startswith("sisnan")
+    DEBUG  = False #file_name.startswith("caxpy")
 
     Procedures = []
 
@@ -2657,6 +2701,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
     loop_lines  = [] # Starting line where the loop is opened
     loop_spaces = [] # Heading spaces of an open loop label
     loop_statements = [] # Other statements for this loop were found
+    header_spaces = 0
 
     # FiLoad whole file; split by lines; join concatenation lines
     with open(os.path.join(source_folder,file_name), 'r') as file:
@@ -2762,7 +2807,15 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                       line = re.sub(r'\!\>',"",line)
                       line = re.sub(r'\\verbatim',"",line)
                       line = re.sub(r'=============',"",line)
-                      if len(line)>0: Source.header.append("! " + line.strip())
+
+                      # Ensure (constant) number of line spaces
+                      if len(line)>0:
+
+                          ls = line.lstrip()
+                          if header_spaces==0: header_spaces = len(line)-len(ls)
+                          Source.header.append("! " + ls.rstrip())
+
+
                       if DEBUG: print(Source.header[-1])
 
 
@@ -2999,12 +3052,14 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                else:
                   if DEBUG: print("NOT printed: " + line + " " + str(whereAt))
 
-            # On function end
+            # On function end, do some cleanup
             if whereAt==Section.END:
 
                   # Data statements
                   Source.body = replace_data_statements(Source,prefix,Source.body)
 
+                  # Header
+                  Source.cleanup_comments()
                   if DEBUG: print("function "+Source.old_name+" is pure: "+str(Source.is_pure()))
 
                   # Save source
@@ -3018,6 +3073,7 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
                   loop_lines      = []
                   loop_spaces     = []
                   loop_statements = []
+                  header_spaces = 0
 
 
 
@@ -3157,12 +3213,12 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "stdlib_",\
                              funs,\
                              ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
