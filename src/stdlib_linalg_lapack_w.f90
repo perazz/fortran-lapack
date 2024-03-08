@@ -538,14 +538,14 @@ module stdlib_linalg_lapack_w
                       b22e(*),rwork(*)
            real(qp),intent(inout) :: phi(*),theta(*)
            complex(qp),intent(inout) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*)
-                     
+
         ! ===================================================================
            ! Parameters
            integer(ilp),parameter :: maxitr = 6
            real(qp),parameter :: hundred = 100.0_qp
            real(qp),parameter :: meighth = -0.125_qp
            real(qp),parameter :: piover2 = 1.57079632679489661923132169163975144210_qp
-           
+
            ! Local Scalars
            logical(lk) :: colmajor,lquery,restart11,restart12,restart21,restart22,wantu1, &
                      wantu2,wantv1t,wantv2t
@@ -695,9 +695,9 @@ module stdlib_linalg_lapack_w
               else
                  ! compute shifts for b11 and b21 and use the lesser
                  call stdlib_qlas2(b11d(imax - 1),b11e(imax - 1),b11d(imax),sigma11,dummy)
-                           
+
                  call stdlib_qlas2(b21d(imax - 1),b21e(imax - 1),b21d(imax),sigma21,dummy)
-                           
+
                  if (sigma11 <= sigma21) then
                     mu = sigma11
                     nu = sqrt(one - mu**2)
@@ -724,13 +724,13 @@ module stdlib_linalg_lapack_w
               end if
               temp = rwork(iv1tcs + imin - 1)*b11d(imin) + rwork(iv1tsn + imin - 1)*b11e(imin)
               b11e(imin) = rwork(iv1tcs + imin - 1)*b11e(imin) - rwork(iv1tsn + imin - 1)*b11d(imin)
-                        
+
               b11d(imin) = temp
               b11bulge = rwork(iv1tsn + imin - 1)*b11d(imin + 1)
               b11d(imin + 1) = rwork(iv1tcs + imin - 1)*b11d(imin + 1)
               temp = rwork(iv1tcs + imin - 1)*b21d(imin) + rwork(iv1tsn + imin - 1)*b21e(imin)
               b21e(imin) = rwork(iv1tcs + imin - 1)*b21e(imin) - rwork(iv1tsn + imin - 1)*b21d(imin)
-                        
+
               b21d(imin) = temp
               b21bulge = rwork(iv1tsn + imin - 1)*b21d(imin + 1)
               b21d(imin + 1) = rwork(iv1tcs + imin - 1)*b21d(imin + 1)
@@ -762,7 +762,7 @@ module stdlib_linalg_lapack_w
               rwork(iu2sn + imin - 1) = -rwork(iu2sn + imin - 1)
               temp = rwork(iu1cs + imin - 1)*b11e(imin) + rwork(iu1sn + imin - 1)*b11d(imin + 1)
               b11d(imin + 1) = rwork(iu1cs + imin - 1)*b11d(imin + 1) - rwork(iu1sn + imin - 1)*b11e(imin)
-                        
+
               b11e(imin) = temp
               if (imax > imin + 1) then
                  b11bulge = rwork(iu1sn + imin - 1)*b11e(imin + 1)
@@ -775,7 +775,7 @@ module stdlib_linalg_lapack_w
               b12d(imin + 1) = rwork(iu1cs + imin - 1)*b12d(imin + 1)
               temp = rwork(iu2cs + imin - 1)*b21e(imin) + rwork(iu2sn + imin - 1)*b21d(imin + 1)
               b21d(imin + 1) = rwork(iu2cs + imin - 1)*b21d(imin + 1) - rwork(iu2sn + imin - 1)*b21e(imin)
-                        
+
               b21e(imin) = temp
               if (imax > imin + 1) then
                  b21bulge = rwork(iu2sn + imin - 1)*b21e(imin + 1)
@@ -824,7 +824,7 @@ module stdlib_linalg_lapack_w
                  rwork(iv1tsn + i - 1) = -rwork(iv1tsn + i - 1)
                  if (.not. restart12 .and. .not. restart22) then
                     call stdlib_qlartgp(y2,y1,rwork(iv2tsn + i - 1 - 1),rwork(iv2tcs + i - 1 - 1),r)
-                              
+
                  else if (.not. restart12 .and. restart22) then
                     call stdlib_qlartgp(b12bulge,b12d(i - 1),rwork(iv2tsn + i - 1 - 1),rwork(iv2tcs + i - &
                               1 - 1),r)
@@ -877,7 +877,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_qlartgp(x2,x1,rwork(iu1sn + i - 1),rwork(iu1cs + i - 1),r)
                  else if (.not. restart11 .and. restart12) then
                     call stdlib_qlartgp(b11bulge,b11d(i),rwork(iu1sn + i - 1),rwork(iu1cs + i - 1),r)
-                              
+
                  else if (restart11 .and. .not. restart12) then
                     call stdlib_qlartgp(b12bulge,b12e(i - 1),rwork(iu1sn + i - 1),rwork(iu1cs + i - 1), &
                               r)
@@ -886,13 +886,13 @@ module stdlib_linalg_lapack_w
                                )
                  else
                     call stdlib_qlartgs(b12d(i),b12e(i),nu,rwork(iu1cs + i - 1),rwork(iu1sn + i - 1))
-                              
+
                  end if
                  if (.not. restart21 .and. .not. restart22) then
                     call stdlib_qlartgp(y2,y1,rwork(iu2sn + i - 1),rwork(iu2cs + i - 1),r)
                  else if (.not. restart21 .and. restart22) then
                     call stdlib_qlartgp(b21bulge,b21d(i),rwork(iu2sn + i - 1),rwork(iu2cs + i - 1),r)
-                              
+
                  else if (restart21 .and. .not. restart22) then
                     call stdlib_qlartgp(b22bulge,b22e(i - 1),rwork(iu2sn + i - 1),rwork(iu2cs + i - 1), &
                               r)
@@ -901,7 +901,7 @@ module stdlib_linalg_lapack_w
                                )
                  else
                     call stdlib_qlartgs(b22d(i),b22e(i),mu,rwork(iu2cs + i - 1),rwork(iu2sn + i - 1))
-                              
+
                  end if
                  rwork(iu2cs + i - 1) = -rwork(iu2cs + i - 1)
                  rwork(iu2sn + i - 1) = -rwork(iu2sn + i - 1)
@@ -940,7 +940,7 @@ module stdlib_linalg_lapack_w
               restart22 = b22d(imax - 1)**2 + b22bulge**2 <= thresh**2
               if (.not. restart12 .and. .not. restart22) then
                  call stdlib_qlartgp(y2,y1,rwork(iv2tsn + imax - 1 - 1),rwork(iv2tcs + imax - 1 - 1),r)
-                           
+
               else if (.not. restart12 .and. restart22) then
                  call stdlib_qlartgp(b12bulge,b12d(imax - 1),rwork(iv2tsn + imax - 1 - 1),rwork(iv2tcs + &
                            imax - 1 - 1),r)
@@ -955,14 +955,14 @@ module stdlib_linalg_lapack_w
                            iv2tsn + imax - 1 - 1))
               end if
               temp = rwork(iv2tcs + imax - 1 - 1)*b12e(imax - 1) + rwork(iv2tsn + imax - 1 - 1)*b12d(imax)
-                        
+
               b12d(imax) = rwork(iv2tcs + imax - 1 - 1)*b12d(imax) - rwork(iv2tsn + imax - 1 - 1)*b12e(imax - 1)
-                        
+
               b12e(imax - 1) = temp
               temp = rwork(iv2tcs + imax - 1 - 1)*b22e(imax - 1) + rwork(iv2tsn + imax - 1 - 1)*b22d(imax)
-                        
+
               b22d(imax) = rwork(iv2tcs + imax - 1 - 1)*b22d(imax) - rwork(iv2tsn + imax - 1 - 1)*b22e(imax - 1)
-                        
+
               b22e(imax - 1) = temp
               ! update singular vectors
               if (wantu1) then
@@ -1097,9 +1097,9 @@ module stdlib_linalg_lapack_w
                     if (wantu1) call stdlib_wswap(p,u1(1,i),1,u1(1,mini),1)
                     if (wantu2) call stdlib_wswap(m - p,u2(1,i),1,u2(1,mini),1)
                     if (wantv1t) call stdlib_wswap(q,v1t(i,1),ldv1t,v1t(mini,1),ldv1t)
-                              
+
                     if (wantv2t) call stdlib_wswap(m - q,v2t(i,1),ldv2t,v2t(mini,1),ldv2t)
-                              
+
                  else
                     if (wantu1) call stdlib_wswap(p,u1(i,1),ldu1,u1(mini,1),ldu1)
                     if (wantu2) call stdlib_wswap(m - p,u2(i,1),ldu2,u2(mini,1),ldu2)
@@ -1155,7 +1155,7 @@ module stdlib_linalg_lapack_w
            real(qp),parameter :: hndrd = 100.0_qp
            real(qp),parameter :: meigth = -0.125_qp
            integer(ilp),parameter :: maxitr = 6
-           
+
            ! Local Scalars
            logical(lk) :: lower,rotate
            integer(ilp) :: i,idir,isub,iter,j,ll,lll,m,maxit,nm1,nm12,nm13,oldll, &
@@ -1221,9 +1221,9 @@ module stdlib_linalg_lapack_w
               end do
               ! update singular vectors if desired
               if (nru > 0) call stdlib_wlasr('R','V','F',nru,n,rwork(1),rwork(n),u,ldu)
-                        
+
               if (ncc > 0) call stdlib_wlasr('L','V','F',n,ncc,rwork(1),rwork(n),c,ldc)
-                        
+
            end if
            ! compute singular values to relative accuracy tol
            ! (by setting tol to be negative, algorithm will compute
@@ -1249,7 +1249,7 @@ module stdlib_linalg_lapack_w
                  sminoa = min(sminoa,mu)
                  if (sminoa == zero) go to 50
               end do
-50            continue
+              50 continue
               sminoa = sminoa/sqrt(real(n,KIND=qp))
               thresh = max(tol*sminoa,maxitr*n*n*unfl)
            else
@@ -1266,7 +1266,7 @@ module stdlib_linalg_lapack_w
            ! m points to last element of unconverged part of matrix
            m = n
            ! begin main iteration loop
-60   continue
+           60 continue
            ! check for convergence or exceeding iteration count
            if (m <= 1) go to 160
            if (iter > maxit) go to 200
@@ -1285,7 +1285,7 @@ module stdlib_linalg_lapack_w
            end do
            ll = 0
            go to 90
-80         continue
+           80 continue
            e(ll) = zero
            ! matrix splits since e(ll) = 0
            if (ll == m - 1) then
@@ -1293,7 +1293,7 @@ module stdlib_linalg_lapack_w
               m = m - 1
               go to 60
            end if
-90         continue
+           90 continue
            ll = ll + 1
            ! e(ll) through e(m-1) are nonzero, e(ll-1) is zero
            if (ll == m - 1) then
@@ -1307,9 +1307,9 @@ module stdlib_linalg_lapack_w
               if (ncvt > 0) call stdlib_wdrot(ncvt,vt(m - 1,1),ldvt,vt(m,1),ldvt,cosr, &
                         sinr)
               if (nru > 0) call stdlib_wdrot(nru,u(1,m - 1),1,u(1,m),1,cosl,sinl)
-                        
+
               if (ncc > 0) call stdlib_wdrot(ncc,c(m - 1,1),ldc,c(m,1),ldc,cosl,sinl)
-                        
+
               m = m - 2
               go to 60
            end if
@@ -1525,7 +1525,7 @@ module stdlib_linalg_lapack_w
            ! qr iteration finished, go back and check convergence
            go to 60
            ! all singular values converged, so make them positive
-160  continue
+           160 continue
            do i = 1,n
               if (d(i) < zero) then
                  d(i) = -d(i)
@@ -1550,20 +1550,20 @@ module stdlib_linalg_lapack_w
                  d(isub) = d(n + 1 - i)
                  d(n + 1 - i) = smin
                  if (ncvt > 0) call stdlib_wswap(ncvt,vt(isub,1),ldvt,vt(n + 1 - i,1),ldvt)
-                           
+
                  if (nru > 0) call stdlib_wswap(nru,u(1,isub),1,u(1,n + 1 - i),1)
                  if (ncc > 0) call stdlib_wswap(ncc,c(isub,1),ldc,c(n + 1 - i,1),ldc)
-                           
+
               end if
            end do
            go to 220
            ! maximum number of iterations exceeded, failure to converge
-200  continue
+           200 continue
            info = 0
            do i = 1,n - 1
               if (e(i) /= zero) info = info + 1
            end do
-220        continue
+           220 continue
            return
      end subroutine stdlib_wbdsqr
 
@@ -1615,7 +1615,7 @@ module stdlib_linalg_lapack_w
            logical(lk),parameter :: doitref = .true.
            integer(ilp),parameter :: itermax = 30
            real(qp),parameter :: bwdmax = 1.0e+00_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,iiter,ptsa,ptsx
            real(qp) :: anrm,cte,eps,rnrm,xnrm
@@ -1700,7 +1700,7 @@ module stdlib_linalg_lapack_w
            ! stopping criterion. we are good to exit.
            iter = 0
            return
-10         continue
+           10 continue
            loop_30: do iiter = 1,itermax
               ! convert r (in work) from quad precision to double precision
               ! and store the result in sx.
@@ -1733,14 +1733,14 @@ module stdlib_linalg_lapack_w
               ! stopping criterion, we are good to exit.
               iter = iiter
               return
-20            continue
+              20 continue
            end do loop_30
            ! if we are at this place of the code, this is because we have
            ! performed iter=itermax iterations and never satisfied the stopping
            ! criterion, set up the iter flag accordingly and follow up on double
            ! precision routine.
            iter = -itermax - 1
-40         continue
+           40 continue
            ! single-precision iterative refinement failed to converge to a
            ! satisfactory solution, so we resort to quad precision.
            call stdlib_wgetrf(n,n,a,lda,ipiv,info)
@@ -1799,7 +1799,7 @@ module stdlib_linalg_lapack_w
            logical(lk),parameter :: doitref = .true.
            integer(ilp),parameter :: itermax = 30
            real(qp),parameter :: bwdmax = 1.0e+00_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,iiter,ptsa,ptsx
            real(qp) :: anrm,cte,eps,rnrm,xnrm
@@ -1873,7 +1873,7 @@ module stdlib_linalg_lapack_w
            ! compute r = b - ax (r is work).
            call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
            call stdlib_whemm('LEFT',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
-                     
+
            ! check whether the nrhs normwise backward errors satisfy the
            ! stopping criterion. if yes, set iter=0 and return.
            do i = 1,nrhs
@@ -1885,7 +1885,7 @@ module stdlib_linalg_lapack_w
            ! stopping criterion. we are good to exit.
            iter = 0
            return
-10         continue
+           10 continue
            loop_30: do iiter = 1,itermax
               ! convert r (in work) from quad precision to double precision
               ! and store the result in sx.
@@ -1905,7 +1905,7 @@ module stdlib_linalg_lapack_w
               ! compute r = b - ax (r is work).
               call stdlib_wlacpy('ALL',n,nrhs,b,ldb,work,n)
               call stdlib_whemm('L',uplo,n,nrhs,cnegone,a,lda,x,ldx,cone,work,n)
-                        
+
               ! check whether the nrhs normwise backward errors satisfy the
               ! stopping criterion. if yes, set iter=iiter>0 and return.
               do i = 1,nrhs
@@ -1917,14 +1917,14 @@ module stdlib_linalg_lapack_w
               ! stopping criterion, we are good to exit.
               iter = iiter
               return
-20            continue
+              20 continue
            end do loop_30
            ! if we are at this place of the code, this is because we have
            ! performed iter=itermax iterations and never satisfied the
            ! stopping criterion, set up the iter flag accordingly and follow
            ! up on quad precision routine.
            iter = -itermax - 1
-40         continue
+           40 continue
            ! single-precision iterative refinement failed to converge to a
            ! satisfactory solution, so we resort to quad precision.
            call stdlib_wpotrf(uplo,n,a,lda,info)
@@ -1948,7 +1948,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: sx(*)
        ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: done
            real(qp) :: bignum,cden,cden1,cnum,cnum1,mul,smlnum
@@ -1964,7 +1964,7 @@ module stdlib_linalg_lapack_w
            ! initialize the denominator to sa and the numerator to 1.
            cden = sa
            cnum = one
-10         continue
+           10 continue
            cden1 = cden*smlnum
            cnum1 = cnum/bignum
            if (abs(cden1) > abs(cnum) .and. cnum /= zero) then
@@ -2007,7 +2007,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ab(ldab,*),c(ldc,*)
            complex(qp),intent(out) :: pt(ldpt,*),q(ldq,*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: wantb,wantc,wantpt,wantq
            integer(ilp) :: i,inca,j,j1,j2,kb,kb1,kk,klm,klu1,kun,l,minmn,ml,ml0,mu, &
@@ -2203,9 +2203,9 @@ module stdlib_linalg_lapack_w
                     ab(1,i + 1) = rc*ab(1,i + 1)
                  end if
                  if (wantq) call stdlib_wrot(m,q(1,i),1,q(1,i + 1),1,rc,conjg(rs))
-                           
+
                  if (wantc) call stdlib_wrot(ncc,c(i,1),ldc,c(i + 1,1),ldc,rc,rs)
-                           
+
               end do
            else
               ! a has been reduced to complex upper bidiagonal form or is
@@ -2288,7 +2288,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ab(ldab,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lnoti,onenrm
            character :: normin
@@ -2344,7 +2344,7 @@ module stdlib_linalg_lapack_w
            kd = kl + ku + 1
            lnoti = kl > 0
            kase = 0
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -2373,7 +2373,7 @@ module stdlib_linalg_lapack_w
                     do j = n - 1,1,-1
                        lm = min(kl,n - j)
                        work(j) = work(j) - stdlib_wdotc(lm,ab(kd + 1,j),1,work(j + 1),1)
-                                 
+
                        jp = ipiv(j)
                        if (jp /= j) then
                           t = work(jp)
@@ -2394,7 +2394,7 @@ module stdlib_linalg_lapack_w
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-40         continue
+           40 continue
            return
      end subroutine stdlib_wgbcon
 
@@ -2409,7 +2409,7 @@ module stdlib_linalg_lapack_w
      !> works well in practice.
 
      pure subroutine stdlib_wgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2421,7 +2421,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: c(*),r(*)
            complex(qp),intent(in) :: ab(ldab,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,kd
            real(qp) :: bignum,rcmax,rcmin,smlnum
@@ -2550,7 +2550,7 @@ module stdlib_linalg_lapack_w
      !> between sqrt(radix) and 1/sqrt(radix).
 
      pure subroutine stdlib_wgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2562,7 +2562,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: c(*),r(*)
            complex(qp),intent(in) :: ab(ldab,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,kd
            real(qp) :: bignum,rcmax,rcmin,smlnum,radix,logrdx
@@ -2705,7 +2705,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: notran
            character :: transn,transt
@@ -2773,7 +2773,7 @@ module stdlib_linalg_lapack_w
            loop_140: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -2855,13 +2855,13 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-100           continue
+              100 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
                     ! multiply by diag(w)*inv(op(a)**h).
                     call stdlib_wgbtrs(transt,n,kl,ku,1,afb,ldafb,ipiv,work,n,info)
-                              
+
                     do i = 1,n
                        work(i) = rwork(i)*work(i)
                     end do
@@ -2871,7 +2871,7 @@ module stdlib_linalg_lapack_w
                        work(i) = rwork(i)*work(i)
                     end do
                     call stdlib_wgbtrs(transn,n,kl,ku,1,afb,ldafb,ipiv,work,n,info)
-                              
+
                  end if
                  go to 100
               end if
@@ -2932,7 +2932,7 @@ module stdlib_linalg_lapack_w
            if (info == 0) then
               ! solve the system a*x = b, overwriting b with x.
               call stdlib_wgbtrs('NO TRANSPOSE',n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
-                        
+
            end if
            return
      end subroutine stdlib_wgbsv
@@ -2965,7 +2965,7 @@ module stdlib_linalg_lapack_w
         ! moved setting of info = n+1 so info does not subsequently get
         ! overwritten.  sven, 17 mar 05.
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
@@ -3055,11 +3055,11 @@ module stdlib_linalg_lapack_w
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call stdlib_wgbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
-                        
+
               if (infequ == 0) then
                  ! equilibrate the matrix.
                  call stdlib_wlaqgb(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
-                           
+
                  rowequ = stdlib_lsame(equed,'R') .or. stdlib_lsame(equed,'B')
                  colequ = stdlib_lsame(equed,'C') .or. stdlib_lsame(equed,'B')
               end if
@@ -3086,7 +3086,7 @@ module stdlib_linalg_lapack_w
                  j1 = max(j - ku,1)
                  j2 = min(j + kl,n)
                  call stdlib_wcopy(j2 - j1 + 1,ab(ku + 1 - j + j1,j),1,afb(kl + ku + 1 - j + j1,j),1)
-                           
+
               end do
               call stdlib_wgbtrf(n,n,kl,ku,afb,ldafb,ipiv,info)
               ! return if info is non-zero.
@@ -3127,7 +3127,7 @@ module stdlib_linalg_lapack_w
            end if
            ! compute the reciprocal of the condition number of a.
            call stdlib_wgbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,rwork,info)
-                     
+
            ! compute the solution matrix x.
            call stdlib_wlacpy('FULL',n,nrhs,b,ldb,x,ldx)
            call stdlib_wgbtrs(trans,n,kl,ku,nrhs,afb,ldafb,ipiv,x,ldx,info)
@@ -3179,7 +3179,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: ipiv(*)
            complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,jp,ju,km,kv
            ! Intrinsic Functions
@@ -3268,7 +3268,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldwork = nbmax + 1
-           
+
            ! Local Scalars
            integer(ilp) :: i,i2,i3,ii,ip,j,j2,j3,jb,jj,jm,jp,ju,k2,km,kv,nb, &
                      nw
@@ -3400,7 +3400,7 @@ module stdlib_linalg_lapack_w
                     ! use stdlib_wlaswp to apply the row interchanges to a12, a22, and
                     ! a32.
                     call stdlib_wlaswp(j2,ab(kv + 1 - jb,j + jb),ldab - 1,1,jb,ipiv(j),1)
-                              
+
                     ! adjust the pivot indices.
                     do i = j,j + jb - 1
                        ipiv(i) = ipiv(i) + j - 1
@@ -3452,7 +3452,7 @@ module stdlib_linalg_lapack_w
                           ! update a23
                           call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',i2,j3,jb,-cone,ab( &
                            kv + 1 + jb,j),ldab - 1,work13,ldwork,cone,ab(1 + jb,j + kv),ldab - 1)
-                                     
+
                        end if
                        if (i3 > 0) then
                           ! update a33
@@ -3517,7 +3517,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ab(ldab,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lnoti,notran
            integer(ilp) :: i,j,kd,l,lm
@@ -3628,7 +3628,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(in) :: scale(*)
            complex(qp),intent(inout) :: v(ldv,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: leftv,rightv
            integer(ilp) :: i,ii,k
@@ -3683,7 +3683,7 @@ module stdlib_linalg_lapack_w
            ! backward permutation
            ! for  i = ilo-1 step -1 until 1,
                     ! ihi+1 step 1 until n do --
-30   continue
+                    30 continue
            if (stdlib_lsame(job,'P') .or. stdlib_lsame(job,'B')) then
               if (rightv) then
                  loop_40: do ii = 1,n
@@ -3733,7 +3733,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            real(qp),parameter :: sclfac = 2.0e+0_qp
            real(qp),parameter :: factor = 0.95e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: noconv
            integer(ilp) :: i,ica,iexc,ira,j,k,l,m
@@ -3767,18 +3767,18 @@ module stdlib_linalg_lapack_w
            ! permutation to isolate eigenvalues if possible
            go to 50
            ! row and column exchange.
-20   continue
+           20 continue
            scale(m) = j
            if (j == m) go to 30
            call stdlib_wswap(l,a(1,j),1,a(1,m),1)
            call stdlib_wswap(n - k + 1,a(j,k),lda,a(m,k),lda)
-30         continue
+           30 continue
            go to(40,80) iexc
            ! search for rows isolating an eigenvalue and push them down.
-40   continue
+           40 continue
            if (l == 1) go to 210
            l = l - 1
-50         continue
+           50 continue
            loop_70: do j = l,1,-1
               loop_60: do i = 1,l
                  if (i == j) cycle loop_60
@@ -3791,9 +3791,9 @@ module stdlib_linalg_lapack_w
            end do loop_70
            go to 90
            ! search for columns isolating an eigenvalue and push them left.
-80   continue
+           80 continue
            k = k + 1
-90         continue
+           90 continue
            loop_110: do j = k,l
               loop_100: do i = k,l
                  if (i == j) cycle loop_100
@@ -3804,7 +3804,7 @@ module stdlib_linalg_lapack_w
               iexc = 2
               go to 20
            end do loop_110
-120        continue
+           120 continue
            do i = k,l
               scale(i) = one
            end do
@@ -3815,7 +3815,7 @@ module stdlib_linalg_lapack_w
            sfmax1 = one/sfmin1
            sfmin2 = sfmin1*sclfac
            sfmax2 = one/sfmin2
-140        continue
+           140 continue
            noconv = .false.
            loop_200: do i = k,l
               c = stdlib_qznrm2(l - k + 1,a(k,i),1)
@@ -3829,7 +3829,7 @@ module stdlib_linalg_lapack_w
               g = r/sclfac
               f = one
               s = c + r
-160           continue
+              160 continue
               if (c >= g .or. max(f,c,ca) >= sfmax2 .or. min(r,g,ra) <= sfmin2) go to 170
                  if (stdlib_qisnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
@@ -3844,9 +3844,9 @@ module stdlib_linalg_lapack_w
               g = g/sclfac
               ra = ra/sclfac
               go to 160
-170           continue
+              170 continue
               g = c/sclfac
-180           continue
+              180 continue
               if (g < r .or. max(r,ra) >= sfmax2 .or. min(f,c,g,ca) <= sfmin2) go to 190
               f = f/sclfac
               c = c/sclfac
@@ -3856,7 +3856,7 @@ module stdlib_linalg_lapack_w
               ra = ra*sclfac
               go to 180
               ! now balance.
-190  continue
+              190 continue
               if ((c + r) >= factor*s) cycle loop_200
               if (f < one .and. scale(i) < one) then
                  if (f*scale(i) <= sfmin1) cycle loop_200
@@ -3871,7 +3871,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wdscal(l,f,a(1,i),1)
            end do loop_200
            if (noconv) go to 140
-210        continue
+           210 continue
            ilo = k
            ihi = l
            return
@@ -3893,7 +3893,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: taup(*),tauq(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            complex(qp) :: alpha
@@ -3991,7 +3991,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: taup(*),tauq(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,iinfo,j,ldwrkx,ldwrky,lwkopt,minmn,nb,nbmin,nx,ws
@@ -4059,7 +4059,7 @@ module stdlib_linalg_lapack_w
               ! an update of the form  a := a - v*y**h - x*u**h
               call stdlib_wgemm('NO TRANSPOSE','CONJUGATE TRANSPOSE',m - i - nb + 1,n - i - nb + 1,nb,- &
               cone,a(i + nb,i),lda,work(ldwrkx*nb + nb + 1),ldwrky,cone,a(i + nb,i + nb),lda)
-                        
+
               call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',m - i - nb + 1,n - i - nb + 1,nb,-cone, &
                         work(nb + 1),ldwrkx,a(i,i + nb),lda,cone,a(i + nb,i + nb),lda)
               ! copy diagonal and off-diagonal elements of b back into a
@@ -4104,7 +4104,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: onenrm
            character :: normin
@@ -4154,7 +4154,7 @@ module stdlib_linalg_lapack_w
               kase1 = 2
            end if
            kase = 0
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (kase == kase1) then
@@ -4184,7 +4184,7 @@ module stdlib_linalg_lapack_w
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20         continue
+           20 continue
            return
      end subroutine stdlib_wgecon
 
@@ -4210,7 +4210,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: c(*),r(*)
            complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: bignum,rcmax,rcmin,smlnum
@@ -4344,7 +4344,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: c(*),r(*)
            complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: bignum,rcmax,rcmin,smlnum,radix,logrdx
@@ -4486,7 +4486,7 @@ module stdlib_linalg_lapack_w
            ! Function Arguments
            procedure(stdlib_select_w) :: select
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,scalea,wantst,wantvs
            integer(ilp) :: hswork,i,ibal,icond,ierr,ieval,ihi,ilo,itau,iwrk,maxwrk, &
@@ -4531,7 +4531,7 @@ module stdlib_linalg_lapack_w
                  maxwrk = n + n*stdlib_ilaenv(1,'ZGEHRD',' ',n,1,n,0)
                  minwrk = 2*n
                  call stdlib_whseqr('S',jobvs,n,1,n,a,lda,w,vs,ldvs,work,-1,ieval)
-                           
+
                  hswork = real(work(1),KIND=qp)
                  if (.not. wantvs) then
                     maxwrk = max(maxwrk,hswork)
@@ -4664,7 +4664,7 @@ module stdlib_linalg_lapack_w
            ! Function Arguments
            procedure(stdlib_select_w) :: select
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,scalea,wantsb,wantse,wantsn,wantst,wantsv,wantvs
            integer(ilp) :: hswork,i,ibal,icond,ierr,ieval,ihi,ilo,itau,iwrk,lwrk, &
@@ -4719,7 +4719,7 @@ module stdlib_linalg_lapack_w
                  maxwrk = n + n*stdlib_ilaenv(1,'ZGEHRD',' ',n,1,n,0)
                  minwrk = 2*n
                  call stdlib_whseqr('S',jobvs,n,1,n,a,lda,w,vs,ldvs,work,-1,ieval)
-                           
+
                  hswork = real(work(1),KIND=qp)
                  if (.not. wantvs) then
                     maxwrk = max(maxwrk,hswork)
@@ -4858,7 +4858,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: vl(ldvl,*),vr(ldvr,*),w(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,scalea,wantvl,wantvr
            character :: side
@@ -4915,7 +4915,7 @@ module stdlib_linalg_lapack_w
                     lwork_trevc = int(work(1),KIND=ilp)
                     maxwrk = max(maxwrk,n + lwork_trevc)
                     call stdlib_whseqr('S','V',n,1,n,a,lda,w,vl,ldvl,work,-1,info)
-                              
+
                  else if (wantvr) then
                     maxwrk = max(maxwrk,n + (n - 1)*stdlib_ilaenv(1,'ZUNGHR',' ',n,1,n,- &
                               1))
@@ -4924,10 +4924,10 @@ module stdlib_linalg_lapack_w
                     lwork_trevc = int(work(1),KIND=ilp)
                     maxwrk = max(maxwrk,n + lwork_trevc)
                     call stdlib_whseqr('S','V',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-                              
+
                  else
                     call stdlib_whseqr('E','N',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-                              
+
                  end if
                  hswork = int(work(1),KIND=ilp)
                  maxwrk = max(maxwrk,hswork,minwrk)
@@ -5070,7 +5070,7 @@ module stdlib_linalg_lapack_w
               end do
            end if
            ! undo scaling if necessary
-50   continue
+           50 continue
            if (scalea) then
               call stdlib_wlascl('G',0,0,cscale,anrm,n - info,1,w(info + 1),max(n - info,1) &
                         ,ierr)
@@ -5123,7 +5123,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: vl(ldvl,*),vr(ldvr,*),w(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,scalea,wantvl,wantvr,wntsnb,wntsne,wntsnn,wntsnv
            character :: job,side
@@ -5187,21 +5187,21 @@ module stdlib_linalg_lapack_w
                     lwork_trevc = int(work(1),KIND=ilp)
                     maxwrk = max(maxwrk,lwork_trevc)
                     call stdlib_whseqr('S','V',n,1,n,a,lda,w,vl,ldvl,work,-1,info)
-                              
+
                  else if (wantvr) then
                     call stdlib_wtrevc3('R','B',select,n,a,lda,vl,ldvl,vr,ldvr,n,nout, &
                               work,-1,rwork,-1,ierr)
                     lwork_trevc = int(work(1),KIND=ilp)
                     maxwrk = max(maxwrk,lwork_trevc)
                     call stdlib_whseqr('S','V',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-                              
+
                  else
                     if (wntsnn) then
                        call stdlib_whseqr('E','N',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-                                 
+
                     else
                        call stdlib_whseqr('S','N',n,1,n,a,lda,w,vr,ldvr,work,-1,info)
-                                 
+
                     end if
                  end if
                  hswork = int(work(1),KIND=ilp)
@@ -5369,7 +5369,7 @@ module stdlib_linalg_lapack_w
               end do
            end if
            ! undo scaling if necessary
-50   continue
+           50 continue
            if (scalea) then
               call stdlib_wlascl('G',0,0,cscale,anrm,n - info,1,w(info + 1),max(n - info,1) &
                         ,ierr)
@@ -5398,7 +5398,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            complex(qp) :: alpha
@@ -5454,7 +5454,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iinfo,iwt,j,ldwork,lwkopt,nb,nbmin,nh,nx
@@ -5591,7 +5591,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: iwork(*)
            character,intent(in) :: joba,jobp,jobr,jobt,jobu,jobv
         ! ===========================================================================
-           
+
            ! Local Scalars
            complex(qp) :: ctemp
            real(qp) :: aapp,aaqq,aatmax,aatmin,big,big1,cond_ok,condr1,condr2,entra, &
@@ -5679,7 +5679,7 @@ module stdlib_linalg_lapack_w
                lrwsvdj = n
                if (lquery) then
                    call stdlib_wgeqp3(m,n,a,lda,iwork,cdummy,cdummy,-1,rdummy,ierr)
-                             
+
                    lwrk_wgeqp3 = real(cdummy(1),KIND=qp)
                    call stdlib_wgeqrf(n,n,a,lda,cdummy,cdummy,-1,ierr)
                    lwrk_wgeqrf = real(cdummy(1),KIND=qp)
@@ -5703,7 +5703,7 @@ module stdlib_linalg_lapack_w
                        lwrk_wgesvj = real(cdummy(1),KIND=qp)
                        if (errest) then
                            optwrk = max(n + lwrk_wgeqp3,n**2 + lwcon,n + lwrk_wgeqrf,lwrk_wgesvj)
-                                     
+
                        else
                            optwrk = max(n + lwrk_wgeqp3,n + lwrk_wgeqrf,lwrk_wgesvj)
                        end if
@@ -5730,7 +5730,7 @@ module stdlib_linalg_lapack_w
                                 lwunmlq)
                   else
                       minwrk = max(n + lwqp3,lwsvdj,n + lwlqf,2*n + lwqrf,n + lwsvdj,n + lwunmlq)
-                                
+
                   end if
                   if (lquery) then
                       call stdlib_wgesvj('L','U','N',n,n,u,ldu,sva,n,a,lda,cdummy,-1, &
@@ -5781,7 +5781,7 @@ module stdlib_linalg_lapack_w
                                 lwrk_wunmqrm)
                       else
                       optwrk = n + max(lwrk_wgeqp3,n + lwrk_wgeqrf,lwrk_wgesvj,lwrk_wunmqrm)
-                                
+
                       end if
                   end if
                   if (l2tran .or. rowpiv) then
@@ -5834,7 +5834,7 @@ module stdlib_linalg_lapack_w
                       lwrk_wunmqr = real(cdummy(1),KIND=qp)
                       if (.not. jracc) then
                           call stdlib_wgeqp3(n,n,a,lda,iwork,cdummy,cdummy,-1,rdummy,ierr)
-                                    
+
                           lwrk_wgeqp3n = real(cdummy(1),KIND=qp)
                           call stdlib_wgesvj('L','U','N',n,n,u,ldu,sva,n,v,ldv,cdummy, &
                                     -1,rdummy,-1,ierr)
@@ -6220,7 +6220,7 @@ module stdlib_linalg_lapack_w
               iwork(p) = 0
            end do
            call stdlib_wgeqp3(m,n,a,lda,iwork,cwork,cwork(n + 1),lwork - n,rwork,ierr)
-                     
+
            ! the upper triangular matrix r1 from the first qrf is inspected for
            ! rank deficiency and possibilities for deflation, or possible
            ! ill-conditioning. depending on the user specified flag l2rank,
@@ -6242,7 +6242,7 @@ module stdlib_linalg_lapack_w
                     go to 3002
                  end if
               end do
-3002          continue
+              3002 continue
            else if (l2rank) then
               ! .. similarly as above, only slightly more gentle (less aggressive).
               ! sudden drop on the diagonal of r1 is used as the criterion for
@@ -6253,7 +6253,7 @@ module stdlib_linalg_lapack_w
                            l2kill .and. (abs(a(p,p)) < temp1))) go to 3402
                  nr = nr + 1
               end do
-3402          continue
+              3402 continue
            else
               ! the goal is high relative accuracy. however, if the matrix
               ! has high scaled condition number the relative accuracy is in
@@ -6268,7 +6268,7 @@ module stdlib_linalg_lapack_w
                            3302
                  nr = nr + 1
               end do
-3302          continue
+              3302 continue
            end if
            almort = .false.
            if (nr == n) then
@@ -6293,10 +6293,10 @@ module stdlib_linalg_lapack_w
                     end do
                     if (lsvec) then
                         call stdlib_wpocon('U',n,v,ldv,one,temp1,cwork(n + 1),rwork,ierr)
-                                  
+
                     else
                         call stdlib_wpocon('U',n,v,ldv,one,temp1,cwork,rwork,ierr)
-                                  
+
                     end if
                  else if (lsvec) then
                     ! U Is Available As Workspace
@@ -6306,7 +6306,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wdscal(p,one/temp1,u(1,p),1)
                     end do
                     call stdlib_wpocon('U',n,u,ldu,one,temp1,cwork(n + 1),rwork,ierr)
-                              
+
                  else
                     call stdlib_wlacpy('U',n,n,a,lda,cwork,n)
       ! []            call stdlib_wlacpy( 'u', n, n, a, lda, cwork(n+1), n )
@@ -6321,7 +6321,7 @@ module stdlib_linalg_lapack_w
       ! []               call stdlib_wpocon( 'u', n, cwork(n+1), n, one, temp1,
       ! []     $              cwork(n+n*n+1), rwork, ierr )
                     call stdlib_wpocon('U',n,cwork,n,one,temp1,cwork(n*n + 1),rwork,ierr)
-                              
+
                  end if
                  if (temp1 /= zero) then
                     sconda = one/sqrt(temp1)
@@ -6425,7 +6425,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_wlacpy('L',nr,nr,a,lda,v,ldv)
                  call stdlib_wlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
                  call stdlib_wgeqrf(nr,nr,v,ldv,cwork(n + 1),cwork(2*n + 1),lwork - 2*n,ierr)
-                           
+
                  do p = 1,nr
                     call stdlib_wcopy(nr - p + 1,v(p,p),ldv,v(p,p),1)
                     call stdlib_wlacgv(nr - p + 1,v(p,p),1)
@@ -6446,7 +6446,7 @@ module stdlib_linalg_lapack_w
                ! Permute The Rows Of V
                ! do 8991 p = 1, n
                   ! call stdlib_wcopy( n, v(p,1), ldv, a(iwork(p),1), lda )
-8991 continue
+                  8991 continue
                ! call stdlib_wlacpy( 'all', n, n, a, lda, v, ldv )
               call stdlib_wlapmr(.false.,n,n,v,ldv,iwork)
                if (transp) then
@@ -6469,7 +6469,7 @@ module stdlib_linalg_lapack_w
               end do
               call stdlib_wlaset('U',nr - 1,nr - 1,czero,czero,u(1,2),ldu)
               call stdlib_wgeqrf(n,nr,u,ldu,cwork(n + 1),cwork(2*n + 1),lwork - 2*n,ierr)
-                        
+
               do p = 1,nr - 1
                  call stdlib_wcopy(nr - p,u(p,p + 1),ldu,u(p + 1,p),1)
                  call stdlib_wlacgv(n - p + 1,u(p,p),1)
@@ -6558,7 +6558,7 @@ module stdlib_linalg_lapack_w
                     ! of a lower triangular matrix.
                     ! r1^* = q2 * r2
                     call stdlib_wgeqrf(n,nr,v,ldv,cwork(n + 1),cwork(2*n + 1),lwork - 2*n,ierr)
-                              
+
                     if (l2pert) then
                        xsc = sqrt(small)/epsln
                        do p = 2,nr
@@ -6570,7 +6570,7 @@ module stdlib_linalg_lapack_w
                        end do
                     end if
                     if (nr /= n) call stdlib_wlacpy('A',n,nr,v,ldv,cwork(2*n + 1),n)
-                              
+
                     ! .. save ...
                  ! This Transposed Copy Should Be Better Than Naive
                     do p = 1,nr - 1
@@ -6871,7 +6871,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_wlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
               end if
               call stdlib_wgeqrf(n,nr,v,ldv,cwork(n + 1),cwork(2*n + 1),lwork - 2*n,ierr)
-                        
+
               call stdlib_wlacpy('L',n,nr,v,ldv,cwork(2*n + 1),n)
               do p = 1,nr
                  call stdlib_wcopy(nr - p + 1,v(p,p),ldv,u(p,p),1)
@@ -7112,7 +7112,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,k
            complex(qp) :: alpha
@@ -7234,7 +7234,7 @@ module stdlib_linalg_lapack_w
                     ! apply h to a(i+ib:m,i:n) from the right
                     call stdlib_wlarfb('RIGHT','NO TRANSPOSE','FORWARD','ROWWISE',m - i - ib + 1,n - &
                     i + 1,ib,a(i,i),lda,work,ldwork,a(i + ib,i),lda,work(ib + 1),ldwork)
-                              
+
                  end if
               end do
            else
@@ -7242,7 +7242,7 @@ module stdlib_linalg_lapack_w
            end if
            ! use unblocked code to factor the last or only block.
            if (i <= k) call stdlib_wgelq2(m - i + 1,n - i + 1,a(i,i),lda,tau(i),work,iinfo)
-                     
+
            work(1) = iws
            return
      end subroutine stdlib_wgelqf
@@ -7314,7 +7314,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,i1,j,j1,m1,m2,iinfo
            ! Executable Statements
@@ -7351,15 +7351,15 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wtrmm('R','U','C','U',m2,m1,cone,a,lda,t(i1,1),ldt)
-                        
+
               call stdlib_wgemm('N','C',m2,m1,n - m1,cone,a(i1,i1),lda,a(1,i1),lda, &
                         cone,t(i1,1),ldt)
               call stdlib_wtrmm('R','U','N','N',m2,m1,cone,t,ldt,t(i1,1),ldt)
-                        
+
               call stdlib_wgemm('N','N',m2,n - m1,m1,-cone,t(i1,1),ldt,a(1,i1),lda, &
                         cone,a(i1,i1),lda)
               call stdlib_wtrmm('R','U','N','U',m2,m1,cone,a,lda,t(i1,1),ldt)
-                        
+
               do i = 1,m2
                  do j = 1,m1
                     a(i + m1,j) = a(i + m1,j) - t(i + m1,j)
@@ -7379,7 +7379,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('N','C',m1,m2,n - m,cone,a(1,j1),lda,a(i1,j1),lda, &
                         cone,t(1,i1),ldt)
               call stdlib_wtrmm('L','U','N','N',m1,m2,-cone,t,ldt,t(1,i1),ldt)
-                        
+
               call stdlib_wtrmm('R','U','N','N',m1,m2,cone,t(i1,i1),ldt,t(1,i1), &
                         ldt)
               ! y = (y1,y2); l = [ l1            0  ];  t = [t1 t3]
@@ -7419,7 +7419,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,tpsd
            integer(ilp) :: brow,i,iascl,ibscl,j,mn,nb,scllen,wsize
@@ -7600,7 +7600,7 @@ module stdlib_linalg_lapack_w
            else if (ibscl == 2) then
               call stdlib_wlascl('G',0,0,bignum,bnrm,scllen,nrhs,b,ldb,info)
            end if
-50         continue
+           50 continue
            work(1) = real(wsize,KIND=qp)
            return
      end subroutine stdlib_wgels
@@ -7646,7 +7646,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: iascl,ibscl,ie,il,itau,itaup,itauq,ldwork,liwork,lrwork, &
@@ -7694,9 +7694,9 @@ module stdlib_linalg_lapack_w
                               ! columns.
                     mm = n
                     maxwrk = max(maxwrk,n*stdlib_ilaenv(1,'ZGEQRF',' ',m,n,-1,-1))
-                              
+
                     maxwrk = max(maxwrk,nrhs*stdlib_ilaenv(1,'ZUNMQR','LC',m,nrhs,n,-1))
-                              
+
                  end if
                  if (m >= n) then
                     ! path 1 - overdetermined or exactly determined.
@@ -7736,7 +7736,7 @@ module stdlib_linalg_lapack_w
                     else
                        ! path 2 - underdetermined.
                        maxwrk = 2*m + (n + m)*stdlib_ilaenv(1,'ZGEBRD',' ',m,n,-1,-1)
-                                 
+
                        maxwrk = max(maxwrk,2*m + nrhs*stdlib_ilaenv(1,'ZUNMBR','QLC',m,nrhs, &
                                   m,-1))
                        maxwrk = max(maxwrk,2*m + m*stdlib_ilaenv(1,'ZUNMBR','PLN',n,nrhs,m, &
@@ -7861,7 +7861,7 @@ module stdlib_linalg_lapack_w
               ! compute a=l*q.
               ! (cworkspace: need 2*m, prefer m+m*nb)
               call stdlib_wgelqf(m,n,a,lda,work(itau),work(nwork),lwork - nwork + 1,info)
-                        
+
               il = nwork
               ! copy l to work(il), zeroing out above its diagonal.
               call stdlib_wlacpy('L',m,m,a,lda,work(il),ldwork)
@@ -7935,7 +7935,7 @@ module stdlib_linalg_lapack_w
            else if (ibscl == 2) then
               call stdlib_wlascl('G',0,0,bignum,bnrm,n,nrhs,b,ldb,info)
            end if
-10         continue
+           10 continue
            work(1) = maxwrk
            iwork(1) = liwork
            rwork(1) = lrwork
@@ -7969,7 +7969,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: bl,chunk,i,iascl,ibscl,ie,il,irwork,itau,itaup,itauq,iwork, &
@@ -8023,7 +8023,7 @@ module stdlib_linalg_lapack_w
                     lwork_wunmqr = real(dum(1),KIND=qp)
                     mm = n
                     maxwrk = max(maxwrk,n + n*stdlib_ilaenv(1,'ZGEQRF',' ',m,n,-1,-1))
-                              
+
                     maxwrk = max(maxwrk,n + nrhs*stdlib_ilaenv(1,'ZUNMQR','LC',m,nrhs,n,- &
                               1))
                  end if
@@ -8031,7 +8031,7 @@ module stdlib_linalg_lapack_w
                     ! path 1 - overdetermined or exactly determined
                     ! compute space needed for stdlib_wgebrd
                     call stdlib_wgebrd(mm,n,a,lda,s,s,dum(1),dum(1),dum(1),-1,info)
-                              
+
                     lwork_wgebrd = real(dum(1),KIND=qp)
                     ! compute space needed for stdlib_wunmbr
                     call stdlib_wunmbr('Q','L','C',mm,nrhs,n,a,lda,dum(1),b,ldb,dum(1), &
@@ -8057,7 +8057,7 @@ module stdlib_linalg_lapack_w
                        lwork_wgelqf = real(dum(1),KIND=qp)
                        ! compute space needed for stdlib_wgebrd
                        call stdlib_wgebrd(m,m,a,lda,s,s,dum(1),dum(1),dum(1),-1,info)
-                                 
+
                        lwork_wgebrd = real(dum(1),KIND=qp)
                        ! compute space needed for stdlib_wunmbr
                        call stdlib_wunmbr('Q','L','C',m,nrhs,n,a,lda,dum(1),b,ldb,dum( &
@@ -8085,7 +8085,7 @@ module stdlib_linalg_lapack_w
                        ! path 2 - underdetermined
                        ! compute space needed for stdlib_wgebrd
                        call stdlib_wgebrd(m,n,a,lda,s,s,dum(1),dum(1),dum(1),-1,info)
-                                 
+
                        lwork_wgebrd = real(dum(1),KIND=qp)
                        ! compute space needed for stdlib_wunmbr
                        call stdlib_wunmbr('Q','L','C',m,nrhs,m,a,lda,dum(1),b,ldb,dum( &
@@ -8219,7 +8219,7 @@ module stdlib_linalg_lapack_w
               ! (rworkspace: none)
               if (lwork >= ldb*nrhs .and. nrhs > 1) then
                  call stdlib_wgemm('C','N',n,nrhs,n,cone,a,lda,b,ldb,czero,work,ldb)
-                           
+
                  call stdlib_wlacpy('G',n,nrhs,work,ldb,b,ldb)
               else if (nrhs > 1) then
                  chunk = lwork/n
@@ -8245,7 +8245,7 @@ module stdlib_linalg_lapack_w
               ! (cworkspace: need 2*m, prefer m+m*nb)
               ! (rworkspace: none)
               call stdlib_wgelqf(m,n,a,lda,work(itau),work(iwork),lwork - iwork + 1,info)
-                        
+
               il = iwork
               ! copy l to work(il), zeroing out above it
               call stdlib_wlacpy('L',m,m,a,lda,work(il),ldwork)
@@ -8366,7 +8366,7 @@ module stdlib_linalg_lapack_w
               ! (rworkspace: none)
               if (lwork >= ldb*nrhs .and. nrhs > 1) then
                  call stdlib_wgemm('C','N',n,nrhs,m,cone,a,lda,b,ldb,czero,work,ldb)
-                           
+
                  call stdlib_wlacpy('G',n,nrhs,work,ldb,b,ldb)
               else if (nrhs > 1) then
                  chunk = lwork/n
@@ -8394,7 +8394,7 @@ module stdlib_linalg_lapack_w
            else if (ibscl == 2) then
               call stdlib_wlascl('G',0,0,bignum,bnrm,n,nrhs,b,ldb,info)
            end if
-70         continue
+           70 continue
            work(1) = maxwrk
            return
      end subroutine stdlib_wgelss
@@ -8450,7 +8450,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            integer(ilp),parameter :: imax = 1
            integer(ilp),parameter :: imin = 2
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,iascl,ibscl,ismax,ismin,j,lwkopt,mn,nb,nb1,nb2,nb3, &
@@ -8532,7 +8532,7 @@ module stdlib_linalg_lapack_w
            ! compute qr factorization with column pivoting of a:
               ! a * p = q * r
            call stdlib_wgeqp3(m,n,a,lda,jpvt,work(1),work(mn + 1),lwork - mn,rwork,info)
-                     
+
            wsize = mn + real(work(mn + 1),KIND=qp)
            ! complex workspace: mn+nb*(n+1). real workspace 2*n.
            ! details of householder rotations stored in work(1:mn).
@@ -8548,7 +8548,7 @@ module stdlib_linalg_lapack_w
            else
               rank = 1
            end if
-10         continue
+           10 continue
            if (rank < mn) then
               i = rank + 1
               call stdlib_wlaic1(imin,rank,work(ismin),smin,a(1,i),a(i,i),sminpr, &
@@ -8617,7 +8617,7 @@ module stdlib_linalg_lapack_w
            else if (ibscl == 2) then
               call stdlib_wlascl('G',0,0,bignum,bnrm,n,nrhs,b,ldb,info)
            end if
-70         continue
+           70 continue
            work(1) = cmplx(lwkopt,KIND=qp)
            return
      end subroutine stdlib_wgelsy
@@ -8730,7 +8730,7 @@ module stdlib_linalg_lapack_w
      !> Q is of order M if SIDE = 'L' and of order N  if SIDE = 'R'.
 
      pure subroutine stdlib_wgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -8925,7 +8925,7 @@ module stdlib_linalg_lapack_w
      !> Q is of order M if SIDE = 'L' and of order N  if SIDE = 'R'.
 
      pure subroutine stdlib_wgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -9026,7 +9026,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,k
            complex(qp) :: alpha
@@ -9143,7 +9143,7 @@ module stdlib_linalg_lapack_w
                  ! compute the ql factorization of the current block
                  ! a(1:m-k+i+ib-1,n-k+i:n-k+i+ib-1)
                  call stdlib_wgeql2(m - k + i + ib - 1,ib,a(1,n - k + i),lda,tau(i),work,iinfo)
-                           
+
                  if (n - k + i > 1) then
                     ! form the triangular factor of the block reflector
                     ! h = h(i+ib-1) . . . h(i+1) h(i)
@@ -9187,7 +9187,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),parameter :: inb = 1
            integer(ilp),parameter :: inbmin = 2
            integer(ilp),parameter :: ixover = 3
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: fjb,iws,j,jb,lwkopt,minmn,minws,na,nb,nbmin,nfxd,nx,sm, &
@@ -9284,7 +9284,7 @@ module stdlib_linalg_lapack_w
                        ! determine the minimum value of nb.
                        nb = lwork/(sn + 1)
                        nbmin = max(2,stdlib_ilaenv(inbmin,'ZGEQRF',' ',sm,sn,-1,-1))
-                                 
+
                     end if
                  end if
               end if
@@ -9299,7 +9299,7 @@ module stdlib_linalg_lapack_w
                  j = nfxd + 1
                  ! compute factorization: while loop.
                  topbmn = minmn - nx
-30               continue
+                 30 continue
                  if (j <= topbmn) then
                     jb = min(nb,topbmn - j + 1)
                     ! factorize jb columns among columns j:n.
@@ -9453,7 +9453,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,k
            complex(qp) :: alpha
@@ -9509,7 +9509,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,k
            complex(qp) :: alpha
@@ -9642,7 +9642,7 @@ module stdlib_linalg_lapack_w
            end if
            ! use unblocked code to factor the last or only block.
            if (i <= k) call stdlib_wgeqr2(m - i + 1,n - i + 1,a(i,i),lda,tau(i),work,iinfo)
-                     
+
            work(1) = iws
            return
      end subroutine stdlib_wgeqrf
@@ -9741,7 +9741,7 @@ module stdlib_linalg_lapack_w
            end if
            ! use unblocked code to factor the last or only block.
            if (i <= k) call stdlib_wgeqr2p(m - i + 1,n - i + 1,a(i,i),lda,tau(i),work,iinfo)
-                     
+
            work(1) = iws
            return
      end subroutine stdlib_wgeqrfp
@@ -9763,7 +9763,7 @@ module stdlib_linalg_lapack_w
            ! Local Scalars
            logical(lk),parameter :: use_recursive_qr = .true.
            integer(ilp) :: i,ib,iinfo,k
-           
+
            ! Executable Statements
            ! test the input arguments
            info = 0
@@ -9817,7 +9817,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,k
            complex(qp) :: aii,alpha
@@ -9887,7 +9887,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,i1,j,j1,n1,n2,iinfo
            ! Executable Statements
@@ -9923,15 +9923,15 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wtrmm('L','L','C','U',n1,n2,cone,a,lda,t(1,j1),ldt)
-                        
+
               call stdlib_wgemm('C','N',n1,n2,m - n1,cone,a(j1,1),lda,a(j1,j1),lda, &
                         cone,t(1,j1),ldt)
               call stdlib_wtrmm('L','U','C','N',n1,n2,cone,t,ldt,t(1,j1),ldt)
-                        
+
               call stdlib_wgemm('N','N',m - n1,n2,n1,-cone,a(j1,1),lda,t(1,j1),ldt, &
                         cone,a(j1,j1),lda)
               call stdlib_wtrmm('L','L','N','U',n1,n2,cone,a,lda,t(1,j1),ldt)
-                        
+
               do j = 1,n2
                  do i = 1,n1
                     a(i,j + n1) = a(i,j + n1) - t(i,j + n1)
@@ -9950,7 +9950,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('C','N',n1,n2,m - n,cone,a(i1,1),lda,a(i1,j1),lda, &
                         cone,t(1,j1),ldt)
               call stdlib_wtrmm('L','U','N','N',n1,n2,-cone,t,ldt,t(1,j1),ldt)
-                        
+
               call stdlib_wtrmm('R','U','N','N',n1,n2,cone,t(j1,j1),ldt,t(1,j1), &
                         ldt)
               ! y = (y1,y2); r = [ r1  a(1:n1,j1:n) ];  t = [t1 t3]
@@ -9981,7 +9981,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: notran
            character :: transn,transt
@@ -10045,7 +10045,7 @@ module stdlib_linalg_lapack_w
            loop_140: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
@@ -10124,7 +10124,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-100           continue
+              100 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -10166,7 +10166,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,k
            complex(qp) :: alpha
@@ -10285,7 +10285,7 @@ module stdlib_linalg_lapack_w
                  ! compute the rq factorization of the current block
                  ! a(m-k+i:m-k+i+ib-1,1:n-k+i+ib-1)
                  call stdlib_wgerq2(ib,n - k + i + ib - 1,a(m - k + i,1),lda,tau(i),work,iinfo)
-                           
+
                  if (m - k + i > 1) then
                     ! form the triangular factor of the block reflector
                     ! h = h(i+ib-1) . . . h(i+1) h(i)
@@ -10294,7 +10294,7 @@ module stdlib_linalg_lapack_w
                     ! apply h to a(1:m-k+i-1,1:n-k+i+ib-1) from the right
                     call stdlib_wlarfb('RIGHT','NO TRANSPOSE','BACKWARD','ROWWISE',m - k + i - 1,n - &
                     k + i + ib - 1,ib,a(m - k + i,1),lda,work,ldwork,a,lda,work(ib + 1),ldwork)
-                              
+
                  end if
               end do
               mu = m - k + i + nb - 1
@@ -10326,7 +10326,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: rhs(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: bignum,eps,smlnum
@@ -10401,7 +10401,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: u(ldu,*),vt(ldvt,*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,wntqa,wntqas,wntqn,wntqo,wntqs
            integer(ilp) :: blk,chunk,i,ie,ierr,il,ir,iru,irvt,iscl,itau,itaup,itauq, &
@@ -10826,7 +10826,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wgemm('N','N',chunk,n,n,cone,a(i,1),lda,work(iu), &
                                  ldwrku,czero,work(ir),ldwrkr)
                        call stdlib_wlacpy('F',chunk,n,work(ir),ldwrkr,a(i,1),lda)
-                                 
+
                     end do
                  else if (wntqs) then
                     ! path 3 (m >> n, jobz='s')
@@ -11040,7 +11040,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wlacrm(chunk,n,a(i,1),lda,rwork(iru),n,work(iu), &
                                  ldwrku,rwork(nrwork))
                        call stdlib_wlacpy('F',chunk,n,work(iu),ldwrku,a(i,1),lda)
-                                 
+
                     end do
                  else if (wntqs) then
                     ! path 5s (m >> n, jobz='s')
@@ -11073,7 +11073,7 @@ module stdlib_linalg_lapack_w
                     ! cworkspace: need   0
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + 2*n*n [rwork]
                     call stdlib_wlarcm(n,n,rwork(irvt),n,vt,ldvt,a,lda,rwork(nrwork))
-                              
+
                     call stdlib_wlacpy('F',n,n,a,lda,vt,ldvt)
                     ! multiply q in u by realmatrix rwork(iru,KIND=qp), storing the
                     ! result in a, copying to u
@@ -11081,7 +11081,7 @@ module stdlib_linalg_lapack_w
                     ! rworkspace: need   n [e] + n*n [ru] + 2*m*n [rwork] < n + 5*n*n since m < 2*n here
                     nrwork = irvt
                     call stdlib_wlacrm(m,n,u,ldu,rwork(iru),n,a,lda,rwork(nrwork))
-                              
+
                     call stdlib_wlacpy('F',m,n,a,lda,u,ldu)
                  else
                     ! path 5a (m >> n, jobz='a')
@@ -11114,7 +11114,7 @@ module stdlib_linalg_lapack_w
                     ! cworkspace: need   0
                     ! rworkspace: need   n [e] + n*n [ru] + n*n [rvt] + 2*n*n [rwork]
                     call stdlib_wlarcm(n,n,rwork(irvt),n,vt,ldvt,a,lda,rwork(nrwork))
-                              
+
                     call stdlib_wlacpy('F',n,n,a,lda,vt,ldvt)
                     ! multiply q in u by realmatrix rwork(iru,KIND=qp), storing the
                     ! result in a, copying to u
@@ -11122,7 +11122,7 @@ module stdlib_linalg_lapack_w
                     ! rworkspace: need   n [e] + n*n [ru] + 2*m*n [rwork] < n + 5*n*n since m < 2*n here
                     nrwork = irvt
                     call stdlib_wlacrm(m,n,u,ldu,rwork(iru),n,a,lda,rwork(nrwork))
-                              
+
                     call stdlib_wlacpy('F',m,n,a,lda,u,ldu)
                  end if
               else
@@ -11210,7 +11210,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wlacrm(chunk,n,a(i,1),lda,rwork(iru),n,work(iu) &
                                     ,ldwrku,rwork(nrwork))
                           call stdlib_wlacpy('F',chunk,n,work(iu),ldwrku,a(i,1),lda)
-                                    
+
                        end do
                     end if
                  else if (wntqs) then
@@ -11339,7 +11339,7 @@ module stdlib_linalg_lapack_w
                     ! copy l to work(il), zeroing about above it
                     call stdlib_wlacpy('L',m,m,a,lda,work(il),ldwrkl)
                     call stdlib_wlaset('U',m - 1,m - 1,czero,czero,work(il + ldwrkl),ldwrkl)
-                              
+
                     ! generate q in a
                     ! cworkspace: need   m*m [vt] + m*m [l] + m [tau] + m    [work]
                     ! cworkspace: prefer m*m [vt] + m*m [l] + m [tau] + m*nb [work]
@@ -11392,7 +11392,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wgemm('N','N',m,blk,m,cone,work(ivt),m,a(1,i), &
                                  lda,czero,work(il),ldwrkl)
                        call stdlib_wlacpy('F',m,blk,work(il),ldwrkl,a(1,i),lda)
-                                 
+
                     end do
                  else if (wntqs) then
                     ! path 3t (n >> m, jobz='s')
@@ -11412,7 +11412,7 @@ module stdlib_linalg_lapack_w
                     ! copy l to work(il), zeroing out above it
                     call stdlib_wlacpy('L',m,m,a,lda,work(il),ldwrkl)
                     call stdlib_wlaset('U',m - 1,m - 1,czero,czero,work(il + ldwrkl),ldwrkl)
-                              
+
                     ! generate q in a
                     ! cworkspace: need   m*m [l] + m [tau] + m    [work]
                     ! cworkspace: prefer m*m [l] + m [tau] + m*nb [work]
@@ -11609,7 +11609,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wlarcm(m,blk,rwork(irvt),m,a(1,i),lda,work(ivt), &
                                  ldwkvt,rwork(nrwork))
                        call stdlib_wlacpy('F',m,blk,work(ivt),ldwkvt,a(1,i),lda)
-                                 
+
                     end do
                  else if (wntqs) then
                     ! path 5ts (n >> m, jobz='s')
@@ -11642,7 +11642,7 @@ module stdlib_linalg_lapack_w
                     ! cworkspace: need   0
                     ! rworkspace: need   m [e] + m*m [rvt] + m*m [ru] + 2*m*m [rwork]
                     call stdlib_wlacrm(m,m,u,ldu,rwork(iru),m,a,lda,rwork(nrwork))
-                              
+
                     call stdlib_wlacpy('F',m,m,a,lda,u,ldu)
                     ! multiply realmatrix rwork(irvt,KIND=qp) by p**h in vt,
                     ! storing the result in a, copying to vt
@@ -11650,7 +11650,7 @@ module stdlib_linalg_lapack_w
                     ! rworkspace: need   m [e] + m*m [rvt] + 2*m*n [rwork] < m + 5*m*m since n < 2*m here
                     nrwork = iru
                     call stdlib_wlarcm(m,n,rwork(irvt),m,vt,ldvt,a,lda,rwork(nrwork))
-                              
+
                     call stdlib_wlacpy('F',m,n,a,lda,vt,ldvt)
                  else
                     ! path 5ta (n >> m, jobz='a')
@@ -11683,7 +11683,7 @@ module stdlib_linalg_lapack_w
                     ! cworkspace: need   0
                     ! rworkspace: need   m [e] + m*m [rvt] + m*m [ru] + 2*m*m [rwork]
                     call stdlib_wlacrm(m,m,u,ldu,rwork(iru),m,a,lda,rwork(nrwork))
-                              
+
                     call stdlib_wlacpy('F',m,m,a,lda,u,ldu)
                     ! multiply realmatrix rwork(irvt,KIND=qp) by p**h in vt,
                     ! storing the result in a, copying to vt
@@ -11691,7 +11691,7 @@ module stdlib_linalg_lapack_w
                     ! rworkspace: need   m [e] + m*m [rvt] + 2*m*n [rwork] < m + 5*m*m since n < 2*m here
                     nrwork = iru
                     call stdlib_wlarcm(m,n,rwork(irvt),m,vt,ldvt,a,lda,rwork(nrwork))
-                              
+
                     call stdlib_wlacpy('F',m,n,a,lda,vt,ldvt)
                  end if
               else
@@ -11757,7 +11757,7 @@ module stdlib_linalg_lapack_w
                        ! cworkspace: prefer 2*m [tauq, taup] + m*n [vt] + m*nb [work]
                        ! rworkspace: need   m [e] + m*m [rvt]
                        call stdlib_wlacp2('F',m,m,rwork(irvt),m,work(ivt),ldwkvt)
-                                 
+
                        call stdlib_wunmbr('P','R','C',m,n,m,a,lda,work(itaup),work( &
                                  ivt),ldwkvt,work(nwork),lwork - nwork + 1,ierr)
                        call stdlib_wlacpy('F',m,n,work(ivt),ldwkvt,a,lda)
@@ -11781,7 +11781,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wlarcm(m,blk,rwork(irvt),m,a(1,i),lda,work(ivt) &
                                     ,ldwkvt,rwork(nrwork))
                           call stdlib_wlacpy('F',m,blk,work(ivt),ldwkvt,a(1,i),lda)
-                                    
+
                        end do
                     end if
                  else if (wntqs) then
@@ -11936,7 +11936,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: u(ldu,*),vt(ldvt,*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,wntua,wntuas,wntun,wntuo,wntus,wntva,wntvas,wntvn,wntvo, &
                       wntvs
@@ -12006,7 +12006,7 @@ module stdlib_linalg_lapack_w
                  lwork_wungqr_m = int(cdum(1),KIND=ilp)
                  ! compute space needed for stdlib_wgebrd
                  call stdlib_wgebrd(n,n,a,lda,s,dum(1),cdum(1),cdum(1),cdum(1),-1,ierr)
-                           
+
                  lwork_wgebrd = int(cdum(1),KIND=ilp)
                  ! compute space needed for stdlib_wungbr
                  call stdlib_wungbr('P',n,n,n,a,lda,cdum(1),cdum(1),-1,ierr)
@@ -12101,13 +12101,13 @@ module stdlib_linalg_lapack_w
                     maxwrk = 2*n + lwork_wgebrd
                     if (wntus .or. wntuo) then
                        call stdlib_wungbr('Q',m,n,n,a,lda,cdum(1),cdum(1),-1,ierr)
-                                 
+
                        lwork_wungbr_q = int(cdum(1),KIND=ilp)
                        maxwrk = max(maxwrk,2*n + lwork_wungbr_q)
                     end if
                     if (wntua) then
                        call stdlib_wungbr('Q',m,m,n,a,lda,cdum(1),cdum(1),-1,ierr)
-                                 
+
                        lwork_wungbr_q = int(cdum(1),KIND=ilp)
                        maxwrk = max(maxwrk,2*n + lwork_wungbr_q)
                     end if
@@ -12129,7 +12129,7 @@ module stdlib_linalg_lapack_w
                  lwork_wunglq_m = int(cdum(1),KIND=ilp)
                  ! compute space needed for stdlib_wgebrd
                  call stdlib_wgebrd(m,m,a,lda,s,dum(1),cdum(1),cdum(1),cdum(1),-1,ierr)
-                           
+
                  lwork_wgebrd = int(cdum(1),KIND=ilp)
                   ! compute space needed for stdlib_wungbr p
                  call stdlib_wungbr('P',m,m,m,a,n,cdum(1),cdum(1),-1,ierr)
@@ -12346,7 +12346,7 @@ module stdlib_linalg_lapack_w
                        ! copy r to work(ir) and zero out below it
                        call stdlib_wlacpy('U',n,n,a,lda,work(ir),ldwrkr)
                        call stdlib_wlaset('L',n - 1,n - 1,czero,czero,work(ir + 1),ldwrkr)
-                                 
+
                        ! generate q in a
                        ! (cworkspace: need n*n+2*n, prefer n*n+n+n*nb)
                        ! (rworkspace: 0)
@@ -12383,7 +12383,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgemm('N','N',chunk,n,n,cone,a(i,1),lda,work(ir &
                                     ),ldwrkr,czero,work(iu),ldwrku)
                           call stdlib_wlacpy('F',chunk,n,work(iu),ldwrku,a(i,1),lda)
-                                    
+
                        end do
                     else
                        ! insufficient workspace for a fast algorithm
@@ -12439,7 +12439,7 @@ module stdlib_linalg_lapack_w
                        ! copy r to vt, zeroing out below it
                        call stdlib_wlacpy('U',n,n,a,lda,vt,ldvt)
                        if (n > 1) call stdlib_wlaset('L',n - 1,n - 1,czero,czero,vt(2,1),ldvt)
-                                 
+
                        ! generate q in a
                        ! (cworkspace: need n*n+2*n, prefer n*n+n+n*nb)
                        ! (rworkspace: 0)
@@ -12483,7 +12483,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgemm('N','N',chunk,n,n,cone,a(i,1),lda,work(ir &
                                     ),ldwrkr,czero,work(iu),ldwrku)
                           call stdlib_wlacpy('F',chunk,n,work(iu),ldwrku,a(i,1),lda)
-                                    
+
                        end do
                     else
                        ! insufficient workspace for a fast algorithm
@@ -12497,7 +12497,7 @@ module stdlib_linalg_lapack_w
                        ! copy r to vt, zeroing out below it
                        call stdlib_wlacpy('U',n,n,a,lda,vt,ldvt)
                        if (n > 1) call stdlib_wlaset('L',n - 1,n - 1,czero,czero,vt(2,1),ldvt)
-                                 
+
                        ! generate q in a
                        ! (cworkspace: need 2*n, prefer n+n*nb)
                        ! (rworkspace: 0)
@@ -12556,7 +12556,7 @@ module stdlib_linalg_lapack_w
                           ! copy r to work(ir), zeroing out below it
                           call stdlib_wlacpy('U',n,n,a,lda,work(ir),ldwrkr)
                           call stdlib_wlaset('L',n - 1,n - 1,czero,czero,work(ir + 1),ldwrkr)
-                                    
+
                           ! generate q in a
                           ! (cworkspace: need n*n+2*n, prefer n*n+n+n*nb)
                           ! (rworkspace: 0)
@@ -12611,7 +12611,7 @@ module stdlib_linalg_lapack_w
                           ! zero out below r in a
                           if (n > 1) then
                              call stdlib_wlaset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
-                                       
+
                           end if
                           ! bidiagonalize r in a
                           ! (cworkspace: need 3*n, prefer 2*n+2*n*nb)
@@ -12664,7 +12664,7 @@ module stdlib_linalg_lapack_w
                           ! copy r to work(iu), zeroing out below it
                           call stdlib_wlacpy('U',n,n,a,lda,work(iu),ldwrku)
                           call stdlib_wlaset('L',n - 1,n - 1,czero,czero,work(iu + 1),ldwrku)
-                                    
+
                           ! generate q in a
                           ! (cworkspace: need 2*n*n+2*n, prefer 2*n*n+n+n*nb)
                           ! (rworkspace: 0)
@@ -12682,7 +12682,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgebrd(n,n,work(iu),ldwrku,s,rwork(ie),work( &
                                     itauq),work(itaup),work(iwork),lwork - iwork + 1,ierr)
                           call stdlib_wlacpy('U',n,n,work(iu),ldwrku,work(ir),ldwrkr)
-                                    
+
                           ! generate left bidiagonalizing vectors in work(iu)
                           ! (cworkspace: need 2*n*n+3*n, prefer 2*n*n+2*n+n*nb)
                           ! (rworkspace: 0)
@@ -12734,7 +12734,7 @@ module stdlib_linalg_lapack_w
                           ! zero out below r in a
                           if (n > 1) then
                              call stdlib_wlaset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
-                                       
+
                           end if
                           ! bidiagonalize r in a
                           ! (cworkspace: need 3*n, prefer 2*n+2*n*nb)
@@ -12785,7 +12785,7 @@ module stdlib_linalg_lapack_w
                           ! copy r to work(iu), zeroing out below it
                           call stdlib_wlacpy('U',n,n,a,lda,work(iu),ldwrku)
                           call stdlib_wlaset('L',n - 1,n - 1,czero,czero,work(iu + 1),ldwrku)
-                                    
+
                           ! generate q in a
                           ! (cworkspace: need n*n+2*n, prefer n*n+n+n*nb)
                           ! (rworkspace: 0)
@@ -12901,7 +12901,7 @@ module stdlib_linalg_lapack_w
                           ! copy r to work(ir), zeroing out below it
                           call stdlib_wlacpy('U',n,n,a,lda,work(ir),ldwrkr)
                           call stdlib_wlaset('L',n - 1,n - 1,czero,czero,work(ir + 1),ldwrkr)
-                                    
+
                           ! generate q in u
                           ! (cworkspace: need n*n+n+m, prefer n*n+n+m*nb)
                           ! (rworkspace: 0)
@@ -12958,7 +12958,7 @@ module stdlib_linalg_lapack_w
                           ! zero out below r in a
                           if (n > 1) then
                              call stdlib_wlaset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
-                                       
+
                           end if
                           ! bidiagonalize r in a
                           ! (cworkspace: need 3*n, prefer 2*n+2*n*nb)
@@ -13018,7 +13018,7 @@ module stdlib_linalg_lapack_w
                           ! copy r to work(iu), zeroing out below it
                           call stdlib_wlacpy('U',n,n,a,lda,work(iu),ldwrku)
                           call stdlib_wlaset('L',n - 1,n - 1,czero,czero,work(iu + 1),ldwrku)
-                                    
+
                           ie = 1
                           itauq = itau
                           itaup = itauq + n
@@ -13031,7 +13031,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgebrd(n,n,work(iu),ldwrku,s,rwork(ie),work( &
                                     itauq),work(itaup),work(iwork),lwork - iwork + 1,ierr)
                           call stdlib_wlacpy('U',n,n,work(iu),ldwrku,work(ir),ldwrkr)
-                                    
+
                           ! generate left bidiagonalizing vectors in work(iu)
                           ! (cworkspace: need 2*n*n+3*n, prefer 2*n*n+2*n+n*nb)
                           ! (rworkspace: 0)
@@ -13083,7 +13083,7 @@ module stdlib_linalg_lapack_w
                           ! zero out below r in a
                           if (n > 1) then
                              call stdlib_wlaset('L',n - 1,n - 1,czero,czero,a(2,1),lda)
-                                       
+
                           end if
                           ! bidiagonalize r in a
                           ! (cworkspace: need 3*n, prefer 2*n+2*n*nb)
@@ -13141,7 +13141,7 @@ module stdlib_linalg_lapack_w
                           ! copy r to work(iu), zeroing out below it
                           call stdlib_wlacpy('U',n,n,a,lda,work(iu),ldwrku)
                           call stdlib_wlaset('L',n - 1,n - 1,czero,czero,work(iu + 1),ldwrku)
-                                    
+
                           ie = 1
                           itauq = itau
                           itaup = itauq + n
@@ -13386,7 +13386,7 @@ module stdlib_linalg_lapack_w
                        ! copy l to work(ir) and zero out above it
                        call stdlib_wlacpy('L',m,m,a,lda,work(ir),ldwrkr)
                        call stdlib_wlaset('U',m - 1,m - 1,czero,czero,work(ir + ldwrkr),ldwrkr)
-                                 
+
                        ! generate q in a
                        ! (cworkspace: need m*m+2*m, prefer m*m+m+m*nb)
                        ! (rworkspace: 0)
@@ -13423,7 +13423,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgemm('N','N',m,blk,m,cone,work(ir),ldwrkr,a(1, &
                                     i),lda,czero,work(iu),ldwrku)
                           call stdlib_wlacpy('F',m,blk,work(iu),ldwrku,a(1,i),lda)
-                                    
+
                        end do
                     else
                        ! insufficient workspace for a fast algorithm
@@ -13525,7 +13525,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgemm('N','N',m,blk,m,cone,work(ir),ldwrkr,a(1, &
                                     i),lda,czero,work(iu),ldwrku)
                           call stdlib_wlacpy('F',m,blk,work(iu),ldwrku,a(1,i),lda)
-                                    
+
                        end do
                     else
                        ! insufficient workspace for a fast algorithm
@@ -13722,7 +13722,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgebrd(m,m,work(iu),ldwrku,s,rwork(ie),work( &
                                     itauq),work(itaup),work(iwork),lwork - iwork + 1,ierr)
                           call stdlib_wlacpy('L',m,m,work(iu),ldwrku,work(ir),ldwrkr)
-                                    
+
                           ! generate right bidiagonalizing vectors in work(iu)
                           ! (cworkspace: need   2*m*m+3*m-1,
                                        ! prefer 2*m*m+2*m+(m-1)*nb)
@@ -14065,7 +14065,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgebrd(m,m,work(iu),ldwrku,s,rwork(ie),work( &
                                     itauq),work(itaup),work(iwork),lwork - iwork + 1,ierr)
                           call stdlib_wlacpy('L',m,m,work(iu),ldwrku,work(ir),ldwrkr)
-                                    
+
                           ! generate right bidiagonalizing vectors in work(iu)
                           ! (cworkspace: need   2*m*m+3*m-1,
                                        ! prefer 2*m*m+2*m+(m-1)*nb)
@@ -14378,7 +14378,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: s(*),rwork(*)
            integer(ilp),intent(out) :: iwork(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: ierr,nr,n1,optratio,p,q
            integer(ilp) :: lwcon,lwqp3,lwrk_wgelqf,lwrk_wgesvd,lwrk_wgesvd2,lwrk_wgeqp3, &
@@ -14466,7 +14466,7 @@ module stdlib_linalg_lapack_w
               lwsvd = max(3*n,1)
               if (lquery) then
                   call stdlib_wgeqp3(m,n,a,lda,iwork,cdummy,cdummy,-1,rdummy,ierr)
-                            
+
                   lwrk_wgeqp3 = int(cdummy(1),KIND=ilp)
                   if (wntus .or. wntur) then
                       call stdlib_wunmqr('L','N',m,n,n,a,lda,cdummy,u,ldu,cdummy,-1, &
@@ -14703,7 +14703,7 @@ module stdlib_linalg_lapack_w
                      ! .. to prevent overflow in the qr factorization, scale the
                      ! matrix by 1/sqrt(m) if too large entry detected
                      call stdlib_wlascl('G',0,0,sqrt(real(m,KIND=qp)),one,m,n,a,lda,ierr)
-                               
+
                      ascaled = .true.
                  end if
                  call stdlib_wlaswp(n,a,lda,1,m - 1,iwork(n + 1),1)
@@ -14723,7 +14723,7 @@ module stdlib_linalg_lapack_w
                    ! .. to prevent overflow in the qr factorization, scale the
                    ! matrix by 1/sqrt(m) if too large entry detected
                    call stdlib_wlascl('G',0,0,sqrt(real(m,KIND=qp)),one,m,n,a,lda,ierr)
-                             
+
                    ascaled = .true.
                end if
            end if
@@ -14735,7 +14735,7 @@ module stdlib_linalg_lapack_w
               iwork(p) = 0
            end do
            call stdlib_wgeqp3(m,n,a,lda,iwork,cwork,cwork(n + 1),lcwork - n,rwork,ierr)
-                     
+
           ! if the user requested accuracy level allows truncation in the
           ! computed upper triangular factor, the matrix r is examined and,
           ! if possible, replaced with its leading upper trapezoidal part.
@@ -14754,7 +14754,7 @@ module stdlib_linalg_lapack_w
                  if (abs(a(p,p)) < (rtmp*abs(a(1,1)))) go to 3002
                     nr = nr + 1
               end do
-3002          continue
+              3002 continue
            elseif (acclm) then
               ! .. similarly as above, only slightly more gentle (less aggressive).
               ! sudden drop on the diagonal of r is used as the criterion for being
@@ -14768,7 +14768,7 @@ module stdlib_linalg_lapack_w
                            to 3402
                  nr = nr + 1
               end do
-3402          continue
+              3402 continue
            else
               ! Rrqr Not Authorized To Determine Numerical Rank Except In The
               ! obvious case of zero pivots.
@@ -14779,7 +14779,7 @@ module stdlib_linalg_lapack_w
                  if (abs(a(p,p)) == zero) go to 3502
                  nr = nr + 1
               end do
-3502          continue
+              3502 continue
               if (conda) then
                  ! estimate the scaled condition number of a. use the fact that it is
                  ! the same as the scaled condition number of r.
@@ -14796,10 +14796,10 @@ module stdlib_linalg_lapack_w
                     end do
                     if (.not. (lsvec .or. rsvec)) then
                         call stdlib_wpocon('U',nr,v,ldv,one,rtmp,cwork,rwork,ierr)
-                                  
+
                     else
                         call stdlib_wpocon('U',nr,v,ldv,one,rtmp,cwork(n + 1),rwork,ierr)
-                                  
+
                     end if
                     sconda = one/sqrt(rtmp)
                  ! for nr=n, sconda is an estimate of sqrt(||(r^* * r)^(-1)||_1),
@@ -14834,7 +14834,7 @@ module stdlib_linalg_lapack_w
               else
                  ! .. compute the singular values of r = [a](1:nr,1:n)
                  if (nr > 1) call stdlib_wlaset('L',nr - 1,nr - 1,czero,czero,a(2,1),lda)
-                           
+
                  call stdlib_wgesvd('N','N',nr,n,a,lda,s,u,ldu,v,ldv,cwork,lcwork, &
                            rwork,info)
               end if
@@ -14852,7 +14852,7 @@ module stdlib_linalg_lapack_w
                     end do
                  end do
                  if (nr > 1) call stdlib_wlaset('U',nr - 1,nr - 1,czero,czero,u(1,2),ldu)
-                           
+
                  ! .. the left singular vectors not computed, the nr right singular
                  ! vectors overwrite [u](1:nr,1:nr) as conjugate transposed. these
                  ! will be pre-multiplied by q to build the left singular vectors of a.
@@ -14871,7 +14871,7 @@ module stdlib_linalg_lapack_w
                   ! .. copy r into [u] and overwrite [u] with the left singular vectors
                   call stdlib_wlacpy('U',nr,n,a,lda,u,ldu)
                   if (nr > 1) call stdlib_wlaset('L',nr - 1,nr - 1,czero,czero,u(2,1),ldu)
-                            
+
                   ! .. the right singular vectors not computed, the nr left singular
                   ! vectors overwrite [u](1:nr,1:nr)
                      call stdlib_wgesvd('O','N',nr,n,u,ldu,s,u,ldu,v,ldv,cwork(n + 1), &
@@ -14908,7 +14908,7 @@ module stdlib_linalg_lapack_w
                     end do
                  end do
                  if (nr > 1) call stdlib_wlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
-                           
+
                  ! .. the left singular vectors of r**h overwrite v, the right singular
                  ! vectors not computed
                  if (wntvr .or. (nr == n)) then
@@ -14954,7 +14954,7 @@ module stdlib_linalg_lapack_w
                   ! Copy R Into V And Overwrite V With The Right Singular Vectors
                   call stdlib_wlacpy('U',nr,n,a,lda,v,ldv)
                   if (nr > 1) call stdlib_wlaset('L',nr - 1,nr - 1,czero,czero,v(2,1),ldv)
-                            
+
                   ! .. the right singular vectors overwrite v, the nr left singular
                   ! vectors stored in u(1:nr,1:nr)
                   if (wntvr .or. (nr == n)) then
@@ -14991,7 +14991,7 @@ module stdlib_linalg_lapack_w
                     end do
                  end do
                  if (nr > 1) call stdlib_wlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
-                           
+
                  ! .. the left singular vectors of r**h overwrite [v], the nr right
                  ! singular vectors of r**h stored in [u](1:nr,1:nr) as conjugate
                  ! transposed
@@ -15027,7 +15027,7 @@ module stdlib_linalg_lapack_w
                        if (nr < n1) then
                           call stdlib_wlaset('A',nr,n1 - nr,czero,czero,u(1,nr + 1),ldu)
                           call stdlib_wlaset('A',m - nr,n1 - nr,czero,cone,u(nr + 1,nr + 1),ldu)
-                                    
+
                        end if
                     end if
                  else
@@ -15047,7 +15047,7 @@ module stdlib_linalg_lapack_w
                            end do
                         end do
                         if (nr > 1) call stdlib_wlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
-                                  
+
                         call stdlib_wlaset('A',n,n - nr,czero,czero,v(1,nr + 1),ldv)
                         call stdlib_wgesvd('O','A',n,n,v,ldv,s,v,ldv,u,ldu,cwork(n + 1), &
                                   lcwork - n,rwork,info)
@@ -15086,7 +15086,7 @@ module stdlib_linalg_lapack_w
                            end do
                         end do
                         if (nr > 1) call stdlib_wlaset('U',nr - 1,nr - 1,czero,czero,u(1,nr + 2),ldu)
-                                  
+
                         call stdlib_wgeqrf(n,nr,u(1,nr + 1),ldu,cwork(n + 1),cwork(n + nr + 1), &
                                   lcwork - n - nr,ierr)
                         do p = 1,nr
@@ -15120,7 +15120,7 @@ module stdlib_linalg_lapack_w
                       ! .. copy r into [v] and overwrite v with the right singular vectors
                       call stdlib_wlacpy('U',nr,n,a,lda,v,ldv)
                      if (nr > 1) call stdlib_wlaset('L',nr - 1,nr - 1,czero,czero,v(2,1),ldv)
-                               
+
                      ! .. the right singular vectors of r overwrite [v], the nr left
                      ! singular vectors of r stored in [u](1:nr,1:nr)
                      call stdlib_wgesvd('S','O',nr,n,v,ldv,s,u,ldu,v,ldv,cwork(n + 1), &
@@ -15134,7 +15134,7 @@ module stdlib_linalg_lapack_w
                        if (nr < n1) then
                           call stdlib_wlaset('A',nr,n1 - nr,czero,czero,u(1,nr + 1),ldu)
                           call stdlib_wlaset('A',m - nr,n1 - nr,czero,cone,u(nr + 1,nr + 1),ldu)
-                                    
+
                        end if
                     end if
                   else
@@ -15150,7 +15150,7 @@ module stdlib_linalg_lapack_w
                     if (optratio*nr > n) then
                        call stdlib_wlacpy('U',nr,n,a,lda,v,ldv)
                        if (nr > 1) call stdlib_wlaset('L',nr - 1,nr - 1,czero,czero,v(2,1),ldv)
-                                 
+
                     ! .. the right singular vectors of r overwrite [v], the nr left
                        ! singular vectors of r stored in [u](1:nr,1:nr)
                        call stdlib_wlaset('A',n - nr,n,czero,czero,v(nr + 1,1),ldv)
@@ -15172,12 +15172,12 @@ module stdlib_linalg_lapack_w
                     else
                        call stdlib_wlacpy('U',nr,n,a,lda,u(nr + 1,1),ldu)
                        if (nr > 1) call stdlib_wlaset('L',nr - 1,nr - 1,czero,czero,u(nr + 2,1),ldu)
-                                 
+
                        call stdlib_wgelqf(nr,n,u(nr + 1,1),ldu,cwork(n + 1),cwork(n + nr + 1), &
                                  lcwork - n - nr,ierr)
                        call stdlib_wlacpy('L',nr,nr,u(nr + 1,1),ldu,v,ldv)
                        if (nr > 1) call stdlib_wlaset('U',nr - 1,nr - 1,czero,czero,v(1,2),ldv)
-                                 
+
                        call stdlib_wgesvd('S','O',nr,nr,v,ldv,s,u,ldu,v,ldv,cwork(n + nr + &
                                  1),lcwork - n - nr,rwork,info)
                        call stdlib_wlaset('A',n - nr,nr,czero,czero,v(nr + 1,1),ldv)
@@ -15193,7 +15193,7 @@ module stdlib_linalg_lapack_w
                           if (nr < n1) then
                           call stdlib_wlaset('A',nr,n1 - nr,czero,czero,u(1,nr + 1),ldu)
                           call stdlib_wlaset('A',m - nr,n1 - nr,czero,cone,u(nr + 1,nr + 1),ldu)
-                                    
+
                           end if
                        end if
                     end if
@@ -15215,7 +15215,7 @@ module stdlib_linalg_lapack_w
                if (s(q) > zero) go to 4002
                nr = nr - 1
            end do
-4002       continue
+           4002 continue
            ! .. if numerical rank deficiency is detected, the truncated
            ! singular values are set to zero.
            if (nr < n) call stdlib_qlaset('G',n - nr,1,zero,zero,s(nr + 1),n)
@@ -15258,7 +15258,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Local Parameters
            integer(ilp),parameter :: nsweep = 30
-           
+
            ! Local Scalars
            complex(qp) :: aapq,ompq
            real(qp) :: aapp,aapp0,aapq1,aaqq,apoaq,aqoap,big,bigtheta,cs,ctol,epsln, &
@@ -15470,7 +15470,7 @@ module stdlib_linalg_lapack_w
        ! #:) quick return for one-column matrix
            if (n == 1) then
               if (lsvec) call stdlib_wlascl('G',0,0,sva(1),skl,m,1,a(1,1),lda,ierr)
-                        
+
               rwork(1) = one/skl
               if (sva(1) >= sfmin) then
                  rwork(2) = one
@@ -15586,12 +15586,12 @@ module stdlib_linalg_lapack_w
                            tol,2,cwork(n + 1),lwork - n,ierr)
                  call stdlib_wgsvj0(jobv,n2,n4,a(1,n4 + 1),lda,cwork(n4 + 1),sva(n4 + 1), &
                  mvl,v(n4*q + 1,n4 + 1),ldv,epsln,sfmin,tol,1,cwork(n + 1),lwork - n,ierr)
-                           
+
                  call stdlib_wgsvj1(jobv,n2,n2,n4,a,lda,cwork,sva,mvl,v,ldv,epsln, &
                            sfmin,tol,1,cwork(n + 1),lwork - n,ierr)
                  call stdlib_wgsvj0(jobv,n2 + n4,n4,a(1,n2 + 1),lda,cwork(n2 + 1),sva(n2 + 1) &
                  ,mvl,v(n2*q + 1,n2 + 1),ldv,epsln,sfmin,tol,1,cwork(n + 1),lwork - n,ierr)
-                           
+
               end if
            end if
            ! .. row-cyclic pivot strategy with de rijk's pivoting ..
@@ -15705,19 +15705,19 @@ module stdlib_linalg_lapack_w
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
                        ! Choose Correct Signum For Theta And Rotate
                                          thsign = -sign(one,aapq1)
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-                                                   
+
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_wrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -15735,7 +15735,7 @@ module stdlib_linalg_lapack_w
                                       call stdlib_wlascl('G',0,0,aaqq,one,m,1,a(1,q), &
                                                 lda,ierr)
                                       call stdlib_waxpy(m,-aapq,cwork(n + 1),1,a(1,q),1)
-                                                
+
                                       call stdlib_wlascl('G',0,0,one,aaqq,m,1,a(1,q), &
                                                 lda,ierr)
                                       sva(q) = aaqq*sqrt(max(zero,one - aapq1*aapq1))
@@ -15783,7 +15783,7 @@ module stdlib_linalg_lapack_w
                              end if
                           end do loop_2002
            ! end q-loop
-2103 continue
+           2103 continue
            ! bailed out of q-loop
                           sva(p) = aapp
                        else
@@ -15870,7 +15870,7 @@ module stdlib_linalg_lapack_w
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
@@ -15878,12 +15878,12 @@ module stdlib_linalg_lapack_w
                                          thsign = -sign(one,aapq1)
                                          if (aaqq > aapp0) thsign = -thsign
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-                                                   
+
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_wrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -15897,17 +15897,17 @@ module stdlib_linalg_lapack_w
                     ! .. have to use modified gram-schmidt like transformation
                                     if (aapp > aaqq) then
                                          call stdlib_wcopy(m,a(1,p),1,cwork(n + 1),1)
-                                                   
+
                                          call stdlib_wlascl('G',0,0,aapp,one,m,1,cwork(n + 1) &
                                                    ,lda,ierr)
                                          call stdlib_wlascl('G',0,0,aaqq,one,m,1,a(1,q), &
                                                     lda,ierr)
                                          call stdlib_waxpy(m,-aapq,cwork(n + 1),1,a(1,q),1)
-                                                   
+
                                          call stdlib_wlascl('G',0,0,one,aaqq,m,1,a(1,q), &
                                                     lda,ierr)
                                          sva(q) = aaqq*sqrt(max(zero,one - aapq1*aapq1))
-                                                   
+
                                          mxsinj = max(mxsinj,sfmin)
                                     else
                                         call stdlib_wcopy(m,a(1,q),1,cwork(n + 1),1)
@@ -15920,7 +15920,7 @@ module stdlib_linalg_lapack_w
                                          call stdlib_wlascl('G',0,0,one,aapp,m,1,a(1,p), &
                                                     lda,ierr)
                                          sva(p) = aapp*sqrt(max(zero,one - aapq1*aapq1))
-                                                   
+
                                          mxsinj = max(mxsinj,sfmin)
                                     end if
                                    end if
@@ -15972,7 +15972,7 @@ module stdlib_linalg_lapack_w
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203 continue
+              2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1,n) - jgl + 1
@@ -15982,7 +15982,7 @@ module stdlib_linalg_lapack_w
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011 continue
+           2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl,min(igl + kbl - 1,n)
                     sva(p) = abs(sva(p))
@@ -16011,12 +16011,12 @@ module stdlib_linalg_lapack_w
        ! #:( reaching this point means that the procedure has not converged.
            info = nsweep - 1
            go to 1995
-1994       continue
+           1994 continue
        ! #:) reaching this point means numerical convergence after the i-th
            ! sweep.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995 continue
+       1995 continue
            ! sort the singular values and find how many are above
            ! the underflow threshold.
            n2 = 0
@@ -16107,7 +16107,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
@@ -16304,7 +16304,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: ipiv(*),jpiv(*)
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,ip,ipv,j,jp,jpv
            real(qp) :: bignum,eps,smin,smlnum,xmax
@@ -16391,7 +16391,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: ipiv(*)
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            real(qp) :: sfmin
            integer(ilp) :: i,j,jp
@@ -16464,7 +16464,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: ipiv(*)
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,iinfo,j,jb,nb
            ! Intrinsic Functions
@@ -16514,7 +16514,7 @@ module stdlib_linalg_lapack_w
                        ! update trailing submatrix.
                        call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',m - j - jb + 1,n - j - jb + 1,jb,- &
                        cone,a(j + jb,j),lda,a(j,j + jb),lda,cone,a(j + jb,j + jb),lda)
-                                 
+
                     end if
                  end if
               end do
@@ -16553,7 +16553,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(out) :: ipiv(*)
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            real(qp) :: sfmin
            complex(qp) :: temp
@@ -16621,7 +16621,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wlaswp(n2,a(1,n1 + 1),lda,1,n1,ipiv,1)
               ! solve a12
               call stdlib_wtrsm('L','L','N','U',n1,n2,cone,a,lda,a(1,n1 + 1),lda)
-                        
+
               ! update a22
               call stdlib_wgemm('N','N',m - n1,n2,n1,-cone,a(n1 + 1,1),lda,a(1,n1 + 1), &
                         lda,cone,a(n1 + 1,n1 + 1),lda)
@@ -16655,7 +16655,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,iws,j,jb,jj,jp,ldwork,lwkopt,nb,nbmin,nn
@@ -16758,7 +16758,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: notran
            ! Intrinsic Functions
@@ -16802,7 +16802,7 @@ module stdlib_linalg_lapack_w
                         )
               ! solve l**t *x = b, or l**h *x = b overwriting b with x.
               call stdlib_wtrsm('LEFT','LOWER',trans,'UNIT',n,nrhs,cone,a,lda,b,ldb)
-                        
+
               ! apply row interchanges to the solution vectors.
               call stdlib_wlaswp(nrhs,b,ldb,1,n,ipiv,-1)
            end if
@@ -16840,7 +16840,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,tran
            integer(ilp) :: i,iascl,ibscl,j,maxmn,brow,scllen,tszo,tszm,lwo,lwm,lw1, &
@@ -17040,7 +17040,7 @@ module stdlib_linalg_lapack_w
            else if (ibscl == 2) then
              call stdlib_wlascl('G',0,0,bignum,bnrm,scllen,nrhs,b,ldb,info)
            end if
-50         continue
+           50 continue
            work(1) = real(tszo + lwo,KIND=qp)
            return
      end subroutine stdlib_wgetsls
@@ -17059,7 +17059,7 @@ module stdlib_linalg_lapack_w
      !> of ZGEQRT for more details on the format.
 
      pure subroutine stdlib_wgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17070,7 +17070,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: t(ldt,*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,iinfo,j,lw1,lw2,lwt,ldwt,lworkopt,nb1local,nb2local, &
@@ -17139,7 +17139,7 @@ module stdlib_linalg_lapack_w
            nb2local = min(nb2,n)
            ! (1) perform tsqr-factorization of the m-by-n matrix a.
            call stdlib_wlatsqr(m,n,mb1,nb1local,a,lda,work,ldwt,work(lwt + 1),lw1,iinfo)
-                     
+
            ! (2) copy the factor r_tsqr stored in the upper-triangular part
                ! of a into the square matrix in the work array
                ! work(lwt+1:lwt+n*n) column-by-column.
@@ -17153,7 +17153,7 @@ module stdlib_linalg_lapack_w
            ! (4) perform the reconstruction of householder vectors from
            ! the matrix q (stored in a) in place.
            call stdlib_wunhr_col(m,n,nb2local,a,lda,t,ldt,work(lwt + n*n + 1),iinfo)
-                     
+
            ! (5) copy the factor r_tsqr stored in the square matrix in the
            ! work array work(lwt+1:lwt+n*n) into the upper-triangular
            ! part of a.
@@ -17184,7 +17184,7 @@ module stdlib_linalg_lapack_w
      !> ZGGBAL.
 
      pure subroutine stdlib_wggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17251,7 +17251,7 @@ module stdlib_linalg_lapack_w
               end if
            end if
            ! backward permutation
-30   continue
+           30 continue
            if (stdlib_lsame(job,'P') .or. stdlib_lsame(job,'B')) then
               ! backward permutation on right eigenvectors
               if (rightv) then
@@ -17261,7 +17261,7 @@ module stdlib_linalg_lapack_w
                     if (k == i) cycle loop_40
                     call stdlib_wswap(m,v(i,1),ldv,v(k,1),ldv)
                  end do loop_40
-50               continue
+                 50 continue
                  if (ihi == n) go to 70
                  loop_60: do i = ihi + 1,n
                     k = int(rscale(i),KIND=ilp)
@@ -17270,7 +17270,7 @@ module stdlib_linalg_lapack_w
                  end do loop_60
               end if
               ! backward permutation on left eigenvectors
-70   continue
+              70 continue
               if (leftv) then
                  if (ilo == 1) go to 90
                  loop_80: do i = ilo - 1,1,-1
@@ -17278,7 +17278,7 @@ module stdlib_linalg_lapack_w
                     if (k == i) cycle loop_80
                     call stdlib_wswap(m,v(i,1),ldv,v(k,1),ldv)
                  end do loop_80
-90               continue
+                 90 continue
                  if (ihi == n) go to 110
                  loop_100: do i = ihi + 1,n
                     k = int(lscale(i),KIND=ilp)
@@ -17287,7 +17287,7 @@ module stdlib_linalg_lapack_w
                  end do loop_100
               end if
            end if
-110        continue
+           110 continue
            return
      end subroutine stdlib_wggbak
 
@@ -17302,7 +17302,7 @@ module stdlib_linalg_lapack_w
      !> generalized eigenvalue problem A*x = lambda*B*x.
 
      pure subroutine stdlib_wggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -17316,7 +17316,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sclfac = 1.0e+1_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,icab,iflow,ip1,ir,irab,it,j,jc,jp1,k,kount,l,lcab,lm1, &
                      lrab,lsfmax,lsfmin,m,nr,nrp2
@@ -17374,13 +17374,13 @@ module stdlib_linalg_lapack_w
            go to 30
            ! permute the matrices a and b to isolate the eigenvalues.
            ! find row with one nonzero in columns 1 through l
-20   continue
+           20 continue
            l = lm1
            if (l /= 1) go to 30
            rscale(1) = 1
            lscale(1) = 1
            go to 190
-30         continue
+           30 continue
            lm1 = l - 1
            loop_80: do i = l,1,-1
               do j = 1,lm1
@@ -17389,21 +17389,21 @@ module stdlib_linalg_lapack_w
               end do
               j = l
               go to 70
-50            continue
+              50 continue
               do j = jp1,l
                  if (a(i,j) /= czero .or. b(i,j) /= czero) cycle loop_80
               end do
               j = jp1 - 1
-70            continue
+              70 continue
               m = l
               iflow = 1
               go to 160
            end do loop_80
            go to 100
            ! find column with one nonzero in rows k through n
-90   continue
+           90 continue
            k = k + 1
-100        continue
+           100 continue
            loop_150: do j = k,l
               do i = k,lm1
                  ip1 = i + 1
@@ -17411,32 +17411,32 @@ module stdlib_linalg_lapack_w
               end do
               i = l
               go to 140
-120           continue
+              120 continue
               do i = ip1,l
                  if (a(i,j) /= czero .or. b(i,j) /= czero) cycle loop_150
               end do
               i = ip1 - 1
-140           continue
+              140 continue
               m = k
               iflow = 2
               go to 160
            end do loop_150
            go to 190
            ! permute rows m and i
-160  continue
+           160 continue
            lscale(m) = i
            if (i == m) go to 170
            call stdlib_wswap(n - k + 1,a(i,k),lda,a(m,k),lda)
            call stdlib_wswap(n - k + 1,b(i,k),ldb,b(m,k),ldb)
            ! permute columns m and j
-170  continue
+           170 continue
            rscale(m) = j
            if (j == m) go to 180
            call stdlib_wswap(l,a(1,j),1,a(1,m),1)
            call stdlib_wswap(l,b(1,j),1,b(1,m),1)
-180        continue
+           180 continue
            go to(20,90) iflow
-190        continue
+           190 continue
            ilo = k
            ihi = l
            if (stdlib_lsame(job,'P')) then
@@ -17468,13 +17468,13 @@ module stdlib_linalg_lapack_w
                     go to 210
                  end if
                  ta = log10(cabs1(a(i,j)))/basl
-210              continue
+                 210 continue
                  if (b(i,j) == czero) then
                     tb = zero
                     go to 220
                  end if
                  tb = log10(cabs1(b(i,j)))/basl
-220              continue
+                 220 continue
                  work(i + 4*n) = work(i + 4*n) - ta - tb
                  work(j + 5*n) = work(j + 5*n) - ta - tb
               end do
@@ -17486,7 +17486,7 @@ module stdlib_linalg_lapack_w
            beta = zero
            it = 1
            ! start generalized conjugate gradient iteration
-250  continue
+           250 continue
            gamma = stdlib_qdot(nr,work(ilo + 4*n),1,work(ilo + 4*n),1) + stdlib_qdot(nr, &
                      work(ilo + 5*n),1,work(ilo + 5*n),1)
            ew = zero
@@ -17516,7 +17516,7 @@ module stdlib_linalg_lapack_w
                  if (a(i,j) == czero) go to 280
                  kount = kount + 1
                  sum = sum + work(j)
-280              continue
+                 280 continue
                  if (b(i,j) == czero) cycle loop_290
                  kount = kount + 1
                  sum = sum + work(j)
@@ -17530,7 +17530,7 @@ module stdlib_linalg_lapack_w
                  if (a(i,j) == czero) go to 310
                  kount = kount + 1
                  sum = sum + work(i + n)
-310              continue
+                 310 continue
                  if (b(i,j) == czero) cycle loop_320
                  kount = kount + 1
                  sum = sum + work(i + n)
@@ -17557,7 +17557,7 @@ module stdlib_linalg_lapack_w
            it = it + 1
            if (it <= nrp2) go to 250
            ! end generalized conjugate gradient iteration
-350  continue
+           350 continue
            sfmin = stdlib_qlamch('S')
            sfmax = one/sfmin
            lsfmin = int(log10(sfmin)/basl + one,KIND=ilp)
@@ -17628,11 +17628,11 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
-                     
+
            ! Function Arguments
            procedure(stdlib_selctg_w) :: selctg
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: cursl,ilascl,ilbscl,ilvsl,ilvsr,lastsl,lquery,wantst
            integer(ilp) :: i,icols,ierr,ihi,ijobvl,ijobvr,ileft,ilo,iright,irows,irwrk, &
@@ -17698,7 +17698,7 @@ module stdlib_linalg_lapack_w
               lwkopt = max(lwkopt,n + n*stdlib_ilaenv(1,'ZUNMQR',' ',n,1,n,-1))
               if (ilvsl) then
                  lwkopt = max(lwkopt,n + n*stdlib_ilaenv(1,'ZUNGQR',' ',n,1,n,-1))
-                           
+
               end if
               work(1) = lwkopt
               if (lwork < lwkmin .and. .not. lquery) info = -18
@@ -17801,16 +17801,16 @@ module stdlib_linalg_lapack_w
            if (wantst) then
               ! undo scaling on eigenvalues before selecting
               if (ilascl) call stdlib_wlascl('G',0,0,anrm,anrmto,n,1,alpha,n,ierr)
-                        
+
               if (ilbscl) call stdlib_wlascl('G',0,0,bnrm,bnrmto,n,1,beta,n,ierr)
-                        
+
               ! select eigenvalues
               do i = 1,n
                  bwork(i) = selctg(alpha(i),beta(i))
               end do
               call stdlib_wtgsen(0,ilvsl,ilvsr,bwork,n,a,lda,b,ldb,alpha,beta,vsl, &
               ldvsl,vsr,ldvsr,sdim,pvsl,pvsr,dif,work(iwrk),lwork - iwrk + 1,idum,1,ierr)
-                        
+
               if (ierr == 1) info = n + 3
            end if
            ! apply back-permutation to vsl and vsr
@@ -17839,7 +17839,7 @@ module stdlib_linalg_lapack_w
                  lastsl = cursl
               end do
            end if
-30         continue
+           30 continue
            work(1) = lwkopt
            return
      end subroutine stdlib_wgges
@@ -17879,11 +17879,11 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
-                     
+
            ! Function Arguments
            procedure(stdlib_selctg_w) :: selctg
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: cursl,ilascl,ilbscl,ilvsl,ilvsr,lastsl,lquery,wantst
            integer(ilp) :: i,icols,ierr,ihi,ijobvl,ijobvr,ileft,ilo,iright,irows,irwrk, &
@@ -18052,16 +18052,16 @@ module stdlib_linalg_lapack_w
            if (wantst) then
               ! undo scaling on eigenvalues before selecting
               if (ilascl) call stdlib_wlascl('G',0,0,anrm,anrmto,n,1,alpha,n,ierr)
-                        
+
               if (ilbscl) call stdlib_wlascl('G',0,0,bnrm,bnrmto,n,1,beta,n,ierr)
-                        
+
               ! select eigenvalues
               do i = 1,n
                  bwork(i) = selctg(alpha(i),beta(i))
               end do
               call stdlib_wtgsen(0,ilvsl,ilvsr,bwork,n,a,lda,b,ldb,alpha,beta,vsl, &
               ldvsl,vsr,ldvsr,sdim,pvsl,pvsr,dif,work(iwrk),lwork - iwrk + 1,idum,1,ierr)
-                        
+
               if (ierr == 1) info = n + 3
            end if
            ! apply back-permutation to vsl and vsr
@@ -18089,7 +18089,7 @@ module stdlib_linalg_lapack_w
                  lastsl = cursl
               end do
            end if
-30         continue
+           30 continue
            work(1) = cmplx(lwkopt,KIND=qp)
            return
      end subroutine stdlib_wgges3
@@ -18119,7 +18119,7 @@ module stdlib_linalg_lapack_w
 
      subroutine stdlib_wggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
       beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,rwork,iwork,liwork,bwork,info)
-                
+
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18133,11 +18133,11 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: rconde(2),rcondv(2),rwork(*)
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: alpha(*),beta(*),vsl(ldvsl,*),vsr(ldvsr,*),work(*)
-                     
+
            ! Function Arguments
            procedure(stdlib_selctg_w) :: selctg
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: cursl,ilascl,ilbscl,ilvsl,ilvsr,lastsl,lquery,wantsb,wantse, &
                      wantsn,wantst,wantsv
@@ -18218,7 +18218,7 @@ module stdlib_linalg_lapack_w
                  minwrk = 2*n
                  maxwrk = n*(1 + stdlib_ilaenv(1,'ZGEQRF',' ',n,1,n,0))
                  maxwrk = max(maxwrk,n*(1 + stdlib_ilaenv(1,'ZUNMQR',' ',n,1,n,-1)))
-                           
+
                  if (ilvsl) then
                     maxwrk = max(maxwrk,n*(1 + stdlib_ilaenv(1,'ZUNGQR',' ',n,1,n,-1)) &
                               )
@@ -18341,9 +18341,9 @@ module stdlib_linalg_lapack_w
            if (wantst) then
               ! undo scaling on eigenvalues before selctging
               if (ilascl) call stdlib_wlascl('G',0,0,anrmto,anrm,n,1,alpha,n,ierr)
-                        
+
               if (ilbscl) call stdlib_wlascl('G',0,0,bnrmto,bnrm,n,1,beta,n,ierr)
-                        
+
               ! select eigenvalues
               do i = 1,n
                  bwork(i) = selctg(alpha(i),beta(i))
@@ -18397,7 +18397,7 @@ module stdlib_linalg_lapack_w
                  lastsl = cursl
               end do
            end if
-40         continue
+           40 continue
            work(1) = maxwrk
            iwork(1) = liwmin
            return
@@ -18433,7 +18433,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: ilascl,ilbscl,ilv,ilvl,ilvr,lquery
            character :: chtemp
@@ -18503,7 +18503,7 @@ module stdlib_linalg_lapack_w
               lwkopt = max(lwkopt,n + n*stdlib_ilaenv(1,'ZUNMQR',' ',n,1,n,0))
               if (ilvl) then
                  lwkopt = max(lwkopt,n + n*stdlib_ilaenv(1,'ZUNGQR',' ',n,1,n,-1))
-                           
+
               end if
               work(1) = lwkopt
               if (lwork < lwkmin .and. .not. lquery) info = -15
@@ -18665,7 +18665,7 @@ module stdlib_linalg_lapack_w
               end if
            end if
            ! undo scaling if necessary
-70   continue
+           70 continue
            if (ilascl) call stdlib_wlascl('G',0,0,anrmto,anrm,n,1,alpha,n,ierr)
            if (ilbscl) call stdlib_wlascl('G',0,0,bnrmto,bnrm,n,1,beta,n,ierr)
            work(1) = lwkopt
@@ -18702,7 +18702,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: ilascl,ilbscl,ilv,ilvl,ilvr,lquery
            character :: chtemp
@@ -18936,7 +18936,7 @@ module stdlib_linalg_lapack_w
               end if
            end if
            ! undo scaling if necessary
-70   continue
+           70 continue
            if (ilascl) call stdlib_wlascl('G',0,0,anrmto,anrm,n,1,alpha,n,ierr)
            if (ilbscl) call stdlib_wlascl('G',0,0,bnrmto,bnrm,n,1,beta,n,ierr)
            work(1) = cmplx(lwkopt,KIND=qp)
@@ -18982,7 +18982,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: alpha(*),beta(*),vl(ldvl,*),vr(ldvr,*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: ilascl,ilbscl,ilv,ilvl,ilvr,lquery,noscl,wantsb,wantse,wantsn, &
                      wantsv
@@ -19070,12 +19070,12 @@ module stdlib_linalg_lapack_w
                  end if
                  maxwrk = minwrk
                  maxwrk = max(maxwrk,n + n*stdlib_ilaenv(1,'ZGEQRF',' ',n,1,n,0))
-                           
+
                  maxwrk = max(maxwrk,n + n*stdlib_ilaenv(1,'ZUNMQR',' ',n,1,n,0))
-                           
+
                  if (ilvl) then
                     maxwrk = max(maxwrk,n + n*stdlib_ilaenv(1,'ZUNGQR',' ',n,1,n,0))
-                              
+
                  end if
               end if
               work(1) = maxwrk
@@ -19123,7 +19123,7 @@ module stdlib_linalg_lapack_w
            ! permute and/or balance the matrix pair (a,b)
            ! (real workspace: need 6*n if balanc = 's' or 'b', 1 otherwise)
            call stdlib_wggbal(balanc,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,rwork,ierr)
-                     
+
            ! compute abnrm and bbnrm
            abnrm = stdlib_wlange('1',n,n,a,lda,rwork(1))
            if (ilascl) then
@@ -19254,7 +19254,7 @@ module stdlib_linalg_lapack_w
            ! (workspace: none needed)
            if (ilvl) then
               call stdlib_wggbak(balanc,'L',n,ilo,ihi,lscale,rscale,n,vl,ldvl,ierr)
-                        
+
               loop_50: do jc = 1,n
                  temp = zero
                  do jr = 1,n
@@ -19269,7 +19269,7 @@ module stdlib_linalg_lapack_w
            end if
            if (ilvr) then
               call stdlib_wggbak(balanc,'R',n,ilo,ihi,lscale,rscale,n,vr,ldvr,ierr)
-                        
+
               loop_80: do jc = 1,n
                  temp = zero
                  do jr = 1,n
@@ -19283,7 +19283,7 @@ module stdlib_linalg_lapack_w
               end do loop_80
            end if
            ! undo scaling if necessary
-90   continue
+           90 continue
            if (ilascl) call stdlib_wlascl('G',0,0,anrmto,anrm,n,1,alpha,n,ierr)
            if (ilbscl) call stdlib_wlascl('G',0,0,bnrmto,bnrm,n,1,beta,n,ierr)
            work(1) = maxwrk
@@ -19320,7 +19320,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),d(*)
            complex(qp),intent(out) :: work(*),x(*),y(*)
         ! ===================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,lopt,lwkmin,lwkopt,nb,nb1,nb2,nb3,nb4,np
@@ -19411,7 +19411,7 @@ module stdlib_linalg_lapack_w
            ! solve triangular system: r11*x = d1
            if (m > 0) then
               call stdlib_wtrtrs('UPPER','NO TRANSPOSE','NON UNIT',m,1,a,lda,d,m,info)
-                        
+
               if (info > 0) then
                  info = 2
                  return
@@ -19465,7 +19465,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: blk22,initq,initz,lquery,wantq,wantz
            character :: compq2,compz2
@@ -19564,7 +19564,7 @@ module stdlib_linalg_lapack_w
                  pw = nblst*nblst + 1
                  do i = 1,n2nb
                     call stdlib_wlaset('ALL',2*nnb,2*nnb,czero,cone,work(pw),2*nnb)
-                              
+
                     pw = pw + 4*nnb*nnb
                  end do
                  ! reduce columns jcol:jcol+nnb-1 of a to hessenberg form.
@@ -19634,7 +19634,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wlartg(temp,b(jj + 1,jj),c,s,b(jj + 1,jj + 1))
                           b(jj + 1,jj) = czero
                           call stdlib_wrot(jj - top,b(top + 1,jj + 1),1,b(top + 1,jj),1,c,s)
-                                    
+
                           a(jj + 1,j) = cmplx(c,KIND=qp)
                           b(jj + 1,j) = -conjg(s)
                        end if
@@ -19690,7 +19690,7 @@ module stdlib_linalg_lapack_w
                                  len*nblst + 1),nblst,work(pw + len),1)
                        call stdlib_wgemv('CONJUGATE',len,nblst - len,cone,work((len + 1)*nblst - &
                        len + 1),nblst,a(jrow + nblst - len,j + 1),1,cone,work(pw + len),1)
-                                 
+
                        ppw = pw
                        do i = jrow,jrow + nblst - 1
                           a(i,j + 1) = work(ppw)
@@ -19742,7 +19742,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_wgemm('CONJUGATE','NO TRANSPOSE',nblst,cola,nblst,cone,work, &
                            nblst,a(j,jcol + nnb),lda,czero,work(pw),nblst)
                  call stdlib_wlacpy('ALL',nblst,cola,work(pw),nblst,a(j,jcol + nnb),lda)
-                           
+
                  ppwo = nblst*nblst + 1
                  j0 = j - nnb
                  do j = j0,jcol + 1,-nnb
@@ -19759,7 +19759,7 @@ module stdlib_linalg_lapack_w
                        ! ignore the structure of u.
                        call stdlib_wgemm('CONJUGATE','NO TRANSPOSE',2*nnb,cola,2*nnb,cone, &
                        work(ppwo),2*nnb,a(j,jcol + nnb),lda,czero,work(pw),2*nnb)
-                                 
+
                        call stdlib_wlacpy('ALL',2*nnb,cola,work(pw),2*nnb,a(j,jcol + nnb), &
                                   lda)
                     end if
@@ -19778,7 +19778,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',nh,nblst,nblst,cone,q( &
                               topq,j),ldq,work,nblst,czero,work(pw),nh)
                     call stdlib_wlacpy('ALL',nh,nblst,work(pw),nh,q(topq,j),ldq)
-                              
+
                     ppwo = nblst*nblst + 1
                     j0 = j - nnb
                     do j = j0,jcol + 1,-nnb
@@ -19794,9 +19794,9 @@ module stdlib_linalg_lapack_w
                           ! ignore the structure of u.
                           call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',nh,2*nnb,2*nnb, &
                           cone,q(topq,j),ldq,work(ppwo),2*nnb,czero,work(pw),nh)
-                                    
+
                           call stdlib_wlacpy('ALL',nh,2*nnb,work(pw),nh,q(topq,j),ldq)
-                                    
+
                        end if
                        ppwo = ppwo + 4*nnb*nnb
                     end do
@@ -19809,7 +19809,7 @@ module stdlib_linalg_lapack_w
                     pw = nblst*nblst + 1
                     do i = 1,n2nb
                        call stdlib_wlaset('ALL',2*nnb,2*nnb,czero,cone,work(pw),2*nnb)
-                                 
+
                        pw = pw + 4*nnb*nnb
                     end do
                     ! accumulate givens rotations into workspace array.
@@ -19863,7 +19863,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',top,nblst,nblst,cone,a( &
                               1,j),lda,work,nblst,czero,work(pw),top)
                     call stdlib_wlacpy('ALL',top,nblst,work(pw),top,a(1,j),lda)
-                              
+
                     ppwo = nblst*nblst + 1
                     j0 = j - nnb
                     do j = j0,jcol + 1,-nnb
@@ -19875,9 +19875,9 @@ module stdlib_linalg_lapack_w
                           ! ignore the structure of u.
                           call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',top,2*nnb,2*nnb, &
                           cone,a(1,j),lda,work(ppwo),2*nnb,czero,work(pw),top)
-                                    
+
                           call stdlib_wlacpy('ALL',top,2*nnb,work(pw),top,a(1,j),lda)
-                                    
+
                        end if
                        ppwo = ppwo + 4*nnb*nnb
                     end do
@@ -19885,7 +19885,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',top,nblst,nblst,cone,b( &
                               1,j),ldb,work,nblst,czero,work(pw),top)
                     call stdlib_wlacpy('ALL',top,nblst,work(pw),top,b(1,j),ldb)
-                              
+
                     ppwo = nblst*nblst + 1
                     j0 = j - nnb
                     do j = j0,jcol + 1,-nnb
@@ -19897,9 +19897,9 @@ module stdlib_linalg_lapack_w
                           ! ignore the structure of u.
                           call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',top,2*nnb,2*nnb, &
                           cone,b(1,j),ldb,work(ppwo),2*nnb,czero,work(pw),top)
-                                    
+
                           call stdlib_wlacpy('ALL',top,2*nnb,work(pw),top,b(1,j),ldb)
-                                    
+
                        end if
                        ppwo = ppwo + 4*nnb*nnb
                     end do
@@ -19917,7 +19917,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',nh,nblst,nblst,cone,z( &
                               topq,j),ldz,work,nblst,czero,work(pw),nh)
                     call stdlib_wlacpy('ALL',nh,nblst,work(pw),nh,z(topq,j),ldz)
-                              
+
                     ppwo = nblst*nblst + 1
                     j0 = j - nnb
                     do j = j0,jcol + 1,-nnb
@@ -19933,9 +19933,9 @@ module stdlib_linalg_lapack_w
                           ! ignore the structure of u.
                           call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',nh,2*nnb,2*nnb, &
                           cone,z(topq,j),ldz,work(ppwo),2*nnb,czero,work(pw),nh)
-                                    
+
                           call stdlib_wlacpy('ALL',nh,2*nnb,work(pw),nh,z(topq,j),ldz)
-                                    
+
                        end if
                        ppwo = ppwo + 4*nnb*nnb
                     end do
@@ -19992,7 +19992,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: ilq,ilz
            integer(ilp) :: icompq,icompz,jcol,jrow
@@ -20071,11 +20071,11 @@ module stdlib_linalg_lapack_w
                  call stdlib_wlartg(ctemp,a(jrow,jcol),c,s,a(jrow - 1,jcol))
                  a(jrow,jcol) = czero
                  call stdlib_wrot(n - jcol,a(jrow - 1,jcol + 1),lda,a(jrow,jcol + 1),lda,c,s)
-                           
+
                  call stdlib_wrot(n + 2 - jrow,b(jrow - 1,jrow - 1),ldb,b(jrow,jrow - 1),ldb,c, &
                            s)
                  if (ilq) call stdlib_wrot(n,q(1,jrow - 1),1,q(1,jrow),1,c,conjg(s))
-                           
+
                  ! step 2: rotate columns jrow, jrow-1 to kill b(jrow,jrow-1)
                  ctemp = b(jrow,jrow)
                  call stdlib_wlartg(ctemp,b(jrow,jrow - 1),c,s,b(jrow,jrow))
@@ -20112,7 +20112,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),c(*),d(*)
            complex(qp),intent(out) :: work(*),x(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: lopt,lwkmin,lwkopt,mn,nb,nb1,nb2,nb3,nb4,nr
@@ -20240,7 +20240,7 @@ module stdlib_linalg_lapack_w
      !> conjugate transpose of matrix Z.
 
      pure subroutine stdlib_wggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -20318,7 +20318,7 @@ module stdlib_linalg_lapack_w
      !> conjugate transpose of the matrix Z.
 
      pure subroutine stdlib_wggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -20396,7 +20396,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: work(lwork)
            real(qp),intent(inout) :: sva(n)
         ! =====================================================================
-           
+
            ! Local Scalars
            complex(qp) :: aapq,ompq
            real(qp) :: aapp,aapp0,aapq1,aaqq,apoaq,aqoap,big,bigtheta,cs,mxaapq,mxsinj, &
@@ -20589,19 +20589,19 @@ module stdlib_linalg_lapack_w
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
                        ! Choose Correct Signum For Theta And Rotate
                                          thsign = -sign(one,aapq1)
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-                                                   
+
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_wrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -20666,7 +20666,7 @@ module stdlib_linalg_lapack_w
                              end if
                           end do loop_2002
            ! end q-loop
-2103 continue
+           2103 continue
            ! bailed out of q-loop
                           sva(p) = aapp
                        else
@@ -20753,7 +20753,7 @@ module stdlib_linalg_lapack_w
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
@@ -20761,12 +20761,12 @@ module stdlib_linalg_lapack_w
                                          thsign = -sign(one,aapq1)
                                          if (aaqq > aapp0) thsign = -thsign
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-                                                   
+
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_wrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -20785,11 +20785,11 @@ module stdlib_linalg_lapack_w
                                          call stdlib_wlascl('G',0,0,aaqq,one,m,1,a(1,q), &
                                                     lda,ierr)
                                          call stdlib_waxpy(m,-aapq,work,1,a(1,q),1)
-                                                   
+
                                          call stdlib_wlascl('G',0,0,one,aaqq,m,1,a(1,q), &
                                                     lda,ierr)
                                          sva(q) = aaqq*sqrt(max(zero,one - aapq1*aapq1))
-                                                   
+
                                          mxsinj = max(mxsinj,sfmin)
                                     else
                                         call stdlib_wcopy(m,a(1,q),1,work,1)
@@ -20802,7 +20802,7 @@ module stdlib_linalg_lapack_w
                                          call stdlib_wlascl('G',0,0,one,aapp,m,1,a(1,p), &
                                                     lda,ierr)
                                          sva(p) = aapp*sqrt(max(zero,one - aapq1*aapq1))
-                                                   
+
                                          mxsinj = max(mxsinj,sfmin)
                                     end if
                                    end if
@@ -20854,7 +20854,7 @@ module stdlib_linalg_lapack_w
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203 continue
+              2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1,n) - jgl + 1
@@ -20864,7 +20864,7 @@ module stdlib_linalg_lapack_w
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011 continue
+           2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl,min(igl + kbl - 1,n)
                     sva(p) = abs(sva(p))
@@ -20893,12 +20893,12 @@ module stdlib_linalg_lapack_w
        ! #:( reaching this point means that the procedure has not converged.
            info = nsweep - 1
            go to 1995
-1994       continue
+           1994 continue
        ! #:) reaching this point means numerical convergence after the i-th
            ! sweep.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995 continue
+       1995 continue
            ! sort the vector sva() of column norms.
            do p = 1,n - 1
               q = stdlib_iqamax(n - p + 1,sva(p),1) + p - 1
@@ -20956,7 +20956,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: work(lwork)
            real(qp),intent(inout) :: sva(n)
         ! =====================================================================
-           
+
            ! Local Scalars
            complex(qp) :: aapq,ompq
            real(qp) :: aapp,aapp0,aapq1,aaqq,apoaq,aqoap,big,bigtheta,cs,mxaapq,mxsinj, &
@@ -21126,7 +21126,7 @@ module stdlib_linalg_lapack_w
                                                        conjg(ompq)*t)
                                          end if
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          mxsinj = max(mxsinj,abs(t))
                                       else
@@ -21134,12 +21134,12 @@ module stdlib_linalg_lapack_w
                                          thsign = -sign(one,aapq1)
                                          if (aaqq > aapp0) thsign = -thsign
                                          t = one/(theta + thsign*sqrt(one + theta*theta))
-                                                   
+
                                          cs = sqrt(one/(one + t*t))
                                          sn = t*cs
                                          mxsinj = max(mxsinj,abs(sn))
                                          sva(q) = aaqq*sqrt(max(zero,one + t*apoaq*aapq1))
-                                                   
+
                                          aapp = aapp*sqrt(max(zero,one - t*aqoap*aapq1))
                                          call stdlib_wrot(m,a(1,p),1,a(1,q),1,cs,conjg(ompq) &
                                                    *sn)
@@ -21158,11 +21158,11 @@ module stdlib_linalg_lapack_w
                                          call stdlib_wlascl('G',0,0,aaqq,one,m,1,a(1,q), &
                                                     lda,ierr)
                                          call stdlib_waxpy(m,-aapq,work,1,a(1,q),1)
-                                                   
+
                                          call stdlib_wlascl('G',0,0,one,aaqq,m,1,a(1,q), &
                                                     lda,ierr)
                                          sva(q) = aaqq*sqrt(max(zero,one - aapq1*aapq1))
-                                                   
+
                                          mxsinj = max(mxsinj,sfmin)
                                     else
                                         call stdlib_wcopy(m,a(1,q),1,work,1)
@@ -21175,7 +21175,7 @@ module stdlib_linalg_lapack_w
                                          call stdlib_wlascl('G',0,0,one,aapp,m,1,a(1,p), &
                                                     lda,ierr)
                                          sva(p) = aapp*sqrt(max(zero,one - aapq1*aapq1))
-                                                   
+
                                          mxsinj = max(mxsinj,sfmin)
                                     end if
                                    end if
@@ -21227,7 +21227,7 @@ module stdlib_linalg_lapack_w
                              end if
                           end do loop_2200
               ! end of the q-loop
-2203 continue
+              2203 continue
                           sva(p) = aapp
                        else
                           if (aapp == zero) notrot = notrot + min(jgl + kbl - 1,n) - jgl + 1
@@ -21237,7 +21237,7 @@ module stdlib_linalg_lapack_w
            ! end of the p-loop
                  end do loop_2010
            ! end of the jbc-loop
-2011 continue
+           2011 continue
       ! 2011 bailed out of the jbc-loop
                  do p = igl,min(igl + kbl - 1,n)
                     sva(p) = abs(sva(p))
@@ -21266,12 +21266,12 @@ module stdlib_linalg_lapack_w
        ! #:( reaching this point means that the procedure has not converged.
            info = nsweep - 1
            go to 1995
-1994       continue
+           1994 continue
        ! #:) reaching this point means numerical convergence after the i-th
            ! sweep.
            info = 0
        ! #:) info = 0 confirms successful iterations.
-1995 continue
+       1995 continue
            ! sort the vector sva() of column norms.
            do p = 1,n - 1
               q = stdlib_iqamax(n - p + 1,sva(p),1) + p - 1
@@ -21296,7 +21296,7 @@ module stdlib_linalg_lapack_w
      !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
      pure subroutine stdlib_wgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -21311,7 +21311,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: d(*),dl(*),du(*),du2(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: onenrm
            integer(ilp) :: i,kase,kase1
@@ -21354,13 +21354,13 @@ module stdlib_linalg_lapack_w
               kase1 = 2
            end if
            kase = 0
-20         continue
+           20 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (kase == kase1) then
                  ! multiply by inv(u)*inv(l).
                  call stdlib_wgttrs('NO TRANSPOSE',n,1,dl,d,du,du2,ipiv,work,n,info)
-                           
+
               else
                  ! multiply by inv(l**h)*inv(u**h).
                  call stdlib_wgttrs('CONJUGATE TRANSPOSE',n,1,dl,d,du,du2,ipiv,work,n, &
@@ -21390,13 +21390,13 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(in) :: ipiv(*)
            real(qp),intent(out) :: berr(*),ferr(*),rwork(*)
            complex(qp),intent(in) :: b(ldb,*),d(*),df(*),dl(*),dlf(*),du(*),du2(*),duf(*)
-                     
+
            complex(qp),intent(out) :: work(*)
            complex(qp),intent(inout) :: x(ldx,*)
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: notran
            character :: transn,transt
@@ -21456,13 +21456,13 @@ module stdlib_linalg_lapack_w
            loop_110: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - op(a) * x,
               ! where op(a) = a, a**t, or a**h, depending on trans.
               call stdlib_wcopy(n,b(1,j),1,work,1)
               call stdlib_wlagtm(trans,n,1,-one,dl,d,du,x(1,j),ldx,one,work,n)
-                        
+
               ! compute abs(op(a))*abs(x) + abs(b) for use in the backward
               ! error bound.
               if (notran) then
@@ -21474,7 +21474,7 @@ module stdlib_linalg_lapack_w
                     do i = 2,n - 1
                        rwork(i) = cabs1(b(i,j)) + cabs1(dl(i - 1))*cabs1(x(i - 1,j)) + &
                        cabs1(d(i))*cabs1(x(i,j)) + cabs1(du(i))*cabs1(x(i + 1,j))
-                                 
+
                     end do
                     rwork(n) = cabs1(b(n,j)) + cabs1(dl(n - 1))*cabs1(x(n - 1,j)) + &
                               cabs1(d(n))*cabs1(x(n,j))
@@ -21488,7 +21488,7 @@ module stdlib_linalg_lapack_w
                     do i = 2,n - 1
                        rwork(i) = cabs1(b(i,j)) + cabs1(du(i - 1))*cabs1(x(i - 1,j)) + &
                        cabs1(d(i))*cabs1(x(i,j)) + cabs1(dl(i))*cabs1(x(i + 1,j))
-                                 
+
                     end do
                     rwork(n) = cabs1(b(n,j)) + cabs1(du(n - 1))*cabs1(x(n - 1,j)) + &
                               cabs1(d(n))*cabs1(x(n,j))
@@ -21547,13 +21547,13 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-70            continue
+              70 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
                     ! multiply by diag(w)*inv(op(a)**h).
                     call stdlib_wgttrs(transt,n,1,dlf,df,duf,du2,ipiv,work,n,info)
-                              
+
                     do i = 1,n
                        work(i) = rwork(i)*work(i)
                     end do
@@ -21563,7 +21563,7 @@ module stdlib_linalg_lapack_w
                        work(i) = rwork(i)*work(i)
                     end do
                     call stdlib_wgttrs(transn,n,1,dlf,df,duf,du2,ipiv,work,n,info)
-                              
+
                  end if
                  go to 70
               end if
@@ -21594,7 +21594,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: b(ldb,*),d(*),dl(*),du(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: j,k
            complex(qp) :: mult,temp,zdum
@@ -21663,7 +21663,7 @@ module stdlib_linalg_lapack_w
               if (n > 1) b(n - 1,j) = (b(n - 1,j) - du(n - 1)*b(n,j))/d(n - 1)
               do k = n - 2,1,-1
                  b(k,j) = (b(k,j) - du(k)*b(k + 1,j) - dl(k)*b(k + 2,j))/d(k)
-                           
+
               end do
            end do
            return
@@ -21693,7 +21693,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: df(*),dlf(*),du2(*),duf(*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nofact,notran
            character :: norm
@@ -21777,7 +21777,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: d(*),dl(*),du(*)
            complex(qp),intent(out) :: du2(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            complex(qp) :: fact,temp,zdum
@@ -21849,7 +21849,7 @@ module stdlib_linalg_lapack_w
                  go to 50
               end if
            end do
-50         continue
+           50 continue
            return
      end subroutine stdlib_wgttrf
 
@@ -21948,7 +21948,7 @@ module stdlib_linalg_lapack_w
               ! overwriting each right hand side vector with its solution.
               if (nrhs <= 1) then
                  j = 1
-10               continue
+                 10 continue
                  ! solve l*x = b.
                  do i = 1,n - 1
                     if (ipiv(i) == i) then
@@ -21964,7 +21964,7 @@ module stdlib_linalg_lapack_w
                  if (n > 1) b(n - 1,j) = (b(n - 1,j) - du(n - 1)*b(n,j))/d(n - 1)
                  do i = n - 2,1,-1
                     b(i,j) = (b(i,j) - du(i)*b(i + 1,j) - du2(i)*b(i + 2,j))/d(i)
-                              
+
                  end do
                  if (j < nrhs) then
                     j = j + 1
@@ -21987,7 +21987,7 @@ module stdlib_linalg_lapack_w
                     if (n > 1) b(n - 1,j) = (b(n - 1,j) - du(n - 1)*b(n,j))/d(n - 1)
                     do i = n - 2,1,-1
                        b(i,j) = (b(i,j) - du(i)*b(i + 1,j) - du2(i)*b(i + 2,j))/d(i)
-                                 
+
                     end do
                  end do
               end if
@@ -21995,7 +21995,7 @@ module stdlib_linalg_lapack_w
               ! solve a**t * x = b.
               if (nrhs <= 1) then
                  j = 1
-70               continue
+                 70 continue
                  ! solve u**t * x = b.
                  b(1,j) = b(1,j)/d(1)
                  if (n > 1) b(2,j) = (b(2,j) - du(1)*b(1,j))/d(2)
@@ -22042,11 +22042,11 @@ module stdlib_linalg_lapack_w
               ! solve a**h * x = b.
               if (nrhs <= 1) then
                  j = 1
-130              continue
+                 130 continue
                  ! solve u**h * x = b.
                  b(1,j) = b(1,j)/conjg(d(1))
                  if (n > 1) b(2,j) = (b(2,j) - conjg(du(1))*b(1,j))/conjg(d(2))
-                           
+
                  do i = 3,n
                     b(i,j) = (b(i,j) - conjg(du(i - 1))*b(i - 1,j) - conjg(du2(i - 2))*b( &
                               i - 2,j))/conjg(d(i))
@@ -22070,7 +22070,7 @@ module stdlib_linalg_lapack_w
                  ! solve u**h * x = b.
                     b(1,j) = b(1,j)/conjg(d(1))
                     if (n > 1) b(2,j) = (b(2,j) - conjg(du(1))*b(1,j))/conjg(d(2))
-                              
+
                     do i = 3,n
                        b(i,j) = (b(i,j) - conjg(du(i - 1))*b(i - 1,j) - conjg(du2(i - 2)) &
                                  *b(i - 2,j))/conjg(d(i))
@@ -22106,7 +22106,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: v(*),tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,j1,j2,lm,ln,vpos,taupos,dpos,ofdpos,ajeter
@@ -22195,7 +22195,7 @@ module stdlib_linalg_lapack_w
                        a(ofdpos + i,st - 1) = czero
                    end do
                    call stdlib_wlarfg(lm,a(ofdpos,st - 1),v(vpos + 1),1,tau(taupos))
-                             
+
                    lm = ed - st + 1
                    call stdlib_wlarfy(uplo,lm,v(vpos),1,conjg(tau(taupos)),a(dpos,st) &
                              ,lda - 1,work)
@@ -22226,7 +22226,7 @@ module stdlib_linalg_lapack_w
                            a(dpos + nb + i,st) = czero
                        end do
                        call stdlib_wlarfg(lm,a(dpos + nb,st),v(vpos + 1),1,tau(taupos))
-                                 
+
                        call stdlib_wlarfx('LEFT',lm,ln - 1,v(vpos),conjg(tau(taupos)),a( &
                                  dpos + nb - 1,st + 1),lda - 1,work)
                    end if
@@ -22251,7 +22251,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ab(ldab,*)
            complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,wantz
            integer(ilp) :: iinfo,imax,inde,indrwk,iscale
@@ -22318,14 +22318,14 @@ module stdlib_linalg_lapack_w
            ! call stdlib_whbtrd to reduce hermitian band matrix to tridiagonal form.
            inde = 1
            call stdlib_whbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
-                     
+
            ! for eigenvalues only, call stdlib_qsterf.  for eigenvectors, call stdlib_wsteqr.
            if (.not. wantz) then
               call stdlib_qsterf(n,w,rwork(inde),info)
            else
               indrwk = inde + n
               call stdlib_wsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
-                        
+
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
            if (iscale == 1) then
@@ -22364,7 +22364,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ab(ldab,*)
            complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,lquery,wantz
            integer(ilp) :: iinfo,imax,inde,indwk2,indwrk,iscale,liwmin,llrwk,llwk2, &
@@ -22462,7 +22462,7 @@ module stdlib_linalg_lapack_w
            llwk2 = lwork - indwk2 + 1
            llrwk = lrwork - indwrk + 1
            call stdlib_whbtrd(jobz,uplo,n,kd,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
-                     
+
            ! for eigenvalues only, call stdlib_qsterf.  for eigenvectors, call stdlib_wstedc.
            if (.not. wantz) then
               call stdlib_qsterf(n,w,rwork(inde),info)
@@ -22509,7 +22509,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ab(ldab,*)
            complex(qp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: alleig,indeig,lower,test,valeig,wantz
            character :: order
@@ -22643,7 +22643,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_wlacpy('A',n,n,q,ldq,z,ldz)
                  call stdlib_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
                  call stdlib_wsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
-                           
+
                  if (info == 0) then
                     do i = 1,n
                        ifail(i) = 0
@@ -22679,7 +22679,7 @@ module stdlib_linalg_lapack_w
               end do
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-30   continue
+           30 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -22741,7 +22741,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: bb(ldbb,*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: update,upper,wantx
            integer(ilp) :: i,i0,i1,i2,inca,j,j1,j1t,j2,j2t,k,ka1,kb1,kbt,l,m,nr, &
@@ -22832,7 +22832,7 @@ module stdlib_linalg_lapack_w
            ! to avoid duplicating code, the two loops are merged.
            update = .true.
            i = n + 1
-10         continue
+           10 continue
            if (update) then
               i = i - 1
               kbt = min(kb,i - 1)
@@ -22876,7 +22876,7 @@ module stdlib_linalg_lapack_w
                  do j = i,i1
                     do k = max(j - ka,i - kbt),i - 1
                        ab(k - j + ka1,j) = ab(k - j + ka1,j) - bb(k - i + kb1,i)*ab(i - j + ka1,j)
-                                 
+
                     end do
                  end do
                  if (wantx) then
@@ -22905,7 +22905,7 @@ module stdlib_linalg_lapack_w
                        work(i - k) = rwork(i - k + ka - m)*t - conjg(work(i - k + ka - m))*ab(1,i - k + ka &
                                  )
                        ab(1,i - k + ka) = work(i - k + ka - m)*t + rwork(i - k + ka - m)*ab(1,i - k + ka)
-                                 
+
                        ra1 = ra
                     end if
                  end if
@@ -22997,7 +22997,7 @@ module stdlib_linalg_lapack_w
                     ! generate rotations in 2nd set to annihilate elements
                     ! which have been created outside the band
                     call stdlib_wlargv(nr,ab(1,j2),inca,work(j2),ka1,rwork(j2),ka1)
-                              
+
                     ! apply rotations in 2nd set from the right
                     do l = 1,ka - 1
                        call stdlib_wlartv(nr,ab(ka1 - l,j2),inca,ab(ka - l,j2 + 1),inca, &
@@ -23058,7 +23058,7 @@ module stdlib_linalg_lapack_w
                     end do
                     do j = max(1,i - ka),i - kbt - 1
                        ab(k - j + 1,j) = ab(k - j + 1,j) - conjg(bb(i - k + 1,k))*ab(i - j + 1,j)
-                                 
+
                     end do
                  end do
                  do j = i,i1
@@ -23090,9 +23090,9 @@ module stdlib_linalg_lapack_w
                        ! band and store it in work(i-k)
                        t = -bb(k + 1,i - k)*ra1
                        work(i - k) = rwork(i - k + ka - m)*t - conjg(work(i - k + ka - m))*ab(ka1,i - k)
-                                 
+
                        ab(ka1,i - k) = work(i - k + ka - m)*t + rwork(i - k + ka - m)*ab(ka1,i - k)
-                                 
+
                        ra1 = ra
                     end if
                  end if
@@ -23227,7 +23227,7 @@ module stdlib_linalg_lapack_w
               end if
            end if
            go to 10
-480        continue
+           480 continue
            ! **************************** phase 2 *****************************
            ! the logical structure of this phase is:
            ! update = .true.
@@ -23242,7 +23242,7 @@ module stdlib_linalg_lapack_w
            ! to avoid duplicating code, the two loops are merged.
            update = .true.
            i = 0
-490        continue
+           490 continue
            if (update) then
               i = i + 1
               kbt = min(kb,m - i)
@@ -23291,7 +23291,7 @@ module stdlib_linalg_lapack_w
                  do j = i1,i
                     do k = i + 1,min(j + ka,i + kbt)
                        ab(j - k + ka1,k) = ab(j - k + ka1,k) - bb(i - k + kb1,k)*ab(j - i + ka1,i)
-                                 
+
                     end do
                  end do
                  if (wantx) then
@@ -23312,12 +23312,12 @@ module stdlib_linalg_lapack_w
                     if (i + k - ka1 > 0 .and. i + k < m) then
                        ! generate rotation to annihilate a(i+k-ka-1,i)
                        call stdlib_wlartg(ab(k + 1,i),ra1,rwork(i + k - ka),work(i + k - ka),ra)
-                                 
+
                        ! create nonzero element a(i+k-ka-1,i+k) outside the
                        ! band and store it in work(m-kb+i+k)
                        t = -bb(kb1 - k,i + k)*ra1
                        work(m - kb + i + k) = rwork(i + k - ka)*t - conjg(work(i + k - ka))*ab(1,i + k)
-                                 
+
                        ab(1,i + k) = work(i + k - ka)*t + rwork(i + k - ka)*ab(1,i + k)
                        ra1 = ra
                     end if
@@ -23364,7 +23364,7 @@ module stdlib_linalg_lapack_w
                     ! post-multiply x by product of rotations in 1st set
                     do j = j1,j2,ka1
                        call stdlib_wrot(nx,x(1,j),1,x(1,j - 1),1,rwork(j),work(j))
-                                 
+
                     end do
                  end if
               end do loop_610
@@ -23475,7 +23475,7 @@ module stdlib_linalg_lapack_w
                     end do
                     do j = i + kbt + 1,min(n,i + ka)
                        ab(j - k + 1,k) = ab(j - k + 1,k) - conjg(bb(k - i + 1,i))*ab(j - i + 1,i)
-                                 
+
                     end do
                  end do
                  do j = i1,i
@@ -23508,7 +23508,7 @@ module stdlib_linalg_lapack_w
                        work(m - kb + i + k) = rwork(i + k - ka)*t - conjg(work(i + k - ka))*ab(ka1,i + k - &
                                  ka)
                        ab(ka1,i + k - ka) = work(i + k - ka)*t + rwork(i + k - ka)*ab(ka1,i + k - ka)
-                                 
+
                        ra1 = ra
                     end if
                  end if
@@ -23718,13 +23718,13 @@ module stdlib_linalg_lapack_w
               vect = 'N'
            end if
            call stdlib_whbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
-                     
+
            ! for eigenvalues only, call stdlib_qsterf.  for eigenvectors, call stdlib_wsteqr.
            if (.not. wantz) then
               call stdlib_qsterf(n,w,rwork(inde),info)
            else
               call stdlib_wsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indwrk),info)
-                        
+
            end if
            return
      end subroutine stdlib_whbgv
@@ -23756,7 +23756,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
            complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,upper,wantz
            character :: vect
@@ -23839,7 +23839,7 @@ module stdlib_linalg_lapack_w
               vect = 'N'
            end if
            call stdlib_whbtrd(vect,uplo,n,ka,ab,ldab,w,rwork(inde),z,ldz,work,iinfo)
-                     
+
            ! for eigenvalues only, call stdlib_qsterf.  for eigenvectors, call stdlib_wstedc.
            if (.not. wantz) then
               call stdlib_qsterf(n,w,rwork(inde),info)
@@ -23879,7 +23879,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ab(ldab,*),bb(ldbb,*)
            complex(qp),intent(out) :: q(ldq,*),work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: alleig,indeig,test,upper,valeig,wantz
            character :: order,vect
@@ -23977,7 +23977,7 @@ module stdlib_linalg_lapack_w
               else
                  call stdlib_wlacpy('A',n,n,q,ldq,z,ldz)
                  call stdlib_wsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
-                           
+
                  if (info == 0) then
                     do i = 1,n
                        ifail(i) = 0
@@ -24013,7 +24013,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_wgemv('N',n,n,cone,q,ldq,work,1,czero,z(1,j),1)
               end do
            end if
-30         continue
+           30 continue
            ! if eigenvalues are not in order, then sort them, along with
            ! eigenvectors.
            if (wantz) then
@@ -24061,7 +24061,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ab(ldab,*),q(ldq,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: initq,upper,wantq
            integer(ilp) :: i,i2,ibl,inca,incx,iqaend,iqb,iqend,j,j1,j1end,j1inc,j2, &
@@ -24428,7 +24428,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,kase
@@ -24476,7 +24476,7 @@ module stdlib_linalg_lapack_w
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30         continue
+           30 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**h) or inv(u*d*u**h).
@@ -24509,7 +24509,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,kase
@@ -24557,7 +24557,7 @@ module stdlib_linalg_lapack_w
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30         continue
+           30 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**h) or inv(u*d*u**h).
@@ -24593,7 +24593,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: max_iter = 100
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,iter
            real(qp) :: avg,std,tol,c0,c1,c2,t,u,si,d,base,smin,smax,smlnum,bignum, &
@@ -24734,7 +24734,7 @@ module stdlib_linalg_lapack_w
                  s(i) = si
               end do
            end do
-999        continue
+           999 continue
            smlnum = stdlib_qlamch('SAFEMIN')
            bignum = one/smlnum
            smin = bignum
@@ -24766,7 +24766,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,lquery,wantz
            integer(ilp) :: iinfo,imax,inde,indtau,indwrk,iscale,llwork,lwkopt,nb
@@ -24841,10 +24841,10 @@ module stdlib_linalg_lapack_w
               call stdlib_qsterf(n,w,rwork(inde),info)
            else
               call stdlib_wungtr(uplo,n,a,lda,work(indtau),work(indwrk),llwork,iinfo)
-                        
+
               indwrk = inde + n
               call stdlib_wsteqr(jobz,n,w,rwork(inde),a,lda,rwork(indwrk),info)
-                        
+
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
            if (iscale == 1) then
@@ -24885,7 +24885,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,lquery,wantz
            integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwk2,indwrk,iscale,liopt, &
@@ -25079,7 +25079,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz,tryrac
            character :: order
@@ -25276,7 +25276,7 @@ module stdlib_linalg_lapack_w
                  end if
                  call stdlib_wstemr(jobz,'A',n,rwork(indrdd),rwork(indree),vl,vu,il, &
                  iu,m,w,z,ldz,n,isuppz,tryrac,rwork(indrwk),llrwork,iwork,liwork,info)
-                           
+
                  ! apply unitary matrix used in reduction to tridiagonal
                  ! form to eigenvectors returned by stdlib_wstemr.
                  if (wantz .and. info == 0) then
@@ -25313,7 +25313,7 @@ module stdlib_linalg_lapack_w
                         indwkn),llwrkn,iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-30   continue
+           30 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -25372,7 +25372,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: alleig,indeig,lower,lquery,test,valeig,wantz
            character :: order
@@ -25522,7 +25522,7 @@ module stdlib_linalg_lapack_w
                            iinfo)
                  call stdlib_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
                  call stdlib_wsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
-                           
+
                  if (info == 0) then
                     do i = 1,n
                        ifail(i) = 0
@@ -25556,7 +25556,7 @@ module stdlib_linalg_lapack_w
                         indwrk),llwork,iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-40   continue
+           40 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -25616,7 +25616,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: k
@@ -25699,7 +25699,7 @@ module stdlib_linalg_lapack_w
                     ct = half*akk
                     call stdlib_waxpy(k - 1,ct,b(1,k),1,a(1,k),1)
                     call stdlib_wher2(uplo,k - 1,cone,a(1,k),1,b(1,k),1,a,lda)
-                              
+
                     call stdlib_waxpy(k - 1,ct,b(1,k),1,a(1,k),1)
                     call stdlib_wdscal(k - 1,bkk,a(1,k),1)
                     a(k,k) = akk*bkk**2
@@ -25717,7 +25717,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wlacgv(k - 1,b(k,1),ldb)
                     call stdlib_waxpy(k - 1,ct,b(k,1),ldb,a(k,1),lda)
                     call stdlib_wher2(uplo,k - 1,cone,a(k,1),lda,b(k,1),ldb,a,lda)
-                              
+
                     call stdlib_waxpy(k - 1,ct,b(k,1),ldb,a(k,1),lda)
                     call stdlib_wlacgv(k - 1,b(k,1),ldb)
                     call stdlib_wdscal(k - 1,bkk,a(k,1),lda)
@@ -25748,7 +25748,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: k,kb,nb
@@ -25789,7 +25789,7 @@ module stdlib_linalg_lapack_w
                        kb = min(n - k + 1,nb)
                        ! update the upper triangle of a(k:n,k:n)
                        call stdlib_whegs2(itype,uplo,kb,a(k,k),lda,b(k,k),ldb,info)
-                                 
+
                        if (k + kb <= n) then
                           call stdlib_wtrsm('LEFT',uplo,'CONJUGATE TRANSPOSE','NON-UNIT',kb, &
                                     n - k - kb + 1,cone,b(k,k),ldb,a(k,k + kb),lda)
@@ -25809,7 +25809,7 @@ module stdlib_linalg_lapack_w
                        kb = min(n - k + 1,nb)
                        ! update the lower triangle of a(k:n,k:n)
                        call stdlib_whegs2(itype,uplo,kb,a(k,k),lda,b(k,k),ldb,info)
-                                 
+
                        if (k + kb <= n) then
                           call stdlib_wtrsm('RIGHT',uplo,'CONJUGATE TRANSPOSE','NON-UNIT',n - k - &
                                     kb + 1,kb,cone,b(k,k),ldb,a(k + kb,k),lda)
@@ -25841,7 +25841,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wtrmm('RIGHT',uplo,'CONJUGATE TRANSPOSE','NON-UNIT',k - 1, &
                                  kb,cone,b(k,k),ldb,a(1,k),lda)
                        call stdlib_whegs2(itype,uplo,kb,a(k,k),lda,b(k,k),ldb,info)
-                                 
+
                     end do
                  else
                     ! compute l**h*a*l
@@ -25859,7 +25859,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wtrmm('LEFT',uplo,'CONJUGATE TRANSPOSE','NON-UNIT',kb,k - 1, &
                                   cone,b(k,k),ldb,a(k,1),lda)
                        call stdlib_whegs2(itype,uplo,kb,a(k,k),lda,b(k,k),ldb,info)
-                                 
+
                     end do
                  end if
               end if
@@ -25874,7 +25874,7 @@ module stdlib_linalg_lapack_w
      !> positive definite.
 
      subroutine stdlib_whegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
-               
+
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -25887,7 +25887,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,upper,wantz
            character :: trans
@@ -25995,7 +25995,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,upper,wantz
            character :: trans
@@ -26081,7 +26081,7 @@ module stdlib_linalg_lapack_w
                     trans = 'C'
                  end if
                  call stdlib_wtrsm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
-                           
+
               else if (itype == 3) then
                  ! for b*a*x=(lambda)*x;
                  ! backtransform eigenvectors: x = l*y or u**h *y
@@ -26091,7 +26091,7 @@ module stdlib_linalg_lapack_w
                     trans = 'N'
                  end if
                  call stdlib_wtrmm('LEFT',uplo,trans,'NON-UNIT',n,n,cone,b,ldb,a,lda)
-                           
+
               end if
            end if
            work(1) = lopt
@@ -26123,7 +26123,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: alleig,indeig,lquery,upper,valeig,wantz
            character :: trans
@@ -26210,7 +26210,7 @@ module stdlib_linalg_lapack_w
                     trans = 'C'
                  end if
                  call stdlib_wtrsm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
-                           
+
               else if (itype == 3) then
                  ! for b*a*x=(lambda)*x;
                  ! backtransform eigenvectors: x = l*y or u**h *y
@@ -26220,7 +26220,7 @@ module stdlib_linalg_lapack_w
                     trans = 'N'
                  end if
                  call stdlib_wtrmm('LEFT',uplo,trans,'NON-UNIT',n,m,cone,b,ldb,z,ldz)
-                           
+
               end if
            end if
            ! set work(1) to optimal complex workspace size.
@@ -26250,7 +26250,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: count,i,j,k,kase,nz
@@ -26305,7 +26305,7 @@ module stdlib_linalg_lapack_w
            loop_140: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_wcopy(n,b(1,j),1,work,1)
@@ -26389,7 +26389,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-100           continue
+              100 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -26507,7 +26507,7 @@ module stdlib_linalg_lapack_w
      !> of A is then used to solve the system of equations A * X = B.
 
      pure subroutine stdlib_whesv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-               
+
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -26561,7 +26561,7 @@ module stdlib_linalg_lapack_w
            if (info == 0) then
               ! solve the system a*x = b, overwriting b with x.
               call stdlib_whetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-                        
+
            end if
            work(1) = lwkopt
            return
@@ -26583,7 +26583,7 @@ module stdlib_linalg_lapack_w
      !> the system of equations A * X = B by calling BLAS3 routine ZHETRS_3.
 
      pure subroutine stdlib_whesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-               
+
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -26662,7 +26662,7 @@ module stdlib_linalg_lapack_w
      !> of equations A * X = B by calling ZHETRS_ROOK (uses BLAS 2).
 
      pure subroutine stdlib_whesv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-               
+
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -26747,7 +26747,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: af(ldaf,*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,nofact
            integer(ilp) :: lwkopt,nb
@@ -26909,7 +26909,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i
@@ -26947,7 +26947,7 @@ module stdlib_linalg_lapack_w
                     a(i,i + 1) = cone
                     ! compute  x := tau * a * v  storing x in tau(1:i)
                     call stdlib_whemv(uplo,i,taui,a,lda,a(1,i + 1),1,czero,tau,1)
-                              
+
                     ! compute  w := x - 1/2 * tau * (x**h * v) * v
                     alpha = -chalf*taui*stdlib_wdotc(i,tau,1,a(1,i + 1),1)
                     call stdlib_waxpy(i,alpha,a(1,i + 1),1,tau,1)
@@ -27018,7 +27018,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,imax,j,jmax,k,kk,kp,kstep
@@ -27052,7 +27052,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 90
               kstep = 1
@@ -27150,7 +27150,7 @@ module stdlib_linalg_lapack_w
                        ! = a - ( w(k-1) w(k) )*inv(d(k))*( w(k-1) w(k) )**h
                     if (k > 2) then
                        d = stdlib_qlapy2(real(a(k - 1,k),KIND=qp),aimag(a(k - 1,k)))
-                                 
+
                        d22 = real(a(k - 1,k - 1),KIND=qp)/d
                        d11 = real(a(k,k),KIND=qp)/d
                        tt = one/(d11*d22 - one)
@@ -27185,7 +27185,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-50            continue
+              50 continue
               ! if k > n, exit from loop
               if (k > n) go to 90
               kstep = 1
@@ -27243,7 +27243,7 @@ module stdlib_linalg_lapack_w
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_wswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     do j = kk + 1,kp - 1
                        t = conjg(a(j,kk))
                        a(j,kk) = conjg(a(kp,j))
@@ -27273,7 +27273,7 @@ module stdlib_linalg_lapack_w
                        ! a := a - l(k)*d(k)*l(k)**h = a - w(k)*(1/d(k))*w(k)**h
                        r1 = one/real(a(k,k),KIND=qp)
                        call stdlib_wher(uplo,n - k,-r1,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                 
+
                        ! store l(k) in column k
                        call stdlib_wdscal(n - k,r1,a(k + 1,k),1)
                     end if
@@ -27286,7 +27286,7 @@ module stdlib_linalg_lapack_w
                        ! where l(k) and l(k+1) are the k-th and (k+1)-th
                        ! columns of l
                        d = stdlib_qlapy2(real(a(k + 1,k),KIND=qp),aimag(a(k + 1,k)))
-                                 
+
                        d11 = real(a(k + 1,k + 1),KIND=qp)/d
                        d22 = real(a(k,k),KIND=qp)/d
                        tt = one/(d11*d22 - one)
@@ -27317,7 +27317,7 @@ module stdlib_linalg_lapack_w
               k = k + kstep
               go to 50
            end if
-90         continue
+           90 continue
            return
      end subroutine stdlib_whetf2
 
@@ -27346,7 +27346,7 @@ module stdlib_linalg_lapack_w
         ! ======================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: done,upper
            integer(ilp) :: i,ii,imax,itemp,j,jmax,k,kk,kp,kstep,p
@@ -27385,7 +27385,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 34
               kstep = 1
@@ -27421,7 +27421,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-12   continue
+                    12 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -27570,7 +27570,7 @@ module stdlib_linalg_lapack_w
                     if (k > 2) then
                        ! d = |a12|
                        d = stdlib_qlapy2(real(a(k - 1,k),KIND=qp),aimag(a(k - 1,k)))
-                                 
+
                        d11 = real(a(k,k)/d,KIND=qp)
                        d22 = real(a(k - 1,k - 1)/d,KIND=qp)
                        d12 = a(k - 1,k)/d
@@ -27609,7 +27609,7 @@ module stdlib_linalg_lapack_w
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-34            continue
+              34 continue
            else
               ! factorize a as l*d*l**h using the lower triangle of a
               ! initialize the unused last entry of the subdiagonal array e.
@@ -27617,7 +27617,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop
               if (k > n) go to 64
               kstep = 1
@@ -27653,7 +27653,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-42   continue
+                    42 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -27731,7 +27731,7 @@ module stdlib_linalg_lapack_w
                  if (kp /= kk) then
                     ! (1) swap columnar parts
                     if (kp < n) call stdlib_wswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     ! (2) swap and conjugate middle parts
                     do j = kk + 1,kp - 1
                        t = conjg(a(j,kk))
@@ -27775,7 +27775,7 @@ module stdlib_linalg_lapack_w
                              ! = a - w(k)*(1/d(k))*w(k)**t
                           d11 = one/real(a(k,k),KIND=qp)
                           call stdlib_wher(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                    
+
                           ! store l(k) in column k
                           call stdlib_wdscal(n - k,d11,a(k + 1,k),1)
                        else
@@ -27789,7 +27789,7 @@ module stdlib_linalg_lapack_w
                              ! = a - w(k)*(1/d(k))*w(k)**t
                              ! = a - (w(k)/d(k))*(d(k))*(w(k)/d(k))**t
                           call stdlib_wher(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                    
+
                        end if
                        ! store the subdiagonal element of d in array e
                        e(k) = czero
@@ -27806,7 +27806,7 @@ module stdlib_linalg_lapack_w
                     if (k < n - 1) then
                        ! d = |a21|
                        d = stdlib_qlapy2(real(a(k + 1,k),KIND=qp),aimag(a(k + 1,k)))
-                                 
+
                        d11 = real(a(k + 1,k + 1),KIND=qp)/d
                        d22 = real(a(k,k),KIND=qp)/d
                        d21 = a(k + 1,k)/d
@@ -27845,7 +27845,7 @@ module stdlib_linalg_lapack_w
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 40
-64            continue
+              64 continue
            end if
            return
      end subroutine stdlib_whetf2_rk
@@ -27872,7 +27872,7 @@ module stdlib_linalg_lapack_w
         ! ======================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: done,upper
            integer(ilp) :: i,ii,imax,itemp,j,jmax,k,kk,kp,kstep,p
@@ -27908,7 +27908,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
@@ -27942,7 +27942,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-12   continue
+                    12 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -28083,7 +28083,7 @@ module stdlib_linalg_lapack_w
                     if (k > 2) then
                        ! d = |a12|
                        d = stdlib_qlapy2(real(a(k - 1,k),KIND=qp),aimag(a(k - 1,k)))
-                                 
+
                        d11 = real(a(k,k)/d,KIND=qp)
                        d22 = real(a(k - 1,k - 1)/d,KIND=qp)
                        d12 = a(k - 1,k)/d
@@ -28121,7 +28121,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
@@ -28155,7 +28155,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-42   continue
+                    42 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -28230,7 +28230,7 @@ module stdlib_linalg_lapack_w
                  if (kp /= kk) then
                     ! (1) swap columnar parts
                     if (kp < n) call stdlib_wswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     ! (2) swap and conjugate middle parts
                     do j = kk + 1,kp - 1
                        t = conjg(a(j,kk))
@@ -28271,7 +28271,7 @@ module stdlib_linalg_lapack_w
                              ! = a - w(k)*(1/d(k))*w(k)**t
                           d11 = one/real(a(k,k),KIND=qp)
                           call stdlib_wher(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                    
+
                           ! store l(k) in column k
                           call stdlib_wdscal(n - k,d11,a(k + 1,k),1)
                        else
@@ -28285,7 +28285,7 @@ module stdlib_linalg_lapack_w
                              ! = a - w(k)*(1/d(k))*w(k)**t
                              ! = a - (w(k)/d(k))*(d(k))*(w(k)/d(k))**t
                           call stdlib_wher(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                    
+
                        end if
                     end if
                  else
@@ -28300,7 +28300,7 @@ module stdlib_linalg_lapack_w
                     if (k < n - 1) then
                        ! d = |a21|
                        d = stdlib_qlapy2(real(a(k + 1,k),KIND=qp),aimag(a(k + 1,k)))
-                                 
+
                        d11 = real(a(k + 1,k + 1),KIND=qp)/d
                        d22 = real(a(k,k),KIND=qp)/d
                        d21 = a(k + 1,k)/d
@@ -28334,7 +28334,7 @@ module stdlib_linalg_lapack_w
               k = k + kstep
               go to 40
            end if
-70         continue
+           70 continue
            return
      end subroutine stdlib_whetf2_rook
 
@@ -28355,7 +28355,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,upper
            integer(ilp) :: i,iinfo,iws,j,kk,ldwork,lwkopt,nb,nbmin,nx
@@ -28459,7 +28459,7 @@ module stdlib_linalg_lapack_w
               end do
               ! use unblocked code to reduce the last or only block
               call stdlib_whetd2(uplo,n - i + 1,a(i,i),lda,d(i),e(i),tau(i),iinfo)
-                        
+
            end if
            work(1) = lwkopt
            return
@@ -28487,7 +28487,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: rzero = 0.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: lquery,wantq,upper,afters1
            integer(ilp) :: i,m,k,ib,sweepid,myid,shift,stt,st,ed,stind,edind, &
@@ -28754,7 +28754,7 @@ module stdlib_linalg_lapack_w
      !> Q**H * A * Q = AB.
 
      pure subroutine stdlib_whetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -28768,7 +28768,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: rone = 1.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: lquery,upper
            integer(ilp) :: i,j,iinfo,lwmin,pn,pk,lk,ldt,ldw,lds2,lds1,ls2,ls1,lw,lt, &
@@ -28911,7 +28911,7 @@ module stdlib_linalg_lapack_w
                    ! do 45 j = i, i+pk-1
                       ! lk = min( kd, n-j ) + 1
                       ! call stdlib_wcopy( lk, ab( 1, j ), 1, a( j, j ), 1 )
-45   continue
+                      45 continue
                   ! ==================================================================
                end do loop_40
               ! copy the lower band to ab which is the band storage matrix
@@ -28995,7 +28995,7 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlahef;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -29018,7 +29018,7 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlahef;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20            continue
+              20 continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -29045,7 +29045,7 @@ module stdlib_linalg_lapack_w
               k = k + kb
               go to 20
            end if
-40         continue
+           40 continue
            work(1) = lwkopt
            return
      end subroutine stdlib_whetrf
@@ -29070,7 +29070,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,upper
            integer(ilp) :: j,lwkopt
@@ -29127,7 +29127,7 @@ module stdlib_linalg_lapack_w
               ! jb, where jb is the number of columns factorized by stdlib_wlahef;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-10            continue
+              10 continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -29159,7 +29159,7 @@ module stdlib_linalg_lapack_w
                     alpha = conjg(a(j,j + 1))
                     a(j,j + 1) = cone
                     call stdlib_wcopy(n - j,a(j - 1,j + 1),lda,work((j + 1 - j1 + 1) + jb*n),1)
-                              
+
                     call stdlib_wscal(n - j,alpha,work((j + 1 - j1 + 1) + jb*n),1)
                     ! k1 identifies if the previous column of the panel has been
                      ! explicitly stored, e.g., k1=0 and k2=1 for the first panel,
@@ -29180,7 +29180,7 @@ module stdlib_linalg_lapack_w
                        do mj = nj - 1,1,-1
                           call stdlib_wgemm('CONJUGATE TRANSPOSE','TRANSPOSE',1,mj,jb + 1,-cone, &
                            a(j1 - k2,j3),lda,work((j3 - j1 + 1) + k1*n),n,cone,a(j3,j3),lda)
-                                     
+
                           j3 = j3 + 1
                        end do
                        ! update off-diagonal block of j2-th block row with stdlib_wgemm
@@ -29206,7 +29206,7 @@ module stdlib_linalg_lapack_w
               ! jb, where jb is the number of columns factorized by stdlib_wlahef;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-11            continue
+              11 continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -29274,7 +29274,7 @@ module stdlib_linalg_lapack_w
               end if
               go to 11
            end if
-20         continue
+           20 continue
            work(1) = lwkopt
            return
      end subroutine stdlib_whetrf_aa
@@ -29351,14 +29351,14 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlahef_rk;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 15
               if (k > nb) then
                  ! factorize columns k-kb+1:k of a and use blocked code to
                  ! update columns 1:k-kb
                  call stdlib_wlahef_rk(uplo,k,nb,kb,a,lda,e,ipiv,work,ldwork,iinfo)
-                           
+
               else
                  ! use unblocked code to factorize columns 1:k of a
                  call stdlib_whetf2_rk(uplo,k,a,lda,e,ipiv,iinfo)
@@ -29387,14 +29387,14 @@ module stdlib_linalg_lapack_w
               go to 10
               ! this label is the exit from main loop over k decreasing
               ! from n to 1 in steps of kb
-15   continue
+              15 continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! k is the main loop index, increasing from 1 to n in steps of
               ! kb, where kb is the number of columns factorized by stdlib_wlahef_rk;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20            continue
+              20 continue
               ! if k > n, exit from loop
               if (k > n) go to 35
               if (k <= n - nb) then
@@ -29405,7 +29405,7 @@ module stdlib_linalg_lapack_w
               else
                  ! use unblocked code to factorize columns k:n of a
                  call stdlib_whetf2_rk(uplo,n - k + 1,a(k,k),lda,e(k),ipiv(k),iinfo)
-                           
+
                  kb = n - k + 1
               end if
               ! set info on the first occurrence of a zero pivot
@@ -29438,7 +29438,7 @@ module stdlib_linalg_lapack_w
               go to 20
               ! this label is the exit from main loop over k increasing
               ! from 1 to n in steps of kb
-35   continue
+              35 continue
            ! end lower
            end if
            work(1) = lwkopt
@@ -29516,14 +29516,14 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlahef_rook;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
                  ! factorize columns k-kb+1:k of a and use blocked code to
                  ! update columns 1:k-kb
                  call stdlib_wlahef_rook(uplo,k,nb,kb,a,lda,ipiv,work,ldwork,iinfo)
-                           
+
               else
                  ! use unblocked code to factorize columns 1:k of a
                  call stdlib_whetf2_rook(uplo,k,a,lda,ipiv,iinfo)
@@ -29541,7 +29541,7 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlahef_rook;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20            continue
+              20 continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -29568,7 +29568,7 @@ module stdlib_linalg_lapack_w
               k = k + kb
               go to 20
            end if
-40         continue
+           40 continue
            work(1) = lwkopt
            return
      end subroutine stdlib_whetrf_rook
@@ -29590,7 +29590,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kp,kstep
@@ -29633,7 +29633,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30            continue
+              30 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -29644,7 +29644,7 @@ module stdlib_linalg_lapack_w
                  if (k > 1) then
                     call stdlib_wcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_whemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-                              
+
                     a(k,k) = a(k,k) - real(stdlib_wdotc(k - 1,work,1,a(1,k),1), &
                               KIND=qp)
                  end if
@@ -29664,14 +29664,14 @@ module stdlib_linalg_lapack_w
                  if (k > 1) then
                     call stdlib_wcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_whemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-                              
+
                     a(k,k) = a(k,k) - real(stdlib_wdotc(k - 1,work,1,a(1,k),1), &
                               KIND=qp)
                     a(k,k + 1) = a(k,k + 1) - stdlib_wdotc(k - 1,a(1,k),1,a(1,k + 1),1)
-                              
+
                     call stdlib_wcopy(k - 1,a(1,k + 1),1,work,1)
                     call stdlib_whemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k + 1),1)
-                              
+
                     a(k + 1,k + 1) = a(k + 1,k + 1) - real(stdlib_wdotc(k - 1,work,1,a(1,k + 1), &
                               1),KIND=qp)
                  end if
@@ -29699,13 +29699,13 @@ module stdlib_linalg_lapack_w
               end if
               k = k + kstep
               go to 30
-50            continue
+              50 continue
            else
               ! compute inv(a) from the factorization a = l*d*l**h.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-60            continue
+              60 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 80
               if (ipiv(k) > 0) then
@@ -29771,7 +29771,7 @@ module stdlib_linalg_lapack_w
               end if
               k = k - kstep
               go to 60
-80            continue
+              80 continue
            end if
            return
      end subroutine stdlib_whetri
@@ -29793,7 +29793,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kp,kstep
@@ -29836,7 +29836,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30            continue
+              30 continue
               ! if k > n, exit from loop.
               if (k > n) go to 70
               if (ipiv(k) > 0) then
@@ -29847,7 +29847,7 @@ module stdlib_linalg_lapack_w
                  if (k > 1) then
                     call stdlib_wcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_whemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-                              
+
                     a(k,k) = a(k,k) - real(stdlib_wdotc(k - 1,work,1,a(1,k),1), &
                               KIND=qp)
                  end if
@@ -29867,14 +29867,14 @@ module stdlib_linalg_lapack_w
                  if (k > 1) then
                     call stdlib_wcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_whemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-                              
+
                     a(k,k) = a(k,k) - real(stdlib_wdotc(k - 1,work,1,a(1,k),1), &
                               KIND=qp)
                     a(k,k + 1) = a(k,k + 1) - stdlib_wdotc(k - 1,a(1,k),1,a(1,k + 1),1)
-                              
+
                     call stdlib_wcopy(k - 1,a(1,k + 1),1,work,1)
                     call stdlib_whemv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k + 1),1)
-                              
+
                     a(k + 1,k + 1) = a(k + 1,k + 1) - real(stdlib_wdotc(k - 1,work,1,a(1,k + 1), &
                               1),KIND=qp)
                  end if
@@ -29934,13 +29934,13 @@ module stdlib_linalg_lapack_w
               end if
               k = k + 1
               go to 30
-70            continue
+              70 continue
            else
               ! compute inv(a) from the factorization a = l*d*l**h.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-80            continue
+              80 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 120
               if (ipiv(k) > 0) then
@@ -30038,7 +30038,7 @@ module stdlib_linalg_lapack_w
               end if
               k = k - 1
               go to 80
-120           continue
+              120 continue
            end if
            return
      end subroutine stdlib_whetri_rook
@@ -30060,7 +30060,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kp
@@ -30094,7 +30094,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -30135,12 +30135,12 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 10
-30            continue
+              30 continue
               ! next solve u**h *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -30177,14 +30177,14 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 40
-50            continue
+              50 continue
            else
               ! solve a*x = b, where a = l*d*l**h.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60            continue
+              60 continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -30227,12 +30227,12 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 60
-80            continue
+              80 continue
               ! next solve l**h *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90            continue
+              90 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -30269,7 +30269,7 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 90
-100           continue
+              100 continue
            end if
            return
      end subroutine stdlib_whetrs
@@ -30291,7 +30291,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,iinfo,j,k,kp
@@ -30402,7 +30402,7 @@ module stdlib_linalg_lapack_w
                  ! interchange rows k and -ipiv(k+1).
                  kp = -ipiv(k + 1)
                  if (kp == -ipiv(k)) call stdlib_wswap(nrhs,b(k + 1,1),ldb,b(kp,1),ldb)
-                           
+
                  k = k + 2
               end if
              end do
@@ -30478,7 +30478,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*),e(*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,j,k,kp
@@ -30620,7 +30620,7 @@ module stdlib_linalg_lapack_w
      !> A = L*T*L**H computed by ZHETRF_AA.
 
      pure subroutine stdlib_whetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -30634,7 +30634,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            logical(lk) :: lquery,upper
            integer(ilp) :: k,kp,lwkopt
            ! Intrinsic Functions
@@ -30753,7 +30753,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kp
@@ -30787,7 +30787,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -30830,12 +30830,12 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 10
-30            continue
+              30 continue
               ! next solve u**h *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -30874,14 +30874,14 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 40
-50            continue
+              50 continue
            else
               ! solve a*x = b, where a = l*d*l**h.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60            continue
+              60 continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -30926,12 +30926,12 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 60
-80            continue
+              80 continue
               ! next solve l**h *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90            continue
+              90 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -30970,7 +30970,7 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 90
-100           continue
+              100 continue
            end if
            return
      end subroutine stdlib_whetrs_rook
@@ -30996,7 +30996,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: c(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,normaltransr,nisodd,notrans
            integer(ilp) :: info,nrowa,j,nk,n1,n2
@@ -31069,7 +31069,7 @@ module stdlib_linalg_lapack_w
                     if (notrans) then
                        ! n is odd, transr = 'n', uplo = 'l', and trans = 'n'
                        call stdlib_wherk('L','N',n1,k,alpha,a(1,1),lda,beta,c(1),n)
-                                 
+
                        call stdlib_wherk('U','N',n2,k,alpha,a(n1 + 1,1),lda,beta,c(n + 1) &
                                  ,n)
                        call stdlib_wgemm('N','C',n2,n1,k,calpha,a(n1 + 1,1),lda,a(1,1) &
@@ -31077,7 +31077,7 @@ module stdlib_linalg_lapack_w
                     else
                        ! n is odd, transr = 'n', uplo = 'l', and trans = 'c'
                        call stdlib_wherk('L','C',n1,k,alpha,a(1,1),lda,beta,c(1),n)
-                                 
+
                        call stdlib_wherk('U','C',n2,k,alpha,a(1,n1 + 1),lda,beta,c(n + 1) &
                                  ,n)
                        call stdlib_wgemm('C','N',n2,n1,k,calpha,a(1,n1 + 1),lda,a(1,1) &
@@ -31282,7 +31282,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: alpha(*),beta(*),work(*)
            complex(qp),intent(inout) :: h(ldh,*),q(ldq,*),t(ldt,*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: ilazr2,ilazro,ilq,ilschr,ilz,lquery
            integer(ilp) :: icompq,icompz,ifirst,ifrstm,iiter,ilast,ilastm,in,ischur, &
@@ -31512,7 +31512,7 @@ module stdlib_linalg_lapack_w
                        do jch = j,ilast - 1
                           ctemp = t(jch,jch + 1)
                           call stdlib_wlartg(ctemp,t(jch + 1,jch + 1),c,s,t(jch,jch + 1))
-                                    
+
                           t(jch + 1,jch + 1) = czero
                           if (jch < ilastm - 1) call stdlib_wrot(ilastm - jch - 1,t(jch,jch + 2),ldt, &
                                     t(jch + 1,jch + 2),ldt,c,s)
@@ -31522,14 +31522,14 @@ module stdlib_linalg_lapack_w
                                      s))
                           ctemp = h(jch + 1,jch)
                           call stdlib_wlartg(ctemp,h(jch + 1,jch - 1),c,s,h(jch + 1,jch))
-                                    
+
                           h(jch + 1,jch - 1) = czero
                           call stdlib_wrot(jch + 1 - ifrstm,h(ifrstm,jch),1,h(ifrstm,jch - 1), &
                                     1,c,s)
                           call stdlib_wrot(jch - ifrstm,t(ifrstm,jch),1,t(ifrstm,jch - 1),1, &
                                      c,s)
                           if (ilz) call stdlib_wrot(n,z(1,jch),1,z(1,jch - 1),1,c,s)
-                                    
+
                        end do
                        go to 50
                     end if
@@ -31545,7 +31545,7 @@ module stdlib_linalg_lapack_w
               go to 210
               ! t(ilast,ilast)=0 -- clear h(ilast,ilast-1) to split off a
               ! 1x1 block.
-50   continue
+              50 continue
               ctemp = h(ilast,ilast)
               call stdlib_wlartg(ctemp,h(ilast,ilast - 1),c,s,h(ilast,ilast))
               h(ilast,ilast - 1) = czero
@@ -31555,7 +31555,7 @@ module stdlib_linalg_lapack_w
                         )
               if (ilz) call stdlib_wrot(n,z(1,ilast),1,z(1,ilast - 1),1,c,s)
               ! h(ilast,ilast-1)=0 -- standardize b, set alpha and beta
-60   continue
+              60 continue
               absb = abs(t(ilast,ilast))
               if (absb > safmin) then
                  signbc = conjg(t(ilast,ilast)/absb)
@@ -31586,7 +31586,7 @@ module stdlib_linalg_lapack_w
               ! qz step
               ! this iteration only involves rows/columns ifirst:ilast.  we
               ! assume ifirst < ilast, and that the diagonal of b is non-zero.
-70   continue
+              70 continue
               iiter = iiter + 1
               if (.not. ilschr) then
                  ifrstm = ifirst
@@ -31627,7 +31627,7 @@ module stdlib_linalg_lapack_w
                  if ((iiter/20)*20 == iiter .and. bscale*abs1(t(ilast,ilast)) > safmin) &
                            then
                     eshift = eshift + (ascale*h(ilast,ilast))/(bscale*t(ilast,ilast))
-                              
+
                  else
                     eshift = eshift + (ascale*h(ilast,ilast - 1))/(bscale*t(ilast - 1,ilast - 1) &
                                )
@@ -31649,7 +31649,7 @@ module stdlib_linalg_lapack_w
               end do
               istart = ifirst
               ctemp = ascale*h(ifirst,ifirst) - shift*(bscale*t(ifirst,ifirst))
-90            continue
+              90 continue
               ! do an implicit-shift qz sweep.
               ! initial q
               ctemp2 = ascale*h(istart + 1,istart)
@@ -31697,14 +31697,14 @@ module stdlib_linalg_lapack_w
                     end do
                  end if
               end do loop_150
-160           continue
+              160 continue
            end do loop_170
            ! drop-through = non-convergence
-180  continue
+           180 continue
            info = ilast
            go to 210
            ! successful completion of all qz steps
-190  continue
+           190 continue
            ! set eigenvalues 1:ilo-1
            do j = 1,ilo - 1
               absb = abs(t(j,j))
@@ -31727,7 +31727,7 @@ module stdlib_linalg_lapack_w
            ! normal termination
            info = 0
            ! exit (other than argument error) -- return optimal workspace size
-210  continue
+           210 continue
            work(1) = cmplx(n,KIND=qp)
            return
      end subroutine stdlib_whgeqz
@@ -31753,7 +31753,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,ip,kase
@@ -31801,7 +31801,7 @@ module stdlib_linalg_lapack_w
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30         continue
+           30 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**h) or inv(u*d*u**h).
@@ -31829,7 +31829,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: wantz
            integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale
@@ -31893,10 +31893,10 @@ module stdlib_linalg_lapack_w
            else
               indwrk = indtau + n
               call stdlib_wupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
-                        
+
               indrwk = inde + n
               call stdlib_wsteqr(jobz,n,w,rwork(inde),z,ldz,rwork(indrwk),info)
-                        
+
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
            if (iscale == 1) then
@@ -31935,7 +31935,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,wantz
            integer(ilp) :: iinfo,imax,inde,indrwk,indtau,indwrk,iscale,liwmin,llrwk, &
@@ -32072,7 +32072,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(out) :: work(*),z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: alleig,indeig,test,valeig,wantz
            character :: order
@@ -32172,7 +32172,7 @@ module stdlib_linalg_lapack_w
            indtau = 1
            indwrk = indtau + n
            call stdlib_whptrd(uplo,n,ap,rwork(indd),rwork(inde),work(indtau),iinfo)
-                     
+
            ! if all eigenvalues are desired and abstol is less than or equal
            ! to zero, then call stdlib_qsterf or stdlib_wupgtr and stdlib_wsteqr.  if this fails
            ! for some eigenvalue, then try stdlib_qstebz.
@@ -32190,10 +32190,10 @@ module stdlib_linalg_lapack_w
                  call stdlib_qsterf(n,w,rwork(indee),info)
               else
                  call stdlib_wupgtr(uplo,n,ap,work(indtau),z,ldz,work(indwrk),iinfo)
-                           
+
                  call stdlib_qcopy(n - 1,rwork(inde),1,rwork(indee),1)
                  call stdlib_wsteqr(jobz,n,w,rwork(indee),z,ldz,rwork(indrwk),info)
-                           
+
                  if (info == 0) then
                     do i = 1,n
                        ifail(i) = 0
@@ -32228,7 +32228,7 @@ module stdlib_linalg_lapack_w
                          iinfo)
            end if
            ! if matrix was scaled, then rescale eigenvalues appropriately.
-20   continue
+           20 continue
            if (iscale == 1) then
               if (info == 0) then
                  imax = m
@@ -32287,7 +32287,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(in) :: bp(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,j1,j1j1,jj,k,k1,k1k1,kk
@@ -32324,7 +32324,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wtpsv(uplo,'CONJUGATE TRANSPOSE','NON-UNIT',j,bp,ap(j1),1 &
                               )
                     call stdlib_whpmv(uplo,j - 1,-cone,ap,bp(j1),1,cone,ap(j1),1)
-                              
+
                     call stdlib_wdscal(j - 1,one/bjj,ap(j1),1)
                     ap(jj) = (ap(jj) - stdlib_wdotc(j - 1,ap(j1),1,bp(j1),1))/ &
                               bjj
@@ -32365,7 +32365,7 @@ module stdlib_linalg_lapack_w
                     akk = real(ap(kk),KIND=qp)
                     bkk = real(bp(kk),KIND=qp)
                     call stdlib_wtpmv(uplo,'NO TRANSPOSE','NON-UNIT',k - 1,bp,ap(k1),1)
-                              
+
                     ct = half*akk
                     call stdlib_waxpy(k - 1,ct,bp(k1),1,ap(k1),1)
                     call stdlib_whpr2(uplo,k - 1,cone,ap(k1),1,bp(k1),1,ap)
@@ -32748,7 +32748,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: count,i,ik,j,k,kase,kk,nz
@@ -32799,7 +32799,7 @@ module stdlib_linalg_lapack_w
            loop_140: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_wcopy(n,b(1,j),1,work,1)
@@ -32890,7 +32890,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-100           continue
+              100 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -32993,7 +32993,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*),b(ldb,*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nofact
            real(qp) :: anorm
@@ -33064,7 +33064,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(out) :: tau(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,i1,i1i1,ii
@@ -33139,7 +33139,7 @@ module stdlib_linalg_lapack_w
                     ! apply the transformation as a rank-2 update:
                        ! a := a - v * w**h - w * v**h
                     call stdlib_whpr2(uplo,n - i,-cone,ap(ii + 1),1,tau(i),1,ap(i1i1))
-                              
+
                  end if
                  ap(ii + 1) = e(i)
                  d(i) = real(ap(ii),KIND=qp)
@@ -33172,7 +33172,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,imax,j,jmax,k,kc,kk,knc,kp,kpc,kstep,kx,npp
@@ -33205,7 +33205,7 @@ module stdlib_linalg_lapack_w
               ! 1 or 2
               k = n
               kc = (n - 1)*n/2 + 1
-10            continue
+              10 continue
               knc = kc
               ! if k < 1, exit from loop
               if (k < 1) go to 110
@@ -33320,7 +33320,7 @@ module stdlib_linalg_lapack_w
                           wkm1 = d*(d11*ap(j + (k - 2)*(k - 1)/2) - conjg(d12)*ap(j + (k - 1)*k &
                                     /2))
                           wk = d*(d22*ap(j + (k - 1)*k/2) - d12*ap(j + (k - 2)*(k - 1)/2))
-                                    
+
                           do i = j,1,-1
                              ap(i + (j - 1)*j/2) = ap(i + (j - 1)*j/2) - ap(i + (k - 1)*k/2) &
                                        *conjg(wk) - ap(i + (k - 2)*(k - 1)/2)*conjg(wkm1)
@@ -33351,7 +33351,7 @@ module stdlib_linalg_lapack_w
               k = 1
               kc = 1
               npp = n*(n + 1)/2
-60            continue
+              60 continue
               knc = kc
               ! if k > n, exit from loop
               if (k > n) go to 110
@@ -33413,7 +33413,7 @@ module stdlib_linalg_lapack_w
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_wswap(n - kp,ap(knc + kp - kk + 1),1,ap(kpc + 1),1)
-                              
+
                     kx = knc + kp - kk
                     do j = kk + 1,kp - 1
                        kx = kx + n - j + 1
@@ -33496,7 +33496,7 @@ module stdlib_linalg_lapack_w
               kc = knc + n - k + 2
               go to 60
            end if
-110        continue
+           110 continue
            return
      end subroutine stdlib_whptrf
 
@@ -33517,7 +33517,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kc,kcnext,kp,kpc,kstep,kx,npp
@@ -33563,7 +33563,7 @@ module stdlib_linalg_lapack_w
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-30            continue
+              30 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               kcnext = kc + k
@@ -33600,7 +33600,7 @@ module stdlib_linalg_lapack_w
                               kcnext),1)
                     call stdlib_wcopy(k - 1,ap(kcnext),1,work,1)
                     call stdlib_whpmv(uplo,k - 1,-cone,ap,work,1,czero,ap(kcnext),1)
-                              
+
                     ap(kcnext + k) = ap(kcnext + k) - real(stdlib_wdotc(k - 1,work,1,ap(kcnext &
                               ),1),KIND=qp)
                  end if
@@ -33633,7 +33633,7 @@ module stdlib_linalg_lapack_w
               k = k + kstep
               kc = kcnext
               go to 30
-50            continue
+              50 continue
            else
               ! compute inv(a) from the factorization a = l*d*l**h.
               ! k is the main loop index, increasing from 1 to n in steps of
@@ -33641,7 +33641,7 @@ module stdlib_linalg_lapack_w
               npp = n*(n + 1)/2
               k = n
               kc = npp
-60            continue
+              60 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 80
               kcnext = kc - (n - k + 2)
@@ -33713,7 +33713,7 @@ module stdlib_linalg_lapack_w
               k = k - kstep
               kc = kcnext
               go to 60
-80            continue
+              80 continue
            end if
            return
      end subroutine stdlib_whptri
@@ -33735,7 +33735,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kc,kp
@@ -33768,7 +33768,7 @@ module stdlib_linalg_lapack_w
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-10            continue
+              10 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               kc = kc - k
@@ -33780,7 +33780,7 @@ module stdlib_linalg_lapack_w
                  ! multiply by inv(u(k)), where u(k) is the transformation
                  ! stored in column k of a.
                  call stdlib_wgeru(k - 1,nrhs,-cone,ap(kc),1,b(k,1),ldb,b(1,1),ldb)
-                           
+
                  ! multiply by the inverse of the diagonal block.
                  s = real(cone,KIND=qp)/real(ap(kc + k - 1),KIND=qp)
                  call stdlib_wdscal(nrhs,s,b(k,1),ldb)
@@ -33793,7 +33793,7 @@ module stdlib_linalg_lapack_w
                  ! multiply by inv(u(k)), where u(k) is the transformation
                  ! stored in columns k-1 and k of a.
                  call stdlib_wgeru(k - 2,nrhs,-cone,ap(kc),1,b(k,1),ldb,b(1,1),ldb)
-                           
+
                  call stdlib_wgeru(k - 2,nrhs,-cone,ap(kc - (k - 1)),1,b(k - 1,1),ldb,b(1, &
                            1),ldb)
                  ! multiply by the inverse of the diagonal block.
@@ -33811,13 +33811,13 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 10
-30            continue
+              30 continue
               ! next solve u**h *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -33856,7 +33856,7 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 40
-50            continue
+              50 continue
            else
               ! solve a*x = b, where a = l*d*l**h.
               ! first solve l*d*x = b, overwriting b with x.
@@ -33864,7 +33864,7 @@ module stdlib_linalg_lapack_w
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-60            continue
+              60 continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -33909,13 +33909,13 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 60
-80            continue
+              80 continue
               ! next solve l**h *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-90            continue
+              90 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               kc = kc - (n - k + 1)
@@ -33954,7 +33954,7 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 90
-100           continue
+              100 continue
            end if
            return
      end subroutine stdlib_whptrs
@@ -33985,7 +33985,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: rzero = 0.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: bothv,fromqr,leftv,noinit,rightv
            integer(ilp) :: i,iinfo,k,kl,kln,kr,ks,ldwork
@@ -34062,13 +34062,13 @@ module stdlib_linalg_lapack_w
                     do i = k,kl + 1,-1
                        if (h(i,i - 1) == czero) go to 30
                     end do
-30                  continue
+                    30 continue
                     kl = i
                     if (k > kr) then
                        do i = k,n - 1
                           if (h(i + 1,i) == czero) go to 50
                        end do
-50                     continue
+                       50 continue
                        kr = i
                     end if
                  end if
@@ -34090,7 +34090,7 @@ module stdlib_linalg_lapack_w
                  ! selected eigenvalues affiliated to the submatrix
                  ! h(kl:kr,kl:kr). close roots are modified by eps3.
                  wk = w(k)
-60               continue
+                 60 continue
                  do i = k - 1,kl,-1
                     if (select(i) .and. cabs1(w(i) - wk) < eps3) then
                        wk = wk + eps3
@@ -34142,7 +34142,7 @@ module stdlib_linalg_lapack_w
      !> by the unitary matrix Q:  A = Q*H*Q**H = (QZ)*T*(QZ)**H.
 
      pure subroutine stdlib_whseqr(job,compz,n,ilo,ihi,h,ldh,w,z,ldz,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34161,14 +34161,14 @@ module stdlib_linalg_lapack_w
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_wlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
-           
+
            ! ==== nl allocates some local workspace to help small matrices
            ! .    through a rare stdlib_wlahqr failure.  nl > ntiny = 15 is
            ! .    required and nl <= nmin = stdlib_ilaenv(ispec=12,...) is recom-
            ! .    mended.  (the default value of nmin is 75.)  using nl = 49
            ! .    allows up to six simultaneous shifts and a 16-by-16
            ! .    deflation window.  ====
-           
+
            ! Local Arrays
            complex(qp) :: hl(nl,nl),workl(nl)
            ! Local Scalars
@@ -34221,7 +34221,7 @@ module stdlib_linalg_lapack_w
               ! ==== copy eigenvalues isolated by stdlib_wgebal ====
               if (ilo > 1) call stdlib_wcopy(ilo - 1,h,ldh + 1,w,1)
               if (ihi < n) call stdlib_wcopy(n - ihi,h(ihi + 1,ihi + 1),ldh + 1,w(ihi + 1),1)
-                        
+
               ! ==== initialize z, if requested ====
               if (initz) call stdlib_wlaset('A',n,n,czero,cone,z,ldz)
               ! ==== quick return if possible ====
@@ -34231,7 +34231,7 @@ module stdlib_linalg_lapack_w
               end if
               ! ==== stdlib_wlahqr/stdlib_wlaqr0 crossover point ====
               nmin = stdlib_ilaenv(12,'ZHSEQR',job(:1)//compz(:1),n,ilo,ihi,lwork)
-                        
+
               nmin = max(ntiny,nmin)
               ! ==== stdlib_wlaqr0 for big matrices; stdlib_wlahqr for small ones ====
               if (n > nmin) then
@@ -34240,7 +34240,7 @@ module stdlib_linalg_lapack_w
               else
                  ! ==== small matrix ====
                  call stdlib_wlahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,ilo,ihi,z,ldz,info)
-                           
+
                  if (info > 0) then
                     ! ==== a rare stdlib_wlahqr failure!  stdlib_wlaqr0 sometimes succeeds
                     ! .    when stdlib_wlahqr fails. ====
@@ -34261,7 +34261,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wlaqr0(wantt,wantz,nl,ilo,kbot,hl,nl,w,ilo,ihi,z, &
                                  ldz,workl,nl,info)
                        if (wantt .or. info /= 0) call stdlib_wlacpy('A',n,n,hl,nl,h,ldh)
-                                 
+
                     end if
                  end if
               end if
@@ -34290,7 +34290,7 @@ module stdlib_linalg_lapack_w
      !> in computing that entry have at least one zero multiplicand.
 
      subroutine stdlib_wla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34301,7 +34301,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ab(ldab,*),x(*)
            real(qp),intent(inout) :: y(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: symb_wero
            real(qp) :: temp,safe1
@@ -34386,7 +34386,7 @@ module stdlib_linalg_lapack_w
                        do j = max(i - kl,1),min(i + ku,lenx)
                           temp = cabs1(ab(kd + i - j,j))
                           symb_wero = symb_wero .and. (x(j) == czero .or. temp == czero)
-                                    
+
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -34408,7 +34408,7 @@ module stdlib_linalg_lapack_w
                        do j = max(i - kl,1),min(i + ku,lenx)
                           temp = cabs1(ab(ke - i + j,i))
                           symb_wero = symb_wero .and. (x(j) == czero .or. temp == czero)
-                                    
+
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -34433,7 +34433,7 @@ module stdlib_linalg_lapack_w
                        do j = max(i - kl,1),min(i + ku,lenx)
                           temp = cabs1(ab(kd + i - j,j))
                           symb_wero = symb_wero .and. (x(jx) == czero .or. temp == czero)
-                                    
+
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -34457,7 +34457,7 @@ module stdlib_linalg_lapack_w
                        do j = max(i - kl,1),min(i + ku,lenx)
                           temp = cabs1(ab(ke - i + j,i))
                           symb_wero = symb_wero .and. (x(jx) == czero .or. temp == czero)
-                                    
+
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -34571,7 +34571,7 @@ module stdlib_linalg_lapack_w
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -34689,7 +34689,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*),x(*)
            real(qp),intent(inout) :: y(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: symb_wero
            real(qp) :: temp,safe1
@@ -34768,7 +34768,7 @@ module stdlib_linalg_lapack_w
                        do j = 1,lenx
                           temp = cabs1(a(i,j))
                           symb_wero = symb_wero .and. (x(j) == czero .or. temp == czero)
-                                    
+
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -34790,7 +34790,7 @@ module stdlib_linalg_lapack_w
                        do j = 1,lenx
                           temp = cabs1(a(j,i))
                           symb_wero = symb_wero .and. (x(j) == czero .or. temp == czero)
-                                    
+
                           y(iy) = y(iy) + alpha*cabs1(x(j))*temp
                        end do
                     end if
@@ -34815,7 +34815,7 @@ module stdlib_linalg_lapack_w
                        do j = 1,lenx
                           temp = cabs1(a(i,j))
                           symb_wero = symb_wero .and. (x(jx) == czero .or. temp == czero)
-                                    
+
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -34839,7 +34839,7 @@ module stdlib_linalg_lapack_w
                        do j = 1,lenx
                           temp = cabs1(a(j,i))
                           symb_wero = symb_wero .and. (x(jx) == czero .or. temp == czero)
-                                    
+
                           y(iy) = y(iy) + alpha*cabs1(x(jx))*temp
                           jx = jx + incx
                        end do
@@ -34946,7 +34946,7 @@ module stdlib_linalg_lapack_w
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -34956,7 +34956,7 @@ module stdlib_linalg_lapack_w
                  end do
                  if (notrans) then
                     call stdlib_wgetrs('NO TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info)
-                              
+
                  else
                     call stdlib_wgetrs('CONJUGATE TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info &
                               )
@@ -34979,7 +34979,7 @@ module stdlib_linalg_lapack_w
                               )
                  else
                     call stdlib_wgetrs('NO TRANSPOSE',n,1,af,ldaf,ipiv,work,n,info)
-                              
+
                  end if
                  ! multiply by r.
                  do i = 1,n
@@ -35061,7 +35061,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*),x(*)
            real(qp),intent(inout) :: y(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: symb_wero
            real(qp) :: temp,safe1
@@ -35338,7 +35338,7 @@ module stdlib_linalg_lapack_w
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -35723,7 +35723,7 @@ module stdlib_linalg_lapack_w
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -35884,7 +35884,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*),x(*)
            real(qp),intent(inout) :: y(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: symb_wero
            real(qp) :: temp,safe1
@@ -36162,7 +36162,7 @@ module stdlib_linalg_lapack_w
            ! estimate the norm of inv(op(a)).
            ainvnm = zero
            kase = 0
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (kase == 2) then
@@ -36417,7 +36417,7 @@ module stdlib_linalg_lapack_w
              s = (s + s) - s
              y(i) = ((x(i) - s) + w(i)) + y(i)
              x(i) = s
-10           continue
+             10 continue
            return
      end subroutine stdlib_wla_wwaddw
 
@@ -36440,7 +36440,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: taup(*),tauq(*),x(ldx,*),y(ldy,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            complex(qp) :: alpha
@@ -36620,7 +36620,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            integer(ilp) :: i,jlast
            real(qp) :: absxi,altsgn,estold,safmin,temp
@@ -36639,7 +36639,7 @@ module stdlib_linalg_lapack_w
            go to(20,40,70,90,120) isave(1)
            ! ................ entry   (isave( 1 ) = 1)
            ! first iteration.  x has been overwritten by a*x.
-20   continue
+           20 continue
            if (n == 1) then
               v(1) = x(1)
               est = abs(v(1))
@@ -36651,7 +36651,7 @@ module stdlib_linalg_lapack_w
               absxi = abs(x(i))
               if (absxi > safmin) then
                  x(i) = cmplx(real(x(i),KIND=qp)/absxi,aimag(x(i))/absxi,KIND=qp)
-                           
+
               else
                  x(i) = cone
               end if
@@ -36661,11 +36661,11 @@ module stdlib_linalg_lapack_w
            return
            ! ................ entry   (isave( 1 ) = 2)
            ! first iteration.  x has been overwritten by ctrans(a)*x.
-40   continue
+           40 continue
            isave(2) = stdlib_iwmax1(n,x,1)
            isave(3) = 2
            ! main loop - iterations 2,3,...,itmax.
-50   continue
+           50 continue
            do i = 1,n
               x(i) = czero
            end do
@@ -36675,7 +36675,7 @@ module stdlib_linalg_lapack_w
            return
            ! ................ entry   (isave( 1 ) = 3)
            ! x has been overwritten by a*x.
-70   continue
+           70 continue
            call stdlib_wcopy(n,x,1,v,1)
            estold = est
            est = stdlib_qzsum1(n,v,1)
@@ -36685,7 +36685,7 @@ module stdlib_linalg_lapack_w
               absxi = abs(x(i))
               if (absxi > safmin) then
                  x(i) = cmplx(real(x(i),KIND=qp)/absxi,aimag(x(i))/absxi,KIND=qp)
-                           
+
               else
                  x(i) = cone
               end if
@@ -36695,7 +36695,7 @@ module stdlib_linalg_lapack_w
            return
            ! ................ entry   (isave( 1 ) = 4)
            ! x has been overwritten by ctrans(a)*x.
-90   continue
+           90 continue
            jlast = isave(2)
            isave(2) = stdlib_iwmax1(n,x,1)
            if ((abs(x(jlast)) /= abs(x(isave(2)))) .and. (isave(3) < itmax)) &
@@ -36704,11 +36704,11 @@ module stdlib_linalg_lapack_w
               go to 50
            end if
            ! iteration complete.  final stage.
-100  continue
+           100 continue
            altsgn = one
            do i = 1,n
               x(i) = cmplx(altsgn*(one + real(i - 1,KIND=qp)/real(n - 1,KIND=qp)),KIND=qp)
-                        
+
               altsgn = -altsgn
            end do
            kase = 1
@@ -36716,13 +36716,13 @@ module stdlib_linalg_lapack_w
            return
            ! ................ entry   (isave( 1 ) = 5)
            ! x has been overwritten by a*x.
-120  continue
+           120 continue
            temp = two*(stdlib_qzsum1(n,x,1)/real(3*n,KIND=qp))
            if (temp > est) then
               call stdlib_wcopy(n,x,1,v,1)
               est = temp
            end if
-130        continue
+           130 continue
            kase = 0
            return
      end subroutine stdlib_wlacn2
@@ -36744,7 +36744,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            integer(ilp) :: i,iter,j,jlast,jump
            real(qp) :: absxi,altsgn,estold,safmin,temp
@@ -36765,7 +36765,7 @@ module stdlib_linalg_lapack_w
            go to(20,40,70,90,120) jump
            ! ................ entry   (jump = 1)
            ! first iteration.  x has been overwritten by a*x.
-20   continue
+           20 continue
            if (n == 1) then
               v(1) = x(1)
               est = abs(v(1))
@@ -36777,7 +36777,7 @@ module stdlib_linalg_lapack_w
               absxi = abs(x(i))
               if (absxi > safmin) then
                  x(i) = cmplx(real(x(i),KIND=qp)/absxi,aimag(x(i))/absxi,KIND=qp)
-                           
+
               else
                  x(i) = cone
               end if
@@ -36787,11 +36787,11 @@ module stdlib_linalg_lapack_w
            return
            ! ................ entry   (jump = 2)
            ! first iteration.  x has been overwritten by ctrans(a)*x.
-40   continue
+           40 continue
            j = stdlib_iwmax1(n,x,1)
            iter = 2
            ! main loop - iterations 2,3,...,itmax.
-50   continue
+           50 continue
            do i = 1,n
               x(i) = czero
            end do
@@ -36801,7 +36801,7 @@ module stdlib_linalg_lapack_w
            return
            ! ................ entry   (jump = 3)
            ! x has been overwritten by a*x.
-70   continue
+           70 continue
            call stdlib_wcopy(n,x,1,v,1)
            estold = est
            est = stdlib_qzsum1(n,v,1)
@@ -36811,7 +36811,7 @@ module stdlib_linalg_lapack_w
               absxi = abs(x(i))
               if (absxi > safmin) then
                  x(i) = cmplx(real(x(i),KIND=qp)/absxi,aimag(x(i))/absxi,KIND=qp)
-                           
+
               else
                  x(i) = cone
               end if
@@ -36821,7 +36821,7 @@ module stdlib_linalg_lapack_w
            return
            ! ................ entry   (jump = 4)
            ! x has been overwritten by ctrans(a)*x.
-90   continue
+           90 continue
            jlast = j
            j = stdlib_iwmax1(n,x,1)
            if ((abs(x(jlast)) /= abs(x(j))) .and. (iter < itmax)) then
@@ -36829,11 +36829,11 @@ module stdlib_linalg_lapack_w
               go to 50
            end if
            ! iteration complete.  final stage.
-100  continue
+           100 continue
            altsgn = one
            do i = 1,n
               x(i) = cmplx(altsgn*(one + real(i - 1,KIND=qp)/real(n - 1,KIND=qp)),KIND=qp)
-                        
+
               altsgn = -altsgn
            end do
            kase = 1
@@ -36841,13 +36841,13 @@ module stdlib_linalg_lapack_w
            return
            ! ................ entry   (jump = 5)
            ! x has been overwritten by a*x.
-120  continue
+           120 continue
            temp = two*(stdlib_qzsum1(n,x,1)/real(3*n,KIND=qp))
            if (temp > est) then
               call stdlib_wcopy(n,x,1,v,1)
               est = temp
            end if
-130        continue
+           130 continue
            kase = 0
            return
      end subroutine stdlib_wlacon
@@ -36951,7 +36951,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(out) :: c(ldc,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,l
            ! Intrinsic Functions
@@ -36966,7 +36966,7 @@ module stdlib_linalg_lapack_w
            end do
            l = m*n + 1
            call stdlib_qgemm('N','N',m,n,n,one,rwork,m,b,ldb,zero,rwork(l),m)
-                     
+
            do j = 1,n
               do i = 1,m
                  c(i,j) = rwork(l + (j - 1)*m + i - 1)
@@ -36978,11 +36978,11 @@ module stdlib_linalg_lapack_w
               end do
            end do
            call stdlib_qgemm('N','N',m,n,n,one,rwork,m,b,ldb,zero,rwork(l),m)
-                     
+
            do j = 1,n
               do i = 1,m
                  c(i,j) = cmplx(real(c(i,j),KIND=qp),rwork(l + (j - 1)*m + i - 1),KIND=qp)
-                           
+
               end do
            end do
            return
@@ -37023,7 +37023,7 @@ module stdlib_linalg_lapack_w
            end do
            return
            ! code for both increments equal to 1
-20   continue
+           20 continue
            do i = 1,n
               ctemp = c*cx(i) + s*cy(i)
               cy(i) = c*cy(i) - s*cx(i)
@@ -37049,7 +37049,7 @@ module stdlib_linalg_lapack_w
            intrinsic :: real,cmplx,aimag
            ! Executable Statements
            call stdlib_qladiv(real(x,KIND=qp),aimag(x),real(y,KIND=qp),aimag(y),zr,zi)
-                     
+
            stdlib_wladiv = cmplx(zr,zi,KIND=qp)
            return
      end function stdlib_wladiv
@@ -37060,7 +37060,7 @@ module stdlib_linalg_lapack_w
      !> corresponding eigenvectors of the dense or band matrix.
 
      pure subroutine stdlib_wlaed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -37075,7 +37075,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: qstore(ldqs,*)
         ! =====================================================================
         ! warning:      n could be as big as qsiz!
-           
+
            ! Local Scalars
            integer(ilp) :: curlvl,curprb,curr,i,igivcl,igivnm,igivpt,indxq,iperm,iprmpt, &
            iq,iqptr,iwrem,j,k,lgn,ll,matsiz,msd2,smlsiz,smm1,spm1,spm2,submat, &
@@ -37111,7 +37111,7 @@ module stdlib_linalg_lapack_w
            iwork(1) = n
            subpbs = 1
            tlvls = 0
-10         continue
+           10 continue
            if (iwork(subpbs) > smlsiz) then
               do j = subpbs,1,-1
                  iwork(2*j) = (iwork(j) + 1)/2
@@ -37186,7 +37186,7 @@ module stdlib_linalg_lapack_w
            ! into eigensystem for the corresponding larger matrix.
            ! while ( subpbs > 1 )
            curlvl = 1
-80         continue
+           80 continue
            if (subpbs > 1) then
               spm2 = subpbs - 2
               do i = 0,spm2,2
@@ -37268,7 +37268,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(inout) :: rho
            ! Array Arguments
            integer(ilp),intent(inout) :: givcol(2,*),givptr(*),perm(*),prmptr(*),qptr(*)
-                     
+
            integer(ilp),intent(out) :: indxq(*),iwork(*)
            real(qp),intent(inout) :: d(*),givnum(2,*),qstore(*)
            real(qp),intent(out) :: rwork(*)
@@ -37333,7 +37333,7 @@ module stdlib_linalg_lapack_w
            call stdlib_wlaed8(k,n,qsiz,q,ldq,d,rho,cutpnt,rwork(iz),rwork(idlmda), &
            work,qsiz,rwork(iw),iwork(indxp),iwork(indx),indxq,perm(prmptr(curr)), &
            givptr(curr + 1),givcol(1,givptr(curr)),givnum(1,givptr(curr)),info)
-                     
+
            prmptr(curr + 1) = prmptr(curr) + n
            givptr(curr + 1) = givptr(curr + 1) + givptr(curr)
            ! solve secular equation.
@@ -37385,7 +37385,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: mone = -1.0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,imax,j,jlam,jmax,jp,k2,n1,n1p1,n2
            real(qp) :: c,eps,s,t,tau,tol
@@ -37479,7 +37479,7 @@ module stdlib_linalg_lapack_w
                  go to 70
               end if
            end do
-70         continue
+           70 continue
            j = j + 1
            if (j > n) go to 90
            if (rho*abs(z(j)) <= tol) then
@@ -37513,7 +37513,7 @@ module stdlib_linalg_lapack_w
                  d(jlam) = t
                  k2 = k2 - 1
                  i = 1
-80               continue
+                 80 continue
                  if (k2 + i <= n) then
                     if (d(jlam) < d(indxp(k2 + i))) then
                        indxp(k2 + i - 1) = indxp(k2 + i)
@@ -37536,13 +37536,13 @@ module stdlib_linalg_lapack_w
               end if
            end if
            go to 70
-90         continue
+           90 continue
            ! record the last eigenvalue.
            k = k + 1
            w(k) = z(jlam)
            dlamda(k) = d(jlam)
            indxp(k) = jlam
-100        continue
+           100 continue
            ! sort the eigenvalues and corresponding eigenvectors into dlamda
            ! and q2 respectively.  the eigenvalues/vectors which were not
            ! deflated go into the first k slots of dlamda and q2 respectively,
@@ -37585,7 +37585,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: tenth = 1.0e-1_qp
-           
+
            ! Local Scalars
            character :: normin,trans
            integer(ilp) :: i,ierr,its,j
@@ -37698,7 +37698,7 @@ module stdlib_linalg_lapack_w
            end do
            ! failure to find eigenvector in n iterations.
            info = 1
-120        continue
+           120 continue
            ! normalize eigenvector.
            i = stdlib_iwamax(n,v,1)
            call stdlib_wdscal(n,one/cabs1(v(i)),v,1)
@@ -37725,7 +37725,7 @@ module stdlib_linalg_lapack_w
        ! =====================================================================
            ! Parameters
            real(qp),parameter :: thresh = 0.1_qp
-           
+
            ! Local Scalars
            real(qp) :: babs,evnorm,tabs,z
            complex(qp) :: s,t,tmp
@@ -37809,7 +37809,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a,b,c
            complex(qp),intent(out) :: sn1
        ! =====================================================================
-           
+
            ! Local Scalars
            real(qp) :: t
            complex(qp) :: w
@@ -37822,7 +37822,7 @@ module stdlib_linalg_lapack_w
               w = conjg(b)/abs(b)
            end if
            call stdlib_qlaev2(real(a,KIND=qp),abs(b),real(c,KIND=qp),rt1,rt2,cs1,t)
-                     
+
            sn1 = w*t
            return
      end subroutine stdlib_wlaev2
@@ -37862,7 +37862,7 @@ module stdlib_linalg_lapack_w
               end do
            end do
            info = 0
-30         continue
+           30 continue
            return
      end subroutine stdlib_wlag2c
 
@@ -37892,7 +37892,7 @@ module stdlib_linalg_lapack_w
      !> zero.
 
      pure subroutine stdlib_wlags2(upper,a1,a2,a3,b1,b2,b3,csu,snu,csv,snv,csq,snq)
-               
+
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -37903,7 +37903,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a2,b2
            complex(qp),intent(out) :: snq,snu,snv
         ! =====================================================================
-           
+
            ! Local Scalars
            real(qp) :: a,aua11,aua12,aua21,aua22,avb12,avb11,avb21,avb22,csl,csr,d,fb, &
                       fc,s1,s2,snl,snr,ua11r,ua22r,vb11r,vb22r
@@ -37943,17 +37943,17 @@ module stdlib_linalg_lapack_w
                  ! zero (1,2) elements of u**h *a and v**h *b
                  if ((abs(ua11r) + abs1(ua12)) == zero) then
                     call stdlib_wlartg(-cmplx(vb11r,KIND=qp),conjg(vb12),csq,snq,r)
-                              
+
                  else if ((abs(vb11r) + abs1(vb12)) == zero) then
                     call stdlib_wlartg(-cmplx(ua11r,KIND=qp),conjg(ua12),csq,snq,r)
-                              
+
                  else if (aua12/(abs(ua11r) + abs1(ua12)) <= avb12/(abs(vb11r) + abs1(vb12 &
                            ))) then
                     call stdlib_wlartg(-cmplx(ua11r,KIND=qp),conjg(ua12),csq,snq,r)
-                              
+
                  else
                     call stdlib_wlartg(-cmplx(vb11r,KIND=qp),conjg(vb12),csq,snq,r)
-                              
+
                  end if
                  csu = csl
                  snu = -d1*snl
@@ -38060,7 +38060,7 @@ module stdlib_linalg_lapack_w
      !> 0., 1., or -1.
 
      pure subroutine stdlib_wlagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
-               
+
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -38072,7 +38072,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: b(ldb,*)
            complex(qp),intent(in) :: d(*),dl(*),du(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            ! Intrinsic Functions
@@ -38218,7 +38218,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: imax,j,jb,jj,jmax,jp,k,kk,kkw,kp,kstep,kw
            real(qp) :: absakk,alpha,colmax,r1,rowmax,t
@@ -38240,7 +38240,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               ! kw is the column of w which corresponds to column k of a
               k = n
-10            continue
+              10 continue
               kw = nb + k - n
               ! exit from loop
               if ((k <= n - nb + 1 .and. nb < n) .or. k < 1) go to 30
@@ -38283,7 +38283,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wcopy(imax - 1,a(1,imax),1,w(1,kw - 1),1)
                     w(imax,kw - 1) = real(a(imax,imax),KIND=qp)
                     call stdlib_wcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-                              
+
                     call stdlib_wlacgv(k - imax,w(imax + 1,kw - 1),1)
                     if (k < n) then
                        call stdlib_wgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda,w(imax, &
@@ -38441,7 +38441,7 @@ module stdlib_linalg_lapack_w
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30            continue
+              30 continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**h = a11 - u12*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -38462,7 +38462,7 @@ module stdlib_linalg_lapack_w
               ! put u12 in standard form by partially undoing the interchanges
               ! in columns k+1:n looping backwards from k+1 to n
               j = k + 1
-60            continue
+              60 continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -38487,7 +38487,7 @@ module stdlib_linalg_lapack_w
               ! for use in updating a22 (note that conjg(w) is actually stored)
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70            continue
+              70 continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -38576,7 +38576,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wcopy(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     call stdlib_wlacgv(kp - kk - 1,a(kp,kk + 1),lda)
                     if (kp < n) call stdlib_wcopy(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     ! interchange rows kk and kp in first k-1 columns of a
                     ! (columns k (or k and k+1 for 2-by-2 pivot) of a will be
                     ! later overwritten). interchange rows kk and kp
@@ -38682,7 +38682,7 @@ module stdlib_linalg_lapack_w
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90            continue
+              90 continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**h = a22 - l21*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -38703,7 +38703,7 @@ module stdlib_linalg_lapack_w
               ! put l21 in standard form by partially undoing the interchanges
               ! of rows in columns 1:k-1 looping backwards from k-1 to 1
               j = k - 1
-120           continue
+              120 continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -38718,7 +38718,7 @@ module stdlib_linalg_lapack_w
                  ! of the rows to swap back doesn't include diagonal element)
                  j = j - 1
                  if (jp /= jj .and. j >= 1) call stdlib_wswap(j,a(jp,1),lda,a(jj,1),lda)
-                           
+
               if (j > 1) go to 120
               ! set kb to the number of columns factorized
               kb = k - 1
@@ -38749,7 +38749,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),h(ldh,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: j,k,k1,i1,i2,mj
            complex(qp) :: piv,alpha
@@ -38764,7 +38764,7 @@ module stdlib_linalg_lapack_w
               ! .....................................................
               ! factorize a as u**t*d*u using the upper triangle of a
               ! .....................................................
-10   continue
+              10 continue
               if (j > min(m,nb)) go to 20
               ! k is the column to be factorized
                ! when being called from stdlib_whetrf_aa,
@@ -38820,7 +38820,7 @@ module stdlib_linalg_lapack_w
                     i1 = i1 + j - 1
                     i2 = i2 + j - 1
                     call stdlib_wswap(i2 - i1 - 1,a(j1 + i1 - 1,i1 + 1),lda,a(j1 + i1,i2),1)
-                              
+
                     call stdlib_wlacgv(i2 - i1,a(j1 + i1 - 1,i1 + 1),lda)
                     call stdlib_wlacgv(i2 - i1 - 1,a(j1 + i1,i2),1)
                     ! swap a(i1, i2+1:n) with a(i2, i2+1:n)
@@ -38856,18 +38856,18 @@ module stdlib_linalg_lapack_w
                        call stdlib_wscal(m - j - 1,alpha,a(k,j + 2),lda)
                     else
                        call stdlib_wlaset('FULL',1,m - j - 1,czero,czero,a(k,j + 2),lda)
-                                 
+
                     end if
                  end if
               end if
               j = j + 1
               go to 10
-20            continue
+              20 continue
            else
               ! .....................................................
               ! factorize a as l*d*l**t using the lower triangle of a
               ! .....................................................
-30   continue
+              30 continue
               if (j > min(m,nb)) go to 40
               ! k is the column to be factorized
                ! when being called from stdlib_whetrf_aa,
@@ -38923,7 +38923,7 @@ module stdlib_linalg_lapack_w
                     i1 = i1 + j - 1
                     i2 = i2 + j - 1
                     call stdlib_wswap(i2 - i1 - 1,a(i1 + 1,j1 + i1 - 1),1,a(i2,j1 + i1),lda)
-                              
+
                     call stdlib_wlacgv(i2 - i1,a(i1 + 1,j1 + i1 - 1),1)
                     call stdlib_wlacgv(i2 - i1 - 1,a(i2,j1 + i1),lda)
                     ! swap a(i2+1:n, i1) with a(i2+1:n, i2)
@@ -38959,13 +38959,13 @@ module stdlib_linalg_lapack_w
                        call stdlib_wscal(m - j - 1,alpha,a(j + 2,k),1)
                     else
                        call stdlib_wlaset('FULL',m - j - 1,1,czero,czero,a(j + 2,k),lda)
-                                 
+
                     end if
                  end if
               end if
               j = j + 1
               go to 30
-40            continue
+              40 continue
            end if
            return
      end subroutine stdlib_wlahef_aa
@@ -38998,7 +38998,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: done
            integer(ilp) :: imax,itemp,ii,j,jb,jj,jmax,k,kk,kkw,kp,kstep,kw,p
@@ -39025,7 +39025,7 @@ module stdlib_linalg_lapack_w
               e(1) = czero
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10            continue
+              10 continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -39072,14 +39072,14 @@ module stdlib_linalg_lapack_w
                  else
                     ! lop until pivot found
                     done = .false.
-12                  continue
+                    12 continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        if (imax > 1) call stdlib_wcopy(imax - 1,a(1,imax),1,w(1,kw - 1),1)
-                                 
+
                        w(imax,kw - 1) = real(a(imax,imax),KIND=qp)
                        call stdlib_wcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-                                 
+
                        call stdlib_wlacgv(k - imax,w(imax + 1,kw - 1),1)
                        if (k < n) then
                           call stdlib_wgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda,w( &
@@ -39292,7 +39292,7 @@ module stdlib_linalg_lapack_w
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30            continue
+              30 continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**h = a11 - u12*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -39320,7 +39320,7 @@ module stdlib_linalg_lapack_w
               e(n) = czero
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70            continue
+              70 continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -39365,7 +39365,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-72   continue
+                    72 continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_wcopy(imax - k,a(imax,k),lda,w(k,k + 1),1)
@@ -39461,7 +39461,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wcopy(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     call stdlib_wlacgv(kp - kk - 1,a(kp,kk + 1),lda)
                     if (kp < n) call stdlib_wcopy(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     ! interchange rows kk and kp in first k-1 columns of a
                     ! (column k (or k and k+1 for 2-by-2 pivot) of a will be
                     ! later overwritten). interchange rows kk and kp
@@ -39583,7 +39583,7 @@ module stdlib_linalg_lapack_w
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90            continue
+              90 continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**h = a22 - l21*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -39636,7 +39636,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: done
            integer(ilp) :: imax,itemp,ii,j,jb,jj,jmax,jp1,jp2,k,kk,kkw,kp,kstep,kw, &
@@ -39661,7 +39661,7 @@ module stdlib_linalg_lapack_w
               ! for use in updating a11 (note that conjg(w) is actually stored)
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10            continue
+              10 continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -39706,14 +39706,14 @@ module stdlib_linalg_lapack_w
                  else
                     ! lop until pivot found
                     done = .false.
-12                  continue
+                    12 continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        if (imax > 1) call stdlib_wcopy(imax - 1,a(1,imax),1,w(1,kw - 1),1)
-                                 
+
                        w(imax,kw - 1) = real(a(imax,imax),KIND=qp)
                        call stdlib_wcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-                                 
+
                        call stdlib_wlacgv(k - imax,w(imax + 1,kw - 1),1)
                        if (k < n) then
                           call stdlib_wgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda,w( &
@@ -39919,7 +39919,7 @@ module stdlib_linalg_lapack_w
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30            continue
+              30 continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**h = a11 - u12*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -39940,7 +39940,7 @@ module stdlib_linalg_lapack_w
               ! put u12 in standard form by partially undoing the interchanges
               ! in of rows in columns k+1:n looping backwards from k+1 to n
               j = k + 1
-60            continue
+              60 continue
                  ! undo the interchanges (if any) of rows j and jp2
                  ! (or j and jp2, and j+1 and jp1) at each step j
                  kstep = 1
@@ -39972,7 +39972,7 @@ module stdlib_linalg_lapack_w
               ! for use in updating a22 (note that conjg(w) is actually stored)
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70            continue
+              70 continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -40015,7 +40015,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-72   continue
+                    72 continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_wcopy(imax - k,a(imax,k),lda,w(k,k + 1),1)
@@ -40111,7 +40111,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wcopy(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     call stdlib_wlacgv(kp - kk - 1,a(kp,kk + 1),lda)
                     if (kp < n) call stdlib_wcopy(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     ! interchange rows kk and kp in first k-1 columns of a
                     ! (column k (or k and k+1 for 2-by-2 pivot) of a will be
                     ! later overwritten). interchange rows kk and kp
@@ -40226,7 +40226,7 @@ module stdlib_linalg_lapack_w
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90            continue
+              90 continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**h = a22 - l21*w**h
               ! computing blocks of nb columns at a time (note that conjg(w) is
@@ -40247,7 +40247,7 @@ module stdlib_linalg_lapack_w
               ! put l21 in standard form by partially undoing the interchanges
               ! of rows in columns 1:k-1 looping backwards from k-1 to 1
               j = k - 1
-120           continue
+              120 continue
                  ! undo the interchanges (if any) of rows j and jp2
                  ! (or j and jp2, and j-1 and jp1) at each step j
                  kstep = 1
@@ -40266,7 +40266,7 @@ module stdlib_linalg_lapack_w
                  ! of the rows to swap back doesn't include diagonal element)
                  j = j - 1
                  if (jp2 /= jj .and. j >= 1) call stdlib_wswap(j,a(jp2,1),lda,a(jj,1),lda)
-                           
+
                  jj = jj - 1
                  if (kstep == 2 .and. jp1 /= jj .and. j >= 1) call stdlib_wswap(j,a(jp1,1),lda,a( &
                             jj,1),lda)
@@ -40300,7 +40300,7 @@ module stdlib_linalg_lapack_w
            real(qp),parameter :: rone = 1.0_qp
            real(qp),parameter :: dat1 = 3.0_qp/4.0_qp
            integer(ilp),parameter :: kexsh = 10
-           
+
            ! Local Scalars
            complex(qp) :: cdum,h11,h11s,h22,sc,sum,t,t1,temp,u,v2,x,y
            real(qp) :: aa,ab,ba,bb,h10,h21,rtemp,s,safmax,safmin,smlnum,sx,t2,tst, &
@@ -40374,7 +40374,7 @@ module stdlib_linalg_lapack_w
            ! eigenvalues i+1 to ihi have already converged. either l = ilo, or
            ! h(l,l-1) is negligible so that the matrix splits.
            i = ihi
-30         continue
+           30 continue
            if (i < ilo) go to 150
            ! perform qr iterations on rows and columns ilo to i until a
            ! submatrix of order 1 splits off at the bottom because a
@@ -40402,7 +40402,7 @@ module stdlib_linalg_lapack_w
                     if (ba*(ab/s) <= max(smlnum,ulp*(bb*(aa/s)))) go to 50
                  end if
               end do
-50            continue
+              50 continue
               l = k
               if (l > ilo) then
                  ! h(l,l-1) is negligible
@@ -40470,7 +40470,7 @@ module stdlib_linalg_lapack_w
               h21 = h21/s
               v(1) = h11s
               v(2) = h21
-70            continue
+              70 continue
               ! single-shift qr step
               loop_120: do k = m,i - 1
                  ! the first iteration of this loop determines a reflection g
@@ -40548,7 +40548,7 @@ module stdlib_linalg_lapack_w
            ! failure to converge in remaining number of iterations
            info = i
            return
-140        continue
+           140 continue
            ! h(i,i-1) is negligible: cone eigenvalue has converged.
            w(i) = h(i,i)
            ! reset deflation counter
@@ -40556,7 +40556,7 @@ module stdlib_linalg_lapack_w
            ! return to start of the main loop with new value of i.
            i = l - 1
            go to 30
-150        continue
+           150 continue
            return
      end subroutine stdlib_wlahqr
 
@@ -40577,7 +40577,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: t(ldt,nb),tau(nb),y(ldy,nb)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            complex(qp) :: ei
@@ -40621,7 +40621,7 @@ module stdlib_linalg_lapack_w
               ! generate the elementary reflector h(i) to annihilate
               ! a(k+i+1:n,i)
               call stdlib_wlarfg(n - k - i + 1,a(k + i,i),a(min(k + i + 1,n),i),1,tau(i))
-                        
+
               ei = a(k + i,i)
               a(k + i,i) = cone
               ! compute  y(k+1:n,i)
@@ -40635,7 +40635,7 @@ module stdlib_linalg_lapack_w
               ! compute t(1:i,i)
               call stdlib_wscal(i - 1,-tau(i),t(1,i),1)
               call stdlib_wtrmv('UPPER','NO TRANSPOSE','NON-UNIT',i - 1,t,ldt,t(1,i),1)
-                        
+
               t(i,i) = tau(i)
            end do loop_10
            a(k + nb,nb) = ei
@@ -40684,7 +40684,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(in) :: w(j),x(j)
         ! =====================================================================
-           
+
            ! Local Scalars
            real(qp) :: absalp,absest,absgam,b,eps,norma,s1,s2,scl,t,test,tmp,zeta1, &
                      zeta2
@@ -40767,7 +40767,7 @@ module stdlib_linalg_lapack_w
                  sine = -(alpha/absest)/t
                  cosine = -(gamma/absest)/(one + t)
                  tmp = real(sqrt(sine*conjg(sine) + cosine*conjg(cosine)),KIND=qp)
-                           
+
                  s = sine/tmp
                  c = cosine/tmp
                  sestpr = sqrt(t + one)*absest
@@ -40856,7 +40856,7 @@ module stdlib_linalg_lapack_w
                     sestpr = sqrt(one + t + four*eps*eps*norma)*absest
                  end if
                  tmp = real(sqrt(sine*conjg(sine) + cosine*conjg(cosine)),KIND=qp)
-                           
+
                  s = sine/tmp
                  c = cosine/tmp
                  return
@@ -40904,7 +40904,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: b(ldb,*)
            complex(qp),intent(out) :: bx(ldbx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,jcol,jrow,m,n,nlp1
            real(qp) :: diflj,difrj,dj,dsigj,dsigjp,temp
@@ -41020,7 +41020,7 @@ module stdlib_linalg_lapack_w
                        b(j,jcol) = cmplx(rwork(jcol + k),rwork(jcol + k + nrhs),KIND=qp)
                     end do
                     call stdlib_wlascl('G',0,0,temp,one,1,nrhs,b(j,1),ldb,info)
-                              
+
                  end do loop_100
               end if
               ! move the deflated rows of bx to b also.
@@ -41039,7 +41039,7 @@ module stdlib_linalg_lapack_w
                        rwork(j) = zero
                     else
                        rwork(j) = -z(j)/difl(j)/(dsigj + poles(j,1))/difr(j,2)
-                                 
+
                     end if
                     do i = 1,j - 1
                        if (z(j) == zero) then
@@ -41081,7 +41081,7 @@ module stdlib_linalg_lapack_w
                               zero,rwork(1 + k + nrhs),1)
                     do jcol = 1,nrhs
                        bx(j,jcol) = cmplx(rwork(jcol + k),rwork(jcol + k + nrhs),KIND=qp)
-                                 
+
                     end do
                  end do loop_180
               end if
@@ -41137,7 +41137,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: b(ldb,*)
            complex(qp),intent(out) :: bx(ldbx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,i1,ic,im1,inode,j,jcol,jimag,jreal,jrow,lf,ll,lvl,lvl2, &
                      nd,ndb1,ndiml,ndimr,nl,nlf,nlp1,nlvl,nr,nrf,nrp1,sqre
@@ -41295,7 +41295,7 @@ module stdlib_linalg_lapack_w
            end do
            go to 330
            ! icompq = 1: applying back the right singular vector factors.
-170  continue
+           170 continue
            ! first now go through the right singular vector matrices of all
            ! the tree nodes top-down.
            j = 0
@@ -41409,7 +41409,7 @@ module stdlib_linalg_lapack_w
                  end do
               end do
            end do loop_320
-330        continue
+           330 continue
            return
      end subroutine stdlib_wlalsa
 
@@ -41445,7 +41445,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: bx,bxst,c,difl,difr,givcol,givnum,givptr,i,icmpq1,icmpq2, &
            irwb,irwib,irwrb,irwu,irwvt,irwwrk,iwk,j,jcol,jimag,jreal,jrow,k,nlvl, &
@@ -41574,7 +41574,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wlaset('A',1,nrhs,czero,czero,b(i,1),ldb)
                  else
                     call stdlib_wlascl('G',0,0,d(i),one,1,nrhs,b(i,1),ldb,info)
-                              
+
                     rank = rank + 1
                  end if
               end do
@@ -41686,7 +41686,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_qlaset('A',nsize,nsize,zero,one,rwork(u + st1),n)
                     call stdlib_qlasdq('U',0,nsize,nsize,nsize,0,d(st),e(st),rwork( &
                     vt + st1),n,rwork(u + st1),n,rwork(nrwork),1,rwork(nrwork),info)
-                              
+
                     if (info /= 0) then
                        return
                     end if
@@ -41721,7 +41721,7 @@ module stdlib_linalg_lapack_w
                        end do
                     end do
                     call stdlib_wlacpy('A',nsize,nrhs,b(st,1),ldb,work(bx + st1),n)
-                              
+
                  else
                     ! a large problem. solve it using divide and conquer.
                     call stdlib_qlasda(icmpq1,smlsiz,nsize,sqre,d(st),e(st),rwork(u + &
@@ -41755,7 +41755,7 @@ module stdlib_linalg_lapack_w
               else
                  rank = rank + 1
                  call stdlib_wlascl('G',0,0,d(i),one,1,nrhs,work(bx + i - 1),n,info)
-                           
+
               end if
               d(i) = abs(d(i))
            end do
@@ -41897,7 +41897,7 @@ module stdlib_linalg_lapack_w
            end if
            if ((nb <= k) .or. (nb >= max(m,n,k))) then
              call stdlib_wgemlqt(side,trans,m,n,k,mb,a,lda,t,ldt,c,ldc,work,info)
-                       
+
              return
            end if
            if (left .and. tran) then
@@ -42059,7 +42059,7 @@ module stdlib_linalg_lapack_w
            end if
            if ((mb <= k) .or. (mb >= max(m,n,k))) then
              call stdlib_wgemqrt(side,trans,m,n,k,nb,a,lda,t,ldt,c,ldc,work,info)
-                       
+
              return
             end if
            if (left .and. notran) then
@@ -42158,7 +42158,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,k,l
            real(qp) :: scale,sum,value,temp
@@ -42233,7 +42233,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: scale,sum,value,temp
@@ -42304,7 +42304,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(in) :: d(*),dl(*),du(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            real(qp) :: anorm,scale,sum,temp
@@ -42318,11 +42318,11 @@ module stdlib_linalg_lapack_w
               anorm = abs(d(n))
               do i = 1,n - 1
                  if (anorm < abs(dl(i)) .or. stdlib_qisnan(abs(dl(i)))) anorm = abs(dl(i))
-                           
+
                  if (anorm < abs(d(i)) .or. stdlib_qisnan(abs(d(i)))) anorm = abs(d(i))
-                           
+
                  if (anorm < abs(du(i)) .or. stdlib_qisnan(abs(du(i)))) anorm = abs(du(i))
-                           
+
               end do
            else if (stdlib_lsame(norm,'O') .or. norm == '1') then
               ! find norm1(a).
@@ -42381,7 +42381,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(qp) :: absa,scale,sum,value
@@ -42455,7 +42455,7 @@ module stdlib_linalg_lapack_w
                  if (stdlib_lsame(uplo,'U')) then
                     do j = 2,n
                        call stdlib_wlassq(min(j - 1,k),ab(max(k + 2 - j,1),j),1,scale,sum)
-                                 
+
                     end do
                     l = k + 1
                  else
@@ -42500,7 +42500,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: absa,scale,sum,value
@@ -42610,7 +42610,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(0:*)
            complex(qp),intent(in) :: a(0:*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,ifm,ilu,noe,n1,k,l,lda
            real(qp) :: scale,s,value,aa,temp
@@ -42982,7 +42982,7 @@ module stdlib_linalg_lapack_w
                           end do
                           work(j) = work(j) + s
                        end do
-10                     continue
+                       10 continue
                        value = work(0)
                        do i = 1,n - 1
                           temp = work(i)
@@ -43830,7 +43830,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ap(*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(qp) :: absa,scale,sum,value
@@ -43958,7 +43958,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: scale,sum,value
@@ -44030,7 +44030,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(in) :: d(*)
            complex(qp),intent(in) :: e(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            real(qp) :: anorm,scale,sum
@@ -44093,7 +44093,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(qp) :: absa,scale,sum,value
@@ -44163,7 +44163,7 @@ module stdlib_linalg_lapack_w
                  if (stdlib_lsame(uplo,'U')) then
                     do j = 2,n
                        call stdlib_wlassq(min(j - 1,k),ab(max(k + 2 - j,1),j),1,scale,sum)
-                                 
+
                     end do
                     l = k + 1
                  else
@@ -44198,7 +44198,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ap(*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(qp) :: absa,scale,sum,value
@@ -44331,7 +44331,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: absa,scale,sum,value
@@ -44427,7 +44427,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
@@ -44579,7 +44579,7 @@ module stdlib_linalg_lapack_w
                     sum = one
                     do j = 1,n
                        call stdlib_wlassq(min(j,k + 1),ab(max(k + 2 - j,1),j),1,scale,sum)
-                                 
+
                     end do
                  end if
               else
@@ -44620,7 +44620,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ap(*)
        ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
@@ -44826,7 +44826,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j
@@ -45014,7 +45014,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: x(*),y(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            real(qp) :: ssmax
            complex(qp) :: a11,a12,a22,c,tau
@@ -45073,7 +45073,7 @@ module stdlib_linalg_lapack_w
                  j = i
                  k(j) = -k(j)
                  in = k(j)
-20               continue
+                 20 continue
                  if (k(in) > 0) go to 40
                  do jj = 1,n
                     temp = x(j,jj)
@@ -45084,7 +45084,7 @@ module stdlib_linalg_lapack_w
                  j = in
                  in = k(in)
                  go to 20
-40               continue
+                 40 continue
               end do
            else
               ! backward permutation
@@ -45092,7 +45092,7 @@ module stdlib_linalg_lapack_w
                  if (k(i) > 0) go to 80
                  k(i) = -k(i)
                  j = k(i)
-60               continue
+                 60 continue
                  if (j == i) go to 80
                  do jj = 1,n
                     temp = x(i,jj)
@@ -45102,7 +45102,7 @@ module stdlib_linalg_lapack_w
                  k(j) = -k(j)
                  j = k(j)
                  go to 60
-80               continue
+                 80 continue
               end do
            end if
            return
@@ -45141,7 +45141,7 @@ module stdlib_linalg_lapack_w
                  j = i
                  k(j) = -k(j)
                  in = k(j)
-20               continue
+                 20 continue
                  if (k(in) > 0) go to 40
                  do ii = 1,m
                     temp = x(ii,j)
@@ -45152,7 +45152,7 @@ module stdlib_linalg_lapack_w
                  j = in
                  in = k(in)
                  go to 20
-40               continue
+                 40 continue
               end do
            else
               ! backward permutation
@@ -45160,7 +45160,7 @@ module stdlib_linalg_lapack_w
                  if (k(i) > 0) go to 80
                  k(i) = -k(i)
                  j = k(i)
-60               continue
+                 60 continue
                  if (j == i) go to 80
                  do ii = 1,m
                     temp = x(ii,i)
@@ -45170,7 +45170,7 @@ module stdlib_linalg_lapack_w
                  k(j) = -k(j)
                  j = k(j)
                  go to 60
-80               continue
+                 80 continue
               end do
            end if
            return
@@ -45181,7 +45181,7 @@ module stdlib_linalg_lapack_w
      !> in the vectors R and C.
 
      pure subroutine stdlib_wlaqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
-               
+
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -45195,7 +45195,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: thresh = 0.1e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: cj,large,small
@@ -45263,7 +45263,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: thresh = 0.1e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: cj,large,small
@@ -45330,7 +45330,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: thresh = 0.1e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: cj,large,small
@@ -45392,7 +45392,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: thresh = 0.1e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: cj,large,small
@@ -45454,7 +45454,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: thresh = 0.1e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,jc
            real(qp) :: cj,large,small
@@ -45518,7 +45518,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,itemp,j,mn,offpi,pvt
            real(qp) :: temp,temp2,tol3z
@@ -45544,7 +45544,7 @@ module stdlib_linalg_lapack_w
               ! generate elementary reflector h(i).
               if (offpi < m) then
                  call stdlib_wlarfg(m - offpi + 1,a(offpi,i),a(offpi + 1,i),1,tau(i))
-                           
+
               else
                  call stdlib_wlarfg(1,a(m,i),a(m,i),1,tau(i))
               end if
@@ -45604,7 +45604,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),auxv(*),f(ldf,*)
            complex(qp),intent(out) :: tau(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: itemp,j,k,lastrk,lsticc,pvt,rk
            real(qp) :: temp,temp2,tol3z
@@ -45617,7 +45617,7 @@ module stdlib_linalg_lapack_w
            k = 0
            tol3z = sqrt(stdlib_qlamch('EPSILON'))
            ! beginning of while loop.
-10   continue
+           10 continue
            if ((k < nb) .and. (lsticc == 0)) then
               k = k + 1
               rk = offset + k
@@ -45709,7 +45709,7 @@ module stdlib_linalg_lapack_w
                         rk + 1,1),lda,f(kb + 1,1),ldf,cone,a(rk + 1,kb + 1),lda)
            end if
            ! recomputation of difficult columns.
-60   continue
+           60 continue
            if (lsticc > 0) then
               itemp = nint(vn2(lsticc),KIND=ilp)
               vn1(lsticc) = stdlib_qznrm2(m - rk,a(rk + 1,lsticc),1)
@@ -45753,18 +45753,18 @@ module stdlib_linalg_lapack_w
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_wlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
-           
+
            ! ==== exceptional deflation windows:  try to cure rare
            ! .    slow convergence by varying the size of the
            ! .    deflation window after kexnw iterations. ====
-           
+
            ! ==== exceptional shifts: try to cure rare slow convergence
            ! .    with ad-hoc exceptional shifts every kexsh iterations.
            ! .    ====
-           
+
            ! ==== the constant wilk1 is used to form the exceptional
            ! .    shifts. ====
-           
+
            ! Local Scalars
            complex(qp) :: aa,bb,cc,cdum,dd,det,rtdisc,swap,tr2
            real(qp) :: s
@@ -45869,7 +45869,7 @@ module stdlib_linalg_lapack_w
                     if (h(k,k - 1) == czero) go to 20
                  end do
                  k = ilo
-20               continue
+                 20 continue
                  ktop = k
                  ! ==== select deflation window size:
                  ! .    typical case:
@@ -45965,7 +45965,7 @@ module stdlib_linalg_lapack_w
                           ks = kbot - ns + 1
                           kt = n - ns + 1
                           call stdlib_wlacpy('A',ns,ns,h(ks,ks),ldh,h(kt,1),ldh)
-                                    
+
                           if (ns > nmin) then
                              call stdlib_wlaqr4(.false.,.false.,ns,1,ns,h(kt,1),ldh,w( &
                                        ks),1,1,zdum,1,work,lwork,inf)
@@ -46010,7 +46010,7 @@ module stdlib_linalg_lapack_w
                                 end if
                              end do
                           end do
-60                        continue
+                          60 continue
                        end if
                     end if
                     ! ==== if there are only two shifts, then use
@@ -46062,7 +46062,7 @@ module stdlib_linalg_lapack_w
               ! ==== iteration limit exceeded.  set info to show where
               ! .    the problem occurred and exit. ====
               info = kbot
-80            continue
+              80 continue
            end if
            ! ==== return the optimal value of lwork. ====
            work(1) = cmplx(lwkopt,0,KIND=qp)
@@ -46088,7 +46088,7 @@ module stdlib_linalg_lapack_w
         ! ================================================================
            ! Parameters
            real(qp),parameter :: rzero = 0.0_qp
-           
+
            ! Local Scalars
            complex(qp) :: cdum,h21s,h31s
            real(qp) :: s
@@ -46159,7 +46159,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            real(qp),parameter :: rzero = 0.0_qp
            real(qp),parameter :: rone = 1.0_qp
-           
+
            ! Local Scalars
            complex(qp) :: beta,cdum,s,tau
            real(qp) :: foo,safmax,safmin,smlnum,ulp
@@ -46182,7 +46182,7 @@ module stdlib_linalg_lapack_w
               lwk1 = int(work(1),KIND=ilp)
               ! ==== workspace query call to stdlib_wunmhr ====
               call stdlib_wunmhr('R','N',jw,jw,1,jw - 1,t,ldt,work,v,ldv,work,-1,info)
-                        
+
               lwk2 = int(work(1),KIND=ilp)
               ! ==== optimal workspace ====
               lwkopt = jw + max(lwk1,lwk2)
@@ -46267,7 +46267,7 @@ module stdlib_linalg_lapack_w
                  end do
                  ilst = i
                  if (ifst /= ilst) call stdlib_wtrexc('V',jw,t,ldt,v,ldv,ifst,ilst,info)
-                           
+
               end do
            end if
            ! ==== restore shift/eigenvalue array from t ====
@@ -46286,11 +46286,11 @@ module stdlib_linalg_lapack_w
                  work(1) = cone
                  call stdlib_wlaset('L',jw - 2,jw - 2,czero,czero,t(3,1),ldt)
                  call stdlib_wlarf('L',ns,jw,work,1,conjg(tau),t,ldt,work(jw + 1))
-                           
+
                  call stdlib_wlarf('R',ns,ns,work,1,tau,t,ldt,work(jw + 1))
                  call stdlib_wlarf('R',jw,ns,work,1,tau,v,ldv,work(jw + 1))
                  call stdlib_wgehrd(jw,1,ns,t,ldt,work,work(jw + 1),lwork - jw,info)
-                           
+
               end if
               ! ==== copy updated reduced window into place ====
               if (kwtop > 1) h(kwtop,kwtop - 1) = s*conjg(v(1,1))
@@ -46370,7 +46370,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            real(qp),parameter :: rzero = 0.0_qp
            real(qp),parameter :: rone = 1.0_qp
-           
+
            ! Local Scalars
            complex(qp) :: beta,cdum,s,tau
            real(qp) :: foo,safmax,safmin,smlnum,ulp
@@ -46393,7 +46393,7 @@ module stdlib_linalg_lapack_w
               lwk1 = int(work(1),KIND=ilp)
               ! ==== workspace query call to stdlib_wunmhr ====
               call stdlib_wunmhr('R','N',jw,jw,1,jw - 1,t,ldt,work,v,ldv,work,-1,info)
-                        
+
               lwk2 = int(work(1),KIND=ilp)
               ! ==== workspace query call to stdlib_wlaqr4 ====
               call stdlib_wlaqr4(.true.,.true.,jw,1,jw,t,ldt,sh,1,jw,v,ldv,work,-1, &
@@ -46488,7 +46488,7 @@ module stdlib_linalg_lapack_w
                  end do
                  ilst = i
                  if (ifst /= ilst) call stdlib_wtrexc('V',jw,t,ldt,v,ldv,ifst,ilst,info)
-                           
+
               end do
            end if
            ! ==== restore shift/eigenvalue array from t ====
@@ -46507,11 +46507,11 @@ module stdlib_linalg_lapack_w
                  work(1) = cone
                  call stdlib_wlaset('L',jw - 2,jw - 2,czero,czero,t(3,1),ldt)
                  call stdlib_wlarf('L',ns,jw,work,1,conjg(tau),t,ldt,work(jw + 1))
-                           
+
                  call stdlib_wlarf('R',ns,ns,work,1,tau,t,ldt,work(jw + 1))
                  call stdlib_wlarf('R',jw,ns,work,1,tau,v,ldv,work(jw + 1))
                  call stdlib_wgehrd(jw,1,ns,t,ldt,work,work(jw + 1),lwork - jw,info)
-                           
+
               end if
               ! ==== copy updated reduced window into place ====
               if (kwtop > 1) h(kwtop,kwtop - 1) = s*conjg(v(1,1))
@@ -46600,18 +46600,18 @@ module stdlib_linalg_lapack_w
            ! ==== matrices of order ntiny or smaller must be processed by
            ! .    stdlib_wlahqr because of insufficient subdiagonal scratch space.
            ! .    (this is a hard limit.) ====
-           
+
            ! ==== exceptional deflation windows:  try to cure rare
            ! .    slow convergence by varying the size of the
            ! .    deflation window after kexnw iterations. ====
-           
+
            ! ==== exceptional shifts: try to cure rare slow convergence
            ! .    with ad-hoc exceptional shifts every kexsh iterations.
            ! .    ====
-           
+
            ! ==== the constant wilk1 is used to form the exceptional
            ! .    shifts. ====
-           
+
            ! Local Scalars
            complex(qp) :: aa,bb,cc,cdum,dd,det,rtdisc,swap,tr2
            real(qp) :: s
@@ -46716,7 +46716,7 @@ module stdlib_linalg_lapack_w
                     if (h(k,k - 1) == czero) go to 20
                  end do
                  k = ilo
-20               continue
+                 20 continue
                  ktop = k
                  ! ==== select deflation window size:
                  ! .    typical case:
@@ -46812,7 +46812,7 @@ module stdlib_linalg_lapack_w
                           ks = kbot - ns + 1
                           kt = n - ns + 1
                           call stdlib_wlacpy('A',ns,ns,h(ks,ks),ldh,h(kt,1),ldh)
-                                    
+
                           call stdlib_wlahqr(.false.,.false.,ns,1,ns,h(kt,1),ldh,w(ks) &
                                     ,1,1,zdum,1,inf)
                           ks = ks + inf
@@ -46852,7 +46852,7 @@ module stdlib_linalg_lapack_w
                                 end if
                              end do
                           end do
-60                        continue
+                          60 continue
                        end if
                     end if
                     ! ==== if there are only two shifts, then use
@@ -46904,7 +46904,7 @@ module stdlib_linalg_lapack_w
               ! ==== iteration limit exceeded.  set info to show where
               ! .    the problem occurred and exit. ====
               info = kbot
-80            continue
+              80 continue
            end if
            ! ==== return the optimal value of lwork. ====
            work(1) = cmplx(lwkopt,0,KIND=qp)
@@ -46929,7 +46929,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            real(qp),parameter :: rzero = 0.0_qp
            real(qp),parameter :: rone = 1.0_qp
-           
+
            ! Local Scalars
            complex(qp) :: alpha,beta,cdum,refsum
            real(qp) :: h11,h12,h21,h22,safmax,safmin,scl,smlnum,tst1,tst2,ulp
@@ -47065,9 +47065,9 @@ module stdlib_linalg_lapack_w
                              h12 = max(cabs1(h(k + 1,k)),cabs1(h(k,k + 1)))
                              h21 = min(cabs1(h(k + 1,k)),cabs1(h(k,k + 1)))
                              h11 = max(cabs1(h(k + 1,k + 1)),cabs1(h(k,k) - h(k + 1,k + 1)))
-                                       
+
                              h22 = min(cabs1(h(k + 1,k + 1)),cabs1(h(k,k) - h(k + 1,k + 1)))
-                                       
+
                              scl = h11 + h12
                              tst2 = h22*(h11/scl)
                              if (tst2 == rzero .or. h21*(h12/scl) <= max(smlnum,ulp*tst2)) h( &
@@ -47130,11 +47130,11 @@ module stdlib_linalg_lapack_w
                           ! .    reflector is too large, then abandon it.
                           ! .    otherwise, use the new cone. ====
                           call stdlib_wlaqr1(3,h(k + 1,k + 1),ldh,s(2*m - 1),s(2*m),vt)
-                                    
+
                           alpha = vt(1)
                           call stdlib_wlarfg(3,alpha,vt(2),1,vt(1))
                           refsum = conjg(vt(1))*(h(k + 1,k) + conjg(vt(2))*h(k + 2,k))
-                                    
+
                           if (cabs1(h(k + 2,k) - refsum*vt(2)) + cabs1(refsum*vt(3)) > ulp*( &
                           cabs1(h(k,k)) + cabs1(h(k + 1,k + 1)) + cabs1(h(k + 2,k + 2)))) &
                                     then
@@ -47200,9 +47200,9 @@ module stdlib_linalg_lapack_w
                           h12 = max(cabs1(h(k + 1,k)),cabs1(h(k,k + 1)))
                           h21 = min(cabs1(h(k + 1,k)),cabs1(h(k,k + 1)))
                           h11 = max(cabs1(h(k + 1,k + 1)),cabs1(h(k,k) - h(k + 1,k + 1)))
-                                    
+
                           h22 = min(cabs1(h(k + 1,k + 1)),cabs1(h(k,k) - h(k + 1,k + 1)))
-                                    
+
                           scl = h11 + h12
                           tst2 = h22*(h11/scl)
                           if (tst2 == rzero .or. h21*(h12/scl) <= max(smlnum,ulp*tst2)) h(k + 1, &
@@ -47283,7 +47283,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wgemm('C','N',nu,jlen,nu,cone,u(k1,k1),ldu,h(incol + k1, &
                                jcol),ldh,czero,wh,ldwh)
                     call stdlib_wlacpy('ALL',nu,jlen,wh,ldwh,h(incol + k1,jcol),ldh)
-                              
+
                  end do
                  ! ==== vertical multiply ====
                  do jrow = jtop,max(ktop,incol) - 1,nv
@@ -47291,7 +47291,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wgemm('N','N',jlen,nu,nu,cone,h(jrow,incol + k1),ldh,u( &
                               k1,k1),ldu,czero,wv,ldwv)
                     call stdlib_wlacpy('ALL',jlen,nu,wv,ldwv,h(jrow,incol + k1),ldh)
-                              
+
                  end do
                  ! ==== z multiply (also vertical) ====
                  if (wantz) then
@@ -47300,7 +47300,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wgemm('N','N',jlen,nu,nu,cone,z(jrow,incol + k1),ldz, &
                                  u(k1,k1),ldu,czero,wv,ldwv)
                        call stdlib_wlacpy('ALL',jlen,nu,wv,ldwv,z(jrow,incol + k1),ldz)
-                                 
+
                     end do
                  end if
               end if
@@ -47325,7 +47325,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: thresh = 0.1e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: cj,large,small
@@ -47385,7 +47385,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: thresh = 0.1e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,jc
            real(qp) :: cj,large,small
@@ -47447,7 +47447,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: thresh = 0.1e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: cj,large,small
@@ -47537,7 +47537,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*), &
                      alpha(*),beta(*),work(*)
            real(qp),intent(out) :: rwork(*)
-           
+
            ! local scalars
            real(qp) :: smlnum,ulp,safmin,safmax,c1,tempr
            complex(qp) :: eshift,s1,temp
@@ -47741,7 +47741,7 @@ module stdlib_linalg_lapack_w
                        end if
                        if (k2 < istop) then
                           call stdlib_wlartg(a(k2,k2 - 1),a(k2 + 1,k2 - 1),c1,s1,temp)
-                                    
+
                           a(k2,k2 - 1) = temp
                           a(k2 + 1,k2 - 1) = czero
                           call stdlib_wrot(istopm - k2 + 1,a(k2,k2),lda,a(k2 + 1,k2),lda,c1, &
@@ -47750,7 +47750,7 @@ module stdlib_linalg_lapack_w
                                     s1)
                           if (ilq) then
                              call stdlib_wrot(n,q(1,k2),1,q(1,k2 + 1),1,c1,conjg(s1))
-                                       
+
                           end if
                        end if
                     end do
@@ -47848,7 +47848,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(in) :: k,lda,ldb,ldq,ldz,istartm,istopm,nq,nz,qstart, &
                      zstart,ihi
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*)
-           
+
            ! local variables
            real(qp) :: c
            complex(qp) :: s,temp
@@ -47858,12 +47858,12 @@ module stdlib_linalg_lapack_w
               b(ihi,ihi) = temp
               b(ihi,ihi - 1) = czero
               call stdlib_wrot(ihi - istartm,b(istartm,ihi),1,b(istartm,ihi - 1),1,c,s)
-                        
+
               call stdlib_wrot(ihi - istartm + 1,a(istartm,ihi),1,a(istartm,ihi - 1),1,c,s)
-                        
+
               if (ilz) then
                  call stdlib_wrot(nz,z(1,ihi - zstart + 1),1,z(1,ihi - 1 - zstart + 1),1,c,s)
-                           
+
               end if
            else
               ! normal operation, move bulge down
@@ -47872,12 +47872,12 @@ module stdlib_linalg_lapack_w
               b(k + 1,k + 1) = temp
               b(k + 1,k) = czero
               call stdlib_wrot(k + 2 - istartm + 1,a(istartm,k + 1),1,a(istartm,k),1,c,s)
-                        
+
               call stdlib_wrot(k - istartm + 1,b(istartm,k + 1),1,b(istartm,k),1,c,s)
-                        
+
               if (ilz) then
                  call stdlib_wrot(nz,z(1,k + 1 - zstart + 1),1,z(1,k - zstart + 1),1,c,s)
-                           
+
               end if
               ! apply transformation from the left
               call stdlib_wlartg(a(k + 1,k),a(k + 2,k),c,s,temp)
@@ -47906,7 +47906,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: qc(ldqc,*),zc(ldzc,*)
            complex(qp),intent(out) :: work(*)
            real(qp),intent(out) :: rwork(*)
-           
+
            ! local scalars
            integer(ilp) :: jw,kwtop,kwbot,istopm,istartm,k,k2,ztgexc_info,ifst,ilst, &
                      lworkreq,qz_small_info
@@ -47962,7 +47962,7 @@ module stdlib_linalg_lapack_w
            ! store window in case of convergence failure
            call stdlib_wlacpy('ALL',jw,jw,a(kwtop,kwtop),lda,work,jw)
            call stdlib_wlacpy('ALL',jw,jw,b(kwtop,kwtop),ldb,work(jw**2 + 1),jw)
-                     
+
            ! transform window to real schur form
            call stdlib_wlaset('FULL',jw,jw,czero,cone,qc,ldqc)
            call stdlib_wlaset('FULL',jw,jw,czero,cone,zc,ldzc)
@@ -47975,7 +47975,7 @@ module stdlib_linalg_lapack_w
               ns = jw - qz_small_info
               call stdlib_wlacpy('ALL',jw,jw,work,jw,a(kwtop,kwtop),lda)
               call stdlib_wlacpy('ALL',jw,jw,work(jw**2 + 1),jw,b(kwtop,kwtop),ldb)
-                        
+
               return
            end if
            ! deflation detection loop
@@ -48025,7 +48025,7 @@ module stdlib_linalg_lapack_w
                  k2 = max(kwtop,k - 1)
                  call stdlib_wrot(ihi - k2 + 1,a(k,k2),lda,a(k + 1,k2),lda,c1,s1)
                  call stdlib_wrot(ihi - (k - 1) + 1,b(k,k - 1),ldb,b(k + 1,k - 1),ldb,c1,s1)
-                           
+
                  call stdlib_wrot(jw,qc(1,k - kwtop + 1),1,qc(1,k + 1 - kwtop + 1),1,c1,conjg( &
                            s1))
               end do
@@ -48091,7 +48091,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*),q(ldq,*),z(ldz,*),qc( &
                      ldqc,*),zc(ldzc,*),work(*),alpha(*),beta(*)
            integer(ilp),intent(out) :: info
-           
+
            ! local scalars
            integer(ilp) :: i,j,ns,istartm,istopm,sheight,swidth,k,np,istartb,istopb, &
                      ishift,nblock,npos
@@ -48167,11 +48167,11 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('C','N',sheight,swidth,sheight,cone,qc,ldqc,a(ilo,ilo + &
                         ns),lda,czero,work,sheight)
               call stdlib_wlacpy('ALL',sheight,swidth,work,sheight,a(ilo,ilo + ns),lda)
-                        
+
               call stdlib_wgemm('C','N',sheight,swidth,sheight,cone,qc,ldqc,b(ilo,ilo + &
                         ns),ldb,czero,work,sheight)
               call stdlib_wlacpy('ALL',sheight,swidth,work,sheight,b(ilo,ilo + ns),ldb)
-                        
+
            end if
            if (ilq) then
               call stdlib_wgemm('N','N',n,sheight,sheight,cone,q(1,ilo),ldq,qc,ldqc, &
@@ -48186,11 +48186,11 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('N','N',sheight,swidth,swidth,cone,a(istartm,ilo),lda, &
                         zc,ldzc,czero,work,sheight)
               call stdlib_wlacpy('ALL',sheight,swidth,work,sheight,a(istartm,ilo),lda)
-                        
+
               call stdlib_wgemm('N','N',sheight,swidth,swidth,cone,b(istartm,ilo),ldb, &
                         zc,ldzc,czero,work,sheight)
               call stdlib_wlacpy('ALL',sheight,swidth,work,sheight,b(istartm,ilo),ldb)
-                        
+
            end if
            if (ilz) then
               call stdlib_wgemm('N','N',n,swidth,swidth,cone,z(1,ilo),ldz,zc,ldzc, &
@@ -48250,11 +48250,11 @@ module stdlib_linalg_lapack_w
                  call stdlib_wgemm('N','N',sheight,swidth,swidth,cone,a(istartm,k),lda, &
                            zc,ldzc,czero,work,sheight)
                  call stdlib_wlacpy('ALL',sheight,swidth,work,sheight,a(istartm,k),lda)
-                           
+
                  call stdlib_wgemm('N','N',sheight,swidth,swidth,cone,b(istartm,k),ldb, &
                            zc,ldzc,czero,work,sheight)
                  call stdlib_wlacpy('ALL',sheight,swidth,work,sheight,b(istartm,k),ldb)
-                           
+
               end if
               if (ilz) then
                  call stdlib_wgemm('N','N',n,nblock,nblock,cone,z(1,k),ldz,zc,ldzc, &
@@ -48353,7 +48353,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(inout) :: z(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: sawnan1,sawnan2
            integer(ilp) :: i,indlpl,indp,inds,indumn,neg1,neg2,r1,r2
@@ -48401,7 +48401,7 @@ module stdlib_linalg_lapack_w
               s = work(inds + i) - lambda
            end do
            sawnan1 = stdlib_qisnan(s)
-60         continue
+           60 continue
            if (sawnan1) then
               ! runs a slower version of the above loop if a nan is detected
               neg1 = 0
@@ -48486,7 +48486,7 @@ module stdlib_linalg_lapack_w
                  end if
                  ztz = ztz + real(z(i)*z(i),KIND=qp)
               end do
-220           continue
+              220 continue
            else
               ! run slower loop if nan occurred.
               do i = r - 1,b1,-1
@@ -48502,7 +48502,7 @@ module stdlib_linalg_lapack_w
                  end if
                  ztz = ztz + real(z(i)*z(i),KIND=qp)
               end do
-240           continue
+              240 continue
            end if
            ! compute the fp vector downwards from r in blocks of size blksiz
            if (.not. sawnan1 .and. .not. sawnan2) then
@@ -48515,7 +48515,7 @@ module stdlib_linalg_lapack_w
                  end if
                  ztz = ztz + real(z(i + 1)*z(i + 1),KIND=qp)
               end do
-260           continue
+              260 continue
            else
               ! run slower loop if nan occurred.
               do i = r,bn - 1
@@ -48531,7 +48531,7 @@ module stdlib_linalg_lapack_w
                  end if
                  ztz = ztz + real(z(i + 1)*z(i + 1),KIND=qp)
               end do
-280           continue
+              280 continue
            end if
            ! compute quantities for convergence test
            tmp = one/ztz
@@ -48612,7 +48612,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: b(ldb,*)
            complex(qp),intent(out) :: c(ldc,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,l
            ! Intrinsic Functions
@@ -48627,7 +48627,7 @@ module stdlib_linalg_lapack_w
            end do
            l = m*n + 1
            call stdlib_qgemm('N','N',m,n,m,one,a,lda,rwork,m,zero,rwork(l),m)
-                     
+
            do j = 1,n
               do i = 1,m
                  c(i,j) = rwork(l + (j - 1)*m + i - 1)
@@ -48639,11 +48639,11 @@ module stdlib_linalg_lapack_w
               end do
            end do
            call stdlib_qgemm('N','N',m,n,m,one,a,lda,rwork,m,zero,rwork(l),m)
-                     
+
            do j = 1,n
               do i = 1,m
                  c(i,j) = cmplx(real(c(i,j),KIND=qp),rwork(l + (j - 1)*m + i - 1),KIND=qp)
-                           
+
               end do
            end do
            return
@@ -48671,7 +48671,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: v(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: applyleft
            integer(ilp) :: i,lastv,lastc
@@ -48745,7 +48745,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: t(ldt,*),v(ldv,*)
            complex(qp),intent(out) :: work(ldwork,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            character :: transt
            integer(ilp) :: i,j
@@ -49066,7 +49066,7 @@ module stdlib_linalg_lapack_w
      !> arrays A, B and T. See Further Details section.
 
      pure subroutine stdlib_wlarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
-               
+
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -49078,7 +49078,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: t(ldt,*)
            complex(qp),intent(out) :: work(ldwork,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lnotident
            integer(ilp) :: i,j
@@ -49102,7 +49102,7 @@ module stdlib_linalg_lapack_w
                  ! v1 is not an identy matrix, but unit lower-triangular
                  ! v1 stored in a1 (diagonal ones are not stored).
                  call stdlib_wtrmm('L','L','C','U',k,n - k,cone,a,lda,work,ldwork)
-                           
+
               end if
               ! col2_(3) compute w2: = w2 + (v2**h) * b2 = w2 + (b1**h) * b2
               ! v2 stored in b1.
@@ -49124,7 +49124,7 @@ module stdlib_linalg_lapack_w
                  ! v1 is not an identity matrix, but unit lower-triangular,
                  ! v1 stored in a1 (diagonal ones are not stored).
                  call stdlib_wtrmm('L','L','N','U',k,n - k,cone,a,lda,work,ldwork)
-                           
+
               end if
               ! col2_(7) compute a2: = a2 - w2 =
                                    ! = a(1:k, k+1:n-k) - work(1:k, 1:n-k),
@@ -49221,7 +49221,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: j,knt
            real(qp) :: alphi,alphr,beta,rsafmn,safmin,xnorm
@@ -49246,7 +49246,7 @@ module stdlib_linalg_lapack_w
               knt = 0
               if (abs(beta) < safmin) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
-10   continue
+                 10 continue
                  knt = knt + 1
                  call stdlib_wdscal(n - 1,rsafmn,x,incx)
                  beta = beta*rsafmn
@@ -49294,7 +49294,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: j,knt
            real(qp) :: alphi,alphr,beta,bignum,smlnum,xnorm
@@ -49343,7 +49343,7 @@ module stdlib_linalg_lapack_w
               knt = 0
               if (abs(beta) < smlnum) then
                  ! xnorm, beta may be inaccurate; scale x and recompute them
-10   continue
+                 10 continue
                  knt = knt + 1
                  call stdlib_wdscal(n - 1,bignum,x,incx)
                  beta = beta*bignum
@@ -49428,7 +49428,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: t(ldt,*)
            complex(qp),intent(in) :: tau(*),v(ldv,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,prevlastv,lastv
            ! Executable Statements
@@ -49554,7 +49554,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: v(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: j
            complex(qp) :: sum,t1,t10,t2,t3,t4,t5,t6,t7,t8,t9,v1,v10,v2,v3,v4,v5, &
@@ -49569,14 +49569,14 @@ module stdlib_linalg_lapack_w
               ! code for general m
               call stdlib_wlarf(side,m,n,v,1,tau,c,ldc,work)
               go to 410
-10            continue
+              10 continue
               ! special code for 1 x 1 householder
               t1 = cone - tau*v(1)*conjg(v(1))
               do j = 1,n
                  c(1,j) = t1*c(1,j)
               end do
               go to 410
-30            continue
+              30 continue
               ! special code for 2 x 2 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -49588,7 +49588,7 @@ module stdlib_linalg_lapack_w
                  c(2,j) = c(2,j) - sum*t2
               end do
               go to 410
-50            continue
+              50 continue
               ! special code for 3 x 3 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -49603,7 +49603,7 @@ module stdlib_linalg_lapack_w
                  c(3,j) = c(3,j) - sum*t3
               end do
               go to 410
-70            continue
+              70 continue
               ! special code for 4 x 4 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -49621,7 +49621,7 @@ module stdlib_linalg_lapack_w
                  c(4,j) = c(4,j) - sum*t4
               end do
               go to 410
-90            continue
+              90 continue
               ! special code for 5 x 5 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -49635,7 +49635,7 @@ module stdlib_linalg_lapack_w
               t5 = tau*conjg(v5)
               do j = 1,n
                  sum = v1*c(1,j) + v2*c(2,j) + v3*c(3,j) + v4*c(4,j) + v5*c(5,j)
-                           
+
                  c(1,j) = c(1,j) - sum*t1
                  c(2,j) = c(2,j) - sum*t2
                  c(3,j) = c(3,j) - sum*t3
@@ -49643,7 +49643,7 @@ module stdlib_linalg_lapack_w
                  c(5,j) = c(5,j) - sum*t5
               end do
               go to 410
-110           continue
+              110 continue
               ! special code for 6 x 6 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -49668,7 +49668,7 @@ module stdlib_linalg_lapack_w
                  c(6,j) = c(6,j) - sum*t6
               end do
               go to 410
-130           continue
+              130 continue
               ! special code for 7 x 7 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -49696,7 +49696,7 @@ module stdlib_linalg_lapack_w
                  c(7,j) = c(7,j) - sum*t7
               end do
               go to 410
-150           continue
+              150 continue
               ! special code for 8 x 8 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -49727,7 +49727,7 @@ module stdlib_linalg_lapack_w
                  c(8,j) = c(8,j) - sum*t8
               end do
               go to 410
-170           continue
+              170 continue
               ! special code for 9 x 9 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -49761,7 +49761,7 @@ module stdlib_linalg_lapack_w
                  c(9,j) = c(9,j) - sum*t9
               end do
               go to 410
-190           continue
+              190 continue
               ! special code for 10 x 10 householder
               v1 = conjg(v(1))
               t1 = tau*conjg(v1)
@@ -49804,14 +49804,14 @@ module stdlib_linalg_lapack_w
               ! code for general n
               call stdlib_wlarf(side,m,n,v,1,tau,c,ldc,work)
               go to 410
-210           continue
+              210 continue
               ! special code for 1 x 1 householder
               t1 = cone - tau*v(1)*conjg(v(1))
               do j = 1,m
                  c(j,1) = t1*c(j,1)
               end do
               go to 410
-230           continue
+              230 continue
               ! special code for 2 x 2 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -49823,7 +49823,7 @@ module stdlib_linalg_lapack_w
                  c(j,2) = c(j,2) - sum*t2
               end do
               go to 410
-250           continue
+              250 continue
               ! special code for 3 x 3 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -49838,7 +49838,7 @@ module stdlib_linalg_lapack_w
                  c(j,3) = c(j,3) - sum*t3
               end do
               go to 410
-270           continue
+              270 continue
               ! special code for 4 x 4 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -49856,7 +49856,7 @@ module stdlib_linalg_lapack_w
                  c(j,4) = c(j,4) - sum*t4
               end do
               go to 410
-290           continue
+              290 continue
               ! special code for 5 x 5 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -49870,7 +49870,7 @@ module stdlib_linalg_lapack_w
               t5 = tau*conjg(v5)
               do j = 1,m
                  sum = v1*c(j,1) + v2*c(j,2) + v3*c(j,3) + v4*c(j,4) + v5*c(j,5)
-                           
+
                  c(j,1) = c(j,1) - sum*t1
                  c(j,2) = c(j,2) - sum*t2
                  c(j,3) = c(j,3) - sum*t3
@@ -49878,7 +49878,7 @@ module stdlib_linalg_lapack_w
                  c(j,5) = c(j,5) - sum*t5
               end do
               go to 410
-310           continue
+              310 continue
               ! special code for 6 x 6 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -49903,7 +49903,7 @@ module stdlib_linalg_lapack_w
                  c(j,6) = c(j,6) - sum*t6
               end do
               go to 410
-330           continue
+              330 continue
               ! special code for 7 x 7 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -49931,7 +49931,7 @@ module stdlib_linalg_lapack_w
                  c(j,7) = c(j,7) - sum*t7
               end do
               go to 410
-350           continue
+              350 continue
               ! special code for 8 x 8 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -49962,7 +49962,7 @@ module stdlib_linalg_lapack_w
                  c(j,8) = c(j,8) - sum*t8
               end do
               go to 410
-370           continue
+              370 continue
               ! special code for 9 x 9 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -49996,7 +49996,7 @@ module stdlib_linalg_lapack_w
                  c(j,9) = c(j,9) - sum*t9
               end do
               go to 410
-390           continue
+              390 continue
               ! special code for 10 x 10 householder
               v1 = v(1)
               t1 = tau*conjg(v1)
@@ -50034,7 +50034,7 @@ module stdlib_linalg_lapack_w
               end do
               go to 410
            end if
-410        continue
+           410 continue
            return
      end subroutine stdlib_wlarfx
 
@@ -50058,7 +50058,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: v(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            complex(qp) :: alpha
            ! Executable Statements
@@ -50093,7 +50093,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: c(*)
            complex(qp),intent(inout) :: x(*),y(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            ! logical            first
            integer(ilp) :: count,i,ic,ix,iy,j
@@ -50131,7 +50131,7 @@ module stdlib_linalg_lapack_w
               gs = g
               count = 0
               if (scale >= safmx2) then
-10            continue
+              10 continue
                  count = count + 1
                  fs = fs*safmn2
                  gs = gs*safmn2
@@ -50144,7 +50144,7 @@ module stdlib_linalg_lapack_w
                     r = f
                     go to 50
                  end if
-20               continue
+                 20 continue
                  count = count - 1
                  fs = fs*safmx2
                  gs = gs*safmx2
@@ -50214,7 +50214,7 @@ module stdlib_linalg_lapack_w
                     end if
                  end if
               end if
-50            continue
+              50 continue
               c(ic) = cs
               y(iy) = sn
               x(ix) = r
@@ -50241,7 +50241,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            integer(ilp),parameter :: lv = 128
            real(qp),parameter :: twopi = 6.28318530717958647692528676655900576839e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i,il,iv
            ! Local Arrays
@@ -50275,7 +50275,7 @@ module stdlib_linalg_lapack_w
                  ! distributed on the unit disk
                  do i = 1,il
                     x(iv + i - 1) = sqrt(u(2*i - 1))*exp(cmplx(zero,twopi*u(2*i),KIND=qp))
-                              
+
                  end do
               else if (idist == 5) then
                  ! convert generated numbers to complex numbers uniformly
@@ -50284,7 +50284,7 @@ module stdlib_linalg_lapack_w
                     x(iv + i - 1) = exp(cmplx(zero,twopi*u(2*i),KIND=qp))
                  end do
               end if
-60            continue
+              60 continue
            return
      end subroutine stdlib_wlarnv
 
@@ -50312,7 +50312,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: maxitr = 10
-           
+
            ! Local Scalars
            logical(lk) :: eskip,needbs,stp2ii,tryrqc,usedbs,usedrq
            integer(ilp) :: done,i,ibegin,idone,iend,ii,iindc1,iindc2,iindr,iindwk,iinfo, &
@@ -50395,7 +50395,7 @@ module stdlib_linalg_lapack_w
               ! find the eigenvectors of the submatrix indexed ibegin
               ! through iend.
               wend = wbegin - 1
-15            continue
+              15 continue
               if (wend < m) then
                  if (iblock(wend + 1) == jblk) then
                     wend = wend + 1
@@ -50463,7 +50463,7 @@ module stdlib_linalg_lapack_w
               ! loop while( idone<im )
               ! generate the representation tree for the current block and
               ! compute the eigenvectors
-40   continue
+              40 continue
               if (idone < im) then
                  ! this is a crude protection against infinitely deep trees
                  if (ndepth > m) then
@@ -50519,7 +50519,7 @@ module stdlib_linalg_lapack_w
                        sigma = real(z(iend,j + 1),KIND=qp)
                        ! set the corresponding entries in z to zero
                        call stdlib_wlaset('FULL',in,2,czero,czero,z(ibegin,j),ldz)
-                                 
+
                     end if
                     ! compute dl and dll of current rrr
                     do j = ibegin,iend - 1
@@ -50555,7 +50555,7 @@ module stdlib_linalg_lapack_w
                        if (oldfst > 1) then
                           wgap(wbegin + oldfst - 2) = max(wgap(wbegin + oldfst - 2),w(wbegin + oldfst - 1) - &
                           werr(wbegin + oldfst - 1) - w(wbegin + oldfst - 2) - werr(wbegin + oldfst - 2))
-                                    
+
                        end if
                        if (wbegin + oldlst - 1 < wend) then
                           wgap(wbegin + oldlst - 1) = max(wgap(wbegin + oldlst - 1),w(wbegin + oldlst) - &
@@ -50651,15 +50651,15 @@ module stdlib_linalg_lapack_w
                           call stdlib_qlarrf(in,d(ibegin),l(ibegin),work(indld + ibegin - 1), &
                           newfst,newlst,work(wbegin),wgap(wbegin),werr(wbegin),spdiam,lgap, &
                           rgap,pivmin,tau,work(indin1),work(indin2),work(indwrk),iinfo)
-                                    
+
                           ! in the complex case, stdlib_qlarrf cannot write
                           ! the new rrr directly into z and needs an intermediate
                           ! workspace
                           do k = 1,in - 1
                              z(ibegin + k - 1,newftt) = cmplx(work(indin1 + k - 1),zero,KIND=qp)
-                                       
+
                              z(ibegin + k - 1,newftt + 1) = cmplx(work(indin2 + k - 1),zero,KIND=qp)
-                                       
+
                           end do
                           z(iend,newftt) = cmplx(work(indin1 + in - 1),zero,KIND=qp)
                           if (iinfo == 0) then
@@ -50766,7 +50766,7 @@ module stdlib_linalg_lapack_w
                           usedrq = .false.
                           ! bisection is initially turned off unless it is forced
                           needbs = .not. tryrqc
-120                       continue
+                          120 continue
                           ! check if bisection should be used to refine eigenvalue
                           if (needbs) then
                              ! take the bisection as new iterate
@@ -50900,7 +50900,7 @@ module stdlib_linalg_lapack_w
                              end do
                           end if
                           call stdlib_wdscal(zto - zfrom + 1,nrminv,z(zfrom,windex),1)
-125                       continue
+                          125 continue
                           ! update w
                           w(windex) = lambda + sigma
                           ! recompute the gaps on the left and right
@@ -50922,7 +50922,7 @@ module stdlib_linalg_lapack_w
                           idone = idone + 1
                        end if
                        ! here ends the code for the current child
-139  continue
+                       139 continue
                        ! proceed to any remaining child nodes
                        newfst = j + 1
                     end do loop_140
@@ -51116,7 +51116,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: v(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Executable Statements
            if (stdlib_lsame(side,'L')) then
               ! form  h * c
@@ -51168,7 +51168,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: c(ldc,*),t(ldt,*),v(ldv,*)
            complex(qp),intent(out) :: work(ldwork,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            character :: transt
            integer(ilp) :: i,info,j
@@ -51279,7 +51279,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(inout) :: v(ldv,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,info,j
            ! Executable Statements
@@ -51336,7 +51336,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: done
            integer(ilp) :: i,itype,j,k1,k2,k3,k4
@@ -51397,7 +51397,7 @@ module stdlib_linalg_lapack_w
            bignum = one/smlnum
            cfromc = cfrom
            ctoc = cto
-10         continue
+           10 continue
            cfrom1 = cfromc*smlnum
            if (cfrom1 == cfromc) then
               ! cfromc is an inf.  multiply by a correctly signed zero for
@@ -51607,7 +51607,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(in) :: c(*),s(*)
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,info,j
            real(qp) :: ctemp,stemp
@@ -52110,7 +52110,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: imax,j,jb,jj,jmax,jp,k,kk,kkw,kp,kstep,kw
            real(qp) :: absakk,alpha,colmax,rowmax
@@ -52132,7 +52132,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               ! kw is the column of w which corresponds to column k of a
               k = n
-10            continue
+              10 continue
               kw = nb + k - n
               ! exit from loop
               if ((k <= n - nb + 1 .and. nb < n) .or. k < 1) go to 30
@@ -52163,7 +52163,7 @@ module stdlib_linalg_lapack_w
                     ! copy column imax to column kw-1 of w and update it
                     call stdlib_wcopy(imax,a(1,imax),1,w(1,kw - 1),1)
                     call stdlib_wcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-                              
+
                     if (k < n) call stdlib_wgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda,w( &
                                imax,kw + 1),ldw,cone,w(1,kw - 1),1)
                     ! jmax is the column-index of the largest off-diagonal
@@ -52284,7 +52284,7 @@ module stdlib_linalg_lapack_w
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30            continue
+              30 continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -52302,7 +52302,7 @@ module stdlib_linalg_lapack_w
               ! put u12 in standard form by partially undoing the interchanges
               ! in columns k+1:n looping backwards from k+1 to n
               j = k + 1
-60            continue
+              60 continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -52327,7 +52327,7 @@ module stdlib_linalg_lapack_w
               ! for use in updating a22
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70            continue
+              70 continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               ! copy column k of a to column k of w and update it
@@ -52396,7 +52396,7 @@ module stdlib_linalg_lapack_w
                     a(kp,kp) = a(kk,kk)
                     call stdlib_wcopy(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     if (kp < n) call stdlib_wcopy(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     ! interchange rows kk and kp in first k-1 columns of a
                     ! (columns k (or k and k+1 for 2-by-2 pivot) of a will be
                     ! later overwritten). interchange rows kk and kp
@@ -52478,7 +52478,7 @@ module stdlib_linalg_lapack_w
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90            continue
+              90 continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -52496,7 +52496,7 @@ module stdlib_linalg_lapack_w
               ! put l21 in standard form by partially undoing the interchanges
               ! of rows in columns 1:k-1 looping backwards from k-1 to 1
               j = k - 1
-120           continue
+              120 continue
                  ! undo the interchanges (if any) of rows jj and jp at each
                  ! step j
                  ! (here, j is a diagonal index)
@@ -52511,7 +52511,7 @@ module stdlib_linalg_lapack_w
                  ! of the rows to swap back doesn't include diagonal element)
                  j = j - 1
                  if (jp /= jj .and. j >= 1) call stdlib_wswap(j,a(jp,1),lda,a(jj,1),lda)
-                           
+
               if (j > 1) go to 120
               ! set kb to the number of columns factorized
               kb = k - 1
@@ -52542,7 +52542,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),h(ldh,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: j,k,k1,i1,i2,mj
            complex(qp) :: piv,alpha
@@ -52557,7 +52557,7 @@ module stdlib_linalg_lapack_w
               ! .....................................................
               ! factorize a as u**t*d*u using the upper triangle of a
               ! .....................................................
-10   continue
+              10 continue
               if (j > min(m,nb)) go to 20
               ! k is the column to be factorized
                ! when being called from stdlib_wsytrf_aa,
@@ -52611,7 +52611,7 @@ module stdlib_linalg_lapack_w
                     i1 = i1 + j - 1
                     i2 = i2 + j - 1
                     call stdlib_wswap(i2 - i1 - 1,a(j1 + i1 - 1,i1 + 1),lda,a(j1 + i1,i2),1)
-                              
+
                     ! swap a(i1, i2+1:m) with a(i2, i2+1:m)
                     if (i2 < m) call stdlib_wswap(m - i2,a(j1 + i1 - 1,i2 + 1),lda,a(j1 + i2 - 1,i2 + 1), &
                                lda)
@@ -52645,18 +52645,18 @@ module stdlib_linalg_lapack_w
                        call stdlib_wscal(m - j - 1,alpha,a(k,j + 2),lda)
                     else
                        call stdlib_wlaset('FULL',1,m - j - 1,czero,czero,a(k,j + 2),lda)
-                                 
+
                     end if
                  end if
               end if
               j = j + 1
               go to 10
-20            continue
+              20 continue
            else
               ! .....................................................
               ! factorize a as l*d*l**t using the lower triangle of a
               ! .....................................................
-30   continue
+              30 continue
               if (j > min(m,nb)) go to 40
               ! k is the column to be factorized
                ! when being called from stdlib_wsytrf_aa,
@@ -52710,7 +52710,7 @@ module stdlib_linalg_lapack_w
                     i1 = i1 + j - 1
                     i2 = i2 + j - 1
                     call stdlib_wswap(i2 - i1 - 1,a(i1 + 1,j1 + i1 - 1),1,a(i2,j1 + i1),lda)
-                              
+
                     ! swap a(i2+1:m, i1) with a(i2+1:m, i2)
                     if (i2 < m) call stdlib_wswap(m - i2,a(i2 + 1,j1 + i1 - 1),1,a(i2 + 1,j1 + i2 - 1), &
                               1)
@@ -52744,13 +52744,13 @@ module stdlib_linalg_lapack_w
                        call stdlib_wscal(m - j - 1,alpha,a(j + 2,k),1)
                     else
                        call stdlib_wlaset('FULL',m - j - 1,1,czero,czero,a(j + 2,k),lda)
-                                 
+
                     end if
                  end if
               end if
               j = j + 1
               go to 30
-40            continue
+              40 continue
            end if
            return
      end subroutine stdlib_wlasyf_aa
@@ -52783,7 +52783,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: done
            integer(ilp) :: imax,itemp,j,jb,jj,jmax,k,kk,kw,kkw,kp,kstep,p,ii
@@ -52810,7 +52810,7 @@ module stdlib_linalg_lapack_w
               e(1) = czero
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10            continue
+              10 continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -52851,12 +52851,12 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-12   continue
+                    12 continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_wcopy(imax,a(1,imax),1,w(1,kw - 1),1)
                        call stdlib_wcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-                                 
+
                        if (k < n) call stdlib_wgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda, &
                                   w(imax,kw + 1),ldw,cone,w(1,kw - 1),1)
                        ! jmax is the column-index of the largest off-diagonal
@@ -52985,7 +52985,7 @@ module stdlib_linalg_lapack_w
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30            continue
+              30 continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -53010,7 +53010,7 @@ module stdlib_linalg_lapack_w
               e(n) = czero
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70            continue
+              70 continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -53049,7 +53049,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-72   continue
+                    72 continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_wcopy(imax - k,a(imax,k),lda,w(k,k + 1),1)
@@ -53178,7 +53178,7 @@ module stdlib_linalg_lapack_w
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90            continue
+              90 continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -53227,7 +53227,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: done
            integer(ilp) :: imax,itemp,j,jb,jj,jmax,jp1,jp2,k,kk,kw,kkw,kp,kstep,p, &
@@ -53252,7 +53252,7 @@ module stdlib_linalg_lapack_w
               ! for use in updating a11
               ! k is the main loop index, decreasing from n in steps of 1 or 2
               k = n
-10            continue
+              10 continue
               ! kw is the column of w which corresponds to column k of a
               kw = nb + k - n
               ! exit from loop
@@ -53291,12 +53291,12 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-12   continue
+                    12 continue
                        ! begin pivot search loop body
                        ! copy column imax to column kw-1 of w and update it
                        call stdlib_wcopy(imax,a(1,imax),1,w(1,kw - 1),1)
                        call stdlib_wcopy(k - imax,a(imax,imax + 1),lda,w(imax + 1,kw - 1),1)
-                                 
+
                        if (k < n) call stdlib_wgemv('NO TRANSPOSE',k,n - k,-cone,a(1,k + 1),lda, &
                                   w(imax,kw + 1),ldw,cone,w(1,kw - 1),1)
                        ! jmax is the column-index of the largest off-diagonal
@@ -53418,7 +53418,7 @@ module stdlib_linalg_lapack_w
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-30            continue
+              30 continue
               ! update the upper triangle of a11 (= a(1:k,1:k)) as
               ! a11 := a11 - u12*d*u12**t = a11 - u12*w**t
               ! computing blocks of nb columns at a time
@@ -53436,7 +53436,7 @@ module stdlib_linalg_lapack_w
               ! put u12 in standard form by partially undoing the interchanges
               ! in columns k+1:n
               j = k + 1
-60            continue
+              60 continue
                  kstep = 1
                  jp1 = 1
                  jj = j
@@ -53462,7 +53462,7 @@ module stdlib_linalg_lapack_w
               ! for use in updating a22
               ! k is the main loop index, increasing from 1 in steps of 1 or 2
               k = 1
-70            continue
+              70 continue
               ! exit from loop
               if ((k >= nb .and. nb < n) .or. k > n) go to 90
               kstep = 1
@@ -53499,7 +53499,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-72   continue
+                    72 continue
                        ! begin pivot search loop body
                        ! copy column imax to column k+1 of w and update it
                        call stdlib_wcopy(imax - k,a(imax,k),lda,w(k,k + 1),1)
@@ -53621,7 +53621,7 @@ module stdlib_linalg_lapack_w
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 70
-90            continue
+              90 continue
               ! update the lower triangle of a22 (= a(k:n,k:n)) as
               ! a22 := a22 - l21*d*l21**t = a22 - l21*w**t
               ! computing blocks of nb columns at a time
@@ -53639,7 +53639,7 @@ module stdlib_linalg_lapack_w
               ! put l21 in standard form by partially undoing the interchanges
               ! in columns 1:k-1
               j = k - 1
-120           continue
+              120 continue
                  kstep = 1
                  jp1 = 1
                  jj = j
@@ -53652,7 +53652,7 @@ module stdlib_linalg_lapack_w
                  end if
                  j = j - 1
                  if (jp2 /= jj .and. j >= 1) call stdlib_wswap(j,a(jp2,1),lda,a(jj,1),lda)
-                           
+
                  jj = j + 1
                  if (jp1 /= jj .and. kstep == 2) call stdlib_wswap(j,a(jp1,1),lda,a(jj,1), &
                            lda)
@@ -53716,7 +53716,7 @@ module stdlib_linalg_lapack_w
                  end do
               end do
            end if
-50         continue
+           50 continue
            return
      end subroutine stdlib_wlat2c
 
@@ -53746,7 +53746,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ab(ldab,*)
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: notran,nounit,upper
            integer(ilp) :: i,imax,j,jfirst,jinc,jlast,jlen,maind
@@ -53759,7 +53759,7 @@ module stdlib_linalg_lapack_w
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
            cabs2(zdum) = abs(real(zdum,KIND=qp)/2._qp) + abs(aimag(zdum)/2._qp)
-                     
+
            ! Executable Statements
            info = 0
            upper = stdlib_lsame(uplo,'U')
@@ -53888,7 +53888,7 @@ module stdlib_linalg_lapack_w
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-60            continue
+              60 continue
            else
               ! compute the growth in a**t * x = b  or  a**h * x = b.
               if (upper) then
@@ -53941,7 +53941,7 @@ module stdlib_linalg_lapack_w
                     grow = grow/xj
                  end do
               end if
-90            continue
+              90 continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -54011,7 +54011,7 @@ module stdlib_linalg_lapack_w
                        scale = zero
                        xmax = zero
                     end if
-110                 continue
+                    110 continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -54084,11 +54084,11 @@ module stdlib_linalg_lapack_w
                        if (upper) then
                           jlen = min(kd,j - 1)
                           csumj = stdlib_wdotu(jlen,ab(kd + 1 - jlen,j),1,x(j - jlen),1)
-                                    
+
                        else
                           jlen = min(kd,n - j)
                           if (jlen > 1) csumj = stdlib_wdotu(jlen,ab(2,j),1,x(j + 1),1)
-                                    
+
                        end if
                     else
                        ! otherwise, use in-line code for the dot product.
@@ -54149,7 +54149,7 @@ module stdlib_linalg_lapack_w
                           scale = zero
                           xmax = zero
                        end if
-160                    continue
+                       160 continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -54192,11 +54192,11 @@ module stdlib_linalg_lapack_w
                        if (upper) then
                           jlen = min(kd,j - 1)
                           csumj = stdlib_wdotc(jlen,ab(kd + 1 - jlen,j),1,x(j - jlen),1)
-                                    
+
                        else
                           jlen = min(kd,n - j)
                           if (jlen > 1) csumj = stdlib_wdotc(jlen,ab(2,j),1,x(j + 1),1)
-                                    
+
                        end if
                     else
                        ! otherwise, use in-line code for the dot product.
@@ -54204,7 +54204,7 @@ module stdlib_linalg_lapack_w
                           jlen = min(kd,j - 1)
                           do i = 1,jlen
                              csumj = csumj + (conjg(ab(kd + i - jlen,j))*uscal)*x(j - jlen - 1 + i)
-                                       
+
                           end do
                        else
                           jlen = min(kd,n - j)
@@ -54258,7 +54258,7 @@ module stdlib_linalg_lapack_w
                           scale = zero
                           xmax = zero
                        end if
-210                    continue
+                       210 continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -54298,7 +54298,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: maxdim = 2
-           
+
            ! Local Scalars
            integer(ilp) :: i,info,j,k
            real(qp) :: rtemp,scale,sminu,splus
@@ -54321,7 +54321,7 @@ module stdlib_linalg_lapack_w
                  ! lockahead for l- part rhs(1:n-1) = +-1
                  ! splus and smin computed more efficiently than in bsolve[1].
                  splus = splus + real(stdlib_wdotc(n - j,z(j + 1,j),1,z(j + 1,j),1),KIND=qp)
-                           
+
                  sminu = real(stdlib_wdotc(n - j,z(j + 1,j),1,rhs(j + 1),1),KIND=qp)
                  splus = splus*real(rhs(j),KIND=qp)
                  if (splus > sminu) then
@@ -54401,7 +54401,7 @@ module stdlib_linalg_lapack_w
      !> non-trivial solution to A*x = 0 is returned.
 
      pure subroutine stdlib_wlatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
-               
+
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -54415,7 +54415,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: notran,nounit,upper
            integer(ilp) :: i,imax,ip,j,jfirst,jinc,jlast,jlen
@@ -54428,7 +54428,7 @@ module stdlib_linalg_lapack_w
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
            cabs2(zdum) = abs(real(zdum,KIND=qp)/2._qp) + abs(aimag(zdum)/2._qp)
-                     
+
            ! Executable Statements
            info = 0
            upper = stdlib_lsame(uplo,'U')
@@ -54554,7 +54554,7 @@ module stdlib_linalg_lapack_w
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-60            continue
+              60 continue
            else
               ! compute the growth in a**t * x = b  or  a**h * x = b.
               if (upper) then
@@ -54609,7 +54609,7 @@ module stdlib_linalg_lapack_w
                     grow = grow/xj
                  end do
               end if
-90            continue
+              90 continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -54680,7 +54680,7 @@ module stdlib_linalg_lapack_w
                        scale = zero
                        xmax = zero
                     end if
-110                 continue
+                    110 continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -54710,7 +54710,7 @@ module stdlib_linalg_lapack_w
                           ! compute the update
                              ! x(j+1:n) := x(j+1:n) - x(j) * a(j+1:n,j)
                           call stdlib_waxpy(n - j,-x(j)*tscal,ap(ip + 1),1,x(j + 1),1)
-                                    
+
                           i = j + stdlib_iwamax(n - j,x(j + 1),1)
                           xmax = cabs1(x(i))
                        end if
@@ -54813,7 +54813,7 @@ module stdlib_linalg_lapack_w
                           scale = zero
                           xmax = zero
                        end if
-160                    continue
+                       160 continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -54919,7 +54919,7 @@ module stdlib_linalg_lapack_w
                           scale = zero
                           xmax = zero
                        end if
-210                    continue
+                       210 continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -54961,7 +54961,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),w(ldw,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,iw
            complex(qp) :: alpha
@@ -55009,7 +55009,7 @@ module stdlib_linalg_lapack_w
                     end if
                     call stdlib_wscal(i - 1,tau(i - 1),w(1,iw),1)
                     alpha = -chalf*tau(i - 1)*stdlib_wdotc(i - 1,w(1,iw),1,a(1,i),1)
-                              
+
                     call stdlib_waxpy(i - 1,alpha,a(1,i),1,w(1,iw),1)
                  end if
               end do loop_10
@@ -55047,7 +55047,7 @@ module stdlib_linalg_lapack_w
                               ,1,cone,w(i + 1,i),1)
                     call stdlib_wscal(n - i,tau(i),w(i + 1,i),1)
                     alpha = -chalf*tau(i)*stdlib_wdotc(n - i,w(i + 1,i),1,a(i + 1,i),1)
-                              
+
                     call stdlib_waxpy(n - i,alpha,a(i + 1,i),1,w(i + 1,i),1)
                  end if
               end do loop_20
@@ -55067,7 +55067,7 @@ module stdlib_linalg_lapack_w
      !> then s is set to 0 and a non-trivial solution to A*x = 0 is returned.
 
      pure subroutine stdlib_wlatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info)
-               
+
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -55081,7 +55081,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: x(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: notran,nounit,upper
            integer(ilp) :: i,imax,j,jfirst,jinc,jlast
@@ -55094,7 +55094,7 @@ module stdlib_linalg_lapack_w
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
            cabs2(zdum) = abs(real(zdum,KIND=qp)/2._qp) + abs(aimag(zdum)/2._qp)
-                     
+
            ! Executable Statements
            info = 0
            upper = stdlib_lsame(uplo,'U')
@@ -55214,7 +55214,7 @@ module stdlib_linalg_lapack_w
                     grow = grow*(one/(one + cnorm(j)))
                  end do
               end if
-60            continue
+              60 continue
            else
               ! compute the growth in a**t * x = b  or  a**h * x = b.
               if (upper) then
@@ -55265,7 +55265,7 @@ module stdlib_linalg_lapack_w
                     grow = grow/xj
                  end do
               end if
-90            continue
+              90 continue
            end if
            if ((grow*tscal) > smlnum) then
               ! use the level 2 blas solve if the reciprocal of the bound on
@@ -55335,7 +55335,7 @@ module stdlib_linalg_lapack_w
                        scale = zero
                        xmax = zero
                     end if
-110                 continue
+                    110 continue
                     ! scale x if necessary to avoid overflow when adding a
                     ! multiple of column j of a.
                     if (xj > one) then
@@ -55364,7 +55364,7 @@ module stdlib_linalg_lapack_w
                           ! compute the update
                              ! x(j+1:n) := x(j+1:n) - x(j) * a(j+1:n,j)
                           call stdlib_waxpy(n - j,-x(j)*tscal,a(j + 1,j),1,x(j + 1),1)
-                                    
+
                           i = j + stdlib_iwamax(n - j,x(j + 1),1)
                           xmax = cabs1(x(i))
                        end if
@@ -55464,7 +55464,7 @@ module stdlib_linalg_lapack_w
                           scale = zero
                           xmax = zero
                        end if
-160                    continue
+                       160 continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -55566,7 +55566,7 @@ module stdlib_linalg_lapack_w
                           scale = zero
                           xmax = zero
                        end if
-210                    continue
+                       210 continue
                     else
                        ! compute x(j) := x(j) / a(j,j) - csumj if the dot
                        ! product has already been divided by 1/a(j,j).
@@ -55599,7 +55599,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            complex(qp) :: alpha
@@ -55760,7 +55760,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: d(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: iinfo,j,jb,nb
            ! Intrinsic Functions
@@ -55792,7 +55792,7 @@ module stdlib_linalg_lapack_w
                  jb = min(min(m,n) - j + 1,nb)
                  ! factor diagonal and subdiagonal blocks.
                  call stdlib_wlaunhr_col_getrfnp2(m - j + 1,jb,a(j,j),lda,d(j),iinfo)
-                           
+
                  if (j + jb <= n) then
                     ! compute block row of u.
                     call stdlib_wtrsm('LEFT','LOWER','NO TRANSPOSE','UNIT',jb,n - j - jb + 1,cone, &
@@ -55801,7 +55801,7 @@ module stdlib_linalg_lapack_w
                        ! update trailing submatrix.
                        call stdlib_wgemm('NO TRANSPOSE','NO TRANSPOSE',m - j - jb + 1,n - j - jb + 1,jb,- &
                        cone,a(j + jb,j),lda,a(j,j + jb),lda,cone,a(j + jb,j + jb),lda)
-                                 
+
                     end if
                  end if
               end do
@@ -55869,7 +55869,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: d(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            real(qp) :: sfmin
            integer(ilp) :: i,iinfo,n1,n2
@@ -55929,17 +55929,17 @@ module stdlib_linalg_lapack_w
               call stdlib_wlaunhr_col_getrfnp2(n1,n1,a,lda,d,iinfo)
               ! solve for b21
               call stdlib_wtrsm('R','U','N','N',m - n1,n1,cone,a,lda,a(n1 + 1,1),lda)
-                        
+
               ! solve for b12
               call stdlib_wtrsm('L','L','N','U',n1,n2,cone,a,lda,a(1,n1 + 1),lda)
-                        
+
               ! update b22, i.e. compute the schur complement
               ! b22 := b22 - b21*b12
               call stdlib_wgemm('N','N',m - n1,n2,n1,-cone,a(n1 + 1,1),lda,a(1,n1 + 1), &
                         lda,cone,a(n1 + 1,n1 + 1),lda)
               ! factor b22, recursive call
               call stdlib_wlaunhr_col_getrfnp2(m - n1,n2,a(n1 + 1,n1 + 1),lda,d(n1 + 1),iinfo)
-                        
+
            end if
            return
      end subroutine stdlib_wlaunhr_col_getrfnp2
@@ -55964,7 +55964,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i
@@ -56042,7 +56042,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,ib,nb
@@ -56113,7 +56113,7 @@ module stdlib_linalg_lapack_w
      !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 
      pure subroutine stdlib_wpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,rwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -56128,7 +56128,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ab(ldab,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            character :: normin
@@ -56174,7 +56174,7 @@ module stdlib_linalg_lapack_w
            ! estimate the 1-norm of the inverse.
            kase = 0
            normin = 'N'
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (upper) then
@@ -56205,7 +56205,7 @@ module stdlib_linalg_lapack_w
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20         continue
+           20 continue
            return
      end subroutine stdlib_wpbcon
 
@@ -56231,7 +56231,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: s(*)
            complex(qp),intent(in) :: ab(ldab,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,j
@@ -56318,7 +56318,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: count,i,j,k,kase,l,nz
@@ -56375,12 +56375,12 @@ module stdlib_linalg_lapack_w
            loop_140: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_wcopy(n,b(1,j),1,work,1)
               call stdlib_whbmv(uplo,n,kd,-cone,ab,ldab,x(1,j),1,cone,work,1)
-                        
+
               ! compute componentwise relative backward error from formula
               ! max(i) ( abs(r(i)) / ( abs(a)*abs(x) + abs(b) )(i) )
               ! where abs(z) is the componentwise absolute value of the matrix
@@ -56462,7 +56462,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-100           continue
+              100 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -56511,7 +56511,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,kld,km,m
@@ -56556,7 +56556,7 @@ module stdlib_linalg_lapack_w
                  ! the leading submatrix within the band.
                  call stdlib_wdscal(km,one/ajj,ab(kd + 1 - km,j),1)
                  call stdlib_wher('UPPER',km,-one,ab(kd + 1 - km,j),1,ab(kd + 1,j - km),kld)
-                           
+
               end do
               ! factorize the updated submatrix a(1:m,1:m) as u**h*u.
               do j = 1,m
@@ -56575,7 +56575,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wdscal(km,one/ajj,ab(kd,j + 1),kld)
                     call stdlib_wlacgv(km,ab(kd,j + 1),kld)
                     call stdlib_wher('UPPER',km,-one,ab(kd,j + 1),kld,ab(kd + 1,j + 1),kld)
-                              
+
                     call stdlib_wlacgv(km,ab(kd,j + 1),kld)
                  end if
               end do
@@ -56596,7 +56596,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_wdscal(km,one/ajj,ab(km + 1,j - km),kld)
                  call stdlib_wlacgv(km,ab(km + 1,j - km),kld)
                  call stdlib_wher('LOWER',km,-one,ab(km + 1,j - km),kld,ab(1,j - km),kld)
-                           
+
                  call stdlib_wlacgv(km,ab(km + 1,j - km),kld)
               end do
               ! factorize the updated submatrix a(1:m,1:m) as u**h*u.
@@ -56619,7 +56619,7 @@ module stdlib_linalg_lapack_w
               end do
            end if
            return
-50         continue
+           50 continue
            info = j
            return
      end subroutine stdlib_wpbstf
@@ -56703,7 +56703,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ab(ldab,*),afb(ldafb,*),b(ldb,*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: equil,nofact,rcequ,upper
            integer(ilp) :: i,infequ,j,j1,j2
@@ -56792,7 +56792,7 @@ module stdlib_linalg_lapack_w
                  do j = 1,n
                     j1 = max(j - kd,1)
                     call stdlib_wcopy(j - j1 + 1,ab(kd + 1 - j + j1,j),1,afb(kd + 1 - j + j1,j),1)
-                              
+
                  end do
               else
                  do j = 1,n
@@ -56855,7 +56855,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: ab(ldab,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,kld,kn
@@ -56900,7 +56900,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wdscal(kn,one/ajj,ab(kd,j + 1),kld)
                     call stdlib_wlacgv(kn,ab(kd,j + 1),kld)
                     call stdlib_wher('UPPER',kn,-one,ab(kd,j + 1),kld,ab(kd + 1,j + 1),kld)
-                              
+
                     call stdlib_wlacgv(kn,ab(kd,j + 1),kld)
                  end if
               end do
@@ -56925,7 +56925,7 @@ module stdlib_linalg_lapack_w
               end do
            end if
            return
-30         continue
+           30 continue
            info = j
            return
      end subroutine stdlib_wpbtf2
@@ -56951,7 +56951,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            integer(ilp),parameter :: nbmax = 32
            integer(ilp),parameter :: ldwork = nbmax + 1
-           
+
            ! Local Scalars
            integer(ilp) :: i,i2,i3,ib,ii,j,jj,nb
            ! Local Arrays
@@ -57124,7 +57124,7 @@ module stdlib_linalg_lapack_w
               end if
            end if
            return
-150        continue
+           150 continue
            return
      end subroutine stdlib_wpbtrf
 
@@ -57215,7 +57215,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(0:*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,nisodd,normaltransr
            integer(ilp) :: n1,n2,k
@@ -57267,7 +57267,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wpotrf('L',n1,a(0),n,info)
                     if (info > 0) return
                     call stdlib_wtrsm('R','L','C','N',n2,n1,cone,a(0),n,a(n1),n)
-                              
+
                     call stdlib_wherk('U','N',n2,n1,-one,a(n1),n,one,a(n),n)
                     call stdlib_wpotrf('U',n2,a(n),n,info)
                     if (info > 0) info = info + n1
@@ -57278,7 +57278,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wpotrf('L',n1,a(n2),n,info)
                     if (info > 0) return
                     call stdlib_wtrsm('L','L','N','N',n1,n2,cone,a(n2),n,a(0),n)
-                              
+
                     call stdlib_wherk('U','C',n2,n1,-one,a(0),n,one,a(n1),n)
                     call stdlib_wpotrf('U',n2,a(n1),n,info)
                     if (info > 0) info = info + n1
@@ -57294,7 +57294,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wtrsm('L','U','C','N',n1,n2,cone,a(0),n1,a(n1*n1), &
                               n1)
                     call stdlib_wherk('L','C',n2,n1,-one,a(n1*n1),n1,one,a(1),n1)
-                              
+
                     call stdlib_wpotrf('L',n2,a(1),n1,info)
                     if (info > 0) info = info + n1
                  else
@@ -57306,7 +57306,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wtrsm('R','U','N','N',n2,n1,cone,a(n2*n2),n2,a(0), &
                               n2)
                     call stdlib_wherk('L','N',n2,n1,-one,a(0),n2,one,a(n1*n2),n2)
-                              
+
                     call stdlib_wpotrf('L',n2,a(n1*n2),n2,info)
                     if (info > 0) info = info + n1
                  end if
@@ -57322,9 +57322,9 @@ module stdlib_linalg_lapack_w
                     call stdlib_wpotrf('L',k,a(1),n + 1,info)
                     if (info > 0) return
                     call stdlib_wtrsm('R','L','C','N',k,k,cone,a(1),n + 1,a(k + 1),n + 1)
-                              
+
                     call stdlib_wherk('U','N',k,k,-one,a(k + 1),n + 1,one,a(0),n + 1)
-                              
+
                     call stdlib_wpotrf('U',k,a(0),n + 1,info)
                     if (info > 0) info = info + k
                  else
@@ -57334,9 +57334,9 @@ module stdlib_linalg_lapack_w
                     call stdlib_wpotrf('L',k,a(k + 1),n + 1,info)
                     if (info > 0) return
                     call stdlib_wtrsm('L','L','N','N',k,k,cone,a(k + 1),n + 1,a(0),n + 1)
-                              
+
                     call stdlib_wherk('U','C',k,k,-one,a(0),n + 1,one,a(k),n + 1)
-                              
+
                     call stdlib_wpotrf('U',k,a(k),n + 1,info)
                     if (info > 0) info = info + k
                  end if
@@ -57351,7 +57351,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wtrsm('L','U','C','N',k,k,cone,a(k),n1,a(k*(k + 1)), &
                               k)
                     call stdlib_wherk('L','C',k,k,-one,a(k*(k + 1)),k,one,a(0),k)
-                              
+
                     call stdlib_wpotrf('L',k,a(0),k,info)
                     if (info > 0) info = info + k
                  else
@@ -57386,7 +57386,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(0:*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,nisodd,normaltransr
            integer(ilp) :: n1,n2,k
@@ -57442,7 +57442,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wlauum('L',n1,a(0),n,info)
                     call stdlib_wherk('L','C',n1,n2,one,a(n1),n,one,a(0),n)
                     call stdlib_wtrmm('L','U','N','N',n2,n1,cone,a(n),n,a(n1),n)
-                              
+
                     call stdlib_wlauum('U',n2,a(n),n,info)
                  else
                     ! srpa for upper, normal and n is odd ( a(0:n-1,0:n2-1)
@@ -57451,7 +57451,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wlauum('L',n1,a(n2),n,info)
                     call stdlib_wherk('L','N',n1,n2,one,a(0),n,one,a(n2),n)
                     call stdlib_wtrmm('R','U','C','N',n1,n2,cone,a(n1),n,a(0),n)
-                              
+
                     call stdlib_wlauum('U',n2,a(n1),n,info)
                  end if
               else
@@ -57461,7 +57461,7 @@ module stdlib_linalg_lapack_w
                     ! t1 -> a(0), t2 -> a(1), s -> a(0+n1*n1)
                     call stdlib_wlauum('U',n1,a(0),n1,info)
                     call stdlib_wherk('U','N',n1,n2,one,a(n1*n1),n1,one,a(0),n1)
-                              
+
                     call stdlib_wtrmm('R','L','N','N',n1,n2,cone,a(1),n1,a(n1*n1), &
                               n1)
                     call stdlib_wlauum('L',n2,a(1),n1,info)
@@ -57470,7 +57470,7 @@ module stdlib_linalg_lapack_w
                     ! t1 -> a(0+n2*n2), t2 -> a(0+n1*n2), s -> a(0)
                     call stdlib_wlauum('U',n1,a(n2*n2),n2,info)
                     call stdlib_wherk('U','C',n1,n2,one,a(0),n2,one,a(n2*n2),n2)
-                              
+
                     call stdlib_wtrmm('L','L','C','N',n2,n1,cone,a(n1*n2),n2,a(0), &
                               n2)
                     call stdlib_wlauum('L',n2,a(n1*n2),n2,info)
@@ -57486,9 +57486,9 @@ module stdlib_linalg_lapack_w
                     ! t1 -> a(1), t2 -> a(0), s -> a(k+1)
                     call stdlib_wlauum('L',k,a(1),n + 1,info)
                     call stdlib_wherk('L','C',k,k,one,a(k + 1),n + 1,one,a(1),n + 1)
-                              
+
                     call stdlib_wtrmm('L','U','N','N',k,k,cone,a(0),n + 1,a(k + 1),n + 1)
-                              
+
                     call stdlib_wlauum('U',k,a(0),n + 1,info)
                  else
                     ! srpa for upper, normal, and n is even ( a(0:n,0:k-1) )
@@ -57496,9 +57496,9 @@ module stdlib_linalg_lapack_w
                     ! t1 -> a(k+1), t2 -> a(k), s -> a(0)
                     call stdlib_wlauum('L',k,a(k + 1),n + 1,info)
                     call stdlib_wherk('L','N',k,k,one,a(0),n + 1,one,a(k + 1),n + 1)
-                              
+
                     call stdlib_wtrmm('R','U','C','N',k,k,cone,a(k),n + 1,a(0),n + 1)
-                              
+
                     call stdlib_wlauum('U',k,a(k),n + 1,info)
                  end if
               else
@@ -57509,7 +57509,7 @@ module stdlib_linalg_lapack_w
                     ! t1 -> a(0+k), t2 -> a(0+0), s -> a(0+k*(k+1)); lda=k
                     call stdlib_wlauum('U',k,a(k),k,info)
                     call stdlib_wherk('U','N',k,k,one,a(k*(k + 1)),k,one,a(k),k)
-                              
+
                     call stdlib_wtrmm('R','L','N','N',k,k,cone,a(0),k,a(k*(k + 1)), &
                               k)
                     call stdlib_wlauum('L',k,a(0),k,info)
@@ -57519,9 +57519,9 @@ module stdlib_linalg_lapack_w
                     ! t1 -> a(0+k*(k+1)), t2 -> a(0+k*k), s -> a(0+0)); lda=k
                     call stdlib_wlauum('U',k,a(k*(k + 1)),k,info)
                     call stdlib_wherk('U','C',k,k,one,a(0),k,one,a(k*(k + 1)),k)
-                              
+
                     call stdlib_wtrmm('L','L','C','N',k,k,cone,a(k*k),k,a(0),k)
-                              
+
                     call stdlib_wlauum('L',k,a(k*k),k,info)
                  end if
               end if
@@ -57545,7 +57545,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(0:*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,normaltransr
            ! Intrinsic Functions
@@ -57604,7 +57604,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            character :: normin
@@ -57648,7 +57648,7 @@ module stdlib_linalg_lapack_w
            ! estimate the 1-norm of inv(a).
            kase = 0
            normin = 'N'
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (upper) then
@@ -57679,7 +57679,7 @@ module stdlib_linalg_lapack_w
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20         continue
+           20 continue
            return
      end subroutine stdlib_wpocon
 
@@ -57704,7 +57704,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: s(*)
            complex(qp),intent(in) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            real(qp) :: smin
@@ -57783,7 +57783,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            real(qp),intent(out) :: s(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i
            real(qp) :: smin,base,tmp
@@ -57861,7 +57861,7 @@ module stdlib_linalg_lapack_w
         ! ====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: count,i,j,k,kase,nz
@@ -57916,7 +57916,7 @@ module stdlib_linalg_lapack_w
            loop_140: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_wcopy(n,b(1,j),1,work,1)
@@ -58000,7 +58000,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-100           continue
+              100 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -58104,7 +58104,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),af(ldaf,*),b(ldb,*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: equil,nofact,rcequ
            integer(ilp) :: i,infequ,j
@@ -58242,7 +58242,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j
@@ -58310,9 +58310,9 @@ module stdlib_linalg_lapack_w
               end do
            end if
            go to 40
-30         continue
+           30 continue
            info = j
-40         continue
+           40 continue
            return
      end subroutine stdlib_wpotf2
 
@@ -58335,7 +58335,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,jb,nb
@@ -58404,9 +58404,9 @@ module stdlib_linalg_lapack_w
               end if
            end if
            go to 40
-30         continue
+           30 continue
            info = info + j - 1
-40         continue
+           40 continue
            return
      end subroutine stdlib_wpotrf
 
@@ -58435,7 +58435,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: n1,n2,iinfo
@@ -58567,7 +58567,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            ! Intrinsic Functions
@@ -58635,7 +58635,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            character :: normin
@@ -58677,7 +58677,7 @@ module stdlib_linalg_lapack_w
            ! estimate the 1-norm of the inverse.
            kase = 0
            normin = 'N'
-10         continue
+           10 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               if (upper) then
@@ -58708,7 +58708,7 @@ module stdlib_linalg_lapack_w
            end if
            ! compute the estimate of the reciprocal condition number.
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
-20         continue
+           20 continue
            return
      end subroutine stdlib_wppcon
 
@@ -58734,7 +58734,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: s(*)
            complex(qp),intent(in) :: ap(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,jj
@@ -58827,7 +58827,7 @@ module stdlib_linalg_lapack_w
         ! ====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: count,i,ik,j,k,kase,kk,nz
@@ -58878,7 +58878,7 @@ module stdlib_linalg_lapack_w
            loop_140: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_wcopy(n,b(1,j),1,work,1)
@@ -58969,7 +58969,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-100           continue
+              100 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -59071,7 +59071,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: afp(*),ap(*),b(ldb,*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: equil,nofact,rcequ
            integer(ilp) :: i,infequ,j
@@ -59204,7 +59204,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,jc,jj
@@ -59266,9 +59266,9 @@ module stdlib_linalg_lapack_w
               end do
            end if
            go to 40
-30         continue
+           30 continue
            info = j
-40         continue
+           40 continue
            return
      end subroutine stdlib_wpptrf
 
@@ -59287,7 +59287,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,jc,jj,jjn
@@ -59384,14 +59384,14 @@ module stdlib_linalg_lapack_w
                            1)
                  ! solve u*x = b, overwriting b with x.
                  call stdlib_wtpsv('UPPER','NO TRANSPOSE','NON-UNIT',n,ap,b(1,i),1)
-                           
+
               end do
            else
               ! solve a*x = b where a = l * l**h.
               do i = 1,nrhs
                  ! solve l*y = b, overwriting b with x.
                  call stdlib_wtpsv('LOWER','NO TRANSPOSE','NON-UNIT',n,ap,b(1,i),1)
-                           
+
                  ! solve l**h *x = y, overwriting b with x.
                  call stdlib_wtpsv('LOWER','CONJUGATE TRANSPOSE','NON-UNIT',n,ap,b(1,i), &
                            1)
@@ -59424,7 +59424,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(2*n)
            integer(ilp),intent(out) :: piv(n)
         ! =====================================================================
-           
+
            ! Local Scalars
            complex(qp) :: ztemp
            real(qp) :: ajj,dstop,dtemp
@@ -59483,7 +59483,7 @@ module stdlib_linalg_lapack_w
                  do i = j,n
                     if (j > 1) then
                        work(i) = work(i) + real(conjg(a(j - 1,i))*a(j - 1,i),KIND=qp)
-                                 
+
                     end if
                     work(n + i) = real(a(i,i),KIND=qp) - work(i)
                  end do
@@ -59501,7 +59501,7 @@ module stdlib_linalg_lapack_w
                     a(pvt,pvt) = a(j,j)
                     call stdlib_wswap(j - 1,a(1,j),1,a(1,pvt),1)
                     if (pvt < n) call stdlib_wswap(n - pvt,a(j,pvt + 1),lda,a(pvt,pvt + 1),lda)
-                              
+
                     do i = j + 1,pvt - 1
                        ztemp = conjg(a(j,i))
                        a(j,i) = conjg(a(i,pvt))
@@ -59536,7 +59536,7 @@ module stdlib_linalg_lapack_w
                  do i = j,n
                     if (j > 1) then
                        work(i) = work(i) + real(conjg(a(i,j - 1))*a(i,j - 1),KIND=qp)
-                                 
+
                     end if
                     work(n + i) = real(a(i,i),KIND=qp) - work(i)
                  end do
@@ -59554,7 +59554,7 @@ module stdlib_linalg_lapack_w
                     a(pvt,pvt) = a(j,j)
                     call stdlib_wswap(j - 1,a(j,1),lda,a(pvt,1),lda)
                     if (pvt < n) call stdlib_wswap(n - pvt,a(pvt + 1,j),1,a(pvt + 1,pvt),1)
-                              
+
                     do i = j + 1,pvt - 1
                        ztemp = conjg(a(i,j))
                        a(i,j) = conjg(a(pvt,i))
@@ -59584,12 +59584,12 @@ module stdlib_linalg_lapack_w
            ! ran to completion, a has full rank
            rank = n
            go to 200
-190        continue
+           190 continue
            ! rank is number of steps completed.  set info = 1 to signal
            ! that the factorization cannot be used to solve a system.
            rank = j - 1
            info = 1
-200        continue
+           200 continue
            return
      end subroutine stdlib_wpstf2
 
@@ -59617,7 +59617,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(2*n)
            integer(ilp),intent(out) :: piv(n)
         ! =====================================================================
-           
+
            ! Local Scalars
            complex(qp) :: ztemp
            real(qp) :: ajj,dstop,dtemp
@@ -59809,12 +59809,12 @@ module stdlib_linalg_lapack_w
            ! ran to completion, a has full rank
            rank = n
            go to 230
-220        continue
+           220 continue
            ! rank is the number of steps completed.  set info = 1 to signal
            ! that the factorization cannot be used to solve a system.
            rank = j - 1
            info = 1
-230        continue
+           230 continue
            return
      end subroutine stdlib_wpstrf
 
@@ -59840,7 +59840,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(in) :: e(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,ix
            real(qp) :: ainvnm
@@ -59921,7 +59921,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: work(*)
            complex(qp),intent(inout) :: z(ldz,*)
         ! ====================================================================
-           
+
            ! Local Arrays
            complex(qp) :: c(1,1),vt(1,1)
            ! Local Scalars
@@ -59975,7 +59975,7 @@ module stdlib_linalg_lapack_w
               nru = 0
            end if
            call stdlib_wbdsqr('LOWER',n,0,nru,0,d,e,vt,1,z,ldz,c,1,work,info)
-                     
+
            ! square the singular values.
            if (info == 0) then
               do i = 1,n
@@ -60010,7 +60010,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: count,i,ix,j,nz
@@ -60059,7 +60059,7 @@ module stdlib_linalg_lapack_w
            loop_100: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x.  also compute
               ! abs(a)*abs(x) + abs(b) for use in the backward error bound.
@@ -60075,7 +60075,7 @@ module stdlib_linalg_lapack_w
                     ex = e(1)*x(2,j)
                     work(1) = bi - dx - ex
                     rwork(1) = cabs1(bi) + cabs1(dx) + cabs1(e(1))*cabs1(x(2,j))
-                              
+
                     do i = 2,n - 1
                        bi = b(i,j)
                        cx = conjg(e(i - 1))*x(i - 1,j)
@@ -60104,7 +60104,7 @@ module stdlib_linalg_lapack_w
                     ex = conjg(e(1))*x(2,j)
                     work(1) = bi - dx - ex
                     rwork(1) = cabs1(bi) + cabs1(dx) + cabs1(e(1))*cabs1(x(2,j))
-                              
+
                     do i = 2,n - 1
                        bi = b(i,j)
                        cx = e(i - 1)*x(i - 1,j)
@@ -60268,7 +60268,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ef(*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nofact
            real(qp) :: anorm
@@ -60335,7 +60335,7 @@ module stdlib_linalg_lapack_w
            real(qp),intent(inout) :: d(*)
            complex(qp),intent(inout) :: e(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,i4
            real(qp) :: eii,eir,f,g
@@ -60415,7 +60415,7 @@ module stdlib_linalg_lapack_w
            end do loop_20
            ! check d(n) for positive definiteness.
            if (d(n) <= zero) info = n
-30         continue
+           30 continue
            return
      end subroutine stdlib_wpttrf
 
@@ -60519,7 +60519,7 @@ module stdlib_linalg_lapack_w
               ! overwriting each right hand side vector with its solution.
               if (nrhs <= 2) then
                  j = 1
-10               continue
+                 10 continue
                  ! solve u**h * x = b.
                  do i = 2,n
                     b(i,j) = b(i,j) - b(i - 1,j)*conjg(e(i - 1))
@@ -60553,7 +60553,7 @@ module stdlib_linalg_lapack_w
               ! overwriting each right hand side vector with its solution.
               if (nrhs <= 2) then
                  j = 1
-80               continue
+                 80 continue
                  ! solve l * x = b.
                  do i = 2,n
                     b(i,j) = b(i,j) - b(i - 1,j)*e(i - 1)
@@ -60622,7 +60622,7 @@ module stdlib_linalg_lapack_w
            end do
            return
            ! code for both increments equal to 1
-20   continue
+           20 continue
            do i = 1,n
               stemp = c*cx(i) + s*cy(i)
               cy(i) = c*cy(i) - conjg(s)*cx(i)
@@ -60652,7 +60652,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,ip,kase
@@ -60700,7 +60700,7 @@ module stdlib_linalg_lapack_w
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30         continue
+           30 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -60729,7 +60729,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*),x(*)
            complex(qp),intent(inout) :: y(*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,info,ix,iy,j,jx,jy,k,kk,kx,ky
            complex(qp) :: temp1,temp2
@@ -60886,7 +60886,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(in) :: x(*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,info,ix,j,jx,k,kk,kx
            complex(qp) :: temp
@@ -61012,7 +61012,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: count,i,ik,j,k,kase,kk,nz
@@ -61063,7 +61063,7 @@ module stdlib_linalg_lapack_w
            loop_140: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_wcopy(n,b(1,j),1,work,1)
@@ -61154,7 +61154,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-100           continue
+              100 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -61257,7 +61257,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*),b(ldb,*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nofact
            real(qp) :: anorm
@@ -61333,7 +61333,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,imax,j,jmax,k,kc,kk,knc,kp,kpc,kstep,kx,npp
@@ -61366,7 +61366,7 @@ module stdlib_linalg_lapack_w
               ! 1 or 2
               k = n
               kc = (n - 1)*n/2 + 1
-10            continue
+              10 continue
               knc = kc
               ! if k < 1, exit from loop
               if (k < 1) go to 110
@@ -61469,9 +61469,9 @@ module stdlib_linalg_lapack_w
                        d12 = t/d12
                        do j = k - 2,1,-1
                           wkm1 = d12*(d11*ap(j + (k - 2)*(k - 1)/2) - ap(j + (k - 1)*k/2))
-                                    
+
                           wk = d12*(d22*ap(j + (k - 1)*k/2) - ap(j + (k - 2)*(k - 1)/2))
-                                    
+
                           do i = j,1,-1
                              ap(i + (j - 1)*j/2) = ap(i + (j - 1)*j/2) - ap(i + (k - 1)*k/2) &
                                        *wk - ap(i + (k - 2)*(k - 1)/2)*wkm1
@@ -61500,7 +61500,7 @@ module stdlib_linalg_lapack_w
               k = 1
               kc = 1
               npp = n*(n + 1)/2
-60            continue
+              60 continue
               knc = kc
               ! if k > n, exit from loop
               if (k > n) go to 110
@@ -61561,7 +61561,7 @@ module stdlib_linalg_lapack_w
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_wswap(n - kp,ap(knc + kp - kk + 1),1,ap(kpc + 1),1)
-                              
+
                     kx = knc + kp - kk
                     do j = kk + 1,kp - 1
                        kx = kx + n - j + 1
@@ -61609,7 +61609,7 @@ module stdlib_linalg_lapack_w
                        d21 = t/d21
                        do j = k + 2,n
                           wk = d21*(d11*ap(j + (k - 1)*(2*n - k)/2) - ap(j + k*(2*n - k - 1)/2))
-                                    
+
                           wkp1 = d21*(d22*ap(j + k*(2*n - k - 1)/2) - ap(j + (k - 1)*(2*n - k)/2) &
                                      )
                           do i = j,n
@@ -61634,7 +61634,7 @@ module stdlib_linalg_lapack_w
               kc = knc + n - k + 2
               go to 60
            end if
-110        continue
+           110 continue
            return
      end subroutine stdlib_wsptrf
 
@@ -61655,7 +61655,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: ap(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kc,kcnext,kp,kpc,kstep,kx,npp
@@ -61700,7 +61700,7 @@ module stdlib_linalg_lapack_w
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-30            continue
+              30 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               kcnext = kc + k
@@ -61735,9 +61735,9 @@ module stdlib_linalg_lapack_w
                               kcnext),1)
                     call stdlib_wcopy(k - 1,ap(kcnext),1,work,1)
                     call stdlib_wspmv(uplo,k - 1,-cone,ap,work,1,czero,ap(kcnext),1)
-                              
+
                     ap(kcnext + k) = ap(kcnext + k) - stdlib_wdotu(k - 1,work,1,ap(kcnext),1)
-                              
+
                  end if
                  kstep = 2
                  kcnext = kcnext + k + 1
@@ -61767,7 +61767,7 @@ module stdlib_linalg_lapack_w
               k = k + kstep
               kc = kcnext
               go to 30
-50            continue
+              50 continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
@@ -61775,7 +61775,7 @@ module stdlib_linalg_lapack_w
               npp = n*(n + 1)/2
               k = n
               kc = npp
-60            continue
+              60 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 80
               kcnext = kc - (n - k + 2)
@@ -61814,7 +61814,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wspmv(uplo,n - k,-cone,ap(kc + (n - k + 1)),work,1,czero,ap( &
                               kcnext + 2),1)
                     ap(kcnext) = ap(kcnext) - stdlib_wdotu(n - k,work,1,ap(kcnext + 2),1)
-                              
+
                  end if
                  kstep = 2
                  kcnext = kcnext - (n - k + 3)
@@ -61844,7 +61844,7 @@ module stdlib_linalg_lapack_w
               k = k - kstep
               kc = kcnext
               go to 60
-80            continue
+              80 continue
            end if
            return
      end subroutine stdlib_wsptri
@@ -61866,7 +61866,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kc,kp
@@ -61898,7 +61898,7 @@ module stdlib_linalg_lapack_w
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-10            continue
+              10 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               kc = kc - k
@@ -61910,7 +61910,7 @@ module stdlib_linalg_lapack_w
                  ! multiply by inv(u(k)), where u(k) is the transformation
                  ! stored in column k of a.
                  call stdlib_wgeru(k - 1,nrhs,-cone,ap(kc),1,b(k,1),ldb,b(1,1),ldb)
-                           
+
                  ! multiply by the inverse of the diagonal block.
                  call stdlib_wscal(nrhs,cone/ap(kc + k - 1),b(k,1),ldb)
                  k = k - 1
@@ -61922,7 +61922,7 @@ module stdlib_linalg_lapack_w
                  ! multiply by inv(u(k)), where u(k) is the transformation
                  ! stored in columns k-1 and k of a.
                  call stdlib_wgeru(k - 2,nrhs,-cone,ap(kc),1,b(k,1),ldb,b(1,1),ldb)
-                           
+
                  call stdlib_wgeru(k - 2,nrhs,-cone,ap(kc - (k - 1)),1,b(k - 1,1),ldb,b(1, &
                            1),ldb)
                  ! multiply by the inverse of the diagonal block.
@@ -61940,13 +61940,13 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 10
-30            continue
+              30 continue
               ! next solve u**t*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -61975,7 +61975,7 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 40
-50            continue
+              50 continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
@@ -61983,7 +61983,7 @@ module stdlib_linalg_lapack_w
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
               kc = 1
-60            continue
+              60 continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -62027,13 +62027,13 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 60
-80            continue
+              80 continue
               ! next solve l**t*x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
               kc = n*(n + 1)/2 + 1
-90            continue
+              90 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               kc = kc - (n - k + 1)
@@ -62064,7 +62064,7 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 90
-100           continue
+              100 continue
            end if
            return
      end subroutine stdlib_wsptrs
@@ -62097,7 +62097,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: work(*)
            complex(qp),intent(inout) :: z(ldz,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: finish,i,icompz,ii,j,k,lgn,liwmin,ll,lrwmin,lwmin,m,smlsiz, &
@@ -62210,7 +62210,7 @@ module stdlib_linalg_lapack_w
               eps = stdlib_qlamch('EPSILON')
               start = 1
               ! while ( start <= n )
-30   continue
+              30 continue
               if (start <= n) then
                  ! let finish be the position of the next subdiagonal entry
                  ! such that e( finish ) <= tiny or finish = n if no such
@@ -62218,7 +62218,7 @@ module stdlib_linalg_lapack_w
                  ! between start and finish constitutes an independent
                  ! sub-problem.
                  finish = start
-40               continue
+                 40 continue
                  if (finish < n) then
                     tiny = eps*sqrt(abs(d(finish)))*sqrt(abs(d(finish + 1)))
                     if (abs(e(finish)) > tiny) then
@@ -62233,7 +62233,7 @@ module stdlib_linalg_lapack_w
                     orgnrm = stdlib_qlanst('M',m,d(start),e(start))
                     call stdlib_qlascl('G',0,0,orgnrm,one,m,1,d(start),m,info)
                     call stdlib_qlascl('G',0,0,orgnrm,one,m - 1,1,e(start),m - 1,info)
-                              
+
                     call stdlib_wlaed0(n,m,d(start),e(start),z(1,start),ldz,work,n, &
                               rwork,iwork,info)
                     if (info > 0) then
@@ -62276,7 +62276,7 @@ module stdlib_linalg_lapack_w
                 end if
               end do
            end if
-70         continue
+           70 continue
            work(1) = lwmin
            rwork(1) = lrwmin
            iwork(1) = liwmin
@@ -62355,7 +62355,7 @@ module stdlib_linalg_lapack_w
            real(qp),parameter :: odm1 = 1.0e-1_qp
            integer(ilp),parameter :: maxits = 5
            integer(ilp),parameter :: extra = 2
-           
+
            ! Local Scalars
            integer(ilp) :: b1,blksiz,bn,gpind,i,iinfo,indrv1,indrv2,indrv3,indrv4, &
                      indrv5,its,j,j1,jblk,jmax,jr,nblk,nrmchk
@@ -62388,7 +62388,7 @@ module stdlib_linalg_lapack_w
                     go to 30
                  end if
               end do
-30            continue
+              30 continue
            end if
            if (info /= 0) then
               call stdlib_xerbla('ZSTEIN',-info)
@@ -62435,7 +62435,7 @@ module stdlib_linalg_lapack_w
               ortol = odm3*onenrm
               dtpcrt = sqrt(odm1/blksiz)
               ! loop through eigenvalues of block nblk.
-60   continue
+              60 continue
               jblk = 0
               loop_170: do j = j1,m
                  if (iblock(j) /= nblk) then
@@ -62470,7 +62470,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_qlagtf(blksiz,work(indrv4 + 1),xj,work(indrv2 + 2),work(indrv3 + &
                            1),tol,work(indrv5 + 1),iwork,iinfo)
                  ! update iteration count.
-70   continue
+                 70 continue
                  its = its + 1
                  if (its > maxits) go to 120
                  ! normalize and scale the righthand side vector pb.
@@ -62498,7 +62498,7 @@ module stdlib_linalg_lapack_w
                     end do
                  end if
                  ! check the infinity norm of the iterate.
-110  continue
+                 110 continue
                  jmax = stdlib_iqamax(blksiz,work(indrv1 + 1),1)
                  nrm = abs(work(indrv1 + jmax))
                  ! continue for additional iterations after norm reaches
@@ -62509,16 +62509,16 @@ module stdlib_linalg_lapack_w
                  go to 130
                  ! if stopping criterion was not satisfied, update info and
                  ! store eigenvector number in array ifail.
-120  continue
+                 120 continue
                  info = info + 1
                  ifail(info) = j
                  ! accept iterate as jth eigenvector.
-130  continue
+                 130 continue
                  scl = one/stdlib_qnrm2(blksiz,work(indrv1 + 1),1)
                  jmax = stdlib_iqamax(blksiz,work(indrv1 + 1),1)
                  if (work(indrv1 + jmax) < zero) scl = -scl
                  call stdlib_qscal(blksiz,scl,work(indrv1 + 1),1)
-140              continue
+                 140 continue
                  do i = 1,n
                     z(i,j) = czero
                  end do
@@ -62612,7 +62612,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: minrgp = 1.0e-3_qp
-           
+
            ! Local Scalars
            logical(lk) :: alleig,indeig,lquery,valeig,wantz,zquery
            integer(ilp) :: i,ibegin,iend,ifirst,iil,iindbl,iindw,iindwk,iinfo,iinspl, &
@@ -62691,7 +62691,7 @@ module stdlib_linalg_lapack_w
                  nzcmin = n
               else if (wantz .and. valeig) then
                  call stdlib_qlarrc('T',n,vl,vu,d,e,safmin,nzcmin,itmp,itmp2,info)
-                           
+
               else if (wantz .and. indeig) then
                  nzcmin = iiu - iil + 1
               else
@@ -62861,7 +62861,7 @@ module stdlib_linalg_lapack_w
               call stdlib_qlarre(range,n,wl,wu,iil,iiu,d,e,work(inde2),rtol1,rtol2, &
               thresh,nsplit,iwork(iinspl),m,w,work(inderr),work(indgp),iwork(iindbl), &
               iwork(iindw),work(indgrs),pivmin,work(indwrk),iwork(iindwk),iinfo)
-                        
+
               if (iinfo /= 0) then
                  info = 10 + abs(iinfo)
                  return
@@ -62900,7 +62900,7 @@ module stdlib_linalg_lapack_w
                     in = iend - ibegin + 1
                     wend = wbegin - 1
                     ! check if any eigenvalues have to be refined in this block
-36   continue
+                    36 continue
                     if (wend < m) then
                        if (iwork(iindbl + wend) == jblk) then
                           wend = wend + 1
@@ -62988,7 +62988,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: maxit = 30
-           
+
            ! Local Scalars
            integer(ilp) :: i,icompz,ii,iscale,j,jtot,k,l,l1,lend,lendm1,lendp1,lendsv, &
                       lm1,lsv,m,mm,mm1,nm1,nmaxit
@@ -63042,7 +63042,7 @@ module stdlib_linalg_lapack_w
            ! element is smaller.
            l1 = 1
            nm1 = n - 1
-10         continue
+           10 continue
            if (l1 > n) go to 160
            if (l1 > 1) e(l1 - 1) = zero
            if (l1 <= nm1) then
@@ -63056,7 +63056,7 @@ module stdlib_linalg_lapack_w
               end do
            end if
            m = n
-30         continue
+           30 continue
            l = l1
            lsv = l
            lend = m
@@ -63084,7 +63084,7 @@ module stdlib_linalg_lapack_w
            if (lend > l) then
               ! ql iteration
               ! look for small subdiagonal element.
-40   continue
+              40 continue
               if (l /= lend) then
                  lendm1 = lend - 1
                  do m = l,lendm1
@@ -63093,7 +63093,7 @@ module stdlib_linalg_lapack_w
                  end do
               end if
               m = lend
-60            continue
+              60 continue
               if (m < lend) e(m) = zero
               p = d(l)
               if (m == l) go to 80
@@ -63153,7 +63153,7 @@ module stdlib_linalg_lapack_w
               e(l) = g
               go to 40
               ! eigenvalue found.
-80   continue
+              80 continue
               d(l) = p
               l = l + 1
               if (l <= lend) go to 40
@@ -63161,7 +63161,7 @@ module stdlib_linalg_lapack_w
            else
               ! qr iteration
               ! look for small superdiagonal element.
-90   continue
+              90 continue
               if (l /= lend) then
                  lendp1 = lend + 1
                  do m = l,lendp1,-1
@@ -63170,7 +63170,7 @@ module stdlib_linalg_lapack_w
                  end do
               end if
               m = lend
-110           continue
+              110 continue
               if (m > lend) e(m - 1) = zero
               p = d(l)
               if (m == l) go to 130
@@ -63230,24 +63230,24 @@ module stdlib_linalg_lapack_w
               e(lm1) = g
               go to 90
               ! eigenvalue found.
-130  continue
+              130 continue
               d(l) = p
               l = l - 1
               if (l >= lend) go to 90
               go to 140
            end if
            ! undo scaling if necessary
-140  continue
+           140 continue
            if (iscale == 1) then
               call stdlib_qlascl('G',0,0,ssfmax,anorm,lendsv - lsv + 1,1,d(lsv),n,info)
-                        
+
               call stdlib_qlascl('G',0,0,ssfmax,anorm,lendsv - lsv,1,e(lsv),n,info)
-                        
+
            else if (iscale == 2) then
               call stdlib_qlascl('G',0,0,ssfmin,anorm,lendsv - lsv + 1,1,d(lsv),n,info)
-                        
+
               call stdlib_qlascl('G',0,0,ssfmin,anorm,lendsv - lsv,1,e(lsv),n,info)
-                        
+
            end if
            ! check for no convergence to an eigenvalue after a total
            ! of n*maxit iterations.
@@ -63259,7 +63259,7 @@ module stdlib_linalg_lapack_w
            end if
            go to 10
            ! order eigenvalues and eigenvectors.
-160  continue
+           160 continue
            if (icompz == 0) then
               ! use quick sort
               call stdlib_qlasrt('I',n,d,info)
@@ -63306,7 +63306,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,kase
@@ -63354,7 +63354,7 @@ module stdlib_linalg_lapack_w
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30         continue
+           30 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -63387,7 +63387,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,kase
@@ -63435,7 +63435,7 @@ module stdlib_linalg_lapack_w
            end if
            ! estimate the 1-norm of the inverse.
            kase = 0
-30         continue
+           30 continue
            call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
            if (kase /= 0) then
               ! multiply by inv(l*d*l**t) or inv(u*d*u**t).
@@ -63464,7 +63464,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: e(*)
         ! =====================================================================
-           
+
            ! External Subroutines
            logical(lk) :: upper,convert
            integer(ilp) :: i,ip,j
@@ -63682,7 +63682,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(inout) :: ipiv(*)
            complex(qp),intent(inout) :: a(lda,*),e(*)
         ! =====================================================================
-           
+
            ! External Subroutines
            logical(lk) :: upper,convert
            integer(ilp) :: i,ip
@@ -63746,7 +63746,7 @@ module stdlib_linalg_lapack_w
                        if (i < n) then
                           if (ip /= (i - 1)) then
                              call stdlib_wswap(n - i,a(i - 1,i + 1),lda,a(ip,i + 1),lda)
-                                       
+
                           end if
                        end if
                        ! convert ipiv
@@ -63782,7 +63782,7 @@ module stdlib_linalg_lapack_w
                        if (i < n) then
                           if (ip /= (i - 1)) then
                              call stdlib_wswap(n - i,a(ip,i + 1),lda,a(i - 1,i + 1),lda)
-                                       
+
                           end if
                        end if
                        ! convert ipiv
@@ -63937,7 +63937,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),intent(in) :: ipiv(*)
            complex(qp),intent(inout) :: a(lda,*),e(*)
         ! =====================================================================
-           
+
            ! External Subroutines
            logical(lk) :: upper,convert
            integer(ilp) :: i,ip,ip2
@@ -64006,7 +64006,7 @@ module stdlib_linalg_lapack_w
                           end if
                           if (ip2 /= (i - 1)) then
                              call stdlib_wswap(n - i,a(i - 1,i + 1),lda,a(ip2,i + 1),lda)
-                                       
+
                           end if
                        end if
                        i = i - 1
@@ -64039,7 +64039,7 @@ module stdlib_linalg_lapack_w
                        if (i < n) then
                           if (ip2 /= (i - 1)) then
                              call stdlib_wswap(n - i,a(ip2,i + 1),lda,a(i - 1,i + 1),lda)
-                                       
+
                           end if
                           if (ip /= i) then
                              call stdlib_wswap(n - i,a(ip,i + 1),lda,a(i,i + 1),lda)
@@ -64188,7 +64188,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: max_iter = 100
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,iter
            real(qp) :: avg,std,tol,c0,c1,c2,t,u,si,d,base,smin,smax,smlnum,bignum, &
@@ -64329,7 +64329,7 @@ module stdlib_linalg_lapack_w
                  s(i) = si
               end do
            end do
-999        continue
+           999 continue
            smlnum = stdlib_qlamch('SAFEMIN')
            bignum = one/smlnum
            smin = bignum
@@ -64362,7 +64362,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*),x(*)
            complex(qp),intent(inout) :: y(*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,info,ix,iy,j,jx,jy,kx,ky
            complex(qp) :: temp1,temp2
@@ -64515,7 +64515,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(in) :: x(*)
        ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,info,ix,j,jx,kx
            complex(qp) :: temp
@@ -64624,7 +64624,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: itmax = 5
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: count,i,j,k,kase,nz
@@ -64679,7 +64679,7 @@ module stdlib_linalg_lapack_w
            loop_140: do j = 1,nrhs
               count = 1
               lstres = three
-20            continue
+              20 continue
               ! loop until stopping criterion is satisfied.
               ! compute residual r = b - a * x
               call stdlib_wcopy(n,b(1,j),1,work,1)
@@ -64763,7 +64763,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-100           continue
+              100 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -64881,7 +64881,7 @@ module stdlib_linalg_lapack_w
      !> form of A is then used to solve the system of equations A * X = B.
 
      pure subroutine stdlib_wsysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-               
+
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -64935,7 +64935,7 @@ module stdlib_linalg_lapack_w
            if (info == 0) then
               ! solve the system a*x = b, overwriting b with x.
               call stdlib_wsytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-                        
+
            end if
            work(1) = lwkopt
            return
@@ -64957,7 +64957,7 @@ module stdlib_linalg_lapack_w
      !> the system of equations A * X = B by calling BLAS3 routine ZSYTRS_3.
 
      pure subroutine stdlib_wsysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
-               
+
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -65036,7 +65036,7 @@ module stdlib_linalg_lapack_w
      !> of equations A * X = B by calling ZSYTRS_ROOK.
 
      pure subroutine stdlib_wsysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-               
+
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -65121,7 +65121,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: af(ldaf,*)
            complex(qp),intent(out) :: work(*),x(ldx,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,nofact
            integer(ilp) :: lwkopt,nb
@@ -65284,7 +65284,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,imax,j,jmax,k,kk,kp,kstep
@@ -65318,7 +65318,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
@@ -65433,7 +65433,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
@@ -65486,7 +65486,7 @@ module stdlib_linalg_lapack_w
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_wswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     call stdlib_wswap(kp - kk - 1,a(kk + 1,kk),1,a(kp,kk + 1),lda)
                     t = a(kk,kk)
                     a(kk,kk) = a(kp,kp)
@@ -65507,7 +65507,7 @@ module stdlib_linalg_lapack_w
                        ! a := a - l(k)*d(k)*l(k)**t = a - w(k)*(1/d(k))*w(k)**t
                        r1 = cone/a(k,k)
                        call stdlib_wsyr(uplo,n - k,-r1,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                 
+
                        ! store l(k) in column k
                        call stdlib_wscal(n - k,r1,a(k + 1,k),1)
                     end if
@@ -65547,7 +65547,7 @@ module stdlib_linalg_lapack_w
               k = k + kstep
               go to 40
            end if
-70         continue
+           70 continue
            return
      end subroutine stdlib_wsytf2
 
@@ -65576,7 +65576,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: upper,done
            integer(ilp) :: i,imax,j,jmax,itemp,k,kk,kp,kstep,p,ii
@@ -65615,7 +65615,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 34
               kstep = 1
@@ -65649,7 +65649,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-12   continue
+                    12 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -65699,7 +65699,7 @@ module stdlib_linalg_lapack_w
                     ! submatrix a(1:k,1:k) if we have a 2-by-2 pivot
                     if (p > 1) call stdlib_wswap(p - 1,a(1,k),1,a(1,p),1)
                     if (p < (k - 1)) call stdlib_wswap(k - p - 1,a(p + 1,k),1,a(p,p + 1),lda)
-                              
+
                     t = a(k,k)
                     a(k,k) = a(p,p)
                     a(p,p) = t
@@ -65802,7 +65802,7 @@ module stdlib_linalg_lapack_w
               ! decrease k and return to the start of the main loop
               k = k - kstep
               go to 10
-34            continue
+              34 continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! initialize the unused last entry of the subdiagonal array e.
@@ -65810,7 +65810,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop
               if (k > n) go to 64
               kstep = 1
@@ -65843,7 +65843,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-42   continue
+                    42 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -65893,7 +65893,7 @@ module stdlib_linalg_lapack_w
                     ! submatrix a(k:n,k:n) if we have a 2-by-2 pivot
                     if (p < n) call stdlib_wswap(n - p,a(p + 1,k),1,a(p + 1,p),1)
                     if (p > (k + 1)) call stdlib_wswap(p - k - 1,a(k + 1,k),1,a(p,k + 1),lda)
-                              
+
                     t = a(k,k)
                     a(k,k) = a(p,p)
                     a(p,p) = t
@@ -65907,7 +65907,7 @@ module stdlib_linalg_lapack_w
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_wswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     if ((kk < n) .and. (kp > (kk + 1))) call stdlib_wswap(kp - kk - 1,a(kk + 1,kk), &
                               1,a(kp,kk + 1),lda)
                     t = a(kk,kk)
@@ -65936,7 +65936,7 @@ module stdlib_linalg_lapack_w
                              ! = a - w(k)*(1/d(k))*w(k)**t
                           d11 = cone/a(k,k)
                           call stdlib_wsyr(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                    
+
                           ! store l(k) in column k
                           call stdlib_wscal(n - k,d11,a(k + 1,k),1)
                        else
@@ -65950,7 +65950,7 @@ module stdlib_linalg_lapack_w
                              ! = a - w(k)*(1/d(k))*w(k)**t
                              ! = a - (w(k)/d(k))*(d(k))*(w(k)/d(k))**t
                           call stdlib_wsyr(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                    
+
                        end if
                        ! store the subdiagonal element of d in array e
                        e(k) = czero
@@ -66001,7 +66001,7 @@ module stdlib_linalg_lapack_w
               ! increase k and return to the start of the main loop
               k = k + kstep
               go to 40
-64            continue
+              64 continue
            end if
            return
      end subroutine stdlib_wsytf2_rk
@@ -66028,7 +66028,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            real(qp),parameter :: sevten = 17.0e+0_qp
-           
+
            ! Local Scalars
            logical(lk) :: upper,done
            integer(ilp) :: i,imax,j,jmax,itemp,k,kk,kp,kstep,p,ii
@@ -66064,7 +66064,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 70
               kstep = 1
@@ -66096,7 +66096,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-12   continue
+                    12 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -66146,7 +66146,7 @@ module stdlib_linalg_lapack_w
                     ! submatrix a(1:k,1:k) if we have a 2-by-2 pivot
                     if (p > 1) call stdlib_wswap(p - 1,a(1,k),1,a(1,p),1)
                     if (p < (k - 1)) call stdlib_wswap(k - p - 1,a(p + 1,k),1,a(p,p + 1),lda)
-                              
+
                     t = a(k,k)
                     a(k,k) = a(p,p)
                     a(p,p) = t
@@ -66240,7 +66240,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2
               k = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop
               if (k > n) go to 70
               kstep = 1
@@ -66271,7 +66271,7 @@ module stdlib_linalg_lapack_w
                  else
                     done = .false.
                     ! loop until pivot found
-42   continue
+                    42 continue
                        ! begin pivot search loop body
                        ! jmax is the column-index of the largest off-diagonal
                        ! element in row imax, and rowmax is its absolute value.
@@ -66321,7 +66321,7 @@ module stdlib_linalg_lapack_w
                     ! submatrix a(k:n,k:n) if we have a 2-by-2 pivot
                     if (p < n) call stdlib_wswap(n - p,a(p + 1,k),1,a(p + 1,p),1)
                     if (p > (k + 1)) call stdlib_wswap(p - k - 1,a(k + 1,k),1,a(p,k + 1),lda)
-                              
+
                     t = a(k,k)
                     a(k,k) = a(p,p)
                     a(p,p) = t
@@ -66332,7 +66332,7 @@ module stdlib_linalg_lapack_w
                     ! interchange rows and columns kk and kp in the trailing
                     ! submatrix a(k:n,k:n)
                     if (kp < n) call stdlib_wswap(n - kp,a(kp + 1,kk),1,a(kp + 1,kp),1)
-                              
+
                     if ((kk < n) .and. (kp > (kk + 1))) call stdlib_wswap(kp - kk - 1,a(kk + 1,kk), &
                               1,a(kp,kk + 1),lda)
                     t = a(kk,kk)
@@ -66358,7 +66358,7 @@ module stdlib_linalg_lapack_w
                              ! = a - w(k)*(1/d(k))*w(k)**t
                           d11 = cone/a(k,k)
                           call stdlib_wsyr(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                    
+
                           ! store l(k) in column k
                           call stdlib_wscal(n - k,d11,a(k + 1,k),1)
                        else
@@ -66372,7 +66372,7 @@ module stdlib_linalg_lapack_w
                              ! = a - w(k)*(1/d(k))*w(k)**t
                              ! = a - (w(k)/d(k))*(d(k))*(w(k)/d(k))**t
                           call stdlib_wsyr(uplo,n - k,-d11,a(k + 1,k),1,a(k + 1,k + 1),lda)
-                                    
+
                        end if
                     end if
                  else
@@ -66416,7 +66416,7 @@ module stdlib_linalg_lapack_w
               k = k + kstep
               go to 40
            end if
-70         continue
+           70 continue
            return
      end subroutine stdlib_wsytf2_rook
 
@@ -66491,7 +66491,7 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlasyf;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
@@ -66514,7 +66514,7 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlasyf;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20            continue
+              20 continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -66541,7 +66541,7 @@ module stdlib_linalg_lapack_w
               k = k + kb
               go to 20
            end if
-40         continue
+           40 continue
            work(1) = lwkopt
            return
      end subroutine stdlib_wsytrf
@@ -66566,7 +66566,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,upper
            integer(ilp) :: j,lwkopt
@@ -66622,7 +66622,7 @@ module stdlib_linalg_lapack_w
               ! jb, where jb is the number of columns factorized by stdlib_wlasyf;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-10            continue
+              10 continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -66654,7 +66654,7 @@ module stdlib_linalg_lapack_w
                     alpha = a(j,j + 1)
                     a(j,j + 1) = cone
                     call stdlib_wcopy(n - j,a(j - 1,j + 1),lda,work((j + 1 - j1 + 1) + jb*n),1)
-                              
+
                     call stdlib_wscal(n - j,alpha,work((j + 1 - j1 + 1) + jb*n),1)
                     ! k1 identifies if the previous column of the panel has been
                      ! explicitly stored, e.g., k1=1 and k2= 0 for the first panel,
@@ -66699,7 +66699,7 @@ module stdlib_linalg_lapack_w
               ! jb, where jb is the number of columns factorized by stdlib_wlasyf;
               ! jb is either nb, or n-j+1 for the last block
               j = 0
-11            continue
+              11 continue
               if (j >= n) go to 20
               ! each step of the main loop
                ! j is the last column of the previous panel
@@ -66756,7 +66756,7 @@ module stdlib_linalg_lapack_w
                        ! update off-diagonal block in j2-th block column with stdlib_wgemm
                        call stdlib_wgemm('NO TRANSPOSE','TRANSPOSE',n - j3 + 1,nj,jb + 1,-cone, &
                        work(j3 - j1 + 1 + k1*n),n,a(j2,j1 - k2),lda,cone,a(j3,j2),lda)
-                                 
+
                     end do
                     ! recover t( j+1, j )
                     a(j + 1,j) = alpha
@@ -66766,7 +66766,7 @@ module stdlib_linalg_lapack_w
               end if
               go to 11
            end if
-20         continue
+           20 continue
            work(1) = lwkopt
            return
      end subroutine stdlib_wsytrf_aa
@@ -66843,14 +66843,14 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlasyf_rk;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 15
               if (k > nb) then
                  ! factorize columns k-kb+1:k of a and use blocked code to
                  ! update columns 1:k-kb
                  call stdlib_wlasyf_rk(uplo,k,nb,kb,a,lda,e,ipiv,work,ldwork,iinfo)
-                           
+
               else
                  ! use unblocked code to factorize columns 1:k of a
                  call stdlib_wsytf2_rk(uplo,k,a,lda,e,ipiv,iinfo)
@@ -66879,14 +66879,14 @@ module stdlib_linalg_lapack_w
               go to 10
               ! this label is the exit from main loop over k decreasing
               ! from n to 1 in steps of kb
-15   continue
+              15 continue
            else
               ! factorize a as l*d*l**t using the lower triangle of a
               ! k is the main loop index, increasing from 1 to n in steps of
               ! kb, where kb is the number of columns factorized by stdlib_wlasyf_rk;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20            continue
+              20 continue
               ! if k > n, exit from loop
               if (k > n) go to 35
               if (k <= n - nb) then
@@ -66897,7 +66897,7 @@ module stdlib_linalg_lapack_w
               else
                  ! use unblocked code to factorize columns k:n of a
                  call stdlib_wsytf2_rk(uplo,n - k + 1,a(k,k),lda,e(k),ipiv(k),iinfo)
-                           
+
                  kb = n - k + 1
               end if
               ! set info on the first occurrence of a zero pivot
@@ -66930,7 +66930,7 @@ module stdlib_linalg_lapack_w
               go to 20
               ! this label is the exit from main loop over k increasing
               ! from 1 to n in steps of kb
-35   continue
+              35 continue
            ! end lower
            end if
            work(1) = lwkopt
@@ -67008,14 +67008,14 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlasyf_rook;
               ! kb is either nb or nb-1, or k for the last block
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop
               if (k < 1) go to 40
               if (k > nb) then
                  ! factorize columns k-kb+1:k of a and use blocked code to
                  ! update columns 1:k-kb
                  call stdlib_wlasyf_rook(uplo,k,nb,kb,a,lda,ipiv,work,ldwork,iinfo)
-                           
+
               else
                  ! use unblocked code to factorize columns 1:k of a
                  call stdlib_wsytf2_rook(uplo,k,a,lda,ipiv,iinfo)
@@ -67033,7 +67033,7 @@ module stdlib_linalg_lapack_w
               ! kb, where kb is the number of columns factorized by stdlib_wlasyf_rook;
               ! kb is either nb or nb-1, or n-k+1 for the last block
               k = 1
-20            continue
+              20 continue
               ! if k > n, exit from loop
               if (k > n) go to 40
               if (k <= n - nb) then
@@ -67060,7 +67060,7 @@ module stdlib_linalg_lapack_w
               k = k + kb
               go to 20
            end if
-40         continue
+           40 continue
            work(1) = lwkopt
            return
      end subroutine stdlib_wsytrf_rook
@@ -67082,7 +67082,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: k,kp,kstep
@@ -67124,7 +67124,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30            continue
+              30 continue
               ! if k > n, exit from loop.
               if (k > n) go to 40
               if (ipiv(k) > 0) then
@@ -67135,7 +67135,7 @@ module stdlib_linalg_lapack_w
                  if (k > 1) then
                     call stdlib_wcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_wsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-                              
+
                     a(k,k) = a(k,k) - stdlib_wdotu(k - 1,work,1,a(1,k),1)
                  end if
                  kstep = 1
@@ -67154,15 +67154,15 @@ module stdlib_linalg_lapack_w
                  if (k > 1) then
                     call stdlib_wcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_wsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-                              
+
                     a(k,k) = a(k,k) - stdlib_wdotu(k - 1,work,1,a(1,k),1)
                     a(k,k + 1) = a(k,k + 1) - stdlib_wdotu(k - 1,a(1,k),1,a(1,k + 1),1)
-                              
+
                     call stdlib_wcopy(k - 1,a(1,k + 1),1,work,1)
                     call stdlib_wsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k + 1),1)
-                              
+
                     a(k + 1,k + 1) = a(k + 1,k + 1) - stdlib_wdotu(k - 1,work,1,a(1,k + 1),1)
-                              
+
                  end if
                  kstep = 2
               end if
@@ -67183,13 +67183,13 @@ module stdlib_linalg_lapack_w
               end if
               k = k + kstep
               go to 30
-40            continue
+              40 continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-50            continue
+              50 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 60
               if (ipiv(k) > 0) then
@@ -67227,7 +67227,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wsymv(uplo,n - k,-cone,a(k + 1,k + 1),lda,work,1,czero,a(k + &
                               1,k - 1),1)
                     a(k - 1,k - 1) = a(k - 1,k - 1) - stdlib_wdotu(n - k,work,1,a(k + 1,k - 1),1)
-                              
+
                  end if
                  kstep = 2
               end if
@@ -67248,7 +67248,7 @@ module stdlib_linalg_lapack_w
               end if
               k = k - kstep
               go to 50
-60            continue
+              60 continue
            end if
            return
      end subroutine stdlib_wsytri
@@ -67270,7 +67270,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: k,kp,kstep
@@ -67312,7 +67312,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-30            continue
+              30 continue
               ! if k > n, exit from loop.
               if (k > n) go to 40
               if (ipiv(k) > 0) then
@@ -67323,7 +67323,7 @@ module stdlib_linalg_lapack_w
                  if (k > 1) then
                     call stdlib_wcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_wsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-                              
+
                     a(k,k) = a(k,k) - stdlib_wdotu(k - 1,work,1,a(1,k),1)
                  end if
                  kstep = 1
@@ -67342,15 +67342,15 @@ module stdlib_linalg_lapack_w
                  if (k > 1) then
                     call stdlib_wcopy(k - 1,a(1,k),1,work,1)
                     call stdlib_wsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k),1)
-                              
+
                     a(k,k) = a(k,k) - stdlib_wdotu(k - 1,work,1,a(1,k),1)
                     a(k,k + 1) = a(k,k + 1) - stdlib_wdotu(k - 1,a(1,k),1,a(1,k + 1),1)
-                              
+
                     call stdlib_wcopy(k - 1,a(1,k + 1),1,work,1)
                     call stdlib_wsymv(uplo,k - 1,-cone,a,lda,work,1,czero,a(1,k + 1),1)
-                              
+
                     a(k + 1,k + 1) = a(k + 1,k + 1) - stdlib_wdotu(k - 1,work,1,a(1,k + 1),1)
-                              
+
                  end if
                  kstep = 2
               end if
@@ -67391,13 +67391,13 @@ module stdlib_linalg_lapack_w
               end if
               k = k + 1
               go to 30
-40            continue
+              40 continue
            else
               ! compute inv(a) from the factorization a = l*d*l**t.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-50            continue
+              50 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 60
               if (ipiv(k) > 0) then
@@ -67435,7 +67435,7 @@ module stdlib_linalg_lapack_w
                     call stdlib_wsymv(uplo,n - k,-cone,a(k + 1,k + 1),lda,work,1,czero,a(k + 1, &
                                k - 1),1)
                     a(k - 1,k - 1) = a(k - 1,k - 1) - stdlib_wdotu(n - k,work,1,a(k + 1,k - 1),1)
-                              
+
                  end if
                  kstep = 2
               end if
@@ -67476,7 +67476,7 @@ module stdlib_linalg_lapack_w
               end if
               k = k - 1
               go to 50
-60            continue
+              60 continue
            end if
            return
      end subroutine stdlib_wsytri_rook
@@ -67498,7 +67498,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kp
@@ -67531,7 +67531,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -67571,12 +67571,12 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 10
-30            continue
+              30 continue
               ! next solve u**t *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -67603,14 +67603,14 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 40
-50            continue
+              50 continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60            continue
+              60 continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -67652,12 +67652,12 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 60
-80            continue
+              80 continue
               ! next solve l**t *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90            continue
+              90 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -67686,7 +67686,7 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 90
-100           continue
+              100 continue
            end if
            return
      end subroutine stdlib_wsytrs
@@ -67708,7 +67708,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,iinfo,j,k,kp
@@ -67817,7 +67817,7 @@ module stdlib_linalg_lapack_w
                  ! interchange rows k and -ipiv(k+1).
                  kp = -ipiv(k + 1)
                  if (kp == -ipiv(k)) call stdlib_wswap(nrhs,b(k + 1,1),ldb,b(kp,1),ldb)
-                           
+
                  k = k + 2
               end if
              end do
@@ -67892,7 +67892,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*),e(*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,j,k,kp
@@ -68031,7 +68031,7 @@ module stdlib_linalg_lapack_w
      !> A = L*T*L**T computed by ZSYTRF_AA.
 
      pure subroutine stdlib_wsytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -68045,7 +68045,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: b(ldb,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            logical(lk) :: lquery,upper
            integer(ilp) :: k,kp,lwkopt
            ! Intrinsic Functions
@@ -68162,7 +68162,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: j,k,kp
@@ -68195,7 +68195,7 @@ module stdlib_linalg_lapack_w
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-10            continue
+              10 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 30
               if (ipiv(k) > 0) then
@@ -68239,12 +68239,12 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 10
-30            continue
+              30 continue
               ! next solve u**t *x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-40            continue
+              40 continue
               ! if k > n, exit from loop.
               if (k > n) go to 50
               if (ipiv(k) > 0) then
@@ -68275,14 +68275,14 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 40
-50            continue
+              50 continue
            else
               ! solve a*x = b, where a = l*d*l**t.
               ! first solve l*d*x = b, overwriting b with x.
               ! k is the main loop index, increasing from 1 to n in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = 1
-60            continue
+              60 continue
               ! if k > n, exit from loop.
               if (k > n) go to 80
               if (ipiv(k) > 0) then
@@ -68326,12 +68326,12 @@ module stdlib_linalg_lapack_w
                  k = k + 2
               end if
               go to 60
-80            continue
+              80 continue
               ! next solve l**t *x = b, overwriting b with x.
               ! k is the main loop index, decreasing from n to 1 in steps of
               ! 1 or 2, depending on the size of the diagonal blocks.
               k = n
-90            continue
+              90 continue
               ! if k < 1, exit from loop.
               if (k < 1) go to 100
               if (ipiv(k) > 0) then
@@ -68362,7 +68362,7 @@ module stdlib_linalg_lapack_w
                  k = k - 2
               end if
               go to 90
-100           continue
+              100 continue
            end if
            return
      end subroutine stdlib_wsytrs_rook
@@ -68375,7 +68375,7 @@ module stdlib_linalg_lapack_w
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
      subroutine stdlib_wtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -68389,7 +68389,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ab(ldab,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nounit,onenrm,upper
            character :: normin
@@ -68447,7 +68447,7 @@ module stdlib_linalg_lapack_w
                  kase1 = 2
               end if
               kase = 0
-10            continue
+              10 continue
               call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -68472,7 +68472,7 @@ module stdlib_linalg_lapack_w
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20         continue
+           20 continue
            return
      end subroutine stdlib_wtbcon
 
@@ -68497,7 +68497,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ab(ldab,*),b(ldb,*),x(ldx,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: notran,nounit,upper
            character :: transn,transt
@@ -68690,7 +68690,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-210           continue
+              210 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -68724,7 +68724,7 @@ module stdlib_linalg_lapack_w
      !> N-by-NRHS matrix.  A check is made to verify that A is nonsingular.
 
      pure subroutine stdlib_wtbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -68736,7 +68736,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ab(ldab,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nounit,upper
            integer(ilp) :: j
@@ -68801,7 +68801,7 @@ module stdlib_linalg_lapack_w
      !> The matrix X is overwritten on B.
 
      pure subroutine stdlib_wtfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -68813,7 +68813,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(0:*)
            complex(qp),intent(inout) :: b(0:ldb - 1,0:*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,lside,misodd,nisodd,normaltransr,notrans
            integer(ilp) :: m1,m2,n1,n2,k,info,i,j
@@ -68888,7 +68888,7 @@ module stdlib_linalg_lapack_w
                           ! trans = 'n'
                           if (m == 1) then
                              call stdlib_wtrsm('L','L','N',diag,m1,n,alpha,a,m,b,ldb)
-                                       
+
                           else
                              call stdlib_wtrsm('L','L','N',diag,m1,n,alpha,a(0),m,b, &
                                        ldb)
@@ -68931,7 +68931,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgemm('N','N',m1,n,m2,-cone,a(0),m,b(m1,0), &
                                     ldb,alpha,b,ldb)
                           call stdlib_wtrsm('L','L','C',diag,m1,n,cone,a(m2),m,b,ldb)
-                                    
+
                        end if
                     end if
                  else
@@ -69013,7 +69013,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgemm('C','N',k,n,k,-cone,a(k + 1),m + 1,b(k,0), &
                                     ldb,alpha,b,ldb)
                           call stdlib_wtrsm('L','L','C',diag,k,n,cone,a(1),m + 1,b,ldb)
-                                    
+
                        end if
                     else
                        ! side  ='l', n is even, transr = 'n', and uplo = 'u'
@@ -69045,7 +69045,7 @@ module stdlib_linalg_lapack_w
                           ! side  ='l', n is even, transr = 'c', uplo = 'l',
                           ! and trans = 'n'
                           call stdlib_wtrsm('L','U','C',diag,k,n,alpha,a(k),k,b,ldb)
-                                    
+
                           call stdlib_wgemm('C','N',k,n,k,-cone,a(k*(k + 1)),k,b,ldb, &
                                     alpha,b(k,0),ldb)
                           call stdlib_wtrsm('L','L','N',diag,k,n,cone,a(0),k,b(k,0), &
@@ -69058,7 +69058,7 @@ module stdlib_linalg_lapack_w
                           call stdlib_wgemm('N','N',k,n,k,-cone,a(k*(k + 1)),k,b(k,0) &
                                     ,ldb,alpha,b,ldb)
                           call stdlib_wtrsm('L','U','N',diag,k,n,cone,a(k),k,b,ldb)
-                                    
+
                        end if
                     else
                        ! side  ='l', n is even, transr = 'c', and uplo = 'u'
@@ -69308,7 +69308,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(0:*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lower,nisodd,normaltransr
            integer(ilp) :: n1,n2,k
@@ -69363,12 +69363,12 @@ module stdlib_linalg_lapack_w
                     call stdlib_wtrtri('L',diag,n1,a(0),n,info)
                     if (info > 0) return
                     call stdlib_wtrmm('R','L','N',diag,n2,n1,-cone,a(0),n,a(n1),n)
-                              
+
                     call stdlib_wtrtri('U',diag,n2,a(n),n,info)
                     if (info > 0) info = info + n1
                     if (info > 0) return
                     call stdlib_wtrmm('L','U','C',diag,n2,n1,cone,a(n),n,a(n1),n)
-                              
+
                  else
                    ! srpa for upper, normal and n is odd ( a(0:n-1,0:n2-1)
                    ! t1 -> a(n1+1,0), t2 -> a(n1,0), s -> a(0,0)
@@ -69376,12 +69376,12 @@ module stdlib_linalg_lapack_w
                     call stdlib_wtrtri('L',diag,n1,a(n2),n,info)
                     if (info > 0) return
                     call stdlib_wtrmm('L','L','C',diag,n1,n2,-cone,a(n2),n,a(0),n)
-                              
+
                     call stdlib_wtrtri('U',diag,n2,a(n1),n,info)
                     if (info > 0) info = info + n1
                     if (info > 0) return
                     call stdlib_wtrmm('R','U','N',diag,n1,n2,cone,a(n1),n,a(0),n)
-                              
+
                  end if
               else
                  ! n is odd and transr = 'c'
@@ -69440,7 +69440,7 @@ module stdlib_linalg_lapack_w
                     if (info > 0) info = info + k
                     if (info > 0) return
                     call stdlib_wtrmm('R','U','N',diag,k,k,cone,a(k),n + 1,a(0),n + 1)
-                              
+
                  end if
               else
                  ! n is even and transr = 'c'
@@ -69469,7 +69469,7 @@ module stdlib_linalg_lapack_w
                     if (info > 0) info = info + k
                     if (info > 0) return
                     call stdlib_wtrmm('L','L','N',diag,k,k,cone,a(k*k),k,a(0),k)
-                              
+
                  end if
               end if
            end if
@@ -70020,7 +70020,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: vl(ldvl,*),vr(ldvr,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: compl,compr,ilall,ilback,ilbbad,ilcomp,lsa,lsb
            integer(ilp) :: i,ibeg,ieig,iend,ihwmny,im,iside,isrc,j,je,jr
@@ -70175,7 +70175,7 @@ module stdlib_linalg_lapack_w
                     scale = one
                     if (lsa) scale = (small/abs(sbeta))*min(anorm,big)
                     if (lsb) scale = max(scale, (small/abs1(salpha))*min(bnorm,big))
-                              
+
                     if (lsa .or. lsb) then
                        scale = min(scale,one/(safmin*max(one,abs(acoeff),abs1(bcoeff)) &
                                  ))
@@ -70304,7 +70304,7 @@ module stdlib_linalg_lapack_w
                     scale = one
                     if (lsa) scale = (small/abs(sbeta))*min(anorm,big)
                     if (lsb) scale = max(scale, (small/abs1(salpha))*min(bnorm,big))
-                              
+
                     if (lsa .or. lsb) then
                        scale = min(scale,one/(safmin*max(one,abs(acoeff),abs1(bcoeff)) &
                                  ))
@@ -70408,7 +70408,7 @@ module stdlib_linalg_lapack_w
      !> Q(in) * B(in) * Z(in)**H = Q(out) * B(out) * Z(out)**H
 
      pure subroutine stdlib_wtgex2(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,j1,info)
-               
+
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -70423,7 +70423,7 @@ module stdlib_linalg_lapack_w
            real(qp),parameter :: twenty = 2.0e+1_qp
            integer(ilp),parameter :: ldst = 2
            logical(lk),parameter :: wands = .true.
-           
+
            ! Local Scalars
            logical(lk) :: strong,weak
            integer(ilp) :: i,m
@@ -70525,13 +70525,13 @@ module stdlib_linalg_lapack_w
            b(j1 + 1,j1) = czero
            ! accumulate transformations into q and z if requested.
            if (wantz) call stdlib_wrot(n,z(1,j1),1,z(1,j1 + 1),1,cz,conjg(sz))
-                     
+
            if (wantq) call stdlib_wrot(n,q(1,j1),1,q(1,j1 + 1),1,cq,conjg(sq))
-                     
+
            ! exit with info = 0 if swap was successfully performed.
            return
            ! exit with info = 1 if swap was rejected.
-20   continue
+           20 continue
            info = 1
            return
      end subroutine stdlib_wtgex2
@@ -70591,10 +70591,10 @@ module stdlib_linalg_lapack_w
            if (ifst == ilst) return
            if (ifst < ilst) then
               here = ifst
-10            continue
+              10 continue
               ! swap with next one below
               call stdlib_wtgex2(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,here,info)
-                        
+
               if (info /= 0) then
                  ilst = here
                  return
@@ -70604,10 +70604,10 @@ module stdlib_linalg_lapack_w
               here = here - 1
            else
               here = ifst - 1
-20            continue
+              20 continue
               ! swap with next one above
               call stdlib_wtgex2(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,here,info)
-                        
+
               if (info /= 0) then
                  ilst = here
                  return
@@ -70658,7 +70658,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: idifjb = 3
-           
+
            ! Local Scalars
            logical(lk) :: lquery,swap,wantd,wantd1,wantd2,wantp
            integer(ilp) :: i,ierr,ijb,k,kase,ks,liwmin,lwmin,mn2,n1,n2
@@ -70837,7 +70837,7 @@ module stdlib_linalg_lapack_w
                  ijb = 0
                  mn2 = 2*n1*n2
                  ! 1-norm-based estimate of difu.
-40   continue
+                 40 continue
                  call stdlib_wlacn2(mn2,work(mn2 + 1),work,dif(1),kase,isave)
                  if (kase /= 0) then
                     if (kase == 1) then
@@ -70855,7 +70855,7 @@ module stdlib_linalg_lapack_w
                  end if
                  dif(1) = dscale/dif(1)
                  ! 1-norm-based estimate of difl.
-50   continue
+                 50 continue
                  call stdlib_wlacn2(mn2,work(mn2 + 1),work,dif(2),kase,isave)
                  if (kase /= 0) then
                     if (kase == 1) then
@@ -70892,7 +70892,7 @@ module stdlib_linalg_lapack_w
               alpha(k) = a(k,k)
               beta(k) = b(k,k)
            end do
-70         continue
+           70 continue
            work(1) = lwmin
            iwork(1) = liwmin
            return
@@ -70979,7 +70979,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            integer(ilp),parameter :: maxit = 40
            real(qp),parameter :: hugenum = huge(zero)
-           
+
            ! Local Scalars
            logical(lk) :: initq,initu,initv,upper,wantq,wantu,wantv
            integer(ilp) :: i,j,kcycle
@@ -71058,7 +71058,7 @@ module stdlib_linalg_lapack_w
                     ! update (n-l+i)-th and (n-l+j)-th columns of matrices
                     ! a and b: a*q and b*q
                     call stdlib_wrot(min(k + l,m),a(1,n - l + j),1,a(1,n - l + i),1,csq,snq)
-                              
+
                     call stdlib_wrot(l,b(1,n - l + j),1,b(1,n - l + i),1,csq,snq)
                     if (upper) then
                        if (k + i <= m) a(k + i,n - l + j) = czero
@@ -71077,7 +71077,7 @@ module stdlib_linalg_lapack_w
                               csu,snu)
                     if (wantv) call stdlib_wrot(p,v(1,j),1,v(1,i),1,csv,snv)
                     if (wantq) call stdlib_wrot(n,q(1,n - l + j),1,q(1,n - l + i),1,csq,snq)
-                              
+
                  end do loop_10
               end do loop_20
               if (.not. upper) then
@@ -71099,7 +71099,7 @@ module stdlib_linalg_lapack_w
            ! the algorithm has not converged after maxit cycles.
            info = 1
            go to 100
-50         continue
+           50 continue
            ! if error <= min(tola,tolb), then the algorithm has converged.
            ! compute the generalized singular value pairs (alpha, beta), and
            ! set the triangular matrix r to array a.
@@ -71140,7 +71140,7 @@ module stdlib_linalg_lapack_w
                  beta(i) = zero
               end do
            end if
-100        continue
+           100 continue
            ncycle = kcycle
            return
      end subroutine stdlib_wtgsja
@@ -71168,7 +71168,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: idifjb = 3
-           
+
            ! Local Scalars
            logical(lk) :: lquery,somcon,wantbh,wantdf,wants
            integer(ilp) :: i,ierr,ifst,ilst,k,ks,lwmin,n1,n2
@@ -71344,7 +71344,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: ldz = 2
-           
+
            ! Local Scalars
            logical(lk) :: notran
            integer(ilp) :: i,ierr,j,k
@@ -71415,15 +71415,15 @@ module stdlib_linalg_lapack_w
                        if (scaloc /= one) then
                           do k = 1,n
                              call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),c(1,k),1)
-                                       
+
                              call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),f(1,k),1)
-                                       
+
                           end do
                           scale = scale*scaloc
                        end if
                     else
                        call stdlib_wlatdf(ijob,ldz,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
-                                 
+
                     end if
                     ! unpack solution vector(s)
                     c(i,j) = rhs(1)
@@ -71436,9 +71436,9 @@ module stdlib_linalg_lapack_w
                     end if
                     if (j < n) then
                        call stdlib_waxpy(n - j,rhs(2),b(j,j + 1),ldb,c(i,j + 1),ldc)
-                                 
+
                        call stdlib_waxpy(n - j,rhs(2),e(j,j + 1),lde,f(i,j + 1),ldf)
-                                 
+
                     end if
                  end do loop_20
               end do loop_30
@@ -71466,9 +71466,9 @@ module stdlib_linalg_lapack_w
                     if (scaloc /= one) then
                        do k = 1,n
                           call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),c(1,k),1)
-                                    
+
                           call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),f(1,k),1)
-                                    
+
                        end do
                        scale = scale*scaloc
                     end if
@@ -71536,7 +71536,7 @@ module stdlib_linalg_lapack_w
         ! =====================================================================
         ! replaced various illegal calls to stdlib_zcopy by calls to stdlib_zlaset.
         ! sven hammarling, 1/5/02.
-           
+
            ! Local Scalars
            logical(lk) :: lquery,notran
            integer(ilp) :: i,ie,ifunc,iround,is,isolve,j,je,js,k,linfo,lwmin,mb,nb, &
@@ -71656,27 +71656,27 @@ module stdlib_linalg_lapack_w
            ! determine block structure of a
            p = 0
            i = 1
-40         continue
+           40 continue
            if (i > m) go to 50
            p = p + 1
            iwork(p) = i
            i = i + mb
            if (i >= m) go to 50
            go to 40
-50         continue
+           50 continue
            iwork(p + 1) = m + 1
            if (iwork(p) == iwork(p + 1)) p = p - 1
            ! determine block structure of b
            q = p + 1
            j = 1
-60         continue
+           60 continue
            if (j > n) go to 70
            q = q + 1
            iwork(q) = j
            j = j + nb
            if (j >= n) go to 70
            go to 60
-70         continue
+           70 continue
            iwork(q + 1) = n + 1
            if (iwork(q) == iwork(q + 1)) q = q - 1
            if (notran) then
@@ -71705,15 +71705,15 @@ module stdlib_linalg_lapack_w
                        if (scaloc /= one) then
                           do k = 1,js - 1
                              call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),c(1,k),1)
-                                       
+
                              call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),f(1,k),1)
-                                       
+
                           end do
                           do k = js,je
                              call stdlib_wscal(is - 1,cmplx(scaloc,zero,KIND=qp),c(1,k),1)
-                                       
+
                              call stdlib_wscal(is - 1,cmplx(scaloc,zero,KIND=qp),f(1,k),1)
-                                       
+
                           end do
                           do k = js,je
                              call stdlib_wscal(m - ie,cmplx(scaloc,zero,KIND=qp),c(ie + 1,k), &
@@ -71723,9 +71723,9 @@ module stdlib_linalg_lapack_w
                           end do
                           do k = je + 1,n
                              call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),c(1,k),1)
-                                       
+
                              call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),f(1,k),1)
-                                       
+
                           end do
                           scale = scale*scaloc
                        end if
@@ -71791,27 +71791,27 @@ module stdlib_linalg_lapack_w
                     if (scaloc /= one) then
                        do k = 1,js - 1
                           call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),c(1,k),1)
-                                    
+
                           call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),f(1,k),1)
-                                    
+
                        end do
                        do k = js,je
                           call stdlib_wscal(is - 1,cmplx(scaloc,zero,KIND=qp),c(1,k),1)
-                                    
+
                           call stdlib_wscal(is - 1,cmplx(scaloc,zero,KIND=qp),f(1,k),1)
-                                    
+
                        end do
                        do k = js,je
                           call stdlib_wscal(m - ie,cmplx(scaloc,zero,KIND=qp),c(ie + 1,k),1)
-                                    
+
                           call stdlib_wscal(m - ie,cmplx(scaloc,zero,KIND=qp),f(ie + 1,k),1)
-                                    
+
                        end do
                        do k = je + 1,n
                           call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),c(1,k),1)
-                                    
+
                           call stdlib_wscal(m,cmplx(scaloc,zero,KIND=qp),f(1,k),1)
-                                    
+
                        end do
                        scale = scale*scaloc
                     end if
@@ -71819,10 +71819,10 @@ module stdlib_linalg_lapack_w
                     if (j > p + 2) then
                        call stdlib_wgemm('N','C',mb,js - 1,nb,cmplx(one,zero,KIND=qp),c(is, &
                         js),ldc,b(1,js),ldb,cmplx(one,zero,KIND=qp),f(is,1),ldf)
-                                  
+
                        call stdlib_wgemm('N','C',mb,js - 1,nb,cmplx(one,zero,KIND=qp),f(is, &
                         js),ldf,e(1,js),lde,cmplx(one,zero,KIND=qp),f(is,1),ldf)
-                                  
+
                     end if
                     if (i < p) then
                        call stdlib_wgemm('C','N',m - ie,nb,mb,cmplx(-one,zero,KIND=qp),a( &
@@ -71860,7 +71860,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nounit,onenrm,upper
            character :: normin
@@ -71914,7 +71914,7 @@ module stdlib_linalg_lapack_w
                  kase1 = 2
               end if
               kase = 0
-10            continue
+              10 continue
               call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -71939,7 +71939,7 @@ module stdlib_linalg_lapack_w
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20         continue
+           20 continue
            return
      end subroutine stdlib_wtpcon
 
@@ -71995,7 +71995,7 @@ module stdlib_linalg_lapack_w
                  lb = nb - n + l - i + 1
               end if
               call stdlib_wtplqt2(ib,nb,lb,a(i,i),lda,b(i,1),ldb,t(1,i),ldt,iinfo)
-                        
+
            ! update by applying h**t to b(i+ib:m,:) from the right
               if (i + ib <= m) then
                  call stdlib_wtprfb('R','N','F','R',m - i - ib + 1,nb,ib,lb,b(i,1),ldb,t( &
@@ -72020,7 +72020,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,p,mp,np
            complex(qp) :: alpha
@@ -72411,7 +72411,7 @@ module stdlib_linalg_lapack_w
                  lb = mb - m + l - i + 1
               end if
               call stdlib_wtpqrt2(mb,ib,lb,a(i,i),lda,b(1,i),ldb,t(1,i),ldt,iinfo)
-                        
+
            ! update by applying h**h to b(:,i+ib:n) from the left
               if (i + ib <= n) then
                  call stdlib_wtprfb('L','C','F','C',mb,n - i - ib + 1,ib,lb,b(1,i),ldb,t( &
@@ -72436,7 +72436,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*),b(ldb,*)
            complex(qp),intent(out) :: t(ldt,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,p,mp,np
            complex(qp) :: alpha
@@ -72481,7 +72481,7 @@ module stdlib_linalg_lapack_w
                     a(i,i + j) = a(i,i + j) + alpha*conjg(t(j,n))
                  end do
                  call stdlib_wgerc(p,n - i,alpha,b(1,i),1,t(1,n),1,b(1,i + 1),ldb)
-                           
+
               end if
            end do
            do i = 2,n
@@ -72503,7 +72503,7 @@ module stdlib_linalg_lapack_w
                         np,i),1)
               ! b1
               call stdlib_wgemv('C',m - l,i - 1,alpha,b,ldb,b(1,i),1,cone,t(1,i),1)
-                        
+
               ! t(1:i-1,i) := t(1:i-1,1:i-1) * t(1:i-1,i)
               call stdlib_wtrmv('U','N','N',i - 1,t,ldt,t(1,i),1)
               ! t(i,i) = tau(i)
@@ -72529,7 +72529,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: t(ldt,*),v(ldv,*)
            complex(qp),intent(out) :: work(ldwork,*)
         ! ==========================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,mp,np,kp
            logical(lk) :: left,forward,column,right,backward,row
@@ -72587,9 +72587,9 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wtrmm('L','U','C','N',l,n,cone,v(mp,1),ldv,work,ldwork)
-                        
+
               call stdlib_wgemm('C','N',l,n,m - l,cone,v,ldv,b,ldb,cone,work,ldwork)
-                        
+
               call stdlib_wgemm('C','N',k - l,n,m,cone,v(1,kp),ldv,b,ldb,czero,work( &
                         kp,1),ldwork)
               do j = 1,n
@@ -72604,11 +72604,11 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wgemm('N','N',m - l,n,k,-cone,v,ldv,work,ldwork,cone,b,ldb)
-                        
+
               call stdlib_wgemm('N','N',l,n,k - l,-cone,v(mp,kp),ldv,work(kp,1), &
                         ldwork,cone,b(mp,1),ldb)
               call stdlib_wtrmm('L','U','N','N',l,n,cone,v(mp,1),ldv,work,ldwork)
-                        
+
               do j = 1,n
                  do i = 1,l
                     b(m - l + i,j) = b(m - l + i,j) - work(i,j)
@@ -72632,9 +72632,9 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wtrmm('R','U','N','N',m,l,cone,v(np,1),ldv,work,ldwork)
-                        
+
               call stdlib_wgemm('N','N',m,l,n - l,cone,b,ldb,v,ldv,cone,work,ldwork)
-                        
+
               call stdlib_wgemm('N','N',m,k - l,n,cone,b,ldb,v(1,kp),ldv,czero,work( &
                         1,kp),ldwork)
               do j = 1,k
@@ -72649,11 +72649,11 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wgemm('N','C',m,n - l,k,-cone,work,ldwork,v,ldv,cone,b,ldb)
-                        
+
               call stdlib_wgemm('N','C',m,l,k - l,-cone,work(1,kp),ldwork,v(np,kp), &
                         ldv,cone,b(1,np),ldb)
               call stdlib_wtrmm('R','U','C','N',m,l,cone,v(np,1),ldv,work,ldwork)
-                        
+
               do j = 1,l
                  do i = 1,m
                     b(i,n - l + j) = b(i,n - l + j) - work(i,j)
@@ -72682,7 +72682,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('C','N',l,n,m - l,cone,v(mp,kp),ldv,b(mp,1),ldb, &
                         cone,work(kp,1),ldwork)
               call stdlib_wgemm('C','N',k - l,n,m,cone,v,ldv,b,ldb,czero,work,ldwork)
-                        
+
               do j = 1,n
                  do i = 1,k
                     work(i,j) = work(i,j) + a(i,j)
@@ -72697,7 +72697,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('N','N',m - l,n,k,-cone,v(mp,1),ldv,work,ldwork,cone, &
                         b(mp,1),ldb)
               call stdlib_wgemm('N','N',l,n,k - l,-cone,v,ldv,work,ldwork,cone,b,ldb)
-                        
+
               call stdlib_wtrmm('L','L','N','N',l,n,cone,v(1,kp),ldv,work(kp,1), &
                         ldwork)
               do j = 1,n
@@ -72727,7 +72727,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('N','N',m,l,n - l,cone,b(1,np),ldb,v(np,kp),ldv, &
                         cone,work(1,kp),ldwork)
               call stdlib_wgemm('N','N',m,k - l,n,cone,b,ldb,v,ldv,czero,work,ldwork)
-                        
+
               do j = 1,k
                  do i = 1,m
                     work(i,j) = work(i,j) + a(i,j)
@@ -72742,7 +72742,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('N','C',m,n - l,k,-cone,work,ldwork,v(np,1),ldv,cone, &
                         b(1,np),ldb)
               call stdlib_wgemm('N','C',m,l,k - l,-cone,work,ldwork,v,ldv,cone,b,ldb)
-                        
+
               call stdlib_wtrmm('R','L','C','N',m,l,cone,v(1,kp),ldv,work(1,kp), &
                         ldwork)
               do j = 1,l
@@ -72768,9 +72768,9 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wtrmm('L','L','N','N',l,n,cone,v(1,mp),ldv,work,ldb)
-                        
+
               call stdlib_wgemm('N','N',l,n,m - l,cone,v,ldv,b,ldb,cone,work,ldwork)
-                        
+
               call stdlib_wgemm('N','N',k - l,n,m,cone,v(kp,1),ldv,b,ldb,czero,work( &
                         kp,1),ldwork)
               do j = 1,n
@@ -72785,11 +72785,11 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wgemm('C','N',m - l,n,k,-cone,v,ldv,work,ldwork,cone,b,ldb)
-                        
+
               call stdlib_wgemm('C','N',l,n,k - l,-cone,v(kp,mp),ldv,work(kp,1), &
                         ldwork,cone,b(mp,1),ldb)
               call stdlib_wtrmm('L','L','C','N',l,n,cone,v(1,mp),ldv,work,ldwork)
-                        
+
               do j = 1,n
                  do i = 1,l
                     b(m - l + i,j) = b(m - l + i,j) - work(i,j)
@@ -72812,9 +72812,9 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wtrmm('R','L','C','N',m,l,cone,v(1,np),ldv,work,ldwork)
-                        
+
               call stdlib_wgemm('N','C',m,l,n - l,cone,b,ldb,v,ldv,cone,work,ldwork)
-                        
+
               call stdlib_wgemm('N','C',m,k - l,n,cone,b,ldb,v(kp,1),ldv,czero,work( &
                         1,kp),ldwork)
               do j = 1,k
@@ -72829,11 +72829,11 @@ module stdlib_linalg_lapack_w
                  end do
               end do
               call stdlib_wgemm('N','N',m,n - l,k,-cone,work,ldwork,v,ldv,cone,b,ldb)
-                        
+
               call stdlib_wgemm('N','N',m,l,k - l,-cone,work(1,kp),ldwork,v(kp,np), &
                         ldv,cone,b(1,np),ldb)
               call stdlib_wtrmm('R','L','N','N',m,l,cone,v(1,np),ldv,work,ldwork)
-                        
+
               do j = 1,l
                  do i = 1,m
                     b(i,n - l + j) = b(i,n - l + j) - work(i,j)
@@ -72861,7 +72861,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('N','N',l,n,m - l,cone,v(kp,mp),ldv,b(mp,1),ldb, &
                         cone,work(kp,1),ldwork)
               call stdlib_wgemm('N','N',k - l,n,m,cone,v,ldv,b,ldb,czero,work,ldwork)
-                        
+
               do j = 1,n
                  do i = 1,k
                     work(i,j) = work(i,j) + a(i,j)
@@ -72876,7 +72876,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('C','N',m - l,n,k,-cone,v(1,mp),ldv,work,ldwork,cone, &
                         b(mp,1),ldb)
               call stdlib_wgemm('C','N',l,n,k - l,-cone,v,ldv,work,ldwork,cone,b,ldb)
-                        
+
               call stdlib_wtrmm('L','U','C','N',l,n,cone,v(kp,1),ldv,work(kp,1), &
                         ldwork)
               do j = 1,n
@@ -72905,7 +72905,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('N','C',m,l,n - l,cone,b(1,np),ldb,v(kp,np),ldv, &
                         cone,work(1,kp),ldwork)
               call stdlib_wgemm('N','C',m,k - l,n,cone,b,ldb,v,ldv,czero,work,ldwork)
-                        
+
               do j = 1,k
                  do i = 1,m
                     work(i,j) = work(i,j) + a(i,j)
@@ -72920,7 +72920,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wgemm('N','N',m,n - l,k,-cone,work,ldwork,v(1,np),ldv,cone, &
                         b(1,np),ldb)
               call stdlib_wgemm('N','N',m,l,k - l,-cone,work,ldwork,v,ldv,cone,b,ldb)
-                        
+
               call stdlib_wtrmm('R','U','N','N',m,l,cone,v(kp,1),ldv,work(1,kp), &
                         ldwork)
               do j = 1,l
@@ -72953,7 +72953,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*),b(ldb,*),x(ldx,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: notran,nounit,upper
            character :: transn,transt
@@ -73154,7 +73154,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-210           continue
+              210 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -73196,7 +73196,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: ap(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nounit,upper
            integer(ilp) :: j,jc,jclast,jj
@@ -73290,7 +73290,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nounit,upper
            integer(ilp) :: j,jc
@@ -73678,7 +73678,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nounit,onenrm,upper
            character :: normin
@@ -73734,7 +73734,7 @@ module stdlib_linalg_lapack_w
                  kase1 = 2
               end if
               kase = 0
-10            continue
+              10 continue
               call stdlib_wlacn2(n,work(n + 1),work,ainvnm,kase,isave)
               if (kase /= 0) then
                  if (kase == kase1) then
@@ -73759,7 +73759,7 @@ module stdlib_linalg_lapack_w
               ! compute the estimate of the reciprocal condition number.
               if (ainvnm /= zero) rcond = (one/anorm)/ainvnm
            end if
-20         continue
+           20 continue
            return
      end subroutine stdlib_wtrcon
 
@@ -73797,7 +73797,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            complex(qp),parameter :: cmzero = (0.0e+0_qp,0.0e+0_qp)
            complex(qp),parameter :: cmone = (1.0e+0_qp,0.0e+0_qp)
-           
+
            ! Local Scalars
            logical(lk) :: allv,bothv,leftv,over,rightv,somev
            integer(ilp) :: i,ii,is,j,k,ki
@@ -73997,7 +73997,7 @@ module stdlib_linalg_lapack_w
            ! Parameters
            integer(ilp),parameter :: nbmin = 8
            integer(ilp),parameter :: nbmax = 128
-           
+
            ! Local Scalars
            logical(lk) :: allv,bothv,leftv,lquery,over,rightv,somev
            integer(ilp) :: i,ii,is,j,k,ki,iv,maxwrk,nb
@@ -74324,7 +74324,7 @@ module stdlib_linalg_lapack_w
               call stdlib_wlartg(t(k,k + 1),t22 - t11,cs,sn,temp)
               ! apply transformation to the matrix t.
               if (k + 2 <= n) call stdlib_wrot(n - k - 1,t(k,k + 2),ldt,t(k + 1,k + 2),ldt,cs,sn)
-                        
+
               call stdlib_wrot(k - 1,t(1,k),1,t(1,k + 1),1,cs,conjg(sn))
               t(k,k) = t22
               t(k + 1,k + 1) = t11
@@ -74357,7 +74357,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*),b(ldb,*),x(ldx,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: notran,nounit,upper
            character :: transn,transt
@@ -74548,7 +74548,7 @@ module stdlib_linalg_lapack_w
                  end if
               end do
               kase = 0
-210           continue
+              210 continue
               call stdlib_wlacn2(n,work(n + 1),work,ferr(j),kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -74599,7 +74599,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: q(ldq,*),t(ldt,*)
            complex(qp),intent(out) :: w(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,wantbh,wantq,wants,wantsp
            integer(ilp) :: ierr,k,kase,ks,lwmin,n1,n2,nn
@@ -74688,7 +74688,7 @@ module stdlib_linalg_lapack_w
               ! estimate sep(t11,t22).
               est = zero
               kase = 0
-30            continue
+              30 continue
               call stdlib_wlacn2(nn,work(nn + 1),work,est,kase,isave)
               if (kase /= 0) then
                  if (kase == 1) then
@@ -74704,7 +74704,7 @@ module stdlib_linalg_lapack_w
               end if
               sep = scale/est
            end if
-40         continue
+           40 continue
            ! copy reordered eigenvalues to w.
            do k = 1,n
               w(k) = t(k,k)
@@ -74732,7 +74732,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: t(ldt,*),vl(ldvl,*),vr(ldvr,*)
            complex(qp),intent(out) :: work(ldwork,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: somcon,wantbh,wants,wantsp
            character :: normin
@@ -74831,7 +74831,7 @@ module stdlib_linalg_lapack_w
                  est = zero
                  kase = 0
                  normin = 'N'
-30               continue
+                 30 continue
                  call stdlib_wlacn2(n - 1,work(1,n + 1),work,est,kase,isave)
                  if (kase /= 0) then
                     if (kase == 1) then
@@ -74856,7 +74856,7 @@ module stdlib_linalg_lapack_w
                  end if
                  sep(ks) = one/max(est,smlnum)
               end if
-40            continue
+              40 continue
               ks = ks + 1
            end do loop_50
            return
@@ -74871,7 +74871,7 @@ module stdlib_linalg_lapack_w
      !> overflow in X.
 
      subroutine stdlib_wtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -74884,7 +74884,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*),b(ldb,*)
            complex(qp),intent(inout) :: c(ldc,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: notrna,notrnb
            integer(ilp) :: j,k,l
@@ -75103,7 +75103,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nounit,upper
            integer(ilp) :: j
@@ -75139,7 +75139,7 @@ module stdlib_linalg_lapack_w
                  end if
                  ! compute elements 1:j-1 of j-th column.
                  call stdlib_wtrmv('UPPER','NO TRANSPOSE',diag,j - 1,a,lda,a(1,j),1)
-                           
+
                  call stdlib_wscal(j - 1,ajj,a(1,j),1)
               end do
            else
@@ -75177,7 +75177,7 @@ module stdlib_linalg_lapack_w
            ! Array Arguments
            complex(qp),intent(inout) :: a(lda,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nounit,upper
            integer(ilp) :: j,jb,nb,nn
@@ -75266,7 +75266,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: a(lda,*)
            complex(qp),intent(inout) :: b(ldb,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: nounit
            ! Intrinsic Functions
@@ -75630,7 +75630,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: tau(*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iws,ki,kk,ldwork,lwkmin,lwkopt,m1,mu,nb,nbmin, &
@@ -75715,7 +75715,7 @@ module stdlib_linalg_lapack_w
                     ! apply h to a(1:i-1,i:n) from the right
                     call stdlib_wlarzb('RIGHT','NO TRANSPOSE','BACKWARD','ROWWISE',i - 1,n - i + 1, &
                      ib,n - m,a(i,m1),lda,work,ldwork,a(1,i),lda,work(ib + 1),ldwork)
-                               
+
                  end if
               end do
               mu = i + nb - 1
@@ -75758,11 +75758,11 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: phi(*),theta(*)
            complex(qp),intent(out) :: taup1(*),taup2(*),tauq1(*),tauq2(*),work(*)
            complex(qp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
-                     
+
         ! ====================================================================
            ! Parameters
            real(qp),parameter :: realone = 1.0_qp
-           
+
            ! Local Scalars
            logical(lk) :: colmajor,lquery
            integer(ilp) :: i,lworkmin,lworkopt
@@ -75897,7 +75897,7 @@ module stdlib_linalg_lapack_w
                        call stdlib_wlarfgp(m - q - i + 1,x12(i,i),x12(i,i),ldx12,tauq2(i))
                     else
                        call stdlib_wlarfgp(m - q - i + 1,x12(i,i),x12(i,i + 1),ldx12,tauq2(i))
-                                 
+
                     end if
                  end if
                  x12(i,i) = cone
@@ -75921,7 +75921,7 @@ module stdlib_linalg_lapack_w
               ! reduce columns q + 1, ..., p of x12, x22
               do i = q + 1,p
                  call stdlib_wscal(m - q - i + 1,cmplx(-z1*z4,0.0_qp,KIND=qp),x12(i,i),ldx12)
-                           
+
                  call stdlib_wlacgv(m - q - i + 1,x12(i,i),ldx12)
                  if (i >= m - q) then
                     call stdlib_wlarfgp(m - q - i + 1,x12(i,i),x12(i,i),ldx12,tauq2(i))
@@ -75940,10 +75940,10 @@ module stdlib_linalg_lapack_w
               ! reduce columns p + 1, ..., m - q of x12, x22
               do i = 1,m - p - q
                  call stdlib_wscal(m - p - q - i + 1,cmplx(z2*z4,0.0_qp,KIND=qp),x22(q + i,p + i),ldx22)
-                           
+
                  call stdlib_wlacgv(m - p - q - i + 1,x22(q + i,p + i),ldx22)
                  call stdlib_wlarfgp(m - p - q - i + 1,x22(q + i,p + i),x22(q + i,p + i + 1),ldx22,tauq2(p + i))
-                           
+
                  x22(q + i,p + i) = cone
                  call stdlib_wlarf('R',m - p - q - i,m - p - q - i + 1,x22(q + i,p + i),ldx22,tauq2(p + i),x22( &
                            q + i + 1,p + i),ldx22,work)
@@ -75962,7 +75962,7 @@ module stdlib_linalg_lapack_w
                  end if
                  if (i == 1) then
                     call stdlib_wscal(m - p - i + 1,cmplx(z2,0.0_qp,KIND=qp),x21(i,i),ldx21)
-                              
+
                  else
                     call stdlib_wscal(m - p - i + 1,cmplx(z2*cos(phi(i - 1)),0.0_qp,KIND=qp),x21(i,i), &
                                ldx21)
@@ -76037,9 +76037,9 @@ module stdlib_linalg_lapack_w
               ! reduce columns p + 1, ..., m - q of x12, x22
               do i = 1,m - p - q
                  call stdlib_wscal(m - p - q - i + 1,cmplx(z2*z4,0.0_qp,KIND=qp),x22(p + i,q + i),1)
-                           
+
                  call stdlib_wlarfgp(m - p - q - i + 1,x22(p + i,q + i),x22(p + i + 1,q + i),1,tauq2(p + i))
-                           
+
                  x22(p + i,q + i) = cone
                  if (m - p - q /= i) then
                     call stdlib_wlarf('L',m - p - q - i + 1,m - p - q - i,x22(p + i,q + i),1,conjg(tauq2(p + i)), &
@@ -76079,7 +76079,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: taup1(*),taup2(*),tauq1(*),work(*)
            complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
-           
+
            ! Local Scalars
            real(qp) :: c,s
            integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin, &
@@ -76184,7 +76184,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: taup1(*),taup2(*),tauq1(*),work(*)
            complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
-           
+
            ! Local Scalars
            real(qp) :: c,s
            integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin, &
@@ -76299,7 +76299,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: taup1(*),taup2(*),tauq1(*),work(*)
            complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
-           
+
            ! Local Scalars
            real(qp) :: c,s
            integer(ilp) :: childinfo,i,ilarf,iorbdb5,llarf,lorbdb5,lworkmin, &
@@ -76413,7 +76413,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: phantom(*),taup1(*),taup2(*),tauq1(*),work(*)
            complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
         ! ====================================================================
-           
+
            ! Local Scalars
            real(qp) :: c,s
            integer(ilp) :: childinfo,i,ilarf,iorbdb5,j,llarf,lorbdb5,lworkmin, &
@@ -76468,7 +76468,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_wlarfgp(p,phantom(1),phantom(2),1,taup1(1))
                  call stdlib_wlarfgp(m - p,phantom(p + 1),phantom(p + 2),1,taup2(1))
                  theta(i) = atan2(real(phantom(1),KIND=qp),real(phantom(p + 1),KIND=qp))
-                           
+
                  c = cos(theta(i))
                  s = sin(theta(i))
                  phantom(1) = cone
@@ -76524,7 +76524,7 @@ module stdlib_linalg_lapack_w
            do i = p + 1,q
               call stdlib_wlacgv(q - i + 1,x21(m - q + i - p,i),ldx21)
               call stdlib_wlarfgp(q - i + 1,x21(m - q + i - p,i),x21(m - q + i - p,i + 1),ldx21,tauq1(i))
-                        
+
               x21(m - q + i - p,i) = cone
               call stdlib_wlarf('R',q - i,q - i + 1,x21(m - q + i - p,i),ldx21,tauq1(i),x21(m - q + i - p + 1,i) &
                         ,ldx21,work(ilarf))
@@ -76558,7 +76558,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(out) :: work(*)
            complex(qp),intent(inout) :: x1(*),x2(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: childinfo,i,j
            ! Intrinsic Function
@@ -76659,7 +76659,7 @@ module stdlib_linalg_lapack_w
            real(qp),parameter :: alphasq = 0.01_qp
            real(qp),parameter :: realone = 1.0_qp
            real(qp),parameter :: realzero = 0.0_qp
-           
+
            ! Local Scalars
            integer(ilp) :: i
            real(qp) :: normsq1,normsq2,scl1,scl2,ssq1,ssq2
@@ -76789,11 +76789,11 @@ module stdlib_linalg_lapack_w
            real(qp),intent(out) :: theta(*)
            real(qp),intent(out) :: rwork(*)
            complex(qp),intent(out) :: u1(ldu1,*),u2(ldu2,*),v1t(ldv1t,*),v2t(ldv2t,*),work(*)
-                     
+
            complex(qp),intent(inout) :: x11(ldx11,*),x12(ldx12,*),x21(ldx21,*),x22(ldx22,*)
-                     
+
         ! ===================================================================
-           
+
            ! Local Scalars
            character :: transt,signst
            integer(ilp) :: childinfo,i,ib11d,ib11e,ib12d,ib12e,ib21d,ib21e,ib22d,ib22e, &
@@ -77004,7 +77004,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_wlacpy('L',m - q,p,x12,ldx12,v2t,ldv2t)
                  if (m > p + q) then
                     call stdlib_wlacpy('L',m - p - q,m - p - q,x22(p1,q1),ldx22,v2t(p + 1,p + 1),ldv2t)
-                              
+
                  end if
                  call stdlib_wungqr(m - q,m - q,m - q,v2t,ldv2t,work(itauq2),work(iorgqr), &
                            lorgqrwork,info)
@@ -77083,7 +77083,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: x11(ldx11,*),x21(ldx21,*)
            integer(ilp),intent(out) :: iwork(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: childinfo,i,ib11d,ib11e,ib12d,ib12e,ib21d,ib21e,ib22d,ib22e, &
            ibbcsd,iorbdb,iorglq,iorgqr,iphi,itaup1,itaup2,itauq1,j,lbbcsd,lorbdb, &
@@ -77183,13 +77183,13 @@ module stdlib_linalg_lapack_w
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_wungqr(m - p,m - p,q,u2,ldu2,cdum,work(1),-1,childinfo)
-                              
+
                     lorgqrmin = max(lorgqrmin,m - p)
                     lorgqropt = max(lorgqropt,int(work(1),KIND=ilp))
                  end if
                  if (wantv1t .and. q > 0) then
                     call stdlib_wunglq(q - 1,q - 1,q - 1,v1t,ldv1t,cdum,work(1),-1,childinfo)
-                              
+
                     lorglqmin = max(lorglqmin,q - 1)
                     lorglqopt = max(lorglqopt,int(work(1),KIND=ilp))
                  end if
@@ -77209,7 +77209,7 @@ module stdlib_linalg_lapack_w
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_wungqr(m - p,m - p,q,u2,ldu2,cdum,work(1),-1,childinfo)
-                              
+
                     lorgqrmin = max(lorgqrmin,m - p)
                     lorgqropt = max(lorgqropt,int(work(1),KIND=ilp))
                  end if
@@ -77257,7 +77257,7 @@ module stdlib_linalg_lapack_w
                  end if
                  if (wantu2 .and. m - p > 0) then
                     call stdlib_wungqr(m - p,m - p,m - q,u2,ldu2,cdum,work(1),-1,childinfo)
-                              
+
                     lorgqrmin = max(lorgqrmin,m - p)
                     lorgqropt = max(lorgqropt,int(work(1),KIND=ilp))
                  end if
@@ -77457,7 +77457,7 @@ module stdlib_linalg_lapack_w
                  call stdlib_wlacpy('U',p - (m - q),q - (m - q),x11(m - q + 1,m - q + 1),ldx11,v1t(m - q + 1,m - q + &
                            1),ldv1t)
                  call stdlib_wlacpy('U',-p + q,q - p,x21(m - q + 1,p + 1),ldx21,v1t(p + 1,p + 1),ldv1t)
-                           
+
                  call stdlib_wunglq(q,q,q,v1t,ldv1t,work(itauq1),work(iorglq),lorglq, &
                            childinfo)
               end if
@@ -77504,7 +77504,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,ii,j,l
            ! Intrinsic Functions
@@ -77539,7 +77539,7 @@ module stdlib_linalg_lapack_w
               ! apply h(i) to a(1:m-k+i,1:n-k+i) from the left
               a(m - n + ii,ii) = cone
               call stdlib_wlarf('LEFT',m - n + ii,ii - 1,a(1,ii),1,tau(i),a,lda,work)
-                        
+
               call stdlib_wscal(m - n + ii - 1,-tau(i),a(1,ii),1)
               a(m - n + ii,ii) = cone - tau(i)
               ! set a(m-k+i+1:m,n-k+i) to czero
@@ -77568,7 +77568,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,l
            ! Intrinsic Functions
@@ -77645,7 +77645,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,wantq
            integer(ilp) :: i,iinfo,j,lwkopt,mn
@@ -77729,7 +77729,7 @@ module stdlib_linalg_lapack_w
                  if (m > 1) then
                     ! form q(2:m,2:m)
                     call stdlib_wungqr(m - 1,m - 1,m - 1,a(2,2),lda,tau,work,lwork,iinfo)
-                              
+
                  end if
               end if
            else
@@ -77756,7 +77756,7 @@ module stdlib_linalg_lapack_w
                  if (n > 1) then
                     ! form p**h(2:n,2:n)
                     call stdlib_wunglq(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
-                              
+
                  end if
               end if
            end if
@@ -77781,7 +77781,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,iinfo,j,lwkopt,nb,nh
@@ -77872,7 +77872,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,j,l
            ! Intrinsic Functions
@@ -77943,7 +77943,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iinfo,iws,j,ki,kk,l,ldwork,lwkopt,nb,nbmin,nx
@@ -78059,7 +78059,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iinfo,iws,j,kk,l,ldwork,lwkopt,nb,nbmin,nx
@@ -78145,7 +78145,7 @@ module stdlib_linalg_lapack_w
                     ! apply h to a(1:m-k+i+ib-1,1:n-k+i-1) from the left
                     call stdlib_wlarfb('LEFT','NO TRANSPOSE','BACKWARD','COLUMNWISE',m - k + i + ib - &
                     1,n - k + i - 1,ib,a(1,n - k + i),lda,work,ldwork,a,lda,work(ib + 1),ldwork)
-                              
+
                  end if
                  ! apply h to rows 1:m-k+i+ib-1 of current block
                  call stdlib_wung2l(m - k + i + ib - 1,ib,ib,a(1,n - k + i),lda,tau(i),work,iinfo &
@@ -78180,7 +78180,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,ib,iinfo,iws,j,ki,kk,l,ldwork,lwkopt,nb,nbmin,nx
@@ -78296,7 +78296,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,ii,j,l
            ! Intrinsic Functions
@@ -78364,7 +78364,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: i,ib,ii,iinfo,iws,j,kk,l,ldwork,lwkopt,nb,nbmin,nx
@@ -78451,11 +78451,11 @@ module stdlib_linalg_lapack_w
                     ! apply h**h to a(1:m-k+i-1,1:n-k+i+ib-1) from the right
                     call stdlib_wlarfb('RIGHT','CONJUGATE TRANSPOSE','BACKWARD','ROWWISE',ii - &
                     1,n - k + i + ib - 1,ib,a(ii,1),lda,work,ldwork,a,lda,work(ib + 1),ldwork)
-                              
+
                  end if
                  ! apply h**h to columns 1:n-k+i+ib-1 of current block
                  call stdlib_wungr2(ib,n - k + i + ib - 1,ib,a(ii,1),lda,tau(i),work,iinfo)
-                           
+
                  ! set columns n-k+i+ib:n of current block to czero
                  do l = n - k + i + ib,n
                     do j = ii,ii + ib - 1
@@ -78487,7 +78487,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery,upper
            integer(ilp) :: i,iinfo,j,lwkopt,nb
@@ -78562,7 +78562,7 @@ module stdlib_linalg_lapack_w
               if (n > 1) then
                  ! generate q(2:n,2:n)
                  call stdlib_wungqr(n - 1,n - 1,n - 1,a(2,2),lda,tau,work,lwork,iinfo)
-                           
+
               end if
            end if
            work(1) = lwkopt
@@ -78587,7 +78587,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: t(ldt,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: iinfo,ldc,lworkopt,lc,lw,nblocal,j
@@ -78695,7 +78695,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: t(ldt,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: lquery
            integer(ilp) :: nblocal,mb2,m_plus_one,itmp,ib_bottom,lworkopt, &
@@ -78831,7 +78831,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: a(lda,*)
            complex(qp),intent(out) :: d(*),t(ldt,*)
         ! =====================================================================
-           
+
            ! Local Scalars
            integer(ilp) :: i,iinfo,j,jb,jbtemp1,jbtemp2,jnb,nplusone
            ! Intrinsic Functions
@@ -78871,7 +78871,7 @@ module stdlib_linalg_lapack_w
            ! (1-2) solve for v2.
            if (m > n) then
               call stdlib_wtrsm('R','U','N','N',m - n,n,cone,a,lda,a(n + 1,1),lda)
-                        
+
            end if
            ! (2) reconstruct the block reflector t stored in t(1:nb, 1:n)
            ! as a sequence of upper-triangular blocks with nb-size column
@@ -78948,7 +78948,7 @@ module stdlib_linalg_lapack_w
      end subroutine stdlib_wunhr_col
 
      pure subroutine stdlib_wunm22(side,trans,m,n,n1,n2,q,ldq,c,ldc,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -78961,7 +78961,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(inout) :: c(ldc,*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: left,lquery,notran
            integer(ilp) :: i,ldwork,len,lwkopt,nb,nq,nw
@@ -79020,12 +79020,12 @@ module stdlib_linalg_lapack_w
            ! degenerate cases (n1 = 0 or n2 = 0) are handled using stdlib_wtrmm.
            if (n1 == 0) then
               call stdlib_wtrmm(side,'UPPER',trans,'NON-UNIT',m,n,cone,q,ldq,c,ldc)
-                        
+
               work(1) = cone
               return
            else if (n2 == 0) then
               call stdlib_wtrmm(side,'LOWER',trans,'NON-UNIT',m,n,cone,q,ldq,c,ldc)
-                        
+
               work(1) = cone
               return
            end if
@@ -79045,7 +79045,7 @@ module stdlib_linalg_lapack_w
                               c(1,i),ldc,cone,work,ldwork)
                     ! multiply top part of c by q21.
                     call stdlib_wlacpy('ALL',n2,len,c(1,i),ldc,work(n1 + 1),ldwork)
-                              
+
                     call stdlib_wtrmm('LEFT','UPPER','NO TRANSPOSE','NON-UNIT',n2,len,cone, &
                               q(n1 + 1,1),ldq,work(n1 + 1),ldwork)
                     ! multiply bottom part of c by q22.
@@ -79067,7 +79067,7 @@ module stdlib_linalg_lapack_w
                               1,i),ldc,cone,work,ldwork)
                     ! multiply top part of c by q12**h.
                     call stdlib_wlacpy('ALL',n1,len,c(1,i),ldc,work(n2 + 1),ldwork)
-                              
+
                     call stdlib_wtrmm('LEFT','LOWER','CONJUGATE','NON-UNIT',n1,len,cone,q( &
                               1,n2 + 1),ldq,work(n2 + 1),ldwork)
                     ! multiply bottom part of c by q22**h.
@@ -79152,7 +79152,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: left,notran
            integer(ilp) :: i,i1,i2,i3,mi,ni,nq
@@ -79251,7 +79251,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: left,notran
            integer(ilp) :: i,i1,i2,i3,ic,jc,mi,ni,nq
@@ -79614,7 +79614,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: left,notran
            integer(ilp) :: i,i1,i2,i3,ic,jc,mi,ni,nq
@@ -79689,7 +79689,7 @@ module stdlib_linalg_lapack_w
               aii = a(i,i)
               a(i,i) = cone
               call stdlib_wlarf(side,mi,ni,a(i,i),lda,taui,c(ic,jc),ldc,work)
-                        
+
               a(i,i) = aii
               if (i < nq) call stdlib_wlacgv(nq - i,a(i,i + 1),lda)
            end do
@@ -79707,7 +79707,7 @@ module stdlib_linalg_lapack_w
      !> if SIDE = 'R'.
 
      pure subroutine stdlib_wunmlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -79724,7 +79724,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-           
+
            ! Local Scalars
            logical(lk) :: left,lquery,notran
            character :: transt
@@ -79850,7 +79850,7 @@ module stdlib_linalg_lapack_w
      !> if SIDE = 'R'.
 
      pure subroutine stdlib_wunmql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -79867,7 +79867,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-           
+
            ! Local Scalars
            logical(lk) :: left,lquery,notran
            integer(ilp) :: i,i1,i2,i3,ib,iinfo,iwt,ldwork,lwkopt,mi,nb,nbmin,ni,nq, &
@@ -79911,7 +79911,7 @@ module stdlib_linalg_lapack_w
                  lwkopt = 1
               else
                  nb = min(nbmax,stdlib_ilaenv(1,'ZUNMQL',side//trans,m,n,k,-1))
-                           
+
                  lwkopt = nw*nb + tsize
               end if
               work(1) = lwkopt
@@ -79987,7 +79987,7 @@ module stdlib_linalg_lapack_w
      !> if SIDE = 'R'.
 
      pure subroutine stdlib_wunmqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -80004,7 +80004,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-           
+
            ! Local Scalars
            logical(lk) :: left,lquery,notran
            integer(ilp) :: i,i1,i2,i3,ib,ic,iinfo,iwt,jc,ldwork,lwkopt,mi,nb,nbmin, &
@@ -80137,7 +80137,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: left,notran
            integer(ilp) :: i,i1,i2,i3,mi,ni,nq
@@ -80226,7 +80226,7 @@ module stdlib_linalg_lapack_w
      !> if SIDE = 'R'.
 
      pure subroutine stdlib_wunmr3(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -80314,7 +80314,7 @@ module stdlib_linalg_lapack_w
                  taui = conjg(tau(i))
               end if
               call stdlib_wlarz(side,mi,ni,l,a(i,ja),lda,taui,c(ic,jc),ldc,work)
-                        
+
            end do
            return
      end subroutine stdlib_wunmr3
@@ -80330,7 +80330,7 @@ module stdlib_linalg_lapack_w
      !> if SIDE = 'R'.
 
      pure subroutine stdlib_wunmrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork,info)
-               
+
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -80347,7 +80347,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-           
+
            ! Local Scalars
            logical(lk) :: left,lquery,notran
            character :: transt
@@ -80392,7 +80392,7 @@ module stdlib_linalg_lapack_w
                  lwkopt = 1
               else
                  nb = min(nbmax,stdlib_ilaenv(1,'ZUNMRQ',side//trans,m,n,k,-1))
-                           
+
                  lwkopt = nw*nb + tsize
               end if
               work(1) = lwkopt
@@ -80490,7 +80490,7 @@ module stdlib_linalg_lapack_w
            integer(ilp),parameter :: nbmax = 64
            integer(ilp),parameter :: ldt = nbmax + 1
            integer(ilp),parameter :: tsize = ldt*nbmax
-           
+
            ! Local Scalars
            logical(lk) :: left,lquery,notran
            character :: transt
@@ -80537,7 +80537,7 @@ module stdlib_linalg_lapack_w
                  lwkopt = 1
               else
                  nb = min(nbmax,stdlib_ilaenv(1,'ZUNMRQ',side//trans,m,n,k,-1))
-                           
+
                  lwkopt = nw*nb + tsize
               end if
               work(1) = lwkopt
@@ -80566,7 +80566,7 @@ module stdlib_linalg_lapack_w
            if (nb < nbmin .or. nb >= k) then
               ! use unblocked code
               call stdlib_wunmr3(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,iinfo)
-                        
+
            else
               ! use blocked code
               iwt = 1 + nw*nb
@@ -80751,7 +80751,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: ap(*),tau(*)
            complex(qp),intent(out) :: q(ldq,*),work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: upper
            integer(ilp) :: i,iinfo,ij,j
@@ -80844,7 +80844,7 @@ module stdlib_linalg_lapack_w
            complex(qp),intent(in) :: tau(*)
            complex(qp),intent(out) :: work(*)
         ! =====================================================================
-           
+
            ! Local Scalars
            logical(lk) :: forwrd,left,notran,upper
            integer(ilp) :: i,i1,i2,i3,ic,ii,jc,mi,ni,nq
@@ -80965,7 +80965,7 @@ module stdlib_linalg_lapack_w
                     taui = conjg(tau(i))
                  end if
                  call stdlib_wlarf(side,mi,ni,ap(ii),1,taui,c(ic,jc),ldc,work)
-                           
+
                  ap(ii) = aii
                  if (forwrd) then
                     ii = ii + nq - i + 1

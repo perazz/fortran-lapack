@@ -436,12 +436,12 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
         initial = sing_prefixes[i]
         newinit = dble_prefixes[i]
         whole = re.sub(prefix[:-1]+r'\_'+initial,prefix+newinit,whole)
-        # whole = re.sub(r'\_'+initial,r'_'+newinit,whole)
 
-        if initial=='s':
-            whole = re.sub(prefix[:-1]+r'\_delctg',prefix+r'selctg',whole)
-            whole = re.sub(prefix[:-1]+r'\_delect',prefix+r'select',whole)
-
+    whole = re.sub(prefix[:-1]+r'\_delctg',prefix+r'selctg',whole)
+    whole = re.sub(prefix[:-1]+r'\_delect',prefix+r'select',whole)
+    whole = re.sub(prefix[:-1]+r'\_dlag2d',prefix+r'dlag2q',whole)
+    whole = re.sub(prefix[:-1]+r'\_zlag2z',prefix+r'zlag2w',whole)
+    whole = re.sub(prefix[:-1]+r'\_zlag2w',prefix+r'clag2z',whole)
 
     whole = re.sub(r'32\-bit',r'64-bit',whole)
     whole = re.sub(r'single precision',r'double precision',whole)
@@ -1147,6 +1147,7 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
     fid.write("\n")
 
     header = True
+    previous = []
 
     for i in range(len(body)):
        line = body[i]
@@ -1192,6 +1193,8 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
        if not is_comment_line:
            line = re.sub(r"([\"'])((?=(\\?))\3.)*?\1", upper_repl, line)
 
+           line = align_labelled_continue(line,previous)
+
        if is_directive:
            fid.write(line+"\n")
        elif bool(re.match(r'^\s*!\s*$',line)):
@@ -1199,6 +1202,9 @@ def write_function_body(fid,body,INDENT,MAX_LINE_LENGTH,adjust_comments):
            fid.write(INDENT + "\n")
        else:
            write_with_continuation(line,fid,INDENT,MAX_LINE_LENGTH)
+
+       # Save for the next one
+       previous = line
 
 
 
@@ -1472,19 +1478,34 @@ class Fortran_Source:
             print("function "+self.old_name+" cannot be converted to quadruple precision: it must be double")
             exit(1)
 
-        q.old_name = newi + self.old_name[len(initial):]
 
         # Extract prefix
         i = self.new_name.index(self.old_name)
-        prefix     = self.new_name[:i]
+        prefix = self.new_name[:i]
+
+
+        # Patch for names that change more than just the initial
+        if self.old_name=='slag2d':
+            q.old_name = 'dlag2q'
+        else:
+            q.old_name = newi + self.old_name[len(initial):]
         q.new_name = prefix + q.old_name
 
-        #print("double->quad "+q.old_name+" "+q.new_name)
+        print("double->quad "+q.old_name+" "+q.new_name)
 
         # Body, header
         q.header   = double_to_quad(q.header,initial,newi,prefix,[self.old_name,q.old_name])
         q.body     = double_to_quad(q.body,initial,newi,prefix)
         q.decl     = double_to_quad(q.decl,initial,newi,prefix)
+
+        if (self.old_name=='slag2d'):
+            print("self old "+self.old_name)
+            print("q old"+q.old_name)
+            print("self new "+self.new_name)
+            print("q new"+q.new_name)
+            print("self line 1 "+self.body[0])
+            print("q line 1 "+q.body[0])
+            #exit(1)
 
         # Parameters: we only rename type and value
         q.ptype    = double_to_quad(q.ptype,initial,newi,prefix)
@@ -1539,6 +1560,10 @@ class Fortran_Source:
     def is_pure(self):
 
         DEBUG = False # self.old_name=='sisnan'
+
+        # Patch
+        if self.old_name=='dnrm2' or self.old_name=='znrm2' or self.old_name=='qznrm2' \
+        or self.old_name=='qnrm2': return True
 
         io = 'stop' in self.body or \
              'write' in self.body or \
@@ -2173,6 +2198,10 @@ def align_labelled_continue(line,previous=None):
         label = m.group(1).strip()
 
         nspaces = len(previous)-len(previous.lstrip())
+
+        print("CONTINUE: # spaces  = "+str(nspaces))
+        print("CONTINUE: prev line = "+previous)
+        print("CONTINUE:           = "+" "*nspaces + label + " continue")
 
         return " "*nspaces + label + " continue"
 
