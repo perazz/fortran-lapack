@@ -2,12 +2,7 @@ module test_linalg_aux
     use stdlib_linalg_interface
     implicit none (type,external)
 
-
-
-
     contains
-
-
 
     !> Test output formats of real/complex numbers
     subroutine test_formats(error)
@@ -47,8 +42,6 @@ module test_linalg_aux
         if (state%print()/='[test_formats] returned Success!') error = .true.
 
     end subroutine test_formats
-
-
 
 end module test_linalg_aux
 
