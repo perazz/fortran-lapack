@@ -1,5 +1,5 @@
 module stdlib_linalg_constants
-     use iso_fortran_env,only:int32,int64
+     use iso_fortran_env,only:real32,real64,real128,int32,int64
      use,intrinsic :: ieee_arithmetic,only:ieee_is_nan
 #if defined(_OPENMP)
      use omp_lib
@@ -7,9 +7,9 @@ module stdlib_linalg_constants
      implicit none(type,external)
      public
 
-     integer,parameter :: sp = selected_real_kind(6)
-     integer,parameter :: dp = selected_real_kind(15)
-     integer,parameter :: qp = selected_real_kind(33)
+     integer,parameter :: sp = real32
+     integer,parameter :: dp = real64
+     integer,parameter :: qp = real128
      integer,parameter :: lk = kind(.true.)
      ! Integer size support for ILP64 builds should be done here
      integer,parameter :: ilp = int32
