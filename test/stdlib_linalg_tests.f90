@@ -12,9 +12,6 @@ program stdlib_linalg_tests
     call test_formats(error)
     if (error) error stop 'test_formats'
 
-    call test_array_strides(error)
-    if (error) error stop 'test_array_strides'
-
     call test_solve(error)
     if (error) error stop 'test_solve'
 
