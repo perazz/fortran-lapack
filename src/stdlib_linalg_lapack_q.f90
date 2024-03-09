@@ -478,6 +478,7 @@ module stdlib_linalg_lapack_q
      public :: stdlib_qtrttp
      public :: stdlib_qtzrzf
      public :: stdlib_qzsum1
+     public :: stdlib_qlag2q
 
      ! 128-bit real constants
      real(qp),parameter,private :: negone = -1.00_qp
@@ -85111,5 +85112,35 @@ module stdlib_linalg_lapack_q
            stdlib_qzsum1 = stemp
            return
      end function stdlib_qzsum1
+
+     !> DLAG2Q: converts a SINGLE PRECISION matrix, SA, to a DOUBLE
+     !> PRECISION matrix, A.
+     !> Note that while it is possible to overflow while converting
+     !> from double to single, it is not possible to overflow when
+     !> converting from single to double.
+     !> This is an auxiliary routine so there is no argument checking.
+
+     pure subroutine stdlib_qlag2q(m,n,sa,ldsa,a,lda,info)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldsa,m,n
+           ! Array Arguments
+           real(qp),intent(in) :: sa(ldsa,*)
+           real(qp),intent(out) :: a(lda,*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,j
+           ! Executable Statements
+           info = 0
+           do j = 1,n
+              do i = 1,m
+                 a(i,j) = sa(i,j)
+              end do
+           end do
+           return
+     end subroutine stdlib_qlag2q
 
 end module stdlib_linalg_lapack_q

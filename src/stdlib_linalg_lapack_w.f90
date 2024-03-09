@@ -11,6 +11,7 @@ module stdlib_linalg_lapack_w
      private
 
      public :: sp,dp,qp,lk,ilp
+     public :: stdlib_wlag2w
      public :: stdlib_wbbcsd
      public :: stdlib_wbdsqr
      public :: stdlib_wcgesv
@@ -500,6 +501,35 @@ module stdlib_linalg_lapack_w
      real(qp),parameter,private :: sbig = rradix**(-ceiling((maxexp + digits(zero) - 1)*half))
 
      contains
+
+     !> ZLAG2W: converts a COMPLEX matrix, SA, to a COMPLEX*16 matrix, A.
+     !> Note that while it is possible to overflow while converting
+     !> from double to single, it is not possible to overflow when
+     !> converting from single to double.
+     !> This is an auxiliary routine so there is no argument checking.
+
+     pure subroutine stdlib_wlag2w(m,n,sa,ldsa,a,lda,info)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldsa,m,n
+           ! Array Arguments
+           complex(qp),intent(in) :: sa(ldsa,*)
+           complex(qp),intent(out) :: a(lda,*)
+        ! =====================================================================
+           ! Local Scalars
+           integer(ilp) :: i,j
+           ! Executable Statements
+           info = 0
+           do j = 1,n
+              do i = 1,m
+                 a(i,j) = sa(i,j)
+              end do
+           end do
+           return
+     end subroutine stdlib_wlag2w
 
      !> ZBBCSD: computes the CS decomposition of a unitary matrix in
      !> bidiagonal-block form,

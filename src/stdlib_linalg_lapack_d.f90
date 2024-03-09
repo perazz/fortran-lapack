@@ -24107,7 +24107,7 @@ module stdlib_linalg_lapack_d
            return
      end function stdlib_dzsum1
 
-     !> DLAG2Q: converts a DOUBLE PRECISION matrix, SA, to a QUAD
+     !> DLAG2Q: converts a SINGLE PRECISION matrix, SA, to a DOUBLE
      !> PRECISION matrix, A.
      !> Note that while it is possible to overflow while converting
      !> from double to single, it is not possible to overflow when

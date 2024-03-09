@@ -36,10 +36,6 @@ def create_constants_module(module_name,out_folder,stdlib_integration=None):
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "public\n\n\n\n")
 
-#:if WITH_QP
-#:set REAL_KINDS = REAL_KINDS + ["qp"]
-#:endif
-
     # Temporary: to be replaced with stdlib_kinds
     if not stdlib_integration:
         fid.write(INDENT + "integer, parameter :: sp  = real32\n")
@@ -50,9 +46,6 @@ def create_constants_module(module_name,out_folder,stdlib_integration=None):
     fid.write(INDENT + "! Integer size support for ILP64 builds should be done here\n")
     fid.write(INDENT + "integer, parameter :: ilp = int32\n")
     fid.write(INDENT + "private            :: int32, int64\n\n\n")
-
-    # Arithmetic constants (private)
-    # print_lapack_constants(fid,INDENT)
 
     # Close module
     fid.write("\n\n\n\n\nend module {}\n".format(module_name))
@@ -109,7 +102,7 @@ def patch_lapack_aux(fid,prefix,indent):
 # Read all source files from the source folder, process them, refactor them, and put all
 # subroutines/function into a module
 def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functions,used_modules, \
-                          split_by_initial,stdlib_export=False):
+                          split_by_initial=True,stdlib_export=False):
 
     from datetime import date
     from platform import os
@@ -487,7 +480,6 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
     whole = re.sub(prefix[:-1]+r'\_delect',prefix+r'select',whole)
     whole = re.sub(prefix[:-1]+r'\_dlag2d',prefix+r'dlag2q',whole)
     whole = re.sub(prefix[:-1]+r'\_zlag2z',prefix+r'zlag2w',whole)
-    whole = re.sub(prefix[:-1]+r'\_zlag2w',prefix+r'clag2z',whole)
 
     whole = re.sub(r'32\-bit',r'64-bit',whole)
     whole = re.sub(r'single precision',r'double precision',whole)
@@ -3138,11 +3130,13 @@ def parse_fortran_source(source_folder,file_name,prefix,remove_headers):
            double_procedure.new_name = prefix+double_procedure.old_name
 
            whole = '\n'.join(double_procedure.body)
-           whole = whole.replace(prefix+single_to_double[kk],prefix+single_to_doublen[kk])
+           whole = whole.replace(single_to_double[kk],single_to_doublen[kk])
+           whole = whole.replace(single_to_double[kk].upper(),single_to_doublen[kk].upper())
            double_procedure.body = whole.splitlines()
 
            whole = '\n'.join(double_procedure.header)
-           whole = whole.replace(prefix+single_to_double[kk],prefix+single_to_doublen[kk])
+           whole = whole.replace(single_to_double[kk],single_to_doublen[kk])
+           whole = whole.replace(single_to_double[kk].upper(),single_to_doublen[kk].upper())
            double_procedure.header = whole.splitlines()
 
            Procedures.append(double_procedure)
@@ -3253,19 +3247,18 @@ shutil.copyfile('../assets/reference_lapack/INSTALL/droundup_lwork.f', '../asset
 
 # Run script
 funs = []
-create_constants_module("stdlib_linalg_constants","../src")
+create_constants_module("stdlib_linalg_constants","../src",False)
 funs = create_fortran_module("stdlib_linalg_blas",\
                              "../assets/reference_lapack/BLAS/SRC","../src",\
                              "stdlib_",\
                              funs,\
-                             ["stdlib_linalg_constants"],True,True)
-#funs = create_fortran_module("stdlib_linalg_lapack",\
-#                             "../assets/lapack_sources",\
-#                             "../src",\
-#                             "stdlib_",\
-#                             funs,\
-#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
-#create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
+                             ["stdlib_linalg_constants"],True,False)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../src",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 
 
 

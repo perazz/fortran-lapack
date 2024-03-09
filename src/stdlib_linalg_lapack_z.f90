@@ -500,7 +500,7 @@ module stdlib_linalg_lapack_z
 
      contains
 
-     !> ZLAG2W: converts a COMPLEX*16 matrix, SA, to a QUAD-COMPLEX matrix, A.
+     !> ZLAG2W: converts a COMPLEX matrix, SA, to a COMPLEX*16 matrix, A.
      !> Note that while it is possible to overflow while converting
      !> from double to single, it is not possible to overflow when
      !> converting from single to double.
