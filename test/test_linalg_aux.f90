@@ -1,6 +1,5 @@
 module test_linalg_aux
     use stdlib_linalg_interface
-    use stdlib_linalg_arrays
     implicit none (type,external)
 
     contains
@@ -43,47 +42,6 @@ module test_linalg_aux
         if (state%print()/='[test_formats] returned Success!') error = .true.
 
     end subroutine test_formats
-
-    !> Test array strides
-    subroutine test_array_strides(error)
-
-        logical, intent(out) :: error
-
-        integer :: i
-        integer, allocatable :: ijk(:)
-        integer :: m(10,10)
-
-        error = .false.
-
-        !> Array stride
-        allocate(ijk(-21:349),source=0)
-
-        error = .not. stride(ijk)==1
-        if (error) return
-
-        do i=1,340
-            error = .not. stride(ijk(::i))==i
-            if (error) return
-            error = .not. stride(ijk(::-i))==-i
-            if (error) return
-        end do
-
-        !> Matrix leading dimension
-        error = .not.leading_dim(m)==10
-        if (error) return
-
-        !> Matrix leading dimension
-        error = .not.leading_dim(m(:2,:))==10
-        if (error) return
-
-        !> Matrix leading dimension
-        error = .not.leading_dim(m(::4,:))==10
-        if (error) return
-
-    end subroutine test_array_strides
-
-
-
 
 end module test_linalg_aux
 
