@@ -6,7 +6,7 @@ import re
 import copy
 
 # Create linear algebra constants module
-def create_constants_module(module_name,out_folder):
+def create_constants_module(module_name,out_folder,stdlib_integration=None):
 
     from platform import os
 
@@ -23,8 +23,12 @@ def create_constants_module(module_name,out_folder):
 
     # Header
     fid.write("module {}\n".format(module_name))
-    #fid.write(INDENT + "use stdlib_kinds, only: sp,dp,lk,int32,int64\n")
-    fid.write(INDENT + "use iso_fortran_env, only: int32,int64\n")
+
+    if stdlib_integration:
+        fid.write(INDENT + "use stdlib_kinds, only: sp, dp, qp, int32, int64, lk\n")
+    else:
+        fid.write(INDENT + "use iso_fortran_env, only: real32,real64,real128,int32,int64\n")
+
     fid.write(INDENT + "use, intrinsic :: ieee_arithmetic, only: ieee_is_nan \n")
     fid.write("#if defined(_OPENMP)\n")
     fid.write(INDENT + "use omp_lib\n")
@@ -32,11 +36,17 @@ def create_constants_module(module_name,out_folder):
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "public\n\n\n\n")
 
+#:if WITH_QP
+#:set REAL_KINDS = REAL_KINDS + ["qp"]
+#:endif
+
     # Temporary: to be replaced with stdlib_kinds
-    fid.write(INDENT + "integer, parameter :: sp  = selected_real_kind(6)\n")
-    fid.write(INDENT + "integer, parameter :: dp  = selected_real_kind(15)\n")
-    fid.write(INDENT + "integer, parameter :: qp  = selected_real_kind(33)\n")
-    fid.write(INDENT + "integer, parameter :: lk  = kind(.true.)\n")
+    if not stdlib_integration:
+        fid.write(INDENT + "integer, parameter :: sp  = real32\n")
+        fid.write(INDENT + "integer, parameter :: dp  = real64\n")
+        fid.write(INDENT + "integer, parameter :: qp  = real128\n")
+        fid.write(INDENT + "integer, parameter :: lk  = kind(.true.)\n")
+
     fid.write(INDENT + "! Integer size support for ILP64 builds should be done here\n")
     fid.write(INDENT + "integer, parameter :: ilp = int32\n")
     fid.write(INDENT + "private            :: int32, int64\n\n\n")
@@ -99,7 +109,7 @@ def patch_lapack_aux(fid,prefix,indent):
 # Read all source files from the source folder, process them, refactor them, and put all
 # subroutines/function into a module
 def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functions,used_modules, \
-                          split_by_initial):
+                          split_by_initial,stdlib_export=False):
 
     from datetime import date
     from platform import os
@@ -148,9 +158,17 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
     for m in range(len(modules)):
         this_module = module_name
         if len(initials[m])>0: this_module = this_module + "_" + initials[m]
-        module_file = this_module + ".f90"
+        if stdlib_export:
+           module_file = this_module + ".fypp"
+        else:
+           module_file = this_module + ".f90"
         module_path = os.path.join(out_folder,module_file)
         fid = open(module_path,"w")
+
+        # Quad-precision directives
+        if stdlib_export:
+            fid.write('#:include "common.fypp" \n')
+            if (initials[m]=='q' or initials[m]=='w'): fid.write("#!if WITH_QP \n")
 
         # Header
         fid.write("module {}\n".format(this_module))
@@ -159,16 +177,24 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
 
         # Add top modules in the hierarchy
         for n in range(m):
+            if stdlib_export and (initials[n]=='q' or initials[n]=='w'):
+                fid.write("#!if WITH_QP \n")
             fid.write(INDENT + "use " + module_name + "_" + initials[n] + "\n")
+            if stdlib_export and (initials[n]=='q' or initials[n]=='w'):
+                fid.write("#!endif \n")
 
         fid.write(INDENT + "implicit none(type,external)\n")
-        fid.write(INDENT + "private\n\n\n\n")
+        fid.write(INDENT + "private\n")
 
         # Public interface.
-        fid.write("\n\n\n" + INDENT + "public :: sp,dp,qp,lk,ilp\n")
+        fid.write("\n\n"+INDENT + "public :: sp,dp,qp,lk,ilp\n")
         for function in fortran_functions:
             if function_in_module(initials[m],function.old_name):
+                if stdlib_export and function.is_quad_precision():
+                    fid.write("#!if WITH_QP \n")
                 fid.write(INDENT + "public :: " + function.new_name + "\n")
+                if stdlib_export and function.is_quad_precision():
+                    fid.write("#!endif \n")
 
             if function.new_name=="NONAME":
                 print("\n".join(function.body))
@@ -194,20 +220,26 @@ def create_fortran_module(module_name,source_folder,out_folder,prefix,ext_functi
         for k in range(len(old_names)):
             print(module_name+"_"+initials[m]+": function "+old_names[k])
 
-        print_function_tree(fortran_functions,old_names,ext_functions,fid,INDENT,MAX_LINE_LENGTH,initials[m])
+        print_function_tree(fortran_functions,old_names,ext_functions,fid,INDENT,MAX_LINE_LENGTH, \
+                            initials[m],stdlib_export)
 
         # Close module
         fid.write("\n\n\nend module {}\n".format(this_module))
+
+        if stdlib_export and (initials[m]=='q' or initials[m]=='w'):
+            fid.write("#!endif\n")
+
         fid.close()
 
     # Write wrapper module
-    if split_by_initial: write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix)
+    if split_by_initial: write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,\
+                                                prefix,stdlib_export)
 
     # Return list of all functions defined in this module, including the external ones
     return fortran_functions
 
 # Write interface module wrapping the whole library
-def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix):
+def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_functions,prefix,stdlib_export):
 
     quad_precision = True
 
@@ -225,10 +257,15 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
 
     interfaces.sort()
 
-    module_file = module_name + ".f90"
+    if stdlib_export:
+        module_file = module_name + ".fypp"
+    else:
+        module_file = module_name + ".f90"
     module_path = os.path.join(out_folder,module_file)
 
     fid = open(module_path,"w")
+    if stdlib_export:
+       fid.write('#:include "common.fypp" \n')
 
     # Header
     fid.write("module {}\n".format(module_name))
@@ -236,7 +273,11 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
         fid.write(INDENT + "use " + used + "\n")
 
     for i in initials:
+        if stdlib_export and i=='q':
+            fid.write("#!if WITH_QP \n")
         fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
+        if stdlib_export and i=='q':
+            fid.write("#!endif \n")
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "public\n")
 
@@ -253,19 +294,19 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
         if len(interf_functions)>0 and len(interf_subroutines)>0:
             # There are mixed subroutines and functions with the same name, so, we need to
             # write two separate interfaces. Add _s and _f suffixes to differentiate between them
-            write_interface(fid,interfaces[j]+"_f",interf_functions,INDENT,prefix,module_name)
-            write_interface(fid,interfaces[j]+"_s",interf_subroutines,INDENT,prefix,module_name)
+            write_interface(fid,interfaces[j]+"_f",interf_functions,INDENT,prefix,module_name,stdlib_export)
+            write_interface(fid,interfaces[j]+"_s",interf_subroutines,INDENT,prefix,module_name,stdlib_export)
         elif len(interf_functions)>0:
-            write_interface(fid,interfaces[j],interf_functions,INDENT,prefix,module_name)
+            write_interface(fid,interfaces[j],interf_functions,INDENT,prefix,module_name,stdlib_export)
         elif len(interf_subroutines)>0:
-            write_interface(fid,interfaces[j],interf_subroutines,INDENT,prefix,module_name)
+            write_interface(fid,interfaces[j],interf_subroutines,INDENT,prefix,module_name,stdlib_export)
 
     # Close module
     fid.write("\n\n\nend module {}\n".format(module_name))
     fid.close()
 
 # write interface
-def write_interface(fid,name,functions,INDENT,prefix,module_name):
+def write_interface(fid,name,functions,INDENT,prefix,module_name,stdlib_export):
 
     MAX_LINE_LENGTH = 100 # No line limits for the comments
 
@@ -310,12 +351,17 @@ def write_interface(fid,name,functions,INDENT,prefix,module_name):
 
            fid.write("#else\n")
 
+        elif stdlib_export:
+           # Quad precision export
+           fid.write("#!if WITH_QP\n")
 
         # Local implementation
         fid.write(INDENT*3+"module procedure {}\n".format(f.new_name))
 
         if has_external:
            fid.write("#endif\n")
+        elif stdlib_export:
+           fid.write("#!endif\n")
 
     # Close interface
     fid.write(INDENT*2+"end interface {}\n\n\n".format(name))
@@ -452,41 +498,6 @@ def double_to_quad(lines,initial,newinit,prefix,procedure_name=None):
     whole = whole.splitlines()
 
     return whole
-
-
-# Double precision of the current module, 64-bit -> 128-bit
-def quad_precision_module(module_name,out_folder,initial,prefix):
-
-        import re
-
-        if initial=='d':
-            newinit = 'q'
-        elif initial=='z':
-            newinit = 'w'
-        else:
-            print(initial + "is not a 64-bit type initial")
-            exit(1)
-
-        dble_module = module_name + "_" + initial
-        quad_module = module_name + "_" + newinit
-
-        dble_file = dble_module + ".f90"
-        module_path = os.path.join(out_folder,dble_file)
-        out_path = os.path.join(out_folder,quad_module + ".f90")
-
-        # Load whole module into a file
-        dble_file = []
-        with open(module_path, 'r') as file:
-            for line in file:
-                dble_file.append(line.rstrip())
-
-        whole = double_to_quad(dble_file,initial,newinit,prefix)
-
-        # Write to disk
-        fid = open(out_path,"w")
-        fid.write('\n'.join(whole))
-        fid.close()
-
 
 def function_module_initial(function_name):
    initials = ['aux','c','s','d','z']
@@ -763,7 +774,7 @@ def has_nonpure_deps(function,functions=None):
     return has_nonpure_deps
 
 # Print function tree in a dependency-suitable way
-def print_function_tree(functions,fun_names,ext_funs,fid,INDENT,MAX_LINE_LENGTH,initial):
+def print_function_tree(functions,fun_names,ext_funs,fid,INDENT,MAX_LINE_LENGTH,initial,stdlib_export):
 
     ext_fun_names = fun_names[len(functions):]
 
@@ -816,12 +827,18 @@ def print_function_tree(functions,fun_names,ext_funs,fid,INDENT,MAX_LINE_LENGTH,
                     elif functions[dep].printed:
                         nprinted+=1
 
-                #print("function "+functions[i].old_name+" printed="+str(nprinted)+", len="+str(len(functions[i].deps)))
-
+                # Write actual function
                 if nprinted==len(functions[i].deps) or attempt>=MAXIT:
+
+                   if functions[i].is_quad_precision() and stdlib_export:
+                       fid.write("\n#!if WITH_QP \n")
+
                    write_function_body(fid,functions[i].header," " * header_indentation(functions[i].body),MAX_LINE_LENGTH,False)
                    write_function_body(fid,functions[i].body,INDENT,MAX_LINE_LENGTH,True)
                    functions[i].printed = True
+
+                   if functions[i].is_quad_precision() and stdlib_export:
+                       fid.write("#!endif \n")
 
 
     # Final check
@@ -3241,13 +3258,13 @@ funs = create_fortran_module("stdlib_linalg_blas",\
                              "../assets/reference_lapack/BLAS/SRC","../src",\
                              "stdlib_",\
                              funs,\
-                             ["stdlib_linalg_constants"],True)
-funs = create_fortran_module("stdlib_linalg_lapack",\
-                             "../assets/lapack_sources",\
-                             "../src",\
-                             "stdlib_",\
-                             funs,\
-                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
+                             ["stdlib_linalg_constants"],True,True)
+#funs = create_fortran_module("stdlib_linalg_lapack",\
+#                             "../assets/lapack_sources",\
+#                             "../src",\
+#                             "stdlib_",\
+#                             funs,\
+#                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 #create_fortran_module("stdlib_linalg_blas_test_eig","../assets/reference_lapack/TESTING/EIG","../test","stdlib_test_")
 
 
