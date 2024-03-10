@@ -15,7 +15,10 @@ def create_constants_module(module_name,out_folder,stdlib_integration=None):
     remove_headers  = True
 
     # Get names
-    module_file = module_name + ".f90"
+    if stdlib_integration:
+        module_file = module_name + ".fypp"
+    else:
+        module_file = module_name + ".f90"
     module_path = os.path.join(out_folder,module_file)
 
     # Create file
@@ -266,10 +269,10 @@ def write_interface_module(INDENT,out_folder,module_name,used_modules,fortran_fu
         fid.write(INDENT + "use " + used + "\n")
 
     for i in initials:
-        if stdlib_export and i=='q':
+        if stdlib_export and i in ['q','w']:
             fid.write("#!if WITH_QP \n")
         fid.write(INDENT + "use {mname}_{minit}\n".format(mname=module_name,minit=i))
-        if stdlib_export and i=='q':
+        if stdlib_export and i in ['q','w']:
             fid.write("#!endif \n")
     fid.write(INDENT + "implicit none(type,external)\n")
     fid.write(INDENT + "public\n")
@@ -3233,6 +3236,7 @@ import os
 import glob
 
 os.makedirs('../assets/lapack_sources',exist_ok=True)
+os.makedirs('../fypp',exist_ok=True)
 
 
 for file in glob.glob(r'../assets/reference_lapack/SRC/*.f*') + glob.glob(r'../assets/reference_lapack/SRC/*.F*'):
@@ -3245,7 +3249,7 @@ shutil.copyfile('../assets/reference_lapack/INSTALL/sroundup_lwork.f', '../asset
 shutil.copyfile('../assets/reference_lapack/INSTALL/droundup_lwork.f', '../assets/lapack_sources/droundup_lwork.f')
 
 
-# Run script
+# Create Fortran version
 funs = []
 create_constants_module("stdlib_linalg_constants","../src",False)
 funs = create_fortran_module("stdlib_linalg_blas",\
@@ -3260,6 +3264,18 @@ funs = create_fortran_module("stdlib_linalg_lapack",\
                              funs,\
                              ["stdlib_linalg_constants","stdlib_linalg_blas"],True)
 
-
-
+# Create fypp version
+funs = []
+create_constants_module("stdlib_linalg_constants","../fypp",True)
+funs = create_fortran_module("stdlib_linalg_blas",\
+                             "../assets/reference_lapack/BLAS/SRC","../fypp",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants"],True,True)
+funs = create_fortran_module("stdlib_linalg_lapack",\
+                             "../assets/lapack_sources",\
+                             "../fypp",\
+                             "stdlib_",\
+                             funs,\
+                             ["stdlib_linalg_constants","stdlib_linalg_blas"],True,True)
 

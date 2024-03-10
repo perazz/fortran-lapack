@@ -103,7 +103,7 @@ module stdlib_linalg_state
          type(linalg_state),intent(in) :: ierr
          type(linalg_state),optional,intent(out) :: ierr_out
 
-         character(len=:), allocatable :: err_msg
+         character(len=:),allocatable :: err_msg
 
          if (present(ierr_out)) then
              ! Return error flag

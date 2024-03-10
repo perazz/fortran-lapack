@@ -105,7 +105,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_eye_s
 
@@ -151,7 +151,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_eye_d
 
@@ -197,7 +197,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_eye_q
 
@@ -243,7 +243,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_eye_c
 
@@ -289,7 +289,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_eye_z
 
@@ -335,7 +335,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_eye_w
 
@@ -376,7 +376,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_s_from_scalar
 
@@ -417,7 +417,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_s_from_array
 
@@ -458,7 +458,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_d_from_scalar
 
@@ -499,7 +499,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_d_from_array
 
@@ -540,7 +540,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_q_from_scalar
 
@@ -581,7 +581,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_q_from_array
 
@@ -622,7 +622,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_c_from_scalar
 
@@ -663,7 +663,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_c_from_array
 
@@ -704,7 +704,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_z_from_scalar
 
@@ -745,7 +745,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_z_from_array
 
@@ -786,7 +786,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_w_from_scalar
 
@@ -827,7 +827,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1        call linalg_error_handling(err0)
+1 call linalg_error_handling(err0)
 
      end function stdlib_linalg_diag_w_from_array
 
@@ -875,7 +875,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_eye_s_errhandle
 
@@ -923,7 +923,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_eye_d_errhandle
 
@@ -971,7 +971,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_eye_q_errhandle
 
@@ -1019,7 +1019,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_eye_c_errhandle
 
@@ -1067,7 +1067,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_eye_z_errhandle
 
@@ -1115,7 +1115,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_eye_w_errhandle
 
@@ -1158,7 +1158,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_s_errhandle_from_scalar
 
@@ -1201,7 +1201,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_s_errhandle_from_array
 
@@ -1244,7 +1244,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_d_errhandle_from_scalar
 
@@ -1287,7 +1287,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_d_errhandle_from_array
 
@@ -1330,7 +1330,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_q_errhandle_from_scalar
 
@@ -1373,7 +1373,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_q_errhandle_from_array
 
@@ -1416,7 +1416,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_c_errhandle_from_scalar
 
@@ -1459,7 +1459,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_c_errhandle_from_array
 
@@ -1502,7 +1502,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_z_errhandle_from_scalar
 
@@ -1545,7 +1545,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_z_errhandle_from_array
 
@@ -1588,7 +1588,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_w_errhandle_from_scalar
 
@@ -1631,7 +1631,7 @@ module stdlib_linalg_eye
          end do
 
          ! Process output and return
-1 call linalg_error_handling(err0,err)
+         1 call linalg_error_handling(err0,err)
 
      end function stdlib_linalg_diag_w_errhandle_from_array
 
