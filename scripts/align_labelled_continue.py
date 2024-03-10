@@ -22,6 +22,11 @@ def revert_fprettify_labels(source_folder,file_name):
            old = file_body[i]
            nspaces = len(file_body[i-1])-len(file_body[i-1].lstrip())
            file_body[i] = re.sub(r'(\s*)([0-9]+)(\s*)(continue)(\s*)'," "*nspaces+r'\2 \4',old)
+       elif 'call linalg_error_handling(err0,err)' in file_body[i]:
+           old = file_body[i]
+           nspaces = len(file_body[i-1])-len(file_body[i-1].lstrip())
+           file_body[i] = " "*nspaces+old.strip() 
+
 
     # Write out
     fid = open(os.path.join(source_folder,file_name), 'w')
@@ -37,6 +42,11 @@ revert_fprettify_labels("../src","stdlib_linalg_lapack_q.f90")
 revert_fprettify_labels("../src","stdlib_linalg_lapack_c.f90")
 revert_fprettify_labels("../src","stdlib_linalg_lapack_z.f90")
 revert_fprettify_labels("../src","stdlib_linalg_lapack_w.f90")
+revert_fprettify_labels("../src","stdlib_linalg_solve.f90")
+revert_fprettify_labels("../src","stdlib_linalg_inverse.f90")
+revert_fprettify_labels("../src","stdlib_linalg_eye.f90")
+revert_fprettify_labels("../src","stdlib_linalg_least_squares.f90")
+revert_fprettify_labels("../src","stdlib_linalg_determinant.f90")
 
 
 
